@@ -78,12 +78,12 @@ class EntityStorageInterface(ABC):
     async def promote(
         self,
         entity_id: str,
-        canonical_id: str,
+        new_entity_id: str,
+        canonical_ids: dict[str, str],
     ) -> BaseEntity | None:
         """Promote a provisional entity to canonical status.
-
-        Updates the entity's ID and status. Returns the updated entity,
-        or None if the entity was not found.
+        Updates the entity's ID, status, and canonical_ids. Returns the
+        updated entity, or None if the entity was not found.
         """
 
     @abstractmethod

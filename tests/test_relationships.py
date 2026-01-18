@@ -4,7 +4,7 @@ import pytest
 
 from kgraph.storage.memory import InMemoryRelationshipStorage
 
-from tests.conftest import make_test_entity, make_test_relationship
+from tests.conftest import make_test_relationship
 
 
 class TestRelationshipCreation:
@@ -22,9 +22,7 @@ class TestRelationshipCreation:
     def test_relationship_with_metadata(self) -> None:
         """Relationships can carry domain-specific metadata."""
         rel = make_test_relationship("e1", "e2")
-        rel = rel.model_copy(
-            update={"metadata": {"evidence_type": "direct", "section": "results"}}
-        )
+        rel = rel.model_copy(update={"metadata": {"evidence_type": "direct", "section": "results"}})
 
         assert rel.metadata["evidence_type"] == "direct"
         assert rel.metadata["section"] == "results"
@@ -48,9 +46,7 @@ class TestRelationshipCreation:
 class TestRelationshipStorage:
     """Tests for in-memory relationship storage."""
 
-    async def test_add_and_find(
-        self, relationship_storage: InMemoryRelationshipStorage
-    ) -> None:
+    async def test_add_and_find(self, relationship_storage: InMemoryRelationshipStorage) -> None:
         """Can add and retrieve relationships."""
         rel = make_test_relationship("e1", "e2", "related_to")
         await relationship_storage.add(rel)
@@ -61,16 +57,12 @@ class TestRelationshipStorage:
         assert found.subject_id == "e1"
         assert found.object_id == "e2"
 
-    async def test_find_nonexistent_triple(
-        self, relationship_storage: InMemoryRelationshipStorage
-    ) -> None:
+    async def test_find_nonexistent_triple(self, relationship_storage: InMemoryRelationshipStorage) -> None:
         """Finding nonexistent triple returns None."""
         found = await relationship_storage.find_by_triple("e1", "related_to", "e2")
         assert found is None
 
-    async def test_get_by_subject(
-        self, relationship_storage: InMemoryRelationshipStorage
-    ) -> None:
+    async def test_get_by_subject(self, relationship_storage: InMemoryRelationshipStorage) -> None:
         """Can retrieve relationships by subject."""
         await relationship_storage.add(make_test_relationship("e1", "e2", "related_to"))
         await relationship_storage.add(make_test_relationship("e1", "e3", "causes"))
@@ -81,9 +73,7 @@ class TestRelationshipStorage:
         assert len(results) == 2
         assert all(r.subject_id == "e1" for r in results)
 
-    async def test_get_by_subject_with_predicate(
-        self, relationship_storage: InMemoryRelationshipStorage
-    ) -> None:
+    async def test_get_by_subject_with_predicate(self, relationship_storage: InMemoryRelationshipStorage) -> None:
         """Can filter by predicate when querying by subject."""
         await relationship_storage.add(make_test_relationship("e1", "e2", "related_to"))
         await relationship_storage.add(make_test_relationship("e1", "e3", "causes"))
@@ -93,9 +83,7 @@ class TestRelationshipStorage:
         assert len(results) == 1
         assert results[0].predicate == "causes"
 
-    async def test_get_by_object(
-        self, relationship_storage: InMemoryRelationshipStorage
-    ) -> None:
+    async def test_get_by_object(self, relationship_storage: InMemoryRelationshipStorage) -> None:
         """Can retrieve relationships by object."""
         await relationship_storage.add(make_test_relationship("e1", "e3", "related_to"))
         await relationship_storage.add(make_test_relationship("e2", "e3", "causes"))
@@ -105,9 +93,7 @@ class TestRelationshipStorage:
         assert len(results) == 2
         assert all(r.object_id == "e3" for r in results)
 
-    async def test_update_entity_references(
-        self, relationship_storage: InMemoryRelationshipStorage
-    ) -> None:
+    async def test_update_entity_references(self, relationship_storage: InMemoryRelationshipStorage) -> None:
         """Can update entity references when entities are merged."""
         await relationship_storage.add(make_test_relationship("old-id", "e2"))
         await relationship_storage.add(make_test_relationship("e1", "old-id"))
@@ -130,9 +116,7 @@ class TestRelationshipStorage:
         assert len(old_subject) == 0
         assert len(old_object) == 0
 
-    async def test_delete_relationship(
-        self, relationship_storage: InMemoryRelationshipStorage
-    ) -> None:
+    async def test_delete_relationship(self, relationship_storage: InMemoryRelationshipStorage) -> None:
         """Can delete relationships."""
         await relationship_storage.add(make_test_relationship("e1", "e2", "related_to"))
 
@@ -142,16 +126,12 @@ class TestRelationshipStorage:
         found = await relationship_storage.find_by_triple("e1", "related_to", "e2")
         assert found is None
 
-    async def test_delete_nonexistent(
-        self, relationship_storage: InMemoryRelationshipStorage
-    ) -> None:
+    async def test_delete_nonexistent(self, relationship_storage: InMemoryRelationshipStorage) -> None:
         """Deleting nonexistent relationship returns False."""
         result = await relationship_storage.delete("e1", "related_to", "e2")
         assert result is False
 
-    async def test_count(
-        self, relationship_storage: InMemoryRelationshipStorage
-    ) -> None:
+    async def test_count(self, relationship_storage: InMemoryRelationshipStorage) -> None:
         """Can count stored relationships."""
         assert await relationship_storage.count() == 0
 

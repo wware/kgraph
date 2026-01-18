@@ -15,26 +15,12 @@ class BaseDocument(ABC, BaseModel):
 
     model_config = {"frozen": True}
 
-    document_id: str = Field(
-        description="Unique identifier for this document."
-    )
-    title: str | None = Field(
-        default=None,
-        description="Document title if available."
-    )
-    content: str = Field(
-        description="Full text content of the document."
-    )
-    content_type: str = Field(
-        description="MIME type or format indicator (e.g., 'text/plain', 'application/pdf')."
-    )
-    source_uri: str | None = Field(
-        default=None,
-        description="Original source location (URL, file path, etc.)."
-    )
-    created_at: datetime = Field(
-        description="When the document was added to the system."
-    )
+    document_id: str = Field(description="Unique identifier for this document.")
+    title: str | None = Field(default=None, description="Document title if available.")
+    content: str = Field(description="Full text content of the document.")
+    content_type: str = Field(description="MIME type or format indicator (e.g., 'text/plain', 'application/pdf').")
+    source_uri: str | None = Field(default=None, description="Original source location (URL, file path, etc.).")
+    created_at: datetime = Field(description="When the document was added to the system.")
     metadata: dict = Field(
         default_factory=dict,
         description="Domain-specific document metadata.",

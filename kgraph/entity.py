@@ -50,12 +50,8 @@ class BaseEntity(ABC, BaseModel):
 
     model_config = {"frozen": True}
 
-    entity_id: str = Field(
-        description="Domain-specific canonical ID or provisional UUID."
-    )
-    status: EntityStatus = Field(
-        description="Whether entity is canonical or provisional."
-    )
+    entity_id: str = Field(description="Domain-specific canonical ID or provisional UUID.")
+    status: EntityStatus = Field(description="Whether entity is canonical or provisional.")
     name: str = Field(description="Primary name/label for the entity.")
     synonyms: tuple[str, ...] = Field(
         default=(),
@@ -65,27 +61,23 @@ class BaseEntity(ABC, BaseModel):
         default=None,
         description="Semantic vector embedding for similarity operations.",
     )
-    dbpedia_uri: str | None = Field(
-        default=None,
-        description="Cross-domain linking via DBPedia URI.",
+    canonical_ids: dict[str, str] = Field(
+        default_factory=dict,
+        description="Authoritative identifiers from various sources (e.g., {'dbpedia': 'uri', 'wikidata': 'Q123'}).",
     )
     confidence: float = Field(
         default=1.0,
         ge=0.0,
         le=1.0,
-        description="Confidence in the canonical ID assignment.",
+        description="Confidence in the entity resolution and its attributes.",
     )
     usage_count: int = Field(
         default=0,
         ge=0,
         description="Number of times this entity has been referenced.",
     )
-    created_at: datetime = Field(
-        description="Timestamp when the entity was first created."
-    )
-    source: str = Field(
-        description="Origin indicator (e.g., document ID, extraction pipeline)."
-    )
+    created_at: datetime = Field(description="Timestamp when the entity was first created.")
+    source: str = Field(description="Origin indicator (e.g., document ID, extraction pipeline).")
     metadata: dict = Field(
         default_factory=dict,
         description="Domain-specific metadata.",
@@ -94,17 +86,8 @@ class BaseEntity(ABC, BaseModel):
     @abstractmethod
     def get_entity_type(self) -> str:
         """Return domain-specific entity type identifier.
-
         Examples: 'drug', 'disease', 'gene' for medical domain;
         'case', 'statute', 'court' for legal domain.
-        """
-
-    @abstractmethod
-    def get_canonical_id_source(self) -> str | None:
-        """Return the authoritative source for this entity's ID.
-
-        Examples: 'UMLS' for medical entities, 'DBPedia' for cross-domain,
-        'court_id' for legal cases. Returns None if no canonical source applies.
         """
 
 
@@ -115,12 +98,8 @@ class EntityMention(BaseModel, frozen=True):
     provisional entity.
     """
 
-    text: str = Field(
-        description="The exact text span mentioning the entity."
-    )
-    entity_type: str = Field(
-        description="Domain-specific type classification."
-    )
+    text: str = Field(description="The exact text span mentioning the entity.")
+    entity_type: str = Field(description="Domain-specific type classification.")
     start_offset: int = Field(
         ge=0,
         description="Character offset where mention starts in source text.",

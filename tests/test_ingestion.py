@@ -2,6 +2,7 @@
 
 import pytest
 
+from kgraph.entity import EntityStatus
 from kgraph.ingest import IngestionOrchestrator
 from kgraph.storage.memory import (
     InMemoryDocumentStorage,
@@ -16,6 +17,7 @@ from tests.conftest import (
     MockEntityResolver,
     MockRelationshipExtractor,
     TestDomainSchema,
+    make_test_entity,
 )
 
 
@@ -110,17 +112,13 @@ class TestSingleDocumentIngestion:
     ) -> None:
         """Re-ingesting same entity increments usage count."""
         # First document with entity
-        await orchestrator.ingest_document(
-            b"First mention of [SharedEntity].", "text/plain"
-        )
+        await orchestrator.ingest_document(b"First mention of [SharedEntity].", "text/plain")
 
         entities = await entity_storage.find_by_name("SharedEntity")
         first_count = entities[0].usage_count
 
         # Second document with same entity
-        await orchestrator.ingest_document(
-            b"Second mention of [SharedEntity].", "text/plain"
-        )
+        await orchestrator.ingest_document(b"Second mention of [SharedEntity].", "text/plain")
 
         entities = await entity_storage.find_by_name("SharedEntity")
         assert entities[0].usage_count == first_count + 1
@@ -220,3 +218,78 @@ class TestDomainValidation:
 
         # MockRelationshipExtractor creates "related_to" predicate which is valid
         assert result.relationships_extracted == 1
+
+
+class TestMergeCandidateDetection:
+    """Tests for detecting merge candidates."""
+
+    async def test_find_merge_candidates_with_similar_entities(
+        self,
+        orchestrator: IngestionOrchestrator,
+        entity_storage: InMemoryEntityStorage,
+    ) -> None:
+        """It should find entities with high embedding similarity."""
+        # High similarity
+        e1 = make_test_entity(
+            "USA",
+            status=EntityStatus.CANONICAL,
+            embedding=(0.1, 0.2, 0.9, 0.0),
+        )
+        e2 = make_test_entity(
+            "United States",
+            status=EntityStatus.CANONICAL,
+            embedding=(0.11, 0.22, 0.91, 0.01),
+        )
+        # Low similarity
+        e3 = make_test_entity(
+            "Python",
+            status=EntityStatus.CANONICAL,
+            embedding=(0.9, 0.8, 0.1, 1.0),
+        )
+        # No embedding
+        e4 = make_test_entity(
+            "Entity without Embedding",
+            status=EntityStatus.CANONICAL,
+            embedding=None,
+        )
+        # Not canonical
+        e5 = make_test_entity(
+            "Provisional",
+            status=EntityStatus.PROVISIONAL,
+            embedding=(0.1, 0.2, 0.9, 0.0),
+        )
+
+        await entity_storage.add(e1)
+        await entity_storage.add(e2)
+        await entity_storage.add(e3)
+        await entity_storage.add(e4)
+        await entity_storage.add(e5)
+
+        # Find candidates with a high threshold
+        candidates = await orchestrator.find_merge_candidates(similarity_threshold=0.98)
+
+        assert len(candidates) == 1
+        c_e1, c_e2, sim = candidates[0]
+
+        # Ensure the correct pair was found (order-independent)
+        found_ids = {c_e1.entity_id, c_e2.entity_id}
+        expected_ids = {e1.entity_id, e2.entity_id}
+        assert found_ids == expected_ids
+
+        # Check similarity score is in the right range
+        assert sim > 0.98
+        assert sim < 1.0
+
+    async def test_find_merge_candidates_returns_empty_list(
+        self,
+        orchestrator: IngestionOrchestrator,
+        entity_storage: InMemoryEntityStorage,
+    ) -> None:
+        """It should return an empty list if no entities are similar enough."""
+        e1 = make_test_entity("A", status=EntityStatus.CANONICAL, embedding=(1.0, 0.0))
+        e2 = make_test_entity("B", status=EntityStatus.CANONICAL, embedding=(0.0, 1.0))
+        await entity_storage.add(e1)
+        await entity_storage.add(e2)
+
+        candidates = await orchestrator.find_merge_candidates(similarity_threshold=0.5)
+        assert len(candidates) == 0

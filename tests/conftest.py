@@ -36,11 +36,6 @@ class TestEntity(BaseEntity):
     def get_entity_type(self) -> str:
         return self.entity_type
 
-    def get_canonical_id_source(self) -> str | None:
-        if self.status == EntityStatus.CANONICAL:
-            return "test_authority"
-        return None
-
 
 class TestRelationship(BaseRelationship):
     """Simple relationship for testing."""
@@ -79,10 +74,6 @@ class TestDomainSchema(DomainSchema):
     @property
     def document_types(self) -> dict[str, type[BaseDocument]]:
         return {"test_document": TestDocument}
-
-    @property
-    def canonical_id_sources(self) -> dict[str, str]:
-        return {"test_entity": "test_authority"}
 
     @property
     def promotion_config(self) -> PromotionConfig:
@@ -165,9 +156,7 @@ class MockEntityResolver(EntityResolverInterface):
         existing_storage: EntityStorageInterface,
     ) -> tuple[BaseEntity, float]:
         # Try to find existing entity by name
-        existing = await existing_storage.find_by_name(
-            mention.text, mention.entity_type, limit=1
-        )
+        existing = await existing_storage.find_by_name(mention.text, mention.entity_type, limit=1)
         if existing:
             return existing[0], 0.95
 
@@ -279,6 +268,7 @@ def make_test_entity(
     usage_count: int = 0,
     confidence: float = 1.0,
     embedding: tuple[float, ...] | None = None,
+    canonical_ids: dict[str, str] | None = None,
 ) -> TestEntity:
     """Helper to create test entities."""
     return TestEntity(
@@ -288,6 +278,7 @@ def make_test_entity(
         confidence=confidence,
         usage_count=usage_count,
         embedding=embedding,
+        canonical_ids=canonical_ids or {},
         created_at=datetime.now(timezone.utc),
         source="test",
     )

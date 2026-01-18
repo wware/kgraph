@@ -18,26 +18,27 @@ class TestEntityCreation:
         assert entity.status == EntityStatus.PROVISIONAL
         assert entity.name == "Test Entity"
         assert entity.get_entity_type() == "test_entity"
-        assert entity.get_canonical_id_source() is None
+        assert entity.canonical_ids == {}
 
     def test_create_canonical_entity(self) -> None:
-        """Canonical entities report their ID source."""
+        """Canonical entities can store multiple identifiers."""
+        c_ids = {"test_authority": "id-123", "wikidata": "Q456"}
         entity = make_test_entity(
             "Test Entity",
             EntityStatus.CANONICAL,
             entity_id="canonical-123",
+            canonical_ids=c_ids,
         )
 
         assert entity.status == EntityStatus.CANONICAL
         assert entity.entity_id == "canonical-123"
-        assert entity.get_canonical_id_source() == "test_authority"
+        assert entity.canonical_ids["test_authority"] == "id-123"
+        assert entity.canonical_ids["wikidata"] == "Q456"
 
     def test_entity_with_synonyms(self) -> None:
         """Entities can have synonyms."""
         entity = make_test_entity("Aspirin", EntityStatus.CANONICAL)
-        entity = entity.model_copy(
-            update={"synonyms": ("ASA", "acetylsalicylic acid")}
-        )
+        entity = entity.model_copy(update={"synonyms": ("ASA", "acetylsalicylic acid")})
 
         assert "ASA" in entity.synonyms
         assert "acetylsalicylic acid" in entity.synonyms
@@ -99,9 +100,7 @@ class TestEntityStorage:
         assert len(results) == 1
         assert results[0].name == "Aspirin"
 
-    async def test_find_by_name_with_synonyms(
-        self, entity_storage: InMemoryEntityStorage
-    ) -> None:
+    async def test_find_by_name_with_synonyms(self, entity_storage: InMemoryEntityStorage) -> None:
         """Can find entities by synonym."""
         entity = make_test_entity("Aspirin")
         entity = entity.model_copy(update={"synonyms": ("ASA",)})
@@ -112,9 +111,7 @@ class TestEntityStorage:
         assert len(results) == 1
         assert results[0].name == "Aspirin"
 
-    async def test_find_by_embedding(
-        self, entity_storage: InMemoryEntityStorage
-    ) -> None:
+    async def test_find_by_embedding(self, entity_storage: InMemoryEntityStorage) -> None:
         """Can find similar entities by embedding."""
         embedding = (1.0, 0.0, 0.0, 0.0)
         entity = make_test_entity("Test", embedding=embedding)
@@ -127,17 +124,13 @@ class TestEntityStorage:
         assert results[0][0].name == "Test"
         assert results[0][1] == pytest.approx(1.0)
 
-    async def test_find_by_embedding_threshold(
-        self, entity_storage: InMemoryEntityStorage
-    ) -> None:
+    async def test_find_by_embedding_threshold(self, entity_storage: InMemoryEntityStorage) -> None:
         """Embedding search respects similarity threshold."""
         entity = make_test_entity("Test", embedding=(1.0, 0.0, 0.0, 0.0))
         await entity_storage.add(entity)
 
         # Orthogonal vector should not match
-        results = await entity_storage.find_by_embedding(
-            (0.0, 1.0, 0.0, 0.0), threshold=0.5
-        )
+        results = await entity_storage.find_by_embedding((0.0, 1.0, 0.0, 0.0), threshold=0.5)
 
         assert len(results) == 0
 
@@ -154,9 +147,7 @@ class TestEntityStorage:
         assert retrieved is not None
         assert retrieved.usage_count == 5
 
-    async def test_update_nonexistent(
-        self, entity_storage: InMemoryEntityStorage
-    ) -> None:
+    async def test_update_nonexistent(self, entity_storage: InMemoryEntityStorage) -> None:
         """Updating nonexistent entity returns False."""
         entity = make_test_entity("Test")
         result = await entity_storage.update(entity)

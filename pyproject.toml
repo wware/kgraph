@@ -10,12 +10,16 @@ requires-python = ">=3.12"
 license = "MIT"
 dependencies = [
     "pydantic>=2.0",
+    "pylint>=4.0.4",
+    "scikit-learn>=1.8.0",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.23",
+    "ruff>=0.5.5",
+    "flake8>=7.1.0",
 ]
 
 [tool.pytest.ini_options]
@@ -25,3 +29,20 @@ testpaths = ["tests"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["kgraph"]
+
+[tool.black]
+line-length = 200
+
+[tool.ruff]
+line-length = 200
+
+[tool.ruff.lint]
+ignore = ["E402"]
+
+[tool.pylint.main]
+max-line-length = 200
+
+[tool.flake8]
+line-length = 200
+ignore = ["E203", "E266", "E501", "W503", "E402"]
+

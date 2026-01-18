@@ -1,12 +1,14 @@
 """Two-pass ingestion orchestrator for the knowledge graph framework."""
 
 import json
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Sequence
 
-from kgraph.document import BaseDocument
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+
 from kgraph.domain import DomainSchema
 from kgraph.entity import BaseEntity, EntityStatus
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
@@ -110,24 +112,18 @@ class IngestionOrchestrator:
 
         for mention in mentions:
             try:
-                entity, confidence = await self.entity_resolver.resolve(
-                    mention, self.entity_storage
-                )
+                entity, confidence = await self.entity_resolver.resolve(mention, self.entity_storage)
 
                 # Validate entity against domain schema
                 if not self.domain.validate_entity(entity):
-                    errors.append(
-                        f"Entity validation failed: {entity.name} ({entity.get_entity_type()})"
-                    )
+                    errors.append(f"Entity validation failed: {entity.name} ({entity.get_entity_type()})")
                     continue
 
                 # Check if entity already exists
                 existing = await self.entity_storage.get(entity.entity_id)
                 if existing:
                     # Increment usage count
-                    updated = existing.model_copy(
-                        update={"usage_count": existing.usage_count + 1}
-                    )
+                    updated = existing.model_copy(update={"usage_count": existing.usage_count + 1})
                     await self.entity_storage.update(updated)
                     resolved_entities.append(updated)
                     entities_existing += 1
@@ -135,9 +131,7 @@ class IngestionOrchestrator:
                     # Generate embedding if needed and not present
                     if entity.embedding is None:
                         try:
-                            embedding = await self.embedding_generator.generate(
-                                entity.name
-                            )
+                            embedding = await self.embedding_generator.generate(entity.name)
                             entity = entity.model_copy(update={"embedding": embedding})
                         except Exception as e:
                             errors.append(f"Embedding generation failed: {e}")
@@ -153,17 +147,13 @@ class IngestionOrchestrator:
         relationships: list[BaseRelationship] = []
         if resolved_entities:
             try:
-                extracted_rels = await self.relationship_extractor.extract(
-                    document, resolved_entities
-                )
+                extracted_rels = await self.relationship_extractor.extract(document, resolved_entities)
                 for rel in extracted_rels:
                     if self.domain.validate_relationship(rel):
                         await self.relationship_storage.add(rel)
                         relationships.append(rel)
                     else:
-                        errors.append(
-                            f"Relationship validation failed: {rel.subject_id} -{rel.predicate}-> {rel.object_id}"
-                        )
+                        errors.append(f"Relationship validation failed: {rel.subject_id} -{rel.predicate}-> {rel.object_id}")
             except Exception as e:
                 errors.append(f"Relationship extraction error: {e}")
 
@@ -194,9 +184,7 @@ class IngestionOrchestrator:
 
         for raw_content, content_type, source_uri in documents:
             try:
-                result = await self.ingest_document(
-                    raw_content, content_type, source_uri
-                )
+                result = await self.ingest_document(raw_content, content_type, source_uri)
                 results.append(result)
                 if result.errors:
                     documents_failed += 1
@@ -235,11 +223,10 @@ class IngestionOrchestrator:
                 continue
 
             # Domain-specific promotion logic would generate canonical ID
-            # For now, we just mark as canonical with same ID
+            # For now, we generate a slug from the name and an empty canonical ID set
             # Real implementations would call an external service
-            promoted_entity = await self.entity_storage.promote(
-                entity.entity_id, entity.entity_id
-            )
+            new_entity_id = entity.name.lower().replace(" ", "_")
+            promoted_entity = await self.entity_storage.promote(entity.entity_id, new_entity_id, canonical_ids={})
             if promoted_entity:
                 promoted.append(promoted_entity)
 
@@ -249,21 +236,40 @@ class IngestionOrchestrator:
         self,
         similarity_threshold: float = 0.95,
     ) -> list[tuple[BaseEntity, BaseEntity, float]]:
-        """Find canonical entities that may be duplicates.
-
-        Returns list of (entity1, entity2, similarity) tuples for entities
-        with embeddings above the similarity threshold.
+        """Find canonical entities that may be duplicates based on embedding similarity.
+        Returns a list of (entity1, entity2, similarity) tuples for entities
+        with embedding cosine similarity above the given threshold.
+        This method performs an O(n^2) comparison, which can be slow for
+        large numbers of entities.
         """
         candidates: list[tuple[BaseEntity, BaseEntity, float]] = []
 
-        # Get all entities (in production, would be paginated/streamed)
-        # This is a simple O(n^2) implementation for testing
-        all_entities: list[BaseEntity] = []
-        entity_count = await self.entity_storage.count()
+        # 1. Get all canonical entities with embeddings
+        all_canonical_entities = await self.entity_storage.list_all(status=EntityStatus.CANONICAL.value)
+        entities_with_embeddings = [e for e in all_canonical_entities if e.embedding is not None]
 
-        # For testing, collect entities via find_by_name with empty string
-        # Real implementation would have a list_all method
-        # This is a limitation of the current interface
+        if len(entities_with_embeddings) < 2:
+            return candidates
+
+        # 2. Extract embeddings into a matrix
+        embedding_matrix = np.array([e.embedding for e in entities_with_embeddings])
+
+        # 3. Calculate cosine similarity for all pairs
+        # This gives a matrix where similarity_matrix[i, j] is the similarity
+        # between entity i and entity j.
+        similarity_matrix = cosine_similarity(embedding_matrix)
+
+        # 4. Find pairs above the threshold
+        # We only need to check the upper triangle of the matrix (where i < j)
+        # to avoid duplicate pairs (a,b) and (b,a) and self-comparisons (a,a).
+        num_entities = len(entities_with_embeddings)
+        for i in range(num_entities):
+            for j in range(i + 1, num_entities):
+                similarity = similarity_matrix[i, j]
+                if similarity >= similarity_threshold:
+                    entity1 = entities_with_embeddings[i]
+                    entity2 = entities_with_embeddings[j]
+                    candidates.append((entity1, entity2, similarity))
 
         return candidates
 
@@ -279,9 +285,7 @@ class IngestionOrchestrator:
         # Update relationship references
         for source_id in source_ids:
             if source_id != target_id:
-                await self.relationship_storage.update_entity_references(
-                    source_id, target_id
-                )
+                await self.relationship_storage.update_entity_references(source_id, target_id)
 
         # Merge entity data
         return await self.entity_storage.merge(source_ids, target_id)
@@ -294,9 +298,8 @@ class IngestionOrchestrator:
             "name": entity.name,
             "synonyms": list(entity.synonyms),
             "entity_type": entity.get_entity_type(),
-            "canonical_id_source": entity.get_canonical_id_source(),
+            "canonical_ids": entity.canonical_ids,
             "embedding": list(entity.embedding) if entity.embedding else None,
-            "dbpedia_uri": entity.dbpedia_uri,
             "confidence": entity.confidence,
             "usage_count": entity.usage_count,
             "created_at": entity.created_at.isoformat(),
@@ -340,9 +343,7 @@ class IngestionOrchestrator:
         if include_provisional:
             entities = await self.entity_storage.list_all()
         else:
-            entities = await self.entity_storage.list_all(
-                status=EntityStatus.CANONICAL.value
-            )
+            entities = await self.entity_storage.list_all(status=EntityStatus.CANONICAL.value)
 
         export_data = {
             "domain": self.domain.name,
@@ -384,13 +385,8 @@ class IngestionOrchestrator:
 
         # Get provisional entities from this document
         # Filter by source field matching document_id
-        all_provisional = await self.entity_storage.list_all(
-            status=EntityStatus.PROVISIONAL.value
-        )
-        provisional_entities = [
-            e for e in all_provisional
-            if e.source == document_id
-        ]
+        all_provisional = await self.entity_storage.list_all(status=EntityStatus.PROVISIONAL.value)
+        provisional_entities = [e for e in all_provisional if e.source == document_id]
 
         export_data = {
             "document_id": document_id,
@@ -399,9 +395,7 @@ class IngestionOrchestrator:
             "relationship_count": len(relationships),
             "provisional_entity_count": len(provisional_entities),
             "relationships": [self._serialize_relationship(r) for r in relationships],
-            "provisional_entities": [
-                self._serialize_entity(e) for e in provisional_entities
-            ],
+            "provisional_entities": [self._serialize_entity(e) for e in provisional_entities],
         }
 
         output_path.parent.mkdir(parents=True, exist_ok=True)

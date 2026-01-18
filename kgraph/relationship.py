@@ -15,15 +15,9 @@ class BaseRelationship(ABC, BaseModel):
 
     model_config = {"frozen": True}
 
-    subject_id: str = Field(
-        description="Entity ID of the relationship subject."
-    )
-    predicate: str = Field(
-        description="Relationship type (domain defines valid predicates)."
-    )
-    object_id: str = Field(
-        description="Entity ID of the relationship object."
-    )
+    subject_id: str = Field(description="Entity ID of the relationship subject.")
+    predicate: str = Field(description="Relationship type (domain defines valid predicates).")
+    object_id: str = Field(description="Entity ID of the relationship object.")
     confidence: float = Field(
         default=1.0,
         ge=0.0,
@@ -34,9 +28,7 @@ class BaseRelationship(ABC, BaseModel):
         default=(),
         description="Document IDs where this relationship was found.",
     )
-    created_at: datetime = Field(
-        description="Timestamp when relationship was first created."
-    )
+    created_at: datetime = Field(description="Timestamp when relationship was first created.")
     last_updated: datetime | None = Field(
         default=None,
         description="Timestamp of most recent update.",

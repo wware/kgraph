@@ -67,10 +67,7 @@ class InMemoryEntityStorage(EntityStorageInterface):
         for entity in self._entities.values():
             if entity_type is not None and entity.get_entity_type() != entity_type:
                 continue
-            if (
-                name_lower in entity.name.lower()
-                or any(name_lower in syn.lower() for syn in entity.synonyms)
-            ):
+            if name_lower in entity.name.lower() or any(name_lower in syn.lower() for syn in entity.synonyms):
                 results.append(entity)
                 if len(results) >= limit:
                     break
@@ -81,13 +78,7 @@ class InMemoryEntityStorage(EntityStorageInterface):
         min_usage: int,
         min_confidence: float,
     ) -> list[BaseEntity]:
-        return [
-            entity
-            for entity in self._entities.values()
-            if entity.status == EntityStatus.PROVISIONAL
-            and entity.usage_count >= min_usage
-            and entity.confidence >= min_confidence
-        ]
+        return [entity for entity in self._entities.values() if entity.status == EntityStatus.PROVISIONAL and entity.usage_count >= min_usage and entity.confidence >= min_confidence]
 
     async def update(self, entity: BaseEntity) -> bool:
         if entity.entity_id not in self._entities:
@@ -98,22 +89,25 @@ class InMemoryEntityStorage(EntityStorageInterface):
     async def promote(
         self,
         entity_id: str,
-        canonical_id: str,
+        new_entity_id: str,
+        canonical_ids: dict[str, str],
     ) -> BaseEntity | None:
         entity = self._entities.get(entity_id)
         if entity is None:
             return None
-        # Create new entity with updated status and ID
-        # We need to copy all fields - use model_copy with update
+
+        # Create new entity with updated status, ID, and canonical IDs
         promoted = entity.model_copy(
             update={
-                "entity_id": canonical_id,
+                "entity_id": new_entity_id,
                 "status": EntityStatus.CANONICAL,
+                "canonical_ids": canonical_ids,
             }
         )
-        # Remove old entry, add new one
+
+        # Remove old entry, add new one with the new ID
         del self._entities[entity_id]
-        self._entities[canonical_id] = promoted
+        self._entities[new_entity_id] = promoted
         return promoted
 
     async def merge(
@@ -175,10 +169,7 @@ class InMemoryEntityStorage(EntityStorageInterface):
         if status is None:
             entities = list(self._entities.values())
         else:
-            entities = [
-                e for e in self._entities.values()
-                if e.status.value == status
-            ]
+            entities = [e for e in self._entities.values() if e.status.value == status]
         return entities[offset : offset + limit]
 
 
@@ -271,10 +262,7 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
         self,
         document_id: str,
     ) -> list[BaseRelationship]:
-        return [
-            rel for rel in self._relationships.values()
-            if document_id in rel.source_documents
-        ]
+        return [rel for rel in self._relationships.values() if document_id in rel.source_documents]
 
     async def delete(
         self,

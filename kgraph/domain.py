@@ -47,14 +47,6 @@ class DomainSchema(ABC):
         """
 
     @property
-    @abstractmethod
-    def canonical_id_sources(self) -> dict[str, str]:
-        """Map entity types to their canonical ID authorities.
-
-        Example: {'drug': 'RxNorm', 'disease': 'UMLS', 'gene': 'NCBI'}
-        """
-
-    @property
     def promotion_config(self) -> PromotionConfig:
         """Override to customize promotion thresholds for this domain.
 

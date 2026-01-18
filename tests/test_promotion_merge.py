@@ -51,27 +51,23 @@ def orchestrator(
 class TestEntityPromotion:
     """Tests for promoting provisional entities to canonical status."""
 
-    async def test_promote_updates_status(
-        self, entity_storage: InMemoryEntityStorage
-    ) -> None:
+    async def test_promote_updates_status(self, entity_storage: InMemoryEntityStorage) -> None:
         """Promotion changes entity status to canonical."""
         entity = make_test_entity("Test", EntityStatus.PROVISIONAL, entity_id="prov-1")
         await entity_storage.add(entity)
 
-        promoted = await entity_storage.promote("prov-1", "canonical-1")
+        promoted = await entity_storage.promote("prov-1", "canonical-1", canonical_ids={})
 
         assert promoted is not None
         assert promoted.status == EntityStatus.CANONICAL
         assert promoted.entity_id == "canonical-1"
 
-    async def test_promote_updates_storage_reference(
-        self, entity_storage: InMemoryEntityStorage
-    ) -> None:
+    async def test_promote_updates_storage_reference(self, entity_storage: InMemoryEntityStorage) -> None:
         """Promotion updates storage to use new ID."""
         entity = make_test_entity("Test", EntityStatus.PROVISIONAL, entity_id="prov-1")
         await entity_storage.add(entity)
 
-        await entity_storage.promote("prov-1", "canonical-1")
+        await entity_storage.promote("prov-1", "canonical-1", canonical_ids={})
 
         # Old ID should not exist
         old = await entity_storage.get("prov-1")
@@ -81,16 +77,12 @@ class TestEntityPromotion:
         new = await entity_storage.get("canonical-1")
         assert new is not None
 
-    async def test_promote_nonexistent_returns_none(
-        self, entity_storage: InMemoryEntityStorage
-    ) -> None:
+    async def test_promote_nonexistent_returns_none(self, entity_storage: InMemoryEntityStorage) -> None:
         """Promoting nonexistent entity returns None."""
-        result = await entity_storage.promote("nonexistent", "canonical-1")
+        result = await entity_storage.promote("nonexistent", "canonical-1", canonical_ids={})
         assert result is None
 
-    async def test_find_provisional_for_promotion(
-        self, entity_storage: InMemoryEntityStorage
-    ) -> None:
+    async def test_find_provisional_for_promotion(self, entity_storage: InMemoryEntityStorage) -> None:
         """Can find entities eligible for promotion."""
         # Eligible: provisional, high usage, high confidence
         eligible = make_test_entity(
@@ -128,9 +120,7 @@ class TestEntityPromotion:
         )
         await entity_storage.add(canonical)
 
-        candidates = await entity_storage.find_provisional_for_promotion(
-            min_usage=3, min_confidence=0.8
-        )
+        candidates = await entity_storage.find_provisional_for_promotion(min_usage=3, min_confidence=0.8)
 
         assert len(candidates) == 1
         assert candidates[0].name == "Eligible"
@@ -160,9 +150,7 @@ class TestEntityPromotion:
 class TestEntityMerging:
     """Tests for merging duplicate entities."""
 
-    async def test_merge_combines_synonyms(
-        self, entity_storage: InMemoryEntityStorage
-    ) -> None:
+    async def test_merge_combines_synonyms(self, entity_storage: InMemoryEntityStorage) -> None:
         """Merging combines synonyms from source entities."""
         target = make_test_entity("Aspirin", entity_id="target")
         target = target.model_copy(update={"synonyms": ("ASA",)})
@@ -182,9 +170,7 @@ class TestEntityMerging:
         assert "acetyl salicylic acid" in merged.synonyms
         assert "ASA" in merged.synonyms
 
-    async def test_merge_combines_usage_counts(
-        self, entity_storage: InMemoryEntityStorage
-    ) -> None:
+    async def test_merge_combines_usage_counts(self, entity_storage: InMemoryEntityStorage) -> None:
         """Merging sums usage counts."""
         target = make_test_entity("Target", entity_id="target", usage_count=5)
         await entity_storage.add(target)
@@ -202,9 +188,7 @@ class TestEntityMerging:
         assert merged is not None
         assert merged.usage_count == 10  # 5 + 3 + 2
 
-    async def test_merge_removes_source_entities(
-        self, entity_storage: InMemoryEntityStorage
-    ) -> None:
+    async def test_merge_removes_source_entities(self, entity_storage: InMemoryEntityStorage) -> None:
         """Merging removes source entities from storage."""
         target = make_test_entity("Target", entity_id="target")
         await entity_storage.add(target)
@@ -217,9 +201,7 @@ class TestEntityMerging:
         assert await entity_storage.get("source") is None
         assert await entity_storage.get("target") is not None
 
-    async def test_merge_nonexistent_target_fails(
-        self, entity_storage: InMemoryEntityStorage
-    ) -> None:
+    async def test_merge_nonexistent_target_fails(self, entity_storage: InMemoryEntityStorage) -> None:
         """Merging into nonexistent target returns False."""
         source = make_test_entity("Source", entity_id="source")
         await entity_storage.add(source)
