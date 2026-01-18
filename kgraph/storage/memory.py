@@ -166,6 +166,21 @@ class InMemoryEntityStorage(EntityStorageInterface):
     async def count(self) -> int:
         return len(self._entities)
 
+    async def list_all(
+        self,
+        status: str | None = None,
+        limit: int = 1000,
+        offset: int = 0,
+    ) -> list[BaseEntity]:
+        if status is None:
+            entities = list(self._entities.values())
+        else:
+            entities = [
+                e for e in self._entities.values()
+                if e.status.value == status
+            ]
+        return entities[offset : offset + limit]
+
 
 class InMemoryRelationshipStorage(RelationshipStorageInterface):
     """In-memory relationship storage for testing."""
@@ -252,6 +267,15 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
 
         return updated_count
 
+    async def get_by_document(
+        self,
+        document_id: str,
+    ) -> list[BaseRelationship]:
+        return [
+            rel for rel in self._relationships.values()
+            if document_id in rel.source_documents
+        ]
+
     async def delete(
         self,
         subject_id: str,
@@ -266,6 +290,14 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
 
     async def count(self) -> int:
         return len(self._relationships)
+
+    async def list_all(
+        self,
+        limit: int = 1000,
+        offset: int = 0,
+    ) -> list[BaseRelationship]:
+        relationships = list(self._relationships.values())
+        return relationships[offset : offset + limit]
 
 
 class InMemoryDocumentStorage(DocumentStorageInterface):

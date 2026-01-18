@@ -106,6 +106,24 @@ class EntityStorageInterface(ABC):
     async def count(self) -> int:
         """Return total number of stored entities."""
 
+    @abstractmethod
+    async def list_all(
+        self,
+        status: str | None = None,
+        limit: int = 1000,
+        offset: int = 0,
+    ) -> list[BaseEntity]:
+        """List all entities with optional status filter.
+
+        Args:
+            status: Optional status filter ('canonical' or 'provisional')
+            limit: Maximum number of entities to return
+            offset: Number of entities to skip
+
+        Returns:
+            List of entities matching the criteria.
+        """
+
 
 class RelationshipStorageInterface(ABC):
     """Abstract interface for relationship storage operations."""
@@ -165,6 +183,16 @@ class RelationshipStorageInterface(ABC):
         """
 
     @abstractmethod
+    async def get_by_document(
+        self,
+        document_id: str,
+    ) -> list[BaseRelationship]:
+        """Get all relationships extracted from a specific document.
+
+        Returns relationships where document_id appears in source_documents.
+        """
+
+    @abstractmethod
     async def delete(
         self,
         subject_id: str,
@@ -176,6 +204,22 @@ class RelationshipStorageInterface(ABC):
     @abstractmethod
     async def count(self) -> int:
         """Return total number of stored relationships."""
+
+    @abstractmethod
+    async def list_all(
+        self,
+        limit: int = 1000,
+        offset: int = 0,
+    ) -> list[BaseRelationship]:
+        """List all relationships with pagination.
+
+        Args:
+            limit: Maximum number of relationships to return
+            offset: Number of relationships to skip
+
+        Returns:
+            List of relationships.
+        """
 
 
 class DocumentStorageInterface(ABC):

@@ -1,11 +1,14 @@
 """Two-pass ingestion orchestrator for the knowledge graph framework."""
 
+import json
 from dataclasses import dataclass, field
-from typing import Sequence
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Sequence
 
 from kgraph.document import BaseDocument
 from kgraph.domain import DomainSchema
-from kgraph.entity import BaseEntity
+from kgraph.entity import BaseEntity, EntityStatus
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 from kgraph.pipeline.interfaces import (
     DocumentParserInterface,
@@ -282,3 +285,172 @@ class IngestionOrchestrator:
 
         # Merge entity data
         return await self.entity_storage.merge(source_ids, target_id)
+
+    def _serialize_entity(self, entity: BaseEntity) -> dict[str, Any]:
+        """Serialize an entity to a JSON-compatible dictionary."""
+        return {
+            "entity_id": entity.entity_id,
+            "status": entity.status.value,
+            "name": entity.name,
+            "synonyms": list(entity.synonyms),
+            "entity_type": entity.get_entity_type(),
+            "canonical_id_source": entity.get_canonical_id_source(),
+            "embedding": list(entity.embedding) if entity.embedding else None,
+            "dbpedia_uri": entity.dbpedia_uri,
+            "confidence": entity.confidence,
+            "usage_count": entity.usage_count,
+            "created_at": entity.created_at.isoformat(),
+            "source": entity.source,
+            "metadata": entity.metadata,
+        }
+
+    def _serialize_relationship(self, rel: BaseRelationship) -> dict[str, Any]:
+        """Serialize a relationship to a JSON-compatible dictionary."""
+        return {
+            "subject_id": rel.subject_id,
+            "predicate": rel.predicate,
+            "object_id": rel.object_id,
+            "edge_type": rel.get_edge_type(),
+            "confidence": rel.confidence,
+            "source_documents": list(rel.source_documents),
+            "created_at": rel.created_at.isoformat(),
+            "last_updated": rel.last_updated.isoformat() if rel.last_updated else None,
+            "metadata": rel.metadata,
+        }
+
+    async def export_entities(
+        self,
+        output_path: str | Path,
+        include_provisional: bool = False,
+    ) -> int:
+        """Export entities to a JSON file.
+
+        By default exports only canonical entities. Set include_provisional=True
+        to include all entities.
+
+        Args:
+            output_path: Path to write the JSON file
+            include_provisional: Whether to include provisional entities
+
+        Returns:
+            Number of entities exported
+        """
+        output_path = Path(output_path)
+
+        if include_provisional:
+            entities = await self.entity_storage.list_all()
+        else:
+            entities = await self.entity_storage.list_all(
+                status=EntityStatus.CANONICAL.value
+            )
+
+        export_data = {
+            "domain": self.domain.name,
+            "exported_at": datetime.now().isoformat(),
+            "entity_count": len(entities),
+            "entities": [self._serialize_entity(e) for e in entities],
+        }
+
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(output_path, "w") as f:
+            json.dump(export_data, f, indent=2)
+
+        return len(entities)
+
+    async def export_document(
+        self,
+        document_id: str,
+        output_path: str | Path,
+    ) -> dict[str, int]:
+        """Export document-specific data to a JSON file.
+
+        Exports relationships from this document and provisional entities
+        that were first extracted from this document.
+
+        Args:
+            document_id: ID of the document to export
+            output_path: Path to write the JSON file
+
+        Returns:
+            Dict with counts: {"relationships": N, "provisional_entities": N}
+        """
+        output_path = Path(output_path)
+
+        # Get document metadata
+        document = await self.document_storage.get(document_id)
+
+        # Get relationships from this document
+        relationships = await self.relationship_storage.get_by_document(document_id)
+
+        # Get provisional entities from this document
+        # Filter by source field matching document_id
+        all_provisional = await self.entity_storage.list_all(
+            status=EntityStatus.PROVISIONAL.value
+        )
+        provisional_entities = [
+            e for e in all_provisional
+            if e.source == document_id
+        ]
+
+        export_data = {
+            "document_id": document_id,
+            "document_title": document.title if document else None,
+            "exported_at": datetime.now().isoformat(),
+            "relationship_count": len(relationships),
+            "provisional_entity_count": len(provisional_entities),
+            "relationships": [self._serialize_relationship(r) for r in relationships],
+            "provisional_entities": [
+                self._serialize_entity(e) for e in provisional_entities
+            ],
+        }
+
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(output_path, "w") as f:
+            json.dump(export_data, f, indent=2)
+
+        return {
+            "relationships": len(relationships),
+            "provisional_entities": len(provisional_entities),
+        }
+
+    async def export_all(
+        self,
+        output_dir: str | Path,
+    ) -> dict[str, Any]:
+        """Export all data: entities.json and per-document files.
+
+        Creates:
+        - entities.json: All canonical entities
+        - paper_{document_id}.json: Per-document relationships and provisional entities
+
+        Args:
+            output_dir: Directory to write export files
+
+        Returns:
+            Summary dict with export statistics
+        """
+        output_dir = Path(output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        # Export canonical entities
+        entities_count = await self.export_entities(
+            output_dir / "entities.json",
+            include_provisional=False,
+        )
+
+        # Export each document
+        document_ids = await self.document_storage.list_ids(limit=10000)
+        document_stats = {}
+        for doc_id in document_ids:
+            stats = await self.export_document(
+                doc_id,
+                output_dir / f"paper_{doc_id}.json",
+            )
+            document_stats[doc_id] = stats
+
+        return {
+            "output_dir": str(output_dir),
+            "canonical_entities": entities_count,
+            "documents_exported": len(document_ids),
+            "document_stats": document_stats,
+        }
