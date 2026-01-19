@@ -1,4 +1,14 @@
-"""Tests for two-pass ingestion flow."""
+"""Tests for the two-pass document ingestion pipeline.
+
+This module verifies the IngestionOrchestrator's ability to:
+- Pass 1: Parse documents, extract entities, assign embeddings, resolve to
+  existing entities or create new provisionals
+- Pass 2: Extract relationships between entities from document content
+- Store parsed documents, entities, and relationships in their respective storages
+- Handle batch ingestion of multiple documents
+- Validate entities and relationships against domain-specific schemas
+- Detect merge candidates among canonical entities via embedding similarity
+"""
 
 import pytest
 
@@ -48,14 +58,19 @@ def orchestrator(
 
 
 class TestSingleDocumentIngestion:
-    """Tests for ingesting single documents."""
+    """Tests for ingesting a single document through the two-pass pipeline.
+
+    Verifies that ingestion extracts entities, creates relationships, stores
+    the parsed document, generates embeddings for new entities, and increments
+    usage counts when the same entity is mentioned across multiple documents.
+    """
 
     async def test_ingest_extracts_entities(
         self,
         orchestrator: IngestionOrchestrator,
         entity_storage: InMemoryEntityStorage,
     ) -> None:
-        """Ingestion extracts entities from document."""
+        """Pass 1 extracts bracketed entity mentions and stores them in entity storage."""
         content = b"This document mentions [Entity A] and [Entity B]."
 
         result = await orchestrator.ingest_document(content, "text/plain")
@@ -68,7 +83,7 @@ class TestSingleDocumentIngestion:
         orchestrator: IngestionOrchestrator,
         relationship_storage: InMemoryRelationshipStorage,
     ) -> None:
-        """Ingestion creates relationships between entities."""
+        """Pass 2 extracts relationships (edges) between entities found in the document."""
         content = b"Connection between [First] and [Second]."
 
         result = await orchestrator.ingest_document(content, "text/plain")
@@ -81,7 +96,7 @@ class TestSingleDocumentIngestion:
         orchestrator: IngestionOrchestrator,
         document_storage: InMemoryDocumentStorage,
     ) -> None:
-        """Ingestion stores the parsed document."""
+        """Ingestion stores the parsed document with its content and metadata."""
         content = b"Document with [Entity]."
 
         result = await orchestrator.ingest_document(content, "text/plain")
@@ -96,7 +111,7 @@ class TestSingleDocumentIngestion:
         orchestrator: IngestionOrchestrator,
         entity_storage: InMemoryEntityStorage,
     ) -> None:
-        """Ingestion generates embeddings for new entities."""
+        """New entities receive semantic embeddings for similarity-based operations."""
         content = b"Document with [NewEntity]."
 
         await orchestrator.ingest_document(content, "text/plain")
@@ -110,7 +125,11 @@ class TestSingleDocumentIngestion:
         orchestrator: IngestionOrchestrator,
         entity_storage: InMemoryEntityStorage,
     ) -> None:
-        """Re-ingesting same entity increments usage count."""
+        """Repeated entity mentions across documents increment the usage count.
+
+        Usage count tracks how often an entity appears and is used as a criterion
+        for promoting provisional entities to canonical status.
+        """
         # First document with entity
         await orchestrator.ingest_document(b"First mention of [SharedEntity].", "text/plain")
 
@@ -127,7 +146,7 @@ class TestSingleDocumentIngestion:
         self,
         orchestrator: IngestionOrchestrator,
     ) -> None:
-        """Ingestion handles documents with no entities."""
+        """Ingestion handles documents without extractable entities gracefully (no errors)."""
         content = b"This document has no bracketed entities."
 
         result = await orchestrator.ingest_document(content, "text/plain")
@@ -138,13 +157,18 @@ class TestSingleDocumentIngestion:
 
 
 class TestBatchIngestion:
-    """Tests for batch document ingestion."""
+    """Tests for ingesting multiple documents in a single batch operation.
+
+    Verifies that batch ingestion processes multiple documents, aggregates
+    statistics across all documents, and continues processing remaining
+    documents even if individual documents encounter errors.
+    """
 
     async def test_batch_ingest_multiple_documents(
         self,
         orchestrator: IngestionOrchestrator,
     ) -> None:
-        """Can ingest multiple documents in batch."""
+        """Batch ingestion processes multiple documents and aggregates entity counts."""
         documents = [
             (b"Document one with [Entity1].", "text/plain", None),
             (b"Document two with [Entity2] and [Entity3].", "text/plain", None),
@@ -159,7 +183,7 @@ class TestBatchIngestion:
         self,
         orchestrator: IngestionOrchestrator,
     ) -> None:
-        """Batch result includes per-document details."""
+        """Batch result includes individual extraction stats for each document."""
         documents = [
             (b"Doc with [A].", "text/plain", "source-1"),
             (b"Doc with [B] and [C].", "text/plain", "source-2"),
@@ -175,7 +199,7 @@ class TestBatchIngestion:
         self,
         orchestrator: IngestionOrchestrator,
     ) -> None:
-        """Batch continues processing after individual failures."""
+        """Batch ingestion is fault-tolerant: failures in one document don't halt the batch."""
         documents = [
             (b"Valid document with [Entity].", "text/plain", None),
             (b"Another valid doc with [Entity2].", "text/plain", None),
@@ -188,14 +212,19 @@ class TestBatchIngestion:
 
 
 class TestDomainValidation:
-    """Tests for domain-specific validation during ingestion."""
+    """Tests for validating entities and relationships against domain schemas.
+
+    Each knowledge domain defines valid entity types and relationship predicates.
+    These tests verify that the orchestrator validates extracted data against
+    the configured domain schema.
+    """
 
     async def test_validates_entities(
         self,
         orchestrator: IngestionOrchestrator,
         test_domain: TestDomainSchema,
     ) -> None:
-        """Ingestion validates entities against domain schema."""
+        """Entities with valid types (per domain schema) are accepted without errors."""
         # Our test domain accepts "test_entity" type, so this should work
         content = b"Document with [ValidEntity]."
 
@@ -211,7 +240,7 @@ class TestDomainValidation:
         self,
         orchestrator: IngestionOrchestrator,
     ) -> None:
-        """Ingestion validates relationships against domain schema."""
+        """Relationships with valid predicates (per domain schema) are accepted."""
         content = b"Connection from [A] to [B]."
 
         result = await orchestrator.ingest_document(content, "text/plain")
@@ -221,14 +250,23 @@ class TestDomainValidation:
 
 
 class TestMergeCandidateDetection:
-    """Tests for detecting merge candidates."""
+    """Tests for detecting potential duplicate entities via embedding similarity.
+
+    Merge candidate detection identifies canonical entities with high embedding
+    similarity (cosine) that may represent the same real-world concept and
+    should be merged. Only canonical entities with embeddings are considered.
+    """
 
     async def test_find_merge_candidates_with_similar_entities(
         self,
         orchestrator: IngestionOrchestrator,
         entity_storage: InMemoryEntityStorage,
     ) -> None:
-        """It should find entities with high embedding similarity."""
+        """Entities with high cosine similarity (e.g., 'USA' and 'United States') are flagged.
+
+        Only canonical entities with embeddings are compared. Provisional entities
+        and entities without embeddings are excluded from merge candidate detection.
+        """
         # High similarity
         e1 = make_test_entity(
             "USA",
@@ -285,7 +323,7 @@ class TestMergeCandidateDetection:
         orchestrator: IngestionOrchestrator,
         entity_storage: InMemoryEntityStorage,
     ) -> None:
-        """It should return an empty list if no entities are similar enough."""
+        """No merge candidates are returned when all entities are below the similarity threshold."""
         e1 = make_test_entity("A", status=EntityStatus.CANONICAL, embedding=(1.0, 0.0))
         e2 = make_test_entity("B", status=EntityStatus.CANONICAL, embedding=(0.0, 1.0))
         await entity_storage.add(e1)

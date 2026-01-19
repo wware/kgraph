@@ -1,4 +1,29 @@
-"""Relationship system for the knowledge graph framework."""
+"""Relationship system for the knowledge graph framework.
+
+This module defines `BaseRelationship`, the abstract base class for all
+relationships (edges) in the knowledge graph. Relationships connect entities
+via typed predicates, forming the graph structure.
+
+Each relationship is a triple: (subject_entity, predicate, object_entity)
+
+- **Subject**: The entity performing or originating the action
+- **Predicate**: The relationship type (domain-specific vocabulary)
+- **Object**: The entity receiving or being affected by the action
+
+For example:
+    - ("Aspirin", "treats", "Headache")
+    - ("Paper A", "cites", "Paper B")
+    - ("Court Case X", "overrules", "Court Case Y")
+
+Relationships also track:
+    - **Confidence**: How certain we are about this relationship
+    - **Source documents**: Which documents support this relationship
+    - **Metadata**: Domain-specific evidence and provenance
+
+Relationships are immutable (frozen Pydantic models) and are typically
+extracted during Pass 2 of the ingestion pipeline, after entities have
+been resolved.
+"""
 
 from abc import ABC, abstractmethod
 from datetime import datetime
@@ -7,10 +32,35 @@ from pydantic import BaseModel, Field
 
 
 class BaseRelationship(ABC, BaseModel):
-    """Abstract base for all domain relationships.
+    """Abstract base class for relationships (edges) in the knowledge graph.
 
-    Represents an edge between two entities in the knowledge graph.
-    Subclasses must implement get_edge_type() to define domain-specific behavior.
+    Relationships connect two entities via a typed predicate, representing
+    facts extracted from source documents. The relationship model supports
+    aggregating evidence from multiple documents that assert the same fact.
+
+    Relationships are frozen (immutable) Pydantic models. To update a
+    relationship (e.g., to add a new source document), use
+    `rel.model_copy(update={...})` to create a new instance.
+
+    Subclasses must implement:
+        - `get_edge_type()`: Return the domain-specific edge type category
+
+    Key fields:
+        - `subject_id`: Entity ID of the relationship source (the "doer")
+        - `predicate`: Relationship type from the domain vocabulary
+        - `object_id`: Entity ID of the relationship target (the "receiver")
+        - `confidence`: How certain we are about this relationship
+        - `source_documents`: Documents that support this relationship
+
+    Example:
+        ```python
+        class TreatsRelationship(BaseRelationship):
+            mechanism: str | None = None  # How the treatment works
+            evidence_level: str = "observational"
+
+            def get_edge_type(self) -> str:
+                return "treats"
+        ```
     """
 
     model_config = {"frozen": True}

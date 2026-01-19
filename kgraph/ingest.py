@@ -1,4 +1,49 @@
-"""Two-pass ingestion orchestrator for the knowledge graph framework."""
+"""Two-pass ingestion orchestrator for the knowledge graph framework.
+
+This module provides the `IngestionOrchestrator` class, which coordinates the
+complete document ingestion pipeline. The orchestrator manages the two-pass
+process that transforms raw documents into structured knowledge:
+
+**Pass 1 - Entity Extraction:**
+    1. Parse raw document bytes into structured `BaseDocument`
+    2. Extract entity mentions using the configured `EntityExtractorInterface`
+    3. Resolve mentions to canonical or provisional entities
+    4. Generate embeddings for new entities
+    5. Store entities, updating usage counts for existing ones
+
+**Pass 2 - Relationship Extraction:**
+    1. Extract relationships between resolved entities
+    2. Validate relationships against the domain schema
+    3. Store relationships with source document references
+
+The orchestrator also provides methods for:
+    - Batch ingestion of multiple documents
+    - Entity promotion (provisional → canonical)
+    - Duplicate detection via embedding similarity
+    - Entity merging
+    - JSON export of entities and relationships
+
+Example usage:
+    ```python
+    orchestrator = IngestionOrchestrator(
+        domain=my_domain_schema,
+        parser=my_parser,
+        entity_extractor=my_extractor,
+        entity_resolver=my_resolver,
+        relationship_extractor=my_rel_extractor,
+        embedding_generator=my_embedder,
+        entity_storage=entity_store,
+        relationship_storage=rel_store,
+        document_storage=doc_store,
+    )
+
+    result = await orchestrator.ingest_document(
+        raw_content=document_bytes,
+        content_type="text/plain",
+    )
+    print(f"Extracted {result.entities_extracted} entities")
+    ```
+"""
 
 import json
 from dataclasses import dataclass
@@ -28,7 +73,19 @@ from kgraph.storage.interfaces import (
 
 @dataclass(frozen=True)
 class DocumentResult:
-    """Result of processing a single document."""
+    """Result of processing a single document through the ingestion pipeline.
+
+    Contains statistics about the extraction process and any errors encountered.
+    Immutable (frozen) to ensure results can be safely shared and stored.
+
+    Attributes:
+        document_id: Unique identifier assigned to the parsed document.
+        entities_extracted: Total number of entity mentions found in the document.
+        entities_new: Number of mentions that created new provisional entities.
+        entities_existing: Number of mentions that matched existing entities.
+        relationships_extracted: Number of relationships stored from this document.
+        errors: Tuple of error messages encountered during processing.
+    """
 
     document_id: str
     entities_extracted: int
@@ -40,7 +97,19 @@ class DocumentResult:
 
 @dataclass(frozen=True)
 class IngestionResult:
-    """Result of batch document ingestion."""
+    """Result of batch document ingestion.
+
+    Aggregates statistics across multiple documents and provides per-document
+    breakdown via the `document_results` field.
+
+    Attributes:
+        documents_processed: Total number of documents in the batch.
+        documents_failed: Number of documents that had errors during processing.
+        total_entities_extracted: Sum of entity mentions across all documents.
+        total_relationships_extracted: Sum of relationships across all documents.
+        document_results: Per-document results for detailed inspection.
+        errors: Top-level errors that prevented document processing.
+    """
 
     documents_processed: int
     documents_failed: int
@@ -52,11 +121,41 @@ class IngestionResult:
 
 @dataclass
 class IngestionOrchestrator:
-    """Orchestrates two-pass document ingestion.
+    """Orchestrates two-pass document ingestion for knowledge graph construction.
 
-    Pass 1: Extract entities from documents, resolve to canonical IDs,
-            update entity collection with new or incremented counts.
-    Pass 2: Extract relationships between entities, store per-document.
+    The orchestrator is the main entry point for document processing. It
+    coordinates all pipeline components (parser, extractors, resolver,
+    embedding generator) and storage backends to transform raw documents
+    into structured knowledge graph data.
+
+    **Two-Pass Architecture:**
+
+    - **Pass 1 (Entity Extraction)**: Extracts entity mentions from documents,
+      resolves them to canonical or provisional entities, generates embeddings,
+      and updates storage with new entities or incremented usage counts.
+
+    - **Pass 2 (Relationship Extraction)**: Identifies relationships between
+      the resolved entities and stores them with source document references.
+
+    **Additional Operations:**
+
+    - `run_promotion()`: Promotes provisional entities to canonical status
+      based on usage frequency and confidence thresholds.
+    - `find_merge_candidates()`: Detects potential duplicate entities using
+      embedding similarity.
+    - `merge_entities()`: Combines duplicate entities and updates references.
+    - `export_*()`: Exports entities and relationships to JSON files.
+
+    Attributes:
+        domain: Schema defining entity types, relationship types, and validation.
+        parser: Converts raw bytes to structured documents.
+        entity_extractor: Extracts entity mentions from documents.
+        entity_resolver: Maps mentions to canonical or provisional entities.
+        relationship_extractor: Extracts relationships between entities.
+        embedding_generator: Creates semantic vectors for similarity operations.
+        entity_storage: Persistence backend for entities.
+        relationship_storage: Persistence backend for relationships.
+        document_storage: Persistence backend for source documents.
     """
 
     domain: DomainSchema
@@ -205,10 +304,26 @@ class IngestionOrchestrator:
         )
 
     async def run_promotion(self) -> list[BaseEntity]:
-        """Run entity promotion based on domain's promotion config.
+        """Promote eligible provisional entities to canonical status.
 
-        Finds provisional entities eligible for promotion and promotes them.
-        Returns list of promoted entities.
+        Queries for provisional entities meeting the domain's promotion criteria
+        (minimum usage count, minimum confidence, optional embedding requirement)
+        and promotes them to canonical status.
+
+        The promotion process:
+            1. Find provisional entities meeting threshold criteria
+            2. Filter by embedding requirement if configured
+            3. Generate a canonical ID (currently name-based slug)
+            4. Update entity status and ID in storage
+
+        Returns:
+            List of entities that were successfully promoted. Each entity
+            in the list has status=CANONICAL and a new canonical entity_id.
+
+        Note:
+            The current implementation generates simple slug-based canonical IDs.
+            Production implementations should integrate with external authority
+            services (UMLS, DBPedia, etc.) to obtain proper canonical identifiers.
         """
         config = self.domain.promotion_config
         candidates = await self.entity_storage.find_provisional_for_promotion(
@@ -237,10 +352,32 @@ class IngestionOrchestrator:
         similarity_threshold: float = 0.95,
     ) -> list[tuple[BaseEntity, BaseEntity, float]]:
         """Find canonical entities that may be duplicates based on embedding similarity.
-        Returns a list of (entity1, entity2, similarity) tuples for entities
-        with embedding cosine similarity above the given threshold.
-        This method performs an O(n^2) comparison, which can be slow for
-        large numbers of entities.
+
+        Scans all canonical entities with embeddings and computes pairwise cosine
+        similarity. Returns pairs exceeding the threshold as potential duplicates
+        for human review or automatic merging.
+
+        Args:
+            similarity_threshold: Minimum cosine similarity (0.0 to 1.0) for a
+                pair to be considered a merge candidate. Higher values are more
+                conservative. Default 0.95 requires very similar embeddings.
+
+        Returns:
+            List of (entity1, entity2, similarity_score) tuples for entity pairs
+            with similarity >= threshold. Sorted by descending similarity.
+
+        Note:
+            This method performs O(n²) pairwise comparisons, which can be slow
+            for large entity collections. For production use with >10K entities,
+            consider using approximate nearest neighbor algorithms (FAISS, Annoy)
+            or a vector database with built-in similarity search.
+
+        Example:
+            ```python
+            candidates = await orchestrator.find_merge_candidates(threshold=0.98)
+            for e1, e2, sim in candidates:
+                print(f"{e1.name} ↔ {e2.name}: {sim:.3f}")
+            ```
         """
         candidates: list[tuple[BaseEntity, BaseEntity, float]] = []
 
@@ -278,9 +415,39 @@ class IngestionOrchestrator:
         source_ids: Sequence[str],
         target_id: str,
     ) -> bool:
-        """Merge multiple entities into one.
+        """Merge multiple entities into a single target entity.
 
-        Updates all relationship references and combines entity data.
+        Combines data from source entities into the target and updates all
+        relationship references to point to the target. Source entities are
+        deleted after merging.
+
+        The merge operation:
+            1. Updates all relationships referencing source entities to use target_id
+            2. Combines synonyms from all source entities into the target
+            3. Sums usage counts from all entities
+            4. Deletes source entities from storage
+
+        Args:
+            source_ids: Entity IDs to merge into the target. These entities
+                will be deleted after their data is combined.
+            target_id: Entity ID that will absorb the source entities. Must
+                exist in storage.
+
+        Returns:
+            True if the merge succeeded, False if the target entity was not
+            found or if the merge operation failed.
+
+        Example:
+            ```python
+            # After finding merge candidates
+            candidates = await orchestrator.find_merge_candidates()
+            for e1, e2, sim in candidates:
+                # Keep the entity with more usage, merge the other into it
+                if e1.usage_count >= e2.usage_count:
+                    await orchestrator.merge_entities([e2.entity_id], e1.entity_id)
+                else:
+                    await orchestrator.merge_entities([e1.entity_id], e2.entity_id)
+            ```
         """
         # Update relationship references
         for source_id in source_ids:

@@ -1,4 +1,22 @@
-"""In-memory storage implementations for testing and development."""
+"""In-memory storage implementations for testing and development.
+
+This module provides dictionary-based implementations of the storage interfaces
+that keep all data in memory. These implementations are suitable for:
+
+- **Unit testing**: Fast, isolated tests without external dependencies
+- **Development**: Quick iteration without database setup
+- **Prototyping**: Experimenting with the framework before choosing a backend
+- **Small datasets**: Demos and examples with limited data
+
+**Not recommended for production** due to:
+- No persistence (data is lost when the process exits)
+- No concurrency control (not safe for multi-process access)
+- Memory constraints (all data must fit in RAM)
+- O(n) search operations (no indexing)
+
+For production use, implement the storage interfaces with a proper database
+backend (PostgreSQL with pgvector, Neo4j, etc.).
+"""
 
 import math
 from typing import Sequence
@@ -14,7 +32,20 @@ from kgraph.storage.interfaces import (
 
 
 def _cosine_similarity(a: Sequence[float], b: Sequence[float]) -> float:
-    """Compute cosine similarity between two vectors."""
+    """Compute cosine similarity between two embedding vectors.
+
+    Cosine similarity measures the cosine of the angle between two vectors,
+    producing a value between -1 (opposite) and 1 (identical direction).
+    For normalized embeddings, this is equivalent to the dot product.
+
+    Args:
+        a: First embedding vector.
+        b: Second embedding vector (must have same dimension as a).
+
+    Returns:
+        Cosine similarity score between -1 and 1. Returns 0.0 if vectors
+        have different lengths, are empty, or have zero magnitude.
+    """
     if len(a) != len(b) or len(a) == 0:
         return 0.0
     dot_product = sum(x * y for x, y in zip(a, b))
@@ -26,9 +57,24 @@ def _cosine_similarity(a: Sequence[float], b: Sequence[float]) -> float:
 
 
 class InMemoryEntityStorage(EntityStorageInterface):
-    """In-memory entity storage for testing."""
+    """In-memory entity storage using a dictionary keyed by entity_id.
+
+    Stores entities in a simple `dict[str, BaseEntity]` structure. All
+    operations are O(1) for direct lookups and O(n) for searches.
+
+    Thread safety: Not thread-safe. For concurrent access, use external
+    synchronization or a production database backend.
+
+    Example:
+        ```python
+        storage = InMemoryEntityStorage()
+        await storage.add(my_entity)
+        entity = await storage.get(my_entity.entity_id)
+        ```
+    """
 
     def __init__(self) -> None:
+        """Initialize an empty entity storage."""
         self._entities: dict[str, BaseEntity] = {}
 
     async def add(self, entity: BaseEntity) -> str:
@@ -174,13 +220,33 @@ class InMemoryEntityStorage(EntityStorageInterface):
 
 
 class InMemoryRelationshipStorage(RelationshipStorageInterface):
-    """In-memory relationship storage for testing."""
+    """In-memory relationship storage using triple keys.
+
+    Stores relationships in a dictionary keyed by (subject_id, predicate, object_id)
+    tuples. This ensures uniqueness of triples and provides O(1) lookup for
+    specific relationships.
+
+    Traversal queries (get_by_subject, get_by_object) are O(n) as they scan
+    all relationships. For large graphs, use a database with proper indices.
+
+    Thread safety: Not thread-safe. For concurrent access, use external
+    synchronization or a production database backend.
+
+    Example:
+        ```python
+        storage = InMemoryRelationshipStorage()
+        await storage.add(my_relationship)
+        outgoing = await storage.get_by_subject(entity_id)
+        ```
+    """
 
     def __init__(self) -> None:
-        # Key is (subject_id, predicate, object_id)
+        """Initialize an empty relationship storage."""
+        # Key is (subject_id, predicate, object_id) to ensure triple uniqueness
         self._relationships: dict[tuple[str, str, str], BaseRelationship] = {}
 
     def _make_key(self, rel: BaseRelationship) -> tuple[str, str, str]:
+        """Create a dictionary key from a relationship's triple."""
         return (rel.subject_id, rel.predicate, rel.object_id)
 
     async def add(self, relationship: BaseRelationship) -> str:
@@ -289,9 +355,24 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
 
 
 class InMemoryDocumentStorage(DocumentStorageInterface):
-    """In-memory document storage for testing."""
+    """In-memory document storage using a dictionary keyed by document_id.
+
+    Stores documents in a simple `dict[str, BaseDocument]` structure.
+    Document lookups by ID are O(1); lookups by source URI are O(n).
+
+    Thread safety: Not thread-safe. For concurrent access, use external
+    synchronization or a production database backend.
+
+    Example:
+        ```python
+        storage = InMemoryDocumentStorage()
+        await storage.add(my_document)
+        doc = await storage.get(my_document.document_id)
+        ```
+    """
 
     def __init__(self) -> None:
+        """Initialize an empty document storage."""
         self._documents: dict[str, BaseDocument] = {}
 
     async def add(self, document: BaseDocument) -> str:

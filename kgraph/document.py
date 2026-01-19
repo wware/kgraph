@@ -1,4 +1,23 @@
-"""Document representation for the knowledge graph framework."""
+"""Document representation for the knowledge graph framework.
+
+This module defines `BaseDocument`, the abstract base class for all documents
+processed by the knowledge graph ingestion pipeline. Documents represent the
+source material from which entities and relationships are extracted.
+
+A document contains:
+    - **Content**: The full text of the document
+    - **Metadata**: Title, source URI, content type, creation timestamp
+    - **Structure**: Domain-specific sections via `get_sections()`
+
+Domain implementations subclass `BaseDocument` to add domain-specific fields
+and structure. For example:
+    - `JournalArticle` might add fields for authors, abstract, and citations
+    - `LegalDocument` might add fields for court, case number, and parties
+    - `ConferencePaper` might add fields for venue, year, and keywords
+
+Documents are immutable (frozen Pydantic models) to ensure consistency
+throughout the extraction pipeline.
+"""
 
 from abc import ABC, abstractmethod
 from datetime import datetime
@@ -7,10 +26,36 @@ from pydantic import BaseModel, Field
 
 
 class BaseDocument(ABC, BaseModel):
-    """Abstract base for documents processed by the knowledge graph.
+    """Abstract base class for documents in the knowledge graph.
 
     Represents a parsed document ready for entity and relationship extraction.
-    Subclasses define domain-specific document structure.
+    All documents share common fields (ID, content, metadata) while subclasses
+    add domain-specific structure and fields.
+
+    Documents are frozen (immutable) Pydantic models, ensuring they cannot be
+    modified after creation. This immutability guarantees consistency when
+    documents are referenced by multiple entities and relationships.
+
+    Subclasses must implement:
+        - `get_document_type()`: Return the domain-specific document type
+        - `get_sections()`: Return document structure as (name, content) tuples
+
+    Example:
+        ```python
+        class JournalArticle(BaseDocument):
+            authors: tuple[str, ...] = Field(default=())
+            abstract: str | None = None
+
+            def get_document_type(self) -> str:
+                return "journal_article"
+
+            def get_sections(self) -> list[tuple[str, str]]:
+                sections = []
+                if self.abstract:
+                    sections.append(("abstract", self.abstract))
+                sections.append(("body", self.content))
+                return sections
+        ```
     """
 
     model_config = {"frozen": True}

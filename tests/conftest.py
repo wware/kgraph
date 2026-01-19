@@ -1,4 +1,16 @@
-"""Test fixtures and minimal test domain implementation."""
+"""Test fixtures and minimal test domain implementation.
+
+This module provides:
+- Minimal concrete implementations of abstract base classes (TestEntity,
+  TestDocument, TestRelationship, TestDomainSchema) for use in unit tests
+- Mock implementations of pipeline interfaces (document parsing, entity
+  extraction/resolution, relationship extraction, embedding generation)
+- Pytest fixtures that instantiate in-memory storage and mock components
+- Helper factory functions for creating test entities and relationships
+
+The test domain uses a simple convention where entities are denoted by
+square brackets in document text (e.g., "[aspirin]" becomes an entity).
+"""
 
 import uuid
 from datetime import datetime, timezone
@@ -29,54 +41,95 @@ from kgraph.storage.memory import (
 
 
 class TestEntity(BaseEntity):
-    """Simple entity for testing."""
+    """Minimal concrete entity implementation for unit tests.
+
+    Provides a single entity type ("test_entity") with configurable type
+    via the entity_type field. Inherits all standard entity fields from
+    BaseEntity (entity_id, name, status, confidence, usage_count, etc.).
+    """
 
     entity_type: str = "test_entity"
 
     def get_entity_type(self) -> str:
+        """Return the entity's type identifier."""
         return self.entity_type
 
 
 class TestRelationship(BaseRelationship):
-    """Simple relationship for testing."""
+    """Minimal concrete relationship implementation for unit tests.
+
+    Uses the predicate field directly as the edge type. Supports any
+    predicate string, allowing flexible relationship testing without
+    schema constraints.
+    """
 
     def get_edge_type(self) -> str:
+        """Return the relationship's edge type (same as predicate)."""
         return self.predicate
 
 
 class TestDocument(BaseDocument):
-    """Simple document for testing."""
+    """Minimal concrete document implementation for unit tests.
+
+    Represents documents as a single "body" section containing the full
+    content. The document type defaults to "test_document" but can be
+    customized for tests requiring multiple document types.
+    """
 
     document_type: str = "test_document"
 
     def get_document_type(self) -> str:
+        """Return the document's type identifier."""
         return self.document_type
 
     def get_sections(self) -> list[tuple[str, str]]:
+        """Return document sections as (section_name, content) tuples.
+
+        For TestDocument, returns a single "body" section with full content.
+        """
         return [("body", self.content)]
 
 
 class TestDomainSchema(DomainSchema):
-    """Minimal domain schema for testing."""
+    """Minimal domain schema defining types and validation for the test domain.
+
+    Configures:
+    - One entity type: "test_entity"
+    - Two relationship types: "related_to", "causes"
+    - One document type: "test_document"
+    - Lenient promotion config: 2 usages, 0.7 confidence, no embedding required
+
+    This schema is intentionally simple to allow straightforward testing
+    of domain-agnostic graph operations without real-world complexity.
+    """
 
     @property
     def name(self) -> str:
+        """Return the domain name identifier."""
         return "test_domain"
 
     @property
     def entity_types(self) -> dict[str, type[BaseEntity]]:
+        """Return mapping of entity type names to their classes."""
         return {"test_entity": TestEntity}
 
     @property
     def relationship_types(self) -> dict[str, type[BaseRelationship]]:
+        """Return mapping of relationship type names to their classes."""
         return {"related_to": TestRelationship, "causes": TestRelationship}
 
     @property
     def document_types(self) -> dict[str, type[BaseDocument]]:
+        """Return mapping of document type names to their classes."""
         return {"test_document": TestDocument}
 
     @property
     def promotion_config(self) -> PromotionConfig:
+        """Return configuration for promoting provisional entities to canonical.
+
+        Uses lenient thresholds suitable for testing: requires only 2 usages
+        and 0.7 confidence, with no embedding requirement.
+        """
         return PromotionConfig(
             min_usage_count=2,
             min_confidence=0.7,
@@ -84,33 +137,51 @@ class TestDomainSchema(DomainSchema):
         )
 
     def validate_entity(self, entity: BaseEntity) -> bool:
+        """Check if the entity's type is registered in this schema."""
         return entity.get_entity_type() in self.entity_types
 
     def validate_relationship(self, relationship: BaseRelationship) -> bool:
+        """Check if the relationship's predicate is registered in this schema."""
         return relationship.predicate in self.relationship_types
 
 
 class MockEmbeddingGenerator(EmbeddingGeneratorInterface):
-    """Mock embedding generator that produces deterministic embeddings."""
+    """Mock embedding generator producing deterministic hash-based embeddings.
+
+    Generates fixed-dimension vectors derived from the text's hash, ensuring
+    identical text always produces identical embeddings. Useful for testing
+    embedding-dependent logic (similarity search, merge detection) without
+    requiring a real embedding model.
+
+    Args:
+        dim: Embedding vector dimension (default: 8).
+    """
 
     def __init__(self, dim: int = 8) -> None:
         self._dim = dim
 
     @property
     def dimension(self) -> int:
+        """Return the embedding vector dimension."""
         return self._dim
 
     async def generate(self, text: str) -> tuple[float, ...]:
-        # Simple deterministic embedding based on text hash
+        """Generate a deterministic embedding from text using its hash."""
         h = hash(text)
         return tuple((h >> i) % 100 / 100.0 for i in range(self._dim))
 
     async def generate_batch(self, texts: Sequence[str]) -> list[tuple[float, ...]]:
+        """Generate embeddings for multiple texts sequentially."""
         return [await self.generate(t) for t in texts]
 
 
 class MockDocumentParser(DocumentParserInterface):
-    """Mock parser that creates TestDocument from raw content."""
+    """Mock document parser that wraps raw bytes in a TestDocument.
+
+    Decodes raw content as UTF-8 text and creates a TestDocument with
+    a randomly generated document_id. Does not perform any actual parsing
+    or structure extraction.
+    """
 
     async def parse(
         self,
@@ -118,6 +189,16 @@ class MockDocumentParser(DocumentParserInterface):
         content_type: str,
         source_uri: str | None = None,
     ) -> BaseDocument:
+        """Parse raw bytes into a TestDocument.
+
+        Args:
+            raw_content: Document bytes (decoded as UTF-8).
+            content_type: MIME type of the content.
+            source_uri: Optional URI identifying the document source.
+
+        Returns:
+            TestDocument instance with generated ID and current timestamp.
+        """
         return TestDocument(
             document_id=str(uuid.uuid4()),
             content=raw_content.decode("utf-8"),
@@ -128,9 +209,26 @@ class MockDocumentParser(DocumentParserInterface):
 
 
 class MockEntityExtractor(EntityExtractorInterface):
-    """Mock extractor that finds words in square brackets as entities."""
+    """Mock entity extractor using bracket notation for entity detection.
+
+    Extracts entities from document text by finding text enclosed in
+    square brackets. For example, the text "Patient took [aspirin] for
+    [headache]" yields two EntityMention objects for "aspirin" and
+    "headache", each with 0.9 confidence and "test_entity" type.
+
+    This simple convention allows tests to precisely control which
+    entities are extracted without needing NLP or ML components.
+    """
 
     async def extract(self, document: BaseDocument) -> list[EntityMention]:
+        """Extract entity mentions from bracketed text in the document.
+
+        Args:
+            document: Document to extract entities from.
+
+        Returns:
+            List of EntityMention objects for each bracketed term found.
+        """
         import re
 
         mentions = []
@@ -148,19 +246,36 @@ class MockEntityExtractor(EntityExtractorInterface):
 
 
 class MockEntityResolver(EntityResolverInterface):
-    """Mock resolver that creates provisional entities."""
+    """Mock entity resolver that links mentions to entities via name matching.
+
+    Resolution strategy:
+    1. Search existing storage for an entity with matching name and type
+    2. If found, return existing entity with 0.95 confidence
+    3. If not found, create a new provisional TestEntity with the
+       mention's confidence score
+
+    This simple name-based matching is sufficient for testing entity
+    resolution and promotion logic without external knowledge bases.
+    """
 
     async def resolve(
         self,
         mention: EntityMention,
         existing_storage: EntityStorageInterface,
     ) -> tuple[BaseEntity, float]:
-        # Try to find existing entity by name
+        """Resolve an entity mention to an existing or new entity.
+
+        Args:
+            mention: The entity mention to resolve.
+            existing_storage: Storage to search for existing entities.
+
+        Returns:
+            Tuple of (resolved entity, resolution confidence score).
+        """
         existing = await existing_storage.find_by_name(mention.text, mention.entity_type, limit=1)
         if existing:
             return existing[0], 0.95
 
-        # Create provisional entity
         entity = TestEntity(
             entity_id=str(uuid.uuid4()),
             status=EntityStatus.PROVISIONAL,
@@ -177,17 +292,35 @@ class MockEntityResolver(EntityResolverInterface):
         mentions: Sequence[EntityMention],
         existing_storage: EntityStorageInterface,
     ) -> list[tuple[BaseEntity, float]]:
+        """Resolve multiple mentions sequentially."""
         return [await self.resolve(m, existing_storage) for m in mentions]
 
 
 class MockRelationshipExtractor(RelationshipExtractorInterface):
-    """Mock extractor that creates relationships between adjacent entities."""
+    """Mock relationship extractor that chains adjacent entities.
+
+    Creates "related_to" relationships between consecutively ordered
+    entities. For a document with entities [A, B, C], produces edges
+    A->B and B->C, each with 0.8 confidence.
+
+    This simple linear chaining allows tests to verify relationship
+    storage and traversal without complex extraction logic.
+    """
 
     async def extract(
         self,
         document: BaseDocument,
         entities: Sequence[BaseEntity],
     ) -> list[BaseRelationship]:
+        """Extract relationships between consecutive entities.
+
+        Args:
+            document: Source document for provenance tracking.
+            entities: Ordered sequence of entities from the document.
+
+        Returns:
+            List of "related_to" relationships linking adjacent entities.
+        """
         relationships = []
         entity_list = list(entities)
         for i in range(len(entity_list) - 1):
@@ -209,55 +342,88 @@ class MockRelationshipExtractor(RelationshipExtractorInterface):
 
 @pytest.fixture
 def test_domain() -> TestDomainSchema:
-    """Provide a test domain schema."""
+    """Provide a TestDomainSchema instance for domain-aware tests.
+
+    The schema defines entity types, relationship types, and promotion
+    configuration suitable for unit testing graph operations.
+    """
     return TestDomainSchema()
 
 
 @pytest.fixture
 def entity_storage() -> InMemoryEntityStorage:
-    """Provide fresh in-memory entity storage."""
+    """Provide a fresh in-memory entity storage instance.
+
+    Each test receives an empty storage, ensuring test isolation.
+    """
     return InMemoryEntityStorage()
 
 
 @pytest.fixture
 def relationship_storage() -> InMemoryRelationshipStorage:
-    """Provide fresh in-memory relationship storage."""
+    """Provide a fresh in-memory relationship storage instance.
+
+    Each test receives an empty storage, ensuring test isolation.
+    """
     return InMemoryRelationshipStorage()
 
 
 @pytest.fixture
 def document_storage() -> InMemoryDocumentStorage:
-    """Provide fresh in-memory document storage."""
+    """Provide a fresh in-memory document storage instance.
+
+    Each test receives an empty storage, ensuring test isolation.
+    """
     return InMemoryDocumentStorage()
 
 
 @pytest.fixture
 def embedding_generator() -> MockEmbeddingGenerator:
-    """Provide mock embedding generator."""
+    """Provide a MockEmbeddingGenerator with default 8-dimensional vectors.
+
+    Generates deterministic embeddings based on text hash for reproducible
+    similarity comparisons in tests.
+    """
     return MockEmbeddingGenerator()
 
 
 @pytest.fixture
 def document_parser() -> MockDocumentParser:
-    """Provide mock document parser."""
+    """Provide a MockDocumentParser for converting raw bytes to TestDocument.
+
+    Decodes content as UTF-8 without performing actual parsing or
+    structure extraction.
+    """
     return MockDocumentParser()
 
 
 @pytest.fixture
 def entity_extractor() -> MockEntityExtractor:
-    """Provide mock entity extractor."""
+    """Provide a MockEntityExtractor using bracket notation.
+
+    Extracts entities from text enclosed in square brackets (e.g.,
+    "[aspirin]" becomes an entity mention).
+    """
     return MockEntityExtractor()
 
 
 @pytest.fixture
 def entity_resolver() -> MockEntityResolver:
-    """Provide mock entity resolver."""
+    """Provide a MockEntityResolver for name-based entity matching.
+
+    Links mentions to existing entities by name or creates new
+    provisional entities when no match is found.
+    """
     return MockEntityResolver()
 
 
 @pytest.fixture
 def relationship_extractor() -> MockRelationshipExtractor:
-    """Provide mock relationship extractor."""
+    """Provide a MockRelationshipExtractor for linear entity chaining.
+
+    Creates "related_to" relationships between consecutively ordered
+    entities in a document.
+    """
     return MockRelationshipExtractor()
 
 
@@ -270,7 +436,23 @@ def make_test_entity(
     embedding: tuple[float, ...] | None = None,
     canonical_ids: dict[str, str] | None = None,
 ) -> TestEntity:
-    """Helper to create test entities."""
+    """Factory function to create TestEntity instances with sensible defaults.
+
+    Provides a concise way to create entities in tests without specifying
+    all required fields. Generates a random UUID if entity_id is not provided.
+
+    Args:
+        name: Display name for the entity (required).
+        status: Entity lifecycle status (default: PROVISIONAL).
+        entity_id: Unique identifier (default: auto-generated UUID).
+        usage_count: Number of document references (default: 0).
+        confidence: Confidence score from extraction (default: 1.0).
+        embedding: Optional semantic embedding vector.
+        canonical_ids: Optional mapping of authority names to external IDs.
+
+    Returns:
+        Configured TestEntity instance with current timestamp.
+    """
     return TestEntity(
         entity_id=entity_id or str(uuid.uuid4()),
         status=status,
@@ -290,7 +472,20 @@ def make_test_relationship(
     predicate: str = "related_to",
     confidence: float = 1.0,
 ) -> TestRelationship:
-    """Helper to create test relationships."""
+    """Factory function to create TestRelationship instances with defaults.
+
+    Provides a concise way to create relationships in tests. Both subject
+    and object entity IDs are required; predicate and confidence have defaults.
+
+    Args:
+        subject_id: Entity ID of the relationship source.
+        object_id: Entity ID of the relationship target.
+        predicate: Relationship type name (default: "related_to").
+        confidence: Confidence score for the relationship (default: 1.0).
+
+    Returns:
+        Configured TestRelationship instance with current timestamp.
+    """
     return TestRelationship(
         subject_id=subject_id,
         predicate=predicate,

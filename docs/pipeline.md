@@ -1,12 +1,27 @@
 # Pipeline Components
 
-The ingestion pipeline consists of pluggable components for parsing, extraction, resolution, and embedding generation.
+The knowledge graph ingestion pipeline uses a **two-pass architecture** to transform raw documents into structured knowledge:
+
+1. **Pass 1 (Entity Extraction)**: Parse documents, extract entity mentions, and resolve them to canonical or provisional entities.
+2. **Pass 2 (Relationship Extraction)**: Identify relationships (edges) between resolved entities within each document.
+
+This separation allows the system to build a consistent entity vocabulary before attempting relationship extraction, which improves accuracy and enables cross-document entity linking.
+
+The pipeline consists of pluggable components for parsing, extraction, resolution, and embedding generation. Each component is defined as an abstract interface, allowing domain-specific implementations.
 
 ## Component Interfaces
 
+Each interface is designed to be stateless and async-first, enabling parallel processing and easy testing with mock implementations.
+
 ### DocumentParserInterface
 
-Converts raw document bytes into structured `BaseDocument` instances:
+Converts raw document bytes into structured `BaseDocument` instances. This is the entry point for document ingestion—the parser handles format detection, content extraction, and metadata identification.
+
+Parsers are responsible for:
+- Decoding raw bytes based on content type (UTF-8 text, PDF binary, HTML, etc.)
+- Extracting document structure (title, sections, paragraphs)
+- Identifying metadata (author, date, source identifiers)
+- Normalizing content for downstream extraction
 
 ```python
 from kgraph.pipeline import DocumentParserInterface
@@ -55,7 +70,9 @@ class LLMDocumentParser(DocumentParserInterface):
 
 ### EntityExtractorInterface
 
-Extracts entity mentions from documents:
+Extracts entity mentions from documents. This is the core of **Pass 1**—identifying text spans that refer to entities of interest.
+
+The extractor produces `EntityMention` objects representing raw extractions that have not yet been resolved to canonical entities. This separation of extraction and resolution allows different strategies for each phase and enables batch processing optimizations.
 
 ```python
 from kgraph.pipeline import EntityExtractorInterface
@@ -104,7 +121,14 @@ class SpacyEntityExtractor(EntityExtractorInterface):
 
 ### EntityResolverInterface
 
-Maps mentions to canonical or provisional entities:
+Maps mentions to canonical or provisional entities. Resolution is the critical step that transforms raw text spans into structured knowledge graph nodes.
+
+The resolver must decide whether a mention refers to:
+- An **existing canonical entity** already in the knowledge graph
+- A **new canonical entity** that can be linked to an external authority (UMLS, DBPedia, etc.)
+- A **provisional entity** that requires further evidence before promotion
+
+The returned confidence score enables quality filtering and informs the entity promotion process.
 
 ```python
 from kgraph.pipeline import EntityResolverInterface
@@ -188,7 +212,14 @@ class HybridEntityResolver(EntityResolverInterface):
 
 ### RelationshipExtractorInterface
 
-Extracts relationships between entities:
+Extracts relationships between entities. This is **Pass 2** of the pipeline—identifying the edges that connect entity nodes in the knowledge graph.
+
+Relationship extraction operates on resolved entities, not raw mentions, which enables:
+- Consistent entity references across relationships
+- Cross-document relationship aggregation
+- Confidence scoring based on entity resolution quality
+
+The predicate vocabulary is typically domain-specific (e.g., 'treats', 'causes' for medical; 'cites', 'amends' for legal).
 
 ```python
 from kgraph.pipeline import RelationshipExtractorInterface
@@ -238,7 +269,13 @@ class LLMRelationshipExtractor(RelationshipExtractorInterface):
 
 ### EmbeddingGeneratorInterface
 
-Generates semantic vectors for entity similarity:
+Generates semantic vector embeddings for entity similarity. Embeddings enable:
+
+- **Entity resolution**: Finding existing entities with similar meaning but different surface forms
+- **Duplicate detection**: Identifying canonical entities that should be merged
+- **Semantic search**: Querying the knowledge graph by meaning rather than exact text
+
+The `dimension` property is critical for storage backends that need to pre-allocate vector columns or configure similarity indices.
 
 ```python
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
@@ -285,6 +322,13 @@ class OpenAIEmbedding(EmbeddingGeneratorInterface):
 ```
 
 ## Assembling the Pipeline
+
+The `IngestionOrchestrator` connects all pipeline components and manages the two-pass ingestion workflow. It handles:
+
+- Document parsing and storage
+- Pass 1: Entity extraction, resolution, and storage
+- Pass 2: Relationship extraction and storage
+- Entity promotion (provisional → canonical based on usage thresholds)
 
 Connect components via `IngestionOrchestrator`:
 

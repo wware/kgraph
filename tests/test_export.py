@@ -1,4 +1,13 @@
-"""Tests for export functionality."""
+"""Tests for exporting entities and documents to JSON files.
+
+This module verifies:
+- Entity export: Writing canonical (and optionally provisional) entities to
+  a global entities.json file with all fields properly serialized
+- Document export: Writing per-document JSON files containing relationships
+  and provisional entities extracted from that document
+- Full export: Generating both the global entities.json and per-document files
+- Storage list_all methods: Pagination, status filtering, and document-based queries
+"""
 
 import json
 from datetime import datetime, timezone
@@ -47,10 +56,14 @@ def orchestrator(
 
 
 class TestExportEntities:
-    """Tests for entity export."""
+    """Tests for exporting entities to a JSON file.
+
+    By default, only canonical entities are exported to the global entities.json.
+    Provisional entities can be included via the include_provisional flag.
+    """
 
     async def test_export_canonical_entities(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
-        """Export should include only canonical entities by default."""
+        """Default export includes only canonical entities, excluding provisionals."""
         # Add canonical and provisional entities
         canonical = make_test_entity(
             "Canonical Entity",
@@ -82,7 +95,7 @@ class TestExportEntities:
         assert data["entities"][0]["status"] == "canonical"
 
     async def test_export_includes_provisional_when_requested(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
-        """Export should include provisional entities when requested."""
+        """Export with include_provisional=True includes both canonical and provisional entities."""
         canonical = make_test_entity(
             "Canonical Entity",
             status=EntityStatus.CANONICAL,
@@ -109,7 +122,7 @@ class TestExportEntities:
         assert entity_ids == {"canonical-1", "provisional-1"}
 
     async def test_export_entity_fields(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
-        """Export should serialize all entity fields correctly."""
+        """All entity fields are correctly serialized: ID, name, synonyms, embedding, canonical_ids, etc."""
         entity = TestEntity(
             entity_id="test-123",
             status=EntityStatus.CANONICAL,
@@ -148,7 +161,7 @@ class TestExportEntities:
         assert exported["entity_type"] == "test_entity"
 
     async def test_export_creates_parent_directories(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
-        """Export should create parent directories if they don't exist."""
+        """Export automatically creates missing parent directories for the output file."""
         entity = make_test_entity("Entity", status=EntityStatus.CANONICAL, entity_id="e1")
         await orchestrator.entity_storage.add(entity)
 
@@ -159,10 +172,14 @@ class TestExportEntities:
 
 
 class TestExportDocument:
-    """Tests for per-document export."""
+    """Tests for exporting per-document JSON files (paper_{doc_id}.json).
+
+    Each document export includes relationships sourced from that document
+    and provisional entities that originated from it.
+    """
 
     async def test_export_document_relationships(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
-        """Export should include relationships from the document."""
+        """Document export includes relationships whose source_documents include the document ID."""
         # Create and store a document
         doc = TestDocument(
             document_id="doc-1",
@@ -208,7 +225,7 @@ class TestExportDocument:
         assert data["relationships"][0]["object_id"] == "e2"
 
     async def test_export_document_provisional_entities(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
-        """Export should include provisional entities from the document."""
+        """Document export includes provisional entities whose source matches the document ID."""
         doc = TestDocument(
             document_id="doc-1",
             content="Test content",
@@ -255,7 +272,7 @@ class TestExportDocument:
         assert data["provisional_entities"][0]["entity_id"] == "prov-1"
 
     async def test_export_document_includes_title(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
-        """Export should include document title when available."""
+        """Document export includes the document title metadata when present."""
         doc = TestDocument(
             document_id="doc-1",
             title="My Document Title",
@@ -275,7 +292,7 @@ class TestExportDocument:
         assert data["document_title"] == "My Document Title"
 
     async def test_export_nonexistent_document(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
-        """Export should handle missing document gracefully."""
+        """Export for a nonexistent document ID creates a file with zero relationships/entities."""
         output_file = tmp_path / "paper_missing.json"
         stats = await orchestrator.export_document("nonexistent", output_file)
 
@@ -290,10 +307,15 @@ class TestExportDocument:
 
 
 class TestExportAll:
-    """Tests for full export."""
+    """Tests for full export: global entities.json plus per-document files.
+
+    The export_all method generates a complete export of the knowledge graph:
+    entities.json with all canonical entities, and paper_{doc_id}.json for each
+    ingested document.
+    """
 
     async def test_export_all_creates_files(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
-        """Export all should create entities.json and per-document files."""
+        """Full export creates entities.json and paper_{doc_id}.json for each document."""
         # Ingest some documents
         await orchestrator.ingest_document(
             b"Document with [Entity1] and [Entity2]",
@@ -325,7 +347,7 @@ class TestExportAll:
         assert entities_data["entity_count"] == 2
 
     async def test_export_all_returns_statistics(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
-        """Export all should return detailed statistics."""
+        """Full export returns statistics: output_dir, canonical_entities, documents_exported, per-document stats."""
         # Ingest a document
         result = await orchestrator.ingest_document(
             b"[Entity1] relates to [Entity2]",
@@ -349,10 +371,14 @@ class TestExportAll:
 
 
 class TestListAllMethods:
-    """Tests for new list_all storage methods."""
+    """Tests for storage list_all methods used by export functionality.
+
+    These methods support pagination (limit/offset), status filtering for entities,
+    and document-based queries for relationships.
+    """
 
     async def test_entity_list_all(self, orchestrator: IngestionOrchestrator) -> None:
-        """List all should return all entities."""
+        """list_all() returns all entities regardless of status."""
         e1 = make_test_entity("E1", status=EntityStatus.CANONICAL, entity_id="e1")
         e2 = make_test_entity("E2", status=EntityStatus.PROVISIONAL, entity_id="e2")
         await orchestrator.entity_storage.add(e1)
@@ -362,7 +388,7 @@ class TestListAllMethods:
         assert len(all_entities) == 2
 
     async def test_entity_list_all_with_status_filter(self, orchestrator: IngestionOrchestrator) -> None:
-        """List all should filter by status."""
+        """list_all(status='canonical'/'provisional') filters entities by status."""
         e1 = make_test_entity("E1", status=EntityStatus.CANONICAL, entity_id="e1")
         e2 = make_test_entity("E2", status=EntityStatus.PROVISIONAL, entity_id="e2")
         await orchestrator.entity_storage.add(e1)
@@ -377,7 +403,7 @@ class TestListAllMethods:
         assert provisional[0].entity_id == "e2"
 
     async def test_entity_list_all_pagination(self, orchestrator: IngestionOrchestrator) -> None:
-        """List all should support pagination."""
+        """list_all(limit, offset) supports pagination for large result sets."""
         for i in range(5):
             e = make_test_entity(f"E{i}", entity_id=f"e{i}")
             await orchestrator.entity_storage.add(e)
@@ -391,7 +417,7 @@ class TestListAllMethods:
         assert len(page3) == 1
 
     async def test_relationship_get_by_document(self, orchestrator: IngestionOrchestrator) -> None:
-        """Get by document should return relationships from that document."""
+        """get_by_document() returns relationships whose source_documents include the given document ID."""
         rel1 = TestRelationship(
             subject_id="e1",
             predicate="related_to",
@@ -424,7 +450,7 @@ class TestListAllMethods:
         assert len(doc2_rels) == 2  # rel2 and rel3
 
     async def test_relationship_list_all(self, orchestrator: IngestionOrchestrator) -> None:
-        """List all should return all relationships."""
+        """list_all() returns all relationships in storage."""
         rel1 = make_test_relationship("e1", "e2")
         rel2 = make_test_relationship("e2", "e3")
         await orchestrator.relationship_storage.add(rel1)

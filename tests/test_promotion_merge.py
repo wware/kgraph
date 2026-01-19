@@ -1,4 +1,11 @@
-"""Tests for entity promotion and merging."""
+"""Tests for entity promotion (provisional to canonical) and merging duplicate entities.
+
+This module verifies:
+- Promotion: Changing provisional entities to canonical status when they meet
+  usage count and confidence thresholds defined by the domain configuration
+- Merge: Combining duplicate canonical entities, consolidating their synonyms,
+  summing usage counts, and updating relationship references
+"""
 
 import pytest
 
@@ -49,10 +56,15 @@ def orchestrator(
 
 
 class TestEntityPromotion:
-    """Tests for promoting provisional entities to canonical status."""
+    """Tests for promoting provisional entities to canonical status.
+
+    Provisional entities become canonical when they meet domain-specific
+    thresholds for usage count and confidence. Promotion assigns a new
+    canonical ID and updates the storage reference.
+    """
 
     async def test_promote_updates_status(self, entity_storage: InMemoryEntityStorage) -> None:
-        """Promotion changes entity status to canonical."""
+        """Promotion changes status from PROVISIONAL to CANONICAL and assigns a new entity ID."""
         entity = make_test_entity("Test", EntityStatus.PROVISIONAL, entity_id="prov-1")
         await entity_storage.add(entity)
 
@@ -63,7 +75,7 @@ class TestEntityPromotion:
         assert promoted.entity_id == "canonical-1"
 
     async def test_promote_updates_storage_reference(self, entity_storage: InMemoryEntityStorage) -> None:
-        """Promotion updates storage to use new ID."""
+        """Promotion replaces the old provisional ID with the new canonical ID in storage."""
         entity = make_test_entity("Test", EntityStatus.PROVISIONAL, entity_id="prov-1")
         await entity_storage.add(entity)
 
@@ -78,12 +90,17 @@ class TestEntityPromotion:
         assert new is not None
 
     async def test_promote_nonexistent_returns_none(self, entity_storage: InMemoryEntityStorage) -> None:
-        """Promoting nonexistent entity returns None."""
+        """Attempting to promote a nonexistent entity ID returns None."""
         result = await entity_storage.promote("nonexistent", "canonical-1", canonical_ids={})
         assert result is None
 
     async def test_find_provisional_for_promotion(self, entity_storage: InMemoryEntityStorage) -> None:
-        """Can find entities eligible for promotion."""
+        """Find provisionals meeting min_usage and min_confidence thresholds for promotion.
+
+        Only provisional entities that exceed both the usage count and confidence
+        thresholds are returned as promotion candidates. Already-canonical entities
+        and those below either threshold are excluded.
+        """
         # Eligible: provisional, high usage, high confidence
         eligible = make_test_entity(
             "Eligible",
@@ -130,7 +147,7 @@ class TestEntityPromotion:
         orchestrator: IngestionOrchestrator,
         entity_storage: InMemoryEntityStorage,
     ) -> None:
-        """Orchestrator promotes eligible entities."""
+        """Orchestrator run_promotion() finds and promotes all eligible provisional entities."""
         # Create eligible entity (test domain config: min_usage=2, min_confidence=0.7)
         entity = make_test_entity(
             "Promotable",
@@ -148,10 +165,15 @@ class TestEntityPromotion:
 
 
 class TestEntityMerging:
-    """Tests for merging duplicate entities."""
+    """Tests for merging duplicate canonical entities into a single target entity.
+
+    Merging consolidates synonyms from source entities, sums usage counts,
+    removes source entities from storage, and updates all relationship
+    references from source IDs to the target ID.
+    """
 
     async def test_merge_combines_synonyms(self, entity_storage: InMemoryEntityStorage) -> None:
-        """Merging combines synonyms from source entities."""
+        """Merge adds the source entity's name and synonyms to the target's synonym list."""
         target = make_test_entity("Aspirin", entity_id="target")
         target = target.model_copy(update={"synonyms": ("ASA",)})
         await entity_storage.add(target)
@@ -171,7 +193,7 @@ class TestEntityMerging:
         assert "ASA" in merged.synonyms
 
     async def test_merge_combines_usage_counts(self, entity_storage: InMemoryEntityStorage) -> None:
-        """Merging sums usage counts."""
+        """Merge sums the usage counts of all source entities into the target."""
         target = make_test_entity("Target", entity_id="target", usage_count=5)
         await entity_storage.add(target)
 
@@ -189,7 +211,7 @@ class TestEntityMerging:
         assert merged.usage_count == 10  # 5 + 3 + 2
 
     async def test_merge_removes_source_entities(self, entity_storage: InMemoryEntityStorage) -> None:
-        """Merging removes source entities from storage."""
+        """Merge deletes source entities from storage after consolidation."""
         target = make_test_entity("Target", entity_id="target")
         await entity_storage.add(target)
 
@@ -202,7 +224,7 @@ class TestEntityMerging:
         assert await entity_storage.get("target") is not None
 
     async def test_merge_nonexistent_target_fails(self, entity_storage: InMemoryEntityStorage) -> None:
-        """Merging into nonexistent target returns False."""
+        """Merge fails (returns False) if the target entity ID does not exist."""
         source = make_test_entity("Source", entity_id="source")
         await entity_storage.add(source)
 
@@ -216,7 +238,11 @@ class TestEntityMerging:
         entity_storage: InMemoryEntityStorage,
         relationship_storage: InMemoryRelationshipStorage,
     ) -> None:
-        """Merging entities updates relationship references."""
+        """Merge rewrites all relationship subject_id/object_id references from source to target.
+
+        Relationships that previously referenced a source entity (as subject or object)
+        are updated to reference the target entity, maintaining graph connectivity.
+        """
         # Create entities
         target = make_test_entity("Target", entity_id="target")
         await entity_storage.add(target)

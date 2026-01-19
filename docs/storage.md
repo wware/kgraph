@@ -1,10 +1,26 @@
 # Storage Backends
 
-The framework defines storage interfaces for entities, relationships, and documents. Implement these to connect to your preferred database.
+The framework defines storage interfaces for entities, relationships, and documents. These interfaces decouple the knowledge graph core from specific persistence technologies, enabling you to:
+
+- Use **in-memory storage** for testing and development
+- Deploy with **relational databases** (PostgreSQL, MySQL) for ACID guarantees
+- Leverage **vector databases** (Pinecone, Weaviate, Qdrant) for embedding-based similarity search
+- Use **graph databases** (Neo4j, ArangoDB) for optimized relationship traversal
+
+All interfaces are async-first to support non-blocking I/O with modern database drivers.
 
 ## Storage Interfaces
 
+Each interface is designed to support the complete entity lifecycle and knowledge graph operations.
+
 ### EntityStorageInterface
+
+The primary persistence layer for knowledge graph nodes. Supports:
+- Basic CRUD operations (add, get, update, delete)
+- Batch retrieval for efficient bulk operations
+- Embedding-based similarity search for entity resolution
+- Name/synonym lookup for text-based matching
+- Entity promotion (provisional → canonical) and merge operations
 
 ```python
 from kgraph.storage import EntityStorageInterface
@@ -31,6 +47,12 @@ class EntityStorageInterface(ABC):
 
 ### RelationshipStorageInterface
 
+Persistence for knowledge graph edges (relationships between entities). Supports:
+- Graph traversal queries (outgoing edges by subject, incoming edges by object)
+- Triple lookup to check if specific relationships exist
+- Reference updates when entities are promoted or merged
+- Provenance queries to find relationships from specific documents
+
 ```python
 from kgraph.storage import RelationshipStorageInterface
 
@@ -56,6 +78,12 @@ class RelationshipStorageInterface(ABC):
 
 ### DocumentStorageInterface
 
+Persistence for source documents that have been ingested. Used for:
+- Provenance tracking (where did this knowledge come from?)
+- Deduplication (has this document already been processed?)
+- Re-processing (re-extract when pipeline improves)
+- Debugging (examine source when validating extractions)
+
 ```python
 from kgraph.storage import DocumentStorageInterface
 
@@ -70,7 +98,12 @@ class DocumentStorageInterface(ABC):
 
 ## In-Memory Implementation
 
-The framework includes in-memory storage for testing and development:
+The framework includes in-memory storage implementations for testing and development. These are suitable for:
+- Unit tests (fast, no external dependencies)
+- Prototyping and experimentation
+- Small datasets that fit in memory
+
+**Not recommended for production** due to lack of persistence, concurrency limitations, and memory constraints.
 
 ```python
 from kgraph.storage import (
@@ -86,7 +119,14 @@ document_storage = InMemoryDocumentStorage()
 
 ## Implementing a Database Backend
 
-Example PostgreSQL implementation sketch:
+To implement a custom storage backend:
+
+1. Subclass the appropriate interface (`EntityStorageInterface`, etc.)
+2. Implement all abstract methods with your database-specific logic
+3. Handle serialization/deserialization of entity and relationship models
+4. Configure indices for efficient lookup (especially for embeddings and names)
+
+The following example shows a PostgreSQL implementation sketch using asyncpg:
 
 ```python
 import asyncpg
@@ -156,10 +196,21 @@ class PostgresEntityStorage(EntityStorageInterface):
 
 ## Vector Search Considerations
 
-For `find_by_embedding`, consider:
+Embedding-based similarity search is critical for entity resolution and duplicate detection. The `find_by_embedding` method's performance depends heavily on your data scale and query patterns.
 
-- **pgvector**: PostgreSQL extension for vector similarity
-- **Pinecone/Weaviate/Qdrant**: Dedicated vector databases
-- **FAISS**: In-process vector index for smaller datasets
+### Recommended Technologies
 
-The interface returns `(entity, similarity_score)` tuples sorted by descending similarity, allowing callers to filter or rank results.
+- **pgvector**: PostgreSQL extension for vector similarity—good choice when you're already using Postgres and have moderate scale (<1M entities)
+- **Pinecone/Weaviate/Qdrant**: Dedicated vector databases—best for large scale, high throughput, or when you need advanced filtering
+- **FAISS**: In-process vector index—fast for smaller datasets (<100K entities) that fit in memory
+
+### Interface Contract
+
+The interface returns `(entity, similarity_score)` tuples sorted by descending similarity, allowing callers to filter or rank results. The similarity score should be normalized to [0, 1] range where 1.0 indicates identical vectors.
+
+### Performance Tips
+
+- Create appropriate indices (IVF, HNSW) for your vector columns
+- Consider approximate nearest neighbor (ANN) search for large collections
+- Tune the `threshold` parameter to balance precision vs. recall
+- Use batch queries when resolving multiple entity mentions
