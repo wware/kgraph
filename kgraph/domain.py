@@ -43,10 +43,27 @@ Example usage:
 """
 
 from abc import ABC, abstractmethod
+from pydantic import BaseModel, Field
 
 from kgraph.document import BaseDocument
 from kgraph.entity import BaseEntity, PromotionConfig
 from kgraph.relationship import BaseRelationship
+
+
+class Provenance(BaseModel, frozen=True):
+    document_id: str
+    source_uri: str | None = None
+    section: str | None = None
+    start_offset: int | None = None
+    end_offset: int | None = None
+
+
+class Evidence(BaseModel, frozen=True):
+    kind: str
+    source_documents: tuple[str, ...] = Field(min_length=1)
+    primary: Provenance | None = None
+    mentions: tuple[Provenance, ...] = ()
+    notes: dict[str, object] = Field(default_factory=dict)
 
 
 class DomainSchema(ABC):
@@ -253,3 +270,27 @@ class DomainSchema(ABC):
             ```
         """
         return list(self.relationship_types.keys())
+
+    @property
+    def evidence_model(self) -> type[Evidence]:
+        """Return the domain's version of Evidence
+
+        The domain can add stuff to the evidence:
+            - A predicate might be supported (or counter-argued) by lab data or test results
+            - Or by whether some paper from the past was retracted or not
+
+        Returns:
+            A type that is, or is a subclass of, the Evidence type
+        """
+        return Evidence
+
+    @property
+    def provenance_model(self) -> type[Provenance]:
+        """Return the domain's version of Provenance
+
+        The domain can add stuff to the provenance, much like Evidence
+
+        Returns:
+            A type that is, or is a subclass of, the Provenance type
+        """
+        return Provenance
