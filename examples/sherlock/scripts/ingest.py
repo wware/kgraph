@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+from pathlib import Path
 
 from kgraph.ingest import IngestionOrchestrator
 from kgraph.storage.memory import (
@@ -9,6 +10,7 @@ from kgraph.storage.memory import (
     InMemoryEntityStorage,
     InMemoryRelationshipStorage,
 )
+from kgraph.export import write_bundle
 
 from ..sources.gutenberg import download_adventures
 from ..pipeline import (
@@ -265,6 +267,15 @@ async def main() -> None:
     """)
 
     # If your orchestrator has export support, plug it in here.
+    bundle_output_path = Path("./sherlock_bundle")
+    await write_bundle(
+        entity_storage=entity_storage,
+        relationship_storage=relationship_storage,
+        bundle_path=bundle_output_path,
+        domain="sherlock",
+        label="sherlock-holmes-stories",
+        description="Knowledge graph bundle of Sherlock Holmes stories",
+    )
 
 
 if __name__ == "__main__":
