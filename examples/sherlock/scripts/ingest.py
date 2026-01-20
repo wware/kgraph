@@ -195,21 +195,20 @@ If you want, I can sketch a *final form* `build_orchestrator()` signature
 that’s maximally helpful but still minimal.
 """
 
+
 def build_orchestrator() -> IngestionOrchestrator:
-    entity_storage = InMemoryEntityStorage()
-    relationship_storage = InMemoryRelationshipStorage()
-    document_storage = InMemoryDocumentStorage()
+    domain = SherlockDomainSchema()
 
     return IngestionOrchestrator(
-        domain=SherlockDomainSchema(),
+        domain=domain,
         parser=SherlockDocumentParser(),
         entity_extractor=SherlockEntityExtractor(),
-        entity_resolver=SherlockEntityResolver(),
+        entity_resolver=SherlockEntityResolver(domain=domain),
         relationship_extractor=SherlockRelationshipExtractor(),
         embedding_generator=SimpleEmbeddingGenerator(),
-        entity_storage=entity_storage,
-        relationship_storage=relationship_storage,
-        document_storage=document_storage,
+        entity_storage=InMemoryEntityStorage(),
+        relationship_storage=InMemoryRelationshipStorage(),
+        document_storage=InMemoryDocumentStorage(),
     )
 
 
@@ -253,8 +252,7 @@ async def main() -> None:
     ent_count = await entity_storage.count()
     rel_count = await relationship_storage.count()
 
-    print(
-        f"""
+    print(f"""
     ╔══════════════════════════════════════╗
     ║       Knowledge Graph Summary        ║
     ╠══════════════════════════════════════╣
@@ -262,8 +260,7 @@ async def main() -> None:
     ║  Entities:      {ent_count:>6}       ║
     ║  Relationships: {rel_count:>6}       ║
     ╚══════════════════════════════════════╝
-    """
-    )
+    """)
 
     # If your orchestrator has export support, plug it in here.
 

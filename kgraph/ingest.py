@@ -211,7 +211,7 @@ class IngestionOrchestrator:
 
         for mention in mentions:
             try:
-                entity, confidence = await self.entity_resolver.resolve(mention, self.entity_storage)
+                entity, _ = await self.entity_resolver.resolve(mention, self.entity_storage)
 
                 # Validate entity against domain schema
                 if not self.domain.validate_entity(entity):

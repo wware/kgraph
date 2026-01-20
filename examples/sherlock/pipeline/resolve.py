@@ -1,112 +1,71 @@
-# examples/sherlock/extractors.py
-from __future__ import annotations
-
-import uuid
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime, timezone
-from typing import Sequence
+import uuid
 
-from kgraph.entity import BaseEntity, EntityMention, EntityStatus
-from kgraph.pipeline.interfaces import (
-    EntityResolverInterface,
-    EntityStorageInterface,
-)
-
-from ..data import ADVENTURES_STORIES, KNOWN_CHARACTERS, KNOWN_LOCATIONS
-from ..domain import (
-    SherlockCharacter,
-    SherlockLocation,
-    SherlockStory,
-)
+from kgraph.pipeline.interfaces import EntityResolverInterface
+from kgraph.entity import BaseEntity, EntityStatus, EntityMention
+from kgraph.domain import DomainSchema
+from kgraph.storage.interfaces import EntityStorageInterface
 
 
-# ============================================================================
-# Entity resolver
-# ============================================================================
+class SherlockEntityResolver(BaseModel, EntityResolverInterface):
+    """
+    Resolve Sherlock entity mentions to canonical or provisional entities.
+    """
 
+    model_config = ConfigDict(frozen=True, arbitrary_types_allowed=True)
 
-class SherlockEntityResolver(EntityResolverInterface):
-    """Resolve mentions to canonical entities when a hint is present; else provisional."""
+    domain: DomainSchema
 
     async def resolve(
         self,
         mention: EntityMention,
         existing_storage: EntityStorageInterface,
     ) -> tuple[BaseEntity, float]:
-        canonical_id = (mention.metadata or {}).get("canonical_id_hint") if hasattr(mention, "metadata") else None
 
+        entity_type = mention.entity_type
+        entity_cls = self.domain.entity_types.get(entity_type)
+
+        if entity_cls is None:
+            raise ValueError(f"Unknown entity_type {entity_type!r}")
+
+        # --- Canonical hint path ---
+        canonical_id = mention.metadata.get("canonical_id_hint") if mention.metadata else None
         if canonical_id:
             existing = await existing_storage.get(canonical_id)
             if existing:
-                return existing, float(getattr(mention, "confidence", 1.0))
+                return existing, mention.confidence
 
-            # Create the right concrete entity type
-            if mention.entity_type == "character":
-                data = KNOWN_CHARACTERS.get(canonical_id, {})
-                ent = SherlockCharacter(
-                    entity_id=canonical_id,
-                    status=EntityStatus.CANONICAL,
-                    name=data.get("name", mention.text),
-                    confidence=float(getattr(mention, "confidence", 1.0)),
-                    usage_count=1,
-                    created_at=datetime.now(timezone.utc),
-                    source="sherlock:curated",
-                    metadata={},
-                    role=data.get("role"),
-                )
-                return ent, ent.confidence
+            entity = entity_cls(
+                entity_id=canonical_id,
+                name=mention.text,
+                status=EntityStatus.CANONICAL,
+                confidence=mention.confidence,
+                usage_count=1,
+                source="sherlock:curated",
+                created_at=datetime.now(timezone.utc),
+                metadata={},
+            )
+            return entity, mention.confidence
 
-            if mention.entity_type == "location":
-                data = KNOWN_LOCATIONS.get(canonical_id, {})
-                ent = SherlockLocation(
-                    entity_id=canonical_id,
-                    status=EntityStatus.CANONICAL,
-                    name=data.get("name", mention.text),
-                    confidence=float(getattr(mention, "confidence", 1.0)),
-                    usage_count=1,
-                    created_at=datetime.now(timezone.utc),
-                    source="sherlock:curated",
-                    metadata={},
-                    location_type=data.get("location_type"),
-                )
-                return ent, ent.confidence
-
-            if mention.entity_type == "story":
-                # Look up story data from ADVENTURES_STORIES if available
-                meta = next((s for s in ADVENTURES_STORIES if s["canonical_id"] == canonical_id), None)
-                ent = SherlockStory(
-                    entity_id=canonical_id,
-                    status=EntityStatus.CANONICAL,
-                    name=(meta["title"] if meta else mention.text),
-                    confidence=float(getattr(mention, "confidence", 1.0)),
-                    usage_count=1,
-                    created_at=datetime.now(timezone.utc),
-                    source="sherlock:curated",
-                    metadata={},
-                    collection=(meta.get("collection") if meta else None),
-                    publication_year=(meta.get("year") if meta else None),
-                )
-                return ent, ent.confidence
-
-        # Provisional fallback
-        prov_id = f"prov:{uuid.uuid4().hex}"
-        ent = BaseEntity(
-            entity_id=prov_id,
-            status=EntityStatus.PROVISIONAL,
+        # --- Provisional path ---
+        entity = entity_cls(
+            entity_id=f"prov:{uuid.uuid4().hex}",
             name=mention.text,
-            confidence=float(getattr(mention, "confidence", 0.5)) * 0.5,
+            status=EntityStatus.PROVISIONAL,
+            confidence=mention.confidence * 0.5,
             usage_count=1,
+            source=mention.metadata.get("document_id", "unknown"),
             created_at=datetime.now(timezone.utc),
-            source="sherlock:extracted",
             metadata={},
         )
-        return ent, ent.confidence
+
+        return entity, entity.confidence
 
     async def resolve_batch(
         self,
-        mentions: Sequence[EntityMention],
+        mentions: list[EntityMention],
         existing_storage: EntityStorageInterface,
     ) -> list[tuple[BaseEntity, float]]:
-        out: list[tuple[BaseEntity, float]] = []
-        for m in mentions:
-            out.append(await self.resolve(m, existing_storage))
-        return out
+        # Simple default: sequential resolution
+        return [await self.resolve(m, existing_storage) for m in mentions]

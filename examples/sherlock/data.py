@@ -1,6 +1,3 @@
-# examples/sherlock/characters.py
-from __future__ import annotations
-
 """
 Curated list of Sherlock Holmes characters, locations, and story metadata.
 
@@ -14,6 +11,8 @@ Canonical ID scheme:
 - Locations:  holmes:loc:<Name>
 - Stories:    holmes:story:<Name>
 """
+
+from __future__ import annotations
 
 import re
 import unicodedata

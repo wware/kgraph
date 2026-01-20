@@ -8,7 +8,6 @@ from kgraph.domain import DomainSchema
 from kgraph.entity import BaseEntity, PromotionConfig
 from kgraph.relationship import BaseRelationship
 
-
 # -----------------------
 # Entities
 # -----------------------
@@ -144,5 +143,5 @@ class SherlockDomainSchema(DomainSchema):
     def validate_entity(self, entity: BaseEntity) -> bool:
         return entity.get_entity_type() in self.entity_types
 
-    def validate_relationship(self, rel: BaseRelationship) -> bool:
-        return rel.predicate in self.relationship_types
+    def validate_relationship(self, relationship: BaseRelationship) -> bool:
+        return relationship.predicate in self.relationship_types

@@ -6,7 +6,6 @@ from typing import Sequence
 
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 
-
 # ============================================================================
 # Embedding generator (toy)
 # ============================================================================

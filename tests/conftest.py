@@ -36,7 +36,6 @@ from kgraph.storage.memory import (
     InMemoryRelationshipStorage,
 )
 
-
 # --- Minimal Test Domain Implementations ---
 
 

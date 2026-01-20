@@ -9,7 +9,6 @@ from kgraph.pipeline.interfaces import EntityExtractorInterface
 
 from ..data import KNOWN_CHARACTERS, KNOWN_LOCATIONS
 
-
 # ============================================================================
 # Entity extractor (mentions)
 # ============================================================================

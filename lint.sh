@@ -37,7 +37,7 @@ echo ""
 echo "=========================================="
 echo "Running pylint..."
 echo "=========================================="
-uv run pylint $(find . -name "*.py" | grep -v venv) || true
+uv run pylint $(find . -name "*.py" | grep -v venv)
 
 echo ""
 echo "=========================================="

@@ -9,7 +9,6 @@ from kgraph.pipeline.interfaces import DocumentParserInterface
 from ..data import find_story_by_title
 from ..domain import SherlockDocument
 
-
 # ============================================================================
 # Document parser
 # ============================================================================
