@@ -11,7 +11,7 @@ from kgraph.storage.memory import (
 )
 
 from ..sources.gutenberg import download_adventures
-from ..pipeline._legacy_extractors import (
+from ..pipeline import (
     SherlockDocumentParser,
     SherlockEntityExtractor,
     SherlockEntityResolver,

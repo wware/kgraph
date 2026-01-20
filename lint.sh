@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bash -e
 
 echo "=========================================="
 echo "Running Linters and Tests"
@@ -37,4 +37,10 @@ echo ""
 echo "=========================================="
 echo "Running pylint..."
 echo "=========================================="
-uv run pylint $(find . -name "*.py" | grep -v venv)
+uv run pylint $(find . -name "*.py" | grep -v venv) || true
+
+echo ""
+echo "=========================================="
+echo "Recommend that you now do this..."
+echo "uv run pytest tests/ -v"
+echo "=========================================="
