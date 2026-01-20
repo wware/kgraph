@@ -3,11 +3,11 @@ from __future__ import annotations
 from typing import Any, Mapping
 import uuid
 
-from pydantic import BaseModel, Field, model_validator, ConfigDict
+from pydantic import BaseModel, model_validator, ConfigDict
 
 from kgraph.clock import IngestionClock
 from kgraph.document import BaseDocument
-from kgraph.domain import DomainSchema, Evidence, Provenance
+from kgraph.domain import DomainSchema, Evidence
 from kgraph.entity import BaseEntity, EntityStatus, EntityMention
 from kgraph.relationship import BaseRelationship
 
@@ -208,10 +208,7 @@ class RelationshipBuilder(BaseModel):
         )
 
         if not self.domain.validate_relationship(rel):
-            raise ValueError(
-                f"Domain {self.domain.name!r} rejected relationship {predicate!r} "
-                f"({subject_id!r} -> {object_id!r})"
-            )
+            raise ValueError(f"Domain {self.domain.name!r} rejected relationship {predicate!r} " f"({subject_id!r} -> {object_id!r})")
         return rel
 
     def _default_evidence(self, *, kind: str) -> Evidence:

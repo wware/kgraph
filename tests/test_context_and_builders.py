@@ -5,13 +5,13 @@ from kgraph.clock import IngestionClock
 from kgraph.builders import EntityBuilder, RelationshipBuilder
 from kgraph.context import IngestionContext
 from kgraph.entity import EntityMention, EntityStatus
-from kgraph.domain import Provenance, Evidence
 
 
 def make_doc(doc_id: str = "doc-1", content: str = "hello world"):
     # Use the concrete class from conftest via the domain registry
     # (avoids importing TestDocument directly)
     from tests.conftest import TestDomainSchema  # ok in tests
+
     d = TestDomainSchema().document_types["test_document"]
     return d(
         document_id=doc_id,
@@ -40,6 +40,7 @@ def make_ctx(test_domain, *, doc_id="doc-1", content="hello world"):
 # IngestionClock tests
 # -----------------------
 
+
 def test_ingestion_clock_requires_timezone():
     with pytest.raises(ValueError, match="timezone-aware"):
         IngestionClock(now=datetime(2026, 1, 1, 12, 0, 0))  # naive
@@ -53,6 +54,7 @@ def test_ingestion_clock_accepts_timezone_aware():
 # -----------------------
 # IngestionContext tests
 # -----------------------
+
 
 def test_context_accepts_consistent_builders(test_domain):
     ctx = make_ctx(test_domain)
@@ -120,6 +122,7 @@ def test_context_rejects_mismatched_document(test_domain):
 # provenance / evidence helpers
 # -----------------------
 
+
 def test_context_provenance_none_offsets_ok(test_domain):
     ctx = make_ctx(test_domain, content="abcdef")
     p = ctx.provenance()
@@ -156,6 +159,7 @@ def test_context_evidence_defaults_to_current_document(test_domain):
 # -----------------------
 # EntityBuilder tests
 # -----------------------
+
 
 def test_entity_builder_canonical_sets_fields(test_domain):
     ctx = make_ctx(test_domain)
@@ -208,6 +212,7 @@ def test_entity_builder_domain_validation_called(test_domain, monkeypatch):
 # -----------------------
 # RelationshipBuilder tests
 # -----------------------
+
 
 def test_relationship_builder_link_sets_fields(test_domain):
     ctx = make_ctx(test_domain)

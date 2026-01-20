@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
-from pydantic import BaseModel, model_validator, field_validator, ConfigDict
+from pydantic import BaseModel, model_validator, ConfigDict
 
 from kgraph.clock import IngestionClock
 from kgraph.document import BaseDocument
@@ -19,22 +18,21 @@ class IngestionContext(BaseModel):
     entities: EntityBuilder
     relationships: RelationshipBuilder
 
-    @model_validator(mode='after')
-    def domain_is_consistent(self) -> 'IngestionContext':
+    @model_validator(mode="after")
+    def domain_is_consistent(self) -> "IngestionContext":
         if self.domain is not self.entities.domain:
-            raise ValueError('Entities domain do not match this context')
+            raise ValueError("Entities domain do not match this context")
         if self.domain is not self.relationships.domain:
-            raise ValueError('Relationships domain do not match this context')
+            raise ValueError("Relationships domain do not match this context")
         if self.clock is not self.entities.clock:
-            raise ValueError('Entities clock do not match this context')
+            raise ValueError("Entities clock do not match this context")
         if self.clock is not self.relationships.clock:
-            raise ValueError('Relationships clock do not match this context')
+            raise ValueError("Relationships clock do not match this context")
         if self.document is not self.entities.document:
-            raise ValueError('Entities document do not match this context')
+            raise ValueError("Entities document do not match this context")
         if self.document is not self.relationships.document:
-            raise ValueError('Relationships document do not match this context')
+            raise ValueError("Relationships document do not match this context")
         return self
-
 
     def provenance(
         self,

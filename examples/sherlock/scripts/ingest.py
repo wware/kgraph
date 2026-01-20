@@ -21,6 +21,7 @@ from kgraph.storage.memory import (
 # )
 
 from ..sources.gutenberg import download_adventures
+
 # from ..data import KNOWN_CHARACTERS, KNOWN_LOCATIONS, ADVENTURES_STORIES
 # from ..pipeline.parser import SherlockDocumentParser
 # from ..pipeline.mentions import SherlockEntityExtractor
@@ -95,7 +96,8 @@ async def main() -> None:
     ent_count = await entity_storage.count()
     rel_count = await relationship_storage.count()
 
-    print(f"""
+    print(
+        f"""
     ╔══════════════════════════════════════╗
     ║       Knowledge Graph Summary        ║
     ╠══════════════════════════════════════╣
@@ -103,7 +105,8 @@ async def main() -> None:
     ║  Entities:      {ent_count:>6}       ║
     ║  Relationships: {rel_count:>6}       ║
     ╚══════════════════════════════════════╝
-    """)
+    """
+    )
 
     # If your orchestrator has export support, plug it in here.
 

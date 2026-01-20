@@ -1,7 +1,6 @@
 # examples/sherlock/extractors.py
 from __future__ import annotations
 
-import os
 import hashlib
 import itertools
 import re
@@ -10,6 +9,7 @@ from datetime import datetime, timezone
 from typing import Sequence
 
 from kgraph.document import BaseDocument
+from kgraph.relationship import BaseRelationship
 from kgraph.entity import BaseEntity, EntityMention, EntityStatus
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 from kgraph.pipeline.interfaces import (
@@ -28,11 +28,11 @@ from ..domain import (
     SherlockStory,
     AppearsInRelationship,
     CoOccursWithRelationship,
-    SherlockDomainSchema,
 )
 
 
 _ROMAN_HEADER = re.compile(r"^\s*(?P<roman>I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII)\.\s+(?P<title>.+?)\s*$", re.I)
+
 
 def _clean_story_header(s: str) -> str:
     m = _ROMAN_HEADER.match(s.strip())
@@ -45,6 +45,7 @@ def _clean_story_header(s: str) -> str:
 # ============================================================================
 # Document parser
 # ============================================================================
+
 
 class SherlockDocumentParser(DocumentParserInterface):
     """Parse plain text Sherlock Holmes stories into SherlockDocument objects."""
@@ -107,6 +108,7 @@ class SherlockDocumentParser(DocumentParserInterface):
 # Entity extractor (mentions)
 # ============================================================================
 
+
 class SherlockEntityExtractor(EntityExtractorInterface):
     """Extract character, location, and story mentions using curated alias lists."""
 
@@ -159,18 +161,20 @@ class SherlockEntityExtractor(EntityExtractorInterface):
             #         metadata={"canonical_id_hint": story_id},
             #     )
             # )
-            mentions.append(EntityMention(
-                text=getattr(document, "title", "") or "",
-                entity_type="story",
-                start_offset=0,
-                end_offset=0,
-                confidence=1.0,
-                context=None,
-                metadata={
-                    "canonical_id_hint": getattr(document, "story_id", None),
-                    "document_id": document.document_id,
-                },
-            ))
+            mentions.append(
+                EntityMention(
+                    text=getattr(document, "title", "") or "",
+                    entity_type="story",
+                    start_offset=0,
+                    end_offset=0,
+                    confidence=1.0,
+                    context=None,
+                    metadata={
+                        "canonical_id_hint": getattr(document, "story_id", None),
+                        "document_id": document.document_id,
+                    },
+                )
+            )
 
         # Emit character/location mentions from content
         for pattern, canonical_id, entity_type, confidence in self._patterns:
@@ -194,6 +198,7 @@ class SherlockEntityExtractor(EntityExtractorInterface):
 # ============================================================================
 # Entity resolver
 # ============================================================================
+
 
 class SherlockEntityResolver(EntityResolverInterface):
     """Resolve mentions to canonical entities when a hint is present; else provisional."""
@@ -287,6 +292,7 @@ class SherlockEntityResolver(EntityResolverInterface):
 # Relationship extractor
 # ============================================================================
 
+
 class SherlockRelationshipExtractor(RelationshipExtractorInterface):
     """Extract relationships from resolved entities + document text.
 
@@ -349,15 +355,11 @@ class SherlockRelationshipExtractor(RelationshipExtractorInterface):
         counts: dict[tuple[str, str], int] = {}
 
         for j in range(len(paragraphs) - (N - 1)):
-            para = "\n".join(paragraphs[j:j+N])
+            para = "\n".join(paragraphs[j : j + N])
             para_lc = para.lower()
             if len(para_lc) < 40:
                 continue
-            present = sorted({
-                c.entity_id
-                for c in characters
-                if _present(para_lc, _names_for(c))
-            })
+            present = sorted({c.entity_id for c in characters if _present(para_lc, _names_for(c))})
             for a, b in itertools.combinations(present, 2):
                 if a == b:
                     continue
@@ -385,6 +387,7 @@ class SherlockRelationshipExtractor(RelationshipExtractorInterface):
 # ============================================================================
 # Embedding generator (toy)
 # ============================================================================
+
 
 class SimpleEmbeddingGenerator(EmbeddingGeneratorInterface):
     """Deterministic hash-based embedding generator (demo only)."""

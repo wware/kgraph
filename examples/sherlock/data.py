@@ -17,8 +17,6 @@ Canonical ID scheme:
 
 import re
 import unicodedata
-from dataclasses import dataclass
-from typing import Iterable
 
 # -----------------------------
 # Curated entities
@@ -206,11 +204,10 @@ def _norm_title(s: str) -> str:
     s = re.sub(" +", "", s).strip()
     return s
 
+
 # build once
-_STORY_BY_NORM_TITLE = {
-    _norm_title(story["title"]): story
-    for story in ADVENTURES_STORIES
-}
+_STORY_BY_NORM_TITLE = {_norm_title(story["title"]): story for story in ADVENTURES_STORIES}
+
 
 def find_story_by_title(title: str) -> dict | None:
     return _STORY_BY_NORM_TITLE.get(_norm_title(title))

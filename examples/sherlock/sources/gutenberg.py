@@ -70,9 +70,8 @@ def _strip_gutenberg_boilerplate(text: str) -> str:
     return text.strip()
 
 
-_ROMAN_HEADER = re.compile(
-    r"(?im)^(?P<num>I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII)\.\s+(?P<title>[A-Z][A-Z \-’']+)\s*$"
-)
+_ROMAN_HEADER = re.compile(r"(?im)^(?P<num>I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII)\.\s+(?P<title>[A-Z][A-Z \-’']+)\s*$")
+
 
 def _split_into_stories(text: str) -> list[tuple[str, str]]:
     start_tag = "*** START OF THE PROJECT GUTENBERG EBOOK"

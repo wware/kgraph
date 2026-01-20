@@ -13,8 +13,10 @@ from kgraph.relationship import BaseRelationship
 # Entities
 # -----------------------
 
+
 class SherlockCharacter(BaseEntity):
     """A character in the Sherlock Holmes stories."""
+
     role: Optional[str] = None
 
     def get_entity_type(self) -> str:
@@ -23,6 +25,7 @@ class SherlockCharacter(BaseEntity):
 
 class SherlockLocation(BaseEntity):
     """A location mentioned in the stories."""
+
     location_type: Optional[str] = None
 
     def get_entity_type(self) -> str:
@@ -31,6 +34,7 @@ class SherlockLocation(BaseEntity):
 
 class SherlockStory(BaseEntity):
     """A story or novel in the Holmes canon."""
+
     collection: Optional[str] = None
     publication_year: Optional[int] = None
 
@@ -42,32 +46,38 @@ class SherlockStory(BaseEntity):
 # Relationships
 # -----------------------
 
+
 class AppearsInRelationship(BaseRelationship):
     """Character appears in a story."""
+
     def get_edge_type(self) -> str:
         return "appears_in"
 
 
 class CoOccursWithRelationship(BaseRelationship):
     """Two characters co-occur within the same textual context."""
+
     def get_edge_type(self) -> str:
         return "co_occurs_with"
 
 
 class LivesAtRelationship(BaseRelationship):
     """Character lives at a location."""
+
     def get_edge_type(self) -> str:
         return "lives_at"
 
 
 class AntagonistOfRelationship(BaseRelationship):
     """Character is an antagonist of another character."""
+
     def get_edge_type(self) -> str:
         return "antagonist_of"
 
 
 class AllyOfRelationship(BaseRelationship):
     """Character is an ally of another character."""
+
     def get_edge_type(self) -> str:
         return "ally_of"
 
@@ -76,8 +86,10 @@ class AllyOfRelationship(BaseRelationship):
 # Documents
 # -----------------------
 
+
 class SherlockDocument(BaseDocument):
     """A Sherlock Holmes story document."""
+
     story_id: Optional[str] = None
     collection: Optional[str] = None
 
@@ -91,6 +103,7 @@ class SherlockDocument(BaseDocument):
 # -----------------------
 # Domain
 # -----------------------
+
 
 class SherlockDomainSchema(DomainSchema):
     @property

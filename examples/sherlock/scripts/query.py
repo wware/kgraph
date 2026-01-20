@@ -1,7 +1,6 @@
 # examples/sherlock/query.py
 from __future__ import annotations
 
-import os
 import asyncio
 
 from kgraph.ingest import IngestionOrchestrator
@@ -19,7 +18,7 @@ from ..pipeline._legacy_extractors import (
     SherlockRelationshipExtractor,
     SimpleEmbeddingGenerator,
 )
-from ..domain import SherlockDomainSchema, CoOccursWithRelationship
+from ..domain import SherlockDomainSchema
 
 
 async def build_or_load() -> tuple[InMemoryEntityStorage, InMemoryRelationshipStorage]:
@@ -68,7 +67,7 @@ async def main() -> None:
             print(f"  - {e.name}")
 
     # Query 2: show all canonical entities
-    print(f"\n🤝 All canonical entities")
+    print("\n🤝 All canonical entities")
     for e in await entity_storage.list_all(status="canonical"):
         print(f"  - {e.name} -> {e.entity_id}")
 
@@ -79,7 +78,7 @@ async def main() -> None:
     print(f"\n🤝 Co-occurs with {who}")
     incoming = await relationship_storage.get_by_object(who, "co_occurs_with")
     outgoing = await relationship_storage.get_by_subject(who, "co_occurs_with")
-    rels = { (r.subject_id, r.object_id): r for r in (incoming + outgoing) }.values()
+    rels = {(r.subject_id, r.object_id): r for r in (incoming + outgoing)}.values()
     for r in rels:
         other_id = r.subject_id if r.object_id == who else r.object_id
         other = await entity_storage.get(other_id)
