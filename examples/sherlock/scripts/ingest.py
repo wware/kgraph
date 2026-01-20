@@ -226,11 +226,13 @@ async def main() -> None:
     relationship_storage = InMemoryRelationshipStorage()
     document_storage = InMemoryDocumentStorage()
 
+    domain_schema = SherlockDomainSchema()
+
     orchestrator = IngestionOrchestrator(
-        domain=SherlockDomainSchema(),
+        domain=domain_schema,
         parser=SherlockDocumentParser(),
         entity_extractor=SherlockEntityExtractor(),
-        entity_resolver=SherlockEntityResolver(),
+        entity_resolver=SherlockEntityResolver(domain=domain_schema),
         relationship_extractor=SherlockRelationshipExtractor(),
         embedding_generator=SimpleEmbeddingGenerator(),
         entity_storage=entity_storage,

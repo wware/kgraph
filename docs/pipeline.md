@@ -9,6 +9,8 @@ This separation allows the system to build a consistent entity vocabulary before
 
 The pipeline consists of pluggable components for parsing, extraction, resolution, and embedding generation. Each component is defined as an abstract interface, allowing domain-specific implementations.
 
+For a complete, real-world example, see the `examples/sherlock` directory.
+
 ## Component Interfaces
 
 Each interface is designed to be stateless and async-first, enabling parallel processing and easy testing with mock implementations.
