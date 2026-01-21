@@ -156,6 +156,9 @@ class IngestionOrchestrator:
         entity_storage: Persistence backend for entities.
         relationship_storage: Persistence backend for relationships.
         document_storage: Persistence backend for source documents.
+        entity_enrichers: Optional list of enrichers to augment entities with
+            external data (e.g., DBPedia, Wikidata). Enrichment runs after
+            entity resolution but before storage. Defaults to None (no enrichment).
     """
 
     domain: DomainSchema
@@ -167,6 +170,7 @@ class IngestionOrchestrator:
     entity_storage: EntityStorageInterface
     relationship_storage: RelationshipStorageInterface
     document_storage: DocumentStorageInterface
+    entity_enrichers: list | None = None
 
     async def ingest_document(
         self,
@@ -235,8 +239,17 @@ class IngestionOrchestrator:
                         except Exception as e:
                             errors.append(f"Embedding generation failed: {e}")
 
-                    await self.entity_storage.add(entity)
-                    resolved_entities.append(entity)
+                    # Enrich entity with external data sources
+                    enriched_entity = entity
+                    if self.entity_enrichers:
+                        for enricher in self.entity_enrichers:
+                            try:
+                                enriched_entity = await enricher.enrich_entity(enriched_entity)
+                            except Exception as e:
+                                errors.append(f"Entity enrichment failed for '{entity.name}': {e}")
+
+                    await self.entity_storage.add(enriched_entity)
+                    resolved_entities.append(enriched_entity)
                     entities_new += 1
 
             except Exception as e:
