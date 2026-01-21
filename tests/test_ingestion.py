@@ -26,14 +26,14 @@ from tests.conftest import (
     MockEntityExtractor,
     MockEntityResolver,
     MockRelationshipExtractor,
-    TestDomainSchema,
+    SimpleDomainSchema,
     make_test_entity,
 )
 
 
 @pytest.fixture
 def orchestrator(
-    test_domain: TestDomainSchema,
+    test_domain: SimpleDomainSchema,
     entity_storage: InMemoryEntityStorage,
     relationship_storage: InMemoryRelationshipStorage,
     document_storage: InMemoryDocumentStorage,
@@ -222,7 +222,7 @@ class TestDomainValidation:
     async def test_validates_entities(
         self,
         orchestrator: IngestionOrchestrator,
-        test_domain: TestDomainSchema,
+        test_domain: SimpleDomainSchema,
     ) -> None:
         """Entities with valid types (per domain schema) are accepted without errors."""
         # Our test domain accepts "test_entity" type, so this should work

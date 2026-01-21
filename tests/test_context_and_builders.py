@@ -9,10 +9,10 @@ from kgraph.entity import EntityMention, EntityStatus
 
 def make_doc(doc_id: str = "doc-1", content: str = "hello world"):
     # Use the concrete class from conftest via the domain registry
-    # (avoids importing TestDocument directly)
-    from tests.conftest import TestDomainSchema  # ok in tests
+    # (avoids importing SimpleDocument directly)
+    from tests.conftest import SimpleDomainSchema  # ok in tests
 
-    d = TestDomainSchema().document_types["test_document"]
+    d = SimpleDomainSchema().document_types["test_document"]
     return d(
         document_id=doc_id,
         content=content,

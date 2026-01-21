@@ -28,10 +28,10 @@ from tests.conftest import (
     MockEntityExtractor,
     MockEntityResolver,
     MockRelationshipExtractor,
-    TestDocument,
-    TestDomainSchema,
-    TestEntity,
-    TestRelationship,
+    SimpleDocument,
+    SimpleDomainSchema,
+    SimpleEntity,
+    SimpleRelationship,
     make_test_entity,
     make_test_relationship,
 )
@@ -43,7 +43,7 @@ def orchestrator(
 ) -> IngestionOrchestrator:
     """Create an orchestrator for export tests."""
     return IngestionOrchestrator(
-        domain=TestDomainSchema(),
+        domain=SimpleDomainSchema(),
         parser=MockDocumentParser(),
         entity_extractor=MockEntityExtractor(),
         entity_resolver=MockEntityResolver(),
@@ -123,7 +123,7 @@ class TestExportEntities:
 
     async def test_export_entity_fields(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
         """All entity fields are correctly serialized: ID, name, synonyms, embedding, canonical_ids, etc."""
-        entity = TestEntity(
+        entity = SimpleEntity(
             entity_id="test-123",
             status=EntityStatus.CANONICAL,
             name="Test Entity",
@@ -181,7 +181,7 @@ class TestExportDocument:
     async def test_export_document_relationships(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
         """Document export includes relationships whose source_documents include the document ID."""
         # Create and store a document
-        doc = TestDocument(
+        doc = SimpleDocument(
             document_id="doc-1",
             content="Test content",
             content_type="text/plain",
@@ -197,7 +197,7 @@ class TestExportDocument:
         await orchestrator.entity_storage.add(e2)
 
         # Create relationship from this document
-        rel = TestRelationship(
+        rel = SimpleRelationship(
             subject_id="e1",
             predicate="related_to",
             object_id="e2",
@@ -226,7 +226,7 @@ class TestExportDocument:
 
     async def test_export_document_provisional_entities(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
         """Document export includes provisional entities whose source matches the document ID."""
-        doc = TestDocument(
+        doc = SimpleDocument(
             document_id="doc-1",
             content="Test content",
             content_type="text/plain",
@@ -236,7 +236,7 @@ class TestExportDocument:
         await orchestrator.document_storage.add(doc)
 
         # Create provisional entity from this document
-        provisional = TestEntity(
+        provisional = SimpleEntity(
             entity_id="prov-1",
             status=EntityStatus.PROVISIONAL,
             name="Provisional",
@@ -248,7 +248,7 @@ class TestExportDocument:
         await orchestrator.entity_storage.add(provisional)
 
         # Create provisional entity from another document
-        other_provisional = TestEntity(
+        other_provisional = SimpleEntity(
             entity_id="prov-2",
             status=EntityStatus.PROVISIONAL,
             name="Other Provisional",
@@ -273,7 +273,7 @@ class TestExportDocument:
 
     async def test_export_document_includes_title(self, orchestrator: IngestionOrchestrator, tmp_path: Path) -> None:
         """Document export includes the document title metadata when present."""
-        doc = TestDocument(
+        doc = SimpleDocument(
             document_id="doc-1",
             title="My Document Title",
             content="Test content",
@@ -418,21 +418,21 @@ class TestListAllMethods:
 
     async def test_relationship_get_by_document(self, orchestrator: IngestionOrchestrator) -> None:
         """get_by_document() returns relationships whose source_documents include the given document ID."""
-        rel1 = TestRelationship(
+        rel1 = SimpleRelationship(
             subject_id="e1",
             predicate="related_to",
             object_id="e2",
             source_documents=("doc-1",),
             created_at=datetime.now(timezone.utc),
         )
-        rel2 = TestRelationship(
+        rel2 = SimpleRelationship(
             subject_id="e2",
             predicate="causes",
             object_id="e3",
             source_documents=("doc-2",),
             created_at=datetime.now(timezone.utc),
         )
-        rel3 = TestRelationship(
+        rel3 = SimpleRelationship(
             subject_id="e1",
             predicate="causes",
             object_id="e3",

@@ -1,8 +1,8 @@
 """Test fixtures and minimal test domain implementation.
 
 This module provides:
-- Minimal concrete implementations of abstract base classes (TestEntity,
-  TestDocument, TestRelationship, TestDomainSchema) for use in unit tests
+- Minimal concrete implementations of abstract base classes (SimpleEntity,
+  SimpleDocument, SimpleRelationship, SimpleDomainSchema) for use in unit tests
 - Mock implementations of pipeline interfaces (document parsing, entity
   extraction/resolution, relationship extraction, embedding generation)
 - Pytest fixtures that instantiate in-memory storage and mock components
@@ -39,7 +39,7 @@ from kgraph.storage.memory import (
 # --- Minimal Test Domain Implementations ---
 
 
-class TestEntity(BaseEntity):
+class SimpleEntity(BaseEntity):
     """Minimal concrete entity implementation for unit tests.
 
     Provides a single entity type ("test_entity") with configurable type
@@ -54,7 +54,7 @@ class TestEntity(BaseEntity):
         return self.entity_type
 
 
-class TestRelationship(BaseRelationship):
+class SimpleRelationship(BaseRelationship):
     """Minimal concrete relationship implementation for unit tests.
 
     Uses the predicate field directly as the edge type. Supports any
@@ -67,7 +67,7 @@ class TestRelationship(BaseRelationship):
         return self.predicate
 
 
-class TestDocument(BaseDocument):
+class SimpleDocument(BaseDocument):
     """Minimal concrete document implementation for unit tests.
 
     Represents documents as a single "body" section containing the full
@@ -84,12 +84,12 @@ class TestDocument(BaseDocument):
     def get_sections(self) -> list[tuple[str, str]]:
         """Return document sections as (section_name, content) tuples.
 
-        For TestDocument, returns a single "body" section with full content.
+        For SimpleDocument, returns a single "body" section with full content.
         """
         return [("body", self.content)]
 
 
-class TestDomainSchema(DomainSchema):
+class SimpleDomainSchema(DomainSchema):
     """Minimal domain schema defining types and validation for the test domain.
 
     Configures:
@@ -110,17 +110,17 @@ class TestDomainSchema(DomainSchema):
     @property
     def entity_types(self) -> dict[str, type[BaseEntity]]:
         """Return mapping of entity type names to their classes."""
-        return {"test_entity": TestEntity}
+        return {"test_entity": SimpleEntity}
 
     @property
     def relationship_types(self) -> dict[str, type[BaseRelationship]]:
         """Return mapping of relationship type names to their classes."""
-        return {"related_to": TestRelationship, "causes": TestRelationship}
+        return {"related_to": SimpleRelationship, "causes": SimpleRelationship}
 
     @property
     def document_types(self) -> dict[str, type[BaseDocument]]:
         """Return mapping of document type names to their classes."""
-        return {"test_document": TestDocument}
+        return {"test_document": SimpleDocument}
 
     @property
     def promotion_config(self) -> PromotionConfig:
@@ -175,9 +175,9 @@ class MockEmbeddingGenerator(EmbeddingGeneratorInterface):
 
 
 class MockDocumentParser(DocumentParserInterface):
-    """Mock document parser that wraps raw bytes in a TestDocument.
+    """Mock document parser that wraps raw bytes in a SimpleDocument.
 
-    Decodes raw content as UTF-8 text and creates a TestDocument with
+    Decodes raw content as UTF-8 text and creates a SimpleDocument with
     a randomly generated document_id. Does not perform any actual parsing
     or structure extraction.
     """
@@ -188,7 +188,7 @@ class MockDocumentParser(DocumentParserInterface):
         content_type: str,
         source_uri: str | None = None,
     ) -> BaseDocument:
-        """Parse raw bytes into a TestDocument.
+        """Parse raw bytes into a SimpleDocument.
 
         Args:
             raw_content: Document bytes (decoded as UTF-8).
@@ -196,9 +196,9 @@ class MockDocumentParser(DocumentParserInterface):
             source_uri: Optional URI identifying the document source.
 
         Returns:
-            TestDocument instance with generated ID and current timestamp.
+            SimpleDocument instance with generated ID and current timestamp.
         """
-        return TestDocument(
+        return SimpleDocument(
             document_id=str(uuid.uuid4()),
             content=raw_content.decode("utf-8"),
             content_type=content_type,
@@ -250,7 +250,7 @@ class MockEntityResolver(EntityResolverInterface):
     Resolution strategy:
     1. Search existing storage for an entity with matching name and type
     2. If found, return existing entity with 0.95 confidence
-    3. If not found, create a new provisional TestEntity with the
+    3. If not found, create a new provisional SimpleEntity with the
        mention's confidence score
 
     This simple name-based matching is sufficient for testing entity
@@ -275,7 +275,7 @@ class MockEntityResolver(EntityResolverInterface):
         if existing:
             return existing[0], 0.95
 
-        entity = TestEntity(
+        entity = SimpleEntity(
             entity_id=str(uuid.uuid4()),
             status=EntityStatus.PROVISIONAL,
             name=mention.text,
@@ -324,7 +324,7 @@ class MockRelationshipExtractor(RelationshipExtractorInterface):
         entity_list = list(entities)
         for i in range(len(entity_list) - 1):
             relationships.append(
-                TestRelationship(
+                SimpleRelationship(
                     subject_id=entity_list[i].entity_id,
                     predicate="related_to",
                     object_id=entity_list[i + 1].entity_id,
@@ -340,13 +340,13 @@ class MockRelationshipExtractor(RelationshipExtractorInterface):
 
 
 @pytest.fixture
-def test_domain() -> TestDomainSchema:
-    """Provide a TestDomainSchema instance for domain-aware tests.
+def test_domain() -> SimpleDomainSchema:
+    """Provide a SimpleDomainSchema instance for domain-aware tests.
 
     The schema defines entity types, relationship types, and promotion
     configuration suitable for unit testing graph operations.
     """
-    return TestDomainSchema()
+    return SimpleDomainSchema()
 
 
 @pytest.fixture
@@ -388,7 +388,7 @@ def embedding_generator() -> MockEmbeddingGenerator:
 
 @pytest.fixture
 def document_parser() -> MockDocumentParser:
-    """Provide a MockDocumentParser for converting raw bytes to TestDocument.
+    """Provide a MockDocumentParser for converting raw bytes to SimpleDocument.
 
     Decodes content as UTF-8 without performing actual parsing or
     structure extraction.
@@ -434,8 +434,8 @@ def make_test_entity(
     confidence: float = 1.0,
     embedding: tuple[float, ...] | None = None,
     canonical_ids: dict[str, str] | None = None,
-) -> TestEntity:
-    """Factory function to create TestEntity instances with sensible defaults.
+) -> SimpleEntity:
+    """Factory function to create SimpleEntity instances with sensible defaults.
 
     Provides a concise way to create entities in tests without specifying
     all required fields. Generates a random UUID if entity_id is not provided.
@@ -450,9 +450,9 @@ def make_test_entity(
         canonical_ids: Optional mapping of authority names to external IDs.
 
     Returns:
-        Configured TestEntity instance with current timestamp.
+        Configured SimpleEntity instance with current timestamp.
     """
-    return TestEntity(
+    return SimpleEntity(
         entity_id=entity_id or str(uuid.uuid4()),
         status=status,
         name=name,
@@ -470,8 +470,8 @@ def make_test_relationship(
     object_id: str,
     predicate: str = "related_to",
     confidence: float = 1.0,
-) -> TestRelationship:
-    """Factory function to create TestRelationship instances with defaults.
+) -> SimpleRelationship:
+    """Factory function to create SimpleRelationship instances with defaults.
 
     Provides a concise way to create relationships in tests. Both subject
     and object entity IDs are required; predicate and confidence have defaults.
@@ -483,9 +483,9 @@ def make_test_relationship(
         confidence: Confidence score for the relationship (default: 1.0).
 
     Returns:
-        Configured TestRelationship instance with current timestamp.
+        Configured SimpleRelationship instance with current timestamp.
     """
-    return TestRelationship(
+    return SimpleRelationship(
         subject_id=subject_id,
         predicate=predicate,
         object_id=object_id,

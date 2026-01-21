@@ -23,14 +23,14 @@ from tests.conftest import (
     MockEntityExtractor,
     MockEntityResolver,
     MockRelationshipExtractor,
-    TestDomainSchema,
+    SimpleDomainSchema,
     make_test_entity,
 )
 
 
 @pytest.fixture
 def orchestrator(
-    test_domain: TestDomainSchema,
+    test_domain: SimpleDomainSchema,
     entity_storage: InMemoryEntityStorage,
     relationship_storage: InMemoryRelationshipStorage,
     document_storage: InMemoryDocumentStorage,
