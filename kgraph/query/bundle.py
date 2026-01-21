@@ -64,4 +64,3 @@ class BundleManifestV1(BaseModel):
         default_factory=dict,
         description="Additional bundle metadata (description, counts, etc.)",
     )
-

@@ -1,3 +1,4 @@
+import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Protocol, Dict, Any, Optional
@@ -15,6 +16,7 @@ class GraphBundleExporter(Protocol):
         bundle_path: Path,
         domain: str,
         label: Optional[str] = None,
+        docs: Optional[Path] = None,
         description: Optional[str] = None,
     ) -> None: ...  # type: ignore
 
@@ -27,6 +29,7 @@ class JsonlGraphBundleExporter:
         bundle_path: Path,
         domain: str,
         label: Optional[str] = None,
+        docs: Optional[Path] = None,
         description: Optional[str] = None,
     ) -> None:
         bundle_path.mkdir(parents=True, exist_ok=True)
@@ -89,6 +92,10 @@ class JsonlGraphBundleExporter:
         with open(manifest_file, "w") as f_manifest:
             f_manifest.write(manifest.model_dump_json(indent=2))
 
+        if docs is not None:
+            target = bundle_path / "docs"
+            shutil.copytree(docs, target, dirs_exist_ok=True)
+
         print(f"Bundle '{label or domain}' exported to {bundle_path}")
         print(f"  Bundle ID: {bundle_id}")
         print(f"  Domain: {domain}")
@@ -106,6 +113,7 @@ async def write_bundle(
     bundle_path: Path,
     domain: str,
     label: Optional[str] = None,
+    docs: Optional[Path] = None,
     description: Optional[str] = None,
 ) -> None:
     """Write a graph bundle to disk in JSONL format.
@@ -124,5 +132,6 @@ async def write_bundle(
         bundle_path=bundle_path,
         domain=domain,
         label=label,
+        docs=docs,
         description=description,
     )

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from kgraph.ingest import IngestionOrchestrator
 from kgraph.storage.memory import (
@@ -22,11 +23,12 @@ from ..pipeline import (
 )
 from ..domain import SherlockDomainSchema
 
-"""
-I don't plan to fully wrap my head around this ChatGPT comment right now, but
-I feel it's useful and want to hang onto it. Into a string it goes.
+###################
+# A domain wants its own doc files for Mkdocs, right?
+# We got you covered.
 
-> What's so great about build_orchestrator() ?
+build_orch_blurb = """
+# What's so great about build_orchestrator() ?
 
 Great question — this gets to the *why* of having `build_orchestrator()` at all.
 
@@ -198,6 +200,36 @@ that’s maximally helpful but still minimal.
 """
 
 
+mkdocs_yml_replacement = """
+site_name: Domain-Agnostic Knowledge Graph Server
+site_description: Documentation for the domain-agnostic knowledge graph server
+repo_url: https://github.com/wware/kgserver
+repo_name: wware/kgserver
+
+theme:
+  name: material
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - BuildOrchestrator: build_orch.md
+"""
+
+##########################
+
+
 def build_orchestrator() -> IngestionOrchestrator:
     domain = SherlockDomainSchema()
 
@@ -266,16 +298,26 @@ async def main() -> None:
     ╚══════════════════════════════════════╝
     """)
 
-    # If your orchestrator has export support, plug it in here.
-    bundle_output_path = Path("./sherlock_bundle")
-    await write_bundle(
-        entity_storage=entity_storage,
-        relationship_storage=relationship_storage,
-        bundle_path=bundle_output_path,
-        domain="sherlock",
-        label="sherlock-holmes-stories",
-        description="Knowledge graph bundle of Sherlock Holmes stories",
-    )
+    with TemporaryDirectory() as tmpdir:
+        # Make up a markdown document that gets packaged in the bundle
+        temp_path = Path(tmpdir)
+        md_file = temp_path / "build_orch.md"
+        md_file.write_text(build_orch_blurb)
+        md_file_2 = temp_path / "mkdocs.yml"
+        md_file_2.write_text(mkdocs_yml_replacement)
+
+        # If your orchestrator has export support, plug it in here.
+        bundle_output_path = Path("./sherlock_bundle")
+        await write_bundle(
+            entity_storage=entity_storage,
+            relationship_storage=relationship_storage,
+            bundle_path=bundle_output_path,
+            domain="sherlock",
+            label="sherlock-holmes-stories",
+            docs=temp_path,
+            description="Knowledge graph bundle of Sherlock Holmes stories",
+        )
+        # as the context ends, tmpdir is deleted
 
 
 if __name__ == "__main__":
