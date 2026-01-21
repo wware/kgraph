@@ -231,7 +231,30 @@ nav:
 
 
 def build_orchestrator() -> IngestionOrchestrator:
+    """Build a complete Sherlock Holmes ingestion orchestrator.
+    
+    This factory function assembles all pipeline components with
+    domain-specific implementations and optional enrichment.
+    
+    Configuration includes:
+    - DBPedia enrichment for characters and locations
+    - In-memory storage for example purposes
+    - Simple embedding generator for entity resolution
+    
+    Returns:
+        Configured IngestionOrchestrator ready for document ingestion
+    """
+    from kgraph.pipeline.enrichment import DBPediaEnricher
+    
     domain = SherlockDomainSchema()
+    
+    # Configure DBPedia enrichment for literary characters and locations
+    dbpedia_enricher = DBPediaEnricher(
+        entity_types_to_enrich={'character', 'location'},
+        confidence_threshold=0.8,  # High confidence for fictional entities
+        min_lookup_score=0.6,      # Moderate threshold for DBPedia matches
+        cache_results=True,         # Cache to avoid repeated lookups
+    )
 
     return IngestionOrchestrator(
         domain=domain,
@@ -243,6 +266,7 @@ def build_orchestrator() -> IngestionOrchestrator:
         entity_storage=InMemoryEntityStorage(),
         relationship_storage=InMemoryRelationshipStorage(),
         document_storage=InMemoryDocumentStorage(),
+        entity_enrichers=[dbpedia_enricher],  # Enable DBPedia enrichment
     )
 
 
@@ -256,11 +280,22 @@ async def main() -> None:
     print(f"      Loaded {len(stories)} stories")
 
     print("\n[2/4] Initializing pipeline...")
+    from kgraph.pipeline.enrichment import DBPediaEnricher
+    
     entity_storage = InMemoryEntityStorage()
     relationship_storage = InMemoryRelationshipStorage()
     document_storage = InMemoryDocumentStorage()
 
     domain_schema = SherlockDomainSchema()
+    
+    # Configure DBPedia enrichment
+    dbpedia_enricher = DBPediaEnricher(
+        entity_types_to_enrich={'character', 'location'},
+        confidence_threshold=0.8,
+        min_lookup_score=0.6,
+        cache_results=True,
+    )
+    print("      DBPedia enrichment enabled for characters and locations")
 
     orchestrator = IngestionOrchestrator(
         domain=domain_schema,
@@ -272,6 +307,7 @@ async def main() -> None:
         entity_storage=entity_storage,
         relationship_storage=relationship_storage,
         document_storage=document_storage,
+        entity_enrichers=[dbpedia_enricher],
     )
 
     print("\n[3/4] Ingesting stories...")

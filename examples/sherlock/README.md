@@ -12,6 +12,9 @@ constructs a queryable knowledge graph of:
 * **Stories**
 * **Relationships** (e.g. appears_in, co_occurs_with)
 
+The example demonstrates **entity enrichment** with DBPedia, linking
+fictional characters and locations to their DBPedia URIs when available.
+
 The example is intentionally **readable, explicit, and idiomatic**, prioritizing clarity over cleverness.
 
 ---
@@ -26,6 +29,7 @@ Specifically, it demonstrates:
 
 * How to define a **DomainSchema**
 * How to implement each **pipeline interface**
+* How to enable **external entity enrichment** with DBPedia
 * How canonical and provisional entities are created and promoted
 * How documents, entities, and relationships flow through ingestion
 * How to structure a non-trivial domain in a maintainable way
@@ -47,6 +51,8 @@ DocumentParser
 EntityExtractor (mentions only)
      ↓
 EntityResolver (canonical vs provisional)
+     ↓
+EntityEnricher (DBPedia URIs)
      ↓
 RelationshipExtractor
      ↓
@@ -104,6 +110,7 @@ Expected behavior:
 * Downloads and splits 12 Sherlock Holmes stories
 * Ingests each story through the full kgraph pipeline
 * Creates canonical entities for known characters and locations
+* Enriches entities with DBPedia URIs (e.g., Sherlock Holmes → http://dbpedia.org/resource/Sherlock_Holmes)
 * Generates relationships based on co-occurrence
 * Prints a summary and example queries
 
@@ -114,8 +121,8 @@ Expected behavior:
 After ingestion, the graph typically contains:
 
 * **Stories**: 12 canonical story entities
-* **Characters**: canonical characters from the curated list
-* **Locations**: canonical locations from the curated list
+* **Characters**: canonical characters from the curated list, enriched with DBPedia URIs
+* **Locations**: canonical locations from the curated list, enriched with DBPedia URIs
 * **Relationships**:
 
   * `appears_in` (character → story)
@@ -123,6 +130,19 @@ After ingestion, the graph typically contains:
 
 Provisional entities are also created internally when needed and may be
 promoted depending on domain rules.
+
+### DBPedia Enrichment
+
+The example enables DBPedia enrichment for characters and locations. Well-known entities
+get linked to their DBPedia resources:
+
+* **Sherlock Holmes** → `http://dbpedia.org/resource/Sherlock_Holmes`
+* **Dr. Watson** → `http://dbpedia.org/resource/Dr._Watson`
+* **London** → `http://dbpedia.org/resource/London`
+* **Baker Street** → `http://dbpedia.org/resource/Baker_Street`
+
+Enrichment is optional and configurable. See `scripts/ingest.py` for the configuration
+and [docs/enrichment.md](../../docs/enrichment.md) for details.
 
 ---
 
@@ -173,6 +193,8 @@ All pipeline components are swappable. For example:
 * Replace the embedding generator with a real model
 * Replace in-memory storage with a persistent backend
 * Replace the co-occurrence heuristic with something smarter
+* Disable enrichment by removing the `entity_enrichers` parameter
+* Add additional enrichers (e.g., Wikidata, custom authority sources)
 
 See `scripts/ingest.py` for the canonical wiring.
 
@@ -189,6 +211,7 @@ build_orchestrator()
 This function exists to:
 
 * Provide a **single authoritative pipeline configuration**
+* Demonstrate **entity enrichment** setup
 * Reduce cognitive load for extenders
 * Serve as executable documentation
 * Make experimentation easy (swap one component, keep the rest)
@@ -225,6 +248,7 @@ These choices keep the example **understandable and dependency-light**.
 
 * `kgraph/docs/domains.md`
 * `kgraph/docs/pipeline.md`
+* `kgraph/docs/enrichment.md` ← **Entity enrichment guide**
 * `kgraph/domain.py`
 * `kgraph/pipeline/interfaces.py`
 
