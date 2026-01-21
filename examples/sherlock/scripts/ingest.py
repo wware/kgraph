@@ -299,14 +299,17 @@ async def main() -> None:
     """)
 
     with TemporaryDirectory() as tmpdir:
-        # Make up a markdown document that gets packaged in the bundle
+        # Create documentation assets that will be packaged in the bundle.
+        # These files will be listed in documents.jsonl and copied to the bundle's docs/ directory.
         temp_path = Path(tmpdir)
         md_file = temp_path / "build_orch.md"
         md_file.write_text(build_orch_blurb)
-        md_file_2 = temp_path / "mkdocs.yml"
-        md_file_2.write_text(mkdocs_yml_replacement)
+        mkdocs_file = temp_path / "mkdocs.yml"
+        mkdocs_file.write_text(mkdocs_yml_replacement)
 
-        # If your orchestrator has export support, plug it in here.
+        # Export the bundle with documentation assets.
+        # The write_bundle function will create documents.jsonl and copy all files
+        # from temp_path to bundle_path/docs/, preserving directory structure.
         bundle_output_path = Path("./sherlock_bundle")
         await write_bundle(
             entity_storage=entity_storage,

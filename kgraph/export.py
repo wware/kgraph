@@ -1,11 +1,59 @@
 import shutil
+import mimetypes
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Protocol, Dict, Any, Optional
+from typing import Protocol, Dict, Any, Optional, List
 import uuid
 
-from kgraph.query.bundle import BundleManifestV1, EntityRow, RelationshipRow, BundleFile
+from kgraph.query.bundle import BundleManifestV1, EntityRow, RelationshipRow, BundleFile, DocumentAssetRow
 from kgraph.storage.interfaces import EntityStorageInterface, RelationshipStorageInterface
+
+
+def _collect_document_assets(docs_source: Path, bundle_path: Path) -> List[DocumentAssetRow]:
+    """Collect document assets from a source directory and copy them to the bundle.
+
+    Args:
+        docs_source: Source directory containing document assets
+        bundle_path: Bundle root directory where assets will be copied
+
+    Returns:
+        List of DocumentAssetRow entries for the documents.jsonl file
+    """
+    if not docs_source.exists() or not docs_source.is_dir():
+        return []
+
+    asset_rows = []
+    docs_dir = bundle_path / "docs"
+    docs_dir.mkdir(parents=True, exist_ok=True)
+
+    # Walk through the source directory and copy files
+    for source_file in docs_source.rglob("*"):
+        if source_file.is_file():
+            # Calculate relative path from source root
+            rel_path = source_file.relative_to(docs_source)
+            # Destination path in bundle
+            dest_path = docs_dir / rel_path
+            # Ensure parent directories exist
+            dest_path.parent.mkdir(parents=True, exist_ok=True)
+            # Copy the file
+            shutil.copy2(source_file, dest_path)
+
+            # Determine content type
+            content_type, _ = mimetypes.guess_type(str(source_file))
+            if content_type is None:
+                # Default based on extension
+                if source_file.suffix == ".md":
+                    content_type = "text/markdown"
+                elif source_file.suffix in (".yml", ".yaml"):
+                    content_type = "text/yaml"
+                else:
+                    content_type = "application/octet-stream"
+
+            # Create asset row with path relative to bundle root
+            bundle_relative_path = f"docs/{rel_path.as_posix()}"
+            asset_rows.append(DocumentAssetRow(path=bundle_relative_path, content_type=content_type))
+
+    return asset_rows
 
 
 class GraphBundleExporter(Protocol):
@@ -80,6 +128,16 @@ class JsonlGraphBundleExporter:
         if description:
             manifest_metadata["description"] = description
 
+        # Handle document assets
+        documents_file = None
+        if docs is not None:
+            documents_file = bundle_path / "documents.jsonl"
+            asset_rows = _collect_document_assets(docs, bundle_path)
+            if asset_rows:
+                with open(documents_file, "w") as f_docs:
+                    for asset_row in asset_rows:
+                        f_docs.write(asset_row.model_dump_json() + "\n")
+
         manifest = BundleManifestV1(
             bundle_id=bundle_id,
             domain=domain,
@@ -87,14 +145,11 @@ class JsonlGraphBundleExporter:
             created_at=datetime.now(timezone.utc).isoformat(),
             entities=BundleFile(path="entities.jsonl", format="jsonl"),
             relationships=BundleFile(path="relationships.jsonl", format="jsonl"),
+            documents=BundleFile(path="documents.jsonl", format="jsonl") if documents_file and documents_file.exists() else None,
             metadata=manifest_metadata,
         )
         with open(manifest_file, "w") as f_manifest:
             f_manifest.write(manifest.model_dump_json(indent=2))
-
-        if docs is not None:
-            target = bundle_path / "docs"
-            shutil.copytree(docs, target, dirs_exist_ok=True)
 
         print(f"Bundle '{label or domain}' exported to {bundle_path}")
         print(f"  Bundle ID: {bundle_id}")
