@@ -374,3 +374,15 @@ where `documents.jsonl` looks like this.
 {"path":"docs/mkdocs.yml","content_type":"application/yaml"}
 {"path":"docs/build_orch.md","content_type":"text/markdown"}
 ```
+
+<!--
+Maybe let bundles provide a full a docs sub-bundle, instead of documents.jsonl
+
+"docs": {
+  "root": "docs/",
+  "mkdocs_yml": "docs/mkdocs.yml"
+}
+
+Then the presence of a bundle mkdocs config is declared, not discovered. Automatically
+grabs whatever files are found in docs/ so you don't need to spell them out.
+-->
