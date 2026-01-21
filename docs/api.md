@@ -216,3 +216,71 @@ See [Pipeline Components](pipeline.md) for implementation guidance.
 - `EntityResolverInterface`
 - `RelationshipExtractorInterface`
 - `EmbeddingGeneratorInterface`
+
+## Bundle Export
+
+### kgraph.export
+
+#### write_bundle
+
+Export a knowledge graph to a bundle format that can be loaded by the KG server.
+
+```python
+async def write_bundle(
+    entity_storage: EntityStorageInterface,
+    relationship_storage: RelationshipStorageInterface,
+    bundle_path: Path,
+    domain: str,
+    label: Optional[str] = None,
+    docs: Optional[Path] = None,
+    description: Optional[str] = None,
+) -> None
+```
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `entity_storage` | `EntityStorageInterface` | Storage interface for entities |
+| `relationship_storage` | `RelationshipStorageInterface` | Storage interface for relationships |
+| `bundle_path` | `Path` | Directory path for the bundle output |
+| `domain` | `str` | Knowledge domain identifier (e.g., "sherlock", "medical") |
+| `label` | `str \| None` | Optional human-readable bundle label |
+| `docs` | `Path \| None` | Optional path to directory containing documentation assets (markdown files, images, etc.) |
+| `description` | `str \| None` | Optional description for bundle metadata |
+
+**Bundle Output:**
+
+The function creates a bundle directory containing:
+
+- `manifest.json` - Bundle metadata and file references
+- `entities.jsonl` - Entity data in JSONL format
+- `relationships.jsonl` - Relationship data in JSONL format
+- `documents.jsonl` - (optional) List of documentation assets with paths and content types
+- `docs/` - (optional) Directory containing documentation files (markdown, images, etc.)
+
+**Documentation Assets:**
+
+If the `docs` parameter is provided, the function will:
+
+1. Recursively copy all files from the source directory to `bundle_path/docs/`
+2. Create `documents.jsonl` listing each asset with its path (relative to bundle root) and MIME type
+3. Add a `documents` field to the manifest referencing `documents.jsonl`
+
+Example:
+
+```python
+from kgraph.export import write_bundle
+from pathlib import Path
+
+# Export bundle with documentation
+await write_bundle(
+    entity_storage=my_entity_storage,
+    relationship_storage=my_relationship_storage,
+    bundle_path=Path("./my_bundle"),
+    domain="medical",
+    label="medical-literature-2024",
+    docs=Path("./my_docs"),  # Contains markdown files, images, etc.
+    description="Medical literature knowledge graph for 2024"
+)
+```
