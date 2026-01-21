@@ -170,7 +170,7 @@ class IngestionOrchestrator:
     entity_storage: EntityStorageInterface
     relationship_storage: RelationshipStorageInterface
     document_storage: DocumentStorageInterface
-    entity_enrichers: list | None = None
+    entity_enrichers: list[Any] | None = None
 
     async def ingest_document(
         self,

@@ -9,7 +9,10 @@ This module verifies:
 """
 
 import json
+import uuid
+from datetime import datetime, timezone
 from unittest.mock import AsyncMock, MagicMock, patch
+
 import pytest
 
 from kgraph.entity import EntityStatus
@@ -27,6 +30,7 @@ from tests.conftest import (
     MockEntityExtractor,
     MockEntityResolver,
     MockRelationshipExtractor,
+    SimpleEntity,
     SimpleDomainSchema,
     make_test_entity,
 )
@@ -133,11 +137,6 @@ class TestDBPediaEnricher:
 
     async def test_enrich_entity_filtered_by_type(self):
         """Test entity type filtering."""
-        # Create an entity with a custom entity_type
-        from tests.conftest import SimpleEntity
-        from kgraph.entity import EntityStatus
-        from datetime import datetime, timezone
-
         enricher = DBPediaEnricher(
             entity_types_to_enrich={"person", "location"},
             confidence_threshold=0.7,
@@ -187,11 +186,6 @@ class TestDBPediaEnricher:
 
     async def test_disambiguation_by_synonyms(self, enricher):
         """Test using entity synonyms for disambiguation."""
-        from tests.conftest import SimpleEntity
-        from kgraph.entity import EntityStatus
-        from datetime import datetime, timezone
-        import uuid
-
         entity = SimpleEntity(
             entity_id=str(uuid.uuid4()),
             status=EntityStatus.PROVISIONAL,

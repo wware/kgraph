@@ -17,7 +17,10 @@ Key components:
 from abc import ABC, abstractmethod
 from typing import Any
 import asyncio
+import json
 import logging
+import urllib.parse
+import urllib.request
 
 from kgraph.entity import BaseEntity
 
@@ -98,6 +101,7 @@ class DBPediaEnricher(EntityEnricherInterface):
         - entity_types_to_enrich: Whitelist of entity types (None = all types)
         - confidence_threshold: Minimum entity confidence to attempt enrichment
         - min_lookup_score: Minimum DBPedia lookup score to accept match
+        - match_similarity_score: Score assigned to non-exact matches (default: 0.5)
         - cache_results: Whether to cache lookup results
         - timeout: HTTP request timeout in seconds
 
@@ -120,6 +124,7 @@ class DBPediaEnricher(EntityEnricherInterface):
         entity_types_to_enrich: set[str] | None = None,
         confidence_threshold: float = 0.7,
         min_lookup_score: float = 0.5,
+        match_similarity_score: float = 0.5,
         cache_results: bool = True,
         timeout: float = 5.0,
     ):
@@ -129,12 +134,14 @@ class DBPediaEnricher(EntityEnricherInterface):
             entity_types_to_enrich: Set of entity types to enrich (None = all)
             confidence_threshold: Only enrich entities with confidence >= this
             min_lookup_score: Minimum DBPedia score to accept match
+            match_similarity_score: Score for partial/non-exact matches (0.0-1.0)
             cache_results: Enable in-memory caching of lookups
             timeout: HTTP timeout for DBPedia API calls
         """
         self.entity_types_to_enrich = entity_types_to_enrich
         self.confidence_threshold = confidence_threshold
         self.min_lookup_score = min_lookup_score
+        self.match_similarity_score = match_similarity_score
         self.cache_results = cache_results
         self.timeout = timeout
         self._cache: dict[tuple[str, str], str | None] = {}
@@ -229,10 +236,6 @@ class DBPediaEnricher(EntityEnricherInterface):
         try:
             # Use asyncio.to_thread for synchronous HTTP calls
             # In production, use httpx or aiohttp for true async
-            import urllib.request
-            import urllib.parse
-            import json
-
             url = f"https://lookup.dbpedia.org/api/search?query={urllib.parse.quote(query)}&maxResults=5"
 
             # Use asyncio.to_thread to avoid blocking
@@ -290,9 +293,8 @@ class DBPediaEnricher(EntityEnricherInterface):
             if label and label.lower() in entity_names:
                 score = 1.0
             else:
-                # Partial match based on similarity (simple approach)
-                # In production, could use more sophisticated string similarity
-                score = 0.5
+                # Partial match - use configurable similarity score
+                score = self.match_similarity_score
 
             # Consider DBPedia's own relevance score if available
             if "score" in result:
