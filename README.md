@@ -7,6 +7,7 @@ A domain-agnostic framework for building knowledge graphs from documents. Suppor
 - **Domain-agnostic**: Define your own entity types, relationships, and validation rules
 - **Two-pass ingestion**: Extract entities first, then relationships between them
 - **Entity lifecycle**: Provisional entities promoted to canonical based on usage/confidence
+- **External enrichment**: Augment entities with DBPedia, Wikidata, and other LOD sources
 - **Embedding support**: Semantic similarity for entity matching and duplicate detection
 - **Async-first**: All storage and pipeline interfaces use async/await
 - **Immutable models**: Thread-safe Pydantic models with frozen=True
@@ -65,6 +66,13 @@ class MyDomain(DomainSchema):
 ```python
 from kgraph.storage import InMemoryEntityStorage, InMemoryRelationshipStorage, InMemoryDocumentStorage
 from kgraph import IngestionOrchestrator
+from kgraph.pipeline.enrichment import DBPediaEnricher
+
+# Optional: Configure enrichment with DBPedia
+dbpedia_enricher = DBPediaEnricher(
+    entity_types_to_enrich={'person', 'location'},
+    confidence_threshold=0.8,
+)
 
 orchestrator = IngestionOrchestrator(
     domain=MyDomain(),
@@ -76,6 +84,7 @@ orchestrator = IngestionOrchestrator(
     entity_storage=InMemoryEntityStorage(),
     relationship_storage=InMemoryRelationshipStorage(),
     document_storage=InMemoryDocumentStorage(),
+    entity_enrichers=[dbpedia_enricher],  # Optional enrichment
 )
 ```
 
@@ -109,6 +118,7 @@ Document → Parser → Pass 1 (Entity Extraction) → Pass 2 (Relationship Extr
 - [Implementing a Domain](docs/domains.md)
 - [Storage Backends](docs/storage.md)
 - [Pipeline Components](docs/pipeline.md)
+- [Entity Enrichment](docs/enrichment.md)
 - [API Reference](docs/api.md)
 
 ## Testing

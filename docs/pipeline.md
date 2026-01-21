@@ -1,13 +1,14 @@
 # Pipeline Components
 
-The knowledge graph ingestion pipeline uses a **two-pass architecture** to transform raw documents into structured knowledge:
+The knowledge graph ingestion pipeline uses a **two-pass architecture** with optional enrichment to transform raw documents into structured knowledge:
 
 1. **Pass 1 (Entity Extraction)**: Parse documents, extract entity mentions, and resolve them to canonical or provisional entities.
-2. **Pass 2 (Relationship Extraction)**: Identify relationships (edges) between resolved entities within each document.
+2. **Entity Enrichment** (optional): Augment resolved entities with external canonical IDs (DBPedia, Wikidata, UMLS, etc.).
+3. **Pass 2 (Relationship Extraction)**: Identify relationships (edges) between resolved entities within each document.
 
-This separation allows the system to build a consistent entity vocabulary before attempting relationship extraction, which improves accuracy and enables cross-document entity linking.
+This separation allows the system to build a consistent entity vocabulary before attempting relationship extraction, which improves accuracy and enables cross-document entity linking. The optional enrichment step adds cross-domain canonical identifiers without interfering with the core extraction pipeline.
 
-The pipeline consists of pluggable components for parsing, extraction, resolution, and embedding generation. Each component is defined as an abstract interface, allowing domain-specific implementations.
+The pipeline consists of pluggable components for parsing, extraction, resolution, enrichment, and embedding generation. Each component is defined as an abstract interface, allowing domain-specific implementations.
 
 For a complete, real-world example, see the `examples/sherlock` directory.
 
@@ -323,12 +324,54 @@ class OpenAIEmbedding(EmbeddingGeneratorInterface):
         return [tuple(d.embedding) for d in response.data]
 ```
 
+### EntityEnricherInterface
+
+Enriches entities with external canonical identifiers and metadata. This is an **optional component** that augments resolved entities with data from external knowledge bases.
+
+Enrichment runs after entity resolution but before storage, allowing entities to gain cross-domain identifiers (DBPedia URIs, Wikidata QIDs, UMLS CUIs, etc.) without interfering with the core extraction pipeline.
+
+```python
+from kgraph.pipeline.enrichment import EntityEnricherInterface
+
+class EntityEnricherInterface(ABC):
+    async def enrich_entity(self, entity: BaseEntity) -> BaseEntity: ...
+    
+    async def enrich_batch(
+        self, entities: list[BaseEntity]
+    ) -> list[BaseEntity]: ...
+```
+
+Example using the built-in DBPedia enricher:
+
+```python
+from kgraph.pipeline.enrichment import DBPediaEnricher
+
+dbpedia_enricher = DBPediaEnricher(
+    entity_types_to_enrich={'person', 'location', 'organization'},
+    confidence_threshold=0.8,
+    min_lookup_score=0.6,
+    cache_results=True,
+)
+
+# Use in orchestrator (see below)
+```
+
+Enrichers should:
+- Handle errors gracefully (return original entity on failure)
+- Respect confidence thresholds
+- Use caching to reduce API calls
+- Set timeouts to avoid blocking the pipeline
+- Log enrichment decisions for debugging
+
+For detailed enrichment documentation, see [Entity Enrichment](enrichment.md).
+
 ## Assembling the Pipeline
 
 The `IngestionOrchestrator` connects all pipeline components and manages the two-pass ingestion workflow. It handles:
 
 - Document parsing and storage
 - Pass 1: Entity extraction, resolution, and storage
+- Optional entity enrichment with external data sources
 - Pass 2: Relationship extraction and storage
 - Entity promotion (provisional → canonical based on usage thresholds)
 
@@ -336,6 +379,13 @@ Connect components via `IngestionOrchestrator`:
 
 ```python
 from kgraph import IngestionOrchestrator
+from kgraph.pipeline.enrichment import DBPediaEnricher
+
+# Optional: Create enrichers
+dbpedia_enricher = DBPediaEnricher(
+    entity_types_to_enrich={'person', 'location'},
+    confidence_threshold=0.8,
+)
 
 orchestrator = IngestionOrchestrator(
     domain=my_domain,
@@ -347,6 +397,7 @@ orchestrator = IngestionOrchestrator(
     entity_storage=entity_storage,
     relationship_storage=relationship_storage,
     document_storage=document_storage,
+    entity_enrichers=[dbpedia_enricher],  # Optional enrichers
 )
 
 # Ingest a single document
