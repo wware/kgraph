@@ -5,8 +5,6 @@ This allows fast implementation without class explosion, while the predicate
 still stays in the `predicate` field for clear queries.
 """
 
-from datetime import datetime
-
 from kgraph.relationship import BaseRelationship
 
 

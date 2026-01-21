@@ -100,6 +100,7 @@ class JsonlGraphBundleExporter:
                     usage_count=entity.usage_count,
                     created_at=entity.created_at.isoformat(),
                     source=entity.source,
+                    canonical_ids=entity.canonical_ids,
                     properties=entity.metadata,
                 )
                 f_entities.write(entity_row.model_dump_json() + "\n")

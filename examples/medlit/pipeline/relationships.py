@@ -5,7 +5,7 @@ Since the papers already have extracted relationships, we convert those to BaseR
 """
 
 from datetime import datetime, timezone
-from typing import Sequence
+from typing import Sequence, Any
 
 from kgraph.document import BaseDocument
 from kgraph.entity import BaseEntity

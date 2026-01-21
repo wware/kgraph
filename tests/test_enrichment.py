@@ -8,10 +8,9 @@ This module verifies:
 - Error handling and graceful degradation
 """
 
-import json
 import uuid
 from datetime import datetime, timezone
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
@@ -96,7 +95,7 @@ class TestDBPediaEnricher:
                 {
                     "label": ["Sherlock Holmes"],
                     "resource": ["http://dbpedia.org/resource/Sherlock_Holmes"],
-                    "score": 0.95,
+                    "score": ["0.95"],
                 }
             ]
         }
@@ -169,12 +168,12 @@ class TestDBPediaEnricher:
             {
                 "label": ["London, Ontario"],
                 "resource": ["http://dbpedia.org/resource/London,_Ontario"],
-                "score": 0.6,
+                "score": ["0.6"],
             },
             {
                 "label": ["London"],
                 "resource": ["http://dbpedia.org/resource/London"],
-                "score": 0.9,
+                "score": ["0.9"],
             },
         ]
 
@@ -201,7 +200,7 @@ class TestDBPediaEnricher:
             {
                 "label": ["New York City"],
                 "resource": ["http://dbpedia.org/resource/New_York_City"],
-                "score": 0.85,
+                "score": ["0.85"],
             }
         ]
 
@@ -220,7 +219,7 @@ class TestDBPediaEnricher:
             {
                 "label": ["Test Entity"],
                 "resource": ["http://dbpedia.org/resource/Test_Entity"],
-                "score": 0.8,
+                "score": ["0.8"],
             }
         ]
 
@@ -269,7 +268,7 @@ class TestDBPediaEnricher:
             {
                 "label": ["Different Entity"],
                 "resource": ["http://dbpedia.org/resource/Different"],
-                "score": 0.3,  # Below min_lookup_score
+                "score": ["0.3"],  # Below min_lookup_score
             }
         ]
 
@@ -288,7 +287,7 @@ class TestDBPediaEnricher:
             {
                 "label": ["Test"],
                 "resource": ["http://dbpedia.org/resource/Test"],
-                "score": 0.8,
+                "score": ["0.8"],
             }
         ]
 
@@ -411,7 +410,7 @@ class TestOrchestrationWithEnrichment:
 
         class FailingEnricher(EntityEnricherInterface):
             async def enrich_entity(self, entity):
-                raise Exception("Enrichment failed!")
+                raise ValueError("Enrichment failed!")
 
         orchestrator = IngestionOrchestrator(
             domain=test_domain,
@@ -477,6 +476,8 @@ class TestOrchestrationWithEnrichment:
         content = b"Document with [Entity D]."
         result = await orchestrator.ingest_document(content, "text/plain")
 
+        assert result.entities_extracted > 0
+        assert result.entities_new > 0
         # Verify both enrichers ran
         entities = await entity_storage.list_all()
         assert len(entities) == 1

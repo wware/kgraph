@@ -15,7 +15,7 @@ Key components:
 """
 
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, List, Dict
 import asyncio
 import json
 import logging
@@ -25,6 +25,13 @@ import urllib.request
 from kgraph.entity import BaseEntity
 
 logger = logging.getLogger(__name__)
+# logger.setLevel(logging.INFO)
+# if not logger.handlers:
+#     handler = logging.StreamHandler()
+#     handler.setLevel(logging.DEBUG)
+#     formatter = logging.Formatter("%(asctime)s - %(pathname)s:%(lineno)d - %(levelname)s - %(message)s")
+#     handler.setFormatter(formatter)
+#     logger.addHandler(handler)
 
 
 class EntityEnricherInterface(ABC):
@@ -157,6 +164,12 @@ class DBPediaEnricher(EntityEnricherInterface):
         5. Add best match URI to canonical_ids['dbpedia']
         6. Handle errors gracefully (return original entity on failure)
 
+        Note: this is BUGGY AS HELL for the Sherlock example
+        * Holmes -> http://dbpedia.org/resource/Minor_Sherlock_Holmes_characters
+        * Watson -> http://dbpedia.org/resource/Reg_Watson
+        * Mrs. Hudson -> http://dbpedia.org/resource/Landlord
+        but it's a start. TODO: make this work better
+
         Args:
             entity: The entity to enrich
 
@@ -168,16 +181,19 @@ class DBPediaEnricher(EntityEnricherInterface):
         if self.entity_types_to_enrich is not None:
             if entity.get_entity_type() not in self.entity_types_to_enrich:
                 logger.debug(
-                    f"Skipping enrichment for entity '{entity.name}' "
-                    f"(type '{entity.get_entity_type()}' not in whitelist)"
+                    "Skipping enrichment for entity '%s' (type '%s' not in whitelist)",
+                    entity.name,
+                    entity.get_entity_type(),
                 )
                 return entity
 
         # Check confidence threshold
         if entity.confidence < self.confidence_threshold:
             logger.debug(
-                f"Skipping enrichment for entity '{entity.name}' "
-                f"(confidence {entity.confidence:.2f} < {self.confidence_threshold:.2f})"
+                "Skipping enrichment for entity '%s' (confidence %.2f < %.2f)",
+                entity.name,
+                entity.confidence,
+                self.confidence_threshold,
             )
             return entity
 
@@ -186,12 +202,12 @@ class DBPediaEnricher(EntityEnricherInterface):
         if self.cache_results and cache_key in self._cache:
             cached_uri = self._cache[cache_key]
             if cached_uri:
-                logger.debug(f"Using cached DBPedia URI for '{entity.name}': {cached_uri}")
+                logger.debug("Using cached DBPedia URI for '%s': %s", entity.name, cached_uri)
                 ids = dict(entity.canonical_ids)
                 ids["dbpedia"] = cached_uri
                 return entity.model_copy(update={"canonical_ids": ids})
             else:
-                logger.debug(f"Using cached negative result for '{entity.name}'")
+                logger.debug("Using cached negative result for '%s'", entity.name)
                 return entity
 
         # Query DBPedia
@@ -205,54 +221,80 @@ class DBPediaEnricher(EntityEnricherInterface):
 
             # Add to canonical_ids if found
             if dbpedia_uri:
-                logger.info(f"Enriched entity '{entity.name}' with DBPedia URI: {dbpedia_uri}")
+                logger.info("Enriched entity '%s' with DBPedia URI: %s", entity.name, dbpedia_uri)
                 ids = dict(entity.canonical_ids)
                 ids["dbpedia"] = dbpedia_uri
                 return entity.model_copy(update={"canonical_ids": ids})
             else:
-                logger.debug(f"No DBPedia match found for entity '{entity.name}'")
+                logger.debug("No DBPedia match found for entity '%s'", entity.name)
                 return entity
 
-        except Exception as e:
-            logger.warning(f"DBPedia enrichment failed for entity '{entity.name}': {e}")
+        except Exception:
+            logger.exception("DBPedia enrichment failed for entity '%s'", entity.name)
             # Cache negative result to avoid repeated failures
             if self.cache_results:
                 self._cache[cache_key] = None
             return entity
 
-    async def _query_dbpedia(self, query: str, entity_type: str) -> list[dict[str, Any]]:
-        """Query DBPedia Lookup API.
+    async def _query_dbpedia(self, query: str, entity_type: str, retries: int = 2) -> List[Dict[str, Any]]:
+        """Query DBPedia Lookup API with retry logic.
 
         Args:
             query: Entity name to search for
             entity_type: Entity type (for logging/future filtering)
+            retries: Number of retry attempts on failure
 
         Returns:
             List of DBPedia resource dictionaries
 
         Raises:
-            Exception: On HTTP errors, timeouts, or JSON parse errors
+            Exception: On HTTP errors, timeouts, or JSON parse errors after all retries
         """
-        try:
-            # Use asyncio.to_thread for synchronous HTTP calls
-            # In production, use httpx or aiohttp for true async
-            url = f"https://lookup.dbpedia.org/api/search?query={urllib.parse.quote(query)}&maxResults=5"
+        url = f"https://lookup.dbpedia.org/api/search?query={urllib.parse.quote(query)}&format=json&maxResults=5"
+        for attempt in range(retries):
+            try:
+                # Add format=json parameter and increase maxResults
 
-            # Use asyncio.to_thread to avoid blocking
-            def sync_request():
-                with urllib.request.urlopen(url, timeout=self.timeout) as response:
-                    return json.loads(response.read().decode("utf-8"))
+                def sync_request():
+                    # Add User-Agent header - some APIs require it
+                    req = urllib.request.Request(url, headers={"User-Agent": "kgraph-entity-enricher/1.0"})
+                    with urllib.request.urlopen(req, timeout=self.timeout) as response:
+                        # Check response status
+                        if response.status != 200:
+                            logger.warning("DBPedia returned status %d for query: %s", response.status, query)
+                            return {"docs": []}
 
-            data = await asyncio.to_thread(sync_request)
+                        # Read and validate content before parsing
+                        content = response.read().decode("utf-8")
+                        if not content or not content.strip():
+                            logger.warning("Empty response from DBPedia for query: %s", query)
+                            return {"docs": []}
 
-            # Extract docs from response
-            if isinstance(data, dict) and "docs" in data:
-                return data["docs"]
-            return []
+                        return json.loads(content)
 
-        except Exception as e:
-            logger.debug(f"DBPedia API request failed for '{query}': {e}")
-            raise
+                data = await asyncio.to_thread(sync_request)
+
+                # Extract docs from response
+                if isinstance(data, dict) and "docs" in data:
+                    return data["docs"]
+                return []
+
+            except json.JSONDecodeError as e:
+                logger.warning("JSON decode error for '%s' (attempt %d/%d): %s", query, attempt + 1, retries, e)
+                if attempt < retries - 1:
+                    await asyncio.sleep(0.5)  # Brief delay before retry
+                else:
+                    # Return empty results instead of raising on final attempt
+                    logger.debug("All retries exhausted for '%s', returning no results", query)
+                    return []
+            except Exception as e:
+                logger.debug("DBPedia API request failed for '%s' (attempt %d/%d): %s", query, attempt + 1, retries, e)
+                if attempt < retries - 1:
+                    await asyncio.sleep(0.5)  # Brief delay before retry
+                else:
+                    raise
+
+        return []
 
     def _disambiguate_results(self, results: list[dict[str, Any]], entity: BaseEntity) -> str | None:
         """Select best DBPedia result based on entity attributes.
@@ -298,15 +340,16 @@ class DBPediaEnricher(EntityEnricherInterface):
 
             # Consider DBPedia's own relevance score if available
             if "score" in result:
-                dbpedia_score = float(result["score"])
+                dbpedia_score = float(result["score"][0])
                 # Combine our score with DBPedia's score
                 score = (score + dbpedia_score) / 2.0
 
-            logger.debug(f"DBPedia match for '{entity.name}': {label} ({uri}) - score: {score:.2f}")
+            logger.debug("DBPedia match for '%s': %s (%s) - score: %.2f", entity.name, label, uri, score)
 
             # Update best match if score is higher
             if score > best_score and score >= self.min_lookup_score:
                 best_score = score
                 best_uri = uri
 
+        logger.info("DBPedia match for '%s' (%s) - score: %.2f", entity.name, best_uri, best_score)
         return best_uri

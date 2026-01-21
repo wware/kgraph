@@ -172,6 +172,43 @@ class IngestionOrchestrator:
     document_storage: DocumentStorageInterface
     entity_enrichers: list[Any] | None = None
 
+    async def _process_mention(self, mention: Any, errors: list[str]) -> tuple[BaseEntity | None, bool]:
+        """Process a single entity mention."""
+        try:
+            entity, _ = await self.entity_resolver.resolve(mention, self.entity_storage)
+
+            if not self.domain.validate_entity(entity):
+                errors.append(f"Entity validation failed: {entity.name} ({entity.get_entity_type()})")
+                return None, False
+
+            existing = await self.entity_storage.get(entity.entity_id)
+            if existing:
+                updated = existing.model_copy(update={"usage_count": existing.usage_count + 1})
+                await self.entity_storage.update(updated)
+                return updated, False
+
+            if entity.embedding is None:
+                try:
+                    embedding = await self.embedding_generator.generate(entity.name)
+                    entity = entity.model_copy(update={"embedding": embedding})
+                except Exception as e:
+                    errors.append(f"Embedding generation failed: {e}")
+
+            enriched_entity = entity
+            if self.entity_enrichers:
+                for enricher in self.entity_enrichers:
+                    try:
+                        enriched_entity = await enricher.enrich_entity(enriched_entity)
+                    except Exception as e:
+                        errors.append(f"Entity enrichment failed for '{entity.name}': {e}")
+
+            await self.entity_storage.add(enriched_entity)
+            return enriched_entity, True
+
+        except Exception as e:
+            errors.append(f"Entity resolution error for '{mention.text}': {e}")
+            return None, False
+
     async def ingest_document(
         self,
         raw_content: bytes,
@@ -214,46 +251,13 @@ class IngestionOrchestrator:
         entities_existing = 0
 
         for mention in mentions:
-            try:
-                entity, _ = await self.entity_resolver.resolve(mention, self.entity_storage)
-
-                # Validate entity against domain schema
-                if not self.domain.validate_entity(entity):
-                    errors.append(f"Entity validation failed: {entity.name} ({entity.get_entity_type()})")
-                    continue
-
-                # Check if entity already exists
-                existing = await self.entity_storage.get(entity.entity_id)
-                if existing:
-                    # Increment usage count
-                    updated = existing.model_copy(update={"usage_count": existing.usage_count + 1})
-                    await self.entity_storage.update(updated)
-                    resolved_entities.append(updated)
-                    entities_existing += 1
-                else:
-                    # Generate embedding if needed and not present
-                    if entity.embedding is None:
-                        try:
-                            embedding = await self.embedding_generator.generate(entity.name)
-                            entity = entity.model_copy(update={"embedding": embedding})
-                        except Exception as e:
-                            errors.append(f"Embedding generation failed: {e}")
-
-                    # Enrich entity with external data sources
-                    enriched_entity = entity
-                    if self.entity_enrichers:
-                        for enricher in self.entity_enrichers:
-                            try:
-                                enriched_entity = await enricher.enrich_entity(enriched_entity)
-                            except Exception as e:
-                                errors.append(f"Entity enrichment failed for '{entity.name}': {e}")
-
-                    await self.entity_storage.add(enriched_entity)
-                    resolved_entities.append(enriched_entity)
+            entity, is_new = await self._process_mention(mention, errors)
+            if entity:
+                resolved_entities.append(entity)
+                if is_new:
                     entities_new += 1
-
-            except Exception as e:
-                errors.append(f"Entity resolution error for '{mention.text}': {e}")
+                else:
+                    entities_existing += 1
 
         # Pass 2: Relationship extraction
         relationships: list[BaseRelationship] = []

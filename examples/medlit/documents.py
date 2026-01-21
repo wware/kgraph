@@ -1,8 +1,5 @@
 """Journal article document representation for medical literature domain."""
 
-from datetime import datetime
-from typing import Literal
-
 from pydantic import Field
 
 from kgraph.document import BaseDocument

@@ -4,7 +4,6 @@ Resolves entity mentions to canonical entities using UMLS, HGNC, RxNorm, UniProt
 """
 
 from datetime import datetime, timezone
-from typing import Any
 import uuid
 
 from pydantic import BaseModel, ConfigDict
@@ -126,7 +125,7 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
 
         # Check for prefix format (HGNC:1100, RxNorm:1187832)
         if ":" in entity_id:
-            prefix, value = entity_id.split(":", 1)
+            prefix, _ = entity_id.split(":", 1)
             prefix_lower = prefix.lower()
             canonical_ids[prefix_lower] = entity_id
         else:
