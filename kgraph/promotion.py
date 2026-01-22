@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 from .entity import BaseEntity, PromotionConfig
+from kgraph.entity import EntityStatus
 
 
 class PromotionPolicy(ABC):
@@ -11,7 +12,7 @@ class PromotionPolicy(ABC):
 
     def should_promote(self, entity: BaseEntity) -> bool:
         """Check if entity meets promotion thresholds."""
-        if entity.status != "provisional":
+        if entity.status != EntityStatus.PROVISIONAL:
             return False
         return entity.usage_count >= self.config.min_usage_count and entity.confidence >= self.config.min_confidence and (not self.config.require_embedding or entity.embedding is not None)
 

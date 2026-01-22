@@ -340,7 +340,9 @@ class IngestionOrchestrator:
                 continue  # No canonical ID available yet
 
             # Update entity in storage with new ID and status
-            promoted_entity = await self.entity_storage.promote(entity.entity_id, canonical_id, canonical_ids={})  # Could extend policy to return these too
+            new_canonical_ids = entity.canonical_ids.copy()
+            new_canonical_ids["dbpedia"] = canonical_id
+            promoted_entity = await self.entity_storage.promote(entity.entity_id, canonical_id, canonical_ids=new_canonical_ids)
 
             if promoted_entity:
                 # Update all relationships pointing to old ID

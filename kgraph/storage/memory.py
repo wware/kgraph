@@ -124,7 +124,8 @@ class InMemoryEntityStorage(EntityStorageInterface):
         min_usage: int,
         min_confidence: float,
     ) -> list[BaseEntity]:
-        return [entity for entity in self._entities.values() if entity.status == EntityStatus.PROVISIONAL and entity.usage_count >= min_usage and entity.confidence >= min_confidence]
+        promotable_entities = [entity for entity in self._entities.values() if entity.status == EntityStatus.PROVISIONAL and entity.usage_count >= min_usage and entity.confidence >= min_confidence]
+        return promotable_entities
 
     async def update(self, entity: BaseEntity) -> bool:
         if entity.entity_id not in self._entities:
