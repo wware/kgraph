@@ -48,6 +48,7 @@ from pydantic import BaseModel, Field
 from kgraph.document import BaseDocument
 from kgraph.entity import BaseEntity, PromotionConfig
 from kgraph.relationship import BaseRelationship
+from kgraph.promotion import PromotionPolicy
 
 
 class Provenance(BaseModel, frozen=True):
@@ -270,6 +271,14 @@ class DomainSchema(ABC):
             ```
         """
         return list(self.relationship_types.keys())
+
+    @abstractmethod
+    def get_promotion_policy(self) -> PromotionPolicy:
+        """Return the promotion policy for this domain.
+
+        Override this method to provide domain-specific promotion logic.
+        Default implementation raises NotImplementedError.
+        """
 
     @property
     def evidence_model(self) -> type[Evidence]:

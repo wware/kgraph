@@ -251,11 +251,11 @@ async def main() -> None:
     print("Sherlock Holmes Knowledge Graph - Ingestion Pipeline")
     print("=" * 60)
 
-    print("\n[1/4] Downloading stories...")
+    print("\n[1/5] Downloading stories...")  # <-- Changed from 1/4 to 1/5
     stories = download_adventures()
     print(f"      Loaded {len(stories)} stories")
 
-    print("\n[2/4] Initializing pipeline...")
+    print("\n[2/5] Initializing pipeline...")  # <-- Changed
     entity_storage = InMemoryEntityStorage()
     relationship_storage = InMemoryRelationshipStorage()
     document_storage = InMemoryDocumentStorage()
@@ -274,7 +274,7 @@ async def main() -> None:
         document_storage=document_storage,
     )
 
-    print("\n[3/4] Ingesting stories...")
+    print("\n[3/5] Ingesting stories...")  # <-- Changed
     for title, content in stories:
         res = await orchestrator.ingest_document(
             raw_content=content.encode("utf-8"),
@@ -283,17 +283,50 @@ async def main() -> None:
         )
         print(f"      {title}: {res.entities_extracted} entities, {res.relationships_extracted} relationships")
 
-    print("\n[4/4] Summary")
+    # print("\n[4/5] Running entity promotion...")
+    # promoted = await orchestrator.run_promotion()
+    # print(f"      Promoted {len(promoted)} entities to canonical status:")
+    # for entity in promoted:
+    #    print(f"        - {entity.name} → {entity.entity_id}")
+
+    print("\n[4/5] Running entity promotion...")
+
+    # Debug: Check what provisional entities we have
+    all_provisional = await entity_storage.list_all(status="provisional")
+    print(f"      Found {len(all_provisional)} provisional entities")
+
+    # Debug: Show their usage counts and confidence
+    if all_provisional:
+        print("      Sample entity stats:")
+        for entity in all_provisional[:5]:  # Show first 5
+            print(f"        - {entity.name}: usage={entity.usage_count}, confidence={entity.confidence:.2f}")
+
+    # Debug: Check the thresholds
+    config = domain_schema.promotion_config
+    print(f"      Promotion thresholds: usage>={config.min_usage_count}, confidence>={config.min_confidence}")
+
+    promoted = await orchestrator.run_promotion()
+    print(f"      Promoted {len(promoted)} entities to canonical status:")
+    for entity in promoted:
+        print(f"        - {entity.name} → {entity.entity_id}")
+
+    print("\n[5/5] Summary")  # <-- Changed
     doc_count = await document_storage.count()
     ent_count = await entity_storage.count()
     rel_count = await relationship_storage.count()
+
+    # Show canonical vs provisional breakdown
+    canonical_count = len(await entity_storage.list_all(status="canonical"))
+    provisional_count = len(await entity_storage.list_all(status="provisional"))
 
     print(f"""
     ╔══════════════════════════════════════╗
     ║       Knowledge Graph Summary        ║
     ╠══════════════════════════════════════╣
     ║  Documents:               {doc_count:>10} ║
-    ║  Entities:                {ent_count:>10} ║
+    ║  Entities (total):        {ent_count:>10} ║
+    ║    - Canonical:           {canonical_count:>10} ║
+    ║    - Provisional:         {provisional_count:>10} ║
     ║  Relationships:           {rel_count:>10} ║
     ╚══════════════════════════════════════╝
     """)

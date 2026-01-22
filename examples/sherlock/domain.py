@@ -7,6 +7,9 @@ from kgraph.document import BaseDocument
 from kgraph.domain import DomainSchema
 from kgraph.entity import BaseEntity, PromotionConfig
 from kgraph.relationship import BaseRelationship
+from kgraph.promotion import PromotionPolicy
+
+from .promotion import SherlockPromotionPolicy
 
 # -----------------------
 # Entities
@@ -139,6 +142,9 @@ class SherlockDomainSchema(DomainSchema):
             min_confidence=0.7,
             require_embedding=False,
         )
+
+    def get_promotion_policy(self) -> PromotionPolicy:
+        return SherlockPromotionPolicy(self.promotion_config)
 
     def validate_entity(self, entity: BaseEntity) -> bool:
         return entity.get_entity_type() in self.entity_types

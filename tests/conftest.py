@@ -14,13 +14,14 @@ square brackets in document text (e.g., "[aspirin]" becomes an entity).
 
 import uuid
 from datetime import datetime, timezone
-from typing import Sequence
+from typing import Sequence, Optional
 
 import pytest
 
 from kgraph.document import BaseDocument
 from kgraph.domain import DomainSchema
 from kgraph.entity import BaseEntity, EntityMention, EntityStatus, PromotionConfig
+from kgraph.promotion import PromotionPolicy
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 from kgraph.pipeline.interfaces import (
     DocumentParserInterface,
@@ -89,6 +90,11 @@ class SimpleDocument(BaseDocument):
         return [("body", self.content)]
 
 
+class SimplePromotionPolicy(PromotionPolicy):
+    def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
+        return f"canonical-{type(entity)}-{id(entity)}"
+
+
 class SimpleDomainSchema(DomainSchema):
     """Minimal domain schema defining types and validation for the test domain.
 
@@ -142,6 +148,9 @@ class SimpleDomainSchema(DomainSchema):
     def validate_relationship(self, relationship: BaseRelationship) -> bool:
         """Check if the relationship's predicate is registered in this schema."""
         return relationship.predicate in self.relationship_types
+
+    def get_promotion_policy(self) -> PromotionPolicy:
+        return SimplePromotionPolicy(config=self.promotion_config)
 
 
 class MockEmbeddingGenerator(EmbeddingGeneratorInterface):
@@ -320,7 +329,7 @@ class MockRelationshipExtractor(RelationshipExtractorInterface):
         Returns:
             List of "related_to" relationships linking adjacent entities.
         """
-        relationships = []
+        relationships: list[BaseRelationship] = []
         entity_list = list(entities)
         for i in range(len(entity_list) - 1):
             relationships.append(

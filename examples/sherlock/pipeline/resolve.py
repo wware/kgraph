@@ -1,6 +1,7 @@
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime, timezone
 import uuid
+from typing import Sequence
 
 from kgraph.pipeline.interfaces import EntityResolverInterface
 from kgraph.entity import BaseEntity, EntityStatus, EntityMention
@@ -29,42 +30,29 @@ class SherlockEntityResolver(BaseModel, EntityResolverInterface):
         if entity_cls is None:
             raise ValueError(f"Unknown entity_type {entity_type!r}")
 
-        # --- Canonical hint path ---
         canonical_id = mention.metadata.get("canonical_id_hint") if mention.metadata else None
         if canonical_id:
             existing = await existing_storage.get(canonical_id)
             if existing:
                 return existing, mention.confidence
 
-            entity = entity_cls(
-                entity_id=canonical_id,
-                name=mention.text,
-                status=EntityStatus.CANONICAL,
-                confidence=mention.confidence,
-                usage_count=1,
-                source="sherlock:curated",
-                created_at=datetime.now(timezone.utc),
-                metadata={},
-            )
-            return entity, mention.confidence
+        entity_id = canonical_id or f"prov:{uuid.uuid4().hex}"
 
-        # --- Provisional path ---
         entity = entity_cls(
-            entity_id=f"prov:{uuid.uuid4().hex}",
+            entity_id=entity_id,
             name=mention.text,
             status=EntityStatus.PROVISIONAL,
-            confidence=mention.confidence * 0.5,
+            confidence=mention.confidence,
             usage_count=1,
-            source=mention.metadata.get("document_id", "unknown"),
+            source="sherlock:curated",
             created_at=datetime.now(timezone.utc),
-            metadata={},
+            metadata={"canonical_id_hint": canonical_id} if canonical_id else {},
         )
-
-        return entity, entity.confidence
+        return entity, mention.confidence
 
     async def resolve_batch(
         self,
-        mentions: list[EntityMention],
+        mentions: Sequence[EntityMention],
         existing_storage: EntityStorageInterface,
     ) -> list[tuple[BaseEntity, float]]:
         # Simple default: sequential resolution

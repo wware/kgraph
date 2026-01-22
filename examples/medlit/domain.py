@@ -4,6 +4,7 @@ from kgraph.document import BaseDocument
 from kgraph.domain import DomainSchema
 from kgraph.entity import BaseEntity, PromotionConfig
 from kgraph.relationship import BaseRelationship
+from kgraph.promotion import PromotionPolicy, TodoPromotionPolicy
 
 from .documents import JournalArticle
 from .entities import (
@@ -114,3 +115,6 @@ class MedLitDomainSchema(DomainSchema):
         constraints on which relationships are semantically valid.
         """
         return get_valid_predicates(subject_type, object_type)
+
+    def get_promotion_policy(self) -> PromotionPolicy:
+        return TodoPromotionPolicy(config=self.promotion_config)

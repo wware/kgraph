@@ -52,7 +52,7 @@ from pathlib import Path
 from typing import Any, Sequence
 
 import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import cosine_similarity  # type: ignore
 
 from kgraph.domain import DomainSchema
 from kgraph.entity import BaseEntity, EntityStatus
@@ -306,26 +306,23 @@ class IngestionOrchestrator:
     async def run_promotion(self) -> list[BaseEntity]:
         """Promote eligible provisional entities to canonical status.
 
-        Queries for provisional entities meeting the domain's promotion criteria
-        (minimum usage count, minimum confidence, optional embedding requirement)
-        and promotes them to canonical status.
+        Uses the domain's promotion policy to determine which entities should
+        be promoted and what canonical IDs to assign them.
 
         The promotion process:
-            1. Find provisional entities meeting threshold criteria
-            2. Filter by embedding requirement if configured
-            3. Generate a canonical ID (currently name-based slug)
+            1. Get the domain's promotion policy
+            2. Find provisional entities meeting threshold criteria
+            3. For each candidate, check if policy can assign a canonical ID
             4. Update entity status and ID in storage
+            5. Update all relationships pointing to the old provisional ID
 
         Returns:
-            List of entities that were successfully promoted. Each entity
-            in the list has status=CANONICAL and a new canonical entity_id.
-
-        Note:
-            The current implementation generates simple slug-based canonical IDs.
-            Production implementations should integrate with external authority
-            services (UMLS, DBPedia, etc.) to obtain proper canonical identifiers.
+            List of entities that were successfully promoted.
         """
+        policy = self.domain.get_promotion_policy()
         config = self.domain.promotion_config
+
+        # Get candidates meeting basic thresholds
         candidates = await self.entity_storage.find_provisional_for_promotion(
             min_usage=config.min_usage_count,
             min_confidence=config.min_confidence,
@@ -333,16 +330,21 @@ class IngestionOrchestrator:
 
         promoted: list[BaseEntity] = []
         for entity in candidates:
-            # Check embedding requirement
-            if config.require_embedding and entity.embedding is None:
+            # Check if policy says we should promote
+            if not policy.should_promote(entity):
                 continue
 
-            # Domain-specific promotion logic would generate canonical ID
-            # For now, we generate a slug from the name and an empty canonical ID set
-            # Real implementations would call an external service
-            new_entity_id = entity.name.lower().replace(" ", "_")
-            promoted_entity = await self.entity_storage.promote(entity.entity_id, new_entity_id, canonical_ids={})
+            # Get canonical ID from policy
+            canonical_id = policy.assign_canonical_id(entity)
+            if canonical_id is None:
+                continue  # No canonical ID available yet
+
+            # Update entity in storage with new ID and status
+            promoted_entity = await self.entity_storage.promote(entity.entity_id, canonical_id, canonical_ids={})  # Could extend policy to return these too
+
             if promoted_entity:
+                # Update all relationships pointing to old ID
+                await self.relationship_storage.update_entity_references(entity.entity_id, canonical_id)
                 promoted.append(promoted_entity)
 
         return promoted

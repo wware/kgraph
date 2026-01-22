@@ -31,7 +31,7 @@ async def build_or_load() -> tuple[InMemoryEntityStorage, InMemoryRelationshipSt
         domain=SherlockDomainSchema(),
         parser=SherlockDocumentParser(),
         entity_extractor=SherlockEntityExtractor(),
-        entity_resolver=SherlockEntityResolver(),
+        entity_resolver=SherlockEntityResolver(domain=SherlockDomainSchema()),
         relationship_extractor=SherlockRelationshipExtractor(),
         embedding_generator=SimpleEmbeddingGenerator(),
         entity_storage=entity_storage,
@@ -78,7 +78,7 @@ async def main() -> None:
     print(f"\n🤝 Co-occurs with {who}")
     incoming = await relationship_storage.get_by_object(who, "co_occurs_with")
     outgoing = await relationship_storage.get_by_subject(who, "co_occurs_with")
-    rels = {(r.subject_id, r.object_id): r for r in (incoming + outgoing)}.values()
+    rels = list({(r.subject_id, r.object_id): r for r in (incoming + outgoing)}.values())
     for r in rels:
         other_id = r.subject_id if r.object_id == who else r.object_id
         other = await entity_storage.get(other_id)

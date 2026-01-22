@@ -139,6 +139,7 @@ class JsonlGraphBundleExporter:
                         f_docs.write(asset_row.model_dump_json() + "\n")
 
         manifest = BundleManifestV1(
+            bundle_version="v1",
             bundle_id=bundle_id,
             domain=domain,
             label=label,

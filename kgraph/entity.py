@@ -127,7 +127,7 @@ class BaseEntity(ABC, BaseModel):
     model_config = {"frozen": True}
 
     entity_id: str = Field(description="Domain-specific canonical ID or provisional UUID.")
-    status: EntityStatus = Field(description="Whether entity is canonical or provisional.")
+    status: EntityStatus = Field(default=EntityStatus.PROVISIONAL, description="Whether entity is canonical or provisional.")
     name: str = Field(description="Primary name/label for the entity.")
     synonyms: tuple[str, ...] = Field(
         default=(),

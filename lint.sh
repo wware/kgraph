@@ -23,6 +23,12 @@ uv run ruff check .
 
 echo ""
 echo "=========================================="
+echo "Running mypy..."
+echo "=========================================="
+uv run mypy .
+
+echo ""
+echo "=========================================="
 echo "Running black check..."
 echo "=========================================="
 uv run black --check .

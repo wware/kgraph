@@ -5,6 +5,7 @@ Resolves entity mentions to canonical entities using UMLS, HGNC, RxNorm, UniProt
 
 from datetime import datetime, timezone
 import uuid
+from typing import Sequence
 
 from pydantic import BaseModel, ConfigDict
 
@@ -96,7 +97,7 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
 
     async def resolve_batch(
         self,
-        mentions: list[EntityMention],
+        mentions: Sequence[EntityMention],
         existing_storage: EntityStorageInterface,
     ) -> list[tuple[BaseEntity, float]]:
         """Resolve multiple entity mentions efficiently.
