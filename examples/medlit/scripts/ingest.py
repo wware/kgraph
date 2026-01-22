@@ -10,7 +10,6 @@ Usage:
 
 import argparse
 import asyncio
-import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -119,15 +118,17 @@ async def main() -> None:
         print(f"ERROR: No JSON files found in {input_dir}")
         return
 
-    print("=" * 60)
-    print("Medical Literature Knowledge Graph - Ingestion Pipeline")
-    print("=" * 60)
-    print(f"\nInput directory: {input_dir}")
-    print(f"Found {len(json_files)} paper(s) to process")
-    if args.limit:
-        print(f"(Limited to {args.limit} papers)")
+    sep = "=" * 60
+    lim = f"(Limited to {args.limit} papers)\n" if args.limit else ""
+    print(f"""{sep}
+Medical Literature Knowledge Graph - Ingestion Pipeline
+{sep}
 
-    print("\n[1/3] Initializing pipeline...")
+Input directory: {input_dir}
+Found {len(json_files)} paper(s) to process
+{lim}
+
+[1/3] Initializing pipeline...""")
     orchestrator = build_orchestrator()
     entity_storage = orchestrator.entity_storage
     relationship_storage = orchestrator.relationship_storage
@@ -140,7 +141,7 @@ async def main() -> None:
     errors = 0
 
     for json_file in json_files:
-        paper_id, entities, relationships = await ingest_paper_json(orchestrator, json_file)
+        _, entities, relationships = await ingest_paper_json(orchestrator, json_file)
         if entities > 0 or relationships > 0:
             print(f"  {json_file.name}: {entities} entities, {relationships} relationships")
             total_entities += entities
@@ -149,21 +150,25 @@ async def main() -> None:
         else:
             errors += 1
 
-    print(f"\n[3/3] Exporting bundle...")
-    print(f"  Processed: {processed} papers")
-    print(f"  Errors/skipped: {errors} papers")
-    print(f"  Total entities: {total_entities}")
-    print(f"  Total relationships: {total_relationships}")
+    print(f"""
+[3/3] Exporting bundle...
+      Processed: {processed} papers
+      Errors/skipped: {errors} papers
+      Total entities: {total_entities}
+      Total relationships: {total_relationships}
+""")
 
     # Get final counts from storage
     doc_count = await document_storage.count()
     ent_count = await entity_storage.count()
     rel_count = await relationship_storage.count()
 
-    print(f"\nFinal counts:")
-    print(f"  Documents: {doc_count}")
-    print(f"  Entities: {ent_count}")
-    print(f"  Relationships: {rel_count}")
+    print(f"""
+Final counts:
+      Documents: {doc_count}
+      Entities: {ent_count}
+      Relationships: {rel_count}
+""")
 
     # Create bundle
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -205,12 +210,14 @@ Papers were processed from JSON format (med-lit-schema Paper format).
             description="Knowledge graph bundle of biomedical journal articles",
         )
 
-    print(f"\n✓ Bundle exported to: {output_dir}")
-    print(f"  - manifest.json")
-    print(f"  - entities.jsonl")
-    print(f"  - relationships.jsonl")
-    print(f"  - documents.jsonl (if docs provided)")
-    print(f"  - docs/ (documentation)")
+    print(f"""
+✓ Bundle exported to: {output_dir}
+     - manifest.json
+     - entities.jsonl
+     - relationships.jsonl
+     - documents.jsonl (if docs provided)
+     - docs/ (documentation)
+""")
 
 
 if __name__ == "__main__":

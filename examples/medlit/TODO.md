@@ -4,8 +4,8 @@ This document tracks enhancements to the med-lit domain extension for kgraph. Th
 
 ## 1. Integrate NER Models for Entity Extraction
 
-**Status**: Not Started  
-**Priority**: High  
+**Status**: Not Started
+**Priority**: High
 **Component**: `MedLitEntityExtractor`
 
 ### Current State
@@ -40,7 +40,7 @@ class BioBERTEntityExtractor(MedLitEntityExtractor):
             tokenizer="d4data/biomedical-ner-all",
             aggregation_strategy="simple"
         )
-    
+
     async def extract(self, document: BaseDocument) -> list[EntityMention]:
         # Extract from document sections
         mentions = []
@@ -87,7 +87,7 @@ import spacy
 class SpacyEntityExtractor(MedLitEntityExtractor):
     def __init__(self):
         self.nlp = spacy.load("en_ner_bc5cdr_md")
-    
+
     async def extract(self, document: BaseDocument) -> list[EntityMention]:
         mentions = []
         for section_name, section_text in document.get_sections():
@@ -136,8 +136,8 @@ class SpacyEntityExtractor(MedLitEntityExtractor):
 
 ## 2. Integrate Relationship Extraction from Text
 
-**Status**: Not Started  
-**Priority**: High  
+**Status**: Not Started
+**Priority**: High
 **Component**: `MedLitRelationshipExtractor`
 
 ### Current State
@@ -181,7 +181,7 @@ class PatternRelationshipExtractor(MedLitRelationshipExtractor):
     async def extract(self, document: BaseDocument, entities: Sequence[BaseEntity]) -> list[BaseRelationship]:
         relationships = []
         entity_names = {e.name.lower(): e for e in entities}
-        
+
         for section_name, section_text in document.get_sections():
             sentences = re.split(r'[.!?]+', section_text)
             for sentence in sentences:
@@ -189,7 +189,7 @@ class PatternRelationshipExtractor(MedLitRelationshipExtractor):
                     for pattern in patterns:
                         if re.search(pattern, sentence, re.IGNORECASE):
                             # Try to find entities in sentence
-                            found_entities = [e for name, e in entity_names.items() 
+                            found_entities = [e for name, e in entity_names.items()
                                             if name in sentence.lower()]
                             if len(found_entities) >= 2:
                                 # Create relationship (need to determine subject/object)
@@ -363,8 +363,8 @@ Return JSON format:
 
 ## 3. PMC XML Parser
 
-**Status**: Not Started  
-**Priority**: Medium  
+**Status**: Not Started
+**Priority**: Medium
 **Component**: `JournalArticleParser`
 
 ### Current State
@@ -395,35 +395,35 @@ class PMCXMLParser(JournalArticleParser):
     ) -> JournalArticle:
         if content_type not in ("application/xml", "text/xml"):
             raise ValueError(f"Unsupported content_type: {content_type}")
-        
+
         root = ET.fromstring(raw_content)
-        
+
         # Extract identifiers
         pmc_id = self._extract_pmc_id(root)
         pmid = self._extract_pmid(root)
         doi = self._extract_doi(root)
-        
+
         # Extract bibliographic metadata
         title = self._extract_title(root)
         authors = self._extract_authors(root)
         journal = self._extract_journal(root)
         publication_date = self._extract_publication_date(root)
-        
+
         # Extract content
         abstract = self._extract_abstract(root)
         full_text = self._extract_full_text(root)
         content = f"{abstract}\n\n{full_text}" if full_text else abstract
-        
+
         # Extract metadata
         mesh_terms = self._extract_mesh_terms(root)
         metadata = {
             "mesh_terms": mesh_terms,
             # ... other metadata
         }
-        
+
         # Determine document_id (prefer DOI, else PMID, else PMC ID)
         document_id = f"doi:{doi}" if doi else (f"pmid:{pmid}" if pmid else pmc_id)
-        
+
         return JournalArticle(
             document_id=document_id,
             title=title,
@@ -456,8 +456,8 @@ class PMCXMLParser(JournalArticleParser):
 
 ## 4. Better Entity Resolution with Embedding Similarity
 
-**Status**: Not Started  
-**Priority**: Medium  
+**Status**: Not Started
+**Priority**: Medium
 **Component**: `MedLitEntityResolver`
 
 ### Current State
@@ -481,7 +481,7 @@ class EmbeddingEntityResolver(MedLitEntityResolver):
         super().__init__(domain=domain)
         self.embedding_generator = embedding_generator
         self.similarity_threshold = 0.85
-    
+
     async def resolve(
         self,
         mention: EntityMention,
@@ -489,7 +489,7 @@ class EmbeddingEntityResolver(MedLitEntityResolver):
     ) -> tuple[BaseEntity, float]:
         # Generate embedding for mention
         mention_embedding = await self.embedding_generator.generate(mention.text)
-        
+
         # Search for similar entities
         similar_entities = await existing_storage.find_similar(
             embedding=mention_embedding,
@@ -497,12 +497,12 @@ class EmbeddingEntityResolver(MedLitEntityResolver):
             threshold=self.similarity_threshold,
             top_k=5
         )
-        
+
         if similar_entities:
             # Use most similar entity
             best_match, similarity = similar_entities[0]
             return best_match, similarity * mention.confidence
-        
+
         # No match found - create provisional entity
         return await super().resolve(mention, existing_storage)
 ```
@@ -548,7 +548,7 @@ class AuthorityEntityResolver(MedLitEntityResolver):
             )
             # Parse response and return CUI
             ...
-    
+
     async def _lookup_hgnc(self, gene_name: str) -> str | None:
         async with httpx.AsyncClient() as client:
             response = await client.get(
@@ -583,7 +583,7 @@ class AuthorityEntityResolver(MedLitEntityResolver):
 - **Embeddings (BioBERT)**: Free (local), ~2 minutes
 - **Embeddings (OpenAI)**: ~$0.02 (text-embedding-3-small)
 
-**Total cost (Ollama approach)**: ~$0.10-0.20  
+**Total cost (Ollama approach)**: ~$0.10-0.20
 **Total cost (OpenAI approach)**: ~$0.72
 
 **For processing 1000 papers**:

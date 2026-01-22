@@ -49,7 +49,7 @@ class JournalArticleParser(DocumentParserInterface):
             data = json.loads(raw_content.decode("utf-8"))
             return self._parse_from_dict(data, source_uri)
 
-        elif content_type == "application/xml" or content_type == "text/xml":
+        elif content_type in {"application/xml", "text/xml"}:
             # Parse PMC XML
             # TODO: Implement full PMC XML parsing (see med-lit-schema's pmc_parser.py)
             raise ValueError("PMC XML parsing not yet implemented. Use JSON format for now.")

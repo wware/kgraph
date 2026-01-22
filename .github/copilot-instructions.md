@@ -119,7 +119,7 @@ uv run pylint $(find . -name "*.py" | grep -v venv)
 ```python
 class MyEntity(BaseEntity):
     frozen: True
-    
+
     def get_entity_type(self) -> str:
         return "my_type"
 ```

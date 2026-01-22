@@ -1,10 +1,6 @@
 """Medical entity types for the knowledge graph."""
 
-from datetime import datetime
-
-from pydantic import Field
-
-from kgraph.entity import BaseEntity, EntityStatus
+from kgraph.entity import BaseEntity
 
 
 class DiseaseEntity(BaseEntity):

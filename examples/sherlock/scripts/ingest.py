@@ -292,9 +292,9 @@ async def main() -> None:
     ╔══════════════════════════════════════╗
     ║       Knowledge Graph Summary        ║
     ╠══════════════════════════════════════╣
-    ║  Documents:     {doc_count:>6}       ║
-    ║  Entities:      {ent_count:>6}       ║
-    ║  Relationships: {rel_count:>6}       ║
+    ║  Documents:               {doc_count:>10} ║
+    ║  Entities:                {ent_count:>10} ║
+    ║  Relationships:           {rel_count:>10} ║
     ╚══════════════════════════════════════╝
     """)
 
