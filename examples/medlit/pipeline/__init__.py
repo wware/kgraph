@@ -4,7 +4,7 @@ from .parser import JournalArticleParser
 from .mentions import MedLitEntityExtractor
 from .resolve import MedLitEntityResolver
 from .relationships import MedLitRelationshipExtractor
-from .embeddings import SimpleMedLitEmbeddingGenerator
+from .embeddings import OllamaMedLitEmbeddingGenerator
 from .llm_client import LLMClientInterface, OllamaLLMClient
 
 __all__ = [
@@ -12,7 +12,7 @@ __all__ = [
     "MedLitEntityExtractor",
     "MedLitEntityResolver",
     "MedLitRelationshipExtractor",
-    "SimpleMedLitEmbeddingGenerator",
+    "OllamaMedLitEmbeddingGenerator",
     "LLMClientInterface",
     "OllamaLLMClient",
 ]

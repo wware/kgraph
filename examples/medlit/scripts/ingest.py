@@ -26,20 +26,20 @@ from ..pipeline.parser import JournalArticleParser
 from ..pipeline.mentions import MedLitEntityExtractor
 from ..pipeline.resolve import MedLitEntityResolver
 from ..pipeline.relationships import MedLitRelationshipExtractor
-from ..pipeline.embeddings import SimpleMedLitEmbeddingGenerator
+from ..pipeline.embeddings import OllamaMedLitEmbeddingGenerator
 from ..pipeline.llm_client import OllamaLLMClient
 
 
 def build_orchestrator(
     use_ollama: bool = False,
-    ollama_model: str = "llama3.1:8b",
+    ollama_model: str = "meditron:70b",
     ollama_host: str = "http://localhost:11434",
 ) -> IngestionOrchestrator:
     """Build the ingestion orchestrator for medical literature domain.
 
     Args:
         use_ollama: If True, use Ollama LLM for entity and relationship extraction.
-        ollama_model: Ollama model name (e.g., "llama3.1:8b").
+        ollama_model: Ollama model name (e.g., "meditron:70b").
         ollama_host: Ollama server URL.
 
     Returns:
@@ -67,7 +67,7 @@ def build_orchestrator(
         entity_extractor=MedLitEntityExtractor(llm_client=llm_client),
         entity_resolver=MedLitEntityResolver(domain=domain),
         relationship_extractor=MedLitRelationshipExtractor(llm_client=llm_client),
-        embedding_generator=SimpleMedLitEmbeddingGenerator(),
+        embedding_generator=OllamaMedLitEmbeddingGenerator(),
         entity_storage=InMemoryEntityStorage(),
         relationship_storage=InMemoryRelationshipStorage(),
         document_storage=InMemoryDocumentStorage(),
@@ -135,8 +135,8 @@ async def main() -> None:
     parser.add_argument(
         "--ollama-model",
         type=str,
-        default="llama3.1:8b",
-        help="Ollama model name (default: llama3.1:8b)",
+        default="meditron:70b",
+        help="Ollama model name (default: meditron:70b)",
     )
     parser.add_argument(
         "--ollama-host",

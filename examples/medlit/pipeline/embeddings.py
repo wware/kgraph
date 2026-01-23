@@ -10,35 +10,67 @@ from typing import Sequence
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 
 
-class SimpleMedLitEmbeddingGenerator(EmbeddingGeneratorInterface):
-    """Simple hash-based embedding generator for medical entities.
+import httpx
+from typing import Optional
 
-    This is a placeholder implementation. For production use, consider:
-    - BioBERT embeddings
-    - scispaCy embeddings
-    - OpenAI/Anthropic embeddings
-    - Specialized biomedical embedding models
+class OllamaMedLitEmbeddingGenerator(EmbeddingGeneratorInterface):
+    """Real embedding generator using Ollama.
+    
+    Uses Ollama's embedding API to generate vectors for medical entities.
+    Default model is nomic-embed-text which performs well on medical text.
     """
-
+    
+    def __init__(
+        self, 
+        # model: str = "nomic-embed-text",
+        model: str = "mxbai-embed-large",
+        ollama_host: str = "http://localhost:11434",
+        timeout: float = 30.0
+    ):
+        self.model = model
+        self.ollama_host = ollama_host
+        self.timeout = timeout
+        self._dimension: Optional[int] = None
+        
     @property
     def dimension(self) -> int:
-        return 32
-
+        """Return embedding dimension for the model.
+        
+        Common dimensions:
+        - nomic-embed-text: 768
+        - mxbai-embed-large: 1024
+        - bge-large: 1024
+        """
+        if self._dimension is None:
+            # Lazy initialization - get dimension from first embedding
+            raise RuntimeError(
+                "Dimension not yet determined. "
+                "Call generate() at least once first."
+            )
+        return self._dimension
+    
     async def generate(self, text: str) -> tuple[float, ...]:
-        """Generate embedding for a single text.
-
+        """Generate embedding for a single text using Ollama.
+        
         Args:
             text: The text to generate an embedding for.
-
+            
         Returns:
             Tuple of float values representing the embedding vector.
+            
+        Raises:
+            httpx.HTTPError: If Ollama request fails
+            ValueError: If response format is unexpected
         """
-        h = hashlib.sha256(text.lower().encode("utf-8")).digest()
-        values = [b / 255.0 for b in h[: self.dimension]]
-        mag = sum(v * v for v in values) ** 0.5
-        if mag == 0:
-            return tuple(0.0 for _ in values)
-        return tuple(v / mag for v in values)
+        async with httpx.AsyncClient(timeout=self.timeout) as client:
+            response = await client.post(
+                f"{self.ollama_host}/api/embed",
+                json={
+                    "model": self.model,
+                    "input": text
+                }
+            )
+            response.raise
 
     async def generate_batch(self, texts: Sequence[str]) -> list[tuple[float, ...]]:
         """Generate embeddings for multiple texts.
