@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict
 
 from kgraph.domain import DomainSchema
 from kgraph.entity import BaseEntity, EntityMention, EntityStatus
+from kgraph.logging import setup_logging
 from kgraph.pipeline.interfaces import EntityResolverInterface
 from kgraph.storage.interfaces import EntityStorageInterface
 
@@ -43,6 +44,8 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
         Returns:
             Tuple of (resolved_entity, confidence_score).
         """
+        logger = setup_logging()
+
         entity_type = mention.entity_type
         entity_cls = self.domain.entity_types.get(entity_type)
 
@@ -52,16 +55,47 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
         # Check for canonical ID hint (from pre-extracted entities)
         canonical_id = mention.metadata.get("canonical_id_hint") if mention.metadata else None
 
+        logger.debug(
+            f"Resolving mention: '{mention.text}' (type: {entity_type}, confidence: {mention.confidence:.3f})",
+            extra={"mention": mention},
+            pprint=True,
+        )
+
         if canonical_id:
+            logger.debug(
+                {
+                    "message": f"Mention '{mention.text}' has canonical_id_hint: {canonical_id}",
+                    "canonical_id": canonical_id,
+                },
+                pprint=True,
+            )
+
             # Try to find existing entity with this ID
             existing = await existing_storage.get(canonical_id)
             if existing:
                 # Entity already exists - return it with high confidence
+                logger.debug(
+                    {
+                        "message": f"Found existing canonical entity for '{mention.text}': {canonical_id}",
+                        "existing_entity": existing,
+                    },
+                    pprint=True,
+                )
                 return existing, mention.confidence
 
             # Create new canonical entity with the authoritative ID
             # Extract canonical_ids dict from the ID format
             canonical_ids = self._parse_canonical_id(canonical_id, entity_type)
+
+            logger.info(
+                {
+                    "message": f"Creating new canonical entity for '{mention.text}' with ID {canonical_id}",
+                    "mention": mention,
+                    "canonical_id": canonical_id,
+                    "canonical_ids": canonical_ids,
+                },
+                pprint=True,
+            )
 
             entity = entity_cls(
                 entity_id=canonical_id,
@@ -79,8 +113,19 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
             return entity, mention.confidence
 
         # No canonical ID - create provisional entity
+        provisional_id = f"prov:{uuid.uuid4().hex}"
+        logger.info(
+            {
+                "message": f"Creating provisional entity for '{mention.text}'",
+                "mention": mention,
+                "provisional_id": provisional_id,
+                "note": "No canonical_id_hint provided. This entity will need promotion or external lookup to get canonical ID",
+            },
+            pprint=True,
+        )
+
         entity = entity_cls(
-            entity_id=f"prov:{uuid.uuid4().hex}",
+            entity_id=provisional_id,
             status=EntityStatus.PROVISIONAL,
             name=mention.text,
             synonyms=tuple(),

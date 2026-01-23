@@ -56,6 +56,7 @@ from sklearn.metrics.pairwise import cosine_similarity  # type: ignore
 
 from kgraph.domain import DomainSchema
 from kgraph.entity import BaseEntity, EntityStatus
+from kgraph.logging import setup_logging
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 from kgraph.pipeline.interfaces import (
     DocumentParserInterface,
@@ -459,8 +460,16 @@ class IngestionOrchestrator(BaseModel):
         Returns:
             List of entities that were successfully promoted.
         """
+        logger = setup_logging()
+        logger.info("Starting entity promotion process")
+
         policy = self.domain.get_promotion_policy()
         config = self.domain.promotion_config
+
+        logger.info(
+            {"message": "Promotion configuration", "config": config},
+            pprint=True,
+        )
 
         # Get candidates meeting basic thresholds
         candidates = await self.entity_storage.find_provisional_for_promotion(
@@ -468,16 +477,57 @@ class IngestionOrchestrator(BaseModel):
             min_confidence=config.min_confidence,
         )
 
+        logger.info(f"Found {len(candidates)} provisional entities meeting basic thresholds " f"(usage>={config.min_usage_count}, confidence>={config.min_confidence})")
+
+        if candidates:
+            logger.debug(
+                "Candidate entities for promotion",
+                extra={"candidates": candidates[:10]},  # Log first 10
+                pprint=True,
+            )
+
         promoted: list[BaseEntity] = []
+        skipped_no_policy: list[BaseEntity] = []
+        skipped_no_canonical_id: list[BaseEntity] = []
+        skipped_storage_failure: list[BaseEntity] = []
+
         for entity in candidates:
+            logger.debug(
+                {
+                    "message": f"Evaluating entity for promotion: {entity.name} ({entity.entity_id})",
+                    "entity": entity,
+                },
+                pprint=True,
+            )
+
             # Check if policy says we should promote
             if not policy.should_promote(entity):
+                logger.debug(
+                    f"Entity {entity.name} ({entity.entity_id}) does not meet promotion policy criteria",
+                    extra={"entity": entity},
+                    pprint=True,
+                )
+                skipped_no_policy.append(entity)
                 continue
 
             # Get canonical ID from policy
             canonical_id = policy.assign_canonical_id(entity)
             if canonical_id is None:
-                continue  # No canonical ID available yet
+                logger.debug(
+                    {
+                        "message": f"Entity {entity.name} ({entity.entity_id}) cannot be assigned a canonical ID",
+                        "entity": entity,
+                    },
+                    pprint=True,
+                )
+                skipped_no_canonical_id.append(entity)
+                continue
+
+            logger.info(
+                f"Promoting entity {entity.name}: {entity.entity_id} → {canonical_id}",
+                extra={"entity": entity, "canonical_id": canonical_id},
+                pprint=True,
+            )
 
             # Update entity in storage with new ID and status
             new_canonical_ids = entity.canonical_ids.copy()
@@ -487,7 +537,37 @@ class IngestionOrchestrator(BaseModel):
             if promoted_entity:
                 # Update all relationships pointing to old ID
                 await self.relationship_storage.update_entity_references(entity.entity_id, canonical_id)
+                logger.info(
+                    {
+                        "message": f"Successfully promoted {entity.name} to canonical status",
+                        "promoted_entity": promoted_entity,
+                    },
+                    pprint=True,
+                )
                 promoted.append(promoted_entity)
+            else:
+                logger.warning(
+                    f"Storage promotion failed for {entity.name} ({entity.entity_id})",
+                    extra={"entity": entity},
+                    pprint=True,
+                )
+                skipped_storage_failure.append(entity)
+
+        logger.info(
+            f"Promotion complete: {len(promoted)} promoted, "
+            f"{len(skipped_no_policy)} skipped (policy), "
+            f"{len(skipped_no_canonical_id)} skipped (no canonical ID), "
+            f"{len(skipped_storage_failure)} skipped (storage failure)"
+        )
+
+        if skipped_no_canonical_id:
+            logger.debug(
+                {
+                    "message": f"Entities skipped due to missing canonical ID ({len(skipped_no_canonical_id)}):",
+                    "skipped": skipped_no_canonical_id[:10],  # Log first 10
+                },
+                pprint=True,
+            )
 
         return promoted
 
