@@ -27,18 +27,46 @@ from ..pipeline.mentions import MedLitEntityExtractor
 from ..pipeline.resolve import MedLitEntityResolver
 from ..pipeline.relationships import MedLitRelationshipExtractor
 from ..pipeline.embeddings import SimpleMedLitEmbeddingGenerator
+from ..pipeline.llm_client import OllamaLLMClient
 
 
-def build_orchestrator() -> IngestionOrchestrator:
-    """Build the ingestion orchestrator for medical literature domain."""
+def build_orchestrator(
+    use_ollama: bool = False,
+    ollama_model: str = "llama3.1:8b",
+    ollama_host: str = "http://localhost:11434",
+) -> IngestionOrchestrator:
+    """Build the ingestion orchestrator for medical literature domain.
+
+    Args:
+        use_ollama: If True, use Ollama LLM for entity and relationship extraction.
+        ollama_model: Ollama model name (e.g., "llama3.1:8b").
+        ollama_host: Ollama server URL.
+
+    Returns:
+        Configured IngestionOrchestrator instance.
+    """
     domain = MedLitDomainSchema()
+
+    # Create LLM client if requested
+    llm_client = None
+    if use_ollama:
+        try:
+            print(f"  Initializing Ollama LLM: {ollama_model} at {ollama_host}...")
+            llm_client = OllamaLLMClient(model=ollama_model, host=ollama_host)
+            print(f"  ✓ Ollama client created successfully")
+        except Exception as e:
+            print(f"  Warning: Failed to create Ollama client: {e}")
+            print("  Continuing without LLM extraction...")
+            import traceback
+            traceback.print_exc()
+            llm_client = None
 
     return IngestionOrchestrator(
         domain=domain,
         parser=JournalArticleParser(),
-        entity_extractor=MedLitEntityExtractor(),
+        entity_extractor=MedLitEntityExtractor(llm_client=llm_client),
         entity_resolver=MedLitEntityResolver(domain=domain),
-        relationship_extractor=MedLitRelationshipExtractor(),
+        relationship_extractor=MedLitRelationshipExtractor(llm_client=llm_client),
         embedding_generator=SimpleMedLitEmbeddingGenerator(),
         entity_storage=InMemoryEntityStorage(),
         relationship_storage=InMemoryRelationshipStorage(),
@@ -99,6 +127,23 @@ async def main() -> None:
         default=None,
         help="Limit number of papers to process (for testing)",
     )
+    parser.add_argument(
+        "--use-ollama",
+        action="store_true",
+        help="Use Ollama LLM for entity and relationship extraction",
+    )
+    parser.add_argument(
+        "--ollama-model",
+        type=str,
+        default="llama3.1:8b",
+        help="Ollama model name (default: llama3.1:8b)",
+    )
+    parser.add_argument(
+        "--ollama-host",
+        type=str,
+        default="http://localhost:11434",
+        help="Ollama server URL (default: http://localhost:11434)",
+    )
 
     args = parser.parse_args()
 
@@ -128,13 +173,17 @@ Input directory: {input_dir}
 Found {len(json_files)} paper(s) to process
 {lim}
 
-[1/3] Initializing pipeline...""")
-    orchestrator = build_orchestrator()
+[1/5] Initializing pipeline...""")
+    orchestrator = build_orchestrator(
+        use_ollama=args.use_ollama,
+        ollama_model=args.ollama_model,
+        ollama_host=args.ollama_host,
+    )
     entity_storage = orchestrator.entity_storage
     relationship_storage = orchestrator.relationship_storage
     document_storage = orchestrator.document_storage
 
-    print("\n[2/3] Ingesting papers...")
+    print("\n[2/5] Ingesting papers...")
     total_entities = 0
     total_relationships = 0
     processed = 0
@@ -151,23 +200,53 @@ Found {len(json_files)} paper(s) to process
             errors += 1
 
     print(f"""
-[3/3] Exporting bundle...
-      Processed: {processed} papers
-      Errors/skipped: {errors} papers
-      Total entities: {total_entities}
-      Total relationships: {total_relationships}
-""")
+[3/5] Running entity promotion...""")
 
-    # Get final counts from storage
+    # Debug: Check what provisional entities we have
+    all_provisional = await entity_storage.list_all(status="provisional")
+    print(f"      Found {len(all_provisional)} provisional entities")
+
+    # Debug: Show their usage counts and confidence
+    if all_provisional:
+        print("      Sample entity stats:")
+        for entity in all_provisional[:5]:  # Show first 5
+            print(f"        - {entity.name}: usage={entity.usage_count}, confidence={entity.confidence:.2f}")
+
+    # Debug: Check the thresholds
+    config = orchestrator.domain.promotion_config
+    print(f"      Promotion thresholds: usage>={config.min_usage_count}, confidence>={config.min_confidence}")
+
+    promoted = await orchestrator.run_promotion()
+    print(f"      Promoted {len(promoted)} entities to canonical status:")
+    for entity in promoted:
+        print(f"        - {entity.name} → {entity.entity_id}")
+
+    print(f"""
+[4/5] Summary""")
     doc_count = await document_storage.count()
     ent_count = await entity_storage.count()
     rel_count = await relationship_storage.count()
 
+    # Show canonical vs provisional breakdown
+    canonical_count = len(await entity_storage.list_all(status="canonical"))
+    provisional_count = len(await entity_storage.list_all(status="provisional"))
+
     print(f"""
-Final counts:
-      Documents: {doc_count}
-      Entities: {ent_count}
-      Relationships: {rel_count}
+    ╔══════════════════════════════════════╗
+    ║       Knowledge Graph Summary        ║
+    ╠══════════════════════════════════════╣
+    ║  Documents:               {doc_count:>10} ║
+    ║  Entities (total):        {ent_count:>10} ║
+    ║    - Canonical:           {canonical_count:>10} ║
+    ║    - Provisional:         {provisional_count:>10} ║
+    ║  Relationships:           {rel_count:>10} ║
+    ╚══════════════════════════════════════╝
+    """)
+
+    print(f"""
+[5/5] Exporting bundle...
+      Processed: {processed} papers
+      Errors/skipped: {errors} papers
 """)
 
     # Create bundle

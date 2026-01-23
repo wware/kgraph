@@ -10,6 +10,8 @@ class JournalArticle(BaseDocument):
 
     Maps from med-lit-schema's Paper model to kgraph's BaseDocument.
     Papers are NOT the same as documents.jsonl (which is for documentation assets).
+    Papers are the source of information for building the knowledge graph, taken
+    from sources like PubMed, PLOS ONE, or medical journals if available.
 
     Key mappings:
     - Paper.paper_id → BaseDocument.document_id (prefer doi:, else pmid:, else stable hash)

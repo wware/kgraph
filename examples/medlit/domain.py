@@ -4,9 +4,10 @@ from kgraph.document import BaseDocument
 from kgraph.domain import DomainSchema
 from kgraph.entity import BaseEntity, PromotionConfig
 from kgraph.relationship import BaseRelationship
-from kgraph.promotion import PromotionPolicy, TodoPromotionPolicy
+from kgraph.promotion import PromotionPolicy
 
 from .documents import JournalArticle
+from .promotion import MedLitPromotionPolicy
 from .entities import (
     BiomarkerEntity,
     DiseaseEntity,
@@ -117,4 +118,9 @@ class MedLitDomainSchema(DomainSchema):
         return get_valid_predicates(subject_type, object_type)
 
     def get_promotion_policy(self) -> PromotionPolicy:
-        return TodoPromotionPolicy(config=self.promotion_config)
+        """Return the promotion policy for medical literature domain.
+
+        Uses MedLitPromotionPolicy which assigns canonical IDs based on
+        authoritative medical ontologies (UMLS, HGNC, RxNorm, UniProt).
+        """
+        return MedLitPromotionPolicy(config=self.promotion_config)

@@ -158,6 +158,49 @@ This will:
    - `documents.jsonl` - Documentation assets (if provided)
    - `docs/` - Documentation directory
 
+## Resource Requirements
+
+### Current Implementation (No External Resources)
+
+The current implementation uses **stub implementations** that require **no external resources**:
+
+- **Embeddings**: `SimpleMedLitEmbeddingGenerator` uses hash-based embeddings (deterministic, no API calls)
+- **Entity Extraction**: Uses pre-extracted entities from Paper JSON (no NER models needed)
+- **Relationship Extraction**: Uses pre-extracted relationships from Paper JSON (no LLMs needed)
+
+This allows the pipeline to run **completely offline** with no external dependencies, making it ideal for:
+- Development and testing
+- Processing pre-extracted data
+- Environments without network access
+- Quick iteration without API costs
+
+### Production Enhancements (Future Work)
+
+The architecture is designed to support swapping components for production use. Future enhancements could include:
+
+1. **Embedding Generators**:
+   - BioBERT embeddings (biomedical domain-specific)
+   - scispaCy embeddings
+   - OpenAI/Anthropic embeddings
+   - Ollama embeddings (local GPU-accelerated)
+   - Sentence Transformers models
+
+2. **Entity Extraction**:
+   - NER models (BioBERT, scispaCy) for extracting entities from raw text
+   - Entity linking to UMLS, HGNC, RxNorm, UniProt
+
+3. **Relationship Extraction**:
+   - LLM-based extraction (Ollama, OpenAI, Anthropic)
+   - Pattern matching for common medical predicates
+   - Hybrid approaches (patterns + LLM)
+
+4. **Factory Functions**:
+   - `create_embedding_generator(provider, ...)` for easy component swapping
+   - `create_llm_client(provider, ...)` for LLM-based extraction
+   - CLI flags to choose providers with graceful fallback to stubs
+
+**Note**: These enhancements would be implemented as optional components that can be swapped into `build_orchestrator()` without changing the core architecture. See `med-lit-schema/medlit_kgraph/pipeline/` for reference implementations.
+
 ## Next Steps
 
 1. **Entity/Relationship Extraction**: The current pipeline works with pre-extracted entities/relationships from Paper JSON. To extract from raw text:
