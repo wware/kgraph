@@ -6,7 +6,7 @@ identifiers (UMLS, HGNC, RxNorm, UniProt) or meet usage/confidence thresholds.
 
 from typing import Optional
 
-from kgraph.entity import BaseEntity
+from kgraph.entity import BaseEntity, EntityStatus
 from kgraph.promotion import PromotionPolicy
 
 
@@ -24,6 +24,13 @@ class MedLitPromotionPolicy(PromotionPolicy):
     2. If entity_id is already a canonical ID format, use it directly
     3. Otherwise, return None (wait for more evidence or external lookup)
     """
+
+    def should_promote(self, entity: BaseEntity) -> bool:
+        """Check if entity meets promotion thresholds."""
+        if entity.status != EntityStatus.PROVISIONAL:
+            return False
+        # return entity.usage_count >= self.config.min_usage_count and entity.confidence >= self.config.min_confidence and (not self.config.require_embedding or entity.embedding is not None)
+        return entity.confidence >= self.config.min_confidence
 
     def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
         """Assign canonical ID for a provisional entity.

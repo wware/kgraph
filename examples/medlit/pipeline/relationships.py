@@ -119,6 +119,7 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
             except Exception as e:
                 print(f"Warning: LLM relationship extraction failed: {e}")
                 import traceback
+
                 traceback.print_exc()
 
         return relationships
@@ -134,10 +135,7 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
 
         # Build entity context for LLM
         entity_by_name: dict[str, BaseEntity] = {e.name.lower(): e for e in entities}
-        entity_list = "\n".join(
-            f"- {e.name} ({e.get_entity_type()}): {e.entity_id}"
-            for e in entities[:50]  # Limit to avoid huge prompts
-        )
+        entity_list = "\n".join(f"- {e.name} ({e.get_entity_type()}): {e.entity_id}" for e in entities[:50])  # Limit to avoid huge prompts
 
         # Use abstract for extraction (shorter, more focused)
         text = document.abstract if hasattr(document, "abstract") and document.abstract else document.content

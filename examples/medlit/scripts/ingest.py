@@ -14,6 +14,11 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from kgraph.ingest import IngestionOrchestrator
+from kgraph.storage.interfaces import (
+    DocumentStorageInterface,
+    EntityStorageInterface,
+    RelationshipStorageInterface,
+)
 from kgraph.storage.memory import (
     InMemoryDocumentStorage,
     InMemoryEntityStorage,
@@ -32,14 +37,14 @@ from ..pipeline.llm_client import OllamaLLMClient
 
 def build_orchestrator(
     use_ollama: bool = False,
-    ollama_model: str = "meditron:70b",
+    ollama_model: str = "llama3.1:8b",
     ollama_host: str = "http://localhost:11434",
 ) -> IngestionOrchestrator:
     """Build the ingestion orchestrator for medical literature domain.
 
     Args:
         use_ollama: If True, use Ollama LLM for entity and relationship extraction.
-        ollama_model: Ollama model name (e.g., "meditron:70b").
+        ollama_model: Ollama model name (e.g., "llama3.1:8b").
         ollama_host: Ollama server URL.
 
     Returns:
@@ -53,11 +58,12 @@ def build_orchestrator(
         try:
             print(f"  Initializing Ollama LLM: {ollama_model} at {ollama_host}...")
             llm_client = OllamaLLMClient(model=ollama_model, host=ollama_host)
-            print(f"  ✓ Ollama client created successfully")
+            print("  ✓ Ollama client created successfully")
         except Exception as e:
             print(f"  Warning: Failed to create Ollama client: {e}")
             print("  Continuing without LLM extraction...")
             import traceback
+
             traceback.print_exc()
             llm_client = None
 
@@ -74,11 +80,11 @@ def build_orchestrator(
     )
 
 
-async def ingest_paper_json(
+async def extract_entities_from_paper(
     orchestrator: IngestionOrchestrator,
     json_path: Path,
 ) -> tuple[str, int, int]:
-    """Ingest a single Paper JSON file.
+    """Extract entities from a single Paper JSON file.
 
     Args:
         orchestrator: The ingestion orchestrator.
@@ -92,8 +98,8 @@ async def ingest_paper_json(
         with open(json_path, "rb") as f:
             raw_content = f.read()
 
-        # Ingest the paper
-        result = await orchestrator.ingest_document(
+        # Extract entities from the paper
+        result = await orchestrator.extract_entities_from_document(
             raw_content=raw_content,
             content_type="application/json",
             source_uri=str(json_path),
@@ -106,8 +112,40 @@ async def ingest_paper_json(
         return (json_path.stem, 0, 0)
 
 
-async def main() -> None:
-    """Main ingestion function."""
+async def extract_relationships_from_paper(
+    orchestrator: IngestionOrchestrator,
+    json_path: Path,
+) -> tuple[str, int, int]:
+    """Extract relationships from a single Paper JSON file.
+
+    Args:
+        orchestrator: The ingestion orchestrator.
+        json_path: Path to the Paper JSON file.
+
+    Returns:
+        Tuple of (paper_id, entities_extracted, relationships_extracted).
+    """
+    try:
+        # Read JSON file
+        with open(json_path, "rb") as f:
+            raw_content = f.read()
+
+        # Extract relationships from the paper
+        result = await orchestrator.extract_relationships_from_document(
+            raw_content=raw_content,
+            content_type="application/json",
+            source_uri=str(json_path),
+        )
+
+        return (result.document_id, result.entities_extracted, result.relationships_extracted)
+
+    except Exception as e:
+        print(f"  ERROR processing {json_path.name}: {e}")
+        return (json_path.stem, 0, 0)
+
+
+def parse_arguments() -> argparse.Namespace:
+    """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="Ingest medical literature papers and generate bundle")
     parser.add_argument(
         "--input-dir",
@@ -135,8 +173,8 @@ async def main() -> None:
     parser.add_argument(
         "--ollama-model",
         type=str,
-        default="meditron:70b",
-        help="Ollama model name (default: meditron:70b)",
+        default="llama3.1:8b",
+        help="Ollama model name (default: llama3.1:8b)",
     )
     parser.add_argument(
         "--ollama-host",
@@ -144,62 +182,43 @@ async def main() -> None:
         default="http://localhost:11434",
         help="Ollama server URL (default: http://localhost:11434)",
     )
+    return parser.parse_args()
 
-    args = parser.parse_args()
 
-    input_dir = Path(args.input_dir)
-    output_dir = Path(args.output_dir)
-
-    if not input_dir.exists():
-        print(f"ERROR: Input directory does not exist: {input_dir}")
-        return
-
-    # Find all JSON files
+def find_json_files(input_dir: Path, limit: int | None) -> list[Path]:
+    """Find and return JSON files to process."""
     json_files = sorted(input_dir.glob("*.json"))
-    if args.limit:
-        json_files = json_files[: args.limit]
+    if limit:
+        json_files = json_files[:limit]
+    return json_files
 
-    if not json_files:
-        print(f"ERROR: No JSON files found in {input_dir}")
-        return
 
-    sep = "=" * 60
-    lim = f"(Limited to {args.limit} papers)\n" if args.limit else ""
-    print(f"""{sep}
-Medical Literature Knowledge Graph - Ingestion Pipeline
-{sep}
-
-Input directory: {input_dir}
-Found {len(json_files)} paper(s) to process
-{lim}
-
-[1/5] Initializing pipeline...""")
-    orchestrator = build_orchestrator(
-        use_ollama=args.use_ollama,
-        ollama_model=args.ollama_model,
-        ollama_host=args.ollama_host,
-    )
-    entity_storage = orchestrator.entity_storage
-    relationship_storage = orchestrator.relationship_storage
-    document_storage = orchestrator.document_storage
-
-    print("\n[2/5] Ingesting papers...")
-    total_entities = 0
-    total_relationships = 0
+async def extract_entities_phase(
+    orchestrator: IngestionOrchestrator,
+    json_files: list[Path],
+) -> tuple[int, int]:
+    """Extract entities from all papers. Returns (processed, errors)."""
+    print("\n[2/5] Extracting entities from all papers...")
     processed = 0
     errors = 0
 
     for json_file in json_files:
-        _, entities, relationships = await ingest_paper_json(orchestrator, json_file)
-        if entities > 0 or relationships > 0:
-            print(f"  {json_file.name}: {entities} entities, {relationships} relationships")
-            total_entities += entities
-            total_relationships += relationships
+        _, entities, _ = await extract_entities_from_paper(orchestrator, json_file)
+        if entities > 0:
+            print(f"  {json_file.name}: {entities} entities")
             processed += 1
         else:
             errors += 1
 
-    print(f"""
+    return (processed, errors)
+
+
+async def run_promotion_phase(
+    orchestrator: IngestionOrchestrator,
+    entity_storage: EntityStorageInterface,
+) -> None:
+    """Run entity promotion and print results."""
+    print("""
 [3/5] Running entity promotion...""")
 
     # Debug: Check what provisional entities we have
@@ -221,8 +240,36 @@ Found {len(json_files)} paper(s) to process
     for entity in promoted:
         print(f"        - {entity.name} → {entity.entity_id}")
 
-    print(f"""
-[4/5] Summary""")
+
+async def extract_relationships_phase(
+    orchestrator: IngestionOrchestrator,
+    json_files: list[Path],
+) -> tuple[int, int]:
+    """Extract relationships from all papers. Returns (processed, errors)."""
+    print("""
+[4/5] Extracting relationships from all papers...""")
+    processed_rels = 0
+    errors_rels = 0
+
+    for json_file in json_files:
+        _, _, relationships = await extract_relationships_from_paper(orchestrator, json_file)
+        if relationships > 0:
+            print(f"  {json_file.name}: {relationships} relationships")
+            processed_rels += 1
+        else:
+            errors_rels += 1
+
+    return (processed_rels, errors_rels)
+
+
+async def print_summary(
+    document_storage: DocumentStorageInterface,
+    entity_storage: EntityStorageInterface,
+    relationship_storage: RelationshipStorageInterface,
+) -> None:
+    """Print the knowledge graph summary."""
+    print("""
+[5/5] Summary""")
     doc_count = await document_storage.count()
     ent_count = await entity_storage.count()
     rel_count = await relationship_storage.count()
@@ -243,8 +290,17 @@ Found {len(json_files)} paper(s) to process
     ╚══════════════════════════════════════╝
     """)
 
+
+async def export_bundle(
+    entity_storage: EntityStorageInterface,
+    relationship_storage: RelationshipStorageInterface,
+    output_dir: Path,
+    processed: int,
+    errors: int,
+) -> None:
+    """Export the knowledge graph bundle."""
     print(f"""
-[5/5] Exporting bundle...
+[6/6] Exporting bundle...
       Processed: {processed} papers
       Errors/skipped: {errors} papers
 """)
@@ -256,6 +312,8 @@ Found {len(json_files)} paper(s) to process
     with TemporaryDirectory() as tmpdir:
         temp_path = Path(tmpdir)
         readme_file = temp_path / "README.md"
+        ent_count = await entity_storage.count()
+        rel_count = await relationship_storage.count()
         readme_content = f"""# Medical Literature Knowledge Graph Bundle
 
 This bundle contains extracted knowledge from biomedical journal articles.
@@ -297,6 +355,49 @@ Papers were processed from JSON format (med-lit-schema Paper format).
      - documents.jsonl (if docs provided)
      - docs/ (documentation)
 """)
+
+
+async def main() -> None:
+    """Main ingestion function."""
+    args = parse_arguments()
+
+    input_dir = Path(args.input_dir)
+    output_dir = Path(args.output_dir)
+
+    if not input_dir.exists():
+        print(f"ERROR: Input directory does not exist: {input_dir}")
+        return
+
+    json_files = find_json_files(input_dir, args.limit)
+    if not json_files:
+        print(f"ERROR: No JSON files found in {input_dir}")
+        return
+
+    sep = "=" * 60
+    lim = f"(Limited to {args.limit} papers)\n" if args.limit else ""
+    print(f"""{sep}
+Medical Literature Knowledge Graph - Ingestion Pipeline
+{sep}
+
+Input directory: {input_dir}
+Found {len(json_files)} paper(s) to process
+{lim}
+
+[1/5] Initializing pipeline...""")
+    orchestrator = build_orchestrator(
+        use_ollama=args.use_ollama,
+        ollama_model=args.ollama_model,
+        ollama_host=args.ollama_host,
+    )
+    entity_storage = orchestrator.entity_storage
+    relationship_storage = orchestrator.relationship_storage
+    document_storage = orchestrator.document_storage
+
+    processed, errors = await extract_entities_phase(orchestrator, json_files)
+    await run_promotion_phase(orchestrator, entity_storage)
+    await extract_relationships_phase(orchestrator, json_files)
+    await print_summary(document_storage, entity_storage, relationship_storage)
+    await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors)
 
 
 if __name__ == "__main__":

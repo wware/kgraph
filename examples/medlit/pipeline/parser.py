@@ -87,9 +87,22 @@ class JournalArticleParser(DocumentParserInterface):
         else:
             raise ValueError("No valid identifier found (paper_id, doi, or pmid required)")
 
+        ## Extract content (abstract + optional full text)
+        # abstract = data.get("abstract", "")
+        # full_text = data.get("full_text", "")  # May not be present
+        # content = abstract
+        # if full_text:
+        #    content = f"{abstract}\n\n{full_text}" if abstract else full_text
+
+        # NEW CODE (fixed):
         # Extract content (abstract + optional full text)
-        abstract = data.get("abstract", "")
-        full_text = data.get("full_text", "")  # May not be present
+        abstract_obj = data.get("abstract", "")
+        # Handle both dict {"text": "..."} and plain string formats
+        if isinstance(abstract_obj, dict):
+            abstract = abstract_obj.get("text", "")
+        else:
+            abstract = str(abstract_obj) if abstract_obj else ""
+        full_text = data.get("full_text", "")
         content = abstract
         if full_text:
             content = f"{abstract}\n\n{full_text}" if abstract else full_text

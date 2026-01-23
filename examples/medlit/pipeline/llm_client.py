@@ -10,6 +10,7 @@ import json
 
 try:
     import ollama
+
     OLLAMA_AVAILABLE = True
 except ImportError:
     OLLAMA_AVAILABLE = False
@@ -68,7 +69,7 @@ class OllamaLLMClient(LLMClientInterface):
         """Initialize Ollama client.
 
         Args:
-            model: Ollama model name (e.g., "llama3.1:8b", "meditron:70b")
+            model: Ollama model name (e.g., "llama3.1:8b", "llama3.1:8b")
             host: Ollama server URL
             timeout: Request timeout in seconds (default: 60)
         """
@@ -99,13 +100,10 @@ class OllamaLLMClient(LLMClientInterface):
                 prompt=prompt,
                 options=options,
             )
-        
+
         try:
             # Add timeout wrapper
-            response = await asyncio.wait_for(
-                asyncio.to_thread(_generate),
-                timeout=self.timeout
-            )
+            response = await asyncio.wait_for(asyncio.to_thread(_generate), timeout=self.timeout)
             return response.get("response", "").strip()
         except asyncio.TimeoutError:
             raise TimeoutError(f"Ollama request timed out after {self.timeout}s")
@@ -118,21 +116,63 @@ class OllamaLLMClient(LLMClientInterface):
         prompt: str,
         temperature: float = 0.1,
     ) -> dict[str, Any] | list[Any]:
-        """Generate JSON using Ollama."""
-        response_text = await self.generate(prompt, temperature)
+        """Generate structured JSON response from a prompt."""
 
-        # Try to extract JSON from response (LLMs sometimes add extra text)
+        def _generate():
+            response = self._client.chat(
+                model=self.model,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are a biomedical entity extraction expert. Extract entities and return ONLY valid JSON in the exact format requested. Never return the original text, only the extracted entities.",
+                    },
+                    {"role": "user", "content": prompt},
+                ],
+                options={"temperature": temperature},
+            )
+            return response["message"]["content"]
+
+        response_text = await asyncio.to_thread(_generate)
+        response_text = response_text.strip()
+
+        # Remove markdown code blocks if present
+        if response_text.startswith("```"):
+            lines = response_text.split("\n")
+            response_text = "\n".join(lines[1:-1])
+
+        # Find and extract first complete JSON structure
+        def find_matching_bracket(text: str, start: int, open_char: str, close_char: str) -> int:
+            """Find the matching closing bracket for an opening bracket."""
+            count = 1
+            i = start + 1
+            while i < len(text) and count > 0:
+                if text[i] == open_char:
+                    count += 1
+                elif text[i] == close_char:
+                    count -= 1
+                i += 1
+            return i if count == 0 else -1
+
+        # Try to find JSON array first
         json_start = response_text.find("[")
-        json_end = response_text.rfind("]") + 1
-        if json_start == -1:
-            json_start = response_text.find("{")
-            json_end = response_text.rfind("}") + 1
+        if json_start != -1:
+            json_end = find_matching_bracket(response_text, json_start, "[", "]")
+            if json_end != -1:
+                json_text = response_text[json_start:json_end]
+                try:
+                    return json.loads(json_text)
+                except json.JSONDecodeError:
+                    pass
 
-        if json_start == -1:
-            raise ValueError(f"No JSON found in response: {response_text[:200]}")
+        # Try to find JSON object
+        json_start = response_text.find("{")
+        if json_start != -1:
+            json_end = find_matching_bracket(response_text, json_start, "{", "}")
+            if json_end != -1:
+                json_text = response_text[json_start:json_end]
+                try:
+                    return json.loads(json_text)
+                except json.JSONDecodeError:
+                    pass
 
-        json_text = response_text[json_start:json_end]
-        try:
-            return json.loads(json_text)
-        except json.JSONDecodeError as e:
-            raise ValueError(f"Invalid JSON in response: {e}\nResponse: {json_text[:500]}")
+        raise ValueError(f"No valid JSON found in response: {response_text[:200]}")

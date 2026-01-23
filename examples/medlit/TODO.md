@@ -268,6 +268,8 @@ class PatternRelationshipExtractor(MedLitRelationshipExtractor):
 
 It achieves ~6% absolute gain over Llama-2 on medical tasks and approaches GPT-4 performance (within 5-10%) on medical benchmarks. Available on Ollama as `meditron-70b` and `meditron-7b`.
 
+**NOPE NOPE NOPE**: Meditron failed in basic development testing. Llama3.1:8b is good enough.
+
 ### LLM Prompt Design
 
 **Entity Extraction Prompt** (if using LLM):

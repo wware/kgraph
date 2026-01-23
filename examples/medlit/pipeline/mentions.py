@@ -23,19 +23,17 @@ class MedLitEntityExtractor(EntityExtractorInterface):
     Can also use Ollama LLM to extract entities directly from text if llm_client is provided.
     """
 
-    OLLAMA_NER_PROMPT = """Extract all medical entities (diseases, drugs, genes, proteins) from the following text.
-Return ONLY a JSON array of objects with "entity" (the entity name), "type" (disease, drug, gene, or protein), and "confidence" (0.0-1.0) fields.
-Do not include any explanation, just the JSON array.
+    OLLAMA_NER_PROMPT = """Extract medical entities from the following text. Return a JSON array.
 
-Example output:
-[{{"entity": "diabetes", "type": "disease", "confidence": 0.95}}, {{"entity": "insulin", "type": "drug", "confidence": 0.90}}]
+Rules:
+1. Find all diseases, genes, drugs, and proteins
+2. Format: [{{"entity": "name", "type": "disease|gene|drug|protein", "confidence": 0.95}}]
+3. Return ONLY the JSON array
 
-If no entities are found, return an empty array: []
-
-Text to analyze:
+Text:
 {text}
 
-JSON output:"""
+JSON:"""
 
     def __init__(self, llm_client: Optional[LLMClientInterface] = None):
         """Initialize entity extractor.
@@ -106,12 +104,16 @@ JSON output:"""
                 print(f"  Extracting entities with LLM from {len(text_sample)} chars...")
                 prompt = self.OLLAMA_NER_PROMPT.format(text=text_sample)
                 response = await self._llm.generate_json(prompt)
+                # print(f"  DEBUG: LLM response: {response}")
                 print(f"  LLM returned {len(response) if isinstance(response, list) else 0} entities")
 
                 if isinstance(response, list):
                     for item in response:
                         if isinstance(item, dict):
-                            entity_name = item.get("entity", "").strip()
+                            # Handle both "entity" and "name" keys
+                            entity_name = item.get("entity") or item.get("name", "")
+                            entity_name = entity_name.strip()
+
                             entity_type = item.get("type", "disease").lower()
                             confidence = float(item.get("confidence", 0.5))
 

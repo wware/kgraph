@@ -46,12 +46,12 @@ Example usage:
 """
 
 import json
-from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Sequence
 
 import numpy as np
+from pydantic import BaseModel, ConfigDict
 from sklearn.metrics.pairwise import cosine_similarity  # type: ignore
 
 from kgraph.domain import DomainSchema
@@ -71,8 +71,7 @@ from kgraph.storage.interfaces import (
 )
 
 
-@dataclass(frozen=True)
-class DocumentResult:
+class DocumentResult(BaseModel):
     """Result of processing a single document through the ingestion pipeline.
 
     Contains statistics about the extraction process and any errors encountered.
@@ -87,6 +86,8 @@ class DocumentResult:
         errors: Tuple of error messages encountered during processing.
     """
 
+    model_config = {"frozen": True}
+
     document_id: str
     entities_extracted: int
     entities_new: int
@@ -95,8 +96,7 @@ class DocumentResult:
     errors: tuple[str, ...] = ()
 
 
-@dataclass(frozen=True)
-class IngestionResult:
+class IngestionResult(BaseModel):
     """Result of batch document ingestion.
 
     Aggregates statistics across multiple documents and provides per-document
@@ -111,6 +111,8 @@ class IngestionResult:
         errors: Top-level errors that prevented document processing.
     """
 
+    model_config = {"frozen": True}
+
     documents_processed: int
     documents_failed: int
     total_entities_extracted: int
@@ -119,8 +121,7 @@ class IngestionResult:
     errors: tuple[str, ...] = ()
 
 
-@dataclass
-class IngestionOrchestrator:
+class IngestionOrchestrator(BaseModel):
     """Orchestrates two-pass document ingestion for knowledge graph construction.
 
     The orchestrator is the main entry point for document processing. It
@@ -158,6 +159,8 @@ class IngestionOrchestrator:
         document_storage: Persistence backend for source documents.
     """
 
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     domain: DomainSchema
     parser: DocumentParserInterface
     entity_extractor: EntityExtractorInterface
@@ -168,13 +171,19 @@ class IngestionOrchestrator:
     relationship_storage: RelationshipStorageInterface
     document_storage: DocumentStorageInterface
 
-    async def ingest_document(
+    async def extract_entities_from_document(
         self,
         raw_content: bytes,
         content_type: str,
         source_uri: str | None = None,
     ) -> DocumentResult:
-        """Ingest a single document through the two-pass pipeline.
+        """Extract entities from a single document (Pass 1).
+
+        This method handles entity extraction only:
+        1. Parse document
+        2. Extract entity mentions
+        3. Resolve mentions to entities
+        4. Store entities with embeddings
 
         Args:
             raw_content: Raw document bytes
@@ -182,7 +191,7 @@ class IngestionOrchestrator:
             source_uri: Optional source location
 
         Returns:
-            DocumentResult with extraction statistics
+            DocumentResult with entity extraction statistics
         """
         errors: list[str] = []
 
@@ -202,12 +211,12 @@ class IngestionOrchestrator:
         # Store document
         await self.document_storage.add(document)
 
-        # Pass 1: Entity extraction
+        # Extract entity mentions
         mentions = await self.entity_extractor.extract(document)
 
-        resolved_entities: list[BaseEntity] = []
         entities_new = 0
         entities_existing = 0
+        resolved_entities: list[BaseEntity] = []
 
         for mention in mentions:
             try:
@@ -235,6 +244,10 @@ class IngestionOrchestrator:
                         except Exception as e:
                             errors.append(f"Embedding generation failed: {e}")
 
+                    # Ensure entity source is set to document_id for relationship extraction
+                    if entity.source != document.document_id:
+                        entity = entity.model_copy(update={"source": document.document_id})
+
                     await self.entity_storage.add(entity)
                     resolved_entities.append(entity)
                     entities_new += 1
@@ -242,11 +255,91 @@ class IngestionOrchestrator:
             except Exception as e:
                 errors.append(f"Entity resolution error for '{mention.text}': {e}")
 
-        # Pass 2: Relationship extraction
-        relationships: list[BaseRelationship] = []
-        if resolved_entities:
+        return DocumentResult(
+            document_id=document.document_id,
+            entities_extracted=len(mentions),
+            entities_new=entities_new,
+            entities_existing=entities_existing,
+            relationships_extracted=0,
+            errors=tuple(errors),
+        )
+
+    async def extract_relationships_from_document(
+        self,
+        raw_content: bytes,
+        content_type: str,
+        source_uri: str | None = None,
+        document_id: str | None = None,
+    ) -> DocumentResult:
+        """Extract relationships from a single document (Pass 2).
+
+        This method handles relationship extraction only. It assumes entities
+        have already been extracted and stored. It will:
+        1. Parse document (or retrieve if already stored)
+        2. Get resolved entities from storage
+        3. Extract relationships between entities
+        4. Store relationships
+
+        Args:
+            raw_content: Raw document bytes
+            content_type: MIME type or format indicator
+            source_uri: Optional source location
+
+        Returns:
+            DocumentResult with relationship extraction statistics
+        """
+        errors: list[str] = []
+
+        # Try to get document from storage first (to use the same document_id as entity extraction)
+        # If document_id is provided, use it to find entities directly
+        # If not found, parse it (for standalone relationship extraction)
+        document = None
+        target_document_id = document_id  # Use provided document_id if available
+
+        if source_uri:
+            document = await self.document_storage.find_by_source(source_uri)
+            if document and not target_document_id:
+                # Only use document's ID if we didn't get one from parameter
+                target_document_id = document.document_id
+
+        if document is None:
+            # Document not in storage, parse it
             try:
-                extracted_rels = await self.relationship_extractor.extract(document, resolved_entities)
+                document = await self.parser.parse(raw_content, content_type, source_uri)
+                # Only use parsed document's ID if we don't have a target_document_id
+                if not target_document_id:
+                    target_document_id = document.document_id
+            except Exception as e:
+                return DocumentResult(
+                    document_id="",
+                    entities_extracted=0,
+                    entities_new=0,
+                    entities_existing=0,
+                    relationships_extracted=0,
+                    errors=(f"Parse error: {e}",),
+                )
+
+        # Get entities that were extracted from this document
+        # Strategy: Get all entities and filter by source document ID
+        # Use target_document_id (from parameter or document) to find entities
+        all_entities = await self.entity_storage.list_all(limit=100000)  # Get all entities
+        document_entities = [e for e in all_entities if e.source == target_document_id]
+
+        # If no entities found by source, try to get entity IDs from document metadata
+        # (for pre-extracted relationships that reference specific entity IDs)
+        if not document_entities:
+            entity_ids = document.metadata.get("entity_ids", [])
+            if entity_ids:
+                for entity_id in entity_ids:
+                    entity = await self.entity_storage.get(entity_id)
+                    if entity:
+                        document_entities.append(entity)
+
+        relationships: list[BaseRelationship] = []
+
+        if document_entities:
+            try:
+                extracted_rels = await self.relationship_extractor.extract(document, document_entities)
                 for rel in extracted_rels:
                     if self.domain.validate_relationship(rel):
                         await self.relationship_storage.add(rel)
@@ -255,14 +348,61 @@ class IngestionOrchestrator:
                         errors.append(f"Relationship validation failed: {rel.subject_id} -{rel.predicate}-> {rel.object_id}")
             except Exception as e:
                 errors.append(f"Relationship extraction error: {e}")
+        # If no entities found, that's fine - just return 0 relationships (no error)
 
         return DocumentResult(
             document_id=document.document_id,
-            entities_extracted=len(mentions),
-            entities_new=entities_new,
-            entities_existing=entities_existing,
+            entities_extracted=0,
+            entities_new=0,
+            entities_existing=0,
             relationships_extracted=len(relationships),
             errors=tuple(errors),
+        )
+
+    async def ingest_document(
+        self,
+        raw_content: bytes,
+        content_type: str,
+        source_uri: str | None = None,
+    ) -> DocumentResult:
+        """Ingest a single document through the complete two-pass pipeline.
+
+        This is a convenience method that runs both entity and relationship
+        extraction in sequence. For better control, use extract_entities_from_document
+        and extract_relationships_from_document separately.
+
+        Args:
+            raw_content: Raw document bytes
+            content_type: MIME type or format indicator
+            source_uri: Optional source location
+
+        Returns:
+            DocumentResult with extraction statistics
+        """
+        # Pass 1: Extract entities
+        entity_result = await self.extract_entities_from_document(
+            raw_content=raw_content,
+            content_type=content_type,
+            source_uri=source_uri,
+        )
+
+        # Pass 2: Extract relationships
+        # Pass the document_id from entity extraction to ensure we find the same entities
+        relationship_result = await self.extract_relationships_from_document(
+            raw_content=raw_content,
+            content_type=content_type,
+            source_uri=source_uri,
+            document_id=entity_result.document_id,
+        )
+
+        # Combine results
+        return DocumentResult(
+            document_id=entity_result.document_id or relationship_result.document_id,
+            entities_extracted=entity_result.entities_extracted,
+            entities_new=entity_result.entities_new,
+            entities_existing=entity_result.entities_existing,
+            relationships_extracted=relationship_result.relationships_extracted,
+            errors=entity_result.errors + relationship_result.errors,
         )
 
     async def ingest_batch(
