@@ -163,6 +163,10 @@ class CanonicalIdLookup:
         elif entity_type == "protein":
             canonical_id = await self._lookup_uniprot(term)
 
+        # Fallback to DBPedia for any entity type if specialized lookup failed
+        if canonical_id is None:
+            canonical_id = await self._lookup_dbpedia(term)
+
         # Cache result (store "NULL" for None to distinguish from "not yet looked up" in JSON)
         self._cache[cache_key] = "NULL" if canonical_id is None else canonical_id
         self._cache_dirty = True
@@ -412,6 +416,40 @@ class CanonicalIdLookup:
             )
             return None
 
+    async def _lookup_dbpedia(self, term: str) -> Optional[str]:
+        """Look up DBPedia URI as fallback for any entity type.
+
+        DBPedia is a general knowledge base extracted from Wikipedia.
+        Used as a fallback when specialized medical ontologies don't find a match.
+        """
+        try:
+            # DBPedia Lookup API (no authentication required!)
+            url = "https://lookup.dbpedia.org/api/search"
+            params = {"query": term.lower(), "format": "json", "maxResults": "1"}
+            response = await self.client.get(url, params=params)
+
+            if response.status_code == 200:
+                data = response.json()
+                docs = data.get("docs", [])
+                if docs:
+                    # Get the resource URI (it's returned as a list)
+                    resource = docs[0].get("resource", [])
+                    if resource:
+                        uri = resource[0] if isinstance(resource, list) else resource
+                        # Return just the URI, e.g., "http://dbpedia.org/resource/Mitochondrion"
+                        return f"DBPedia:{uri.split('/')[-1]}"
+            return None
+        except Exception as e:
+            logger.warning(
+                {
+                    "message": f"DBPedia lookup failed for '{term}'",
+                    "term": term,
+                    "error": str(e),
+                },
+                pprint=True,
+            )
+            return None
+
     def lookup_canonical_id_sync(self, term: str, entity_type: str) -> Optional[str]:
         """Synchronous wrapper for use as Ollama tool.
 
@@ -493,6 +531,10 @@ class CanonicalIdLookup:
                     canonical_id = self._lookup_rxnorm_sync(sync_client, term)
                 elif entity_type_normalized == "protein":
                     canonical_id = self._lookup_uniprot_sync(sync_client, term)
+
+                # Fallback to DBPedia if specialized lookup failed
+                if canonical_id is None:
+                    canonical_id = self._lookup_dbpedia_sync(sync_client, term)
 
             # Cache the result
             self._cache[cache_key] = canonical_id if canonical_id else "NULL"
@@ -665,6 +707,25 @@ class CanonicalIdLookup:
             if results:
                 return results[0].get("primaryAccession")
         return None
+
+    def _lookup_dbpedia_sync(self, client: "httpx.Client", term: str) -> Optional[str]:
+        """Synchronous DBPedia lookup as fallback."""
+        try:
+            url = "https://lookup.dbpedia.org/api/search"
+            params = {"query": term.lower(), "format": "json", "maxResults": "1"}
+            response = client.get(url, params=params)
+
+            if response.status_code == 200:
+                data = response.json()
+                docs = data.get("docs", [])
+                if docs:
+                    resource = docs[0].get("resource", [])
+                    if resource:
+                        uri = resource[0] if isinstance(resource, list) else resource
+                        return f"DBPedia:{uri.split('/')[-1]}"
+            return None
+        except Exception:
+            return None
 
     async def close(self) -> None:
         """Close the HTTP client and save cache."""
