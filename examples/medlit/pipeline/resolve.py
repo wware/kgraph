@@ -89,13 +89,20 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
 
             logger.info(
                 {
-                    "message": f"Creating new canonical entity for '{mention.text}' with ID {canonical_id}",
-                    "mention": mention,
+                    "text": mention.text,
                     "canonical_id": canonical_id,
-                    "canonical_ids": canonical_ids,
                 },
                 pprint=True,
             )
+            # logger.info(
+            #     {
+            #         "message": f"Creating new canonical entity for '{mention.text}' with ID {canonical_id}",
+            #         "mention": mention,
+            #         "canonical_id": canonical_id,
+            #         "canonical_ids": canonical_ids,
+            #     },
+            #     pprint=True,
+            # )
 
             entity = entity_cls(
                 entity_id=canonical_id,
