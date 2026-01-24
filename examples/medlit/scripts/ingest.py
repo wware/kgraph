@@ -427,11 +427,29 @@ Found {len(json_files)} paper(s) to process
         await extract_relationships_phase(orchestrator, json_files)
         await print_summary(document_storage, entity_storage, relationship_storage)
         await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors)
+    except KeyboardInterrupt:
+        print("\n  Interrupted by user (Ctrl+C)")
+        # Save cache before exiting (force save to capture any in-memory entries)
+        if lookup:
+            try:
+                lookup._save_cache(force=True)  # Force save to capture in-memory cache
+                print("  ✓ Canonical ID cache saved")
+            except Exception as e:
+                print(f"  Warning: Failed to save cache: {e}")
+        raise
     finally:
         # Clean up lookup service (saves cache)
         if lookup:
-            await lookup.close()
-            print("  ✓ Canonical ID cache saved")
+            try:
+                await lookup.close()
+                print("  ✓ Canonical ID cache saved")
+            except Exception:
+                # If close() fails, at least try to save cache (force save as safety)
+                try:
+                    lookup._save_cache(force=True)
+                    print("  ✓ Canonical ID cache saved (emergency save)")
+                except Exception:
+                    pass
 
 
 if __name__ == "__main__":

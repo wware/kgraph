@@ -84,13 +84,16 @@ class CanonicalIdLookup:
                 )
                 self._cache = {}
 
-    def _save_cache(self) -> None:
+    def _save_cache(self, force: bool = False) -> None:
         """Save cache to disk.
 
         Only saves successful lookups - NULLs are kept in memory only.
         This allows new lookup improvements to benefit all terms on next run.
+
+        Args:
+            force: If True, save even if cache is not marked dirty (for emergency saves).
         """
-        if not self._cache_dirty:
+        if not force and not self._cache_dirty:
             return
 
         try:
@@ -566,16 +569,16 @@ class CanonicalIdLookup:
             self._cache[cache_key] = canonical_id if canonical_id else "NULL"
             self._save_cache()
 
-            if canonical_id:
-                logger.info(
-                    {
-                        "message": f"Found canonical ID for '{term}': {canonical_id}",
-                        "term": term,
-                        "entity_type": entity_type,
-                        "canonical_id": canonical_id,
-                    },
-                    pprint=True,
-                )
+            # if canonical_id:
+            #     logger.info(
+            #         {
+            #             "message": f"Found canonical ID for '{term}': {canonical_id}",
+            #             "term": term,
+            #             "entity_type": entity_type,
+            #             "canonical_id": canonical_id,
+            #         },
+            #         pprint=True,
+            #     )
 
             # Sanity check: common terms should always resolve
             # This helps catch lookup bugs early
