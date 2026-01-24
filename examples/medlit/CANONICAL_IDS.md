@@ -48,7 +48,9 @@ async with CanonicalIdLookup(cache_file=Path("cache.json")) as lookup:
 Lookup results are cached to a JSON file to avoid redundant API calls:
 
 - Cache persists across program runs
-- Both positive results (canonical IDs) and negative results (not found) are cached
+- Only **successful** lookups are saved to disk
+- Failed lookups (NULLs) are cached in memory only for the current run
+- This allows new lookup improvements to benefit all terms on subsequent runs
 - Cache is automatically saved when the lookup service is closed
 
 ### LLM Tool Calling
@@ -122,25 +124,24 @@ Alternative (without tool calling):
 
 - API failures are logged but don't halt processing
 - Network timeouts default to 10 seconds per request
-- Failed lookups cache `None` (as `"NULL"` in JSON) to avoid repeated failed requests
+- Failed lookups are cached in memory only (not persisted) to avoid repeated API calls within a run
 - The sync wrapper (`lookup_canonical_id_sync`) has a 15-second timeout for tool calls
 
 ## Troubleshooting
 
 ### Entities not getting canonical IDs when they should
 
-If common terms like "breast cancer" or "BRCA1" are not getting canonical IDs (showing "No canonical_id_hint provided"), the most likely cause is **stale cache entries**.
+If common terms like "breast cancer" or "BRCA1" are not getting canonical IDs, check:
 
-The cache stores both successful lookups and failures (`"NULL"`). If the lookup logic has been updated (e.g., MeSH fallback added), old failure entries may be incorrect.
-
-**Solution**: Delete the cache file and re-run:
+1. **Network connectivity** - Can you reach the ontology APIs?
+2. **Entity type mismatch** - Is the LLM extracting with the wrong type? (e.g., "Mitochondria" as "protein")
+3. **Old cache file** - If you have a cache file from before recent improvements, delete it:
 
 ```bash
 rm canonical_id_cache.json
-# Or whatever path you specified with --cache-file
 ```
 
-The cache will be rebuilt with fresh lookups.
+Note: Since failed lookups are no longer persisted to disk, stale cache entries are much less of an issue than before.
 
 ### Verifying lookups are working
 

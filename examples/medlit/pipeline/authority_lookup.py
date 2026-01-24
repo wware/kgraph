@@ -85,20 +85,28 @@ class CanonicalIdLookup:
                 self._cache = {}
 
     def _save_cache(self) -> None:
-        """Save cache to disk."""
+        """Save cache to disk.
+
+        Only saves successful lookups - NULLs are kept in memory only.
+        This allows new lookup improvements to benefit all terms on next run.
+        """
         if not self._cache_dirty:
             return
 
         try:
+            # Filter out NULLs - only persist successful lookups
+            persistent_cache = {k: v for k, v in self._cache.items() if v != "NULL"}
+
             with open(self.cache_file, "w") as f:
-                json.dump(self._cache, f, indent=2)
+                json.dump(persistent_cache, f, indent=2)
             self._cache_dirty = False
             logger = setup_logging()
             logger.debug(
                 {
-                    "message": f"Saved {len(self._cache)} cached lookups to {self.cache_file}",
+                    "message": f"Saved {len(persistent_cache)} cached lookups to {self.cache_file} (filtered {len(self._cache) - len(persistent_cache)} NULLs)",
                     "cache_file": str(self.cache_file),
-                    "cache_size": len(self._cache),
+                    "persistent_count": len(persistent_cache),
+                    "memory_only_nulls": len(self._cache) - len(persistent_cache),
                 },
                 pprint=True,
             )
@@ -470,44 +478,23 @@ class CanonicalIdLookup:
         entity_type_normalized = entity_type.lower()
 
         # Check cache first (this is synchronous)
+        # NULLs are memory-only (not persisted), so any NULL here is from this run
         cache_key = f"{entity_type_normalized}:{term_normalized}"
         if cache_key in self._cache:
             cached = self._cache[cache_key]
-            # Invalidate stale NULL entries that might succeed with improved lookup logic:
-            # - diseases: MeSH fallback was added (when no UMLS key)
-            # - genes: HGNC alias search was added
-            should_retry = False
             if cached == "NULL":
-                if entity_type_normalized in ("disease", "symptom", "procedure") and not os.environ.get("UMLS_API_KEY"):
-                    should_retry = True  # MeSH fallback might find it now
-                elif entity_type_normalized == "gene":
-                    should_retry = True  # HGNC alias search might find it now
-
-            if should_retry:
-                logger.debug(
-                    {
-                        "message": f"Invalidating stale NULL cache for '{term}' - will retry lookup",
-                        "term": term,
-                        "entity_type": entity_type,
-                    },
-                    pprint=True,
-                )
-                del self._cache[cache_key]
-                # Fall through to do fresh lookup
-            elif cached == "NULL":
+                # Memory-only NULL from this run - don't re-query
                 return None
-            else:
-                result = None if cached == "NULL" else cached
-                logger.debug(
-                    {
-                        "message": f"Sync cache hit for '{term}' ({entity_type})",
-                        "term": term,
-                        "entity_type": entity_type,
-                        "result": result,
-                    },
-                    pprint=True,
-                )
-                return result
+            logger.debug(
+                {
+                    "message": f"Sync cache hit for '{term}' ({entity_type})",
+                    "term": term,
+                    "entity_type": entity_type,
+                    "result": cached,
+                },
+                pprint=True,
+            )
+            return cached
 
         # Cache miss - make synchronous HTTP request
         logger.debug(
