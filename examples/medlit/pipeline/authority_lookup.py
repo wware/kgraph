@@ -424,28 +424,61 @@ class CanonicalIdLookup:
             )
             return None
 
+    def _dbpedia_label_matches(self, term: str, label: str) -> bool:
+        """Check if a DBPedia label is a good match for the search term."""
+        import re
+
+        # Strip HTML tags from label (DBPedia returns <B>...</B> highlighting)
+        label_clean = re.sub(r"<[^>]+>", "", label).lower().strip()
+        term_lower = term.lower().strip()
+
+        # Extract first word (for prefix matching)
+        term_first = term_lower.replace("-", " ").split()[0] if term_lower else ""
+        label_first = label_clean.replace("-", " ").split()[0] if label_clean else ""
+
+        # Accept if:
+        # 1. Term is contained in label (or vice versa)
+        # 2. First words share a common prefix of 6+ chars (handles mitochondria/mitochondrion)
+        # 3. Label starts with the term (e.g., "breast cancer" matches "breast cancer syndrome")
+        common_prefix = len(term_first) >= 6 and len(label_first) >= 6 and term_first[:6] == label_first[:6]
+
+        return (
+            term_lower in label_clean
+            or label_clean in term_lower
+            or label_clean.startswith(term_lower)
+            or common_prefix
+        )
+
     async def _lookup_dbpedia(self, term: str) -> Optional[str]:
         """Look up DBPedia URI as fallback for any entity type.
 
         DBPedia is a general knowledge base extracted from Wikipedia.
         Used as a fallback when specialized medical ontologies don't find a match.
+
+        Only accepts results where the label closely matches the search term
+        to avoid garbage matches like "HER2-enriched" → "Insect".
         """
         try:
             # DBPedia Lookup API (no authentication required!)
             url = "https://lookup.dbpedia.org/api/search"
-            params = {"query": term.lower(), "format": "json", "maxResults": "1"}
+            params = {"query": term.lower(), "format": "json", "maxResults": "5"}
             response = await self.client.get(url, params=params)
 
             if response.status_code == 200:
                 data = response.json()
                 docs = data.get("docs", [])
-                if docs:
-                    # Get the resource URI (it's returned as a list)
-                    resource = docs[0].get("resource", [])
-                    if resource:
-                        uri = resource[0] if isinstance(resource, list) else resource
-                        # Return just the URI, e.g., "http://dbpedia.org/resource/Mitochondrion"
-                        return f"DBPedia:{uri.split('/')[-1]}"
+
+                for doc in docs:
+                    # Get label (returned as list)
+                    label_list = doc.get("label", [])
+                    label = label_list[0] if label_list else ""
+
+                    if self._dbpedia_label_matches(term, label):
+                        resource = doc.get("resource", [])
+                        if resource:
+                            uri = resource[0] if isinstance(resource, list) else resource
+                            return f"DBPedia:{uri.split('/')[-1]}"
+
             return None
         except Exception as e:
             logger.warning(
@@ -696,20 +729,25 @@ class CanonicalIdLookup:
         return None
 
     def _lookup_dbpedia_sync(self, client: "httpx.Client", term: str) -> Optional[str]:
-        """Synchronous DBPedia lookup as fallback."""
+        """Synchronous DBPedia lookup as fallback with validation."""
         try:
             url = "https://lookup.dbpedia.org/api/search"
-            params = {"query": term.lower(), "format": "json", "maxResults": "1"}
+            params = {"query": term.lower(), "format": "json", "maxResults": "5"}
             response = client.get(url, params=params)
 
             if response.status_code == 200:
                 data = response.json()
                 docs = data.get("docs", [])
-                if docs:
-                    resource = docs[0].get("resource", [])
-                    if resource:
-                        uri = resource[0] if isinstance(resource, list) else resource
-                        return f"DBPedia:{uri.split('/')[-1]}"
+
+                for doc in docs:
+                    label_list = doc.get("label", [])
+                    label = label_list[0] if label_list else ""
+
+                    if self._dbpedia_label_matches(term, label):
+                        resource = doc.get("resource", [])
+                        if resource:
+                            uri = resource[0] if isinstance(resource, list) else resource
+                            return f"DBPedia:{uri.split('/')[-1]}"
             return None
         except Exception:
             return None
