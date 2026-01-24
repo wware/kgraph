@@ -106,10 +106,19 @@ class CanonicalIdLookup:
             # Write cache file directly (with explicit flush/fsync for reliability)
             import os
 
+            # Always write file, even if empty (so we know save was attempted)
             with open(self.cache_file, "w") as f:
                 json.dump(persistent_cache, f, indent=2)
                 f.flush()  # Flush Python buffer
                 os.fsync(f.fileno())  # Force OS to write to disk
+
+            # Verify file was actually created and has content
+            if not self.cache_file.exists():
+                raise RuntimeError(f"Cache file was not created at {self.cache_file.absolute()}")
+
+            file_size = self.cache_file.stat().st_size
+            if file_size == 0 and len(persistent_cache) > 0:
+                raise RuntimeError(f"Cache file is empty but should have {len(persistent_cache)} entries")
 
             self._cache_dirty = False
             logger = setup_logging()
@@ -119,8 +128,11 @@ class CanonicalIdLookup:
                     "message": f"Saved {len(persistent_cache)} cached lookups to {self.cache_file} (filtered {len(self._cache) - len(persistent_cache)} NULLs)",
                     "cache_file": str(self.cache_file.absolute()),
                     "persistent_count": len(persistent_cache),
+                    "total_cache_size": len(self._cache),
                     "memory_only_nulls": len(self._cache) - len(persistent_cache),
                     "force": force,
+                    "file_exists": self.cache_file.exists(),
+                    "file_size": self.cache_file.stat().st_size if self.cache_file.exists() else 0,
                 },
                 pprint=True,
             )
@@ -580,6 +592,7 @@ class CanonicalIdLookup:
 
             # Cache the result
             self._cache[cache_key] = canonical_id if canonical_id else "NULL"
+            self._cache_dirty = True
             self._save_cache()
 
             # if canonical_id:

@@ -432,11 +432,25 @@ Found {len(json_files)} paper(s) to process
         # Save cache before exiting (force save to capture any in-memory entries)
         if lookup:
             try:
+                # Debug: show cache state
+                total_entries = len(lookup._cache)
+                successful_entries = len([v for v in lookup._cache.values() if v != "NULL"])
+                print(f"  Cache state: {total_entries} total entries, {successful_entries} successful lookups")
+                
                 lookup._save_cache(force=True)  # Force save to capture in-memory cache
                 cache_path = lookup.cache_file.absolute()
-                print(f"  ✓ Canonical ID cache saved to: {cache_path}")
+                
+                # Verify file exists
+                if cache_path.exists():
+                    file_size = cache_path.stat().st_size
+                    print(f"  ✓ Canonical ID cache saved to: {cache_path} ({file_size} bytes)")
+                else:
+                    print(f"  ✗ Cache file not found at: {cache_path}")
+                    print(f"     This should not happen - save may have failed silently")
             except Exception as e:
                 print(f"  ✗ Warning: Failed to save cache: {e}")
+                import traceback
+                traceback.print_exc()
                 if lookup:
                     print(f"     Cache file location: {lookup.cache_file.absolute()}")
         raise

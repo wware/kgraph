@@ -94,16 +94,6 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
                 },
                 pprint=True,
             )
-            # logger.info(
-            #     {
-            #         "message": f"Creating new canonical entity for '{mention.text}' with ID {canonical_id}",
-            #         "mention": mention,
-            #         "canonical_id": canonical_id,
-            #         "canonical_ids": canonical_ids,
-            #     },
-            #     pprint=True,
-            # )
-
             entity = entity_cls(
                 entity_id=canonical_id,
                 status=EntityStatus.CANONICAL,
@@ -123,14 +113,11 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
         provisional_id = f"prov:{uuid.uuid4().hex}"
         logger.info(
             {
-                "message": f"Creating provisional entity for '{mention.text}'",
-                "mention": mention,
+                "text": mention.text,
                 "provisional_id": provisional_id,
-                "note": "No canonical_id_hint provided. This entity will need promotion or external lookup to get canonical ID",
             },
             pprint=True,
         )
-
         entity = entity_cls(
             entity_id=provisional_id,
             status=EntityStatus.PROVISIONAL,
