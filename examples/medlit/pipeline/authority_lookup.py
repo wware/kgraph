@@ -133,8 +133,10 @@ class CanonicalIdLookup:
         """
         logger = setup_logging()
 
-        # Normalize cache key (lowercase, strip whitespace, use string format for JSON)
-        cache_key = f"{entity_type}:{term.lower().strip()}"
+        # Normalize cache key (lowercase both entity_type and term, strip whitespace)
+        entity_type_normalized = entity_type.lower().strip()
+        term_normalized = term.lower().strip()
+        cache_key = f"{entity_type_normalized}:{term_normalized}"
 
         # Check cache first
         if cache_key in self._cache:
@@ -144,6 +146,7 @@ class CanonicalIdLookup:
             logger.debug(
                 {
                     "message": f"Cache hit for {term} ({entity_type})",
+                    "cache_key": cache_key,
                     "cached_id": result,
                 },
                 pprint=True,
@@ -152,9 +155,10 @@ class CanonicalIdLookup:
 
         logger.debug(
             {
-                "message": f"Looking up canonical ID for '{term}' (type: {entity_type})",
+                "message": f"Cache miss for '{term}' (type: {entity_type}), looking up",
                 "term": term,
                 "entity_type": entity_type,
+                "cache_key": cache_key,
             },
             pprint=True,
         )
@@ -523,6 +527,7 @@ class CanonicalIdLookup:
                     "message": f"Sync cache hit for '{term}' ({entity_type})",
                     "term": term,
                     "entity_type": entity_type,
+                    "cache_key": cache_key,
                     "result": cached,
                 },
                 pprint=True,
@@ -535,6 +540,7 @@ class CanonicalIdLookup:
                 "message": f"Sync cache miss, making HTTP request for '{term}' ({entity_type})",
                 "term": term,
                 "entity_type": entity_type,
+                "cache_key": cache_key,
             },
             pprint=True,
         )
