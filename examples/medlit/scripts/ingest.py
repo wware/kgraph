@@ -27,6 +27,7 @@ from kgraph.storage.memory import (
 from kgraph.export import write_bundle
 
 from ..domain import MedLitDomainSchema
+from ..pipeline.authority_lookup import CanonicalIdLookup
 from ..pipeline.parser import JournalArticleParser
 from ..pipeline.mentions import MedLitEntityExtractor
 from ..pipeline.resolve import MedLitEntityResolver
@@ -39,18 +40,34 @@ def build_orchestrator(
     use_ollama: bool = False,
     ollama_model: str = "llama3.1:8b",
     ollama_host: str = "http://localhost:11434",
-) -> IngestionOrchestrator:
+    cache_file: Path | None = None,
+) -> tuple[IngestionOrchestrator, CanonicalIdLookup | None]:
     """Build the ingestion orchestrator for medical literature domain.
 
     Args:
         use_ollama: If True, use Ollama LLM for entity and relationship extraction.
         ollama_model: Ollama model name (e.g., "llama3.1:8b").
         ollama_host: Ollama server URL.
+        cache_file: Optional path for canonical ID lookup cache file.
 
     Returns:
-        Configured IngestionOrchestrator instance.
+        Tuple of (IngestionOrchestrator, CanonicalIdLookup or None).
+        The lookup is returned so it can be properly closed after use.
     """
     domain = MedLitDomainSchema()
+
+    # Create canonical ID lookup service
+    lookup = None
+    if use_ollama:
+        try:
+            cache_path = cache_file or Path("canonical_id_cache.json")
+            print(f"  Initializing canonical ID lookup (cache: {cache_path})...")
+            lookup = CanonicalIdLookup(cache_file=cache_path)
+            print("  ✓ Canonical ID lookup created successfully")
+        except Exception as e:
+            print(f"  Warning: Failed to create canonical ID lookup: {e}")
+            print("  Continuing without tool calling...")
+            lookup = None
 
     # Create LLM client if requested
     llm_client = None
@@ -67,10 +84,10 @@ def build_orchestrator(
             traceback.print_exc()
             llm_client = None
 
-    return IngestionOrchestrator(
+    orchestrator = IngestionOrchestrator(
         domain=domain,
         parser=JournalArticleParser(),
-        entity_extractor=MedLitEntityExtractor(llm_client=llm_client),
+        entity_extractor=MedLitEntityExtractor(llm_client=llm_client, lookup=lookup),
         entity_resolver=MedLitEntityResolver(domain=domain),
         relationship_extractor=MedLitRelationshipExtractor(llm_client=llm_client),
         embedding_generator=OllamaMedLitEmbeddingGenerator(),
@@ -78,6 +95,8 @@ def build_orchestrator(
         relationship_storage=InMemoryRelationshipStorage(),
         document_storage=InMemoryDocumentStorage(),
     )
+
+    return orchestrator, lookup
 
 
 async def extract_entities_from_paper(
@@ -181,6 +200,12 @@ def parse_arguments() -> argparse.Namespace:
         type=str,
         default="http://localhost:11434",
         help="Ollama server URL (default: http://localhost:11434)",
+    )
+    parser.add_argument(
+        "--cache-file",
+        type=str,
+        default=None,
+        help="Path to canonical ID lookup cache file (default: canonical_id_cache.json)",
     )
     return parser.parse_args()
 
@@ -384,20 +409,29 @@ Found {len(json_files)} paper(s) to process
 {lim}
 
 [1/5] Initializing pipeline...""")
-    orchestrator = build_orchestrator(
+
+    cache_file = Path(args.cache_file) if args.cache_file else None
+    orchestrator, lookup = build_orchestrator(
         use_ollama=args.use_ollama,
         ollama_model=args.ollama_model,
         ollama_host=args.ollama_host,
+        cache_file=cache_file,
     )
     entity_storage = orchestrator.entity_storage
     relationship_storage = orchestrator.relationship_storage
     document_storage = orchestrator.document_storage
 
-    processed, errors = await extract_entities_phase(orchestrator, json_files)
-    await run_promotion_phase(orchestrator, entity_storage)
-    await extract_relationships_phase(orchestrator, json_files)
-    await print_summary(document_storage, entity_storage, relationship_storage)
-    await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors)
+    try:
+        processed, errors = await extract_entities_phase(orchestrator, json_files)
+        await run_promotion_phase(orchestrator, entity_storage)
+        await extract_relationships_phase(orchestrator, json_files)
+        await print_summary(document_storage, entity_storage, relationship_storage)
+        await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors)
+    finally:
+        # Clean up lookup service (saves cache)
+        if lookup:
+            await lookup.close()
+            print("  ✓ Canonical ID cache saved")
 
 
 if __name__ == "__main__":

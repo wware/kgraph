@@ -1,11 +1,11 @@
 """LLM client abstraction for entity and relationship extraction.
 
-Provides a unified interface for Ollama LLM integration.
+Provides a unified interface for Ollama LLM integration with tool calling support.
 """
 
 import asyncio
 from abc import ABC, abstractmethod
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 import json
 
 try:
@@ -55,6 +55,28 @@ class LLMClientInterface(ABC):
         Raises:
             ValueError: If response is not valid JSON.
         """
+
+    async def generate_json_with_tools(
+        self,
+        prompt: str,
+        tools: list[Callable],
+        temperature: float = 0.1,
+    ) -> dict[str, Any] | list[Any]:
+        """Generate JSON with tool calling support.
+
+        Default implementation falls back to generate_json without tools.
+        Subclasses that support tools should override this.
+
+        Args:
+            prompt: The input prompt text.
+            tools: List of callable functions the LLM can invoke.
+            temperature: Sampling temperature.
+
+        Returns:
+            Parsed JSON object (dict or list).
+        """
+        # Default: ignore tools and use regular JSON generation
+        return await self.generate_json(prompt, temperature)
 
 
 class OllamaLLMClient(LLMClientInterface):
@@ -165,6 +187,138 @@ class OllamaLLMClient(LLMClientInterface):
                     pass
 
         # Try to find JSON object
+        json_start = response_text.find("{")
+        if json_start != -1:
+            json_end = find_matching_bracket(response_text, json_start, "{", "}")
+            if json_end != -1:
+                json_text = response_text[json_start:json_end]
+                try:
+                    return json.loads(json_text)
+                except json.JSONDecodeError:
+                    pass
+
+        raise ValueError(f"No valid JSON found in response: {response_text[:200]}")
+
+    async def generate_json_with_tools(
+        self,
+        prompt: str,
+        tools: list[Callable],
+        temperature: float = 0.1,
+        max_tool_iterations: int = 10,
+    ) -> dict[str, Any] | list[Any]:
+        """Generate JSON with Ollama tool calling support.
+
+        Handles the tool call loop: LLM requests tool → execute tool → send result → repeat.
+
+        Args:
+            prompt: The input prompt text.
+            tools: List of callable functions the LLM can invoke.
+            temperature: Sampling temperature.
+            max_tool_iterations: Maximum number of tool call iterations to prevent infinite loops.
+
+        Returns:
+            Parsed JSON object (dict or list).
+        """
+
+        def _chat_with_tools():
+            messages = [
+                {
+                    "role": "system",
+                    "content": """You are a biomedical entity extraction expert. Extract entities and return ONLY valid JSON.
+
+You have access to a lookup_canonical_id tool that can find canonical IDs for medical entities.
+For each entity you find, call the tool to get its canonical ID.
+
+Return format: [{"entity": "name", "type": "disease|gene|drug|protein", "confidence": 0.95, "canonical_id": "ID or null"}]""",
+                },
+                {"role": "user", "content": prompt},
+            ]
+
+            # Convert functions to Ollama tool format
+            # Ollama v0.4+ can accept Python functions directly
+            response = self._client.chat(
+                model=self.model,
+                messages=messages,
+                tools=tools,
+                options={"temperature": temperature},
+            )
+
+            # Handle tool calls in a loop
+            iterations = 0
+            while response.get("message", {}).get("tool_calls") and iterations < max_tool_iterations:
+                iterations += 1
+                tool_calls = response["message"]["tool_calls"]
+
+                # Add assistant message with tool calls
+                messages.append(response["message"])
+
+                # Execute each tool call and add results
+                for tool_call in tool_calls:
+                    func_name = tool_call["function"]["name"]
+                    func_args = tool_call["function"]["arguments"]
+
+                    # Find and execute the matching tool
+                    result = None
+                    for tool in tools:
+                        if tool.__name__ == func_name:
+                            try:
+                                result = tool(**func_args)
+                            except Exception as e:
+                                result = f"Error: {e}"
+                            break
+
+                    # Add tool response to messages
+                    messages.append(
+                        {
+                            "role": "tool",
+                            "content": json.dumps(result) if result is not None else "null",
+                        }
+                    )
+
+                # Continue conversation
+                response = self._client.chat(
+                    model=self.model,
+                    messages=messages,
+                    tools=tools,
+                    options={"temperature": temperature},
+                )
+
+            return response["message"]["content"]
+
+        try:
+            response_text = await asyncio.to_thread(_chat_with_tools)
+            response_text = response_text.strip()
+        except Exception as e:
+            # If tool calling fails, fall back to regular JSON generation
+            print(f"Tool calling failed, falling back to regular generation: {e}")
+            return await self.generate_json(prompt, temperature)
+
+        # Parse JSON from response (same logic as generate_json)
+        if response_text.startswith("```"):
+            lines = response_text.split("\n")
+            response_text = "\n".join(lines[1:-1])
+
+        def find_matching_bracket(text: str, start: int, open_char: str, close_char: str) -> int:
+            count = 1
+            i = start + 1
+            while i < len(text) and count > 0:
+                if text[i] == open_char:
+                    count += 1
+                elif text[i] == close_char:
+                    count -= 1
+                i += 1
+            return i if count == 0 else -1
+
+        json_start = response_text.find("[")
+        if json_start != -1:
+            json_end = find_matching_bracket(response_text, json_start, "[", "]")
+            if json_end != -1:
+                json_text = response_text[json_start:json_end]
+                try:
+                    return json.loads(json_text)
+                except json.JSONDecodeError:
+                    pass
+
         json_start = response_text.find("{")
         if json_start != -1:
             json_end = find_matching_bracket(response_text, json_start, "{", "}")

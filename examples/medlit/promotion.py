@@ -10,6 +10,8 @@ from kgraph.entity import BaseEntity, EntityStatus
 from kgraph.logging import setup_logging
 from kgraph.promotion import PromotionPolicy
 
+from .pipeline.authority_lookup import CanonicalIdLookup
+
 
 class MedLitPromotionPolicy(PromotionPolicy):
     """Promotion policy for medical literature domain.
@@ -23,8 +25,19 @@ class MedLitPromotionPolicy(PromotionPolicy):
     Promotion strategy:
     1. If entity already has canonical_id in canonical_ids dict, use that
     2. If entity_id is already a canonical ID format, use it directly
-    3. Otherwise, return None (wait for more evidence or external lookup)
+    3. Otherwise, look up canonical ID from authority APIs (UMLS, HGNC, RxNorm, UniProt)
     """
+
+    def __init__(self, config, lookup: Optional[CanonicalIdLookup] = None):
+        """Initialize promotion policy.
+
+        Args:
+            config: Promotion configuration with thresholds.
+            lookup: Optional canonical ID lookup service. If None, will create
+                    a new instance (without UMLS API key unless set in env).
+        """
+        super().__init__(config)
+        self.lookup = lookup or CanonicalIdLookup()
 
     def should_promote(self, entity: BaseEntity) -> bool:
         """Check if entity meets promotion thresholds."""
@@ -78,7 +91,7 @@ class MedLitPromotionPolicy(PromotionPolicy):
 
         return result
 
-    def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
+    async def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
         """Assign canonical ID for a provisional entity.
 
         Args:
@@ -90,8 +103,12 @@ class MedLitPromotionPolicy(PromotionPolicy):
         logger = setup_logging()
 
         logger.debug(
-            f"Attempting to assign canonical ID for {entity.name} ({entity.entity_id}, type: {entity.get_entity_type()})",
-            extra={"entity": entity},
+            {
+                "message": f"Attempting to assign canonical ID for {entity.name}",
+                "entity": entity,
+                "entity_id": entity.entity_id,
+                "entity_type": entity.get_entity_type(),
+            },
             pprint=True,
         )
 
@@ -138,8 +155,12 @@ class MedLitPromotionPolicy(PromotionPolicy):
             if "rxnorm" in entity.canonical_ids:
                 canonical_id = entity.canonical_ids["rxnorm"]
                 logger.info(
-                    f"Found RxNorm canonical ID for {entity.name}: {canonical_id}",
-                    extra={"entity": entity, "canonical_id": canonical_id},
+                    {
+                        "message": f"Found RxNorm canonical ID for {entity.name}: {canonical_id}",
+                        "entity": entity,
+                        "canonical_id": canonical_id,
+                        "source": "rxnorm",
+                    },
                     pprint=True,
                 )
                 return canonical_id
@@ -257,16 +278,39 @@ class MedLitPromotionPolicy(PromotionPolicy):
                 )
                 return entity_id
 
-        # Strategy 3: No canonical ID available yet
-        # Return None to wait for more evidence or external lookup
+        # Strategy 3: Look up from authority APIs
+        logger.debug(
+            {
+                "message": f"Attempting external lookup for canonical ID for {entity.name}",
+                "entity": entity,
+                "entity_id": entity_id,
+                "entity_type": entity_type,
+            },
+            pprint=True,
+        )
+
+        lookup_result = await self.lookup.lookup_canonical_id(term=entity.name, entity_type=entity_type)
+
+        if lookup_result:
+            logger.info(
+                {
+                    "message": f"Found canonical ID via external lookup for {entity.name}: {lookup_result}",
+                    "entity": entity,
+                    "canonical_id": lookup_result,
+                    "source": "external_api",
+                },
+                pprint=True,
+            )
+            return lookup_result
+
+        # No canonical ID found via any strategy
         logger.debug(
             {
                 "message": f"Cannot assign canonical ID for {entity.name}",
                 "entity": entity,
                 "entity_id": entity_id,
                 "entity_type": entity_type,
-                "reason": "No canonical_ids dict entry found, and entity_id does not match any known format",
-                "note": f"External lookup would be needed (e.g., HGNC API for '{entity.name}')",
+                "reason": "No canonical_ids dict entry found, entity_id does not match any known format, and external lookup returned None",
             },
             pprint=True,
         )

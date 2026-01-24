@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Optional
+
 from .entity import BaseEntity, PromotionConfig
 from kgraph.entity import EntityStatus
 
@@ -17,11 +18,14 @@ class PromotionPolicy(ABC):
         return entity.usage_count >= self.config.min_usage_count and entity.confidence >= self.config.min_confidence and (not self.config.require_embedding or entity.embedding is not None)
 
     @abstractmethod
-    def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
-        """Return canonical ID for this entity, or None if not found."""
+    async def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
+        """Return canonical ID for this entity, or None if not found.
+
+        This method is async to support external API lookups.
+        """
         pass
 
 
 class TodoPromotionPolicy(PromotionPolicy):
-    def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
+    async def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
         raise NotImplementedError("Need a proper PromotionPolicy")

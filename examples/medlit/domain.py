@@ -7,6 +7,7 @@ from kgraph.relationship import BaseRelationship
 from kgraph.promotion import PromotionPolicy
 
 from .documents import JournalArticle
+from .pipeline.authority_lookup import CanonicalIdLookup
 from .promotion import MedLitPromotionPolicy
 from .entities import (
     BiomarkerEntity,
@@ -117,10 +118,15 @@ class MedLitDomainSchema(DomainSchema):
         """
         return get_valid_predicates(subject_type, object_type)
 
-    def get_promotion_policy(self) -> PromotionPolicy:
+    def get_promotion_policy(self, lookup: CanonicalIdLookup | None = None) -> PromotionPolicy:
         """Return the promotion policy for medical literature domain.
 
         Uses MedLitPromotionPolicy which assigns canonical IDs based on
         authoritative medical ontologies (UMLS, HGNC, RxNorm, UniProt).
+
+        Args:
+            lookup: Optional canonical ID lookup service. If None, a new
+                    instance will be created (without UMLS API key unless
+                    set in environment).
         """
-        return MedLitPromotionPolicy(config=self.promotion_config)
+        return MedLitPromotionPolicy(config=self.promotion_config, lookup=lookup)

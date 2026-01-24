@@ -17,6 +17,6 @@ SHERLOCK_CANONICAL_IDS = {
 class SherlockPromotionPolicy(PromotionPolicy):
     """Promotion policy for Sherlock Holmes domain using curated DBPedia mappings."""
 
-    def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
+    async def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
         """Look up canonical ID from curated mapping."""
         return SHERLOCK_CANONICAL_IDS.get(entity.entity_id)

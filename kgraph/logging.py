@@ -35,32 +35,32 @@ class PprintLogger:
     def debug(self, msg: Any, *args, pprint: bool = True, **kwargs) -> None:
         """Log a debug message with optional pprint formatting."""
         formatted_msg = self._format_message(msg, pprint=pprint)
-        self._logger.debug(formatted_msg, *args, **kwargs)
+        self._logger.debug(formatted_msg, *args, stacklevel=2, **kwargs)
 
     def info(self, msg: Any, *args, pprint: bool = True, **kwargs) -> None:
         """Log an info message with optional pprint formatting."""
         formatted_msg = self._format_message(msg, pprint=pprint)
-        self._logger.info(formatted_msg, *args, **kwargs)
+        self._logger.info(formatted_msg, *args, stacklevel=2, **kwargs)
 
     def warning(self, msg: Any, *args, pprint: bool = True, **kwargs) -> None:
         """Log a warning message with optional pprint formatting."""
         formatted_msg = self._format_message(msg, pprint=pprint)
-        self._logger.warning(formatted_msg, *args, **kwargs)
+        self._logger.warning(formatted_msg, *args, stacklevel=2, **kwargs)
 
     def error(self, msg: Any, *args, pprint: bool = True, **kwargs) -> None:
         """Log an error message with optional pprint formatting."""
         formatted_msg = self._format_message(msg, pprint=pprint)
-        self._logger.error(formatted_msg, *args, **kwargs)
+        self._logger.error(formatted_msg, *args, stacklevel=2, **kwargs)
 
     def critical(self, msg: Any, *args, pprint: bool = True, **kwargs) -> None:
         """Log a critical message with optional pprint formatting."""
         formatted_msg = self._format_message(msg, pprint=pprint)
-        self._logger.critical(formatted_msg, *args, **kwargs)
+        self._logger.critical(formatted_msg, *args, stacklevel=2, **kwargs)
 
     def exception(self, msg: Any, *args, pprint: bool = True, **kwargs) -> None:
         """Log an exception message with optional pprint formatting."""
         formatted_msg = self._format_message(msg, pprint=pprint)
-        self._logger.exception(formatted_msg, *args, **kwargs)
+        self._logger.exception(formatted_msg, *args, stacklevel=2, **kwargs)
 
     # Delegate other standard logger methods/attributes
     def __getattr__(self, name: str) -> Any:

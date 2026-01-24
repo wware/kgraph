@@ -91,7 +91,7 @@ class SimpleDocument(BaseDocument):
 
 
 class SimplePromotionPolicy(PromotionPolicy):
-    def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
+    async def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
         return f"canonical-{type(entity)}-{id(entity)}"
 
 

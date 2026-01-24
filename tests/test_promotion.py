@@ -53,7 +53,7 @@ class SimplePromotionPolicy(PromotionPolicy):
         "test:entity:Beta": "canonical:Beta",
     }
 
-    def assign_canonical_id(self, entity: BaseEntity) -> str | None:
+    async def assign_canonical_id(self, entity: BaseEntity) -> str | None:
         return self.CANONICAL_IDS.get(entity.entity_id)
 
 
@@ -150,7 +150,7 @@ class TestPromotionPolicyBase:
         )
         assert policy.should_promote(entity_with_emb) is True
 
-    def test_assign_canonical_id_returns_mapping(self):
+    async def test_assign_canonical_id_returns_mapping(self):
         """assign_canonical_id returns mapped ID or None."""
         config = PromotionConfig(min_usage_count=1, min_confidence=0.5)
         policy = SimplePromotionPolicy(config)
@@ -161,7 +161,7 @@ class TestPromotionPolicyBase:
             entity_id="test:entity:Alpha",
             status=EntityStatus.PROVISIONAL,
         )
-        assert policy.assign_canonical_id(entity_mapped) == "canonical:Alpha"
+        assert await policy.assign_canonical_id(entity_mapped) == "canonical:Alpha"
 
         # Entity without mapping
         entity_unmapped = make_test_entity(
@@ -169,7 +169,7 @@ class TestPromotionPolicyBase:
             entity_id="test:entity:Unknown",
             status=EntityStatus.PROVISIONAL,
         )
-        assert policy.assign_canonical_id(entity_unmapped) is None
+        assert await policy.assign_canonical_id(entity_unmapped) is None
 
 
 # ============================================================================
@@ -180,7 +180,7 @@ class TestPromotionPolicyBase:
 class TestSherlockPromotion:
     """Test Sherlock-specific promotion policy with DBPedia mappings."""
 
-    def test_sherlock_policy_has_dbpedia_mappings(self):
+    async def test_sherlock_policy_has_dbpedia_mappings(self):
         """SherlockPromotionPolicy contains DBPedia URI mappings."""
         from examples.sherlock.promotion import SherlockPromotionPolicy
 
@@ -194,7 +194,7 @@ class TestSherlockPromotion:
             status=EntityStatus.PROVISIONAL,
         )
 
-        canonical_id = policy.assign_canonical_id(entity)
+        canonical_id = await policy.assign_canonical_id(entity)
         assert canonical_id == "http://dbpedia.org/resource/Sherlock_Holmes"
 
         # Check unmapped entity
@@ -203,7 +203,7 @@ class TestSherlockPromotion:
             entity_id="holmes:char:Unknown",
             status=EntityStatus.PROVISIONAL,
         )
-        assert policy.assign_canonical_id(unknown) is None
+        assert await policy.assign_canonical_id(unknown) is None
 
     def test_sherlock_promotion_config_has_low_thresholds(self):
         """Sherlock domain uses lower thresholds for small corpus."""

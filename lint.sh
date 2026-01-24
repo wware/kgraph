@@ -56,4 +56,5 @@ echo ""
 echo "=========================================="
 echo "Running tests..."
 echo "=========================================="
-uv run pytest tests/ -v
+# uv run pytest tests/ -v
+uv run pytest tests/ -q

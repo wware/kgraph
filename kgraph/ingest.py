@@ -481,8 +481,11 @@ class IngestionOrchestrator(BaseModel):
 
         if candidates:
             logger.debug(
-                "Candidate entities for promotion",
-                extra={"candidates": candidates[:10]},  # Log first 10
+                {
+                    "message": "Candidate entities for promotion",
+                    "count": len(candidates),
+                    "candidates": candidates[:10],  # Log first 10
+                },
                 pprint=True,
             )
 
@@ -503,15 +506,17 @@ class IngestionOrchestrator(BaseModel):
             # Check if policy says we should promote
             if not policy.should_promote(entity):
                 logger.debug(
-                    f"Entity {entity.name} ({entity.entity_id}) does not meet promotion policy criteria",
-                    extra={"entity": entity},
+                    {
+                        "message": f"Entity {entity.name} ({entity.entity_id}) does not meet promotion policy criteria",
+                        "entity": entity,
+                    },
                     pprint=True,
                 )
                 skipped_no_policy.append(entity)
                 continue
 
-            # Get canonical ID from policy
-            canonical_id = policy.assign_canonical_id(entity)
+            # Get canonical ID from policy (now async)
+            canonical_id = await policy.assign_canonical_id(entity)
             if canonical_id is None:
                 logger.debug(
                     {
@@ -524,8 +529,11 @@ class IngestionOrchestrator(BaseModel):
                 continue
 
             logger.info(
-                f"Promoting entity {entity.name}: {entity.entity_id} → {canonical_id}",
-                extra={"entity": entity, "canonical_id": canonical_id},
+                {
+                    "message": f"Promoting entity {entity.name}: {entity.entity_id} → {canonical_id}",
+                    "entity": entity,
+                    "canonical_id": canonical_id,
+                },
                 pprint=True,
             )
 
