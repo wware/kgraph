@@ -433,23 +433,30 @@ Found {len(json_files)} paper(s) to process
         if lookup:
             try:
                 lookup._save_cache(force=True)  # Force save to capture in-memory cache
-                print("  ✓ Canonical ID cache saved")
+                cache_path = lookup.cache_file.absolute()
+                print(f"  ✓ Canonical ID cache saved to: {cache_path}")
             except Exception as e:
-                print(f"  Warning: Failed to save cache: {e}")
+                print(f"  ✗ Warning: Failed to save cache: {e}")
+                if lookup:
+                    print(f"     Cache file location: {lookup.cache_file.absolute()}")
         raise
     finally:
         # Clean up lookup service (saves cache)
         if lookup:
             try:
                 await lookup.close()
-                print("  ✓ Canonical ID cache saved")
+                cache_path = lookup.cache_file.absolute()
+                print(f"  ✓ Canonical ID cache saved to: {cache_path}")
             except Exception:
                 # If close() fails, at least try to save cache (force save as safety)
                 try:
                     lookup._save_cache(force=True)
-                    print("  ✓ Canonical ID cache saved (emergency save)")
-                except Exception:
-                    pass
+                    cache_path = lookup.cache_file.absolute()
+                    print(f"  ✓ Canonical ID cache saved to: {cache_path} (emergency save)")
+                except Exception as e:
+                    print(f"  ✗ Failed to save cache: {e}")
+                    if lookup:
+                        print(f"     Cache file location: {lookup.cache_file.absolute()}")
 
 
 if __name__ == "__main__":

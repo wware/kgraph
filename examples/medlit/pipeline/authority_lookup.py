@@ -100,29 +100,42 @@ class CanonicalIdLookup:
             # Filter out NULLs - only persist successful lookups
             persistent_cache = {k: v for k, v in self._cache.items() if v != "NULL"}
 
+            # Ensure parent directory exists
+            self.cache_file.parent.mkdir(parents=True, exist_ok=True)
+
+            # Write cache file directly (with explicit flush/fsync for reliability)
+            import os
+
             with open(self.cache_file, "w") as f:
                 json.dump(persistent_cache, f, indent=2)
+                f.flush()  # Flush Python buffer
+                os.fsync(f.fileno())  # Force OS to write to disk
+
             self._cache_dirty = False
             logger = setup_logging()
-            logger.debug(
+            log_level = "info" if force else "debug"
+            getattr(logger, log_level)(
                 {
                     "message": f"Saved {len(persistent_cache)} cached lookups to {self.cache_file} (filtered {len(self._cache) - len(persistent_cache)} NULLs)",
-                    "cache_file": str(self.cache_file),
+                    "cache_file": str(self.cache_file.absolute()),
                     "persistent_count": len(persistent_cache),
                     "memory_only_nulls": len(self._cache) - len(persistent_cache),
+                    "force": force,
                 },
                 pprint=True,
             )
         except Exception as e:
             logger = setup_logging()
-            logger.warning(
+            logger.error(
                 {
                     "message": f"Failed to save cache to {self.cache_file}",
-                    "cache_file": str(self.cache_file),
+                    "cache_file": str(self.cache_file.absolute()),
                     "error": str(e),
+                    "error_type": type(e).__name__,
                 },
                 pprint=True,
             )
+            # Don't raise - let caller handle if needed
 
     async def lookup_canonical_id(self, term: str, entity_type: str) -> Optional[str]:
         """Look up canonical ID for a medical term.
