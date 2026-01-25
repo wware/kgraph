@@ -2,16 +2,13 @@
 
 Extracts entity mentions from Paper JSON format (from med-lit-schema).
 Since the papers already have extracted entities, we convert those to EntityMention objects.
-Can also use Ollama LLM for NER extraction from text with tool calling for canonical ID lookup.
+Can also use Ollama LLM for NER extraction from text.
 """
-
-from typing import Optional
 
 from kgraph.document import BaseDocument
 from kgraph.entity import EntityMention
 from kgraph.pipeline.interfaces import EntityExtractorInterface
 
-from .authority_lookup import CanonicalIdLookup
 from .llm_client import LLMClientInterface
 
 
@@ -22,7 +19,7 @@ class MedLitEntityExtractor(EntityExtractorInterface):
     already contains extracted entities. We convert those to EntityMention objects.
 
     Can also use Ollama LLM to extract entities directly from text if llm_client is provided.
-    When a lookup service is provided, the LLM can use tool calling to look up canonical IDs.
+    Note: Canonical ID lookup is handled during the promotion phase, not during extraction.
     """
 
     OLLAMA_NER_PROMPT = """Extract medical entities from the following text. Return a JSON array.
@@ -37,35 +34,14 @@ Text:
 
 JSON:"""
 
-    OLLAMA_NER_PROMPT_WITH_TOOLS = """Extract medical entities from the following text.
-
-For each entity found, use the lookup_canonical_id tool to find its canonical ID.
-The tool takes two arguments: term (the entity name) and entity_type (disease, gene, drug, or protein).
-
-Return a JSON array with entities including their canonical IDs.
-Format: [{{"entity": "name", "type": "disease|gene|drug|protein", "confidence": 0.95, "canonical_id": "ID or null"}}]
-
-Text:
-{text}
-
-JSON:"""
-
-    def __init__(
-        self,
-        llm_client: Optional[LLMClientInterface] = None,
-        lookup: Optional[CanonicalIdLookup] = None,
-    ):
+    def __init__(self, llm_client: LLMClientInterface | None = None):
         """Initialize entity extractor.
 
         Args:
             llm_client: Optional LLM client for extracting entities from text.
                         If None, only uses pre-extracted entities from Paper JSON.
-            lookup: Optional canonical ID lookup service. When provided along with
-                   an LLM client that supports tools, enables tool calling for
-                   canonical ID lookup during extraction.
         """
         self._llm = llm_client
-        self._lookup = lookup
 
     async def extract(self, document: BaseDocument) -> list[EntityMention]:
         """Extract entity mentions from a journal article.
@@ -124,35 +100,9 @@ JSON:"""
                 text = document.abstract if hasattr(document, "abstract") and document.abstract else document.content
                 text_sample = text[:2000]  # Limit text size for faster processing
 
-                # Check if we can use tool calling
-                use_tools = self._lookup is not None and hasattr(self._llm, "generate_json_with_tools")
-
-                if use_tools:
-                    print(f"  Extracting entities with LLM + tools from {len(text_sample)} chars...")
-                    prompt = self.OLLAMA_NER_PROMPT_WITH_TOOLS.format(text=text_sample)
-
-                    # Create the tool function that wraps our lookup
-                    def lookup_canonical_id(term: str, entity_type: str) -> str | None:
-                        """Look up canonical ID for a medical entity.
-
-                        Args:
-                            term: The entity name (e.g., "BRCA1", "breast cancer")
-                            entity_type: Type of entity - one of: disease, gene, drug, protein
-
-                        Returns:
-                            Canonical ID if found (e.g., "HGNC:1100", "C0006142"), or null if not found
-                        """
-                        assert self._lookup is not None  # Guarded by use_tools check
-                        return self._lookup.lookup_canonical_id_sync(term, entity_type)
-
-                    response = await self._llm.generate_json_with_tools(
-                        prompt,
-                        tools=[lookup_canonical_id],
-                    )
-                else:
-                    print(f"  Extracting entities with LLM from {len(text_sample)} chars...")
-                    prompt = self.OLLAMA_NER_PROMPT.format(text=text_sample)
-                    response = await self._llm.generate_json(prompt)
+                print(f"  Extracting entities with LLM from {len(text_sample)} chars...")
+                prompt = self.OLLAMA_NER_PROMPT.format(text=text_sample)
+                response = await self._llm.generate_json(prompt)
 
                 print(f"  LLM returned {len(response) if isinstance(response, list) else 0} entities")
 
@@ -166,22 +116,8 @@ JSON:"""
                             entity_type = item.get("type", "disease").lower()
                             confidence = float(item.get("confidence", 0.5))
 
-                            # Get canonical_id if present (from tool calling)
-                            canonical_id = item.get("canonical_id")
-                            if canonical_id in ("null", ""):
-                                canonical_id = None
-
                             if len(entity_name) < 3 or confidence < 0.5:
                                 continue
-
-                            metadata = {
-                                "document_id": document.document_id,
-                                "extraction_method": "llm_with_tools" if use_tools else "llm",
-                            }
-
-                            # Add canonical_id_hint if we got one from tool calling
-                            if canonical_id:
-                                metadata["canonical_id_hint"] = canonical_id
 
                             mention = EntityMention(
                                 text=entity_name,
@@ -190,7 +126,10 @@ JSON:"""
                                 end_offset=0,
                                 confidence=confidence,
                                 context=None,
-                                metadata=metadata,
+                                metadata={
+                                    "document_id": document.document_id,
+                                    "extraction_method": "llm",
+                                },
                             )
                             mentions.append(mention)
             except Exception as e:

@@ -63,14 +63,15 @@ class MedLitDomainSchema(DomainSchema):
     def promotion_config(self) -> PromotionConfig:
         """Medical domain promotion configuration.
 
-        Medical entities often have authoritative sources (UMLS, HGNC, etc.),
-        so we can use higher confidence requirements. However, we want to be
-        inclusive of newly discovered entities, so usage count is moderate.
+        Lowered thresholds to match LLM extraction characteristics:
+        - min_usage_count=1: Entities appear once per paper
+        - min_confidence=0.4: LLM typically returns ~0.47 confidence
+        - require_embedding=False: Don't block promotion if embeddings not ready
         """
         return PromotionConfig(
-            min_usage_count=2,  # Appear in at least 2 papers
-            min_confidence=0.75,  # 75% confidence threshold
-            require_embedding=True,  # Embeddings help with entity resolution
+            min_usage_count=1,  # Appear in at least 1 paper
+            min_confidence=0.4,  # 40% confidence threshold (LLM typically ~0.47)
+            require_embedding=False,  # Don't require embeddings (we have them but don't block)
         )
 
     def validate_entity(self, entity: BaseEntity) -> bool:

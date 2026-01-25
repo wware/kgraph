@@ -143,7 +143,7 @@ class SherlockDomainSchema(DomainSchema):
             require_embedding=False,
         )
 
-    def get_promotion_policy(self) -> PromotionPolicy:
+    def get_promotion_policy(self, lookup=None) -> PromotionPolicy:
         return SherlockPromotionPolicy(self.promotion_config)
 
     def validate_entity(self, entity: BaseEntity) -> bool:

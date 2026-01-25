@@ -273,11 +273,15 @@ class DomainSchema(ABC):
         return list(self.relationship_types.keys())
 
     @abstractmethod
-    def get_promotion_policy(self) -> PromotionPolicy:
+    def get_promotion_policy(self, lookup=None) -> PromotionPolicy:
         """Return the promotion policy for this domain.
 
         Override this method to provide domain-specific promotion logic.
         Default implementation raises NotImplementedError.
+
+        Args:
+            lookup: Optional canonical ID lookup service. Domains that support
+                   external lookups can use this to pass the service to the policy.
         """
 
     @property

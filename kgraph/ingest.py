@@ -122,6 +122,32 @@ class IngestionResult(BaseModel):
     errors: tuple[str, ...] = ()
 
 
+def _determine_canonical_id_source(canonical_id: str) -> str:
+    """Determine the canonical_ids dict key from canonical_id format.
+
+    Args:
+        canonical_id: The canonical ID string (e.g., "HGNC:1100", "MeSH:D001943", "C0006142")
+
+    Returns:
+        Source key for canonical_ids dict (e.g., "hgnc", "mesh", "umls", "dbpedia")
+    """
+    if canonical_id.startswith("MeSH:"):
+        return "mesh"
+    if canonical_id.startswith("HGNC:"):
+        return "hgnc"
+    if canonical_id.startswith("RxNorm:"):
+        return "rxnorm"
+    if canonical_id.startswith("DBPedia:"):
+        return "dbpedia"
+    # Try to infer from format
+    if canonical_id.startswith("C") and len(canonical_id) > 1 and canonical_id[1:].isdigit():
+        return "umls"
+    if len(canonical_id) == 6 and canonical_id[0] in ("P", "Q") and canonical_id[1:].isalnum():
+        return "uniprot"
+    # Default fallback
+    return "dbpedia"
+
+
 class IngestionOrchestrator(BaseModel):
     """Orchestrates two-pass document ingestion for knowledge graph construction.
 
@@ -444,26 +470,31 @@ class IngestionOrchestrator(BaseModel):
             errors=tuple(errors),
         )
 
-    async def run_promotion(self) -> list[BaseEntity]:
+    async def run_promotion(self, lookup=None) -> list[BaseEntity]:
         """Promote eligible provisional entities to canonical status.
 
         Uses the domain's promotion policy to determine which entities should
         be promoted and what canonical IDs to assign them.
 
         The promotion process:
-            1. Get the domain's promotion policy
+            1. Get the domain's promotion policy (with optional lookup service)
             2. Find provisional entities meeting threshold criteria
             3. For each candidate, check if policy can assign a canonical ID
             4. Update entity status and ID in storage
             5. Update all relationships pointing to the old provisional ID
 
+        Args:
+            lookup: Optional canonical ID lookup service to pass to promotion policy.
+
         Returns:
             List of entities that were successfully promoted.
         """
+        import asyncio
+
         logger = setup_logging()
         logger.info("Starting entity promotion process")
 
-        policy = self.domain.get_promotion_policy()
+        policy = self.domain.get_promotion_policy(lookup=lookup)
         config = self.domain.promotion_config
 
         logger.info(
@@ -494,6 +525,35 @@ class IngestionOrchestrator(BaseModel):
         skipped_no_canonical_id: list[BaseEntity] = []
         skipped_storage_failure: list[BaseEntity] = []
 
+        if not candidates:
+            logger.info("No candidate entities for promotion")
+        else:
+            logger.info(f"Looking up canonical IDs for {len(candidates)} candidate entities...")
+
+        # Step 1: Parallelize canonical ID lookups for all candidates (batch size 15)
+        BATCH_SIZE = 15
+        entity_canonical_id_map: dict[str, str | None] = {}
+
+        for i in range(0, len(candidates), BATCH_SIZE):
+            batch = candidates[i : i + BATCH_SIZE]
+            logger.debug(
+                {
+                    "message": f"Processing promotion batch {i // BATCH_SIZE + 1} ({len(batch)} entities)",
+                    "batch_start": i,
+                    "batch_end": min(i + BATCH_SIZE, len(candidates)),
+                },
+                pprint=True,
+            )
+
+            # Parallel lookup of canonical IDs
+            tasks = [policy.assign_canonical_id(entity) for entity in batch]
+            canonical_ids = await asyncio.gather(*tasks)
+
+            # Map results
+            for entity, canonical_id in zip(batch, canonical_ids):
+                entity_canonical_id_map[entity.entity_id] = canonical_id
+
+        # Step 2: Process results and promote entities
         for entity in candidates:
             logger.debug(
                 {
@@ -503,20 +563,9 @@ class IngestionOrchestrator(BaseModel):
                 pprint=True,
             )
 
-            # Check if policy says we should promote
-            if not policy.should_promote(entity):
-                logger.debug(
-                    {
-                        "message": f"Entity {entity.name} ({entity.entity_id}) does not meet promotion policy criteria",
-                        "entity": entity,
-                    },
-                    pprint=True,
-                )
-                skipped_no_policy.append(entity)
-                continue
+            canonical_id = entity_canonical_id_map.get(entity.entity_id)
 
-            # Get canonical ID from policy (now async)
-            canonical_id = await policy.assign_canonical_id(entity)
+            # Force-promote: If canonical ID found, promote regardless of thresholds
             if canonical_id is None:
                 logger.debug(
                     {
@@ -528,18 +577,35 @@ class IngestionOrchestrator(BaseModel):
                 skipped_no_canonical_id.append(entity)
                 continue
 
+            # Canonical ID found - check if this is a force-promote (thresholds not met)
+            force_promote = not policy.should_promote(entity)
+            if force_promote:
+                logger.info(
+                    {
+                        "message": f"Force-promoting {entity.name} - canonical ID found ({canonical_id}) despite not meeting thresholds",
+                        "entity": entity,
+                        "canonical_id": canonical_id,
+                        "reason": "canonical_id_found",
+                    },
+                    pprint=True,
+                )
+
             logger.info(
                 {
                     "message": f"Promoting entity {entity.name}: {entity.entity_id} → {canonical_id}",
                     "entity": entity,
                     "canonical_id": canonical_id,
+                    "force_promote": force_promote,
                 },
                 pprint=True,
             )
 
             # Update entity in storage with new ID and status
             new_canonical_ids = entity.canonical_ids.copy()
-            new_canonical_ids["dbpedia"] = canonical_id
+            # Determine source key from canonical_id format
+            source_key = _determine_canonical_id_source(canonical_id)
+            new_canonical_ids[source_key] = canonical_id
+
             promoted_entity = await self.entity_storage.promote(entity.entity_id, canonical_id, canonical_ids=new_canonical_ids)
 
             if promoted_entity:
@@ -555,8 +621,10 @@ class IngestionOrchestrator(BaseModel):
                 promoted.append(promoted_entity)
             else:
                 logger.warning(
-                    f"Storage promotion failed for {entity.name} ({entity.entity_id})",
-                    extra={"entity": entity},
+                    {
+                        "message": f"Storage promotion failed for {entity.name} ({entity.entity_id})",
+                        "entity": entity,
+                    },
                     pprint=True,
                 )
                 skipped_storage_failure.append(entity)

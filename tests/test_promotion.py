@@ -217,6 +217,20 @@ class TestSherlockPromotion:
         assert config.min_confidence == 0.7
         assert config.require_embedding is False
 
+    def test_get_promotion_policy_accepts_lookup_parameter(self):
+        """get_promotion_policy accepts lookup parameter for signature compliance."""
+        from examples.sherlock.domain import SherlockDomainSchema
+
+        schema = SherlockDomainSchema()
+        # Should work with None (Sherlock doesn't use lookup)
+        policy1 = schema.get_promotion_policy(lookup=None)
+        assert policy1 is not None
+
+        # Should also work with a mock lookup (even if ignored)
+        mock_lookup = object()
+        policy2 = schema.get_promotion_policy(lookup=mock_lookup)
+        assert policy2 is not None
+
 
 # ============================================================================
 # Test Promotion Workflow

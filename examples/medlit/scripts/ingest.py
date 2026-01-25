@@ -56,7 +56,10 @@ def build_orchestrator(
     """
     domain = MedLitDomainSchema()
 
-    # Create canonical ID lookup service
+    # Create canonical ID lookup service for promotion phase
+    # Note: We've learned not to use this during extraction (tool calling is too slow),
+    # but it still contains useful information and is used during the promotion phase
+    # to assign canonical IDs to provisional entities.
     lookup = None
     if use_ollama:
         try:
@@ -66,7 +69,7 @@ def build_orchestrator(
             print("  ✓ Canonical ID lookup created successfully")
         except Exception as e:
             print(f"  Warning: Failed to create canonical ID lookup: {e}")
-            print("  Continuing without tool calling...")
+            print("  Continuing without canonical ID lookup...")
             lookup = None
 
     # Create LLM client if requested
@@ -87,7 +90,7 @@ def build_orchestrator(
     orchestrator = IngestionOrchestrator(
         domain=domain,
         parser=JournalArticleParser(),
-        entity_extractor=MedLitEntityExtractor(llm_client=llm_client, lookup=lookup),
+        entity_extractor=MedLitEntityExtractor(llm_client=llm_client),
         entity_resolver=MedLitEntityResolver(domain=domain),
         relationship_extractor=MedLitRelationshipExtractor(llm_client=llm_client),
         embedding_generator=OllamaMedLitEmbeddingGenerator(),
@@ -241,6 +244,7 @@ async def extract_entities_phase(
 async def run_promotion_phase(
     orchestrator: IngestionOrchestrator,
     entity_storage: EntityStorageInterface,
+    lookup: CanonicalIdLookup | None = None,
 ) -> None:
     """Run entity promotion and print results."""
     print("""
@@ -260,7 +264,7 @@ async def run_promotion_phase(
     config = orchestrator.domain.promotion_config
     print(f"      Promotion thresholds: usage>={config.min_usage_count}, confidence>={config.min_confidence}")
 
-    promoted = await orchestrator.run_promotion()
+    promoted = await orchestrator.run_promotion(lookup=lookup)
     print(f"      Promoted {len(promoted)} entities to canonical status:")
     for entity in promoted:
         print(f"        - {entity.name} → {entity.entity_id}")
@@ -322,6 +326,7 @@ async def export_bundle(
     output_dir: Path,
     processed: int,
     errors: int,
+    cache_file: Path | None = None,
 ) -> None:
     """Export the knowledge graph bundle."""
     print(f"""
@@ -372,13 +377,22 @@ Papers were processed from JSON format (med-lit-schema Paper format).
             description="Knowledge graph bundle of biomedical journal articles",
         )
 
+        # Copy cache file to bundle if it exists
+        if cache_file and cache_file.exists():
+            import shutil
+
+            bundle_cache_path = output_dir / cache_file.name
+            shutil.copy2(cache_file, bundle_cache_path)
+            print(f"  ✓ Copied canonical ID cache to bundle: {cache_file.name}")
+
+    cache_note = f"\n     - {cache_file.name}" if cache_file and cache_file.exists() else ""
     print(f"""
 ✓ Bundle exported to: {output_dir}
      - manifest.json
      - entities.jsonl
      - relationships.jsonl
      - documents.jsonl (if docs provided)
-     - docs/ (documentation)
+     - docs/ (documentation){cache_note}
 """)
 
 
@@ -473,10 +487,11 @@ Found {len(json_files)} paper(s) to process
 
     try:
         processed, errors = await extract_entities_phase(orchestrator, json_files)
-        await run_promotion_phase(orchestrator, entity_storage)
+        await run_promotion_phase(orchestrator, entity_storage, lookup=lookup)
         await extract_relationships_phase(orchestrator, json_files)
         await print_summary(document_storage, entity_storage, relationship_storage)
-        await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors)
+        cache_file_path = lookup.cache_file if lookup else cache_file
+        await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors, cache_file=cache_file_path)
     except KeyboardInterrupt:
         _handle_keyboard_interrupt(lookup)
         raise

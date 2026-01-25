@@ -40,7 +40,17 @@ class MedLitPromotionPolicy(PromotionPolicy):
         self.lookup = lookup or CanonicalIdLookup()
 
     def should_promote(self, entity: BaseEntity) -> bool:
-        """Check if entity meets promotion thresholds."""
+        """Check if entity meets promotion thresholds.
+
+        Force-promote rules (bypass standard thresholds):
+        - If confidence >= 0.7, ignore usage count requirement
+        - If canonical ID is found (checked in run_promotion), promote regardless
+
+        Standard thresholds:
+        - usage_count >= min_usage_count (default: 1)
+        - confidence >= min_confidence (default: 0.4)
+        - embedding required only if require_embedding=True (default: False)
+        """
         logger = setup_logging()
 
         if entity.status != EntityStatus.PROVISIONAL:
@@ -53,14 +63,24 @@ class MedLitPromotionPolicy(PromotionPolicy):
             )
             return False
 
-        # Check confidence threshold
-        confidence_ok = entity.confidence >= self.config.min_confidence
-        # Note: usage_count and embedding checks are commented out in current implementation
-        # Original line: return entity.usage_count >= self.config.min_usage_count and entity.confidence >= self.config.min_confidence and (not self.config.require_embedding or entity.embedding is not None)
-        usage_ok = True  # Not currently checked
-        embedding_ok = True  # Not currently checked
+        # Force-promote: High confidence bypasses usage requirement
+        if entity.confidence >= 0.7:
+            logger.debug(
+                {
+                    "message": f"Force-promoting {entity.name} - high confidence ({entity.confidence} >= 0.7)",
+                    "entity": entity,
+                    "reason": "high_confidence",
+                },
+                pprint=True,
+            )
+            return True
 
-        result = confidence_ok
+        # Standard threshold checks
+        confidence_ok = entity.confidence >= self.config.min_confidence
+        usage_ok = entity.usage_count >= self.config.min_usage_count
+        embedding_ok = not self.config.require_embedding or entity.embedding is not None
+
+        result = confidence_ok and usage_ok and embedding_ok
 
         logger.debug(
             {
@@ -76,13 +96,11 @@ class MedLitPromotionPolicy(PromotionPolicy):
                     "value": entity.usage_count,
                     "threshold": self.config.min_usage_count,
                     "passed": usage_ok,
-                    "note": "not currently checked",
                 },
                 "embedding_check": {
                     "present": entity.embedding is not None,
                     "required": self.config.require_embedding,
                     "passed": embedding_ok,
-                    "note": "not currently checked",
                 },
                 "result": result,
             },

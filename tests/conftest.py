@@ -149,7 +149,7 @@ class SimpleDomainSchema(DomainSchema):
         """Check if the relationship's predicate is registered in this schema."""
         return relationship.predicate in self.relationship_types
 
-    def get_promotion_policy(self) -> PromotionPolicy:
+    def get_promotion_policy(self, lookup=None) -> PromotionPolicy:
         return SimplePromotionPolicy(config=self.promotion_config)
 
 
