@@ -23,7 +23,7 @@ Abstract base for all domain entities.
 | `name` | `str` | Primary name/label |
 | `synonyms` | `tuple[str, ...]` | Alternative names |
 | `embedding` | `tuple[float, ...] \| None` | Semantic vector |
-| `dbpedia_uri` | `str \| None` | Cross-domain linking |
+| `canonical_ids` | `dict[str, str]` | Authoritative identifiers from various sources |
 | `confidence` | `float` | Confidence in canonical assignment (0.0-1.0) |
 | `usage_count` | `int` | Number of references |
 | `created_at` | `datetime` | Creation timestamp |
@@ -32,7 +32,6 @@ Abstract base for all domain entities.
 
 Abstract methods:
 - `get_entity_type() -> str`: Domain-specific type identifier
-- `get_canonical_id_source() -> str | None`: Authoritative ID source
 
 #### EntityMention
 
@@ -109,7 +108,6 @@ Abstract properties:
 - `entity_types -> dict[str, type[BaseEntity]]`: Entity type registry
 - `relationship_types -> dict[str, type[BaseRelationship]]`: Relationship type registry
 - `document_types -> dict[str, type[BaseDocument]]`: Document type registry
-- `canonical_id_sources -> dict[str, str]`: Entity type to ID authority mapping
 
 Optional override:
 - `promotion_config -> PromotionConfig`: Domain-specific promotion thresholds
@@ -117,6 +115,7 @@ Optional override:
 Abstract methods:
 - `validate_entity(entity: BaseEntity) -> bool`
 - `validate_relationship(rel: BaseRelationship) -> bool`
+- `get_promotion_policy(lookup: CanonicalIdLookupInterface | None) -> PromotionPolicy`: Return promotion policy
 
 Optional override:
 - `get_valid_predicates(subject_type: str, object_type: str) -> list[str]`
@@ -216,6 +215,71 @@ See [Pipeline Components](pipeline.md) for implementation guidance.
 - `EntityResolverInterface`
 - `RelationshipExtractorInterface`
 - `EmbeddingGeneratorInterface`
+
+## Promotion and Canonical IDs
+
+See [Canonical IDs](canonical_ids.md) for full documentation.
+
+### kgraph.promotion
+
+#### PromotionPolicy
+
+Abstract base for domain-specific promotion policies.
+
+```python
+class PromotionPolicy(ABC):
+    def __init__(self, config: PromotionConfig): ...
+    def should_promote(self, entity: BaseEntity) -> bool: ...
+    async def assign_canonical_id(self, entity: BaseEntity) -> CanonicalId | None: ...
+```
+
+### kgraph.canonical_id
+
+#### CanonicalId
+
+Pydantic model representing a canonical identifier.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | `str` | Canonical ID string (e.g., "UMLS:C12345", "MeSH:D000570") |
+| `url` | `str \| None` | URL to authoritative source page |
+| `synonyms` | `tuple[str, ...]` | Alternative names/terms |
+
+### kgraph.canonical_cache
+
+#### CanonicalIdCacheInterface
+
+Abstract interface for caching canonical ID lookups.
+
+Methods:
+- `load(tag: str) -> None`
+- `save(tag: str) -> None`
+- `store(term: str, entity_type: str, canonical_id: CanonicalId) -> None`
+- `fetch(term: str, entity_type: str) -> CanonicalId | None`
+- `mark_known_bad(term: str, entity_type: str) -> None`
+- `is_known_bad(term: str, entity_type: str) -> bool`
+- `get_metrics() -> dict[str, int]`
+
+#### JsonFileCanonicalIdCache
+
+JSON file-based cache implementation.
+
+### kgraph.canonical_lookup
+
+#### CanonicalIdLookupInterface
+
+Abstract interface for looking up canonical IDs.
+
+Methods:
+- `async lookup(term: str, entity_type: str) -> CanonicalId | None`
+- `lookup_sync(term: str, entity_type: str) -> CanonicalId | None`
+
+### kgraph.canonical_helpers
+
+Helper functions for promotion policies:
+
+- `extract_canonical_id_from_entity(entity: BaseEntity, priority_sources: list[str] | None = None) -> CanonicalId | None`
+- `check_entity_id_format(entity: BaseEntity, format_patterns: dict[str, tuple[str, ...]]) -> CanonicalId | None`
 
 ## Bundle Export
 

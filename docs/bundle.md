@@ -173,6 +173,7 @@ Entities are newline-delimited JSON objects (JSONL). Each line is an entity row.
 * `usage_count` (integer | null)
 * `created_at` (string timestamp | null)
 * `source` (string | null)
+* `canonical_url` (string | null) — URL to authoritative source page for canonical entities
 
 ### Example entity row
 
@@ -199,8 +200,10 @@ Entities are newline-delimited JSON objects (JSONL). Each line is an entity row.
 ✅ Good:
 
 ```json
-{"entity_id":"x","entity_type":"drug","name":"Aspirin","properties":{"rxnorm":"1191"}}
+{"entity_id":"x","entity_type":"drug","name":"Aspirin","canonical_url":"https://example.com/drug/1191","properties":{"rxnorm":"1191","canonical_urls":{"rxnorm":"https://example.com/drug/1191"}}}
 ```
+
+Note: `canonical_url` can be stored as a top-level field (recommended) or in `properties`. The server extracts it from either location.
 
 🚫 Bad:
 

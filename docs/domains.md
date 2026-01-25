@@ -19,11 +19,6 @@ class PersonEntity(BaseEntity):
     def get_entity_type(self) -> str:
         return "person"
 
-    def get_canonical_id_source(self) -> str | None:
-        if self.status == EntityStatus.CANONICAL:
-            return "bar_registry"
-        return None
-
 
 class CaseEntity(BaseEntity):
     """A legal case."""
@@ -33,11 +28,6 @@ class CaseEntity(BaseEntity):
 
     def get_entity_type(self) -> str:
         return "case"
-
-    def get_canonical_id_source(self) -> str | None:
-        if self.status == EntityStatus.CANONICAL:
-            return "case_law_db"
-        return None
 ```
 
 ## Step 2: Define Relationship Types
@@ -121,12 +111,18 @@ class LegalDomain(DomainSchema):
             "case_opinion": CaseOpinion,
         }
 
-    @property
-    def canonical_id_sources(self) -> dict[str, str]:
-        return {
-            "person": "bar_registry",
-            "case": "case_law_db",
-        }
+    def get_promotion_policy(self, lookup=None) -> PromotionPolicy:
+        """Return the promotion policy for this domain.
+
+        Args:
+            lookup: Optional canonical ID lookup service (CanonicalIdLookupInterface).
+                   Domains that support external lookups can use this to pass the
+                   service to the policy.
+        """
+        from kgraph.promotion import PromotionPolicy
+        # Return a domain-specific promotion policy
+        # See examples/medlit/promotion.py or examples/sherlock/promotion.py
+        raise NotImplementedError("Subclass must implement get_promotion_policy")
 
     @property
     def promotion_config(self) -> PromotionConfig:
@@ -163,7 +159,49 @@ class LegalDomain(DomainSchema):
         return valid.get((subject_type, object_type), [])
 ```
 
-## Step 5: Implement Pipeline Components
+## Step 5: Implement Promotion Policy
+
+Implement a promotion policy that assigns canonical IDs to entities:
+
+```python
+from kgraph import PromotionPolicy, CanonicalId
+from kgraph.canonical_helpers import extract_canonical_id_from_entity, check_entity_id_format
+from kgraph.canonical_lookup import CanonicalIdLookupInterface
+
+class MyPromotionPolicy(PromotionPolicy):
+    def __init__(self, config, lookup: CanonicalIdLookupInterface | None = None):
+        super().__init__(config)
+        self.lookup = lookup  # Optional lookup service
+
+    async def assign_canonical_id(self, entity: BaseEntity) -> CanonicalId | None:
+        # Strategy 1: Check entity.canonical_ids
+        cid = extract_canonical_id_from_entity(entity, priority_sources=["my_source"])
+        if cid:
+            return cid
+
+        # Strategy 2: Check entity_id format
+        format_patterns = {"person": ("my_prefix:",)}
+        cid = check_entity_id_format(entity, format_patterns)
+        if cid:
+            return cid
+
+        # Strategy 3: External lookup (if available)
+        if self.lookup:
+            return await self.lookup.lookup(entity.name, entity.get_entity_type())
+
+        return None
+```
+
+Then implement `get_promotion_policy` in your domain:
+
+```python
+def get_promotion_policy(self, lookup=None) -> PromotionPolicy:
+    return MyPromotionPolicy(self.promotion_config, lookup=lookup)
+```
+
+See [Canonical IDs](canonical_ids.md) for more details on the canonical ID system.
+
+## Step 6: Implement Pipeline Components
 
 For a working system, implement the pipeline interfaces:
 

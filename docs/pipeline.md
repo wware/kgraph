@@ -154,8 +154,10 @@ Resolution strategy:
 
 1. Search existing entities by name/synonym
 2. Search by embedding similarity if available
-3. Query external authority (UMLS, DBPedia, etc.)
+3. Query external authority using `CanonicalIdLookupInterface` (UMLS, DBPedia, etc.)
 4. Create provisional entity if no match found
+
+The resolver can use a `CanonicalIdLookupInterface` implementation to look up canonical IDs from external authorities. See [Canonical IDs](canonical_ids.md) for details.
 
 ```python
 class HybridEntityResolver(EntityResolverInterface):
@@ -189,18 +191,18 @@ class HybridEntityResolver(EntityResolverInterface):
         if similar:
             return similar[0][0], similar[0][1]
 
-        # Try external authority
-        canonical = await self._authority.lookup(
+        # Try external authority (using CanonicalIdLookupInterface)
+        canonical_id_obj = await self._authority.lookup(
             mention.text, mention.entity_type
         )
-        if canonical:
+        if canonical_id_obj:
             entity = self._factory.create_canonical(
-                canonical_id=canonical.id,
-                name=canonical.name,
+                canonical_id=canonical_id_obj.id,
+                name=mention.text,  # Use mention text as name
                 entity_type=mention.entity_type,
                 embedding=embedding,
             )
-            return entity, canonical.confidence
+            return entity, mention.confidence
 
         # Create provisional
         entity = self._factory.create_provisional(

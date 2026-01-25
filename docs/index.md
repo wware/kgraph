@@ -28,9 +28,6 @@ from kgraph import BaseEntity, EntityStatus
 class DrugEntity(BaseEntity):
     def get_entity_type(self) -> str:
         return "drug"
-
-    def get_canonical_id_source(self) -> str | None:
-        return "RxNorm" if self.status == EntityStatus.CANONICAL else None
 ```
 
 ### Relationships

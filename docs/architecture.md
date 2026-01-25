@@ -90,21 +90,38 @@ When canonical entities are detected as duplicates (via embedding similarity), t
 2. All relationship references are updated to point to the target entity
 3. Source entities are removed
 
+## Canonical ID System
+
+The framework provides abstractions for working with canonical IDs (stable identifiers from authoritative sources):
+
+- **`CanonicalId`**: Pydantic model representing a canonical identifier with ID, URL, and synonyms
+- **`CanonicalIdCacheInterface`**: Abstract interface for caching canonical ID lookups
+- **`CanonicalIdLookupInterface`**: Abstract interface for looking up canonical IDs
+- **Helper functions**: Utilities for extracting canonical IDs from entities (`extract_canonical_id_from_entity`, `check_entity_id_format`)
+
+Promotion policies use these abstractions to assign canonical IDs to entities. See [Canonical IDs](canonical_ids.md) for details.
+
 ## Module Structure
 
 ```
 kgraph/
-├── entity.py           # BaseEntity, EntityStatus, EntityMention, PromotionConfig
-├── relationship.py     # BaseRelationship
-├── document.py         # BaseDocument
-├── domain.py           # DomainSchema ABC
-├── ingest.py           # IngestionOrchestrator
+├── entity.py              # BaseEntity, EntityStatus, EntityMention, PromotionConfig
+├── relationship.py        # BaseRelationship
+├── document.py            # BaseDocument
+├── domain.py              # DomainSchema ABC
+├── ingest.py              # IngestionOrchestrator
+├── promotion.py          # PromotionPolicy ABC
+├── canonical_id.py        # CanonicalId model
+├── canonical_cache.py    # CanonicalIdCacheInterface ABC
+├── canonical_cache_json.py # JsonFileCanonicalIdCache implementation
+├── canonical_lookup.py     # CanonicalIdLookupInterface ABC
+├── canonical_helpers.py    # Helper functions for promotion policies
 ├── storage/
-│   ├── interfaces.py   # Storage ABCs
-│   └── memory.py       # In-memory implementation
+│   ├── interfaces.py      # Storage ABCs
+│   └── memory.py          # In-memory implementation
 └── pipeline/
-    ├── interfaces.py   # Parser, Extractor, Resolver ABCs
-    └── embedding.py    # EmbeddingGeneratorInterface
+    ├── interfaces.py       # Parser, Extractor, Resolver ABCs
+    └── embedding.py       # EmbeddingGeneratorInterface
 ```
 
 ## Immutability

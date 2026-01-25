@@ -7,6 +7,7 @@ A domain-agnostic framework for building knowledge graphs from documents. Suppor
 - **Domain-agnostic**: Define your own entity types, relationships, and validation rules
 - **Two-pass ingestion**: Extract entities first, then relationships between them
 - **Entity lifecycle**: Provisional entities promoted to canonical based on usage/confidence
+- **Canonical ID system**: Abstractions for working with authoritative identifiers (UMLS, MeSH, HGNC, etc.)
 - **Embedding support**: Semantic similarity for entity matching and duplicate detection
 - **Async-first**: All storage and pipeline interfaces use async/await
 - **Immutable models**: Thread-safe Pydantic models with frozen=True
@@ -121,17 +122,23 @@ uv run pytest
 
 ```
 kgraph/
-├── entity.py           # BaseEntity, EntityStatus, EntityMention, PromotionConfig
-├── relationship.py     # BaseRelationship
-├── document.py         # BaseDocument
-├── domain.py           # DomainSchema ABC
-├── ingest.py           # IngestionOrchestrator
+├── entity.py              # BaseEntity, EntityStatus, EntityMention, PromotionConfig
+├── relationship.py        # BaseRelationship
+├── document.py            # BaseDocument
+├── domain.py              # DomainSchema ABC
+├── ingest.py              # IngestionOrchestrator
+├── promotion.py           # PromotionPolicy ABC
+├── canonical_id.py         # CanonicalId model
+├── canonical_cache.py     # CanonicalIdCacheInterface ABC
+├── canonical_cache_json.py  # JsonFileCanonicalIdCache implementation
+├── canonical_lookup.py     # CanonicalIdLookupInterface ABC
+├── canonical_helpers.py    # Helper functions for promotion policies
 ├── storage/
-│   ├── interfaces.py   # Storage ABCs
-│   └── memory.py       # In-memory implementation
+│   ├── interfaces.py      # Storage ABCs
+│   └── memory.py          # In-memory implementation
 └── pipeline/
-    ├── interfaces.py   # Parser, Extractor, Resolver ABCs
-    └── embedding.py    # EmbeddingGeneratorInterface
+    ├── interfaces.py       # Parser, Extractor, Resolver ABCs
+    └── embedding.py       # EmbeddingGeneratorInterface
 ```
 
 ## License
