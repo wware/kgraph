@@ -15,6 +15,8 @@ from kgraph.logging import setup_logging
 from kgraph.pipeline.interfaces import EntityResolverInterface
 from kgraph.storage.interfaces import EntityStorageInterface
 
+from .canonical_urls import build_canonical_url, build_canonical_urls_from_dict
+
 
 class MedLitEntityResolver(BaseModel, EntityResolverInterface):
     """Resolve medical entity mentions to canonical or provisional entities.
@@ -87,6 +89,17 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
             # Extract canonical_ids dict from the ID format
             canonical_ids = self._parse_canonical_id(canonical_id, entity_type)
 
+            # Build canonical URLs from canonical IDs
+            canonical_urls = build_canonical_urls_from_dict(canonical_ids, entity_type=entity_type)
+            metadata = {}
+            if canonical_urls:
+                # Store URLs in metadata - prefer primary canonical ID URL if available
+                metadata["canonical_urls"] = canonical_urls
+                # Also store primary URL for convenience (from the main canonical_id)
+                primary_url = build_canonical_url(canonical_id, entity_type=entity_type)
+                if primary_url:
+                    metadata["canonical_url"] = primary_url
+
             # logger.info(
             #     {
             #         "text": mention.text,
@@ -105,7 +118,7 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
                 usage_count=1,
                 created_at=datetime.now(timezone.utc),
                 source=mention.metadata.get("document_id", "medlit:extracted") if mention.metadata else "medlit:extracted",
-                metadata={},
+                metadata=metadata,
             )
             return entity, mention.confidence
 

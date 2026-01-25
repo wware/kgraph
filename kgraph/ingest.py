@@ -611,6 +611,29 @@ class IngestionOrchestrator(BaseModel):
             promoted_entity = await self.entity_storage.promote(entity.entity_id, canonical_id, canonical_ids=new_canonical_ids)
 
             if promoted_entity:
+                # Build canonical URLs from canonical IDs and update entity metadata
+                try:
+                    from examples.medlit.pipeline.canonical_urls import build_canonical_url, build_canonical_urls_from_dict
+
+                    entity_type = promoted_entity.get_entity_type()
+                    canonical_urls = build_canonical_urls_from_dict(new_canonical_ids, entity_type=entity_type)
+
+                    if canonical_urls:
+                        # Update metadata with URLs
+                        updated_metadata = promoted_entity.metadata.copy()
+                        updated_metadata["canonical_urls"] = canonical_urls
+                        # Also store primary URL for convenience
+                        primary_url = build_canonical_url(canonical_id, entity_type=entity_type)
+                        if primary_url:
+                            updated_metadata["canonical_url"] = primary_url
+
+                        # Update entity with new metadata
+                        promoted_entity = promoted_entity.model_copy(update={"metadata": updated_metadata})
+                        await self.entity_storage.update(promoted_entity)
+                except ImportError:
+                    # If canonical_urls module not available (e.g., non-medlit domain), skip URL construction
+                    pass
+
                 # Update all relationships pointing to old ID
                 await self.relationship_storage.update_entity_references(entity.entity_id, canonical_id)
                 # logger.info(
