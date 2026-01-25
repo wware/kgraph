@@ -87,13 +87,13 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
             # Extract canonical_ids dict from the ID format
             canonical_ids = self._parse_canonical_id(canonical_id, entity_type)
 
-            logger.info(
-                {
-                    "text": mention.text,
-                    "canonical_id": canonical_id,
-                },
-                pprint=True,
-            )
+            # logger.info(
+            #     {
+            #         "text": mention.text,
+            #         "canonical_id": canonical_id,
+            #     },
+            #     pprint=True,
+            # )
             entity = entity_cls(
                 entity_id=canonical_id,
                 status=EntityStatus.CANONICAL,
@@ -111,13 +111,13 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
 
         # No canonical ID - create provisional entity
         provisional_id = f"prov:{uuid.uuid4().hex}"
-        logger.info(
-            {
-                "text": mention.text,
-                "provisional_id": provisional_id,
-            },
-            pprint=True,
-        )
+        # logger.info(
+        #     {
+        #         "text": mention.text,
+        #         "provisional_id": provisional_id,
+        #     },
+        #     pprint=True,
+        # )
         entity = entity_cls(
             entity_id=provisional_id,
             status=EntityStatus.PROVISIONAL,

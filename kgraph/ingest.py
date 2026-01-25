@@ -613,13 +613,13 @@ class IngestionOrchestrator(BaseModel):
             if promoted_entity:
                 # Update all relationships pointing to old ID
                 await self.relationship_storage.update_entity_references(entity.entity_id, canonical_id)
-                logger.info(
-                    {
-                        "message": f"Successfully promoted {entity.name} to canonical status",
-                        "promoted_entity": promoted_entity,
-                    },
-                    pprint=True,
-                )
+                # logger.info(
+                #     {
+                #         "message": f"Successfully promoted {entity.name} to canonical status",
+                #         "promoted_entity": promoted_entity,
+                #     },
+                #     pprint=True,
+                # )
                 promoted.append(promoted_entity)
             else:
                 logger.warning(

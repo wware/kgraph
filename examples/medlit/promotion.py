@@ -322,15 +322,15 @@ class MedLitPromotionPolicy(PromotionPolicy):
         lookup_result = await self.lookup.lookup_canonical_id(term=entity.name, entity_type=entity_type)
 
         if lookup_result:
-            logger.info(
-                {
-                    "message": f"Found canonical ID via external lookup for {entity.name}: {lookup_result}",
-                    "entity": entity,
-                    "canonical_id": lookup_result,
-                    "source": "external_api",
-                },
-                pprint=True,
-            )
+            # logger.info(
+            #     {
+            #         "message": f"Found canonical ID via external lookup for {entity.name}: {lookup_result}",
+            #         "entity": entity,
+            #         "canonical_id": lookup_result,
+            #         "source": "external_api",
+            #     },
+            #     pprint=True,
+            # )
             return lookup_result
 
         # No canonical ID found via any strategy
