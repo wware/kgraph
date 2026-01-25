@@ -146,7 +146,11 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
 
         # Fallback to DBPedia for any entity type if specialized lookup failed
         if canonical_id_str is None:
-            canonical_id_str = await self._lookup_dbpedia(term)
+            dbpedia_result = await self._lookup_dbpedia(term)
+            if dbpedia_result:
+                # Try to extract authoritative ID from DBPedia properties
+                authoritative_id = await self._extract_authoritative_id_from_dbpedia(dbpedia_result, entity_type, term)
+                canonical_id_str = authoritative_id if authoritative_id else dbpedia_result
 
         # Build CanonicalId object with URL
         if canonical_id_str:
@@ -549,6 +553,85 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
             )
             return None
 
+    async def _lookup_mesh_by_id(self, mesh_id: str) -> Optional[str]:
+        """Look up MeSH ID by known ID (no search needed).
+
+        Args:
+            mesh_id: MeSH descriptor ID (e.g., "D001943" or "MeSH:D001943")
+
+        Returns:
+            Formatted MeSH ID (e.g., "MeSH:D001943")
+        """
+        # Remove any existing prefix
+        mesh_id_clean = mesh_id.replace("MeSH:", "").strip()
+        # Validate format (MeSH IDs start with D followed by digits)
+        if mesh_id_clean.startswith("D") and mesh_id_clean[1:].isdigit():
+            return f"MeSH:{mesh_id_clean}"
+        return None
+
+    async def _lookup_umls_by_id(self, umls_id: str) -> Optional[str]:
+        """Look up UMLS CUI by known ID (no search needed).
+
+        Args:
+            umls_id: UMLS CUI (e.g., "C0006142")
+
+        Returns:
+            UMLS CUI string (e.g., "C0006142")
+        """
+        # Validate format (UMLS CUIs start with C followed by digits)
+        umls_id_clean = umls_id.strip()
+        if umls_id_clean.startswith("C") and umls_id_clean[1:].isdigit():
+            return umls_id_clean
+        return None
+
+    async def _lookup_hgnc_by_id(self, hgnc_id: str) -> Optional[str]:
+        """Look up HGNC ID by known ID (no search needed).
+
+        Args:
+            hgnc_id: HGNC ID (e.g., "1100" or "HGNC:1100")
+
+        Returns:
+            Formatted HGNC ID (e.g., "HGNC:1100")
+        """
+        # Remove any existing prefix
+        hgnc_id_clean = hgnc_id.replace("HGNC:", "").strip()
+        # Validate format (HGNC IDs are numeric)
+        if hgnc_id_clean.isdigit():
+            return f"HGNC:{hgnc_id_clean}"
+        return None
+
+    async def _lookup_rxnorm_by_id(self, rxnorm_id: str) -> Optional[str]:
+        """Look up RxNorm ID by known ID (no search needed).
+
+        Args:
+            rxnorm_id: RxNorm ID (e.g., "1187832" or "RxNorm:1187832")
+
+        Returns:
+            Formatted RxNorm ID (e.g., "RxNorm:1187832")
+        """
+        # Remove any existing prefix
+        rxnorm_id_clean = rxnorm_id.replace("RxNorm:", "").strip()
+        # Validate format (RxNorm IDs are numeric)
+        if rxnorm_id_clean.isdigit():
+            return f"RxNorm:{rxnorm_id_clean}"
+        return None
+
+    async def _lookup_uniprot_by_id(self, uniprot_id: str) -> Optional[str]:
+        """Look up UniProt ID by known ID (no search needed).
+
+        Args:
+            uniprot_id: UniProt accession (e.g., "P38398" or "UniProt:P38398")
+
+        Returns:
+            Formatted UniProt ID (e.g., "UniProt:P38398")
+        """
+        # Remove any existing prefix
+        uniprot_id_clean = uniprot_id.replace("UniProt:", "").strip()
+        # Validate format (UniProt accessions start with P, Q, A, O, or number)
+        if uniprot_id_clean and (uniprot_id_clean[0].isalpha() or uniprot_id_clean[0].isdigit()):
+            return f"UniProt:{uniprot_id_clean}"
+        return None
+
     async def _lookup_uniprot(self, term: str) -> Optional[str]:
         """Look up UniProt ID for a protein."""
         logger = setup_logging()
@@ -643,6 +726,362 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
             )
             return None
 
+    async def _extract_authoritative_id_from_dbpedia(self, dbpedia_id: str, entity_type: str, original_term: str) -> Optional[str]:
+        """Extract authoritative ID from DBPedia resource properties.
+
+        After finding a DBPedia match, query the resource to find authoritative IDs
+        (MeSH, UMLS, HGNC, RxNorm, UniProt) that may be embedded in DBPedia properties.
+        If found, perform a follow-up lookup with the authoritative source.
+
+        Args:
+            dbpedia_id: DBPedia ID in format "DBPedia:ResourceName"
+            entity_type: Type of entity (disease, gene, drug, protein, etc.)
+            original_term: Original search term for caching
+
+        Returns:
+            Authoritative canonical ID if found, None otherwise
+        """
+        logger = setup_logging()
+
+        # Extract resource name from DBPedia ID
+        resource_name = dbpedia_id.replace("DBPedia:", "")
+        resource_uri = f"http://dbpedia.org/resource/{resource_name}"
+
+        # Check cache first (keyed by DBPedia ID + entity_type)
+        cache_key = f"dbpedia_auth:{dbpedia_id}:{entity_type}"
+        cached = self._cache.fetch(cache_key, entity_type)
+        if cached is not None:
+            logger.debug(
+                {
+                    "message": f"Cache hit for authoritative ID extraction from {dbpedia_id}",
+                    "dbpedia_id": dbpedia_id,
+                    "authoritative_id": cached.id,
+                },
+                pprint=True,
+            )
+            return cached.id
+
+        try:
+            # Query DBPedia SPARQL endpoint for resource properties
+            # Try alternative property names (DBPedia uses various prefixes)
+            sparql_query = f"""
+            PREFIX dbo: <http://dbpedia.org/ontology/>
+            PREFIX dbp: <http://dbpedia.org/property/>
+            PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+            SELECT ?meshId ?umlsId ?hgncId ?rxnormId ?uniprotId
+            WHERE {{
+                OPTIONAL {{ <{resource_uri}> dbo:meshId ?meshId . }}
+                OPTIONAL {{ <{resource_uri}> dbp:umlsId ?umlsId . }}
+                OPTIONAL {{ <{resource_uri}> dbp:umls ?umlsId . }}
+                OPTIONAL {{ <{resource_uri}> dbo:hgncId ?hgncId . }}
+                OPTIONAL {{ <{resource_uri}> dbp:hgncId ?hgncId . }}
+                OPTIONAL {{ <{resource_uri}> dbp:rxnormId ?rxnormId . }}
+                OPTIONAL {{ <{resource_uri}> dbp:uniprotId ?uniprotId . }}
+            }}
+            LIMIT 1
+            """
+
+            sparql_url = "https://dbpedia.org/sparql"
+            params = {"query": sparql_query, "format": "json"}
+
+            response = await self.client.get(sparql_url, params=params)
+
+            if response.status_code == 200:
+                data = response.json()
+                bindings = data.get("results", {}).get("bindings", [])
+
+                if bindings:
+                    result = bindings[0]
+
+                    # Determine which authoritative ID to look for based on entity_type
+                    authoritative_id_value: Optional[str] = None
+                    authoritative_source: Optional[str] = None
+
+                    entity_type_normalized = entity_type.lower()
+                    if entity_type_normalized in ("disease", "symptom", "procedure"):
+                        # Prefer MeSH, then UMLS
+                        if "meshId" in result and result["meshId"].get("value"):
+                            authoritative_id_value = result["meshId"]["value"]
+                            authoritative_source = "mesh"
+                        elif "umlsId" in result and result["umlsId"].get("value"):
+                            authoritative_id_value = result["umlsId"]["value"]
+                            authoritative_source = "umls"
+                    elif entity_type_normalized == "gene":
+                        if "hgncId" in result and result["hgncId"].get("value"):
+                            authoritative_id_value = result["hgncId"]["value"]
+                            authoritative_source = "hgnc"
+                    elif entity_type_normalized == "drug":
+                        if "rxnormId" in result and result["rxnormId"].get("value"):
+                            authoritative_id_value = result["rxnormId"]["value"]
+                            authoritative_source = "rxnorm"
+                    elif entity_type_normalized == "protein":
+                        if "uniprotId" in result and result["uniprotId"].get("value"):
+                            authoritative_id_value = result["uniprotId"]["value"]
+                            authoritative_source = "uniprot"
+
+                    # If we found an authoritative ID, do a follow-up lookup
+                    if authoritative_id_value and authoritative_source:
+                        logger.debug(
+                            {
+                                "message": f"Found {authoritative_source} ID in DBPedia for {dbpedia_id}: {authoritative_id_value}",
+                                "dbpedia_id": dbpedia_id,
+                                "authoritative_source": authoritative_source,
+                                "authoritative_id": authoritative_id_value,
+                            },
+                            pprint=True,
+                        )
+
+                        # Perform follow-up lookup with authoritative source
+                        follow_up_id: Optional[str] = None
+                        if authoritative_source == "mesh":
+                            # MeSH ID format: D001943 (just the ID, no prefix)
+                            follow_up_id = await self._lookup_mesh_by_id(authoritative_id_value)
+                        elif authoritative_source == "umls":
+                            # UMLS CUI format: C0006142
+                            follow_up_id = await self._lookup_umls_by_id(authoritative_id_value)
+                        elif authoritative_source == "hgnc":
+                            # HGNC format: HGNC:1100
+                            follow_up_id = await self._lookup_hgnc_by_id(authoritative_id_value)
+                        elif authoritative_source == "rxnorm":
+                            # RxNorm format: RxNorm:1187832
+                            follow_up_id = await self._lookup_rxnorm_by_id(authoritative_id_value)
+                        elif authoritative_source == "uniprot":
+                            # UniProt format: UniProt:P38398
+                            follow_up_id = await self._lookup_uniprot_by_id(authoritative_id_value)
+
+                        if follow_up_id:
+                            # Cache the result
+                            url = build_canonical_url(follow_up_id, entity_type=entity_type)
+                            canonical_id = CanonicalId(id=follow_up_id, url=url, synonyms=(original_term,))
+                            self._cache.store(cache_key, entity_type, canonical_id)
+                            logger.info(
+                                {
+                                    "message": f"Extracted authoritative ID from DBPedia: {follow_up_id} (from {dbpedia_id})",
+                                    "dbpedia_id": dbpedia_id,
+                                    "authoritative_id": follow_up_id,
+                                    "source": authoritative_source,
+                                },
+                                pprint=True,
+                            )
+                            return follow_up_id
+
+            # No authoritative ID found in DBPedia properties
+            logger.debug(
+                {
+                    "message": f"No authoritative ID found in DBPedia properties for {dbpedia_id}",
+                    "dbpedia_id": dbpedia_id,
+                    "entity_type": entity_type,
+                },
+                pprint=True,
+            )
+            # Cache as "no authoritative ID found" to avoid repeated queries
+            self._cache.mark_known_bad(cache_key, entity_type)
+            return None
+
+        except Exception as e:
+            # Log at warning level so failures are visible even without DEBUG logging
+            logger.warning(
+                {
+                    "message": f"Failed to extract authoritative ID from DBPedia for {dbpedia_id}: {e}",
+                    "dbpedia_id": dbpedia_id,
+                    "error": str(e),
+                },
+                pprint=True,
+            )
+            # Don't mark as known bad on exception - might be transient (network, timeout, etc.)
+            return None
+
+    def _extract_authoritative_id_from_dbpedia_sync(self, client: "httpx.Client", dbpedia_id: str, entity_type: str, original_term: str) -> Optional[str]:
+        """Synchronous version of authoritative ID extraction from DBPedia.
+
+        Args:
+            client: Synchronous HTTP client
+            dbpedia_id: DBPedia ID in format "DBPedia:ResourceName"
+            entity_type: Type of entity (disease, gene, drug, protein, etc.)
+            original_term: Original search term for caching
+
+        Returns:
+            Authoritative canonical ID if found, None otherwise
+        """
+        logger = setup_logging()
+
+        # Extract resource name from DBPedia ID
+        resource_name = dbpedia_id.replace("DBPedia:", "")
+        resource_uri = f"http://dbpedia.org/resource/{resource_name}"
+
+        # Check cache first (keyed by DBPedia ID + entity_type)
+        cache_key = f"dbpedia_auth:{dbpedia_id}:{entity_type}"
+        cached = self._cache.fetch(cache_key, entity_type)
+        if cached is not None:
+            logger.debug(
+                {
+                    "message": f"Cache hit for authoritative ID extraction from {dbpedia_id}",
+                    "dbpedia_id": dbpedia_id,
+                    "authoritative_id": cached.id,
+                },
+                pprint=True,
+            )
+            return cached.id
+
+        try:
+            # Query DBPedia SPARQL endpoint for resource properties
+            sparql_query = f"""
+            PREFIX dbo: <http://dbpedia.org/ontology/>
+            PREFIX dbp: <http://dbpedia.org/property/>
+            PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+            SELECT ?meshId ?umlsId ?hgncId ?rxnormId ?uniprotId
+            WHERE {{
+                OPTIONAL {{ <{resource_uri}> dbo:meshId ?meshId . }}
+                OPTIONAL {{ <{resource_uri}> dbp:umlsId ?umlsId . }}
+                OPTIONAL {{ <{resource_uri}> dbp:umls ?umlsId . }}
+                OPTIONAL {{ <{resource_uri}> dbo:hgncId ?hgncId . }}
+                OPTIONAL {{ <{resource_uri}> dbp:hgncId ?hgncId . }}
+                OPTIONAL {{ <{resource_uri}> dbp:rxnormId ?rxnormId . }}
+                OPTIONAL {{ <{resource_uri}> dbp:uniprotId ?uniprotId . }}
+            }}
+            LIMIT 1
+            """
+
+            sparql_url = "https://dbpedia.org/sparql"
+            params = {"query": sparql_query, "format": "json"}
+
+            response = client.get(sparql_url, params=params)
+
+            if response.status_code == 200:
+                data = response.json()
+                bindings = data.get("results", {}).get("bindings", [])
+
+                if bindings:
+                    result = bindings[0]
+
+                    # Determine which authoritative ID to look for based on entity_type
+                    authoritative_id_value: Optional[str] = None
+                    authoritative_source: Optional[str] = None
+
+                    entity_type_normalized = entity_type.lower()
+                    if entity_type_normalized in ("disease", "symptom", "procedure"):
+                        # Prefer MeSH, then UMLS
+                        if "meshId" in result and result["meshId"].get("value"):
+                            authoritative_id_value = result["meshId"]["value"]
+                            authoritative_source = "mesh"
+                        elif "umlsId" in result and result["umlsId"].get("value"):
+                            authoritative_id_value = result["umlsId"]["value"]
+                            authoritative_source = "umls"
+                    elif entity_type_normalized == "gene":
+                        if "hgncId" in result and result["hgncId"].get("value"):
+                            authoritative_id_value = result["hgncId"]["value"]
+                            authoritative_source = "hgnc"
+                    elif entity_type_normalized == "drug":
+                        if "rxnormId" in result and result["rxnormId"].get("value"):
+                            authoritative_id_value = result["rxnormId"]["value"]
+                            authoritative_source = "rxnorm"
+                    elif entity_type_normalized == "protein":
+                        if "uniprotId" in result and result["uniprotId"].get("value"):
+                            authoritative_id_value = result["uniprotId"]["value"]
+                            authoritative_source = "uniprot"
+
+                    # If we found an authoritative ID, do a follow-up lookup
+                    if authoritative_id_value and authoritative_source:
+                        logger.debug(
+                            {
+                                "message": f"Found {authoritative_source} ID in DBPedia for {dbpedia_id}: {authoritative_id_value}",
+                                "dbpedia_id": dbpedia_id,
+                                "authoritative_source": authoritative_source,
+                                "authoritative_id": authoritative_id_value,
+                            },
+                            pprint=True,
+                        )
+
+                        # Perform follow-up lookup with authoritative source (sync)
+                        follow_up_id: Optional[str] = None
+                        if authoritative_source == "mesh":
+                            follow_up_id = self._lookup_mesh_by_id_sync(authoritative_id_value)
+                        elif authoritative_source == "umls":
+                            follow_up_id = self._lookup_umls_by_id_sync(authoritative_id_value)
+                        elif authoritative_source == "hgnc":
+                            follow_up_id = self._lookup_hgnc_by_id_sync(authoritative_id_value)
+                        elif authoritative_source == "rxnorm":
+                            follow_up_id = self._lookup_rxnorm_by_id_sync(authoritative_id_value)
+                        elif authoritative_source == "uniprot":
+                            follow_up_id = self._lookup_uniprot_by_id_sync(authoritative_id_value)
+
+                        if follow_up_id:
+                            # Cache the result
+                            url = build_canonical_url(follow_up_id, entity_type=entity_type)
+                            canonical_id = CanonicalId(id=follow_up_id, url=url, synonyms=(original_term,))
+                            self._cache.store(cache_key, entity_type, canonical_id)
+                            logger.info(
+                                {
+                                    "message": f"Extracted authoritative ID from DBPedia: {follow_up_id} (from {dbpedia_id})",
+                                    "dbpedia_id": dbpedia_id,
+                                    "authoritative_id": follow_up_id,
+                                    "source": authoritative_source,
+                                },
+                                pprint=True,
+                            )
+                            return follow_up_id
+
+            # No authoritative ID found in DBPedia properties
+            logger.debug(
+                {
+                    "message": f"No authoritative ID found in DBPedia properties for {dbpedia_id}",
+                    "dbpedia_id": dbpedia_id,
+                    "entity_type": entity_type,
+                },
+                pprint=True,
+            )
+            # Don't cache as "known bad" - DBPedia properties might be added later
+            # Just return None and let the DBPedia ID be used
+            return None
+
+        except Exception as e:
+            # Log at warning level so failures are visible even without DEBUG logging
+            logger.warning(
+                {
+                    "message": f"Failed to extract authoritative ID from DBPedia for {dbpedia_id}: {e}",
+                    "dbpedia_id": dbpedia_id,
+                    "error": str(e),
+                },
+                pprint=True,
+            )
+            # Don't mark as known bad on exception - might be transient (network, timeout, etc.)
+            return None
+
+    def _lookup_mesh_by_id_sync(self, mesh_id: str) -> Optional[str]:
+        """Sync version: Look up MeSH ID by known ID."""
+        mesh_id_clean = mesh_id.replace("MeSH:", "").strip()
+        if mesh_id_clean.startswith("D") and mesh_id_clean[1:].isdigit():
+            return f"MeSH:{mesh_id_clean}"
+        return None
+
+    def _lookup_umls_by_id_sync(self, umls_id: str) -> Optional[str]:
+        """Sync version: Look up UMLS CUI by known ID."""
+        umls_id_clean = umls_id.strip()
+        if umls_id_clean.startswith("C") and umls_id_clean[1:].isdigit():
+            return umls_id_clean
+        return None
+
+    def _lookup_hgnc_by_id_sync(self, hgnc_id: str) -> Optional[str]:
+        """Sync version: Look up HGNC ID by known ID."""
+        hgnc_id_clean = hgnc_id.replace("HGNC:", "").strip()
+        if hgnc_id_clean.isdigit():
+            return f"HGNC:{hgnc_id_clean}"
+        return None
+
+    def _lookup_rxnorm_by_id_sync(self, rxnorm_id: str) -> Optional[str]:
+        """Sync version: Look up RxNorm ID by known ID."""
+        rxnorm_id_clean = rxnorm_id.replace("RxNorm:", "").strip()
+        if rxnorm_id_clean.isdigit():
+            return f"RxNorm:{rxnorm_id_clean}"
+        return None
+
+    def _lookup_uniprot_by_id_sync(self, uniprot_id: str) -> Optional[str]:
+        """Sync version: Look up UniProt ID by known ID."""
+        uniprot_id_clean = uniprot_id.replace("UniProt:", "").strip()
+        if uniprot_id_clean and (uniprot_id_clean[0].isalpha() or uniprot_id_clean[0].isdigit()):
+            return f"UniProt:{uniprot_id_clean}"
+        return None
+
     def lookup_sync(self, term: str, entity_type: str) -> Optional[CanonicalId]:
         """Synchronous lookup (interface method).
 
@@ -721,7 +1160,11 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
 
                 # Fallback to DBPedia if specialized lookup failed
                 if canonical_id_str is None:
-                    canonical_id_str = self._lookup_dbpedia_sync(sync_client, term)
+                    dbpedia_result = self._lookup_dbpedia_sync(sync_client, term)
+                    if dbpedia_result:
+                        # Try to extract authoritative ID from DBPedia properties (sync version)
+                        authoritative_id = self._extract_authoritative_id_from_dbpedia_sync(sync_client, dbpedia_result, entity_type, term)
+                        canonical_id_str = authoritative_id if authoritative_id else dbpedia_result
 
             # Build CanonicalId object with URL and cache it
             if canonical_id_str:

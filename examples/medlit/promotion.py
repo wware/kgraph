@@ -143,7 +143,7 @@ class MedLitPromotionPolicy(PromotionPolicy):
             priority_sources=["umls", "hgnc", "rxnorm", "uniprot"],
         )
         if canonical_id:
-            logger.info(
+            logger.debug(
                 {
                     "message": f"Found canonical ID from entity.canonical_ids for {entity.name}: {canonical_id.id}",
                     "entity": entity,
@@ -165,7 +165,7 @@ class MedLitPromotionPolicy(PromotionPolicy):
         }
         canonical_id = check_entity_id_format(entity, format_patterns)
         if canonical_id:
-            logger.info(
+            logger.debug(
                 {
                     "message": f"Found canonical ID from entity_id format for {entity.name}: {canonical_id.id}",
                     "entity": entity,
@@ -179,7 +179,7 @@ class MedLitPromotionPolicy(PromotionPolicy):
         lookup_result = await self.lookup.lookup(term=entity.name, entity_type=entity_type)
 
         if lookup_result:
-            logger.info(
+            logger.debug(
                 {
                     "message": f"Found canonical ID via external lookup for {entity.name}: {lookup_result.id}",
                     "entity": entity,

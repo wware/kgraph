@@ -102,7 +102,11 @@ def build_orchestrator(
         domain=domain,
         parser=JournalArticleParser(),
         entity_extractor=entity_extractor,
-        entity_resolver=MedLitEntityResolver(domain=domain),
+        entity_resolver=MedLitEntityResolver(
+            domain=domain,
+            embedding_generator=embedding_generator,  # Enable embedding-based resolution
+            similarity_threshold=0.85,  # Require 85% similarity for matches
+        ),
         relationship_extractor=MedLitRelationshipExtractor(llm_client=llm_client),
         embedding_generator=embedding_generator,
         entity_storage=entity_storage,

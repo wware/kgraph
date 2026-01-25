@@ -34,13 +34,17 @@ async def medlit_orchestrator(
 ):
     """Create orchestrator with MedLit domain for promotion testing."""
     domain = MedLitDomainSchema()
+    embedding_generator = OllamaMedLitEmbeddingGenerator()
     return IngestionOrchestrator(
         domain=domain,
         parser=JournalArticleParser(),
         entity_extractor=MedLitEntityExtractor(llm_client=None),
-        entity_resolver=MedLitEntityResolver(domain=domain),
+        entity_resolver=MedLitEntityResolver(
+            domain=domain,
+            embedding_generator=embedding_generator,
+        ),
         relationship_extractor=MedLitRelationshipExtractor(llm_client=None),
-        embedding_generator=OllamaMedLitEmbeddingGenerator(),
+        embedding_generator=embedding_generator,
         entity_storage=entity_storage,
         relationship_storage=relationship_storage,
         document_storage=document_storage,

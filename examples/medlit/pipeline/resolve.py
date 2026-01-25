@@ -13,6 +13,7 @@ from kgraph.domain import DomainSchema
 from kgraph.entity import BaseEntity, EntityMention, EntityStatus
 from kgraph.logging import setup_logging
 from kgraph.pipeline.interfaces import EntityResolverInterface
+from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 from kgraph.storage.interfaces import EntityStorageInterface
 
 from .canonical_urls import build_canonical_url, build_canonical_urls_from_dict
@@ -21,16 +22,25 @@ from .canonical_urls import build_canonical_url, build_canonical_urls_from_dict
 class MedLitEntityResolver(BaseModel, EntityResolverInterface):
     """Resolve medical entity mentions to canonical or provisional entities.
 
-    Resolution strategy:
+    Resolution strategy (hybrid approach):
     1. If mention has canonical_id_hint (from pre-extracted entities), use that
     2. Check if entity with that ID already exists in storage
     3. If not, create new canonical entity (since we have authoritative IDs)
-    4. For mentions without canonical IDs, create provisional entities
+    4. For mentions without canonical IDs:
+       a. Try embedding-based semantic matching against existing entities (if embedding_generator provided)
+       b. If no match found, create provisional entities
+
+    The embedding-based matching acts as a semantic cache, catching variations like:
+    - "BRCA-1" vs "BRCA1"
+    - "breast cancer 1 gene" vs "BRCA1"
+    - "TP53" vs "p53"
     """
 
     model_config = ConfigDict(frozen=True, arbitrary_types_allowed=True)
 
     domain: DomainSchema
+    embedding_generator: EmbeddingGeneratorInterface | None = None
+    similarity_threshold: float = 0.85
 
     async def resolve(
         self,
@@ -122,7 +132,41 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
             )
             return entity, mention.confidence
 
-        # No canonical ID - create provisional entity
+        # No canonical ID - try embedding-based semantic matching first
+        if self.embedding_generator:
+            try:
+                # Generate embedding for the mention text
+                mention_embedding = await self.embedding_generator.generate(mention.text)
+
+                # Search for similar entities in storage
+                similar_entities = await existing_storage.find_by_embedding(
+                    embedding=list(mention_embedding),
+                    threshold=self.similarity_threshold,
+                    limit=1,  # Just get the best match
+                )
+
+                if similar_entities:
+                    # Found a match via embedding similarity
+                    matched_entity, similarity_score = similar_entities[0]
+                    logger.debug(
+                        {
+                            "message": f"Found similar entity via embedding for '{mention.text}': {matched_entity.name} (similarity: {similarity_score:.3f})",
+                            "matched_entity_id": matched_entity.entity_id,
+                            "similarity": similarity_score,
+                        },
+                        pprint=True,
+                    )
+                    # Return the matched entity with combined confidence
+                    combined_confidence = float(similarity_score) * mention.confidence
+                    return matched_entity, combined_confidence
+            except Exception as e:
+                # If embedding matching fails, log and continue to provisional creation
+                logger.debug(
+                    f"Embedding-based matching failed for '{mention.text}': {e}. Falling back to provisional entity creation.",
+                    pprint=True,
+                )
+
+        # No canonical ID and no embedding match - create provisional entity
         provisional_id = f"prov:{uuid.uuid4().hex}"
         # logger.info(
         #     {
