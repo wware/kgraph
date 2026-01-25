@@ -15,6 +15,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from kgraph.ingest import IngestionOrchestrator
+from kgraph.logging import setup_logging
 from kgraph.storage.interfaces import (
     DocumentStorageInterface,
     EntityStorageInterface,
@@ -35,6 +36,8 @@ from ..pipeline.resolve import MedLitEntityResolver
 from ..pipeline.relationships import MedLitRelationshipExtractor
 from ..pipeline.embeddings import OllamaMedLitEmbeddingGenerator
 from ..pipeline.llm_client import OllamaLLMClient
+
+logger = setup_logging()
 
 
 def build_orchestrator(
@@ -136,11 +139,14 @@ async def extract_entities_from_paper(
             content_type=content_type,
             source_uri=str(file_path),
         )
+        if result.errors:
+            logger.error(result.errors)
+            return (file_path.stem, 0, 0)
 
         return (result.document_id, result.entities_extracted, result.relationships_extracted)
 
-    except Exception as e:
-        print(f"  ERROR processing {file_path.name}: {e}")
+    except Exception:
+        logger.exception(file_path.name)
         return (file_path.stem, 0, 0)
 
 
