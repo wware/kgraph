@@ -51,11 +51,101 @@ class JournalArticleParser(DocumentParserInterface):
 
         elif content_type in {"application/xml", "text/xml"}:
             # Parse PMC XML
-            # TODO: Implement full PMC XML parsing (see med-lit-schema's pmc_parser.py)
-            raise ValueError("PMC XML parsing not yet implemented. Use JSON format for now.")
+            import xml.etree.ElementTree as ET
+            import io
+
+            try:
+                tree = ET.parse(io.BytesIO(raw_content))
+                root = tree.getroot()
+                data = self._parse_xml_to_dict(root, source_uri)
+                return self._parse_from_dict(data, source_uri)
+            except ET.ParseError as e:
+                raise ValueError(f"Failed to parse XML: {e}") from e
 
         else:
             raise ValueError(f"Unsupported content_type: {content_type}")
+
+    def _parse_xml_to_dict(self, root: Any, source_uri: str | None) -> dict[str, Any]:
+        """Parse PMC XML root element into Paper schema dictionary.
+
+        Args:
+            root: XML root element
+            source_uri: Optional source URI (used to extract paper_id from filename)
+
+        Returns:
+            Dictionary in Paper schema format
+        """
+        # Extract basic metadata
+        article_meta = root.find(".//article-meta")
+
+        # Determine paper_id from source_uri or XML
+        paper_id = ""
+        if source_uri:
+            # Try to extract from filename (e.g., "PMC12757604.xml")
+            from pathlib import Path
+
+            paper_id = Path(source_uri).stem
+        else:
+            # Try to extract from XML
+            article_id = article_meta.find(".//article-id[@pub-id-type='pmc']") if article_meta else None
+            if article_id is not None and article_id.text:
+                paper_id = article_id.text
+
+        # Title
+        title = ""
+        title_elem = article_meta.find(".//article-title") if article_meta else None
+        if title_elem is not None:
+            title = "".join(title_elem.itertext()).strip()
+
+        # Abstract - convert to object with "text" key
+        abstract_text = ""
+        abstract_elem = root.find(".//abstract")
+        if abstract_elem is not None:
+            abstract_text = "".join(abstract_elem.itertext()).strip()
+        abstract = {"text": abstract_text} if abstract_text else {"text": ""}
+
+        # Body text - use as "full_text"
+        full_text = ""
+        body_elem = root.find(".//body")
+        if body_elem is not None:
+            full_text = "".join(body_elem.itertext()).strip()
+
+        # Authors
+        authors: list[str] = []
+        for contrib in root.findall('.//contrib[@contrib-type="author"]'):
+            name_elem = contrib.find(".//name")
+            if name_elem is not None:
+                surname = name_elem.find("surname")
+                given = name_elem.find("given-names")
+                if surname is not None:
+                    author = surname.text or ""
+                    if given is not None and given.text:
+                        author = f"{given.text} {author}"
+                    authors.append(author)
+
+        # Keywords
+        keywords: list[str] = []
+        for kwd in root.findall(".//kwd"):
+            if kwd.text:
+                keywords.append(kwd.text.strip())
+
+        # Build Paper schema structure
+        paper: dict[str, Any] = {
+            "paper_id": paper_id,
+            "title": title,
+            "abstract": abstract,
+            "authors": authors,
+        }
+
+        # Add full_text if it exists
+        if full_text:
+            paper["full_text"] = full_text
+
+        # Add metadata if keywords exist
+        if keywords:
+            paper["metadata"] = {"keywords": keywords}
+
+        return paper
 
     def _parse_from_dict(self, data: dict[str, Any], source_uri: str | None) -> JournalArticle:
         """Parse from a dictionary (e.g., med-lit-schema's Paper format).

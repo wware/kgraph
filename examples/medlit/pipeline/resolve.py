@@ -159,7 +159,7 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
             "C0006142" (UMLS) -> {"umls": "C0006142"}
             "HGNC:1100" -> {"hgnc": "HGNC:1100"}
             "RxNorm:1187832" -> {"rxnorm": "RxNorm:1187832"}
-            "P38398" (UniProt) -> {"uniprot": "P38398"}
+            "UniProt:P38398" -> {"uniprot": "UniProt:P38398"}
         """
         canonical_ids: dict[str, str] = {}
 
@@ -181,8 +181,11 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
                 # Assume RxNorm format (but should have prefix)
                 canonical_ids["rxnorm"] = entity_id
             elif entity_type == "protein":
-                # Assume UniProt format (P followed by alphanumeric)
-                if entity_id.startswith("P") or entity_id.startswith("Q"):
+                # Check for UniProt prefix format (UniProt:P38398)
+                if entity_id.startswith("UniProt:"):
                     canonical_ids["uniprot"] = entity_id
+                # Assume UniProt format (P/Q followed by alphanumeric) - add prefix
+                elif entity_id.startswith("P") or entity_id.startswith("Q"):
+                    canonical_ids["uniprot"] = f"UniProt:{entity_id}"
 
         return canonical_ids

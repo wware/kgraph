@@ -20,7 +20,7 @@ class MedLitPromotionPolicy(PromotionPolicy):
     - Diseases: UMLS IDs (e.g., "C0006142")
     - Genes: HGNC IDs (e.g., "HGNC:1100")
     - Drugs: RxNorm IDs (e.g., "RxNorm:1187832")
-    - Proteins: UniProt IDs (e.g., "P38398")
+    - Proteins: UniProt IDs (e.g., "UniProt:P38398")
 
     Promotion strategy:
     1. If entity already has canonical_id in canonical_ids dict, use that
@@ -281,20 +281,32 @@ class MedLitPromotionPolicy(PromotionPolicy):
             )
             return canonical_id
 
-        # UniProt format: P or Q followed by alphanumeric (e.g., "P38398", "Q9Y6K9")
-        if (entity_id.startswith("P") or entity_id.startswith("Q")) and len(entity_id) == 6:
-            # Check if it looks like a UniProt ID (P/Q + 5 alphanumeric)
+        # UniProt format: "UniProt:P38398" or just "P38398"
+        if entity_id.startswith("UniProt:"):
+            logger.info(
+                {
+                    "message": f"Entity ID '{entity_id}' matches UniProt format for {entity.name}",
+                    "entity": entity,
+                    "canonical_id": entity_id,
+                    "source": "uniprot_format",
+                },
+                pprint=True,
+            )
+            return entity_id
+        # If it's just a UniProt ID without prefix (P/Q + 5 alphanumeric) and entity type is protein, add prefix
+        if entity_type == "protein" and (entity_id.startswith("P") or entity_id.startswith("Q")) and len(entity_id) == 6:
             if entity_id[1:].isalnum():
+                canonical_id = f"UniProt:{entity_id}"
                 logger.info(
                     {
-                        "message": f"Entity ID '{entity_id}' matches UniProt format for {entity.name}",
+                        "message": f"Entity ID '{entity_id}' inferred as UniProt for protein {entity.name}: {canonical_id}",
                         "entity": entity,
-                        "canonical_id": entity_id,
-                        "source": "uniprot_format",
+                        "canonical_id": canonical_id,
+                        "source": "uniprot_inferred",
                     },
                     pprint=True,
                 )
-                return entity_id
+                return canonical_id
 
         # Strategy 3: Look up from authority APIs
         logger.debug(

@@ -443,7 +443,8 @@ class CanonicalIdLookup:
                 data = response.json()
                 results = data.get("results", [])
                 if results:
-                    return results[0].get("primaryAccession")  # e.g., "P38398"
+                    uniprot_id = results[0].get("primaryAccession")  # e.g., "P38398"
+                    return f"UniProt:{uniprot_id}" if uniprot_id else None
             return None
         except Exception as e:
             logger.warning(
@@ -755,7 +756,8 @@ class CanonicalIdLookup:
             data = response.json()
             results = data.get("results", [])
             if results:
-                return results[0].get("primaryAccession")
+                uniprot_id = results[0].get("primaryAccession")
+                return f"UniProt:{uniprot_id}" if uniprot_id else None
         return None
 
     def _lookup_dbpedia_sync(self, client: "httpx.Client", term: str) -> Optional[str]:

@@ -10,6 +10,7 @@ Usage:
 
 import argparse
 import asyncio
+import os
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -38,6 +39,7 @@ from ..pipeline.llm_client import OllamaLLMClient
 
 def build_orchestrator(
     use_ollama: bool = False,
+    use_llm_extraction: bool = True,
     ollama_model: str = "llama3.1:8b",
     ollama_host: str = "http://localhost:11434",
     cache_file: Path | None = None,
@@ -46,6 +48,9 @@ def build_orchestrator(
 
     Args:
         use_ollama: If True, use Ollama LLM for entity and relationship extraction.
+        use_llm_extraction: If True, use LLM-based entity extraction. Required for
+                           first-pass extraction from XML (embedding extraction requires
+                           pre-populated entity storage).
         ollama_model: Ollama model name (e.g., "llama3.1:8b").
         ollama_host: Ollama server URL.
         cache_file: Optional path for canonical ID lookup cache file.
@@ -55,6 +60,14 @@ def build_orchestrator(
         The lookup is returned so it can be properly closed after use.
     """
     domain = MedLitDomainSchema()
+
+    # Create storage instances first (needed for embedding extractor)
+    entity_storage = InMemoryEntityStorage()
+    relationship_storage = InMemoryRelationshipStorage()
+    document_storage = InMemoryDocumentStorage()
+
+    # Create embedding generator (used by both extractors)
+    embedding_generator = OllamaMedLitEmbeddingGenerator(ollama_host=ollama_host)
 
     # Create canonical ID lookup service for promotion phase
     # Note: We've learned not to use this during extraction (tool calling is too slow),
@@ -72,7 +85,7 @@ def build_orchestrator(
             print("  Continuing without canonical ID lookup...")
             lookup = None
 
-    # Create LLM client if requested
+    # Create LLM client if requested (for relationship extraction)
     llm_client = None
     if use_ollama:
         try:
@@ -87,16 +100,24 @@ def build_orchestrator(
             traceback.print_exc()
             llm_client = None
 
+    # Entity extraction always requires LLM (embedding extraction needs pre-populated storage)
+    if not llm_client:
+        raise ValueError("LLM extraction is required for entity extraction from XML. Use --use-ollama to enable LLM extraction, or provide documents with pre-extracted entities.")
+
+    print("  Using LLM-based entity extraction...")
+    entity_extractor = MedLitEntityExtractor(llm_client=llm_client)
+    print("  ✓ LLM-based extractor created")
+
     orchestrator = IngestionOrchestrator(
         domain=domain,
         parser=JournalArticleParser(),
-        entity_extractor=MedLitEntityExtractor(llm_client=llm_client),
+        entity_extractor=entity_extractor,
         entity_resolver=MedLitEntityResolver(domain=domain),
         relationship_extractor=MedLitRelationshipExtractor(llm_client=llm_client),
-        embedding_generator=OllamaMedLitEmbeddingGenerator(),
-        entity_storage=InMemoryEntityStorage(),
-        relationship_storage=InMemoryRelationshipStorage(),
-        document_storage=InMemoryDocumentStorage(),
+        embedding_generator=embedding_generator,
+        entity_storage=entity_storage,
+        relationship_storage=relationship_storage,
+        document_storage=document_storage,
     )
 
     return orchestrator, lookup
@@ -104,66 +125,70 @@ def build_orchestrator(
 
 async def extract_entities_from_paper(
     orchestrator: IngestionOrchestrator,
-    json_path: Path,
+    file_path: Path,
+    content_type: str,
 ) -> tuple[str, int, int]:
-    """Extract entities from a single Paper JSON file.
+    """Extract entities from a single paper file (JSON or XML).
 
     Args:
         orchestrator: The ingestion orchestrator.
-        json_path: Path to the Paper JSON file.
+        file_path: Path to the paper file (JSON or XML).
+        content_type: MIME type ("application/json" or "application/xml").
 
     Returns:
         Tuple of (paper_id, entities_extracted, relationships_extracted).
     """
     try:
-        # Read JSON file
-        with open(json_path, "rb") as f:
+        # Read file
+        with open(file_path, "rb") as f:
             raw_content = f.read()
 
         # Extract entities from the paper
         result = await orchestrator.extract_entities_from_document(
             raw_content=raw_content,
-            content_type="application/json",
-            source_uri=str(json_path),
+            content_type=content_type,
+            source_uri=str(file_path),
         )
 
         return (result.document_id, result.entities_extracted, result.relationships_extracted)
 
     except Exception as e:
-        print(f"  ERROR processing {json_path.name}: {e}")
-        return (json_path.stem, 0, 0)
+        print(f"  ERROR processing {file_path.name}: {e}")
+        return (file_path.stem, 0, 0)
 
 
 async def extract_relationships_from_paper(
     orchestrator: IngestionOrchestrator,
-    json_path: Path,
+    file_path: Path,
+    content_type: str,
 ) -> tuple[str, int, int]:
-    """Extract relationships from a single Paper JSON file.
+    """Extract relationships from a single paper file (JSON or XML).
 
     Args:
         orchestrator: The ingestion orchestrator.
-        json_path: Path to the Paper JSON file.
+        file_path: Path to the paper file (JSON or XML).
+        content_type: MIME type ("application/json" or "application/xml").
 
     Returns:
         Tuple of (paper_id, entities_extracted, relationships_extracted).
     """
     try:
-        # Read JSON file
-        with open(json_path, "rb") as f:
+        # Read file
+        with open(file_path, "rb") as f:
             raw_content = f.read()
 
         # Extract relationships from the paper
         result = await orchestrator.extract_relationships_from_document(
             raw_content=raw_content,
-            content_type="application/json",
-            source_uri=str(json_path),
+            content_type=content_type,
+            source_uri=str(file_path),
         )
 
         return (result.document_id, result.entities_extracted, result.relationships_extracted)
 
     except Exception as e:
-        print(f"  ERROR processing {json_path.name}: {e}")
-        return (json_path.stem, 0, 0)
+        print(f"  ERROR processing {file_path.name}: {e}")
+        return (file_path.stem, 0, 0)
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -190,7 +215,13 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--use-ollama",
         action="store_true",
-        help="Use Ollama LLM for entity and relationship extraction",
+        help="Use Ollama LLM for relationship extraction (entity extraction uses embeddings by default)",
+    )
+    parser.add_argument(
+        "--use-llm-extraction",
+        action="store_true",
+        default=True,
+        help="Use LLM for entity extraction (required for XML input; embedding extraction needs pre-populated storage)",
     )
     parser.add_argument(
         "--ollama-model",
@@ -201,8 +232,8 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--ollama-host",
         type=str,
-        default="http://localhost:11434",
-        help="Ollama server URL (default: http://localhost:11434)",
+        default=os.getenv("OLLAMA_HOST", "http://localhost:11434"),
+        help="Ollama server URL (default: from OLLAMA_HOST env var or http://localhost:11434)",
     )
     parser.add_argument(
         "--cache-file",
@@ -213,27 +244,39 @@ def parse_arguments() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def find_json_files(input_dir: Path, limit: int | None) -> list[Path]:
-    """Find and return JSON files to process."""
+def find_input_files(input_dir: Path, limit: int | None) -> list[tuple[Path, str]]:
+    """Find and return input files to process (JSON or XML).
+
+    Returns:
+        List of (file_path, content_type) tuples.
+    """
+    files: list[tuple[Path, str]] = []
+    # Find JSON files
     json_files = sorted(input_dir.glob("*.json"))
+    files.extend((f, "application/json") for f in json_files)
+    # Find XML files
+    xml_files = sorted(input_dir.glob("*.xml"))
+    files.extend((f, "application/xml") for f in xml_files)
+    # Sort by filename
+    files.sort(key=lambda x: x[0].name)
     if limit:
-        json_files = json_files[:limit]
-    return json_files
+        files = files[:limit]
+    return files
 
 
 async def extract_entities_phase(
     orchestrator: IngestionOrchestrator,
-    json_files: list[Path],
+    input_files: list[tuple[Path, str]],
 ) -> tuple[int, int]:
     """Extract entities from all papers. Returns (processed, errors)."""
     print("\n[2/5] Extracting entities from all papers...")
     processed = 0
     errors = 0
 
-    for json_file in json_files:
-        _, entities, _ = await extract_entities_from_paper(orchestrator, json_file)
+    for file_path, content_type in input_files:
+        _, entities, _ = await extract_entities_from_paper(orchestrator, file_path, content_type)
         if entities > 0:
-            print(f"  {json_file.name}: {entities} entities")
+            print(f"  {file_path.name}: {entities} entities")
             processed += 1
         else:
             errors += 1
@@ -272,7 +315,7 @@ async def run_promotion_phase(
 
 async def extract_relationships_phase(
     orchestrator: IngestionOrchestrator,
-    json_files: list[Path],
+    input_files: list[tuple[Path, str]],
 ) -> tuple[int, int]:
     """Extract relationships from all papers. Returns (processed, errors)."""
     print("""
@@ -280,10 +323,10 @@ async def extract_relationships_phase(
     processed_rels = 0
     errors_rels = 0
 
-    for json_file in json_files:
-        _, _, relationships = await extract_relationships_from_paper(orchestrator, json_file)
+    for file_path, content_type in input_files:
+        _, _, relationships = await extract_relationships_from_paper(orchestrator, file_path, content_type)
         if relationships > 0:
-            print(f"  {json_file.name}: {relationships} relationships")
+            print(f"  {file_path.name}: {relationships} relationships")
             processed_rels += 1
         else:
             errors_rels += 1
@@ -457,19 +500,21 @@ async def main() -> None:
         print(f"ERROR: Input directory does not exist: {input_dir}")
         return
 
-    json_files = find_json_files(input_dir, args.limit)
-    if not json_files:
-        print(f"ERROR: No JSON files found in {input_dir}")
+    input_files = find_input_files(input_dir, args.limit)
+    if not input_files:
+        print(f"ERROR: No JSON or XML files found in {input_dir}")
         return
 
     sep = "=" * 60
     lim = f"(Limited to {args.limit} papers)\n" if args.limit else ""
+    json_count = sum(1 for _, ct in input_files if ct == "application/json")
+    xml_count = sum(1 for _, ct in input_files if ct == "application/xml")
     print(f"""{sep}
 Medical Literature Knowledge Graph - Ingestion Pipeline
 {sep}
 
 Input directory: {input_dir}
-Found {len(json_files)} paper(s) to process
+Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML)
 {lim}
 
 [1/5] Initializing pipeline...""")
@@ -486,9 +531,9 @@ Found {len(json_files)} paper(s) to process
     document_storage = orchestrator.document_storage
 
     try:
-        processed, errors = await extract_entities_phase(orchestrator, json_files)
+        processed, errors = await extract_entities_phase(orchestrator, input_files)
         await run_promotion_phase(orchestrator, entity_storage, lookup=lookup)
-        await extract_relationships_phase(orchestrator, json_files)
+        await extract_relationships_phase(orchestrator, input_files)
         await print_summary(document_storage, entity_storage, relationship_storage)
         cache_file_path = lookup.cache_file if lookup else cache_file
         await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors, cache_file=cache_file_path)

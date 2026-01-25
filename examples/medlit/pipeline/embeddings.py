@@ -4,13 +4,12 @@ Simple hash-based embedding generator for now. Can be enhanced with
 biomedical embedding models (BioBERT, etc.) later.
 """
 
-from typing import Sequence
-
-from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
-
+import os
+from typing import Optional, Sequence
 
 import httpx
-from typing import Optional
+
+from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 
 
 class OllamaMedLitEmbeddingGenerator(EmbeddingGeneratorInterface):
@@ -24,12 +23,11 @@ class OllamaMedLitEmbeddingGenerator(EmbeddingGeneratorInterface):
         self,
         # model: str = "nomic-embed-text",
         model: str = "mxbai-embed-large",
-        # ollama_host: str = "http://localhost:11434",
-        ollama_host: str = "http://150.136.146.244:11434",
+        ollama_host: str | None = None,
         timeout: float = 30.0,
     ):
         self.model = model
-        self.ollama_host = ollama_host
+        self.ollama_host = ollama_host or os.getenv("OLLAMA_HOST", "http://localhost:11434")
         self.timeout = timeout
         self._dimension: Optional[int] = None
 

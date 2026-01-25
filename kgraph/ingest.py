@@ -139,6 +139,8 @@ def _determine_canonical_id_source(canonical_id: str) -> str:
         return "rxnorm"
     if canonical_id.startswith("DBPedia:"):
         return "dbpedia"
+    if canonical_id.startswith("UniProt:"):
+        return "uniprot"
     # Try to infer from format
     if canonical_id.startswith("C") and len(canonical_id) > 1 and canonical_id[1:].isdigit():
         return "umls"
