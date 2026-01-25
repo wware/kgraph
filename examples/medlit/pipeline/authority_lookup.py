@@ -220,22 +220,22 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
         # Fall back to MeSH (no API key required)
         return await self._lookup_mesh(term)
 
-    async def _lookup_mesh(self, term: str) -> Optional[str]:
-        """Look up MeSH descriptor ID for a disease/symptom term.
+    def _normalize_mesh_search_terms(self, term: str) -> list[str]:
+        """Generate normalized search terms for MeSH lookup.
 
-        MeSH (Medical Subject Headings) is freely accessible without API key.
-        Returns MeSH descriptor IDs like "MeSH:D001943" (breast neoplasms).
+        MeSH uses formal terminology, so we normalize common informal terms.
+        Returns a list of search terms to try, in order of preference.
 
-        Strategy:
-        1. Try descriptor lookup with original term
-        2. Try with medical term normalization (cancer → neoplasms)
-        3. Try exact match on descriptor label
+        Args:
+            term: Original search term
+
+        Returns:
+            List of normalized search terms (original first, then normalized variants)
         """
-        # Terms to try: original and normalized versions
         search_terms = [term]
+        term_lower = term.lower()
 
         # Common medical term normalizations (MeSH uses formal terminology)
-        term_lower = term.lower()
         if "cancer" in term_lower:
             # "breast cancer" → "breast neoplasms"
             normalized = term_lower.replace("cancer", "neoplasms")
@@ -244,49 +244,228 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
             normalized = term_lower.replace("tumor", "neoplasms").replace("tumour", "neoplasms")
             search_terms.append(normalized.title())
 
+        return search_terms
+
+    async def _lookup_mesh(self, term: str) -> Optional[str]:
+        """Look up MeSH descriptor ID for a disease/symptom term.
+
+        MeSH (Medical Subject Headings) is freely accessible without API key.
+        Returns MeSH descriptor IDs like "MeSH:D001943" (breast neoplasms).
+
+        Strategy:
+        1. Try descriptor lookup with original term and normalized variants
+        2. Collect all results and score them together
+        3. Return the best match across all search terms
+        """
+        # Get all normalized search terms
+        search_terms = self._normalize_mesh_search_terms(term)
+
+        # Collect results from all search terms
+        all_results = []
+        seen_mesh_ids = set()
+
         for search_term in search_terms:
-            result = await self._try_mesh_descriptor_lookup(search_term)
-            if result:
-                return result
+            results = await self._try_mesh_descriptor_lookup_all(search_term)
+            for result in results:
+                mesh_id = result.get("resource", "").split("/mesh/")[-1] if "/mesh/D" in result.get("resource", "") else None
+                if mesh_id and mesh_id not in seen_mesh_ids:
+                    all_results.append(result)
+                    seen_mesh_ids.add(mesh_id)
 
-        return None
+        if not all_results:
+            return None
 
-    def _extract_mesh_id_from_results(self, data: list, term: str) -> Optional[str]:
-        """Extract MeSH descriptor ID from API results if a good match is found."""
-        term_lower = term.lower()
-        term_words = set(term_lower.split())
+        # Score all results together, considering all search terms
+        return self._extract_mesh_id_from_results(all_results, search_terms)
+
+    def _extract_mesh_id_from_results(self, data: list, search_terms: str | list[str]) -> Optional[str]:
+        """Extract MeSH descriptor ID from API results, preferring best matches.
+
+        Scores results based on how well they match any of the provided search terms.
+        This allows normalized terms (e.g., "breast neoplasms") to score well even
+        when the original search was "breast cancer".
+
+        Scoring strategy:
+        1. Exact match (case-insensitive) gets highest score
+        2. Exact word match (all words present) gets high score
+        3. Prefer shorter labels (more general terms) over longer ones (complications)
+        4. Prefer matches where term is at the start of the label
+        5. Penalize matches that are much longer than the search term (likely complications)
+        6. Prefer matches to earlier search terms (original > normalized)
+
+        Args:
+            data: List of result dictionaries from MeSH API
+            search_terms: Single search term (str) or list of search terms tried
+                         (original first, then normalized variants). If a single string
+                         is provided, it's treated as the only search term.
+        """
+        # Normalize input - accept either string or list
+        if isinstance(search_terms, str):
+            # If single string provided, generate normalized variants automatically
+            search_terms_list = self._normalize_mesh_search_terms(search_terms)
+        else:
+            search_terms_list = search_terms
+
+        # Normalize all search terms for comparison
+        normalized_search_terms = [s.lower().strip() for s in search_terms_list]
+        search_term_word_sets = [set(s.split()) for s in normalized_search_terms]
+
+        scored_results = []
 
         for result in data:
-            label = result.get("label", "").lower()
-            label_words = set(label.split())
-
-            # Accept if most words match (handles word order differences)
-            common_words = term_words & label_words
-            if len(common_words) < len(term_words) - 1 or len(common_words) < 1:
-                continue
+            label = result.get("label", "").strip()
+            label_lower = label.lower()
+            label_words = set(label_lower.split())
+            label_word_count = len(label_words)
 
             resource_uri = result.get("resource", "")
-            if "/mesh/D" in resource_uri:
-                mesh_id = resource_uri.split("/mesh/")[-1]
-                return f"MeSH:{mesh_id}"
+            if "/mesh/D" not in resource_uri:
+                continue
 
-        return None
+            mesh_id = resource_uri.split("/mesh/")[-1]
 
-    async def _try_mesh_descriptor_lookup(self, term: str) -> Optional[str]:
-        """Try to find a MeSH descriptor for a term."""
+            # Calculate match score - try each search term and take the best match
+            best_score = 0.0
+            best_term_index = len(search_terms_list)  # Prefer earlier terms
+            best_term_lower = ""
+            best_term_word_count = 0
+            original_term_words = search_term_word_sets[0] if search_term_word_sets else set()
+
+            for term_index, (term_lower, term_words) in enumerate(zip(normalized_search_terms, search_term_word_sets)):
+                term_word_count = len(term_words)
+                score = 0.0
+
+                # 1. Exact match (case-insensitive) - highest priority
+                if term_lower == label_lower:
+                    score = 1000.0 - term_index  # Slight penalty for normalized terms
+                    # For exact matches, apply additional scoring
+                    # Prefer shorter labels (exact match on shorter = more general)
+                    if label_word_count <= 2:
+                        score += 50.0  # Bonus for short, general terms
+                    if score > best_score:
+                        best_score = score
+                        best_term_index = term_index
+                        best_term_lower = term_lower
+                        best_term_word_count = term_word_count
+                    continue  # This is the best possible match for this term
+
+                # 2. All words from term are in label (exact word match)
+                common_words = term_words & label_words
+
+                # Require strong word overlap to prevent false matches
+                # For single-word terms, require exact match
+                if term_word_count == 1:
+                    if len(common_words) == 1:
+                        score += 500.0 - term_index * 10
+                    else:
+                        continue  # No match
+                elif len(common_words) == term_word_count:
+                    score += 500.0 - term_index * 10  # Bonus for earlier search terms
+                elif len(common_words) >= term_word_count - 1:
+                    # All words except one match - but check if it's a valid match
+                    # For normalized terms (index > 0), require that original term words also match
+                    if term_index > 0:
+                        # Check if original term's words (non-normalized) match the label
+                        original_common = original_term_words & label_words
+                        if len(original_common) < len(original_term_words) - 1:
+                            # Original term doesn't match well - likely false match
+                            continue
+                    score += 200.0 - term_index * 5
+                else:
+                    # For 2+ word terms, require at least term_word_count - 1 words to match
+                    continue  # Skip if not enough words match
+
+                # Update best score if this term matches better
+                if score > best_score or (score == best_score and term_index < best_term_index):
+                    best_score = score
+                    best_term_index = term_index
+                    best_term_lower = term_lower
+                    best_term_word_count = term_word_count
+
+            if best_score == 0.0:
+                continue  # No match found for any search term
+
+            # Apply additional scoring based on the best matching term
+            # 3. Prefer shorter labels (more general terms)
+            # Shorter labels indicate more general concepts
+            length_ratio = len(best_term_lower) / max(len(label_lower), 1)
+            if length_ratio > 0.8:  # Term is almost as long as label
+                best_score += 100.0
+            elif length_ratio > 0.6:
+                best_score += 50.0
+            elif length_ratio < 0.4:  # Label is much longer (likely a complication)
+                best_score -= 100.0
+
+            # 4. Prefer matches where term appears at the start
+            if label_lower.startswith(best_term_lower):
+                best_score += 150.0
+            elif best_term_lower in label_lower:
+                best_score += 50.0
+
+            # 5. Penalize results with many extra words (likely complications)
+            extra_words = label_word_count - best_term_word_count
+            if extra_words > 1:
+                best_score -= 100.0 * extra_words  # Heavy penalty for extra words (complications)
+            elif extra_words == 1:
+                best_score -= 50.0  # Moderate penalty for one extra word
+
+            # 6. Special handling: if label is much longer, it's likely a complication
+            # Penalize labels that are >50% longer than the search term
+            if len(label_lower) > len(best_term_lower) * 1.5:
+                best_score -= 150.0
+
+            # 7. Bonus for word count similarity (exact match preferred)
+            if label_word_count == best_term_word_count:
+                best_score += 100.0
+            elif label_word_count == best_term_word_count + 1:
+                best_score += 25.0  # Slight bonus for one extra word (handles plurals)
+
+            if best_score > 0:
+                scored_results.append((best_score, mesh_id, label))
+
+        if not scored_results:
+            return None
+
+        # Sort by score (descending) and return the best match
+        scored_results.sort(key=lambda x: x[0], reverse=True)
+        best_score, best_mesh_id, best_label = scored_results[0]
+
+        logger.debug(
+            {
+                "message": f"MeSH match selected for '{search_terms_list[0]}'",
+                "search_terms": search_terms_list,
+                "selected": best_label,
+                "mesh_id": best_mesh_id,
+                "score": best_score,
+                "alternatives": [(score, label) for score, _, label in scored_results[:3]],
+            },
+            pprint=True,
+        )
+
+        return f"MeSH:{best_mesh_id}"
+
+    async def _try_mesh_descriptor_lookup_all(self, term: str) -> list[dict]:
+        """Try to find MeSH descriptors for a term, returning all results.
+
+        Args:
+            term: Search term
+
+        Returns:
+            List of result dictionaries from MeSH API
+        """
         try:
             url = "https://id.nlm.nih.gov/mesh/lookup/descriptor"
             params = {"label": term, "match": "contains", "limit": "10"}
             response = await self.client.get(url, params=params)
 
             if response.status_code != 200:
-                return None
+                return []
 
             data = response.json()
             if not data:
-                return None
+                return []
 
-            return self._extract_mesh_id_from_results(data, term)
+            return data
         except Exception as e:
             logger.warning(
                 {
@@ -296,7 +475,7 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
                 },
                 pprint=True,
             )
-            return None
+            return []
 
     async def _lookup_hgnc(self, term: str) -> Optional[str]:
         """Look up HGNC ID for a gene.
@@ -606,45 +785,35 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
         return self._lookup_mesh_sync(client, term)
 
     def _lookup_mesh_sync(self, client: "httpx.Client", term: str) -> Optional[str]:
-        """Synchronous MeSH lookup (no API key required).
+        """Synchronous MeSH lookup with term normalization.
 
-        Same strategy as async version:
-        1. Try descriptor lookup with original term
-        2. Try with medical term normalization (cancer → neoplasms)
+        Uses the same multi-term approach as async version.
         """
-        # Terms to try: original and normalized versions
-        search_terms = [term]
+        # Get all normalized search terms
+        search_terms = self._normalize_mesh_search_terms(term)
 
-        term_lower = term.lower()
-        if "cancer" in term_lower:
-            normalized = term_lower.replace("cancer", "neoplasms")
-            search_terms.append(normalized.title())
-        if "tumor" in term_lower or "tumour" in term_lower:
-            normalized = term_lower.replace("tumor", "neoplasms").replace("tumour", "neoplasms")
-            search_terms.append(normalized.title())
+        # Collect results from all search terms
+        all_results = []
+        seen_mesh_ids = set()
 
-        for search_term in search_terms:
-            result = self._try_mesh_descriptor_lookup_sync(client, search_term)
-            if result:
-                return result
-
-        return None
-
-    def _try_mesh_descriptor_lookup_sync(self, client: "httpx.Client", term: str) -> Optional[str]:
-        """Try to find a MeSH descriptor for a term (sync version)."""
         try:
-            url = "https://id.nlm.nih.gov/mesh/lookup/descriptor"
-            params = {"label": term, "match": "contains", "limit": "10"}
-            response = client.get(url, params=params)
+            for search_term in search_terms:
+                url = "https://id.nlm.nih.gov/mesh/lookup/descriptor"
+                params = {"label": search_term, "match": "contains", "limit": "10"}
+                response = client.get(url, params=params)
 
-            if response.status_code != 200:
-                return None
+                if response.status_code != 200:
+                    continue
 
-            data = response.json()
-            if not data:
-                return None
+                data = response.json()
+                if not data:
+                    continue
 
-            return self._extract_mesh_id_from_results(data, term)
+                for result in data:
+                    mesh_id = result.get("resource", "").split("/mesh/")[-1] if "/mesh/D" in result.get("resource", "") else None
+                    if mesh_id and mesh_id not in seen_mesh_ids:
+                        all_results.append(result)
+                        seen_mesh_ids.add(mesh_id)
         except Exception as e:
             logger.warning(
                 {
@@ -655,6 +824,12 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
                 pprint=True,
             )
             return None
+
+        if not all_results:
+            return None
+
+        # Score all results together, considering all search terms
+        return self._extract_mesh_id_from_results(all_results, search_terms)
 
     def _lookup_hgnc_sync(self, client: "httpx.Client", term: str) -> Optional[str]:
         """Synchronous HGNC lookup with alias fallback."""

@@ -50,7 +50,7 @@ async def medlit_orchestrator(
 @pytest.fixture
 def mock_lookup():
     """Create a mock CanonicalIdLookupInterface for testing."""
-    from kgraph.canonical_id import CanonicalId, CanonicalIdLookupInterface
+    from kgraph.canonical_id import CanonicalIdLookupInterface
 
     lookup = MagicMock(spec=CanonicalIdLookupInterface)
     lookup.lookup = AsyncMock(return_value=None)
@@ -117,6 +117,7 @@ class TestPromotionLookupIntegration:
 
         # Mock the lookup to return a CanonicalId object
         from kgraph.canonical_id import CanonicalId
+
         mock_lookup.lookup.return_value = CanonicalId(id="C1234567", url=None, synonyms=())
 
         # Run promotion with lookup
@@ -150,6 +151,7 @@ class TestPromotionLookupIntegration:
 
         # Mock lookup to return a CanonicalId object
         from kgraph.canonical_id import CanonicalId
+
         mock_lookup.lookup.return_value = CanonicalId(id="C9999999", url=None, synonyms=())
 
         # Run promotion with lookup

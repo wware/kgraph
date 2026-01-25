@@ -123,3 +123,30 @@ class TestMeSHTermNormalization:
         """Test MeSH extraction handles empty data."""
         result = lookup._extract_mesh_id_from_results([], "anything")  # pylint: disable=protected-access
         assert result is None
+
+    def test_mesh_id_extraction_prefers_general_over_complication(self, lookup):
+        """Test that general terms are preferred over complications.
+
+        "breast cancer" should match "Breast Neoplasms" (D001943)
+        rather than "Breast Cancer Lymphedema" (D000072656).
+        """
+        data = [
+            {"resource": "http://id.nlm.nih.gov/mesh/D000072656", "label": "Breast Cancer Lymphedema"},
+            {"resource": "http://id.nlm.nih.gov/mesh/D001943", "label": "Breast Neoplasms"},
+        ]
+
+        # Should prefer "Breast Neoplasms" (shorter, more general)
+        result = lookup._extract_mesh_id_from_results(data, "breast cancer")  # pylint: disable=protected-access
+        assert result == "MeSH:D001943", f"Expected MeSH:D001943 (Breast Neoplasms), got {result}"
+
+    def test_mesh_id_extraction_exact_match_priority(self, lookup):
+        """Test that exact matches get highest priority."""
+        data = [
+            {"resource": "http://id.nlm.nih.gov/mesh/D000072656", "label": "Breast Cancer Lymphedema"},
+            {"resource": "http://id.nlm.nih.gov/mesh/D001943", "label": "Breast Neoplasms"},
+            {"resource": "http://id.nlm.nih.gov/mesh/D999999", "label": "Breast Cancer"},  # Exact match
+        ]
+
+        # Exact match should win even if it appears later
+        result = lookup._extract_mesh_id_from_results(data, "breast cancer")  # pylint: disable=protected-access
+        assert result == "MeSH:D999999", f"Expected MeSH:D999999 (exact match), got {result}"

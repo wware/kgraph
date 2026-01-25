@@ -110,7 +110,7 @@ kgraph/
 ├── document.py            # BaseDocument
 ├── domain.py              # DomainSchema ABC
 ├── ingest.py              # IngestionOrchestrator
-├── promotion.py          # PromotionPolicy ABC
+├── promotion.py           # PromotionPolicy ABC
 ├── canonical_id/          # Canonical ID system
 │   ├── models.py          # CanonicalId model, CanonicalIdCacheInterface ABC
 │   ├── json_cache.py      # JsonFileCanonicalIdCache implementation
@@ -120,7 +120,7 @@ kgraph/
 │   ├── interfaces.py      # Storage ABCs
 │   └── memory.py          # In-memory implementation
 └── pipeline/
-    ├── interfaces.py       # Parser, Extractor, Resolver ABCs
+    ├── interfaces.py      # Parser, Extractor, Resolver ABCs
     └── embedding.py       # EmbeddingGeneratorInterface
 ```
 
