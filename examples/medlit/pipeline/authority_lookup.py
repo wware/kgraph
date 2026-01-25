@@ -474,12 +474,7 @@ class CanonicalIdLookup:
         # 3. Label starts with the term (e.g., "breast cancer" matches "breast cancer syndrome")
         common_prefix = len(term_first) >= 6 and len(label_first) >= 6 and term_first[:6] == label_first[:6]
 
-        return (
-            term_lower in label_clean
-            or label_clean in term_lower
-            or label_clean.startswith(term_lower)
-            or common_prefix
-        )
+        return term_lower in label_clean or label_clean in term_lower or label_clean.startswith(term_lower) or common_prefix
 
     async def _lookup_dbpedia(self, term: str) -> Optional[str]:
         """Look up DBPedia URI as fallback for any entity type.

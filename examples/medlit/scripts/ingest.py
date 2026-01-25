@@ -382,6 +382,56 @@ Papers were processed from JSON format (med-lit-schema Paper format).
 """)
 
 
+def _handle_keyboard_interrupt(lookup: CanonicalIdLookup | None) -> None:
+    """Handle KeyboardInterrupt by saving cache before exiting."""
+    print("\n  Interrupted by user (Ctrl+C)")
+    if not lookup:
+        return
+
+    try:
+        # Debug: show cache state
+        total_entries = len(lookup._cache)  # pylint: disable=protected-access
+        successful_entries = len([v for v in lookup._cache.values() if v != "NULL"])  # pylint: disable=protected-access
+        print(f"  Cache state: {total_entries} total entries, {successful_entries} successful lookups")
+
+        lookup._save_cache(force=True)  # pylint: disable=protected-access
+        cache_path = lookup.cache_file.absolute()
+
+        # Verify file exists
+        if cache_path.exists():
+            file_size = cache_path.stat().st_size
+            print(f"  ✓ Canonical ID cache saved to: {cache_path} ({file_size} bytes)")
+        else:
+            print(f"  ✗ Cache file not found at: {cache_path}")
+            print("     This should not happen - save may have failed silently")
+    except Exception as e:
+        print(f"  ✗ Warning: Failed to save cache: {e}")
+        import traceback
+
+        traceback.print_exc()
+        print(f"     Cache file location: {lookup.cache_file.absolute()}")
+
+
+async def _cleanup_lookup_service(lookup: CanonicalIdLookup | None) -> None:
+    """Clean up lookup service and save cache."""
+    if not lookup:
+        return
+
+    try:
+        await lookup.close()
+        cache_path = lookup.cache_file.absolute()
+        print(f"  ✓ Canonical ID cache saved to: {cache_path}")
+    except Exception:
+        # If close() fails, at least try to save cache (force save as safety)
+        try:
+            lookup._save_cache(force=True)  # pylint: disable=protected-access
+            cache_path = lookup.cache_file.absolute()
+            print(f"  ✓ Canonical ID cache saved to: {cache_path} (emergency save)")
+        except Exception as e:
+            print(f"  ✗ Failed to save cache: {e}")
+            print(f"     Cache file location: {lookup.cache_file.absolute()}")
+
+
 async def main() -> None:
     """Main ingestion function."""
     args = parse_arguments()
@@ -428,49 +478,10 @@ Found {len(json_files)} paper(s) to process
         await print_summary(document_storage, entity_storage, relationship_storage)
         await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors)
     except KeyboardInterrupt:
-        print("\n  Interrupted by user (Ctrl+C)")
-        # Save cache before exiting (force save to capture any in-memory entries)
-        if lookup:
-            try:
-                # Debug: show cache state
-                total_entries = len(lookup._cache)
-                successful_entries = len([v for v in lookup._cache.values() if v != "NULL"])
-                print(f"  Cache state: {total_entries} total entries, {successful_entries} successful lookups")
-                
-                lookup._save_cache(force=True)  # Force save to capture in-memory cache
-                cache_path = lookup.cache_file.absolute()
-                
-                # Verify file exists
-                if cache_path.exists():
-                    file_size = cache_path.stat().st_size
-                    print(f"  ✓ Canonical ID cache saved to: {cache_path} ({file_size} bytes)")
-                else:
-                    print(f"  ✗ Cache file not found at: {cache_path}")
-                    print(f"     This should not happen - save may have failed silently")
-            except Exception as e:
-                print(f"  ✗ Warning: Failed to save cache: {e}")
-                import traceback
-                traceback.print_exc()
-                if lookup:
-                    print(f"     Cache file location: {lookup.cache_file.absolute()}")
+        _handle_keyboard_interrupt(lookup)
         raise
     finally:
-        # Clean up lookup service (saves cache)
-        if lookup:
-            try:
-                await lookup.close()
-                cache_path = lookup.cache_file.absolute()
-                print(f"  ✓ Canonical ID cache saved to: {cache_path}")
-            except Exception:
-                # If close() fails, at least try to save cache (force save as safety)
-                try:
-                    lookup._save_cache(force=True)
-                    cache_path = lookup.cache_file.absolute()
-                    print(f"  ✓ Canonical ID cache saved to: {cache_path} (emergency save)")
-                except Exception as e:
-                    print(f"  ✗ Failed to save cache: {e}")
-                    if lookup:
-                        print(f"     Cache file location: {lookup.cache_file.absolute()}")
+        await _cleanup_lookup_service(lookup)
 
 
 if __name__ == "__main__":

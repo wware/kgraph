@@ -4,9 +4,9 @@ This bundle contains extracted knowledge from biomedical journal articles.
 
 ## Statistics
 
-- Papers processed: 104
-- Total entities: 728
-- Total relationships: 333
+- Papers processed: 103
+- Total entities: 490
+- Total relationships: 160
 
 ## Domain
 
