@@ -56,8 +56,8 @@ def build_orchestrator(
         cache_file: Optional path for canonical ID lookup cache file.
 
     Returns:
-        Tuple of (IngestionOrchestrator, CanonicalIdLookup or None).
-        The lookup is returned so it can be properly closed after use.
+        Tuple of (IngestionOrchestrator, None).
+        The lookup service is created during the promotion phase, not during initialization.
     """
     domain = MedLitDomainSchema()
 
@@ -69,21 +69,8 @@ def build_orchestrator(
     # Create embedding generator (used by both extractors)
     embedding_generator = OllamaMedLitEmbeddingGenerator(ollama_host=ollama_host)
 
-    # Create canonical ID lookup service for promotion phase
-    # Note: We've learned not to use this during extraction (tool calling is too slow),
-    # but it still contains useful information and is used during the promotion phase
-    # to assign canonical IDs to provisional entities.
-    lookup = None
-    if use_ollama:
-        try:
-            cache_path = cache_file or Path("canonical_id_cache.json")
-            print(f"  Initializing canonical ID lookup (cache: {cache_path})...")
-            lookup = CanonicalIdLookup(cache_file=cache_path)
-            print("  ✓ Canonical ID lookup created successfully")
-        except Exception as e:
-            print(f"  Warning: Failed to create canonical ID lookup: {e}")
-            print("  Continuing without canonical ID lookup...")
-            lookup = None
+    # Canonical ID lookup service will be created at the start of promotion phase
+    # (stage 3) to load cache at that time, not during initialization
 
     # Create LLM client if requested (for relationship extraction)
     llm_client = None
@@ -120,7 +107,7 @@ def build_orchestrator(
         document_storage=document_storage,
     )
 
-    return orchestrator, lookup
+    return orchestrator, None
 
 
 async def extract_entities_from_paper(
@@ -293,11 +280,33 @@ async def extract_entities_phase(
 async def run_promotion_phase(
     orchestrator: IngestionOrchestrator,
     entity_storage: EntityStorageInterface,
-    lookup: CanonicalIdLookup | None = None,
-) -> None:
-    """Run entity promotion and print results."""
+    cache_file: Path | None = None,
+    use_ollama: bool = False,
+) -> CanonicalIdLookup | None:
+    """Run entity promotion and print results.
+
+    Creates the canonical ID lookup service at the start (loading cache),
+    runs promotion, saves cache immediately after completion, and returns
+    the lookup service for cleanup.
+
+    Returns:
+        CanonicalIdLookup instance if created, None otherwise.
+    """
     print("""
 [3/5] Running entity promotion...""")
+
+    # Create lookup service at START of promotion phase (loads cache now)
+    lookup: CanonicalIdLookup | None = None
+    if use_ollama:
+        try:
+            cache_path = cache_file or Path("canonical_id_cache.json")
+            print(f"  Initializing canonical ID lookup (cache: {cache_path})...")
+            lookup = CanonicalIdLookup(cache_file=cache_path)
+            print("  ✓ Canonical ID lookup created successfully")
+        except Exception as e:
+            print(f"  Warning: Failed to create canonical ID lookup: {e}")
+            print("  Continuing without canonical ID lookup...")
+            lookup = None
 
     # Debug: Check what provisional entities we have
     all_provisional = await entity_storage.list_all(status="provisional")
@@ -317,6 +326,17 @@ async def run_promotion_phase(
     print(f"      Promoted {len(promoted)} entities to canonical status:")
     for entity in promoted:
         print(f"        - {entity.name} → {entity.entity_id}")
+
+    # Save cache IMMEDIATELY after promotion phase completes
+    if lookup:
+        try:
+            lookup._save_cache(force=True)  # pylint: disable=protected-access
+            cache_path = lookup.cache_file.absolute()
+            print(f"  ✓ Canonical ID cache saved to: {cache_path}")
+        except Exception as e:
+            print(f"  Warning: Failed to save cache: {e}")
+
+    return lookup
 
 
 async def extract_relationships_phase(
@@ -476,23 +496,18 @@ def _handle_keyboard_interrupt(lookup: CanonicalIdLookup | None) -> None:
 
 
 async def _cleanup_lookup_service(lookup: CanonicalIdLookup | None) -> None:
-    """Clean up lookup service and save cache."""
+    """Clean up lookup service.
+
+    Note: Cache is already saved immediately after promotion phase,
+    so this just closes the HTTP client.
+    """
     if not lookup:
         return
 
     try:
         await lookup.close()
-        cache_path = lookup.cache_file.absolute()
-        print(f"  ✓ Canonical ID cache saved to: {cache_path}")
-    except Exception:
-        # If close() fails, at least try to save cache (force save as safety)
-        try:
-            lookup._save_cache(force=True)  # pylint: disable=protected-access
-            cache_path = lookup.cache_file.absolute()
-            print(f"  ✓ Canonical ID cache saved to: {cache_path} (emergency save)")
-        except Exception as e:
-            print(f"  ✗ Failed to save cache: {e}")
-            print(f"     Cache file location: {lookup.cache_file.absolute()}")
+    except Exception as e:
+        print(f"  ✗ Warning: Failed to close lookup service: {e}")
 
 
 async def main() -> None:
@@ -539,7 +554,7 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
 
     try:
         processed, errors = await extract_entities_phase(orchestrator, input_files)
-        await run_promotion_phase(orchestrator, entity_storage, lookup=lookup)
+        lookup = await run_promotion_phase(orchestrator, entity_storage, cache_file=cache_file, use_ollama=args.use_ollama)
         await extract_relationships_phase(orchestrator, input_files)
         await print_summary(document_storage, entity_storage, relationship_storage)
         cache_file_path = lookup.cache_file if lookup else cache_file
