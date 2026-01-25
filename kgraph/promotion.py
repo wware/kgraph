@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from .canonical_id import CanonicalId
+from kgraph.canonical_id import CanonicalId
 from .entity import BaseEntity, PromotionConfig
 from kgraph.entity import EntityStatus
 

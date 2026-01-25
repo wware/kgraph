@@ -128,11 +128,11 @@ kgraph/
 ├── domain.py              # DomainSchema ABC
 ├── ingest.py              # IngestionOrchestrator
 ├── promotion.py           # PromotionPolicy ABC
-├── canonical_id.py         # CanonicalId model
-├── canonical_cache.py     # CanonicalIdCacheInterface ABC
-├── canonical_cache_json.py  # JsonFileCanonicalIdCache implementation
-├── canonical_lookup.py     # CanonicalIdLookupInterface ABC
-├── canonical_helpers.py    # Helper functions for promotion policies
+├── canonical_id/          # Canonical ID system
+│   ├── models.py          # CanonicalId model, CanonicalIdCacheInterface ABC
+│   ├── json_cache.py      # JsonFileCanonicalIdCache implementation
+│   ├── lookup.py          # CanonicalIdLookupInterface ABC
+│   └── helpers.py         # Helper functions for promotion policies
 ├── storage/
 │   ├── interfaces.py      # Storage ABCs
 │   └── memory.py          # In-memory implementation

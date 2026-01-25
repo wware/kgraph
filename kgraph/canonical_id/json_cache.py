@@ -9,9 +9,9 @@ import os
 from pathlib import Path
 from typing import Optional
 
-from kgraph.canonical_cache import CanonicalIdCacheInterface
-from kgraph.canonical_id import CanonicalId
 from kgraph.logging import setup_logging
+
+from .models import CanonicalId, CanonicalIdCacheInterface
 
 
 class JsonFileCanonicalIdCache(CanonicalIdCacheInterface):

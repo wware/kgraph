@@ -6,8 +6,9 @@ policies to extract canonical IDs from entity data.
 
 from typing import Optional
 
-from .canonical_id import CanonicalId
-from .entity import BaseEntity
+from kgraph.entity import BaseEntity
+
+from .models import CanonicalId
 
 
 def extract_canonical_id_from_entity(

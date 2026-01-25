@@ -6,9 +6,12 @@ identifiers (UMLS, HGNC, RxNorm, UniProt) or meet usage/confidence thresholds.
 
 from typing import Optional
 
-from kgraph.canonical_helpers import check_entity_id_format, extract_canonical_id_from_entity
-from kgraph.canonical_id import CanonicalId
-from kgraph.canonical_lookup import CanonicalIdLookupInterface
+from kgraph.canonical_id import (
+    CanonicalId,
+    CanonicalIdLookupInterface,
+    check_entity_id_format,
+    extract_canonical_id_from_entity,
+)
 from kgraph.entity import BaseEntity, EntityStatus
 from kgraph.logging import setup_logging
 from kgraph.promotion import PromotionPolicy

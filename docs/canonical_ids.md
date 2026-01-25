@@ -175,7 +175,7 @@ from kgraph import (
     extract_canonical_id_from_entity,
     check_entity_id_format,
 )
-from kgraph.canonical_lookup import CanonicalIdLookupInterface
+from kgraph.canonical_id import CanonicalIdLookupInterface
 
 class MyPromotionPolicy(PromotionPolicy):
     def __init__(self, config, lookup: CanonicalIdLookupInterface):
@@ -203,8 +203,8 @@ class MyPromotionPolicy(PromotionPolicy):
 The medical literature example (`examples/medlit`) demonstrates a complete implementation:
 
 ```python
-from kgraph.canonical_cache_json import JsonFileCanonicalIdCache
-from kgraph.canonical_lookup import CanonicalIdLookupInterface
+from kgraph.canonical_id import JsonFileCanonicalIdCache
+from kgraph.canonical_id import CanonicalIdLookupInterface
 
 class CanonicalIdLookup(CanonicalIdLookupInterface):
     def __init__(self, cache_file: Path):

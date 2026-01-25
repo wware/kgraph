@@ -13,9 +13,12 @@ from pathlib import Path
 
 import pytest
 
-from kgraph.canonical_cache_json import JsonFileCanonicalIdCache
-from kgraph.canonical_helpers import check_entity_id_format, extract_canonical_id_from_entity
-from kgraph.canonical_id import CanonicalId
+from kgraph.canonical_id import (
+    CanonicalId,
+    JsonFileCanonicalIdCache,
+    check_entity_id_format,
+    extract_canonical_id_from_entity,
+)
 from tests.conftest import make_test_entity
 
 

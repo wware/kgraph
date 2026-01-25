@@ -7,7 +7,7 @@ which promotion policies can use to assign canonical IDs to entities.
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from .canonical_id import CanonicalId
+from .models import CanonicalId
 
 
 class CanonicalIdLookupInterface(ABC):

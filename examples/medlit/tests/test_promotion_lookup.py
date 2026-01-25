@@ -49,9 +49,12 @@ async def medlit_orchestrator(
 
 @pytest.fixture
 def mock_lookup():
-    """Create a mock CanonicalIdLookup for testing."""
-    lookup = MagicMock(spec=CanonicalIdLookup)
-    lookup.lookup_canonical_id = AsyncMock(return_value=None)
+    """Create a mock CanonicalIdLookupInterface for testing."""
+    from kgraph.canonical_id import CanonicalId, CanonicalIdLookupInterface
+
+    lookup = MagicMock(spec=CanonicalIdLookupInterface)
+    lookup.lookup = AsyncMock(return_value=None)
+    lookup.lookup_sync = MagicMock(return_value=None)
     return lookup
 
 
@@ -112,8 +115,9 @@ class TestPromotionLookupIntegration:
         )
         await entity_storage.add(entity)
 
-        # Mock the lookup to return a canonical ID
-        mock_lookup.lookup_canonical_id.return_value = "C1234567"
+        # Mock the lookup to return a CanonicalId object
+        from kgraph.canonical_id import CanonicalId
+        mock_lookup.lookup.return_value = CanonicalId(id="C1234567", url=None, synonyms=())
 
         # Run promotion with lookup
         promoted = await medlit_orchestrator.run_promotion(lookup=mock_lookup)
@@ -144,16 +148,17 @@ class TestPromotionLookupIntegration:
         )
         await entity_storage.add(entity)
 
-        # Mock lookup to return a canonical ID
-        mock_lookup.lookup_canonical_id.return_value = "C9999999"
+        # Mock lookup to return a CanonicalId object
+        from kgraph.canonical_id import CanonicalId
+        mock_lookup.lookup.return_value = CanonicalId(id="C9999999", url=None, synonyms=())
 
         # Run promotion with lookup
         promoted = await medlit_orchestrator.run_promotion(lookup=mock_lookup)
 
         # Verify lookup was called
-        mock_lookup.lookup_canonical_id.assert_called()
+        mock_lookup.lookup.assert_called()
         # Verify it was called with the entity name and type
-        call_args = mock_lookup.lookup_canonical_id.call_args
+        call_args = mock_lookup.lookup.call_args
         assert call_args is not None
         assert call_args.kwargs.get("term") == "Unknown Disease"
         assert call_args.kwargs.get("entity_type") == "disease"

@@ -165,8 +165,11 @@ Implement a promotion policy that assigns canonical IDs to entities:
 
 ```python
 from kgraph import PromotionPolicy, CanonicalId
-from kgraph.canonical_helpers import extract_canonical_id_from_entity, check_entity_id_format
-from kgraph.canonical_lookup import CanonicalIdLookupInterface
+from kgraph.canonical_id import (
+    CanonicalIdLookupInterface,
+    check_entity_id_format,
+    extract_canonical_id_from_entity,
+)
 
 class MyPromotionPolicy(PromotionPolicy):
     def __init__(self, config, lookup: CanonicalIdLookupInterface | None = None):

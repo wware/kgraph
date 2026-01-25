@@ -15,9 +15,11 @@ try:
 except ImportError:
     httpx = None  # type: ignore[assignment, misc]
 
-from kgraph.canonical_cache_json import JsonFileCanonicalIdCache
-from kgraph.canonical_id import CanonicalId
-from kgraph.canonical_lookup import CanonicalIdLookupInterface
+from kgraph.canonical_id import (
+    CanonicalId,
+    CanonicalIdLookupInterface,
+    JsonFileCanonicalIdCache,
+)
 from kgraph.logging import setup_logging
 
 from .canonical_urls import build_canonical_url

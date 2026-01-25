@@ -6,8 +6,7 @@ Uses the shared canonical ID helper functions for consistency with other domains
 
 from typing import Optional
 
-from kgraph.canonical_helpers import extract_canonical_id_from_entity
-from kgraph.canonical_id import CanonicalId
+from kgraph.canonical_id import CanonicalId, extract_canonical_id_from_entity
 from kgraph.entity import BaseEntity
 from kgraph.promotion import PromotionPolicy
 

@@ -5,11 +5,14 @@ A flexible framework for building knowledge graphs across multiple domains
 (medical, legal, CS papers, etc.) with a two-pass ingestion process.
 """
 
-from kgraph.canonical_cache import CanonicalIdCacheInterface
-from kgraph.canonical_cache_json import JsonFileCanonicalIdCache
-from kgraph.canonical_helpers import check_entity_id_format, extract_canonical_id_from_entity
-from kgraph.canonical_id import CanonicalId
-from kgraph.canonical_lookup import CanonicalIdLookupInterface
+from kgraph.canonical_id import (
+    CanonicalId,
+    CanonicalIdCacheInterface,
+    CanonicalIdLookupInterface,
+    JsonFileCanonicalIdCache,
+    check_entity_id_format,
+    extract_canonical_id_from_entity,
+)
 from kgraph.entity import (
     BaseEntity,
     EntityMention,
