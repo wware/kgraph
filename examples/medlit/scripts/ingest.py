@@ -39,20 +39,20 @@ from ..pipeline.llm_client import OllamaLLMClient
 
 def build_orchestrator(
     use_ollama: bool = False,
-    use_llm_extraction: bool = True,
     ollama_model: str = "llama3.1:8b",
     ollama_host: str = "http://localhost:11434",
+    ollama_timeout: float = 300.0,
     cache_file: Path | None = None,
 ) -> tuple[IngestionOrchestrator, CanonicalIdLookup | None]:
     """Build the ingestion orchestrator for medical literature domain.
 
     Args:
         use_ollama: If True, use Ollama LLM for entity and relationship extraction.
-        use_llm_extraction: If True, use LLM-based entity extraction. Required for
-                           first-pass extraction from XML (embedding extraction requires
-                           pre-populated entity storage).
+                    Required for extracting entities from XML (embedding extraction
+                    requires pre-populated entity storage).
         ollama_model: Ollama model name (e.g., "llama3.1:8b").
         ollama_host: Ollama server URL.
+        ollama_timeout: Timeout in seconds for Ollama requests (default: 300).
         cache_file: Optional path for canonical ID lookup cache file.
 
     Returns:
@@ -89,8 +89,8 @@ def build_orchestrator(
     llm_client = None
     if use_ollama:
         try:
-            print(f"  Initializing Ollama LLM: {ollama_model} at {ollama_host}...")
-            llm_client = OllamaLLMClient(model=ollama_model, host=ollama_host)
+            print(f"  Initializing Ollama LLM: {ollama_model} at {ollama_host} (timeout: {ollama_timeout}s)...")
+            llm_client = OllamaLLMClient(model=ollama_model, host=ollama_host, timeout=ollama_timeout)
             print("  ✓ Ollama client created successfully")
         except Exception as e:
             print(f"  Warning: Failed to create Ollama client: {e}")
@@ -234,6 +234,12 @@ def parse_arguments() -> argparse.Namespace:
         type=str,
         default=os.getenv("OLLAMA_HOST", "http://localhost:11434"),
         help="Ollama server URL (default: from OLLAMA_HOST env var or http://localhost:11434)",
+    )
+    parser.add_argument(
+        "--ollama-timeout",
+        type=float,
+        default=300.0,
+        help="Timeout in seconds for Ollama requests (default: 300)",
     )
     parser.add_argument(
         "--cache-file",
@@ -524,6 +530,7 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
         use_ollama=args.use_ollama,
         ollama_model=args.ollama_model,
         ollama_host=args.ollama_host,
+        ollama_timeout=args.ollama_timeout,
         cache_file=cache_file,
     )
     entity_storage = orchestrator.entity_storage

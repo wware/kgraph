@@ -592,7 +592,7 @@ class IngestionOrchestrator(BaseModel):
                     pprint=True,
                 )
 
-            #logger.info(
+            # logger.info(
             #    {
             #        "message": f"Promoting entity {entity.name}: {entity.entity_id} → {canonical_id}",
             #        "entity": entity,
@@ -600,7 +600,7 @@ class IngestionOrchestrator(BaseModel):
             #        "force_promote": force_promote,
             #    },
             #    pprint=True,
-            #)
+            # )
 
             # Update entity in storage with new ID and status
             new_canonical_ids = entity.canonical_ids.copy()

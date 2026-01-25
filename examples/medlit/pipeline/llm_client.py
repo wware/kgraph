@@ -86,14 +86,14 @@ class OllamaLLMClient(LLMClientInterface):
         self,
         model: str = "llama3.1:8b",
         host: str = "http://localhost:11434",
-        timeout: float = 60.0,  # Reduced default timeout
+        timeout: float = 300.0,  # Increased timeout for slow LLM responses (5 minutes)
     ):
         """Initialize Ollama client.
 
         Args:
             model: Ollama model name (e.g., "llama3.1:8b", "llama3.1:8b")
             host: Ollama server URL
-            timeout: Request timeout in seconds (default: 60)
+            timeout: Request timeout in seconds (default: 300)
         """
         if not OLLAMA_AVAILABLE:
             raise ImportError("ollama package not installed. Install with: pip install ollama")
@@ -154,7 +154,11 @@ class OllamaLLMClient(LLMClientInterface):
             )
             return response["message"]["content"]
 
-        response_text = await asyncio.to_thread(_generate)
+        try:
+            # Add timeout wrapper to prevent indefinite hangs
+            response_text = await asyncio.wait_for(asyncio.to_thread(_generate), timeout=self.timeout)
+        except asyncio.TimeoutError:
+            raise TimeoutError(f"Ollama JSON generation timed out after {self.timeout}s")
         response_text = response_text.strip()
 
         # Remove markdown code blocks if present

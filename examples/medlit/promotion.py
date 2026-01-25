@@ -309,7 +309,7 @@ class MedLitPromotionPolicy(PromotionPolicy):
                 return canonical_id
 
         # Strategy 3: Look up from authority APIs
-        #logger.debug(
+        # logger.debug(
         #    {
         #        "message": f"Attempting external lookup for canonical ID for {entity.name}",
         #        "entity": entity,
@@ -317,7 +317,7 @@ class MedLitPromotionPolicy(PromotionPolicy):
         #        "entity_type": entity_type,
         #    },
         #    pprint=True,
-        #)
+        # )
 
         lookup_result = await self.lookup.lookup_canonical_id(term=entity.name, entity_type=entity_type)
 
