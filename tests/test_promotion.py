@@ -10,6 +10,7 @@ This test module covers:
 import pytest
 from datetime import datetime, timezone
 
+from kgraph.canonical_id import CanonicalId
 from kgraph.entity import BaseEntity, EntityStatus, PromotionConfig
 from kgraph.promotion import PromotionPolicy
 from kgraph.ingest import IngestionOrchestrator
@@ -53,8 +54,11 @@ class SimplePromotionPolicy(PromotionPolicy):
         "test:entity:Beta": "canonical:Beta",
     }
 
-    async def assign_canonical_id(self, entity: BaseEntity) -> str | None:
-        return self.CANONICAL_IDS.get(entity.entity_id)
+    async def assign_canonical_id(self, entity: BaseEntity) -> CanonicalId | None:
+        canonical_id_str = self.CANONICAL_IDS.get(entity.entity_id)
+        if canonical_id_str:
+            return CanonicalId(id=canonical_id_str, url=None, synonyms=())
+        return None
 
 
 class TestPromotionPolicyBase:
@@ -161,7 +165,9 @@ class TestPromotionPolicyBase:
             entity_id="test:entity:Alpha",
             status=EntityStatus.PROVISIONAL,
         )
-        assert await policy.assign_canonical_id(entity_mapped) == "canonical:Alpha"
+        result = await policy.assign_canonical_id(entity_mapped)
+        assert result is not None
+        assert result.id == "canonical:Alpha"
 
         # Entity without mapping
         entity_unmapped = make_test_entity(
@@ -195,7 +201,8 @@ class TestSherlockPromotion:
         )
 
         canonical_id = await policy.assign_canonical_id(entity)
-        assert canonical_id == "http://dbpedia.org/resource/Sherlock_Holmes"
+        assert canonical_id is not None
+        assert canonical_id.id == "http://dbpedia.org/resource/Sherlock_Holmes"
 
         # Check unmapped entity
         unknown = make_test_entity(

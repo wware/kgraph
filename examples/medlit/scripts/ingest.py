@@ -479,9 +479,8 @@ def _handle_keyboard_interrupt(lookup: CanonicalIdLookup | None) -> None:
 
     try:
         # Debug: show cache state
-        total_entries = len(lookup._cache)  # pylint: disable=protected-access
-        successful_entries = len([v for v in lookup._cache.values() if v != "NULL"])  # pylint: disable=protected-access
-        print(f"  Cache state: {total_entries} total entries, {successful_entries} successful lookups")
+        metrics = lookup._cache.get_metrics()  # pylint: disable=protected-access
+        print(f"  Cache state: {metrics['total_entries']} total entries, {metrics['hits']} hits, {metrics['misses']} misses")
 
         lookup._save_cache(force=True)  # pylint: disable=protected-access
         cache_path = lookup.cache_file.absolute()

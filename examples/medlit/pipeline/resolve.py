@@ -91,7 +91,7 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
 
             # Build canonical URLs from canonical IDs
             canonical_urls = build_canonical_urls_from_dict(canonical_ids, entity_type=entity_type)
-            metadata = {}
+            metadata: dict[str, str | dict[str, str]] = {}
             if canonical_urls:
                 # Store URLs in metadata - prefer primary canonical ID URL if available
                 metadata["canonical_urls"] = canonical_urls

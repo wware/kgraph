@@ -6,6 +6,9 @@ identifiers (UMLS, HGNC, RxNorm, UniProt) or meet usage/confidence thresholds.
 
 from typing import Optional
 
+from kgraph.canonical_helpers import check_entity_id_format, extract_canonical_id_from_entity
+from kgraph.canonical_id import CanonicalId
+from kgraph.canonical_lookup import CanonicalIdLookupInterface
 from kgraph.entity import BaseEntity, EntityStatus
 from kgraph.logging import setup_logging
 from kgraph.promotion import PromotionPolicy
@@ -28,16 +31,16 @@ class MedLitPromotionPolicy(PromotionPolicy):
     3. Otherwise, look up canonical ID from authority APIs (UMLS, HGNC, RxNorm, UniProt)
     """
 
-    def __init__(self, config, lookup: Optional[CanonicalIdLookup] = None):
+    def __init__(self, config, lookup: Optional[CanonicalIdLookupInterface] = None):
         """Initialize promotion policy.
 
         Args:
             config: Promotion configuration with thresholds.
             lookup: Optional canonical ID lookup service. If None, will create
-                    a new instance (without UMLS API key unless set in env).
+                    a new CanonicalIdLookup instance (without UMLS API key unless set in env).
         """
         super().__init__(config)
-        self.lookup = lookup or CanonicalIdLookup()
+        self.lookup: CanonicalIdLookupInterface = lookup or CanonicalIdLookup()
 
     def should_promote(self, entity: BaseEntity) -> bool:
         """Check if entity meets promotion thresholds.
@@ -109,14 +112,14 @@ class MedLitPromotionPolicy(PromotionPolicy):
 
         return result
 
-    async def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
+    async def assign_canonical_id(self, entity: BaseEntity) -> Optional[CanonicalId]:
         """Assign canonical ID for a provisional entity.
 
         Args:
             entity: The provisional entity to promote.
 
         Returns:
-            Canonical ID string if available, None otherwise.
+            CanonicalId if available, None otherwise.
         """
         logger = setup_logging()
 
@@ -132,205 +135,56 @@ class MedLitPromotionPolicy(PromotionPolicy):
 
         # Strategy 1: Check if entity already has canonical_ids with authoritative ID
         # Priority order: umls > hgnc > rxnorm > uniprot
-        if entity.canonical_ids:
-            logger.debug(
+        canonical_id = extract_canonical_id_from_entity(
+            entity,
+            priority_sources=["umls", "hgnc", "rxnorm", "uniprot"],
+        )
+        if canonical_id:
+            logger.info(
                 {
-                    "message": "Entity has canonical_ids dict",
-                    "canonical_ids": entity.canonical_ids,
+                    "message": f"Found canonical ID from entity.canonical_ids for {entity.name}: {canonical_id.id}",
+                    "entity": entity,
+                    "canonical_id": canonical_id.id,
                 },
                 pprint=True,
             )
-
-            # Check for UMLS (diseases, symptoms, procedures)
-            if "umls" in entity.canonical_ids:
-                canonical_id = entity.canonical_ids["umls"]
-                logger.info(
-                    {
-                        "message": f"Found UMLS canonical ID for {entity.name}: {canonical_id}",
-                        "entity": entity,
-                        "canonical_id": canonical_id,
-                        "source": "umls",
-                    },
-                    pprint=True,
-                )
-                return canonical_id
-
-            # Check for HGNC (genes)
-            if "hgnc" in entity.canonical_ids:
-                canonical_id = entity.canonical_ids["hgnc"]
-                logger.info(
-                    {
-                        "message": f"Found HGNC canonical ID for {entity.name}: {canonical_id}",
-                        "entity": entity,
-                        "canonical_id": canonical_id,
-                        "source": "hgnc",
-                    },
-                    pprint=True,
-                )
-                return canonical_id
-
-            # Check for RxNorm (drugs)
-            if "rxnorm" in entity.canonical_ids:
-                canonical_id = entity.canonical_ids["rxnorm"]
-                logger.info(
-                    {
-                        "message": f"Found RxNorm canonical ID for {entity.name}: {canonical_id}",
-                        "entity": entity,
-                        "canonical_id": canonical_id,
-                        "source": "rxnorm",
-                    },
-                    pprint=True,
-                )
-                return canonical_id
-
-            # Check for UniProt (proteins)
-            if "uniprot" in entity.canonical_ids:
-                canonical_id = entity.canonical_ids["uniprot"]
-                logger.info(
-                    {
-                        "message": f"Found UniProt canonical ID for {entity.name}: {canonical_id}",
-                        "entity": entity,
-                        "canonical_id": canonical_id,
-                        "source": "uniprot",
-                    },
-                    pprint=True,
-                )
-                return canonical_id
-
-            logger.debug(
-                {
-                    "message": "Entity has canonical_ids but none match authoritative sources (umls, hgnc, rxnorm, uniprot)",
-                    "canonical_ids": entity.canonical_ids,
-                },
-                pprint=True,
-            )
+            return canonical_id
 
         # Strategy 2: Check if entity_id is already in canonical format
-        entity_id = entity.entity_id
         entity_type = entity.get_entity_type()
-
-        logger.debug(
-            {
-                "message": f"Checking if entity_id '{entity_id}' is in canonical format for type '{entity_type}'",
-            },
-            pprint=True,
-        )
-
-        # UMLS format: C followed by digits (e.g., "C0006142")
-        if entity_id.startswith("C") and len(entity_id) > 1 and entity_id[1:].isdigit():
+        format_patterns = {
+            "disease": ("C",),  # UMLS
+            "symptom": ("C",),  # UMLS
+            "procedure": ("C",),  # UMLS
+            "gene": ("HGNC:", "numeric"),
+            "drug": ("RxNorm:", "numeric"),
+            "protein": ("UniProt:", "uniprot"),
+        }
+        canonical_id = check_entity_id_format(entity, format_patterns)
+        if canonical_id:
             logger.info(
                 {
-                    "message": f"Entity ID '{entity_id}' matches UMLS format for {entity.name}",
+                    "message": f"Found canonical ID from entity_id format for {entity.name}: {canonical_id.id}",
                     "entity": entity,
-                    "canonical_id": entity_id,
-                    "source": "umls_format",
-                },
-                pprint=True,
-            )
-            return entity_id
-
-        # HGNC format: "HGNC:XXXX" or just the number
-        if entity_id.startswith("HGNC:"):
-            logger.info(
-                {
-                    "message": f"Entity ID '{entity_id}' matches HGNC format for {entity.name}",
-                    "entity": entity,
-                    "canonical_id": entity_id,
-                    "source": "hgnc_format",
-                },
-                pprint=True,
-            )
-            return entity_id
-        # If it's just a number and entity type is gene, assume HGNC
-        if entity_type == "gene" and entity_id.isdigit():
-            canonical_id = f"HGNC:{entity_id}"
-            logger.info(
-                {
-                    "message": f"Entity ID '{entity_id}' inferred as HGNC for gene {entity.name}: {canonical_id}",
-                    "entity": entity,
-                    "canonical_id": canonical_id,
-                    "source": "hgnc_inferred",
+                    "canonical_id": canonical_id.id,
                 },
                 pprint=True,
             )
             return canonical_id
-
-        # RxNorm format: "RxNorm:XXXX" or just the number
-        if entity_id.startswith("RxNorm:"):
-            logger.info(
-                {
-                    "message": f"Entity ID '{entity_id}' matches RxNorm format for {entity.name}",
-                    "entity": entity,
-                    "canonical_id": entity_id,
-                    "source": "rxnorm_format",
-                },
-                pprint=True,
-            )
-            return entity_id
-        # If it's just a number and entity type is drug, assume RxNorm
-        if entity_type == "drug" and entity_id.isdigit():
-            canonical_id = f"RxNorm:{entity_id}"
-            logger.info(
-                {
-                    "message": f"Entity ID '{entity_id}' inferred as RxNorm for drug {entity.name}: {canonical_id}",
-                    "entity": entity,
-                    "canonical_id": canonical_id,
-                    "source": "rxnorm_inferred",
-                },
-                pprint=True,
-            )
-            return canonical_id
-
-        # UniProt format: "UniProt:P38398" or just "P38398"
-        if entity_id.startswith("UniProt:"):
-            logger.info(
-                {
-                    "message": f"Entity ID '{entity_id}' matches UniProt format for {entity.name}",
-                    "entity": entity,
-                    "canonical_id": entity_id,
-                    "source": "uniprot_format",
-                },
-                pprint=True,
-            )
-            return entity_id
-        # If it's just a UniProt ID without prefix (P/Q + 5 alphanumeric) and entity type is protein, add prefix
-        if entity_type == "protein" and (entity_id.startswith("P") or entity_id.startswith("Q")) and len(entity_id) == 6:
-            if entity_id[1:].isalnum():
-                canonical_id = f"UniProt:{entity_id}"
-                logger.info(
-                    {
-                        "message": f"Entity ID '{entity_id}' inferred as UniProt for protein {entity.name}: {canonical_id}",
-                        "entity": entity,
-                        "canonical_id": canonical_id,
-                        "source": "uniprot_inferred",
-                    },
-                    pprint=True,
-                )
-                return canonical_id
 
         # Strategy 3: Look up from authority APIs
-        # logger.debug(
-        #    {
-        #        "message": f"Attempting external lookup for canonical ID for {entity.name}",
-        #        "entity": entity,
-        #        "entity_id": entity_id,
-        #        "entity_type": entity_type,
-        #    },
-        #    pprint=True,
-        # )
-
-        lookup_result = await self.lookup.lookup_canonical_id(term=entity.name, entity_type=entity_type)
+        lookup_result = await self.lookup.lookup(term=entity.name, entity_type=entity_type)
 
         if lookup_result:
-            # logger.info(
-            #     {
-            #         "message": f"Found canonical ID via external lookup for {entity.name}: {lookup_result}",
-            #         "entity": entity,
-            #         "canonical_id": lookup_result,
-            #         "source": "external_api",
-            #     },
-            #     pprint=True,
-            # )
+            logger.info(
+                {
+                    "message": f"Found canonical ID via external lookup for {entity.name}: {lookup_result.id}",
+                    "entity": entity,
+                    "canonical_id": lookup_result.id,
+                    "source": "external_api",
+                },
+                pprint=True,
+            )
             return lookup_result
 
         # No canonical ID found via any strategy
@@ -338,7 +192,7 @@ class MedLitPromotionPolicy(PromotionPolicy):
             {
                 "message": f"Cannot assign canonical ID for {entity.name}",
                 "entity": entity,
-                "entity_id": entity_id,
+                "entity_id": entity.entity_id,
                 "entity_type": entity_type,
                 "reason": "No canonical_ids dict entry found, entity_id does not match any known format, and external lookup returned None",
             },

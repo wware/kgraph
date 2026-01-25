@@ -54,9 +54,11 @@ import numpy as np
 from pydantic import BaseModel, ConfigDict
 from sklearn.metrics.pairwise import cosine_similarity  # type: ignore
 
+from kgraph.canonical_id import CanonicalId
 from kgraph.domain import DomainSchema
 from kgraph.entity import BaseEntity, EntityStatus
 from kgraph.logging import setup_logging
+from kgraph.promotion import PromotionPolicy
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 from kgraph.pipeline.interfaces import (
     DocumentParserInterface,
@@ -472,6 +474,139 @@ class IngestionOrchestrator(BaseModel):
             errors=tuple(errors),
         )
 
+    async def _lookup_canonical_ids_batch(
+        self,
+        policy: PromotionPolicy,
+        candidates: list[BaseEntity],
+        logger: Any,
+    ) -> dict[str, CanonicalId | None]:
+        """Look up canonical IDs for all candidate entities in batches.
+
+        Args:
+            policy: The promotion policy to use for lookups
+            candidates: List of candidate entities
+            logger: Logger instance
+
+        Returns:
+            Dictionary mapping entity_id to CanonicalId or None
+        """
+        import asyncio
+
+        BATCH_SIZE = 15
+        entity_canonical_id_map: dict[str, CanonicalId | None] = {}
+
+        for i in range(0, len(candidates), BATCH_SIZE):
+            batch = candidates[i : i + BATCH_SIZE]
+            logger.debug(
+                {
+                    "message": f"Processing promotion batch {i // BATCH_SIZE + 1} ({len(batch)} entities)",
+                    "batch_start": i,
+                    "batch_end": min(i + BATCH_SIZE, len(candidates)),
+                },
+                pprint=True,
+            )
+
+            # Parallel lookup of canonical IDs
+            tasks = [policy.assign_canonical_id(entity) for entity in batch]
+            canonical_ids = await asyncio.gather(*tasks)
+
+            # Map results
+            for entity, canonical_id in zip(batch, canonical_ids):
+                entity_canonical_id_map[entity.entity_id] = canonical_id
+
+        return entity_canonical_id_map
+
+    async def _promote_single_entity(
+        self,
+        entity: BaseEntity,
+        entity_canonical_id_map: dict[str, CanonicalId | None],
+        policy: PromotionPolicy,
+        logger: Any,
+    ) -> BaseEntity | None | bool:
+        """Promote a single entity to canonical status.
+
+        Args:
+            entity: The entity to promote
+            entity_canonical_id_map: Map of entity_id to CanonicalId
+            policy: The promotion policy
+            logger: Logger instance
+
+        Returns:
+            BaseEntity if successfully promoted, None if no canonical ID found,
+            False if storage promotion failed
+        """
+        canonical_id_obj = entity_canonical_id_map.get(entity.entity_id)
+
+        # Force-promote: If canonical ID found, promote regardless of thresholds
+        if canonical_id_obj is None:
+            logger.debug(
+                {
+                    "message": f"Entity {entity.name} ({entity.entity_id}) cannot be assigned a canonical ID",
+                    "entity": entity,
+                },
+                pprint=True,
+            )
+            return None
+
+        # Extract canonical ID string for storage operations
+        canonical_id = canonical_id_obj.id
+
+        # Canonical ID found - check if this is a force-promote (thresholds not met)
+        force_promote = not policy.should_promote(entity)
+        if force_promote:
+            logger.info(
+                {
+                    "message": f"Force-promoting {entity.name} - canonical ID found ({canonical_id}) despite not meeting thresholds",
+                    "entity": entity,
+                    "canonical_id": canonical_id,
+                    "reason": "canonical_id_found",
+                },
+                pprint=True,
+            )
+
+        # Update entity in storage with new ID and status
+        new_canonical_ids = entity.canonical_ids.copy()
+        # Determine source key from canonical_id format
+        source_key = _determine_canonical_id_source(canonical_id)
+        new_canonical_ids[source_key] = canonical_id
+
+        promoted_entity = await self.entity_storage.promote(entity.entity_id, canonical_id, canonical_ids=new_canonical_ids)
+
+        if promoted_entity:
+            # Update metadata with URLs from CanonicalId object
+            if canonical_id_obj.url:
+                updated_metadata = promoted_entity.metadata.copy()
+                # Store primary URL from CanonicalId object
+                updated_metadata["canonical_url"] = canonical_id_obj.url
+                # Build canonical_urls dict from new_canonical_ids (for backward compatibility)
+                try:
+                    from examples.medlit.pipeline.canonical_urls import build_canonical_urls_from_dict
+
+                    entity_type = promoted_entity.get_entity_type()
+                    canonical_urls = build_canonical_urls_from_dict(new_canonical_ids, entity_type=entity_type)
+                    if canonical_urls:
+                        updated_metadata["canonical_urls"] = canonical_urls
+                except ImportError:
+                    # If canonical_urls module not available, just use the primary URL
+                    pass
+
+                # Update entity with new metadata
+                promoted_entity = promoted_entity.model_copy(update={"metadata": updated_metadata})
+                await self.entity_storage.update(promoted_entity)
+
+            # Update all relationships pointing to old ID
+            await self.relationship_storage.update_entity_references(entity.entity_id, canonical_id)
+            return promoted_entity
+        else:
+            logger.warning(
+                {
+                    "message": f"Storage promotion failed for {entity.name} ({entity.entity_id})",
+                    "entity": entity,
+                },
+                pprint=True,
+            )
+            return False
+
     async def run_promotion(self, lookup=None) -> list[BaseEntity]:
         """Promote eligible provisional entities to canonical status.
 
@@ -491,7 +626,6 @@ class IngestionOrchestrator(BaseModel):
         Returns:
             List of entities that were successfully promoted.
         """
-        import asyncio
 
         logger = setup_logging()
         logger.info("Starting entity promotion process")
@@ -532,28 +666,8 @@ class IngestionOrchestrator(BaseModel):
         else:
             logger.info(f"Looking up canonical IDs for {len(candidates)} candidate entities...")
 
-        # Step 1: Parallelize canonical ID lookups for all candidates (batch size 15)
-        BATCH_SIZE = 15
-        entity_canonical_id_map: dict[str, str | None] = {}
-
-        for i in range(0, len(candidates), BATCH_SIZE):
-            batch = candidates[i : i + BATCH_SIZE]
-            logger.debug(
-                {
-                    "message": f"Processing promotion batch {i // BATCH_SIZE + 1} ({len(batch)} entities)",
-                    "batch_start": i,
-                    "batch_end": min(i + BATCH_SIZE, len(candidates)),
-                },
-                pprint=True,
-            )
-
-            # Parallel lookup of canonical IDs
-            tasks = [policy.assign_canonical_id(entity) for entity in batch]
-            canonical_ids = await asyncio.gather(*tasks)
-
-            # Map results
-            for entity, canonical_id in zip(batch, canonical_ids):
-                entity_canonical_id_map[entity.entity_id] = canonical_id
+        # Step 1: Parallelize canonical ID lookups for all candidates
+        entity_canonical_id_map = await self._lookup_canonical_ids_batch(policy, candidates, logger)
 
         # Step 2: Process results and promote entities
         for entity in candidates:
@@ -565,94 +679,15 @@ class IngestionOrchestrator(BaseModel):
                 pprint=True,
             )
 
-            canonical_id = entity_canonical_id_map.get(entity.entity_id)
-
-            # Force-promote: If canonical ID found, promote regardless of thresholds
-            if canonical_id is None:
-                logger.debug(
-                    {
-                        "message": f"Entity {entity.name} ({entity.entity_id}) cannot be assigned a canonical ID",
-                        "entity": entity,
-                    },
-                    pprint=True,
-                )
+            result = await self._promote_single_entity(entity, entity_canonical_id_map, policy, logger)
+            if result is None:
                 skipped_no_canonical_id.append(entity)
-                continue
-
-            # Canonical ID found - check if this is a force-promote (thresholds not met)
-            force_promote = not policy.should_promote(entity)
-            if force_promote:
-                logger.info(
-                    {
-                        "message": f"Force-promoting {entity.name} - canonical ID found ({canonical_id}) despite not meeting thresholds",
-                        "entity": entity,
-                        "canonical_id": canonical_id,
-                        "reason": "canonical_id_found",
-                    },
-                    pprint=True,
-                )
-
-            # logger.info(
-            #    {
-            #        "message": f"Promoting entity {entity.name}: {entity.entity_id} → {canonical_id}",
-            #        "entity": entity,
-            #        "canonical_id": canonical_id,
-            #        "force_promote": force_promote,
-            #    },
-            #    pprint=True,
-            # )
-
-            # Update entity in storage with new ID and status
-            new_canonical_ids = entity.canonical_ids.copy()
-            # Determine source key from canonical_id format
-            source_key = _determine_canonical_id_source(canonical_id)
-            new_canonical_ids[source_key] = canonical_id
-
-            promoted_entity = await self.entity_storage.promote(entity.entity_id, canonical_id, canonical_ids=new_canonical_ids)
-
-            if promoted_entity:
-                # Build canonical URLs from canonical IDs and update entity metadata
-                try:
-                    from examples.medlit.pipeline.canonical_urls import build_canonical_url, build_canonical_urls_from_dict
-
-                    entity_type = promoted_entity.get_entity_type()
-                    canonical_urls = build_canonical_urls_from_dict(new_canonical_ids, entity_type=entity_type)
-
-                    if canonical_urls:
-                        # Update metadata with URLs
-                        updated_metadata = promoted_entity.metadata.copy()
-                        updated_metadata["canonical_urls"] = canonical_urls
-                        # Also store primary URL for convenience
-                        primary_url = build_canonical_url(canonical_id, entity_type=entity_type)
-                        if primary_url:
-                            updated_metadata["canonical_url"] = primary_url
-
-                        # Update entity with new metadata
-                        promoted_entity = promoted_entity.model_copy(update={"metadata": updated_metadata})
-                        await self.entity_storage.update(promoted_entity)
-                except ImportError:
-                    # If canonical_urls module not available (e.g., non-medlit domain), skip URL construction
-                    pass
-
-                # Update all relationships pointing to old ID
-                await self.relationship_storage.update_entity_references(entity.entity_id, canonical_id)
-                # logger.info(
-                #     {
-                #         "message": f"Successfully promoted {entity.name} to canonical status",
-                #         "promoted_entity": promoted_entity,
-                #     },
-                #     pprint=True,
-                # )
-                promoted.append(promoted_entity)
-            else:
-                logger.warning(
-                    {
-                        "message": f"Storage promotion failed for {entity.name} ({entity.entity_id})",
-                        "entity": entity,
-                    },
-                    pprint=True,
-                )
+            elif result is False:
                 skipped_storage_failure.append(entity)
+            else:
+                # Type narrowing: result must be BaseEntity here
+                assert isinstance(result, BaseEntity), "Expected BaseEntity when result is not None/False"
+                promoted.append(result)
 
         logger.info(
             f"Promotion complete: {len(promoted)} promoted, "

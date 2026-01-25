@@ -1,0 +1,92 @@
+00:00
+Generalizing the design for the? Ingestion process. As I've worked it out with the medical literature extension. Once, first, lay out some abstractions. One abstraction is the canonical ID class. And the idea here is that? We're given a term and we want to find its canonical ID. So, for instance.
+
+00:30
+If the term is breast cancer. Or p53. Then we have these authoritative sources. Like umls or mesh or? Hgnc. I think it is whatever the one for jeans. And we want to look up the official. Designator that they use, you know, like umls colon12345? Or whatever. And we also want to, if possible, find the URL that they would assign for that ID.
+
+01:11
+And we'd like to. If there isn't really a URL, we'd prefer to leave that blank or none. But it'd be nice if we can get it. Certainly, dbpdia will provide you a URLs for things. Um. So, the canonical ID class is going to be. It's going to contain the ID string.
+
+01:38
+The URL string, and then a list of strings for the different synonyms or nicknames. Whatever you want to call them, I would say synonyms. Um. The different synonyms that can be mapped to that ID. And I don't know if it makes sense to do that as a list or as a set or what, but?
+
+02:04
+Anyway, that's something that could be pretty easily put into one or two tables in postgres. So, that's one abstraction. Another abstraction is the. Oh, the sequence of events, so you know you do the entity extraction? Then you load the cash of canonical IDs. Ah, the cash of canonical IDs is another abstraction because you want to abstract how it's stored.
+
+02:38
+Right? You may want to store it as just a Json file, as I'm doing right now. Or you may want to store it in a database. Or who knows how, but? Let's think about that cash for a minute. So obviously load and save are a couple of operations. And that probably wants a string argument in both cases.
+
+03:09
+Um, except if it's if it's a database. I don't know about that. Maybe that maybe the string would be some kind of a tag in a database. That account could accommodate multiple. Things. And then. And then you want to be able to store a canonical ID in the cache.
+
+03:31
+You want to be able to fetch from the cash. You know, maybe you want to? Maybe you want to look at the metrics for cash hits and misses? Uh, you wanted to be performant because, hey, it's a cash, you know, that's its job, is to make performance better. And to avoid going out to the authorities when you don't have to.
+
+03:56
+Uh, then let's see, so that's the cash. And that becomes an ABC interface. Um, whereas the canonical idea is probably more like a pedantic model. Uh, then you have. Well, there's the whole. There's the hole ingestion process, right?
+
+04:20
+And that's going to consist of basically the stages we have, and so you know you something like your your first stage is scanning documents and and getting them into some form that they're usable. And then you have.
+
+04:44
+And you have these trucks entering the highway. Right, then you have. A stage where you're doing entity extraction. And. How that happens May involve a parser, it's you know? You want to leave room for that to be. However, the person needs to be able to do it. But it's likely to involve a parser if there wasn't a parser in the first stage.
+
+05:12
+Maybe the parts are in the first stage was sufficient for all the parsing needs? Oh, you know what? I think I'm gonna I'm gonna let people pass me, and then I'm going to yeah. You're gonna pass me, and then I'm gonna get over here. Okay, great.
+
+05:33
+Okay. All right, but then after entity extraction. Now, you want promotion, right? Because every, all your all? All of your entities at that point are provisional right, and now you want canonical entities where you can. And you may be able to just look them up in an existing cash.
+
+05:55
+And they just become canonical automatically. And that's great. Or, you may find one that you don't have a provisional for. Now, you could have something you could have something in the cash, where it says, you know, what. We tried looking this up. It's futile. Don't try looking it up because you'll just fail.
+
+06:18
+So? You know, kind of a known, bad sort of thing. Um, or it may just be that it's absent from the cash, like we've never tried with this particular Search term. Um. Right. So, step three promotion. Is? Load the cash from storage. However, it's stored. And then perform the promotion.
+
+06:49
+You know, and at that point you should have mentioned counts or usage counts, and you should also have. Some kind of confidence level that came from the parsing of the documents.
+
+07:05
+Not clear what that would mean actually, exactly. But anyway, so you have promotion, right? So promotion is going to turn some fraction of your. Of your entities from provisional to canonical. And then you, you know, that that in that process, they're stored in the cache? And then you save the cash back to memory.
+
+07:31
+Um. And then you proceed on to extract relationships, because now you've got. Now you have the best possible entities that you can get right you've. You've canonicalized every entity, you know, how to? And now you can. Parse for! Relationships. And.
+
+08:01
+You know, I don't know if it makes sense to canonicalize relationships.
+
+08:10
+Well, okay, so yeah, so there are the ones that you recognize because, like. X treats y or X is a symptom of Y or X causes y or X down regulates y. You know, those are all recognized relationships, so? In that sense, those are already canonical. And then you might have something.
+
+08:35
+It's like, well, I can tell by the grammar that this is something. Some verb something else, right? But I'm not sure what that some verb means, right? And I'd call that a provisional relationship, and in that case. Okay, now we get over here because we're gonna head north at the next exit.
+
+08:56
+So? Yeah, so. So, that's a sense in which you could have provisional and canonical relationships. Or, you could just say, you know, what? I'm only going to think about the relationships I expect to see. Or maybe okay. This is a thing that looks like it might be a relationship, but.
+
+09:22
+We're going to throw it into the big grab bag of things for human review. Right, we're not sure what happened here. We can tell you what paper it was in, what section, what paragraph? But we don't know exactly what this means, and some domain experts should look at this and decide.
+
+09:42
+Gee, should we be using this as one of our? Should we make this one of our recognized relationships?
+
+09:54
+So? Yeah, there's a whole idea of a human review bucket. And what that ought to look like? Um. And then what, then, what? Uh, let's see, so? Yeah, so anyway, I was saying this is the process, right? Right now, the process is implemented and roughly this form for medical literature.
+
+10:22
+But it's not that way yet. For the Sherlock example. And it's certainly not happening in the. In K graph proper, it's happening in the extension and only in the extension right now. So, I want to add whatever. Abstractions or interfaces. I'm going to need so that I can make that something that anybody can do because I think that's a really good pattern.
+
+10:46
+I think that's probably. Usually going to be the right way to do it.
+
+10:54
+And. So, I want to support making that available. For. Any knowledge domain or any extension? 
+
+12:01
+So, I just want to think about what are the set of? Abstractions or interfaces. That would make that something that could be easily shared.
+
+12:15
+And a lot of those are in place already. But that could be a discussion to have with the language model.
+
+12:25
+All right. And for now, I'm going to stop this.

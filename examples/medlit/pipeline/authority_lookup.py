@@ -6,7 +6,6 @@ sources: UMLS, HGNC, RxNorm, and UniProt.
 Features persistent caching to avoid repeated API calls across runs.
 """
 
-import json
 import os
 from pathlib import Path
 from typing import Optional
@@ -16,13 +15,18 @@ try:
 except ImportError:
     httpx = None  # type: ignore[assignment, misc]
 
+from kgraph.canonical_cache_json import JsonFileCanonicalIdCache
+from kgraph.canonical_id import CanonicalId
+from kgraph.canonical_lookup import CanonicalIdLookupInterface
 from kgraph.logging import setup_logging
+
+from .canonical_urls import build_canonical_url
 
 # Module-level logger for sync methods
 logger = setup_logging()
 
 
-class CanonicalIdLookup:
+class CanonicalIdLookup(CanonicalIdLookupInterface):
     """Look up canonical IDs from various medical ontology authorities.
 
     Supports lookup from:
@@ -45,109 +49,41 @@ class CanonicalIdLookup:
             umls_api_key: Optional UMLS API key. If not provided, will try to
                          read from UMLS_API_KEY environment variable.
             cache_file: Optional path to cache file. If not provided, defaults
-                       to "authority_lookup_cache.json" in current directory.
+                       to "canonical_id_cache.json" in current directory.
         """
         if httpx is None:
             raise ImportError("httpx is required for authority lookup. Install with: uv add httpx")
 
         self.client = httpx.AsyncClient(timeout=10.0)
         self.umls_api_key = umls_api_key or os.getenv("UMLS_API_KEY")
-        self.cache_file = cache_file or Path("authority_lookup_cache.json")
-        self._cache: dict[str, str] = {}
-        self._cache_dirty = False
-        self._load_cache()
-
-    def _load_cache(self) -> None:
-        """Load cache from disk if it exists."""
-        if self.cache_file.exists():
-            try:
-                with open(self.cache_file, "r") as f:
-                    self._cache = json.load(f)
-                logger = setup_logging()
-                logger.debug(
-                    {
-                        "message": f"Loaded {len(self._cache)} cached lookups from {self.cache_file}",
-                        "cache_file": str(self.cache_file),
-                        "cache_size": len(self._cache),
-                    },
-                    pprint=True,
-                )
-            except Exception as e:
-                logger = setup_logging()
-                logger.warning(
-                    {
-                        "message": f"Failed to load cache from {self.cache_file}",
-                        "cache_file": str(self.cache_file),
-                        "error": str(e),
-                    },
-                    pprint=True,
-                )
-                self._cache = {}
+        self.cache_file = cache_file or Path("canonical_id_cache.json")
+        self._cache = JsonFileCanonicalIdCache(cache_file=self.cache_file)
+        self._cache.load(str(self.cache_file))
+        self._lookup_count = 0  # Track lookups for periodic saves
 
     def _save_cache(self, force: bool = False) -> None:
         """Save cache to disk.
 
-        Only saves successful lookups - NULLs are kept in memory only.
-        This allows new lookup improvements to benefit all terms on next run.
-
         Args:
             force: If True, save even if cache is not marked dirty (for emergency saves).
         """
-        if not force and not self._cache_dirty:
-            return
+        self._cache.save(str(self.cache_file))
 
-        try:
-            # Filter out NULLs - only persist successful lookups
-            persistent_cache = {k: v for k, v in self._cache.items() if v != "NULL"}
+    async def lookup(self, term: str, entity_type: str) -> Optional[CanonicalId]:
+        """Look up canonical ID for a medical term (interface method).
 
-            # Ensure parent directory exists
-            self.cache_file.parent.mkdir(parents=True, exist_ok=True)
+        Args:
+            term: The entity name/mention text
+            entity_type: Type of entity (disease, gene, drug, protein, etc.)
 
-            # Write cache file directly (with explicit flush/fsync for reliability)
-            import os
-
-            # Always write file, even if empty (so we know save was attempted)
-            with open(self.cache_file, "w") as f:
-                json.dump(persistent_cache, f, indent=2)
-                f.flush()  # Flush Python buffer
-                os.fsync(f.fileno())  # Force OS to write to disk
-
-            # Verify file was actually created and has content
-            if not self.cache_file.exists():
-                raise RuntimeError(f"Cache file was not created at {self.cache_file.absolute()}")
-
-            file_size = self.cache_file.stat().st_size
-            if file_size == 0 and len(persistent_cache) > 0:
-                raise RuntimeError(f"Cache file is empty but should have {len(persistent_cache)} entries")
-
-            self._cache_dirty = False
-            logger = setup_logging()
-            log_level = "info" if force else "debug"
-            getattr(logger, log_level)(
-                {
-                    "message": f"Saved {len(persistent_cache)} cached lookups to {self.cache_file} (filtered {len(self._cache) - len(persistent_cache)} NULLs)",
-                    "cache_file": str(self.cache_file.absolute()),
-                    "persistent_count": len(persistent_cache),
-                    "total_cache_size": len(self._cache),
-                    "memory_only_nulls": len(self._cache) - len(persistent_cache),
-                    "force": force,
-                    "file_exists": self.cache_file.exists(),
-                    "file_size": self.cache_file.stat().st_size if self.cache_file.exists() else 0,
-                },
-                pprint=True,
-            )
-        except Exception as e:
-            logger = setup_logging()
-            logger.error(
-                {
-                    "message": f"Failed to save cache to {self.cache_file}",
-                    "cache_file": str(self.cache_file.absolute()),
-                    "error": str(e),
-                    "error_type": type(e).__name__,
-                },
-                pprint=True,
-            )
-            # Don't raise - let caller handle if needed
+        Returns:
+            CanonicalId if found, None otherwise
+        """
+        canonical_id_str = await self.lookup_canonical_id(term, entity_type)
+        if canonical_id_str:
+            url = build_canonical_url(canonical_id_str, entity_type=entity_type)
+            return CanonicalId(id=canonical_id_str, url=url, synonyms=(term,))
+        return None
 
     async def lookup_canonical_id(self, term: str, entity_type: str) -> Optional[str]:
         """Look up canonical ID for a medical term.
@@ -161,71 +97,73 @@ class CanonicalIdLookup:
         """
         logger = setup_logging()
 
-        # Normalize cache key (lowercase both entity_type and term, strip whitespace)
-        entity_type_normalized = entity_type.lower().strip()
-        term_normalized = term.lower().strip()
-        cache_key = f"{entity_type_normalized}:{term_normalized}"
-
         # Check cache first
-        if cache_key in self._cache:
-            cached_value = self._cache[cache_key]
-            # Handle cached None values (stored as "NULL" string for JSON compatibility)
-            result = None if cached_value == "NULL" else cached_value
+        cached = self._cache.fetch(term, entity_type)
+        if cached is not None:
             logger.debug(
                 {
                     "message": f"Cache hit for {term} ({entity_type})",
-                    "cache_key": cache_key,
-                    "cached_id": result,
+                    "cached_id": cached.id,
                 },
                 pprint=True,
             )
-            return result
+            return cached.id
+
+        # Check if known bad
+        if self._cache.is_known_bad(term, entity_type):
+            logger.debug(
+                {
+                    "message": f"Known bad entry for '{term}' ({entity_type}), skipping lookup",
+                    "term": term,
+                    "entity_type": entity_type,
+                },
+                pprint=True,
+            )
+            return None
 
         logger.debug(
             {
                 "message": f"Cache miss for '{term}' (type: {entity_type}), looking up",
                 "term": term,
                 "entity_type": entity_type,
-                "cache_key": cache_key,
             },
             pprint=True,
         )
 
         # Route to appropriate authority based on entity type
-        canonical_id: Optional[str] = None
+        canonical_id_str: Optional[str] = None
 
         if entity_type in ("disease", "symptom", "procedure"):
-            canonical_id = await self._lookup_umls(term)
+            canonical_id_str = await self._lookup_umls(term)
         elif entity_type == "gene":
-            canonical_id = await self._lookup_hgnc(term)
+            canonical_id_str = await self._lookup_hgnc(term)
         elif entity_type == "drug":
-            canonical_id = await self._lookup_rxnorm(term)
+            canonical_id_str = await self._lookup_rxnorm(term)
         elif entity_type == "protein":
-            canonical_id = await self._lookup_uniprot(term)
+            canonical_id_str = await self._lookup_uniprot(term)
 
         # Fallback to DBPedia for any entity type if specialized lookup failed
-        if canonical_id is None:
-            canonical_id = await self._lookup_dbpedia(term)
+        if canonical_id_str is None:
+            canonical_id_str = await self._lookup_dbpedia(term)
 
-        # Cache result (store "NULL" for None to distinguish from "not yet looked up" in JSON)
-        self._cache[cache_key] = "NULL" if canonical_id is None else canonical_id
-        self._cache_dirty = True
-
-        # Periodically save cache (every 100 new entries to avoid losing work)
-        if len(self._cache) % 100 == 0:
-            self._save_cache()
-
-        if canonical_id:
+        # Build CanonicalId object with URL
+        if canonical_id_str:
+            url = build_canonical_url(canonical_id_str, entity_type=entity_type)
+            canonical_id = CanonicalId(id=canonical_id_str, url=url, synonyms=(term,))
+            self._cache.store(term, entity_type, canonical_id)
             logger.info(
                 {
-                    "message": f"Found canonical ID for '{term}': {canonical_id}",
+                    "message": f"Found canonical ID for '{term}': {canonical_id_str}",
                     "term": term,
                     "entity_type": entity_type,
-                    "canonical_id": canonical_id,
+                    "canonical_id": canonical_id_str,
+                    "url": url,
                 },
                 pprint=True,
             )
         else:
+            # Mark as known bad
+            self._cache.mark_known_bad(term, entity_type)
             logger.debug(
                 {
                     "message": f"No canonical ID found for '{term}' (type: {entity_type})",
@@ -235,7 +173,12 @@ class CanonicalIdLookup:
                 pprint=True,
             )
 
-        return canonical_id
+        # Periodically save cache (every 100 new entries to avoid losing work)
+        self._lookup_count += 1
+        if self._lookup_count % 100 == 0:
+            self._save_cache()
+
+        return canonical_id_str
 
     async def _lookup_umls(self, term: str) -> Optional[str]:
         """Look up UMLS CUI for a disease/symptom term.
@@ -519,6 +462,22 @@ class CanonicalIdLookup:
             )
             return None
 
+    def lookup_sync(self, term: str, entity_type: str) -> Optional[CanonicalId]:
+        """Synchronous lookup (interface method).
+
+        Args:
+            term: The entity name/mention text
+            entity_type: Type of entity (disease, gene, drug, protein, etc.)
+
+        Returns:
+            CanonicalId if found, None otherwise
+        """
+        canonical_id_str = self.lookup_canonical_id_sync(term, entity_type)
+        if canonical_id_str:
+            url = build_canonical_url(canonical_id_str, entity_type=entity_type)
+            return CanonicalId(id=canonical_id_str, url=url, synonyms=(term,))
+        return None
+
     def lookup_canonical_id_sync(self, term: str, entity_type: str) -> Optional[str]:
         """Synchronous wrapper for use as Ollama tool.
 
@@ -539,24 +498,22 @@ class CanonicalIdLookup:
         entity_type_normalized = entity_type.lower()
 
         # Check cache first (this is synchronous)
-        # NULLs are memory-only (not persisted), so any NULL here is from this run
-        cache_key = f"{entity_type_normalized}:{term_normalized}"
-        if cache_key in self._cache:
-            cached = self._cache[cache_key]
-            if cached == "NULL":
-                # Memory-only NULL from this run - don't re-query
-                return None
+        cached = self._cache.fetch(term, entity_type)
+        if cached is not None:
             logger.debug(
                 {
                     "message": f"Sync cache hit for '{term}' ({entity_type})",
                     "term": term,
                     "entity_type": entity_type,
-                    "cache_key": cache_key,
-                    "result": cached,
+                    "result": cached.id,
                 },
                 pprint=True,
             )
-            return cached
+            return cached.id
+
+        # Check if known bad
+        if self._cache.is_known_bad(term, entity_type):
+            return None
 
         # Cache miss - make synchronous HTTP request
         logger.debug(
@@ -564,50 +521,44 @@ class CanonicalIdLookup:
                 "message": f"Sync cache miss, making HTTP request for '{term}' ({entity_type})",
                 "term": term,
                 "entity_type": entity_type,
-                "cache_key": cache_key,
             },
             pprint=True,
         )
 
         try:
-            canonical_id: Optional[str] = None
+            canonical_id_str: Optional[str] = None
 
             with httpx_sync.Client(timeout=10.0) as sync_client:
                 if entity_type_normalized in ("disease", "symptom", "procedure"):
-                    canonical_id = self._lookup_umls_sync(sync_client, term)
+                    canonical_id_str = self._lookup_umls_sync(sync_client, term)
                 elif entity_type_normalized == "gene":
-                    canonical_id = self._lookup_hgnc_sync(sync_client, term)
+                    canonical_id_str = self._lookup_hgnc_sync(sync_client, term)
                 elif entity_type_normalized == "drug":
-                    canonical_id = self._lookup_rxnorm_sync(sync_client, term)
+                    canonical_id_str = self._lookup_rxnorm_sync(sync_client, term)
                 elif entity_type_normalized == "protein":
-                    canonical_id = self._lookup_uniprot_sync(sync_client, term)
+                    canonical_id_str = self._lookup_uniprot_sync(sync_client, term)
 
                 # Fallback to DBPedia if specialized lookup failed
-                if canonical_id is None:
-                    canonical_id = self._lookup_dbpedia_sync(sync_client, term)
+                if canonical_id_str is None:
+                    canonical_id_str = self._lookup_dbpedia_sync(sync_client, term)
 
-            # Cache the result
-            self._cache[cache_key] = canonical_id if canonical_id else "NULL"
-            self._cache_dirty = True
+            # Build CanonicalId object with URL and cache it
+            if canonical_id_str:
+                url = build_canonical_url(canonical_id_str, entity_type=entity_type)
+                canonical_id = CanonicalId(id=canonical_id_str, url=url, synonyms=(term,))
+                self._cache.store(term, entity_type, canonical_id)
+            else:
+                # Mark as known bad
+                self._cache.mark_known_bad(term, entity_type)
+
             self._save_cache()
-
-            # if canonical_id:
-            #     logger.info(
-            #         {
-            #             "message": f"Found canonical ID for '{term}': {canonical_id}",
-            #             "term": term,
-            #             "entity_type": entity_type,
-            #             "canonical_id": canonical_id,
-            #         },
-            #         pprint=True,
-            #     )
 
             # Sanity check: common terms should always resolve
             # This helps catch lookup bugs early
             if term_normalized == "breast cancer" and entity_type_normalized == "disease":
-                assert canonical_id is not None, "'breast cancer' should always get a MeSH ID! " "Got None. Check MeSH API or normalization logic."
+                assert canonical_id_str is not None, "'breast cancer' should always get a MeSH ID! " "Got None. Check MeSH API or normalization logic."
 
-            return canonical_id
+            return canonical_id_str
 
         except Exception as e:
             logger.warning(
@@ -786,7 +737,7 @@ class CanonicalIdLookup:
 
     async def close(self) -> None:
         """Close the HTTP client and save cache."""
-        self._save_cache()
+        self._save_cache(force=True)
         await self.client.aclose()
 
     async def __aenter__(self):

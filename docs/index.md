@@ -72,6 +72,7 @@ class MedicalDomain(DomainSchema):
 
 - [Architecture Overview](architecture.md)
 - [Implementing a Domain](domains.md)
+- [Canonical IDs](canonical_ids.md)
 - [Storage Backends](storage.md)
 - [Pipeline Components](pipeline.md)
 - [API Reference](api.md)

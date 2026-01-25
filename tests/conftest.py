@@ -14,14 +14,14 @@ square brackets in document text (e.g., "[aspirin]" becomes an entity).
 
 import uuid
 from datetime import datetime, timezone
-from typing import Sequence, Optional
+from typing import Optional, Sequence
 
 import pytest
 
+from kgraph.canonical_id import CanonicalId
 from kgraph.document import BaseDocument
 from kgraph.domain import DomainSchema
 from kgraph.entity import BaseEntity, EntityMention, EntityStatus, PromotionConfig
-from kgraph.promotion import PromotionPolicy
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 from kgraph.pipeline.interfaces import (
     DocumentParserInterface,
@@ -29,6 +29,7 @@ from kgraph.pipeline.interfaces import (
     EntityResolverInterface,
     RelationshipExtractorInterface,
 )
+from kgraph.promotion import PromotionPolicy
 from kgraph.relationship import BaseRelationship
 from kgraph.storage.interfaces import EntityStorageInterface
 from kgraph.storage.memory import (
@@ -91,8 +92,9 @@ class SimpleDocument(BaseDocument):
 
 
 class SimplePromotionPolicy(PromotionPolicy):
-    async def assign_canonical_id(self, entity: BaseEntity) -> Optional[str]:
-        return f"canonical-{type(entity)}-{id(entity)}"
+    async def assign_canonical_id(self, entity: BaseEntity) -> Optional[CanonicalId]:
+        canonical_id_str = f"canonical-{type(entity)}-{id(entity)}"
+        return CanonicalId(id=canonical_id_str, url=None, synonyms=())
 
 
 class SimpleDomainSchema(DomainSchema):
