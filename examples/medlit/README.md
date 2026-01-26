@@ -30,6 +30,8 @@ This package provides a kgraph domain extension for extracting knowledge from bi
 - **DrugEntity**: Uses RxNorm IDs (e.g., `RxNorm:1187832`)
 - **ProteinEntity**: Uses UniProt IDs (e.g., `P38398`)
 - **SymptomEntity**, **ProcedureEntity**, **BiomarkerEntity**, **PathwayEntity**
+- **LocationEntity**: Geographic locations for epidemiological analysis (uses provisional IDs)
+- **EthnicityEntity**: Ethnic/population groups for health disparities research (uses provisional IDs)
 
 ### Relationships
 
@@ -130,23 +132,44 @@ with open("paper.json", "rb") as f:
 
 ### Basic Ingestion
 
-Process Paper JSON files and generate a bundle:
+Process Paper JSON/XML files and generate a bundle:
 
 ```bash
 cd /path/to/kgraph
 uv run python -m examples.medlit.scripts.ingest \
-    --input-dir /path/to/json_papers \
+    --input-dir /path/to/papers \
     --output-dir medlit_bundle \
+    --use-ollama \
     --limit 10  # Optional: limit number of papers for testing
 ```
 
-### Processing All Papers
+### Processing with Parallel Extraction
+
+Use multiple workers for faster processing:
 
 ```bash
 uv run python -m examples.medlit.scripts.ingest \
-    --input-dir /home/wware/med-lit-schema/output/json_papers \
-    --output-dir medlit_bundle
+    --input-dir /path/to/papers \
+    --output-dir medlit_bundle \
+    --use-ollama \
+    --workers 3 \
+    --progress-interval 15
 ```
+
+### CLI Options
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--input-dir` | (required) | Directory containing Paper JSON/XML files |
+| `--output-dir` | `medlit_bundle` | Output directory for the bundle |
+| `--use-ollama` | `false` | Use Ollama LLM for entity/relationship extraction |
+| `--ollama-model` | `llama3.1:8b` | Ollama model name |
+| `--ollama-host` | `localhost:11434` | Ollama server URL |
+| `--ollama-timeout` | `300` | Timeout in seconds for Ollama requests |
+| `--workers` | `1` | Number of parallel workers for extraction |
+| `--progress-interval` | `30` | Progress report interval in seconds |
+| `--limit` | (none) | Limit number of papers to process |
+| `--cache-file` | (auto) | Path to canonical ID lookup cache file |
 
 This will:
 1. Process all Paper JSON files in the input directory
@@ -160,63 +183,60 @@ This will:
 
 ## Resource Requirements
 
-### Current Implementation (No External Resources)
+### Current Implementation (Ollama LLM)
 
-The current implementation uses **stub implementations** that require **no external resources**:
+The current implementation uses **Ollama** for LLM-based extraction:
 
-- **Embeddings**: `SimpleMedLitEmbeddingGenerator` uses hash-based embeddings (deterministic, no API calls)
-- **Entity Extraction**: Uses pre-extracted entities from Paper JSON (no NER models needed)
-- **Relationship Extraction**: Uses pre-extracted relationships from Paper JSON (no LLMs needed)
+- **Entity Extraction**: LLM-based NER with type normalization and validation
+- **Relationship Extraction**: LLM-based with semantic validation (prevents contradictory predicates)
+- **Embeddings**: Ollama embeddings for entity similarity and merge detection
+- **Canonical ID Lookup**: External API calls to UMLS, UniProt, HGNC, DBPedia (with caching)
 
-This allows the pipeline to run **completely offline** with no external dependencies, making it ideal for:
-- Development and testing
-- Processing pre-extracted data
-- Environments without network access
-- Quick iteration without API costs
+Requirements:
+- **Ollama** running locally (default: `http://localhost:11434`)
+- Recommended model: `llama3.1:8b` or larger
+- Network access for canonical ID lookups (cached to reduce API calls)
 
-### Production Enhancements (Future Work)
+### Extraction Features
 
-The architecture is designed to support swapping components for production use. Future enhancements could include:
+1. **Entity Type Normalization**:
+   - Handles LLM mistakes (`"test"` → `"procedure"`, `"marker"` → `"biomarker"`)
+   - Handles pipe-separated types (`"drug|protein"` → `"drug"`)
+   - Validates against domain schema
 
-1. **Embedding Generators**:
-   - BioBERT embeddings (biomedical domain-specific)
-   - scispaCy embeddings
-   - OpenAI/Anthropic embeddings
-   - Ollama embeddings (local GPU-accelerated)
-   - Sentence Transformers models
+2. **Relationship Validation**:
+   - Semantic validation prevents contradictory predicates
+   - Evidence-based filtering (e.g., rejects "treats" with only negative evidence)
 
-2. **Entity Extraction**:
-   - NER models (BioBERT, scispaCy) for extracting entities from raw text
-   - Entity linking to UMLS, HGNC, RxNorm, UniProt
+3. **Parallel Processing**:
+   - `--workers N` for concurrent extraction
+   - Progress reporting with rate estimates
 
-3. **Relationship Extraction**:
-   - LLM-based extraction (Ollama, OpenAI, Anthropic)
-   - Pattern matching for common medical predicates
-   - Hybrid approaches (patterns + LLM)
+4. **Bundle Version Tracking**:
+   - Git commit hash included in bundle manifest for reproducibility
 
-4. **Factory Functions**:
-   - `create_embedding_generator(provider, ...)` for easy component swapping
-   - `create_llm_client(provider, ...)` for LLM-based extraction
-   - CLI flags to choose providers with graceful fallback to stubs
+## Completed Features
 
-**Note**: These enhancements would be implemented as optional components that can be swapped into `build_orchestrator()` without changing the core architecture. See `med-lit-schema/medlit_kgraph/pipeline/` for reference implementations.
+- ✅ **LLM-based Entity Extraction**: Extracts entities from raw text using Ollama
+- ✅ **LLM-based Relationship Extraction**: Extracts relationships with semantic validation
+- ✅ **Entity Type Normalization**: Handles LLM mistakes and validates against schema
+- ✅ **Parallel Processing**: `--workers` flag for concurrent extraction
+- ✅ **Progress Reporting**: Real-time progress with rate estimates
+- ✅ **Canonical ID Lookup**: UMLS, UniProt, HGNC, DBPedia with caching
+- ✅ **Location/Ethnicity Entities**: Epidemiological entity types
+- ✅ **Bundle Version Tracking**: Git hash in manifest for reproducibility
+- ✅ **Unit Tests**: Tests for normalization, progress tracking, git hash
 
 ## Next Steps
 
-1. **Entity/Relationship Extraction**: The current pipeline works with pre-extracted entities/relationships from Paper JSON. To extract from raw text:
-   - Integrate NER models (BioBERT, scispaCy) into `MedLitEntityExtractor`
-   - Integrate relationship extraction (LLM, pattern matching) into `MedLitRelationshipExtractor`
+1. **PMC XML parser**: Improve PMC XML parsing for complex article structures
 
-2. **PMC XML parser**: Port med-lit-schema's PMC XML parsing logic to `JournalArticleParser`
+2. **Integration**: Test end-to-end ingestion → export → kgserver loading
 
-3. **Tests**: Add unit tests for domain components
-
-4. **Integration**: Test end-to-end ingestion → export → kgserver loading
-
-5. **Enhancements**:
-   - Better entity resolution (embedding similarity, external authority lookup)
-   - Biomedical embedding models (BioBERT, etc.)
-   - Relationship extraction from text (currently uses pre-extracted relationships)
+3. **Enhancements**:
+   - Biomedical embedding models (BioBERT, PubMedBERT)
+   - Better entity resolution (embedding similarity thresholds)
+   - Canonical IDs for location/ethnicity (GeoNames, ISO codes)
 
 ## References
 

@@ -37,54 +37,88 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
 
     def _validate_predicate_semantics(self, predicate: str, evidence: str) -> bool:
         """Validate that predicate semantics match the evidence text.
-        
+
         Checks for semantic mismatches like:
         - "increases_risk" with positive therapeutic language
         - "treats" with negative/harmful language
-        
+
         Args:
             predicate: The relationship predicate (e.g., "treats", "increases_risk")
             evidence: The evidence text supporting the relationship
-            
+
         Returns:
             True if predicate matches evidence semantics, False if there's a mismatch.
         """
         if not evidence:
             return True  # No evidence to validate against
-        
+
         evidence_lower = evidence.lower()
-        
+
         # Positive therapeutic language
         positive_words = {
-            "therapy", "therapeutic", "treatment", "treats", "treating",
-            "beneficial", "benefit", "improves", "improvement", "reduces",
-            "reduction", "relieves", "relief", "effective", "efficacy",
-            "efficacious", "cures", "curing", "heals", "healing",
-            "complementary therapy", "potential", "promising"
+            "therapy",
+            "therapeutic",
+            "treatment",
+            "treats",
+            "treating",
+            "beneficial",
+            "benefit",
+            "improves",
+            "improvement",
+            "reduces",
+            "reduction",
+            "relieves",
+            "relief",
+            "effective",
+            "efficacy",
+            "efficacious",
+            "cures",
+            "curing",
+            "heals",
+            "healing",
+            "complementary therapy",
+            "potential",
+            "promising",
         }
-        
+
         # Negative/harmful language
         negative_words = {
-            "risk", "risks", "increases risk", "raises risk", "elevates risk",
-            "causes", "causing", "harmful", "harm", "worsens", "worsening",
-            "adverse", "adversely", "damages", "damage", "detrimental",
-            "predisposes", "predisposition", "leads to", "results in"
+            "risk",
+            "risks",
+            "increases risk",
+            "raises risk",
+            "elevates risk",
+            "causes",
+            "causing",
+            "harmful",
+            "harm",
+            "worsens",
+            "worsening",
+            "adverse",
+            "adversely",
+            "damages",
+            "damage",
+            "detrimental",
+            "predisposes",
+            "predisposition",
+            "leads to",
+            "results in",
         }
-        
+
         has_positive = any(word in evidence_lower for word in positive_words)
         has_negative = any(word in evidence_lower for word in negative_words)
-        
+
         # Check for semantic mismatches
         if predicate == "increases_risk":
             # "increases_risk" should have negative language, not positive
             if has_positive and not has_negative:
                 return False  # Evidence is positive but predicate is negative
-                
+
         elif predicate == "treats":
             # "treats" should have positive language, not negative
             if has_negative and not has_positive:
                 return False  # Evidence is negative but predicate is positive
-                
+
         # Other predicates are less strict, but we can add more checks if needed
         return True
 
@@ -207,7 +241,7 @@ Predicate definitions (CRITICAL - use the correct predicate based on evidence me
 - diagnosed_by: Disease is identified using a test/procedure/biomarker
 - indicates: Sign/symptom/test result suggests presence of disease
 
-IMPORTANT: 
+IMPORTANT:
 - "treats" and "increases_risk" are OPPOSITE in meaning
 - If evidence mentions "therapy", "therapeutic", "beneficial", "reduces", "improves" → use "treats" NOT "increases_risk"
 - If evidence mentions "risk", "causes", "harmful", "worsens" → use "increases_risk" NOT "treats"
@@ -251,12 +285,9 @@ Return ONLY the JSON array, no explanation."""
                         if subject_entity and object_entity:
                             # Validate predicate semantics match evidence
                             if not self._validate_predicate_semantics(predicate, evidence):
-                                print(
-                                    f"  Warning: Semantic mismatch - predicate '{predicate}' "
-                                    f"does not match evidence: {evidence[:100]}..."
-                                )
+                                print(f"  Warning: Semantic mismatch - predicate '{predicate}' " f"does not match evidence: {evidence[:100]}...")
                                 continue  # Skip this relationship
-                            
+
                             rel = MedicalClaimRelationship(
                                 subject_id=subject_entity.entity_id,
                                 predicate=predicate,

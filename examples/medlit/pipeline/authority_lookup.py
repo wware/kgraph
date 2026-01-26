@@ -282,7 +282,7 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
         # Score all results together, considering all search terms
         return self._extract_mesh_id_from_results(all_results, search_terms)
 
-    def _extract_mesh_id_from_results(self, data: list, search_terms: str | list[str]) -> Optional[str]:
+    def _extract_mesh_id_from_results(self, data: list, search_terms: str | list[str]) -> Optional[str]:  # pylint: disable=too-many-statements
         """Extract MeSH descriptor ID from API results, preferring best matches.
 
         Scores results based on how well they match any of the provided search terms.
@@ -726,7 +726,7 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
             )
             return None
 
-    async def _extract_authoritative_id_from_dbpedia(self, dbpedia_id: str, entity_type: str, original_term: str) -> Optional[str]:
+    async def _extract_authoritative_id_from_dbpedia(self, dbpedia_id: str, entity_type: str, original_term: str) -> Optional[str]:  # pylint: disable=too-many-statements
         """Extract authoritative ID from DBPedia resource properties.
 
         After finding a DBPedia match, query the resource to find authoritative IDs
@@ -891,7 +891,13 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
             # Don't mark as known bad on exception - might be transient (network, timeout, etc.)
             return None
 
-    def _extract_authoritative_id_from_dbpedia_sync(self, client: "httpx.Client", dbpedia_id: str, entity_type: str, original_term: str) -> Optional[str]:
+    def _extract_authoritative_id_from_dbpedia_sync(  # pylint: disable=too-many-statements
+        self,
+        client: "httpx.Client",
+        dbpedia_id: str,
+        entity_type: str,
+        original_term: str,
+    ) -> Optional[str]:
         """Synchronous version of authoritative ID extraction from DBPedia.
 
         Args:

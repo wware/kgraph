@@ -11,6 +11,8 @@ Usage:
 import argparse
 import asyncio
 import os
+import time
+from dataclasses import dataclass, field
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -38,6 +40,39 @@ from ..pipeline.embeddings import OllamaMedLitEmbeddingGenerator
 from ..pipeline.llm_client import OllamaLLMClient
 
 logger = setup_logging()
+
+
+@dataclass
+class ProgressTracker:
+    """Track and report progress during long-running operations."""
+
+    total: int
+    completed: int = 0
+    start_time: float = field(default_factory=time.time)
+    last_report_time: float = field(default_factory=time.time)
+    report_interval: float = 30.0  # Report every 30 seconds
+
+    def increment(self) -> None:
+        """Increment completed count and report if interval elapsed."""
+        self.completed += 1
+        now = time.time()
+        if now - self.last_report_time >= self.report_interval:
+            self.report()
+            self.last_report_time = now
+
+    def report(self) -> None:
+        """Print progress report."""
+        elapsed = time.time() - self.start_time
+        if elapsed > 0:
+            rate = self.completed / elapsed
+            remaining = (self.total - self.completed) / rate if rate > 0 else 0
+            pct = (self.completed / self.total * 100) if self.total > 0 else 0
+
+            print(f"\n  Progress: {self.completed}/{self.total} ({pct:.1f}%)")
+            print(f"    Elapsed: {elapsed/60:.1f} min")
+            if remaining > 0:
+                print(f"    Estimated remaining: {remaining/60:.1f} min")
+            print(f"    Rate: {rate:.2f} papers/sec")
 
 
 def build_orchestrator(
@@ -95,7 +130,7 @@ def build_orchestrator(
         raise ValueError("LLM extraction is required for entity extraction from XML. Use --use-ollama to enable LLM extraction, or provide documents with pre-extracted entities.")
 
     print("  Using LLM-based entity extraction...")
-    entity_extractor = MedLitEntityExtractor(llm_client=llm_client)
+    entity_extractor = MedLitEntityExtractor(llm_client=llm_client, domain=domain)
     print("  ✓ LLM-based extractor created")
 
     orchestrator = IngestionOrchestrator(
@@ -244,6 +279,18 @@ def parse_arguments() -> argparse.Namespace:
         default=None,
         help="Path to canonical ID lookup cache file (default: canonical_id_cache.json)",
     )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help="Number of parallel workers for extraction (default: 1)",
+    )
+    parser.add_argument(
+        "--progress-interval",
+        type=float,
+        default=30.0,
+        help="Progress report interval in seconds (default: 30)",
+    )
     return parser.parse_args()
 
 
@@ -270,16 +317,43 @@ def find_input_files(input_dir: Path, limit: int | None) -> list[tuple[Path, str
 async def extract_entities_phase(
     orchestrator: IngestionOrchestrator,
     input_files: list[tuple[Path, str]],
+    max_workers: int = 1,
+    progress_interval: float = 30.0,
 ) -> tuple[int, int]:
     """Extract entities from all papers. Returns (processed, errors)."""
-    print("\n[2/5] Extracting entities from all papers...")
+    workers_msg = f" (workers: {max_workers})" if max_workers > 1 else ""
+    print(f"\n[2/5] Extracting entities from all papers{workers_msg}...")
+
+    tracker = ProgressTracker(total=len(input_files), report_interval=progress_interval)
+    results: list[tuple[str, int, int]] = []
+
+    async def extract_with_progress(file_path: Path, content_type: str) -> tuple[str, int, int]:
+        result = await extract_entities_from_paper(orchestrator, file_path, content_type)
+        tracker.increment()
+        return result
+
+    if max_workers > 1:
+        # Parallel extraction with semaphore
+        semaphore = asyncio.Semaphore(max_workers)
+
+        async def extract_with_limit(file_path: Path, content_type: str) -> tuple[str, int, int]:
+            async with semaphore:
+                return await extract_with_progress(file_path, content_type)
+
+        results = await asyncio.gather(*[extract_with_limit(file_path, content_type) for file_path, content_type in input_files])
+    else:
+        # Sequential extraction
+        for file_path, content_type in input_files:
+            results.append(await extract_with_progress(file_path, content_type))
+
+    # Final report
+    tracker.report()
+
     processed = 0
     errors = 0
-
-    for file_path, content_type in input_files:
-        _, entities, _ = await extract_entities_from_paper(orchestrator, file_path, content_type)
+    for paper_id, entities, _ in results:
         if entities > 0:
-            print(f"  {file_path.name}: {entities} entities")
+            print(f"  {paper_id}: {entities} entities")
             processed += 1
         else:
             errors += 1
@@ -352,17 +426,44 @@ async def run_promotion_phase(
 async def extract_relationships_phase(
     orchestrator: IngestionOrchestrator,
     input_files: list[tuple[Path, str]],
+    max_workers: int = 1,
+    progress_interval: float = 30.0,
 ) -> tuple[int, int]:
     """Extract relationships from all papers. Returns (processed, errors)."""
-    print("""
-[4/5] Extracting relationships from all papers...""")
+    workers_msg = f" (workers: {max_workers})" if max_workers > 1 else ""
+    print(f"""
+[4/5] Extracting relationships from all papers{workers_msg}...""")
+
+    tracker = ProgressTracker(total=len(input_files), report_interval=progress_interval)
+    results: list[tuple[str, int, int]] = []
+
+    async def extract_with_progress(file_path: Path, content_type: str) -> tuple[str, int, int]:
+        result = await extract_relationships_from_paper(orchestrator, file_path, content_type)
+        tracker.increment()
+        return result
+
+    if max_workers > 1:
+        # Parallel extraction with semaphore
+        semaphore = asyncio.Semaphore(max_workers)
+
+        async def extract_with_limit(file_path: Path, content_type: str) -> tuple[str, int, int]:
+            async with semaphore:
+                return await extract_with_progress(file_path, content_type)
+
+        results = await asyncio.gather(*[extract_with_limit(file_path, content_type) for file_path, content_type in input_files])
+    else:
+        # Sequential extraction
+        for file_path, content_type in input_files:
+            results.append(await extract_with_progress(file_path, content_type))
+
+    # Final report
+    tracker.report()
+
     processed_rels = 0
     errors_rels = 0
-
-    for file_path, content_type in input_files:
-        _, _, relationships = await extract_relationships_from_paper(orchestrator, file_path, content_type)
+    for paper_id, _, relationships in results:
         if relationships > 0:
-            print(f"  {file_path.name}: {relationships} relationships")
+            print(f"  {paper_id}: {relationships} relationships")
             processed_rels += 1
         else:
             errors_rels += 1
@@ -562,9 +663,19 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
     document_storage = orchestrator.document_storage
 
     try:
-        processed, errors = await extract_entities_phase(orchestrator, input_files)
+        processed, errors = await extract_entities_phase(
+            orchestrator,
+            input_files,
+            max_workers=args.workers,
+            progress_interval=args.progress_interval,
+        )
         lookup = await run_promotion_phase(orchestrator, entity_storage, cache_file=cache_file, use_ollama=args.use_ollama)
-        await extract_relationships_phase(orchestrator, input_files)
+        await extract_relationships_phase(
+            orchestrator,
+            input_files,
+            max_workers=args.workers,
+            progress_interval=args.progress_interval,
+        )
         await print_summary(document_storage, entity_storage, relationship_storage)
         cache_file_path = lookup.cache_file if lookup else cache_file
         await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors, cache_file=cache_file_path)

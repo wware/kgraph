@@ -6,10 +6,28 @@ Can also use Ollama LLM for NER extraction from text.
 """
 
 from kgraph.document import BaseDocument
+from kgraph.domain import DomainSchema
 from kgraph.entity import EntityMention
 from kgraph.pipeline.interfaces import EntityExtractorInterface
 
 from .llm_client import LLMClientInterface
+
+# Type mapping for common LLM mistakes
+TYPE_MAPPING: dict[str, str | None] = {
+    # Common mistakes → correct types
+    "test": "procedure",
+    "diagnostic": "procedure",
+    "imaging": "procedure",
+    "assay": "biomarker",
+    "marker": "biomarker",
+    # Genetic variants → gene (polymorphisms, mutations, variants are genetic entities)
+    "polymorphism": "gene",
+    "mutation": "gene",
+    "variant": "gene",
+    # Non-medical entities (skip these)
+    "system": None,
+    "organization": None,
+}
 
 
 class MedLitEntityExtractor(EntityExtractorInterface):
@@ -24,24 +42,92 @@ class MedLitEntityExtractor(EntityExtractorInterface):
 
     OLLAMA_NER_PROMPT = """Extract medical entities from the following text. Return a JSON array.
 
+Valid entity types (use EXACTLY ONE per entity):
+- disease: Medical conditions, disorders, syndromes (diabetes, breast cancer)
+- gene: Genes, genetic variants, mutations, polymorphisms (BRCA1, TP53, EGFR, Q223R, K109R)
+- drug: Medications, therapeutic substances (aspirin, paclitaxel)
+- protein: Proteins (p53, EGFR protein, insulin)
+- symptom: Clinical signs and symptoms (fever, pain, fatigue)
+- procedure: Medical tests, diagnostics, treatments (MRI, CT scan, biopsy, surgery)
+- biomarker: Measurable indicators (PSA, CA-125, blood glucose)
+- pathway: Biological pathways (apoptosis, glycolysis, MAPK signaling)
+- location: Geographic locations (China, United States, Inner Mongolia, Boston)
+- ethnicity: Ethnic or population groups (Han, Mongolian, Caucasian, African American)
+
 Rules:
-1. Find all diseases, genes, drugs, and proteins
-2. Format: [{{"entity": "name", "type": "disease|gene|drug|protein", "confidence": 0.95}}]
-3. Return ONLY the JSON array
+1. Use EXACTLY ONE type per entity (no pipes like "drug|protein")
+2. Choose the most specific type that fits
+3. Format: [{{"entity": "name", "type": "disease", "confidence": 0.95}}]
+4. Return ONLY the JSON array, no explanation
 
 Text:
 {text}
 
 JSON:"""
 
-    def __init__(self, llm_client: LLMClientInterface | None = None):
+    def __init__(
+        self,
+        llm_client: LLMClientInterface | None = None,
+        domain: DomainSchema | None = None,
+    ):
         """Initialize entity extractor.
 
         Args:
             llm_client: Optional LLM client for extracting entities from text.
                         If None, only uses pre-extracted entities from Paper JSON.
+            domain: Domain schema for entity type validation (needed for normalization).
         """
         self._llm = llm_client
+        self._domain = domain
+
+    def _normalize_entity_type(self, entity_type_raw: str) -> str | None:
+        """Normalize LLM entity types to schema types.
+
+        Handles:
+        - Multi-type format (drug|protein) → takes first valid type
+        - Common mistakes (test → procedure)
+        - Invalid types → returns None (skip entity)
+
+        Args:
+            entity_type_raw: Raw entity type string from LLM
+
+        Returns:
+            Normalized type string if valid, None if invalid/non-medical
+        """
+        if not self._domain:
+            # No domain provided - basic normalization only
+            entity_type = entity_type_raw.lower().strip()
+            if "|" in entity_type:
+                entity_type = entity_type.split("|")[0].strip()
+            return TYPE_MAPPING.get(entity_type, entity_type)
+
+        # Handle multi-type format (drug|protein)
+        if "|" in entity_type_raw:
+            # Take first valid type
+            for type_part in entity_type_raw.split("|"):
+                type_part = type_part.strip().lower()
+                # Check if it's a valid schema type
+                if type_part in self._domain.entity_types:
+                    return type_part
+            # No valid types found in pipe-separated list
+            return None
+
+        # Normalize single type
+        entity_type = entity_type_raw.lower().strip()
+
+        # Check mapping for common mistakes
+        if entity_type in TYPE_MAPPING:
+            mapped = TYPE_MAPPING[entity_type]
+            if mapped is None:
+                return None  # Explicitly skip this type
+            entity_type = mapped
+
+        # Validate against schema
+        if entity_type in self._domain.entity_types:
+            return entity_type
+
+        # Unknown type - skip this entity
+        return None
 
     async def extract(self, document: BaseDocument) -> list[EntityMention]:
         """Extract entity mentions from a journal article.
@@ -113,7 +199,15 @@ JSON:"""
                             entity_name = item.get("entity") or item.get("name", "")
                             entity_name = entity_name.strip()
 
-                            entity_type = item.get("type", "disease").lower()
+                            # Normalize entity type
+                            entity_type_raw = item.get("type", "disease")
+                            entity_type = self._normalize_entity_type(entity_type_raw)
+
+                            # Skip if invalid type
+                            if entity_type is None:
+                                print(f"    Skipping '{entity_name}' with invalid type: {entity_type_raw}")
+                                continue
+
                             confidence = float(item.get("confidence", 0.5))
 
                             if len(entity_name) < 3 or confidence < 0.5:

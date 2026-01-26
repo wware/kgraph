@@ -16,6 +16,7 @@ class EntityRow(BaseModel):
     usage_count: int = Field(..., description="Number of times entity has been mentioned")
     created_at: str = Field(..., description="ISO 8601 creation timestamp")
     source: str = Field(..., description="Source of the entity (e.g., sherlock:curated)")
+    canonical_url: Optional[str] = Field(None, description="URL to the authoritative source for this entity")
     properties: Dict[str, Any] = Field(
         default_factory=dict,
         description="Additional entity properties",

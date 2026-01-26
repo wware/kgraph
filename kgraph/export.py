@@ -1,5 +1,6 @@
 import shutil
 import mimetypes
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Protocol, Dict, Any, Optional, List
@@ -7,6 +8,26 @@ import uuid
 
 from kgraph.query.bundle import BundleManifestV1, EntityRow, RelationshipRow, BundleFile, DocumentAssetRow
 from kgraph.storage.interfaces import EntityStorageInterface, RelationshipStorageInterface
+
+
+def get_git_hash() -> Optional[str]:
+    """Get the current git commit hash (short format).
+
+    Returns:
+        Short git hash (e.g., "6b50d25") or None if git is unavailable
+        or not in a git repository.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=5.0,
+        )
+        return result.stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
+        return None
 
 
 def _collect_document_assets(docs_source: Path, bundle_path: Path) -> List[DocumentAssetRow]:
@@ -91,6 +112,10 @@ class JsonlGraphBundleExporter:
         entity_count = 0
         with open(entities_file, "w") as f_entities:
             for entity in await entity_storage.list_all():
+                # Extract canonical_url from metadata if present
+                metadata = entity.metadata.copy() if entity.metadata else {}
+                canonical_url = metadata.pop("canonical_url", None) or metadata.pop("canonicalUrl", None)
+
                 entity_row = EntityRow(
                     entity_id=entity.entity_id,
                     entity_type=entity.get_entity_type(),
@@ -100,7 +125,8 @@ class JsonlGraphBundleExporter:
                     usage_count=entity.usage_count,
                     created_at=entity.created_at.isoformat(),
                     source=entity.source,
-                    properties=entity.metadata,
+                    canonical_url=canonical_url,
+                    properties=metadata,  # Remaining metadata without canonical_url
                 )
                 f_entities.write(entity_row.model_dump_json() + "\n")
                 entity_count += 1
@@ -127,6 +153,11 @@ class JsonlGraphBundleExporter:
         }
         if description:
             manifest_metadata["description"] = description
+
+        # Add git hash for version tracking
+        kgraph_version = get_git_hash()
+        if kgraph_version:
+            manifest_metadata["kgraph_version"] = kgraph_version
 
         # Handle document assets
         documents_file = None

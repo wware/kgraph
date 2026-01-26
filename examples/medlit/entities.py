@@ -99,3 +99,27 @@ class PathwayEntity(BaseEntity):
 
     def get_entity_type(self) -> str:
         return "pathway"
+
+
+class LocationEntity(BaseEntity):
+    """Represents geographic locations relevant to epidemiological analysis.
+
+    Used for tracking disease prevalence by region, endemic diseases, and
+    geographic health disparities. Uses provisional IDs initially; canonical
+    IDs could come from GeoNames or ISO country codes in the future.
+    """
+
+    def get_entity_type(self) -> str:
+        return "location"
+
+
+class EthnicityEntity(BaseEntity):
+    """Represents ethnic or population groups for epidemiological analysis.
+
+    Used for tracking genetic predispositions, health disparities, and
+    population-specific disease risk factors. Uses provisional IDs initially;
+    canonical IDs could come from standardized ethnicity codes in the future.
+    """
+
+    def get_entity_type(self) -> str:
+        return "ethnicity"

@@ -42,6 +42,11 @@ PREDICATE_REFUTES = "refutes"
 PREDICATE_TESTED_BY = "tested_by"
 PREDICATE_GENERATES = "generates"
 
+# Epidemiological predicates (for location and ethnicity relationships)
+PREDICATE_PREVALENT_IN = "prevalent_in"
+PREDICATE_ENDEMIC_TO = "endemic_to"
+PREDICATE_ORIGINATES_FROM = "originates_from"
+
 # All valid predicates
 ALL_PREDICATES = {
     PREDICATE_TREATS,
@@ -78,6 +83,10 @@ ALL_PREDICATES = {
     PREDICATE_REFUTES,
     PREDICATE_TESTED_BY,
     PREDICATE_GENERATES,
+    # Epidemiological predicates
+    PREDICATE_PREVALENT_IN,
+    PREDICATE_ENDEMIC_TO,
+    PREDICATE_ORIGINATES_FROM,
 }
 
 
@@ -139,6 +148,40 @@ def get_valid_predicates(subject_type: str, object_type: str) -> list[str]:
     # Gene/Protein → Pathway relationships
     if subject_type in ("gene", "protein") and object_type == "pathway":
         return [PREDICATE_PARTICIPATES_IN]
+
+    # Disease → Location relationships (epidemiological)
+    if subject_type == "disease" and object_type == "location":
+        return [
+            PREDICATE_PREVALENT_IN,
+            PREDICATE_ENDEMIC_TO,
+            PREDICATE_ASSOCIATED_WITH,
+        ]
+
+    # Location → Disease relationships
+    if subject_type == "location" and object_type == "disease":
+        return [PREDICATE_ASSOCIATED_WITH]
+
+    # Gene → Ethnicity relationships (genetic predispositions)
+    if subject_type == "gene" and object_type == "ethnicity":
+        return [
+            PREDICATE_PREVALENT_IN,
+            PREDICATE_ASSOCIATED_WITH,
+        ]
+
+    # Ethnicity → Disease relationships (health disparities)
+    if subject_type == "ethnicity" and object_type == "disease":
+        return [
+            PREDICATE_INCREASES_RISK,
+            PREDICATE_DECREASES_RISK,
+            PREDICATE_ASSOCIATED_WITH,
+        ]
+
+    # Disease → Ethnicity relationships
+    if subject_type == "disease" and object_type == "ethnicity":
+        return [
+            PREDICATE_PREVALENT_IN,
+            PREDICATE_ASSOCIATED_WITH,
+        ]
 
     # General associations (many entity type pairs)
     if subject_type != object_type:  # No self-loops for ASSOCIATED_WITH

@@ -13,7 +13,9 @@ from .entities import (
     BiomarkerEntity,
     DiseaseEntity,
     DrugEntity,
+    EthnicityEntity,
     GeneEntity,
+    LocationEntity,
     PathwayEntity,
     ProcedureEntity,
     ProteinEntity,
@@ -47,6 +49,8 @@ class MedLitDomainSchema(DomainSchema):
             "procedure": ProcedureEntity,
             "biomarker": BiomarkerEntity,
             "pathway": PathwayEntity,
+            "location": LocationEntity,
+            "ethnicity": EthnicityEntity,
         }
 
     @property
