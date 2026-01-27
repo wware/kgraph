@@ -1,3 +1,13 @@
+"""
+Knowledge Graph Bundle Models
+
+Lightweight Pydantic models defining the contract between bundle producers (kgraph)
+and consumers (kgserver).
+
+This module has minimal dependencies (only pydantic) and is designed to be
+importable by both sides without pulling in heavy ML or web frameworks.
+"""
+
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
@@ -51,7 +61,7 @@ class BundleFile(BaseModel):
 class DocumentAssetRow(BaseModel):
     """Document asset row format for bundle documents.jsonl files.
 
-    Lists static assets (markdown files, images, etc.) that should be
+        Lists static assets (markdown files, images, etc.) that should be
     copied from the bundle to provide documentation for the knowledge domain.
     """
 

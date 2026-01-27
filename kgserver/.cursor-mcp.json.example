@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "knowledge-graph": {
+      "command": "uv",
+      "args": [
+        "run",
+        "python",
+        "-m",
+        "mcp_server.stdio_server"
+      ],
+      "env": {
+        "DATABASE_URL": "sqlite:///./test.db"
+      },
+      "cwd": "/home/wware/kgserver"
+    }
+  }
+}

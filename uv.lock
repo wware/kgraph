@@ -192,6 +192,23 @@ wheels = [
 ]
 
 [[package]]
+name = "kgbundle"
+version = "0.1.0"
+source = { editable = "kgbundle" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "black", marker = "extra == 'dev'", specifier = ">=26.0" },
+    { name = "pydantic", specifier = ">=2.0" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.5.5" },
+]
+provides-extras = ["dev"]
+
+[[package]]
 name = "kgraph"
 version = "0.1.0"
 source = { editable = "." }
@@ -199,6 +216,7 @@ dependencies = [
     { name = "black" },
     { name = "flake8" },
     { name = "httpx" },
+    { name = "kgbundle" },
     { name = "mypy" },
     { name = "ollama" },
     { name = "pydantic" },
@@ -229,6 +247,7 @@ requires-dist = [
     { name = "flake8", specifier = ">=7.3.0" },
     { name = "flake8", marker = "extra == 'dev'", specifier = ">=7.1.0" },
     { name = "httpx", specifier = ">=0.27.0" },
+    { name = "kgbundle", editable = "kgbundle" },
     { name = "mypy", specifier = ">=1.19.1" },
     { name = "ollama", specifier = ">=0.6.1" },
     { name = "pydantic", specifier = ">=2.0" },

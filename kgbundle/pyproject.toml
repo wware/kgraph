@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "kgbundle"
+version = "0.1.0"
+description = "Lightweight Pydantic models for knowledge graph bundle exchange"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = [
+    "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "black>=26.0",
+    "ruff>=0.5.5",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[tool.black]
+line-length = 200
+
+[tool.ruff]
+line-length = 200

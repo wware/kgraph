@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Protocol, Dict, Any, Optional, List
 import uuid
 
-from kgraph.query.bundle import BundleManifestV1, EntityRow, RelationshipRow, BundleFile, DocumentAssetRow
+from kgbundle import BundleManifestV1, EntityRow, RelationshipRow, BundleFile, DocumentAssetRow
 from kgraph.storage.interfaces import EntityStorageInterface, RelationshipStorageInterface
 
 

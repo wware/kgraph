@@ -1,0 +1,15 @@
+{
+    "mcpServers": {
+        "knowledge-graph": {
+            "command": "/home/wware/.local/bin/uv",
+            "args": [
+                "--directory", "/home/wware/kgserver",
+                "run",
+                "python", "-m", "mcp_server.stdio_server"
+            ],
+            "env": {
+                "DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/kgserver"
+            }
+        }
+    }
+}

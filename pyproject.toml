@@ -9,6 +9,7 @@ description = "Domain-agnostic knowledge graph framework for entity and relation
 requires-python = ">=3.12"
 license = "MIT"
 dependencies = [
+    "kgbundle",
     "black>=26.1.0",
     "flake8>=7.3.0",
     "httpx>=0.27.0",
@@ -53,6 +54,13 @@ max-line-length = 200
 [tool.flake8]
 line-length = 200
 ignore = ["E203", "E266", "E501", "W503", "E402"]
+
+[tool.mypy]
+ignore_missing_imports = true
+exclude = ["kgserver/", "kgbundle/"]
+
+[tool.uv.sources]
+kgbundle = { path = "kgbundle", editable = true }
 
 [dependency-groups]
 dev = [

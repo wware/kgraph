@@ -8,7 +8,7 @@ This module uses lazy imports to avoid loading heavy dependencies (numpy, sklear
 when only lightweight components are needed. For example:
 
     # This does NOT import numpy:
-    from kgraph.query.bundle import BundleManifestV1, EntityRow, RelationshipRow
+    from kgbundle import BundleManifestV1, EntityRow, RelationshipRow
 
     # This DOES import numpy (when the symbol is accessed):
     from kgraph import IngestionOrchestrator
@@ -64,5 +64,6 @@ def __getattr__(name: str):
     """Lazy import for heavy modules to avoid loading numpy/sklearn on light imports."""
     if name in ("IngestionOrchestrator", "IngestionResult"):
         from kgraph.ingest import IngestionOrchestrator, IngestionResult
+
         return {"IngestionOrchestrator": IngestionOrchestrator, "IngestionResult": IngestionResult}[name]
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
