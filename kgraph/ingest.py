@@ -208,21 +208,25 @@ class IngestionOrchestrator(BaseModel):
         content_type: str,
         source_uri: str | None = None,
     ) -> DocumentResult:
-        """Extract entities from a single document (Pass 1).
+        """Runs the first pass of the ingestion pipeline on a single document.
 
-        This method handles entity extraction only:
-        1. Parse document
-        2. Extract entity mentions
-        3. Resolve mentions to entities
-        4. Store entities with embeddings
+        This pass focuses on identifying, resolving, and storing entities. The
+        process includes:
+        1.  Parsing the raw content into a structured document.
+        2.  Extracting potential entity mentions from the document text.
+        3.  Resolving each mention to either an existing or a new entity.
+        4.  Generating a vector embedding for new entities.
+        5.  Storing new entities or updating the usage count of existing ones.
 
         Args:
-            raw_content: Raw document bytes
-            content_type: MIME type or format indicator
-            source_uri: Optional source location
+            raw_content: The raw byte content of the document to process.
+            content_type: The MIME type of the document (e.g., "application/json").
+            source_uri: An optional URI identifying the document's origin.
 
         Returns:
-            DocumentResult with entity extraction statistics
+            A `DocumentResult` object containing statistics about the entity
+            extraction pass, including counts of new and existing entities,
+            and any errors encountered.
         """
         errors: list[str] = []
 
@@ -302,22 +306,26 @@ class IngestionOrchestrator(BaseModel):
         source_uri: str | None = None,
         document_id: str | None = None,
     ) -> DocumentResult:
-        """Extract relationships from a single document (Pass 2).
+        """Runs the second pass of the ingestion pipeline on a single document.
 
-        This method handles relationship extraction only. It assumes entities
-        have already been extracted and stored. It will:
-        1. Parse document (or retrieve if already stored)
-        2. Get resolved entities from storage
-        3. Extract relationships between entities
-        4. Store relationships
+        This pass focuses on identifying and storing relationships between
+        entities that have already been extracted and stored. The process includes:
+        1.  Retrieving the parsed document from storage or parsing it if needed.
+        2.  Fetching the set of entities previously extracted from this document.
+        3.  Extracting potential relationships between those entities.
+        4.  Validating and storing the extracted relationships.
 
         Args:
-            raw_content: Raw document bytes
-            content_type: MIME type or format indicator
-            source_uri: Optional source location
+            raw_content: The raw byte content of the document.
+            content_type: The MIME type of the document.
+            source_uri: An optional URI for finding the pre-existing document.
+            document_id: The specific ID of the document to process. If provided,
+                         it is used to fetch the exact document and its associated
+                         entities, bypassing lookup by `source_uri`.
 
         Returns:
-            DocumentResult with relationship extraction statistics
+            A `DocumentResult` object containing statistics about the relationship
+            extraction pass and any errors encountered.
         """
         errors: list[str] = []
 
@@ -396,19 +404,22 @@ class IngestionOrchestrator(BaseModel):
         content_type: str,
         source_uri: str | None = None,
     ) -> DocumentResult:
-        """Ingest a single document through the complete two-pass pipeline.
+        """Ingests a single document through the complete two-pass pipeline.
 
-        This is a convenience method that runs both entity and relationship
-        extraction in sequence. For better control, use extract_entities_from_document
-        and extract_relationships_from_document separately.
+        This convenience method orchestrates both the entity extraction pass and
+        the relationship extraction pass in sequence for a single document.
+        For more granular control over the ingestion process, such as running
+        promotion between passes, call `extract_entities_from_document` and
+        `extract_relationships_from_document` separately.
 
         Args:
-            raw_content: Raw document bytes
-            content_type: MIME type or format indicator
-            source_uri: Optional source location
+            raw_content: The raw byte content of the document to process.
+            content_type: The MIME type of the document (e.g., "application/json").
+            source_uri: An optional URI identifying the document's origin.
 
         Returns:
-            DocumentResult with extraction statistics
+            A `DocumentResult` object containing the combined statistics from
+            both the entity and relationship extraction passes.
         """
         # Pass 1: Extract entities
         entity_result = await self.extract_entities_from_document(
@@ -440,13 +451,20 @@ class IngestionOrchestrator(BaseModel):
         self,
         documents: Sequence[tuple[bytes, str, str | None]],
     ) -> IngestionResult:
-        """Ingest multiple documents.
+        """Ingests a batch of documents using the two-pass pipeline.
+
+        This method iterates through a sequence of documents and calls
+        `ingest_document` for each one, collecting the results.
 
         Args:
-            documents: Sequence of (raw_content, content_type, source_uri) tuples
+            documents: A sequence of tuples, where each tuple contains the
+                       raw content, content type, and optional source URI
+                       for a single document.
 
         Returns:
-            IngestionResult with aggregated statistics
+            An `IngestionResult` object containing aggregated statistics for the
+            entire batch, as well as a list of individual `DocumentResult`
+            objects.
         """
         results: list[DocumentResult] = []
         errors: list[str] = []
@@ -608,23 +626,28 @@ class IngestionOrchestrator(BaseModel):
             return False
 
     async def run_promotion(self, lookup=None) -> list[BaseEntity]:
-        """Promote eligible provisional entities to canonical status.
+        """Promotes eligible provisional entities to canonical status.
 
-        Uses the domain's promotion policy to determine which entities should
-        be promoted and what canonical IDs to assign them.
+        This method orchestrates the promotion process, which is a critical
+        step between the entity and relationship extraction passes. It uses the
+        domain's configured `PromotionPolicy` to evaluate provisional entities
+        and upgrade them to canonical status if they meet the criteria.
 
-        The promotion process:
-            1. Get the domain's promotion policy (with optional lookup service)
-            2. Find provisional entities meeting threshold criteria
-            3. For each candidate, check if policy can assign a canonical ID
-            4. Update entity status and ID in storage
-            5. Update all relationships pointing to the old provisional ID
+        The process involves:
+        1.  Identifying provisional entities that meet usage and confidence thresholds.
+        2.  Using the promotion policy (and optional lookup service) to assign
+            a canonical ID to each candidate.
+        3.  Updating the entity's status and ID in storage.
+        4.  Updating all relationship references from the old provisional ID to
+            the new canonical ID.
 
         Args:
-            lookup: Optional canonical ID lookup service to pass to promotion policy.
+            lookup: An optional canonical ID lookup service (e.g., an API client)
+                    to be used by the promotion policy.
 
         Returns:
-            List of entities that were successfully promoted.
+            A list of the `BaseEntity` objects that were successfully promoted
+            to canonical status during this run.
         """
 
         logger = setup_logging()
@@ -711,26 +734,26 @@ class IngestionOrchestrator(BaseModel):
         self,
         similarity_threshold: float = 0.95,
     ) -> list[tuple[BaseEntity, BaseEntity, float]]:
-        """Find canonical entities that may be duplicates based on embedding similarity.
+        """Finds potential duplicate entities based on embedding similarity.
 
-        Scans all canonical entities with embeddings and computes pairwise cosine
-        similarity. Returns pairs exceeding the threshold as potential duplicates
-        for human review or automatic merging.
-
-        Args:
-            similarity_threshold: Minimum cosine similarity (0.0 to 1.0) for a
-                pair to be considered a merge candidate. Higher values are more
-                conservative. Default 0.95 requires very similar embeddings.
-
-        Returns:
-            List of (entity1, entity2, similarity_score) tuples for entity pairs
-            with similarity >= threshold. Sorted by descending similarity.
+        This method scans all canonical entities that have an embedding, computes
+        the pairwise cosine similarity between them, and identifies pairs that
+        exceed a given threshold. This is useful for data cleaning and
+        maintaining graph quality.
 
         Note:
-            This method performs O(n²) pairwise comparisons, which can be slow
-            for large entity collections. For production use with >10K entities,
-            consider using approximate nearest neighbor algorithms (FAISS, Annoy)
-            or a vector database with built-in similarity search.
+            This performs an O(n²) comparison and can be computationally
+            expensive for a large number of entities. For larger-scale
+            applications, consider approximate nearest neighbor (ANN) search
+            methods.
+
+        Args:
+            similarity_threshold: The minimum cosine similarity score (between 0.0
+                and 1.0) required to consider two entities a potential match.
+
+        Returns:
+            A list of tuples, where each tuple contains two entity objects and
+            their similarity score. `[(entity1, entity2, score), ...]`.
 
         Example:
             ```python
@@ -775,27 +798,25 @@ class IngestionOrchestrator(BaseModel):
         source_ids: Sequence[str],
         target_id: str,
     ) -> bool:
-        """Merge multiple entities into a single target entity.
+        """Merges one or more source entities into a single target entity.
 
-        Combines data from source entities into the target and updates all
-        relationship references to point to the target. Source entities are
-        deleted after merging.
+        This operation is crucial for deduplication and graph cleaning. It
+        combines data from the source entities into the target, updates all
+        relationship references to point to the target, and then deletes the
+        source entities.
 
-        The merge operation:
-            1. Updates all relationships referencing source entities to use target_id
-            2. Combines synonyms from all source entities into the target
-            3. Sums usage counts from all entities
-            4. Deletes source entities from storage
+        The merge logic includes:
+        1.  Re-mapping all relationships from source entities to the target entity.
+        2.  Combining synonyms and summing usage counts.
+        3.  Delegating the core entity data merge and deletion to the storage backend.
 
         Args:
-            source_ids: Entity IDs to merge into the target. These entities
-                will be deleted after their data is combined.
-            target_id: Entity ID that will absorb the source entities. Must
-                exist in storage.
+            source_ids: A sequence of entity IDs to merge and then delete.
+            target_id: The ID of the entity that will absorb the source entities.
 
         Returns:
-            True if the merge succeeded, False if the target entity was not
-            found or if the merge operation failed.
+            `True` if the merge was successful, `False` otherwise (e.g., if
+            the target entity does not exist).
 
         Example:
             ```python
@@ -853,17 +874,19 @@ class IngestionOrchestrator(BaseModel):
         output_path: str | Path,
         include_provisional: bool = False,
     ) -> int:
-        """Export entities to a JSON file.
+        """Exports entities from storage to a JSON file.
 
-        By default exports only canonical entities. Set include_provisional=True
-        to include all entities.
+        Serializes entities into a JSON format, by default including only
+        canonical entities.
 
         Args:
-            output_path: Path to write the JSON file
-            include_provisional: Whether to include provisional entities
+            output_path: The path where the JSON file will be saved.
+            include_provisional: If `True`, includes both canonical and
+                                 provisional entities in the export. Defaults
+                                 to `False`.
 
         Returns:
-            Number of entities exported
+            The total number of entities exported.
         """
         output_path = Path(output_path)
 
@@ -890,17 +913,18 @@ class IngestionOrchestrator(BaseModel):
         document_id: str,
         output_path: str | Path,
     ) -> dict[str, int]:
-        """Export document-specific data to a JSON file.
+        """Exports data related to a single document to a JSON file.
 
-        Exports relationships from this document and provisional entities
-        that were first extracted from this document.
+        This function gathers all relationships and provisional entities that
+        originated from a specific document and writes them to a file.
 
         Args:
-            document_id: ID of the document to export
-            output_path: Path to write the JSON file
+            document_id: The ID of the document to export data for.
+            output_path: The path where the JSON file will be saved.
 
         Returns:
-            Dict with counts: {"relationships": N, "provisional_entities": N}
+            A dictionary containing the counts of exported relationships and
+            provisional entities.
         """
         output_path = Path(output_path)
 
@@ -938,17 +962,22 @@ class IngestionOrchestrator(BaseModel):
         self,
         output_dir: str | Path,
     ) -> dict[str, Any]:
-        """Export all data: entities.json and per-document files.
+        """Exports the entire graph into a directory of JSON files.
 
-        Creates:
-        - entities.json: All canonical entities
-        - paper_{document_id}.json: Per-document relationships and provisional entities
+        This method orchestrates a full export, creating a file for all
+        canonical entities and separate files for each document's specific
+        data (relationships and provisional entities).
+
+        The output directory will contain:
+        - `entities.json`: All canonical entities.
+        - `paper_{document_id}.json`: One file for each processed document.
 
         Args:
-            output_dir: Directory to write export files
+            output_dir: The path to the directory where files will be saved.
 
         Returns:
-            Summary dict with export statistics
+            A summary dictionary containing statistics about the export,
+            including the number of entities and documents exported.
         """
         output_dir = Path(output_dir)
         output_dir.mkdir(parents=True, exist_ok=True)

@@ -82,20 +82,26 @@ def build_orchestrator(
     ollama_timeout: float = 300.0,
     cache_file: Path | None = None,
 ) -> tuple[IngestionOrchestrator, CanonicalIdLookup | None]:
-    """Build the ingestion orchestrator for medical literature domain.
+    """Builds and configures the ingestion orchestrator and its components.
+
+    This function sets up the entire pipeline, including storage,
+    extractors, resolvers, and the main orchestrator instance.
 
     Args:
-        use_ollama: If True, use Ollama LLM for entity and relationship extraction.
-                    Required for extracting entities from XML (embedding extraction
-                    requires pre-populated entity storage).
-        ollama_model: Ollama model name (e.g., "llama3.1:8b").
-        ollama_host: Ollama server URL.
-        ollama_timeout: Timeout in seconds for Ollama requests (default: 300).
-        cache_file: Optional path for canonical ID lookup cache file.
+        use_ollama: If True, initializes the Ollama LLM client for extraction tasks.
+                    This is mandatory for the current entity and relationship
+                    extraction strategies.
+        ollama_model: The name of the Ollama model to use (e.g., "llama3.1:8b").
+        ollama_host: The URL of the Ollama server.
+        ollama_timeout: The timeout in seconds for requests to the Ollama server.
+        cache_file: An optional path to a file for caching canonical ID lookups.
+                    This is not used during initialization but passed for later use.
 
     Returns:
-        Tuple of (IngestionOrchestrator, None).
-        The lookup service is created during the promotion phase, not during initialization.
+        A tuple containing:
+        - An instance of `IngestionOrchestrator` configured for the pipeline.
+        - `None`, as the `CanonicalIdLookup` service is initialized later,
+          just before the promotion phase.
     """
     domain = MedLitDomainSchema()
 
@@ -157,15 +163,23 @@ async def extract_entities_from_paper(
     file_path: Path,
     content_type: str,
 ) -> tuple[str, int, int]:
-    """Extract entities from a single paper file (JSON or XML).
+    """Extracts entities from a single document file.
+
+    This function reads a file, passes its content to the ingestion
+    orchestrator's entity extraction pipeline, and handles any exceptions
+    that occur during the process. It is designed to be called concurrently.
 
     Args:
-        orchestrator: The ingestion orchestrator.
-        file_path: Path to the paper file (JSON or XML).
-        content_type: MIME type ("application/json" or "application/xml").
+        orchestrator: The configured `IngestionOrchestrator` instance.
+        file_path: The `Path` to the input document (e.g., a JSON or XML file).
+        content_type: The MIME type of the file, such as "application/json".
 
     Returns:
-        Tuple of (paper_id, entities_extracted, relationships_extracted).
+        A tuple containing:
+        - The document ID (typically the file stem).
+        - The number of entities successfully extracted.
+        - The number of relationships extracted (will be 0 in this phase).
+        Returns (file_stem, 0, 0) on failure.
     """
     try:
         # Read file
@@ -194,15 +208,23 @@ async def extract_relationships_from_paper(
     file_path: Path,
     content_type: str,
 ) -> tuple[str, int, int]:
-    """Extract relationships from a single paper file (JSON or XML).
+    """Extracts relationships from a single document file.
+
+    This function reads a file and passes its content to the ingestion
+    orchestrator's relationship extraction pipeline. It is designed to be
+    called concurrently after the entity promotion phase is complete.
 
     Args:
-        orchestrator: The ingestion orchestrator.
-        file_path: Path to the paper file (JSON or XML).
-        content_type: MIME type ("application/json" or "application/xml").
+        orchestrator: The configured `IngestionOrchestrator` instance.
+        file_path: The `Path` to the input document (e.g., a JSON or XML file).
+        content_type: The MIME type of the file, such as "application/json".
 
     Returns:
-        Tuple of (paper_id, entities_extracted, relationships_extracted).
+        A tuple containing:
+        - The document ID (typically the file stem).
+        - The number of entities extracted (0 in this phase).
+        - The number of relationships successfully extracted.
+        Returns (file_stem, 0, 0) on failure.
     """
     try:
         # Read file
@@ -224,7 +246,11 @@ async def extract_relationships_from_paper(
 
 
 def parse_arguments() -> argparse.Namespace:
-    """Parse command-line arguments."""
+    """Parses and validates command-line arguments for the ingestion script.
+
+    Returns:
+        An `argparse.Namespace` object containing the parsed arguments.
+    """
     parser = argparse.ArgumentParser(description="Ingest medical literature papers and generate bundle")
     parser.add_argument(
         "--input-dir",
@@ -295,10 +321,16 @@ def parse_arguments() -> argparse.Namespace:
 
 
 def find_input_files(input_dir: Path, limit: int | None) -> list[tuple[Path, str]]:
-    """Find and return input files to process (JSON or XML).
+    """Finds all processable JSON and XML files in the input directory.
+
+    Args:
+        input_dir: The directory to search for input files.
+        limit: An optional integer to limit the number of files returned.
 
     Returns:
-        List of (file_path, content_type) tuples.
+        A sorted list of tuples, where each tuple contains:
+        - A `Path` object for a found file.
+        - A string with the file's MIME content type.
     """
     files: list[tuple[Path, str]] = []
     # Find JSON files
@@ -320,7 +352,23 @@ async def extract_entities_phase(
     max_workers: int = 1,
     progress_interval: float = 30.0,
 ) -> tuple[int, int]:
-    """Extract entities from all papers. Returns (processed, errors)."""
+    """Coordinates the entity extraction phase for all input files.
+
+    This function manages the concurrent execution of the entity extraction
+    process across multiple files, using a semaphore to limit parallelism.
+    It also tracks and reports progress.
+
+    Args:
+        orchestrator: The configured `IngestionOrchestrator` instance.
+        input_files: A list of file paths and their content types to process.
+        max_workers: The maximum number of concurrent extraction tasks.
+        progress_interval: The interval in seconds for reporting progress.
+
+    Returns:
+        A tuple containing:
+        - The number of files processed successfully.
+        - The number of files that resulted in errors.
+    """
     workers_msg = f" (workers: {max_workers})" if max_workers > 1 else ""
     print(f"\n[2/5] Extracting entities from all papers{workers_msg}...")
 
@@ -367,14 +415,23 @@ async def run_promotion_phase(
     cache_file: Path | None = None,
     use_ollama: bool = False,
 ) -> CanonicalIdLookup | None:
-    """Run entity promotion and print results.
+    """Coordinates the entity promotion phase.
 
-    Creates the canonical ID lookup service at the start (loading cache),
-    runs promotion, saves cache immediately after completion, and returns
-    the lookup service for cleanup.
+    This phase is responsible for upgrading provisional entities to canonical
+    status based on criteria like usage count and confidence scores. It
+    initializes the `CanonicalIdLookup` service, runs the promotion logic,
+    and ensures the lookup cache is saved immediately after.
+
+    Args:
+        orchestrator: The configured `IngestionOrchestrator` instance.
+        entity_storage: The storage interface containing the entities to promote.
+        cache_file: An optional path to a file for caching canonical ID lookups.
+        use_ollama: Flag to determine if the canonical ID lookup service
+                    should be initialized.
 
     Returns:
-        CanonicalIdLookup instance if created, None otherwise.
+        The `CanonicalIdLookup` instance if it was created, otherwise `None`.
+        This instance is returned so its resources can be cleaned up later.
     """
     print("""
 [3/5] Running entity promotion...""")
@@ -429,7 +486,23 @@ async def extract_relationships_phase(
     max_workers: int = 1,
     progress_interval: float = 30.0,
 ) -> tuple[int, int]:
-    """Extract relationships from all papers. Returns (processed, errors)."""
+    """Coordinates the relationship extraction phase for all input files.
+
+    This function manages the concurrent execution of the relationship
+    extraction process, which runs after entities have been promoted. It uses
+    a semaphore to limit parallelism and reports progress.
+
+    Args:
+        orchestrator: The configured `IngestionOrchestrator` instance.
+        input_files: A list of file paths and their content types to process.
+        max_workers: The maximum number of concurrent extraction tasks.
+        progress_interval: The interval in seconds for reporting progress.
+
+    Returns:
+        A tuple containing:
+        - The number of files for which relationships were extracted.
+        - The number of files that resulted in errors.
+    """
     workers_msg = f" (workers: {max_workers})" if max_workers > 1 else ""
     print(f"""
 [4/5] Extracting relationships from all papers{workers_msg}...""")
@@ -476,7 +549,17 @@ async def print_summary(
     entity_storage: EntityStorageInterface,
     relationship_storage: RelationshipStorageInterface,
 ) -> None:
-    """Print the knowledge graph summary."""
+    """Prints a formatted summary of the knowledge graph's contents.
+
+    This function queries the storage interfaces to get counts of documents,
+    entities (total, canonical, and provisional), and relationships, then
+    displays them in a table.
+
+    Args:
+        document_storage: The storage interface for documents.
+        entity_storage: The storage interface for entities.
+        relationship_storage: The storage interface for relationships.
+    """
     print("""
 [5/5] Summary""")
     doc_count = await document_storage.count()
@@ -508,7 +591,21 @@ async def export_bundle(
     errors: int,
     cache_file: Path | None = None,
 ) -> None:
-    """Export the knowledge graph bundle."""
+    """Exports the final knowledge graph to a bundle directory.
+
+    This function uses `kgraph.export.write_bundle` to serialize the entities
+    and relationships from storage into JSONL files. It also creates a
+    README, a manifest, and copies the canonical ID cache into the bundle.
+
+    Args:
+        entity_storage: The storage interface for entities.
+        relationship_storage: The storage interface for relationships.
+        output_dir: The path to the directory where the bundle will be written.
+        processed: The number of papers successfully processed, for metadata.
+        errors: The number of papers that failed, for metadata.
+        cache_file: An optional path to the canonical ID cache file to be
+                    included in the bundle.
+    """
     print(f"""
 [6/6] Exporting bundle...
       Processed: {processed} papers
@@ -577,7 +674,16 @@ Papers were processed from JSON format (med-lit-schema Paper format).
 
 
 def _handle_keyboard_interrupt(lookup: CanonicalIdLookup | None) -> None:
-    """Handle KeyboardInterrupt by saving cache before exiting."""
+    """Handles graceful shutdown on KeyboardInterrupt (Ctrl+C).
+
+    This function is registered as an exception handler to ensure that the
+    canonical ID lookup cache is saved before the program exits, preventing
+    loss of work.
+
+    Args:
+        lookup: The `CanonicalIdLookup` instance, which contains the cache
+                to be saved.
+    """
     print("\n  Interrupted by user (Ctrl+C)")
     if not lookup:
         return
@@ -606,10 +712,15 @@ def _handle_keyboard_interrupt(lookup: CanonicalIdLookup | None) -> None:
 
 
 async def _cleanup_lookup_service(lookup: CanonicalIdLookup | None) -> None:
-    """Clean up lookup service.
+    """Closes resources associated with the lookup service.
 
-    Note: Cache is already saved immediately after promotion phase,
-    so this just closes the HTTP client.
+    This function is called in a `finally` block to ensure that the
+    underlying HTTP client in the `CanonicalIdLookup` service is closed
+    gracefully, regardless of whether the pipeline succeeded or failed.
+    The cache is saved separately and not handled here.
+
+    Args:
+        lookup: The `CanonicalIdLookup` instance to clean up.
     """
     if not lookup:
         return
@@ -621,7 +732,16 @@ async def _cleanup_lookup_service(lookup: CanonicalIdLookup | None) -> None:
 
 
 async def main() -> None:
-    """Main ingestion function."""
+    """Runs the main ingestion pipeline for medical literature.
+
+    The pipeline consists of the following phases:
+    1.  Initialization: Sets up the ingestion orchestrator and components.
+    2.  Entity Extraction: Extracts entities from documents.
+    3.  Entity Promotion: Promotes provisional entities to canonical status.
+    4.  Relationship Extraction: Extracts relationships between canonical entities.
+    5.  Summary: Prints a summary of the resulting knowledge graph.
+    6.  Export: Writes the knowledge graph to a bundle directory.
+    """
     args = parse_arguments()
 
     input_dir = Path(args.input_dir)

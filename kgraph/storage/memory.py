@@ -78,13 +78,46 @@ class InMemoryEntityStorage(EntityStorageInterface):
         self._entities: dict[str, BaseEntity] = {}
 
     async def add(self, entity: BaseEntity) -> str:
+        """Adds a new entity to the storage.
+
+        If an entity with the same ID already exists, it will be overwritten.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            entity: The `BaseEntity` object to add.
+
+        Returns:
+            The ID of the added entity.
+        """
         self._entities[entity.entity_id] = entity
         return entity.entity_id
 
     async def get(self, entity_id: str) -> BaseEntity | None:
+        """Retrieves an entity by its ID.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            entity_id: The ID of the entity to retrieve.
+
+        Returns:
+            The `BaseEntity` object if found, otherwise `None`.
+        """
         return self._entities.get(entity_id)
 
     async def get_batch(self, entity_ids: Sequence[str]) -> list[BaseEntity | None]:
+        """Retrieves a batch of entities by their IDs.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            entity_ids: A sequence of entity IDs to retrieve.
+
+        Returns:
+            A list of `BaseEntity` objects or `None` for each ID, in the
+            same order as the input.
+        """
         return [self._entities.get(eid) for eid in entity_ids]
 
     async def find_by_embedding(
@@ -93,6 +126,21 @@ class InMemoryEntityStorage(EntityStorageInterface):
         threshold: float = 0.8,
         limit: int = 10,
     ) -> list[tuple[BaseEntity, float]]:
+        """Finds entities with embeddings similar to a given vector.
+
+        This performs a brute-force, O(n) search over all entities.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            embedding: The embedding vector to compare against.
+            threshold: The minimum cosine similarity to be considered a match.
+            limit: The maximum number of similar entities to return.
+
+        Returns:
+            A list of tuples, each containing a matching `BaseEntity` and its
+            similarity score, sorted by score in descending order.
+        """
         results: list[tuple[BaseEntity, float]] = []
         for entity in self._entities.values():
             if entity.embedding is not None:
@@ -108,6 +156,20 @@ class InMemoryEntityStorage(EntityStorageInterface):
         entity_type: str | None = None,
         limit: int = 10,
     ) -> list[BaseEntity]:
+        """Finds entities by a case-insensitive name or synonym match.
+
+        This performs an O(n) search over all entities.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            name: The name to search for.
+            entity_type: An optional entity type to narrow the search.
+            limit: The maximum number of matching entities to return.
+
+        Returns:
+            A list of matching `BaseEntity` objects.
+        """
         name_lower = name.lower()
         results: list[BaseEntity] = []
         for entity in self._entities.values():
@@ -124,10 +186,37 @@ class InMemoryEntityStorage(EntityStorageInterface):
         min_usage: int,
         min_confidence: float,
     ) -> list[BaseEntity]:
+        """Finds provisional entities that meet promotion criteria.
+
+        This performs an O(n) scan of all entities.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            min_usage: The minimum `usage_count` required for promotion.
+            min_confidence: The minimum `confidence` score required.
+
+        Returns:
+            A list of provisional `BaseEntity` objects that are eligible
+            for promotion.
+        """
         promotable_entities = [entity for entity in self._entities.values() if entity.status == EntityStatus.PROVISIONAL and entity.usage_count >= min_usage and entity.confidence >= min_confidence]
         return promotable_entities
 
     async def update(self, entity: BaseEntity) -> bool:
+        """Updates an existing entity in the storage.
+
+        If the entity ID does not exist, the operation fails.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            entity: The entity object with updated data.
+
+        Returns:
+            `True` if the update was successful, `False` if the entity ID
+            was not found.
+        """
         if entity.entity_id not in self._entities:
             return False
         self._entities[entity.entity_id] = entity
@@ -139,6 +228,22 @@ class InMemoryEntityStorage(EntityStorageInterface):
         new_entity_id: str,
         canonical_ids: dict[str, str],
     ) -> BaseEntity | None:
+        """Promotes a provisional entity to a canonical one.
+
+        This involves changing the entity's ID, updating its status, and
+        assigning canonical IDs. The old entity record is removed.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            entity_id: The current ID of the provisional entity.
+            new_entity_id: The new, canonical ID for the entity.
+            canonical_ids: A dictionary of canonical IDs to assign.
+
+        Returns:
+            The updated, canonical `BaseEntity` object if the original entity
+            was found, otherwise `None`.
+        """
         entity = self._entities.get(entity_id)
         if entity is None:
             return None
@@ -162,6 +267,21 @@ class InMemoryEntityStorage(EntityStorageInterface):
         source_ids: Sequence[str],
         target_id: str,
     ) -> bool:
+        """Merges multiple source entities into a single target entity.
+
+        This operation combines synonyms and usage counts from source entities
+        into the target entity and then deletes the source entities.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            source_ids: A sequence of entity IDs to merge and then delete.
+            target_id: The ID of the entity that will absorb the sources.
+
+        Returns:
+            `True` if the merge was successful, `False` if the target or any
+            source entity was not found.
+        """
         target = self._entities.get(target_id)
         if target is None:
             return False
@@ -199,12 +319,30 @@ class InMemoryEntityStorage(EntityStorageInterface):
         return True
 
     async def delete(self, entity_id: str) -> bool:
+        """Deletes an entity from storage by its ID.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            entity_id: The ID of the entity to delete.
+
+        Returns:
+            `True` if the entity was found and deleted, `False` otherwise.
+        """
         if entity_id in self._entities:
             del self._entities[entity_id]
             return True
         return False
 
     async def count(self) -> int:
+        """Returns the total number of entities in storage.
+
+        Note: This operation is not thread-safe if other operations are
+        modifying the storage concurrently.
+
+        Returns:
+            The total count of entities.
+        """
         return len(self._entities)
 
     async def list_all(
@@ -213,6 +351,21 @@ class InMemoryEntityStorage(EntityStorageInterface):
         limit: int = 1000,
         offset: int = 0,
     ) -> list[BaseEntity]:
+        """Lists entities from storage, with optional filtering and pagination.
+
+        This performs an O(n) scan if filtering by status.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            status: An optional status (`"canonical"` or `"provisional"`) to
+                    filter by.
+            limit: The maximum number of entities to return.
+            offset: The starting offset for pagination.
+
+        Returns:
+            A list of `BaseEntity` objects.
+        """
         if status is None:
             entities = list(self._entities.values())
         else:
@@ -251,6 +404,19 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
         return (rel.subject_id, rel.predicate, rel.object_id)
 
     async def add(self, relationship: BaseRelationship) -> str:
+        """Adds a new relationship to the storage.
+
+        If a relationship with the same triple (subject, predicate, object)
+        already exists, it will be overwritten.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            relationship: The `BaseRelationship` object to add.
+
+        Returns:
+            A string representation of the relationship's key.
+        """
         key = self._make_key(relationship)
         self._relationships[key] = relationship
         return f"{key[0]}:{key[1]}:{key[2]}"
@@ -260,6 +426,19 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
         subject_id: str,
         predicate: str | None = None,
     ) -> list[BaseRelationship]:
+        """Retrieves all relationships originating from a given subject.
+
+        This performs an O(n) scan of all relationships.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            subject_id: The ID of the subject entity.
+            predicate: An optional predicate to filter the relationships.
+
+        Returns:
+            A list of matching `BaseRelationship` objects.
+        """
         results = []
         for rel in self._relationships.values():
             if rel.subject_id == subject_id:
@@ -272,6 +451,19 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
         object_id: str,
         predicate: str | None = None,
     ) -> list[BaseRelationship]:
+        """Retrieves all relationships pointing to a given object.
+
+        This performs an O(n) scan of all relationships.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            object_id: The ID of the object entity.
+            predicate: An optional predicate to filter the relationships.
+
+        Returns:
+            A list of matching `BaseRelationship` objects.
+        """
         results = []
         for rel in self._relationships.values():
             if rel.object_id == object_id:
@@ -285,6 +477,20 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
         predicate: str,
         object_id: str,
     ) -> BaseRelationship | None:
+        """Finds a specific relationship by its full triple.
+
+        This is an O(1) lookup.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            subject_id: The ID of the subject entity.
+            predicate: The predicate of the relationship.
+            object_id: The ID of the object entity.
+
+        Returns:
+            The `BaseRelationship` object if found, otherwise `None`.
+        """
         return self._relationships.get((subject_id, predicate, object_id))
 
     async def update_entity_references(
@@ -292,6 +498,20 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
         old_entity_id: str,
         new_entity_id: str,
     ) -> int:
+        """Updates all relationships that reference an old entity ID.
+
+        This is used during entity promotion or merging to retarget
+        relationships from an old ID to a new one.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            old_entity_id: The entity ID to be replaced.
+            new_entity_id: The new entity ID to use.
+
+        Returns:
+            The number of relationships that were updated.
+        """
         updated_count = 0
         to_update: list[tuple[tuple[str, str, str], BaseRelationship]] = []
 
@@ -329,6 +549,18 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
         self,
         document_id: str,
     ) -> list[BaseRelationship]:
+        """Retrieves all relationships sourced from a specific document.
+
+        This performs an O(n) scan of all relationships.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            document_id: The ID of the source document.
+
+        Returns:
+            A list of matching `BaseRelationship` objects.
+        """
         return [rel for rel in self._relationships.values() if document_id in rel.source_documents]
 
     async def delete(
@@ -337,6 +569,18 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
         predicate: str,
         object_id: str,
     ) -> bool:
+        """Deletes a relationship from storage by its triple.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            subject_id: The ID of the subject entity.
+            predicate: The predicate of the relationship.
+            object_id: The ID of the object entity.
+
+        Returns:
+            `True` if the relationship was found and deleted, `False` otherwise.
+        """
         key = (subject_id, predicate, object_id)
         if key in self._relationships:
             del self._relationships[key]
@@ -344,6 +588,14 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
         return False
 
     async def count(self) -> int:
+        """Returns the total number of relationships in storage.
+
+        Note: This operation is not thread-safe if other operations are
+        modifying the storage concurrently.
+
+        Returns:
+            The total count of relationships.
+        """
         return len(self._relationships)
 
     async def list_all(
@@ -351,6 +603,17 @@ class InMemoryRelationshipStorage(RelationshipStorageInterface):
         limit: int = 1000,
         offset: int = 0,
     ) -> list[BaseRelationship]:
+        """Lists all relationships from storage, with optional pagination.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            limit: The maximum number of relationships to return.
+            offset: The starting offset for pagination.
+
+        Returns:
+            A list of `BaseRelationship` objects.
+        """
         relationships = list(self._relationships.values())
         return relationships[offset : offset + limit]
 
@@ -377,27 +640,91 @@ class InMemoryDocumentStorage(DocumentStorageInterface):
         self._documents: dict[str, BaseDocument] = {}
 
     async def add(self, document: BaseDocument) -> str:
+        """Adds a new document to the storage.
+
+        If a document with the same ID already exists, it will be
+        overwritten.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            document: The `BaseDocument` object to add.
+
+        Returns:
+            The ID of the added document.
+        """
         self._documents[document.document_id] = document
         return document.document_id
 
     async def get(self, document_id: str) -> BaseDocument | None:
+        """Retrieves a document by its ID.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            document_id: The ID of the document to retrieve.
+
+        Returns:
+            The `BaseDocument` object if found, otherwise `None`.
+        """
         return self._documents.get(document_id)
 
     async def find_by_source(self, source_uri: str) -> BaseDocument | None:
+        """Finds a document by its source URI.
+
+        This performs an O(n) scan of all documents.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            source_uri: The source URI to search for.
+
+        Returns:
+            The `BaseDocument` object if found, otherwise `None`.
+        """
         for doc in self._documents.values():
             if doc.source_uri == source_uri:
                 return doc
         return None
 
     async def list_ids(self, limit: int = 100, offset: int = 0) -> list[str]:
+        """Lists document IDs from storage, with optional pagination.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            limit: The maximum number of document IDs to return.
+            offset: The starting offset for pagination.
+
+        Returns:
+            A list of document ID strings.
+        """
         all_ids = list(self._documents.keys())
         return all_ids[offset : offset + limit]
 
     async def delete(self, document_id: str) -> bool:
+        """Deletes a document from storage by its ID.
+
+        Note: This operation is not thread-safe.
+
+        Args:
+            document_id: The ID of the document to delete.
+
+        Returns:
+            `True` if the document was found and deleted, `False` otherwise.
+        """
         if document_id in self._documents:
             del self._documents[document_id]
             return True
         return False
 
     async def count(self) -> int:
+        """Returns the total number of documents in storage.
+
+        Note: This operation is not thread-safe if other operations are
+        modifying the storage concurrently.
+
+        Returns:
+            The total count of documents.
+        """
         return len(self._documents)

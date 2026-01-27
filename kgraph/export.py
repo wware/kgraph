@@ -11,11 +11,14 @@ from kgraph.storage.interfaces import EntityStorageInterface, RelationshipStorag
 
 
 def get_git_hash() -> Optional[str]:
-    """Get the current git commit hash (short format).
+    """Gets the current git commit hash in short format.
+
+    This is used to version-stamp exported bundles, providing a precise
+    reference to the codebase state at the time of export.
 
     Returns:
-        Short git hash (e.g., "6b50d25") or None if git is unavailable
-        or not in a git repository.
+        The short git commit hash (e.g., "6b50d25") as a string, or `None`
+        if the git command fails (e.g., not in a git repository).
     """
     try:
         result = subprocess.run(
@@ -31,14 +34,20 @@ def get_git_hash() -> Optional[str]:
 
 
 def _collect_document_assets(docs_source: Path, bundle_path: Path) -> List[DocumentAssetRow]:
-    """Collect document assets from a source directory and copy them to the bundle.
+    """Copies document assets from a source directory into the bundle.
+
+    This function recursively walks the `docs_source` directory, copies each
+    file to a `docs/` subdirectory within the `bundle_path`, and generates
+    a `DocumentAssetRow` for each copied file to be included in the bundle's
+    `documents.jsonl`.
 
     Args:
-        docs_source: Source directory containing document assets
-        bundle_path: Bundle root directory where assets will be copied
+        docs_source: The source directory containing the document assets
+                     (e.g., Markdown files).
+        bundle_path: The root directory of the bundle being created.
 
     Returns:
-        List of DocumentAssetRow entries for the documents.jsonl file
+        A list of `DocumentAssetRow` objects, one for each file copied.
     """
     if not docs_source.exists() or not docs_source.is_dir():
         return []
@@ -101,6 +110,23 @@ class JsonlGraphBundleExporter:
         docs: Optional[Path] = None,
         description: Optional[str] = None,
     ) -> None:
+        """Exports the graph content into a standardized JSONL bundle format.
+
+        This method orchestrates the entire bundle creation process. It reads
+        all entities and relationships from the provided storage interfaces,
+        serializes them into JSONL files (`entities.jsonl`, `relationships.jsonl`),
+        copies any associated document assets, and generates a `manifest.json`
+        file that describes the bundle's contents.
+
+        Args:
+            entity_storage: The storage backend containing the entities.
+            relationship_storage: The storage backend containing the relationships.
+            bundle_path: The root directory where the bundle will be written.
+            domain: The knowledge domain of the graph (e.g., "medlit").
+            label: An optional human-readable label for the bundle.
+            docs: An optional path to a directory of document assets to include.
+            description: An optional description to include in the manifest.
+        """
         bundle_path.mkdir(parents=True, exist_ok=True)
 
         entities_file = bundle_path / "entities.jsonl"
@@ -203,15 +229,22 @@ async def write_bundle(
     docs: Optional[Path] = None,
     description: Optional[str] = None,
 ) -> None:
-    """Write a graph bundle to disk in JSONL format.
+    """Writes a knowledge graph bundle to disk using the default exporter.
+
+    This function is a convenient wrapper around the `JsonlGraphBundleExporter`
+    that serializes entities and relationships into JSONL files and creates a
+    bundle manifest.
 
     Args:
-        entity_storage: Storage interface for entities
-        relationship_storage: Storage interface for relationships
-        bundle_path: Directory path for the bundle output
-        domain: Knowledge domain identifier (e.g., "sherlock", "medical")
-        label: Optional human-readable bundle label
-        description: Optional description for bundle metadata
+        entity_storage: The storage backend for retrieving entities.
+        relationship_storage: The storage backend for retrieving relationships.
+        bundle_path: The root directory where the bundle will be created.
+        domain: The knowledge domain identifier for the graph (e.g., "medlit").
+        label: An optional human-readable label for the bundle.
+        docs: An optional path to a directory of document assets to copy
+              into the bundle.
+        description: An optional description to be included in the bundle's
+                     manifest metadata.
     """
     await default_exporter.export_graph_bundle(
         entity_storage=entity_storage,

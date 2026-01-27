@@ -29,18 +29,25 @@ class JournalArticleParser(DocumentParserInterface):
         content_type: str,
         source_uri: str | None = None,
     ) -> JournalArticle:
-        """Parse raw content into a JournalArticle.
+        """Parses raw document content into a structured `JournalArticle`.
+
+        This method acts as a dispatcher, routing the raw content to the
+        appropriate parsing logic based on its `content_type`. It supports
+        JSON (conforming to `med-lit-schema`) and PMC XML formats.
 
         Args:
-            raw_content: Raw document bytes (may be JSON, XML, etc.)
-            content_type: MIME type or format indicator
-            source_uri: Optional URI identifying the document's origin
+            raw_content: The raw byte content of the document.
+            content_type: The MIME type of the document, used to select the
+                          correct parser (e.g., "application/json", "application/xml").
+            source_uri: An optional URI for the document's origin, which can be
+                        used to infer a document ID.
 
         Returns:
-            A JournalArticle instance ready for entity and relationship extraction.
+            A `JournalArticle` instance populated with the parsed data.
 
         Raises:
-            ValueError: If content_type is unsupported or content is malformed.
+            ValueError: If the `content_type` is not supported or if the
+                        content is malformed and cannot be parsed.
         """
         if content_type == "application/json":
             # Parse JSON (e.g., from med-lit-schema's Paper format)
@@ -66,14 +73,21 @@ class JournalArticleParser(DocumentParserInterface):
             raise ValueError(f"Unsupported content_type: {content_type}")
 
     def _parse_xml_to_dict(self, root: Any, source_uri: str | None) -> dict[str, Any]:
-        """Parse PMC XML root element into Paper schema dictionary.
+        """Converts a PMC XML structure into a dictionary.
+
+        This method traverses the XML element tree of a PubMed Central article
+        and extracts key information, mapping it to a dictionary that loosely
+        conforms to the `med-lit-schema` Paper format. This intermediate
+        dictionary is then passed to `_parse_from_dict`.
 
         Args:
-            root: XML root element
-            source_uri: Optional source URI (used to extract paper_id from filename)
+            root: The root element of the parsed XML tree.
+            source_uri: An optional source URI, used as a fallback to derive
+                        the paper's ID from its filename.
 
         Returns:
-            Dictionary in Paper schema format
+            A dictionary containing the extracted title, abstract, authors,
+            and other metadata.
         """
         # Extract basic metadata
         article_meta = root.find(".//article-meta")
@@ -148,20 +162,32 @@ class JournalArticleParser(DocumentParserInterface):
         return paper
 
     def _parse_from_dict(self, data: dict[str, Any], source_uri: str | None) -> JournalArticle:
-        """Parse from a dictionary (e.g., med-lit-schema's Paper format).
+        """Constructs a `JournalArticle` from a dictionary.
 
-        Maps Paper fields to JournalArticle:
-        - paper_id → document_id (prefer doi:, else pmid:, else paper_id)
-        - title → title
-        - abstract → abstract
-        - abstract (+ optional full_text) → content
-        - authors → authors
-        - publication_date → publication_date
-        - journal → journal
-        - doi → doi
-        - pmid → pmid
-        - metadata → metadata (study_type, sample_size, mesh_terms, etc.)
-        - extraction_provenance → metadata["extraction"]
+        This method takes a dictionary (conforming to `med-lit-schema`'s Paper
+        format or the output of `_parse_xml_to_dict`) and maps its fields to
+        the `JournalArticle` document model.
+
+        Key mapping logic:
+        -   `document_id` is chosen in order of preference: DOI, then PMID,
+            then the original `paper_id`.
+        -   `content` is created by combining the abstract and full text.
+        -   Pre-existing `entities` and `relationships` from the input data
+            are moved into the `metadata` dictionary, so that downstream
+            extractors in the kgraph pipeline can find them.
+        -   Other fields like authors, publication date, and journal are
+            mapped directly.
+
+        Args:
+            data: A dictionary containing the paper's data.
+            source_uri: The original source URI of the document.
+
+        Returns:
+            A fully populated `JournalArticle` object.
+
+        Raises:
+            ValueError: If no valid identifier (paper_id, doi, or pmid)
+                        can be found in the input data.
         """
         # Determine document_id (prefer DOI, else PMID, else paper_id)
         paper_id = data.get("paper_id", "")

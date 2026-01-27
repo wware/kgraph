@@ -47,14 +47,26 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
         mention: EntityMention,
         existing_storage: EntityStorageInterface,
     ) -> tuple[BaseEntity, float]:
-        """Resolve a single entity mention to an entity.
+        """Resolves a single entity mention to a canonical or provisional entity.
+
+        This method implements the core resolution logic, applying a hybrid
+        strategy. It prioritizes explicit canonical IDs, falls back to
+        embedding-based similarity matching, and finally creates a new
+        provisional entity if no match is found.
 
         Args:
-            mention: The extracted entity mention to resolve.
-            existing_storage: Storage interface to query for existing entities.
+            mention: The `EntityMention` to resolve.
+            existing_storage: The entity storage backend to query for existing
+                              entities.
 
         Returns:
-            Tuple of (resolved_entity, confidence_score).
+            A tuple containing the resolved `BaseEntity` (which may be new or
+            existing, canonical or provisional) and a confidence score for the
+            resolution.
+
+        Raises:
+            ValueError: If the mention's entity type is not defined in the
+                        domain schema.
         """
         logger = setup_logging()
 
@@ -196,27 +208,40 @@ class MedLitEntityResolver(BaseModel, EntityResolverInterface):
         mentions: Sequence[EntityMention],
         existing_storage: EntityStorageInterface,
     ) -> list[tuple[BaseEntity, float]]:
-        """Resolve multiple entity mentions efficiently.
+        """Resolves a sequence of entity mentions.
+
+        This method currently resolves mentions sequentially by calling `resolve`
+        for each one. It is designed to be a placeholder for a future, more
+        optimized implementation that could batch database lookups or API calls.
 
         Args:
-            mentions: Sequence of entity mentions to resolve.
-            existing_storage: Storage interface to query for existing entities.
+            mentions: A sequence of `EntityMention` objects to resolve.
+            existing_storage: The entity storage backend, passed to `resolve`.
 
         Returns:
-            List of (entity, confidence) tuples in the same order as input.
+            A list of (entity, confidence) tuples, with each tuple
+            corresponding to an input mention in the same order.
         """
         # Simple sequential resolution for now
         # TODO: Could batch lookups for better performance
         return [await self.resolve(m, existing_storage) for m in mentions]
 
     def _parse_canonical_id(self, entity_id: str, entity_type: str) -> dict[str, str]:
-        """Parse canonical ID into canonical_ids dict.
+        """Parses a canonical ID string into a structured dictionary.
 
-        Examples:
-            "C0006142" (UMLS) -> {"umls": "C0006142"}
-            "HGNC:1100" -> {"hgnc": "HGNC:1100"}
-            "RxNorm:1187832" -> {"rxnorm": "RxNorm:1187832"}
-            "UniProt:P38398" -> {"uniprot": "UniProt:P38398"}
+        This utility function takes a raw ID string (e.g., "HGNC:1100") and
+        converts it into a `canonical_ids` dictionary (e.g.,
+        `{"hgnc": "HGNC:1100"}`). It handles both prefixed IDs and attempts to
+        infer the authority for non-prefixed IDs based on the entity type.
+
+        Args:
+            entity_id: The canonical ID string to parse.
+            entity_type: The entity's type, used to infer the authority for
+                         non-prefixed IDs.
+
+        Returns:
+            A dictionary mapping the authority name (e.g., "hgnc") to the
+            full canonical ID.
         """
         canonical_ids: dict[str, str] = {}
 
