@@ -31,6 +31,7 @@ PREDICATE_CO_OCCURS_WITH = "co_occurs_with"
 PREDICATE_LOCATED_IN = "located_in"
 PREDICATE_AFFECTS = "affects"
 PREDICATE_SUPPORTS = "supports"
+PREDICATE_TARGETS = "targets" # Added
 
 # Research metadata predicates (less common, but included for completeness)
 PREDICATE_CITES = "cites"
@@ -75,6 +76,7 @@ ALL_PREDICATES = {
     PREDICATE_LOCATED_IN,
     PREDICATE_AFFECTS,
     PREDICATE_SUPPORTS,
+    PREDICATE_TARGETS, # Added
     PREDICATE_CITES,
     PREDICATE_STUDIED_IN,
     PREDICATE_AUTHORED_BY,
@@ -186,6 +188,10 @@ def get_valid_predicates(subject_type: str, object_type: str) -> list[str]:
     # General associations (many entity type pairs)
     if subject_type != object_type:  # No self-loops for ASSOCIATED_WITH
         return [PREDICATE_ASSOCIATED_WITH]
+
+    # Drug/Procedure -> Gene/Protein targets relationships
+    if subject_type in ("drug", "procedure") and object_type in ("gene", "protein"):
+        return [PREDICATE_TARGETS]
 
     # If no specific rules match, return empty list (no predicates valid)
     return []

@@ -1,7 +1,7 @@
 """Domain schema for medical literature knowledge graph."""
 
 from kgraph.document import BaseDocument
-from kgraph.domain import DomainSchema
+from kgraph.domain import DomainSchema, PredicateConstraint
 from kgraph.entity import BaseEntity, PromotionConfig
 from kgraph.relationship import BaseRelationship
 from kgraph.promotion import PromotionPolicy
@@ -34,6 +34,8 @@ class MedLitDomainSchema(DomainSchema):
     and provenance tracking.
     """
 
+    _predicate_constraints: dict[str, PredicateConstraint] | None = None
+
     @property
     def name(self) -> str:
         return "medlit"
@@ -58,6 +60,31 @@ class MedLitDomainSchema(DomainSchema):
         # Pattern A: All predicates map to the same relationship class
         # The predicate field distinguishes the relationship type
         return {predicate: MedicalClaimRelationship for predicate in ALL_PREDICATES}
+
+    @property
+    def predicate_constraints(self) -> dict[str, PredicateConstraint]:
+        if self._predicate_constraints is None:
+            # Dynamically build predicate constraints based on vocab.py's get_valid_predicates
+            constraints: dict[str, set[str]] = {p: set() for p in ALL_PREDICATES}
+            reverse_constraints: dict[str, set[str]] = {p: set() for p in ALL_PREDICATES}
+
+            entity_type_names = list(self.entity_types.keys())
+            for sub_type in entity_type_names:
+                for obj_type in entity_type_names:
+                    valid_preds_for_pair = get_valid_predicates(sub_type, obj_type)
+                    for pred in valid_preds_for_pair:
+                        constraints[pred].add(sub_type)
+                        reverse_constraints[pred].add(obj_type)
+
+            self._predicate_constraints = {
+                pred: PredicateConstraint(
+                    subject_types=constraints[pred], object_types=reverse_constraints[pred]
+                )
+                for pred in ALL_PREDICATES
+                if constraints[pred] and reverse_constraints[pred]
+            }
+
+        return self._predicate_constraints
 
     @property
     def document_types(self) -> dict[str, type[BaseDocument]]:
@@ -106,13 +133,11 @@ class MedLitDomainSchema(DomainSchema):
         - Subject and object entity types must be compatible with predicate
         - Confidence must be in valid range (enforced by BaseRelationship)
         """
-        if relationship.predicate not in self.relationship_types:
+        # First, run the base class validation which includes predicate constraints
+        if not super().validate_relationship(relationship):
             return False
 
-        # Check if predicate is valid for the entity type pair
-        # Note: We'd need to look up entity types from storage, so this is
-        # a simplified check. Full validation would require entity lookups.
-        # For now, we just check that the predicate is registered.
+        # Add any MedLit-specific relationship validation here if needed
         return True
 
     def get_valid_predicates(self, subject_type: str, object_type: str) -> list[str]:

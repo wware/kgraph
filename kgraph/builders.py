@@ -3,13 +3,14 @@ from __future__ import annotations
 from typing import Any, Mapping
 import uuid
 
-from pydantic import BaseModel, model_validator, ConfigDict
+from pydantic import BaseModel, model_validator, ConfigDict, Field
 
 from kgraph.clock import IngestionClock
 from kgraph.document import BaseDocument
 from kgraph.domain import DomainSchema, Evidence
 from kgraph.entity import BaseEntity, EntityStatus, EntityMention
 from kgraph.relationship import BaseRelationship
+from kgraph.storage.interfaces import EntityStorageInterface # Added import
 
 
 def _strip_nonempty(s: str, *, what: str) -> str:
@@ -38,6 +39,7 @@ class EntityBuilder(BaseModel):
     domain: DomainSchema
     clock: IngestionClock
     document: BaseDocument
+    entity_storage: EntityStorageInterface | None = Field(default=None, repr=False)
 
     provisional_prefix: str = "prov:"
 
@@ -163,6 +165,7 @@ class RelationshipBuilder(BaseModel):
     domain: DomainSchema
     clock: IngestionClock
     document: BaseDocument
+    entity_storage: EntityStorageInterface | None = Field(default=None, repr=False)
 
     @model_validator(mode="after")
     def _validate(self) -> "RelationshipBuilder":
@@ -207,7 +210,7 @@ class RelationshipBuilder(BaseModel):
             # evidence=evidence or self._default_evidence(kind="extracted"),  # uncomment when BaseRelationship has it
         )
 
-        if not self.domain.validate_relationship(rel):
+        if not self.domain.validate_relationship(rel, entity_storage=self.entity_storage):
             raise ValueError(f"Domain {self.domain.name!r} rejected relationship {predicate!r} " f"({subject_id!r} -> {object_id!r})")
         return rel
 

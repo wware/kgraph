@@ -42,13 +42,37 @@ Example usage:
     ```
 """
 
+import logging
 from abc import ABC, abstractmethod
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from kgraph.document import BaseDocument
 from kgraph.entity import BaseEntity, PromotionConfig
 from kgraph.relationship import BaseRelationship
 from kgraph.promotion import PromotionPolicy
+from kgraph.storage.interfaces import EntityStorageInterface
+
+
+logger = logging.getLogger(__name__)
+
+
+class PredicateConstraint(BaseModel, frozen=True):
+    """Defines the valid subject and object entity types for a predicate."""
+
+    subject_types: set[str] = Field(
+        default_factory=set, description="Set of valid subject entity types"
+    )
+    object_types: set[str] = Field(
+        default_factory=set, description="Set of valid object entity types"
+    )
+
+    @model_validator(mode="after")
+    def check_not_empty(self) -> "PredicateConstraint":
+        if not self.subject_types:
+            raise ValueError("PredicateConstraint must specify at least one subject type")
+        if not self.object_types:
+            raise ValueError("PredicateConstraint must specify at least one object type")
+        return self
 
 
 class Provenance(BaseModel, frozen=True):
@@ -156,6 +180,35 @@ class DomainSchema(ABC):
 
     @property
     @abstractmethod
+    def predicate_constraints(self) -> dict[str, PredicateConstraint]:
+        """Return a dictionary of predicate constraints for this domain.
+
+        This maps predicate names to a PredicateConstraint object, which
+        defines the valid subject and object entity types for that predicate.
+        These constraints are used to validate relationships during ingestion
+        and to filter valid predicates for a given subject-object pair.
+
+        Returns:
+            Dictionary mapping predicate names (e.g., "treats") to
+            PredicateConstraint instances.
+
+        Example:
+            ```python
+            return {
+                "treats": PredicateConstraint(
+                    subject_types={"drug", "procedure"},
+                    object_types={"disease", "symptom"},
+                ),
+                "causes": PredicateConstraint(
+                    subject_types={"gene", "exposure"},
+                    object_types={"disease"},
+                ),
+            }
+            ```
+        """
+
+    @property
+    @abstractmethod
     def document_types(self) -> dict[str, type[BaseDocument]]:
         """Return the registry of document types for this domain.
 
@@ -220,27 +273,99 @@ class DomainSchema(ABC):
             (from `get_entity_type()`) is registered in `entity_types`.
         """
 
-    @abstractmethod
-    def validate_relationship(self, relationship: BaseRelationship) -> bool:
+    def validate_relationship(
+        self,
+        relationship: BaseRelationship,
+        entity_storage: EntityStorageInterface | None = None,
+    ) -> bool:
         """Validate a relationship against domain-specific rules.
 
-        Called by the ingestion pipeline before storing a relationship.
-        Use this to enforce constraints such as:
+        This method first performs predicate constraint validation using the
+        `predicate_constraints` defined by the domain. If the relationship's
+        subject or object types do not conform to the constraints for its
+        predicate, a warning is logged, and the relationship is considered invalid.
 
-        - Predicate must be registered in `relationship_types`
-        - Subject/object entity types must be compatible with the predicate
-        - Confidence must meet domain thresholds
+        If an `entity_storage` is provided, it will be used to look up the
+        subject and object entities to determine their types. Otherwise,
+        it will attempt to infer types directly from the relationship object
+        (e.g., for testing or when entities are not yet stored).
+
+        Subclasses can override this method to add further domain-specific
+        validation logic. It is recommended to call `super().validate_relationship()`
+        to ensure base predicate constraints are checked.
 
         Args:
             relationship: The relationship to validate.
+            entity_storage: Optional entity storage to look up subject/object types.
 
         Returns:
             True if the relationship is valid for this domain, False otherwise.
-
-        Note:
-            At minimum, implementations should verify that the relationship's
-            predicate is registered in `relationship_types`.
         """
+        if relationship.predicate not in self.relationship_types:
+            logger.warning(
+                f"Relationship predicate '{relationship.predicate}' "
+                f"is not registered in domain '{self.name}'. "
+                f"Relationship: {relationship}"
+            )
+            return False
+
+        # Determine subject and object types for validation
+        subject_type: str | None = None
+        object_type: str | None = None
+
+        if entity_storage:
+            # Use entity storage to get actual entity types
+            try:
+                subject_entity = entity_storage.get(relationship.subject_id)
+                object_entity = entity_storage.get(relationship.object_id)
+                if subject_entity:
+                    subject_type = subject_entity.entity_type
+                if object_entity:
+                    object_type = object_entity.entity_type
+            except Exception as e:
+                logger.debug(f"Error fetching entities from storage for relationship validation: {e}")
+                # Fallback to direct access if storage lookup fails
+                subject_type = getattr(relationship, "subject_entity_type", None)
+                object_type = getattr(relationship, "object_entity_type", None)
+        else:
+            # Attempt to get entity types directly from relationship object (e.g., for mock relationships)
+            subject_type = getattr(relationship, "subject_entity_type", None)
+            object_type = getattr(relationship, "object_entity_type", None)
+
+        if subject_type is None or object_type is None:
+            logger.warning(
+                f"Could not determine subject_type or object_type for relationship "
+                f"{relationship} in domain '{self.name}'. Skipping type validation."
+            )
+            return True # Allow for now if types can't be determined
+
+        # Perform predicate constraint validation
+        if relationship.predicate in self.predicate_constraints:
+            constraints = self.predicate_constraints[relationship.predicate]
+
+            if subject_type not in constraints.subject_types:
+                logger.warning(
+                    f"Invalid subject type for predicate '{relationship.predicate}' "
+                    f"in domain '{self.name}': "
+                    f"Got '{subject_type}', expected one of {constraints.subject_types}. "
+                    f"Relationship: {relationship}"
+                )
+                return False
+            if object_type not in constraints.object_types:
+                logger.warning(
+                    f"Invalid object type for predicate '{relationship.predicate}' "
+                    f"in domain '{self.name}': "
+                    f"Got '{object_type}', expected one of {constraints.object_types}. "
+                    f"Relationship: {relationship}"
+                )
+                return False
+        else:
+            logger.debug(
+                f"No predicate constraints defined for '{relationship.predicate}' "
+                f"in domain '{self.name}'. Skipping type validation."
+            )
+
+        return True
 
     def get_valid_predicates(self, subject_type: str, object_type: str) -> list[str]:
         """Return predicates valid between two entity types.

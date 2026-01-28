@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Optional
 
 from kgraph.document import BaseDocument
-from kgraph.domain import DomainSchema
+from kgraph.domain import DomainSchema, PredicateConstraint
 from kgraph.entity import BaseEntity, PromotionConfig
 from kgraph.relationship import BaseRelationship
 from kgraph.promotion import PromotionPolicy
@@ -131,6 +131,27 @@ class SherlockDomainSchema(DomainSchema):
         }
 
     @property
+    def predicate_constraints(self) -> dict[str, PredicateConstraint]:
+        """Define predicate constraints for the Sherlock domain."""
+        return {
+            "appears_in": PredicateConstraint(
+                subject_types={"character"}, object_types={"story"}
+            ),
+            "co_occurs_with": PredicateConstraint(
+                subject_types={"character"}, object_types={"character"}
+            ),
+            "lives_at": PredicateConstraint(
+                subject_types={"character"}, object_types={"location"}
+            ),
+            "antagonist_of": PredicateConstraint(
+                subject_types={"character"}, object_types={"character"}
+            ),
+            "ally_of": PredicateConstraint(
+                subject_types={"character"}, object_types={"character"}
+            ),
+        }
+
+    @property
     def document_types(self) -> dict[str, type[BaseDocument]]:
         return {"sherlock_story": SherlockDocument}
 
@@ -150,4 +171,9 @@ class SherlockDomainSchema(DomainSchema):
         return entity.get_entity_type() in self.entity_types
 
     def validate_relationship(self, relationship: BaseRelationship) -> bool:
-        return relationship.predicate in self.relationship_types
+        # First, run the base class validation which includes predicate constraints
+        if not super().validate_relationship(relationship):
+            return False
+
+        # Add any Sherlock-specific relationship validation here if needed
+        return True

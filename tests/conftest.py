@@ -20,7 +20,7 @@ import pytest
 
 from kgraph.canonical_id import CanonicalId
 from kgraph.document import BaseDocument
-from kgraph.domain import DomainSchema
+from kgraph.domain import DomainSchema, PredicateConstraint
 from kgraph.entity import BaseEntity, EntityMention, EntityStatus, PromotionConfig
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 from kgraph.pipeline.interfaces import (
@@ -63,6 +63,8 @@ class SimpleRelationship(BaseRelationship):
     predicate string, allowing flexible relationship testing without
     schema constraints.
     """
+    subject_entity_type: str = "test_entity"
+    object_entity_type: str = "test_entity"
 
     def get_edge_type(self) -> str:
         """Return the relationship's edge type (same as predicate)."""
@@ -126,6 +128,23 @@ class SimpleDomainSchema(DomainSchema):
         return {"related_to": SimpleRelationship, "causes": SimpleRelationship}
 
     @property
+    def predicate_constraints(self) -> dict[str, PredicateConstraint]:
+        """Define predicate constraints for the test domain.
+
+        For simplicity in testing, we'll allow all relationships to be valid
+        between 'test_entity' types by default, but this can be overridden
+        in specific tests if needed.
+        """
+        return {
+            "related_to": PredicateConstraint(
+                subject_types={"test_entity"}, object_types={"test_entity"}
+            ),
+            "causes": PredicateConstraint(
+                subject_types={"test_entity"}, object_types={"test_entity"}
+            ),
+        }
+
+    @property
     def document_types(self) -> dict[str, type[BaseDocument]]:
         """Return mapping of document type names to their classes."""
         return {"test_document": SimpleDocument}
@@ -147,9 +166,16 @@ class SimpleDomainSchema(DomainSchema):
         """Check if the entity's type is registered in this schema."""
         return entity.get_entity_type() in self.entity_types
 
-    def validate_relationship(self, relationship: BaseRelationship) -> bool:
-        """Check if the relationship's predicate is registered in this schema."""
-        return relationship.predicate in self.relationship_types
+    def validate_relationship(
+        self,
+        relationship: BaseRelationship,
+        entity_storage: EntityStorageInterface | None = None,
+    ) -> bool:
+        """Check if the relationship's predicate is registered in this schema.
+
+        Also calls the superclass method to apply predicate constraints.
+        """
+        return super().validate_relationship(relationship, entity_storage=entity_storage)
 
     def get_promotion_policy(self, lookup=None) -> PromotionPolicy:
         return SimplePromotionPolicy(config=self.promotion_config)
