@@ -34,7 +34,7 @@ from typing import TYPE_CHECKING, Any
 from pydantic import BaseModel, Field
 
 if TYPE_CHECKING:
-    from kgraph.domain import Evidence
+    pass
 
 
 class BaseRelationship(ABC, BaseModel):

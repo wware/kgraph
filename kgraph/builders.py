@@ -10,7 +10,7 @@ from kgraph.document import BaseDocument
 from kgraph.domain import DomainSchema, Evidence
 from kgraph.entity import BaseEntity, EntityStatus, EntityMention
 from kgraph.relationship import BaseRelationship
-from kgraph.storage.interfaces import EntityStorageInterface # Added import
+from kgraph.storage.interfaces import EntityStorageInterface  # Added import
 
 
 def _strip_nonempty(s: str, *, what: str) -> str:
@@ -179,7 +179,7 @@ class RelationshipBuilder(BaseModel):
         except KeyError as e:
             raise ValueError(f"Unknown predicate {predicate!r} for domain {self.domain.name!r}") from e
 
-    def link(
+    async def link(
         self,
         *,
         predicate: str,
@@ -224,7 +224,7 @@ class RelationshipBuilder(BaseModel):
             evidence=evidence or self._default_evidence(kind="extracted"),
         )
 
-        if not self.domain.validate_relationship(rel, entity_storage=self.entity_storage):
+        if not await self.domain.validate_relationship(rel, entity_storage=self.entity_storage):
             raise ValueError(f"Domain {self.domain.name!r} rejected relationship {predicate!r} " f"({subject_id!r} -> {object_id!r})")
         return rel
 

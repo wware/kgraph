@@ -8,6 +8,7 @@ from kgraph.domain import DomainSchema, PredicateConstraint
 from kgraph.entity import BaseEntity, PromotionConfig
 from kgraph.relationship import BaseRelationship
 from kgraph.promotion import PromotionPolicy
+from kgraph.storage.interfaces import EntityStorageInterface
 
 from .promotion import SherlockPromotionPolicy
 
@@ -134,21 +135,11 @@ class SherlockDomainSchema(DomainSchema):
     def predicate_constraints(self) -> dict[str, PredicateConstraint]:
         """Define predicate constraints for the Sherlock domain."""
         return {
-            "appears_in": PredicateConstraint(
-                subject_types={"character"}, object_types={"story"}
-            ),
-            "co_occurs_with": PredicateConstraint(
-                subject_types={"character"}, object_types={"character"}
-            ),
-            "lives_at": PredicateConstraint(
-                subject_types={"character"}, object_types={"location"}
-            ),
-            "antagonist_of": PredicateConstraint(
-                subject_types={"character"}, object_types={"character"}
-            ),
-            "ally_of": PredicateConstraint(
-                subject_types={"character"}, object_types={"character"}
-            ),
+            "appears_in": PredicateConstraint(subject_types={"character"}, object_types={"story"}),
+            "co_occurs_with": PredicateConstraint(subject_types={"character"}, object_types={"character"}),
+            "lives_at": PredicateConstraint(subject_types={"character"}, object_types={"location"}),
+            "antagonist_of": PredicateConstraint(subject_types={"character"}, object_types={"character"}),
+            "ally_of": PredicateConstraint(subject_types={"character"}, object_types={"character"}),
         }
 
     @property
@@ -170,9 +161,13 @@ class SherlockDomainSchema(DomainSchema):
     def validate_entity(self, entity: BaseEntity) -> bool:
         return entity.get_entity_type() in self.entity_types
 
-    def validate_relationship(self, relationship: BaseRelationship) -> bool:
+    async def validate_relationship(
+        self,
+        relationship: BaseRelationship,
+        entity_storage: EntityStorageInterface | None = None,
+    ) -> bool:
         # First, run the base class validation which includes predicate constraints
-        if not super().validate_relationship(relationship):
+        if not await super().validate_relationship(relationship, entity_storage):
             return False
 
         # Add any Sherlock-specific relationship validation here if needed

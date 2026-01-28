@@ -44,7 +44,7 @@ Example usage:
 
 import logging
 from abc import ABC, abstractmethod
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, Field, model_validator
 
 from kgraph.document import BaseDocument
 from kgraph.entity import BaseEntity, PromotionConfig
@@ -52,19 +52,14 @@ from kgraph.relationship import BaseRelationship
 from kgraph.promotion import PromotionPolicy
 from kgraph.storage.interfaces import EntityStorageInterface
 
-
 logger = logging.getLogger(__name__)
 
 
 class PredicateConstraint(BaseModel, frozen=True):
     """Defines the valid subject and object entity types for a predicate."""
 
-    subject_types: set[str] = Field(
-        default_factory=set, description="Set of valid subject entity types"
-    )
-    object_types: set[str] = Field(
-        default_factory=set, description="Set of valid object entity types"
-    )
+    subject_types: set[str] = Field(default_factory=set, description="Set of valid subject entity types")
+    object_types: set[str] = Field(default_factory=set, description="Set of valid object entity types")
 
     @model_validator(mode="after")
     def check_not_empty(self) -> "PredicateConstraint":
@@ -89,30 +84,13 @@ class Provenance(BaseModel, frozen=True):
         start_offset: Character offset where the relevant text begins
         end_offset: Character offset where the relevant text ends
     """
+
     document_id: str = Field(description="Unique identifier of the source document")
-    source_uri: str | None = Field(
-        default=None,
-        description="Optional URI/path to the original document"
-    )
-    section: str | None = Field(
-        default=None,
-        description="Document section name (e.g., 'abstract', 'methods', 'results')"
-    )
-    paragraph: int | None = Field(
-        default=None,
-        description="Paragraph number/index within the section (0-based)",
-        ge=0
-    )
-    start_offset: int | None = Field(
-        default=None,
-        description="Character offset where the relevant text begins",
-        ge=0
-    )
-    end_offset: int | None = Field(
-        default=None,
-        description="Character offset where the relevant text ends",
-        ge=0
-    )
+    source_uri: str | None = Field(default=None, description="Optional URI/path to the original document")
+    section: str | None = Field(default=None, description="Document section name (e.g., 'abstract', 'methods', 'results')")
+    paragraph: int | None = Field(default=None, description="Paragraph number/index within the section (0-based)", ge=0)
+    start_offset: int | None = Field(default=None, description="Character offset where the relevant text begins", ge=0)
+    end_offset: int | None = Field(default=None, description="Character offset where the relevant text ends", ge=0)
 
 
 class Evidence(BaseModel, frozen=True):
@@ -305,7 +283,7 @@ class DomainSchema(ABC):
             (from `get_entity_type()`) is registered in `entity_types`.
         """
 
-    def validate_relationship(
+    async def validate_relationship(
         self,
         relationship: BaseRelationship,
         entity_storage: EntityStorageInterface | None = None,
@@ -334,11 +312,7 @@ class DomainSchema(ABC):
             True if the relationship is valid for this domain, False otherwise.
         """
         if relationship.predicate not in self.relationship_types:
-            logger.warning(
-                f"Relationship predicate '{relationship.predicate}' "
-                f"is not registered in domain '{self.name}'. "
-                f"Relationship: {relationship}"
-            )
+            logger.warning("Relationship predicate '%s' is not registered in domain '%s'. Relationship: %s", relationship.predicate, self.name, relationship)
             return False
 
         # Determine subject and object types for validation
@@ -348,14 +322,14 @@ class DomainSchema(ABC):
         if entity_storage:
             # Use entity storage to get actual entity types
             try:
-                subject_entity = entity_storage.get(relationship.subject_id)
-                object_entity = entity_storage.get(relationship.object_id)
+                subject_entity = await entity_storage.get(relationship.subject_id)
+                object_entity = await entity_storage.get(relationship.object_id)
                 if subject_entity:
                     subject_type = subject_entity.entity_type
                 if object_entity:
                     object_type = object_entity.entity_type
             except Exception as e:
-                logger.debug(f"Error fetching entities from storage for relationship validation: {e}")
+                logger.debug("Error fetching entities from storage for relationship validation: %s", e)
                 # Fallback to direct access if storage lookup fails
                 subject_type = getattr(relationship, "subject_entity_type", None)
                 object_type = getattr(relationship, "object_entity_type", None)
@@ -365,11 +339,8 @@ class DomainSchema(ABC):
             object_type = getattr(relationship, "object_entity_type", None)
 
         if subject_type is None or object_type is None:
-            logger.warning(
-                f"Could not determine subject_type or object_type for relationship "
-                f"{relationship} in domain '{self.name}'. Skipping type validation."
-            )
-            return True # Allow for now if types can't be determined
+            logger.warning("Could not determine subject_type or object_type for relationship %s in domain '%s'. Skipping type validation.", relationship, self.name)
+            return True  # Allow for now if types can't be determined
 
         # Perform predicate constraint validation
         if relationship.predicate in self.predicate_constraints:
@@ -377,25 +348,26 @@ class DomainSchema(ABC):
 
             if subject_type not in constraints.subject_types:
                 logger.warning(
-                    f"Invalid subject type for predicate '{relationship.predicate}' "
-                    f"in domain '{self.name}': "
-                    f"Got '{subject_type}', expected one of {constraints.subject_types}. "
-                    f"Relationship: {relationship}"
+                    "Invalid subject type for predicate '%s' in domain '%s': Got '%s', expected one of %s. Relationship: %s",
+                    relationship.predicate,
+                    self.name,
+                    subject_type,
+                    constraints.subject_types,
+                    relationship,
                 )
                 return False
             if object_type not in constraints.object_types:
                 logger.warning(
-                    f"Invalid object type for predicate '{relationship.predicate}' "
-                    f"in domain '{self.name}': "
-                    f"Got '{object_type}', expected one of {constraints.object_types}. "
-                    f"Relationship: {relationship}"
+                    "Invalid object type for predicate '%s' in domain '%s': Got '%s', expected one of %s. Relationship: %s",
+                    relationship.predicate,
+                    self.name,
+                    object_type,
+                    constraints.object_types,
+                    relationship,
                 )
                 return False
         else:
-            logger.debug(
-                f"No predicate constraints defined for '{relationship.predicate}' "
-                f"in domain '{self.name}'. Skipping type validation."
-            )
+            logger.debug("No predicate constraints defined for '%s' in domain '%s'. Skipping type validation.", relationship.predicate, self.name)
 
         return True
 

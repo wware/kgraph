@@ -380,7 +380,7 @@ class IngestionOrchestrator(BaseModel):
             try:
                 extracted_rels = await self.relationship_extractor.extract(document, document_entities)
                 for rel in extracted_rels:
-                    if self.domain.validate_relationship(rel, entity_storage=self.entity_storage):
+                    if await self.domain.validate_relationship(rel, entity_storage=self.entity_storage):
                         await self.relationship_storage.add(rel)
                         relationships.append(rel)
                     else:

@@ -5,6 +5,7 @@ from kgraph.domain import DomainSchema, PredicateConstraint
 from kgraph.entity import BaseEntity, PromotionConfig
 from kgraph.relationship import BaseRelationship
 from kgraph.promotion import PromotionPolicy
+from kgraph.storage.interfaces import EntityStorageInterface
 
 from .documents import JournalArticle
 from .pipeline.authority_lookup import CanonicalIdLookup
@@ -77,11 +78,7 @@ class MedLitDomainSchema(DomainSchema):
                         reverse_constraints[pred].add(obj_type)
 
             self._predicate_constraints = {
-                pred: PredicateConstraint(
-                    subject_types=constraints[pred], object_types=reverse_constraints[pred]
-                )
-                for pred in ALL_PREDICATES
-                if constraints[pred] and reverse_constraints[pred]
+                pred: PredicateConstraint(subject_types=constraints[pred], object_types=reverse_constraints[pred]) for pred in ALL_PREDICATES if constraints[pred] and reverse_constraints[pred]
             }
 
         return self._predicate_constraints
@@ -125,7 +122,11 @@ class MedLitDomainSchema(DomainSchema):
 
         return True
 
-    def validate_relationship(self, relationship: BaseRelationship) -> bool:
+    async def validate_relationship(
+        self,
+        relationship: BaseRelationship,
+        entity_storage: EntityStorageInterface | None = None,
+    ) -> bool:
         """Validate a relationship against medical domain rules.
 
         Rules:
@@ -134,7 +135,7 @@ class MedLitDomainSchema(DomainSchema):
         - Confidence must be in valid range (enforced by BaseRelationship)
         """
         # First, run the base class validation which includes predicate constraints
-        if not super().validate_relationship(relationship):
+        if not await super().validate_relationship(relationship, entity_storage):
             return False
 
         # Add any MedLit-specific relationship validation here if needed

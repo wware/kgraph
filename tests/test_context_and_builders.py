@@ -214,9 +214,9 @@ def test_entity_builder_domain_validation_called(test_domain, monkeypatch):
 # -----------------------
 
 
-def test_relationship_builder_link_sets_fields(test_domain):
+async def test_relationship_builder_link_sets_fields(test_domain):
     ctx = make_ctx(test_domain)
-    rel = ctx.relationships.link(predicate="related_to", subject_id="E1", object_id="E2")
+    rel = await ctx.relationships.link(predicate="related_to", subject_id="E1", object_id="E2")
     assert rel.predicate == "related_to"
     assert rel.subject_id == "E1"
     assert rel.object_id == "E2"
@@ -224,15 +224,15 @@ def test_relationship_builder_link_sets_fields(test_domain):
     assert rel.created_at == ctx.clock.now
 
 
-def test_relationship_builder_rejects_unknown_predicate(test_domain):
+async def test_relationship_builder_rejects_unknown_predicate(test_domain):
     ctx = make_ctx(test_domain)
     with pytest.raises(ValueError, match="Unknown predicate"):
-        ctx.relationships.link(predicate="nope", subject_id="E1", object_id="E2")
+        await ctx.relationships.link(predicate="nope", subject_id="E1", object_id="E2")
 
 
-def test_relationship_builder_dedupes_source_documents(test_domain):
+async def test_relationship_builder_dedupes_source_documents(test_domain):
     ctx = make_ctx(test_domain)
-    rel = ctx.relationships.link(
+    rel = await ctx.relationships.link(
         predicate="related_to",
         subject_id="E1",
         object_id="E2",
@@ -241,7 +241,7 @@ def test_relationship_builder_dedupes_source_documents(test_domain):
     assert rel.source_documents == (ctx.document.document_id, "doc-2")
 
 
-def test_relationship_builder_rejects_empty_source_documents(test_domain):
+async def test_relationship_builder_rejects_empty_source_documents(test_domain):
     ctx = make_ctx(test_domain)
     with pytest.raises(ValueError, match="source_documents must be non-empty"):
-        ctx.relationships.link(predicate="related_to", subject_id="E1", object_id="E2", source_documents=("   ",))
+        await ctx.relationships.link(predicate="related_to", subject_id="E1", object_id="E2", source_documents=("   ",))

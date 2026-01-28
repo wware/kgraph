@@ -63,6 +63,7 @@ class SimpleRelationship(BaseRelationship):
     predicate string, allowing flexible relationship testing without
     schema constraints.
     """
+
     subject_entity_type: str = "test_entity"
     object_entity_type: str = "test_entity"
 
@@ -136,12 +137,8 @@ class SimpleDomainSchema(DomainSchema):
         in specific tests if needed.
         """
         return {
-            "related_to": PredicateConstraint(
-                subject_types={"test_entity"}, object_types={"test_entity"}
-            ),
-            "causes": PredicateConstraint(
-                subject_types={"test_entity"}, object_types={"test_entity"}
-            ),
+            "related_to": PredicateConstraint(subject_types={"test_entity"}, object_types={"test_entity"}),
+            "causes": PredicateConstraint(subject_types={"test_entity"}, object_types={"test_entity"}),
         }
 
     @property
@@ -166,7 +163,7 @@ class SimpleDomainSchema(DomainSchema):
         """Check if the entity's type is registered in this schema."""
         return entity.get_entity_type() in self.entity_types
 
-    def validate_relationship(
+    async def validate_relationship(
         self,
         relationship: BaseRelationship,
         entity_storage: EntityStorageInterface | None = None,
@@ -175,7 +172,7 @@ class SimpleDomainSchema(DomainSchema):
 
         Also calls the superclass method to apply predicate constraints.
         """
-        return super().validate_relationship(relationship, entity_storage=entity_storage)
+        return await super().validate_relationship(relationship, entity_storage=entity_storage)
 
     def get_promotion_policy(self, lookup=None) -> PromotionPolicy:
         return SimplePromotionPolicy(config=self.promotion_config)
