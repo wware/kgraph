@@ -325,9 +325,9 @@ class DomainSchema(ABC):
                 subject_entity = await entity_storage.get(relationship.subject_id)
                 object_entity = await entity_storage.get(relationship.object_id)
                 if subject_entity:
-                    subject_type = subject_entity.entity_type
+                    subject_type = subject_entity.get_entity_type()
                 if object_entity:
-                    object_type = object_entity.entity_type
+                    object_type = object_entity.get_entity_type()
             except Exception as e:
                 logger.debug("Error fetching entities from storage for relationship validation: %s", e)
                 # Fallback to direct access if storage lookup fails
