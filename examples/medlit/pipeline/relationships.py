@@ -243,42 +243,41 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
         text = document.abstract if hasattr(document, "abstract") and document.abstract else document.content
         text_sample = text[:2000]  # Limit text size for faster processing
 
-        prompt = f"""Extract medical relationships from the following text.
+        prompt = f"""Extract medical relationships from the text below.
 
-Predicate definitions (CRITICAL - use the correct predicate based on evidence meaning):
-- treats: Drug/therapy REDUCES, CURES, or IMPROVES disease (positive therapeutic effect)
-- increases_risk: Factor CAUSES, WORSENS, or RAISES LIKELIHOOD of disease (negative/harmful effect)
-- prevents: Intervention STOPS disease from occurring (protective/preventive)
-- causes: Direct causation where one entity leads to another
-- inhibits: Entity blocks or reduces activity of another entity
-- associated_with: General correlation without clear direction (neutral)
-- interacts_with: Two entities affect each other (drug-drug, drug-gene interactions)
-- diagnosed_by: Disease is identified using a test/procedure/biomarker
-- indicates: Sign/symptom/test result suggests presence of disease
+PREDICATE TYPE RULES (check entity types carefully):
+• treats: ONLY drug/procedure → disease/symptom (drug treats disease, NOT disease treats disease)
+• increases_risk: gene/ethnicity → disease (gene increases risk of disease)
+• prevents: drug/procedure → disease
+• targets: ONLY drug/procedure → gene/protein (drug targets protein, NOT gene targets disease)
+• diagnosed_by: disease → procedure/biomarker (disease diagnosed by test, NOT test diagnosed by disease)
+• associated_with: use for general correlations, disease subtypes, gene-disease links, or when other predicates don't fit
 
-IMPORTANT:
-- "treats" and "increases_risk" are OPPOSITE in meaning
-- If evidence mentions "therapy", "therapeutic", "beneficial", "reduces", "improves" → use "treats" NOT "increases_risk"
-- If evidence mentions "risk", "causes", "harmful", "worsens" → use "increases_risk" NOT "treats"
-
-Entities mentioned in the document:
+Entities in document:
 {entity_list}
 
 Text:
 {text_sample}
 
-Extract relationships in JSON format:
+Return JSON array of relationships (extract ALL valid relationships you find):
 [
-  {{"subject": "entity_name", "predicate": "treats", "object": "entity_name", "confidence": 0.9, "evidence": "sentence text"}},
+  {{"subject": "entity_name", "predicate": "treats", "object": "entity_name", "confidence": 0.9, "evidence": "quote from text"}},
   ...
 ]
 
-Examples:
-{{"subject": "aspirin", "predicate": "treats", "object": "headache", "confidence": 0.9, "evidence": "Aspirin effectively relieves headache pain"}}
-{{"subject": "smoking", "predicate": "increases_risk", "object": "lung cancer", "confidence": 0.95, "evidence": "Smoking raises the risk of developing lung cancer"}}
-{{"subject": "metformin", "predicate": "treats", "object": "diabetes", "confidence": 0.85, "evidence": "Metformin is an effective therapy for type 2 diabetes"}}
+Valid examples:
+{{"subject": "paclitaxel", "predicate": "treats", "object": "breast cancer", "confidence": 0.9, "evidence": "Paclitaxel therapy for breast cancer"}}
+{{"subject": "trastuzumab", "predicate": "targets", "object": "HER2", "confidence": 0.95, "evidence": "Trastuzumab targets HER2 protein"}}
+{{"subject": "BRCA1", "predicate": "increases_risk", "object": "breast cancer", "confidence": 0.9, "evidence": "BRCA1 mutations increase breast cancer risk"}}
+{{"subject": "HER2", "predicate": "associated_with", "object": "breast cancer", "confidence": 0.85, "evidence": "HER2 overexpression in breast cancer"}}
+{{"subject": "luminal A", "predicate": "associated_with", "object": "breast cancer", "confidence": 0.85, "evidence": "Luminal A subtype of breast cancer"}}
 
-Return ONLY the JSON array, no explanation."""
+INVALID (skip these):
+- {{"subject": "breast cancer", "predicate": "treats", ...}} - disease cannot treat
+- {{"subject": "HER2", "predicate": "targets", "object": "breast cancer", ...}} - gene cannot target disease, use "associated_with"
+- {{"subject": "therapy", "predicate": "increases_risk", ...}} - therapy doesn't increase risk
+
+Return ONLY the JSON array."""
 
         try:
             response = await self._llm.generate_json(prompt)
