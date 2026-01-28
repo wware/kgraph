@@ -25,10 +25,16 @@ extracted during Pass 2 of the ingestion pipeline, after entities have
 been resolved.
 """
 
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from datetime import datetime
+from typing import TYPE_CHECKING, Any
 
 from pydantic import BaseModel, Field
+
+if TYPE_CHECKING:
+    from kgraph.domain import Evidence
 
 
 class BaseRelationship(ABC, BaseModel):
@@ -78,6 +84,10 @@ class BaseRelationship(ABC, BaseModel):
         default=(),
         description="Document IDs where this relationship was found.",
     )
+    evidence: Any = Field(
+        default=None,
+        description="Structured evidence including provenance (document, section, paragraph, offsets). Type: Evidence | None",
+    )
     created_at: datetime = Field(description="Timestamp when relationship was first created.")
     last_updated: datetime | None = Field(
         default=None,
@@ -85,7 +95,7 @@ class BaseRelationship(ABC, BaseModel):
     )
     metadata: dict = Field(
         default_factory=dict,
-        description="Domain-specific metadata (evidence, provenance, etc.).",
+        description="Domain-specific metadata. NOTE: Prefer using 'evidence' field for provenance tracking.",
     )
 
     @abstractmethod

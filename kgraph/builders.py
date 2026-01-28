@@ -188,8 +188,22 @@ class RelationshipBuilder(BaseModel):
         confidence: float = 0.8,
         source_documents: tuple[str, ...] | None = None,
         metadata: dict[str, Any] | None = None,
-        evidence: Evidence | None = None,  # if/when BaseRelationship adds this field
+        evidence: Evidence | None = None,
     ) -> BaseRelationship:
+        """Create a relationship with structured provenance tracking.
+
+        Args:
+            predicate: Relationship type (e.g., "treats", "causes")
+            subject_id: Entity ID of the relationship subject
+            object_id: Entity ID of the relationship object
+            confidence: Confidence score (0.0-1.0)
+            source_documents: Document IDs supporting this relationship
+            metadata: Domain-specific metadata (prefer using evidence field for provenance)
+            evidence: Structured evidence with provenance (document, section, paragraph, offsets)
+
+        Returns:
+            BaseRelationship instance validated by the domain schema
+        """
         cls = self._cls_for_predicate(predicate)
 
         docs = source_documents if source_documents is not None else (self.document.document_id,)
@@ -207,7 +221,7 @@ class RelationshipBuilder(BaseModel):
             created_at=self.clock.now,
             last_updated=None,
             metadata={} if metadata is None else metadata,
-            # evidence=evidence or self._default_evidence(kind="extracted"),  # uncomment when BaseRelationship has it
+            evidence=evidence or self._default_evidence(kind="extracted"),
         )
 
         if not self.domain.validate_relationship(rel, entity_storage=self.entity_storage):

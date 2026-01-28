@@ -76,11 +76,43 @@ class PredicateConstraint(BaseModel, frozen=True):
 
 
 class Provenance(BaseModel, frozen=True):
-    document_id: str
-    source_uri: str | None = None
-    section: str | None = None
-    start_offset: int | None = None
-    end_offset: int | None = None
+    """Tracks the precise location of extracted information within a document.
+
+    Used to record where entities, relationships, and other extracted data
+    originated, enabling traceability back to source text.
+
+    Fields:
+        document_id: Unique identifier of the source document
+        source_uri: Optional URI/path to the original document
+        section: Name of the document section (e.g., "abstract", "methods", "results")
+        paragraph: Paragraph number/index within the section (0-based)
+        start_offset: Character offset where the relevant text begins
+        end_offset: Character offset where the relevant text ends
+    """
+    document_id: str = Field(description="Unique identifier of the source document")
+    source_uri: str | None = Field(
+        default=None,
+        description="Optional URI/path to the original document"
+    )
+    section: str | None = Field(
+        default=None,
+        description="Document section name (e.g., 'abstract', 'methods', 'results')"
+    )
+    paragraph: int | None = Field(
+        default=None,
+        description="Paragraph number/index within the section (0-based)",
+        ge=0
+    )
+    start_offset: int | None = Field(
+        default=None,
+        description="Character offset where the relevant text begins",
+        ge=0
+    )
+    end_offset: int | None = Field(
+        default=None,
+        description="Character offset where the relevant text ends",
+        ge=0
+    )
 
 
 class Evidence(BaseModel, frozen=True):

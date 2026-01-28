@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from typing import Optional, Sequence, Any
 
 from kgraph.document import BaseDocument
+from kgraph.domain import Evidence, Provenance
 from kgraph.entity import BaseEntity
 from kgraph.pipeline.interfaces import RelationshipExtractorInterface
 from kgraph.relationship import BaseRelationship
@@ -157,8 +158,9 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
                     predicate = rel_data.get("predicate", "")
                     object_id = rel_data.get("object_id", "")
                     confidence = rel_data.get("confidence", 0.5)
-                    evidence = rel_data.get("evidence", "")
+                    evidence_text = rel_data.get("evidence", "")
                     section = rel_data.get("section", "")
+                    paragraph = rel_data.get("paragraph")  # Optional paragraph index
 
                     # Validate that entities exist
                     if subject_id not in entity_by_id or object_id not in entity_by_id:
@@ -172,13 +174,25 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
                         # If it's an enum, get its value
                         predicate = str(predicate).lower()
 
-                    # Create relationship with evidence and provenance in metadata
-                    metadata: dict[str, Any] = {
-                        "evidence": evidence,
-                        "section": section,
-                    }
+                    # Create structured provenance
+                    provenance = Provenance(
+                        document_id=document.document_id,
+                        source_uri=document.source_uri,
+                        section=section if section else None,
+                        paragraph=paragraph if paragraph is not None else None,
+                    )
+
+                    # Create structured evidence
+                    evidence_obj = Evidence(
+                        kind="extracted",
+                        source_documents=(document.document_id,),
+                        primary=provenance,
+                        mentions=(provenance,),
+                        notes={"evidence_text": evidence_text} if evidence_text else {},
+                    )
 
                     # Add any additional metadata from the relationship
+                    metadata: dict[str, Any] = {}
                     if "metadata" in rel_data and isinstance(rel_data["metadata"], dict):
                         metadata.update(rel_data["metadata"])
 
@@ -188,6 +202,7 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
                         object_id=object_id,
                         confidence=float(confidence),
                         source_documents=(document.document_id,),
+                        evidence=evidence_obj,
                         created_at=datetime.now(timezone.utc),
                         last_updated=None,
                         metadata=metadata,
@@ -288,18 +303,33 @@ Return ONLY the JSON array, no explanation."""
                                 print(f"  Warning: Semantic mismatch - predicate '{predicate}' " f"does not match evidence: {evidence[:100]}...")
                                 continue  # Skip this relationship
 
+                            # Create structured provenance for LLM extraction
+                            # Note: LLM extracts from abstract/sample, so we don't have precise offsets
+                            provenance = Provenance(
+                                document_id=document.document_id,
+                                source_uri=document.source_uri,
+                                section="abstract" if hasattr(document, "abstract") and document.abstract else None,
+                            )
+
+                            # Create structured evidence
+                            evidence_obj = Evidence(
+                                kind="llm_extracted",
+                                source_documents=(document.document_id,),
+                                primary=provenance,
+                                mentions=(provenance,),
+                                notes={"evidence_text": evidence, "extraction_method": "llm"},
+                            )
+
                             rel = MedicalClaimRelationship(
                                 subject_id=subject_entity.entity_id,
                                 predicate=predicate,
                                 object_id=object_entity.entity_id,
                                 confidence=confidence,
                                 source_documents=(document.document_id,),
+                                evidence=evidence_obj,
                                 created_at=datetime.now(timezone.utc),
                                 last_updated=None,
-                                metadata={
-                                    "evidence": evidence,
-                                    "extraction_method": "llm",
-                                },
+                                metadata={"extraction_method": "llm"},
                             )
                             relationships.append(rel)
 
