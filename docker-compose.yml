@@ -2,7 +2,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: kgserver/Dockerfile
     stdin_open: true
     tty: true
     environment:
@@ -15,8 +15,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      ollama:
-        condition: service_healthy
     restart: unless-stopped
     networks:
       - kgserver-network
@@ -26,6 +24,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+    profiles: ["api"]
 
   ollama:
     image: ollama/ollama:latest
@@ -45,6 +44,7 @@ services:
     # CPU-only configuration - no GPU required
     # Models will be pulled on first use or manually via:
     # docker exec -it med-lit-ollama ollama pull nomic-embed-text
+    profiles: ["ollama"]
 
   postgres:
     image: pgvector/pgvector:pg16
@@ -68,6 +68,7 @@ services:
     restart: unless-stopped
     networks:
       - kgserver-network
+    profiles: ["api", "storage"]
 
 volumes:
   pgadmin-data:

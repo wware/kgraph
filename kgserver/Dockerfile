@@ -6,23 +6,31 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 WORKDIR /app
 
-# Copy dependency files
-COPY pyproject.toml ./
-COPY uv.lock ./
+# Copy kgbundle first (local dependency)
+COPY kgbundle ./kgbundle
+
+# Copy dependency files from kgserver
+COPY kgserver/pyproject.toml ./
+COPY kgserver/uv.lock ./
+
+# Fix kgbundle path for container (it's in ./kgbundle not ../kgbundle)
+RUN sed -i 's|path = "../kgbundle"|path = "./kgbundle"|' pyproject.toml
 
 # Install ALL dependencies using uv (not pip)
 RUN apt update && \
     apt install -y git vim ripgrep
-RUN uv sync --frozen && \
+# Re-lock after path fix, then sync with relocatable venv
+RUN uv venv --python /usr/local/bin/python3 --relocatable && \
+    uv lock && uv sync && \
     uv pip install uvicorn fastapi \
         mkdocs mkdocs-material pymdown-extensions
 
 # Copy mkdocs config and docs for building
-COPY mkdocs.yml ./
-COPY docs ./docs
-COPY README.md ./docs/index.md
+COPY kgserver/mkdocs.yml ./
+COPY kgserver/docs ./docs
+COPY kgserver/README.md ./docs/index.md
 
-# Final stage
+# Final stage - use same base image to keep Python paths consistent
 FROM python:3.13-slim
 
 RUN apt-get update && \
@@ -32,21 +40,25 @@ RUN apt-get update && \
 
 WORKDIR /app
 
+# Copy the venv from builder (symlinks will work since same Python path)
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=builder /app/docs /app/docs
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 RUN mkdir -p /app/site
-COPY . .
+
+# Copy kgbundle first, then kgserver contents
+COPY kgbundle ./kgbundle
+COPY kgserver/ .
 
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONPATH="/app:/app/kgraph"
+    PYTHONPATH="/app:/app/kgbundle"
 
 EXPOSE 8000
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 # CMD ["tail", "-f", "/dev/null"]

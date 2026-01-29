@@ -772,6 +772,23 @@ wheels = [
 ]
 
 [[package]]
+name = "kgbundle"
+version = "0.1.0"
+source = { editable = "../kgbundle" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "black", marker = "extra == 'dev'", specifier = ">=26.0" },
+    { name = "pydantic", specifier = ">=2.0" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.5.5" },
+]
+provides-extras = ["dev"]
+
+[[package]]
 name = "kgserver"
 version = "0.1.0"
 source = { virtual = "." }
@@ -781,6 +798,7 @@ dependencies = [
     { name = "fastmcp" },
     { name = "flake8" },
     { name = "httpx" },
+    { name = "kgbundle" },
     { name = "mcp" },
     { name = "mypy" },
     { name = "psycopg-binary" },
@@ -805,6 +823,7 @@ requires-dist = [
     { name = "fastmcp", specifier = ">=2.14.4" },
     { name = "flake8", specifier = ">=7.3.0" },
     { name = "httpx", specifier = ">=0.27.0" },
+    { name = "kgbundle", editable = "../kgbundle" },
     { name = "mcp", specifier = ">=1.25.0" },
     { name = "mypy", specifier = ">=1.19.1" },
     { name = "psycopg-binary", specifier = ">=3.3.2" },

@@ -54,4 +54,6 @@ testpaths = ["tests"]
 [tool.setuptools]
 packages = ["storage", "query", "mcp_server"]
 
-
+[tool.uv.sources]
+# kgbundle = { path = "../kgbundle", editable = true }
+kgbundle = { path = "./kgbundle", editable = true }

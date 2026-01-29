@@ -69,8 +69,11 @@ app.include_router(graphql_app, prefix="/graphql")
 app.include_router(graphiql_custom.router, prefix="/graphiql", tags=["GraphQL"])
 
 # Mount MCP API (Server-Sent Events and HTTP endpoints)
-app.mount("/mcp/sse", mcp_server.sse_app)  # type: ignore[arg-type]
-app.mount("/mcp", mcp_server.streamable_http_app)  # type: ignore[arg-type]
+# FastMCP uses http_app() method with transport parameter
+mcp_sse_app = mcp_server.http_app(path="/sse", transport="sse")
+mcp_http_app = mcp_server.http_app(path="/mcp", transport="streamable-http")
+app.mount("/mcp/sse", mcp_sse_app)
+app.mount("/mcp", mcp_http_app)
 
 
 @app.get("/health")
