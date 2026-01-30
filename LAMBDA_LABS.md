@@ -111,3 +111,63 @@ The **A10 for $0.75/hr** is a sweet spot for hobby work - you won't need a secon
 ## Cleanup
 
 It's simplest to terminate the instance from the Lambda Labs dashboard.
+
+## How to set up an SSH TUNNEL for this
+
+To set up an SSH tunnel for port 11434 as a background process, use the  command with the `-f`, `-N`, and `-L` options. [1, 2]  
+The general command syntax is: 
+
+```bash
+ssh -fN -L <local_port>:localhost:<remote_port> <user>@<remote_host>
+```
+
+Specific Command for Port 11434 
+For port 11434, the command is: 
+
+```bash
+ssh -fN -L 11434:localhost:11434 ubuntu@123.45.67.89
+```
+
+Options Explained 
+
+• `-f` : Requests `ssh` to go to the background just before command execution. This is useful for running the tunnel as a daemon. It also waits until the connection and port forwarding have been successfully established before moving to the background. 
+• `-N` : Instructs `ssh` to not execute a remote command. This is useful for just forwarding ports. 
+• `-L <local_port>:localhost:<remote_port>` : Specifies local port forwarding. Traffic sent to the specified  (e.g.,  on your machine) will be forwarded to the specified  (e.g.,  on the remote server's localhost) through the secure SSH tunnel. 
+• Your username and the hostname or IP address of the remote server you are connecting to. [1, 2, 3, 4, 5]  
+
+How to Use 
+
+1. Open your terminal or PowerShell (Windows 10 and later have a built-in OpenSSH client). 
+2. Run the command, replacing  and  with your actual credentials. 
+3. Enter your SSH password or passphrase when prompted. If you use SSH keys, you won't need to enter a password. 
+4. The tunnel will start and run in the background. You will return to your command prompt immediately. [6, 7, 8, 9, 10]  
+
+To Stop the Tunnel 
+Since the process runs in the background, you'll need to find its process ID (PID) to terminate it. 
+
+1. List SSH processes to find the PID: 
+   ```bash
+   pgrep -f "ssh -fN -L 11434:localhost:11434"
+   ```
+2. Kill the process using its PID [14, 15]  
+
+For easier management, consider using SSH control sockets, especially if you need to manage multiple tunnels within a script. [16]  
+
+[1] https://www.revsys.com/writings/quicktips/ssh-tunnel.html
+[2] https://superuser.com/questions/827934/ssh-port-forwarding-without-session
+[3] https://4sysops.com/archives/access-remote-ollama-ai-models-through-an-ssh-tunnel/
+[4] https://blog.sysxplore.com/p/part-1-ssh-local-port-forwarding
+[5] https://gist.github.com/scy/6781836
+[6] https://stackoverflow.com/questions/36094597/run-ssh-port-forwarding-in-background-before-connecting-to-mysql-server
+[7] https://linuxize.com/post/how-to-setup-ssh-tunneling/
+[8] https://pawsey.atlassian.net/wiki/spaces/US/pages/678494209/Use+of+standard+SSH+client+to+connect
+[9] https://www.ionos.co.uk/digitalguide/server/configuration/powershell-ssh/
+[10] https://docs.oracle.com/cd/E95619_01/html/esbc_ecz810_configuration/GUID-972B466B-D21B-42C4-8CA7-D4D6126AB8B9.htm
+[11] https://egghead.io/lessons/bash-configure-local-and-remote-port-forwarding-with-an-ssh-tunnel
+[12] https://www.digitalocean.com/community/tutorials/securing-communications-three-tier-rails-application-using-ssh-tunnels
+[13] https://ramesh-sahoo.medium.com/accessing-remote-servers-via-ssh-tunnel-reverse-ssh-tunnels-ssh-socks-proxy-ssh-via-a-jump-5e5cfddaf2a3
+[14] https://networktocode.com/blog/how-to-create-an-ssh-tunnel-via-command-line/
+[15] https://www.digitalocean.com/community/tutorials/how-to-install-and-run-a-node-js-app-on-centos-6-4-64bit
+[16] https://gist.github.com/netsensei/834aad8e9b8d503748f2400ce23c50e3
+
+
