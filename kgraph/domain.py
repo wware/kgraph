@@ -346,26 +346,52 @@ class DomainSchema(ABC):
         if relationship.predicate in self.predicate_constraints:
             constraints = self.predicate_constraints[relationship.predicate]
 
-            if subject_type not in constraints.subject_types:
-                logger.warning(
-                    "Invalid subject type for predicate '%s' in domain '%s': Got '%s', expected one of %s. Relationship: %s",
-                    relationship.predicate,
-                    self.name,
-                    subject_type,
-                    constraints.subject_types,
-                    relationship,
-                )
-                return False
-            if object_type not in constraints.object_types:
-                logger.warning(
-                    "Invalid object type for predicate '%s' in domain '%s': Got '%s', expected one of %s. Relationship: %s",
-                    relationship.predicate,
-                    self.name,
-                    object_type,
-                    constraints.object_types,
-                    relationship,
-                )
-                return False
+            # Check if types match as-is
+            subject_valid = subject_type in constraints.subject_types
+            object_valid = object_type in constraints.object_types
+
+            if not subject_valid or not object_valid:
+                # Types don't match - check if swapping would help
+                swapped_subject_valid = object_type in constraints.subject_types
+                swapped_object_valid = subject_type in constraints.object_types
+
+                if swapped_subject_valid and swapped_object_valid:
+                    # Swapping would fix the type mismatch - log a helpful message
+                    logger.warning(
+                        "Type mismatch for predicate '%s' in domain '%s': "
+                        "Subject type='%s' and Object type='%s' appear to be reversed. "
+                        "Expected subject types: %s, object types: %s. "
+                        "Swapping would fix this. Relationship: %s",
+                        relationship.predicate,
+                        self.name,
+                        subject_type,
+                        object_type,
+                        constraints.subject_types,
+                        constraints.object_types,
+                        relationship,
+                    )
+                    return False
+                else:
+                    # Neither original nor swapped work - log standard error
+                    if not subject_valid:
+                        logger.warning(
+                            "Invalid subject type for predicate '%s' in domain '%s': Got '%s', expected one of %s. Relationship: %s",
+                            relationship.predicate,
+                            self.name,
+                            subject_type,
+                            constraints.subject_types,
+                            relationship,
+                        )
+                    if not object_valid:
+                        logger.warning(
+                            "Invalid object type for predicate '%s' in domain '%s': Got '%s', expected one of %s. Relationship: %s",
+                            relationship.predicate,
+                            self.name,
+                            object_type,
+                            constraints.object_types,
+                            relationship,
+                        )
+                    return False
         else:
             logger.debug("No predicate constraints defined for '%s' in domain '%s'. Skipping type validation.", relationship.predicate, self.name)
 

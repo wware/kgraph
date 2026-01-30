@@ -6,7 +6,7 @@ Can also use Ollama LLM for relationship extraction from text.
 """
 
 from datetime import datetime, timezone
-from typing import Optional, Sequence, Any
+from typing import TYPE_CHECKING, Any, Optional, Sequence
 
 from kgraph.document import BaseDocument
 from kgraph.domain import Evidence, Provenance
@@ -16,6 +16,9 @@ from kgraph.relationship import BaseRelationship
 
 from ..relationships import MedicalClaimRelationship
 from .llm_client import LLMClientInterface
+
+if TYPE_CHECKING:
+    from ..domain import MedLitDomainSchema
 
 
 class MedLitRelationshipExtractor(RelationshipExtractorInterface):
@@ -27,14 +30,53 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
     Can also use Ollama LLM to extract relationships directly from text if llm_client is provided.
     """
 
-    def __init__(self, llm_client: Optional[LLMClientInterface] = None):
+    def __init__(self, llm_client: Optional[LLMClientInterface] = None, domain: Optional["MedLitDomainSchema"] = None):
         """Initialize relationship extractor.
 
         Args:
             llm_client: Optional LLM client for extracting relationships from text.
                         If None, only uses pre-extracted relationships from Paper JSON.
+            domain: Optional domain schema for type validation and predicate constraints.
+                    If provided, will attempt to swap subject/object on type mismatches.
         """
         self._llm = llm_client
+        if domain is None:
+            # Import at runtime to avoid circular import
+            from ..domain import MedLitDomainSchema
+
+            domain = MedLitDomainSchema()
+        self._domain = domain
+
+    def _should_swap_subject_object(self, predicate: str, subject_entity: BaseEntity, object_entity: BaseEntity) -> bool:
+        """Check if subject and object should be swapped based on type constraints.
+
+        Args:
+            predicate: The relationship predicate
+            subject_entity: The subject entity
+            object_entity: The object entity
+
+        Returns:
+            True if swapping subject and object would satisfy type constraints, False otherwise.
+        """
+        if predicate not in self._domain.predicate_constraints:
+            return False  # No constraints to check
+
+        constraints = self._domain.predicate_constraints[predicate]
+        subject_type = subject_entity.get_entity_type()
+        object_type = object_entity.get_entity_type()
+
+        # Check if current order violates constraints
+        subject_valid = subject_type in constraints.subject_types
+        object_valid = object_type in constraints.object_types
+
+        if subject_valid and object_valid:
+            return False  # Current order is fine
+
+        # Check if swapping would fix it
+        swapped_subject_valid = object_type in constraints.subject_types
+        swapped_object_valid = subject_type in constraints.object_types
+
+        return swapped_subject_valid and swapped_object_valid
 
     def _validate_predicate_semantics(self, predicate: str, evidence: str) -> bool:
         """Validate that predicate semantics match the evidence text.
@@ -301,6 +343,16 @@ Return ONLY the JSON array."""
                             if not self._validate_predicate_semantics(predicate, evidence):
                                 print(f"  Warning: Semantic mismatch - predicate '{predicate}' " f"does not match evidence: {evidence[:100]}...")
                                 continue  # Skip this relationship
+
+                            # Check if we need to swap subject and object based on type constraints
+                            if self._should_swap_subject_object(predicate, subject_entity, object_entity):
+                                print(
+                                    f"  Swapping subject/object for predicate '{predicate}': "
+                                    f"({subject_entity.name} [{subject_entity.get_entity_type()}] ↔ "
+                                    f"{object_entity.name} [{object_entity.get_entity_type()}])"
+                                )
+                                # Swap the entities
+                                subject_entity, object_entity = object_entity, subject_entity
 
                             # Create structured provenance for LLM extraction
                             # Note: LLM extracts from abstract/sample, so we don't have precise offsets
