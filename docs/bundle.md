@@ -9,6 +9,33 @@ A **bundle** is the finalized, validated artifact produced by domain-specific pi
 
 This document specifies the **bundle file layout**, **manifest schema**, and **row formats**.
 
+## Bundle Models Package
+
+The bundle format is defined by Pydantic models in the **kgbundle** package, a lightweight standalone package with minimal dependencies (pydantic only). This package is used by both:
+
+- **kgraph** (producer): exports bundles using `kgbundle.EntityRow`, `kgbundle.RelationshipRow`, `kgbundle.BundleManifestV1`
+- **kgserver** (consumer): loads bundles using the same models
+
+Example:
+```python
+from kgbundle import BundleManifestV1, EntityRow, RelationshipRow
+
+# In kgraph - export
+entity = EntityRow(
+    entity_id="char:123",
+    entity_type="character",
+    name="Sherlock Holmes",
+    status="canonical",
+    usage_count=1,
+    created_at="2024-01-15T10:30:00Z",
+    source="sherlock:curated"
+)
+
+# In kgserver - load
+with open("manifest.json") as f:
+    manifest = BundleManifestV1.model_validate_json(f.read())
+```
+
 ---
 
 ## What a bundle is (and is not)

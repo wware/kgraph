@@ -8,11 +8,12 @@ Can also use Ollama LLM for relationship extraction from text.
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any, Optional, Sequence
 
-from kgraph.document import BaseDocument
-from kgraph.domain import Evidence, Provenance
-from kgraph.entity import BaseEntity
 from kgraph.pipeline.interfaces import RelationshipExtractorInterface
-from kgraph.relationship import BaseRelationship
+
+from kgschema.document import BaseDocument
+from kgschema.domain import Evidence, Provenance
+from kgschema.entity import BaseEntity
+from kgschema.relationship import BaseRelationship
 
 from ..relationships import MedicalClaimRelationship
 from .llm_client import LLMClientInterface

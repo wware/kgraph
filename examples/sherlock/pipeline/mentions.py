@@ -3,8 +3,8 @@ from __future__ import annotations
 
 import re
 
-from kgraph.document import BaseDocument
-from kgraph.entity import EntityMention
+from kgschema.document import BaseDocument
+from kgschema.entity import EntityMention
 from kgraph.pipeline.interfaces import EntityExtractorInterface
 
 from ..data import KNOWN_CHARACTERS, KNOWN_LOCATIONS

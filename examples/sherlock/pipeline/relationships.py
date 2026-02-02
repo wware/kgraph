@@ -6,9 +6,9 @@ import re
 from datetime import datetime, timezone
 from typing import Sequence
 
-from kgraph.document import BaseDocument
-from kgraph.relationship import BaseRelationship
-from kgraph.entity import BaseEntity
+from kgschema.document import BaseDocument
+from kgschema.relationship import BaseRelationship
+from kgschema.entity import BaseEntity
 from kgraph.pipeline.interfaces import RelationshipExtractorInterface
 
 from ..domain import (

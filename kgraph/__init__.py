@@ -3,67 +3,45 @@ Knowledge Graph Framework - Domain-Agnostic Entity and Relationship Extraction.
 
 A flexible framework for building knowledge graphs across multiple domains
 (medical, legal, CS papers, etc.) with a two-pass ingestion process.
-
-This module uses lazy imports to avoid loading heavy dependencies (numpy, sklearn)
-when only lightweight components are needed. For example:
-
-    # This does NOT import numpy:
-    from kgbundle import BundleManifestV1, EntityRow, RelationshipRow
-
-    # This DOES import numpy (when the symbol is accessed):
-    from kgraph import IngestionOrchestrator
 """
 
-from typing import TYPE_CHECKING
+# Re-export core types from kgschema
+from kgschema.canonical_id import CanonicalId
+from kgschema.document import BaseDocument
+from kgschema.domain import DomainSchema
+from kgschema.entity import BaseEntity, EntityMention, EntityStatus, PromotionConfig
+from kgschema.promotion import PromotionPolicy
+from kgschema.relationship import BaseRelationship
 
-# Lightweight imports that don't pull in numpy/sklearn
+# Canonical ID utilities
 from kgraph.canonical_id import (
-    CanonicalId,
     CanonicalIdCacheInterface,
     CanonicalIdLookupInterface,
     JsonFileCanonicalIdCache,
     check_entity_id_format,
     extract_canonical_id_from_entity,
 )
-from kgraph.entity import (
-    BaseEntity,
-    EntityMention,
-    EntityStatus,
-    PromotionConfig,
-)
-from kgraph.relationship import BaseRelationship
-from kgraph.document import BaseDocument
-from kgraph.domain import DomainSchema
 
-# Type checking imports for IDE support (not executed at runtime)
-if TYPE_CHECKING:
-    from kgraph.ingest import IngestionOrchestrator, IngestionResult
+# Ingestion framework
+from kgraph.ingest import IngestionOrchestrator, IngestionResult
 
 __all__ = [
-    "BaseEntity",
-    "EntityMention",
-    "EntityStatus",
-    "PromotionConfig",
-    "BaseRelationship",
     "BaseDocument",
+    "BaseEntity",
+    "BaseRelationship",
     "CanonicalId",
     "CanonicalIdCacheInterface",
     "CanonicalIdLookupInterface",
-    "check_entity_id_format",
-    "extract_canonical_id_from_entity",
-    "JsonFileCanonicalIdCache",
     "DomainSchema",
+    "EntityMention",
+    "EntityStatus",
     "IngestionOrchestrator",
     "IngestionResult",
+    "JsonFileCanonicalIdCache",
+    "PromotionConfig",
+    "PromotionPolicy",
+    "check_entity_id_format",
+    "extract_canonical_id_from_entity",
 ]
 
 __version__ = "0.1.0"
-
-
-def __getattr__(name: str):
-    """Lazy import for heavy modules to avoid loading numpy/sklearn on light imports."""
-    if name in ("IngestionOrchestrator", "IngestionResult"):
-        from kgraph.ingest import IngestionOrchestrator, IngestionResult
-
-        return {"IngestionOrchestrator": IngestionOrchestrator, "IngestionResult": IngestionResult}[name]
-    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

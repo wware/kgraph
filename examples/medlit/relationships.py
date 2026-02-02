@@ -5,7 +5,7 @@ This allows fast implementation without class explosion, while the predicate
 still stays in the `predicate` field for clear queries.
 """
 
-from kgraph.relationship import BaseRelationship
+from kgschema.relationship import BaseRelationship
 
 
 class MedicalClaimRelationship(BaseRelationship):

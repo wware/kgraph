@@ -8,7 +8,7 @@ Create entity classes by extending `BaseEntity`:
 
 ```python
 from datetime import datetime
-from kgraph import BaseEntity, EntityStatus
+from kgschema.entity import BaseEntity, EntityStatus
 
 class PersonEntity(BaseEntity):
     """A person in the legal domain."""
@@ -35,7 +35,7 @@ class CaseEntity(BaseEntity):
 Create relationship classes by extending `BaseRelationship`:
 
 ```python
-from kgraph import BaseRelationship
+from kgschema.relationship import BaseRelationship
 
 class CitesRelationship(BaseRelationship):
     """One case cites another."""
@@ -56,7 +56,7 @@ class RepresentsRelationship(BaseRelationship):
 Create document classes by extending `BaseDocument`:
 
 ```python
-from kgraph.document import BaseDocument
+from kgschema.document import BaseDocument
 
 class CaseOpinion(BaseDocument):
     """A court opinion document."""
@@ -82,8 +82,10 @@ class CaseOpinion(BaseDocument):
 Bring everything together in a `DomainSchema`:
 
 ```python
-from kgraph import DomainSchema, PromotionConfig, BaseEntity, BaseRelationship
-from kgraph.document import BaseDocument
+from kgschema.domain import DomainSchema
+from kgschema.entity import PromotionConfig, BaseEntity
+from kgschema.relationship import BaseRelationship
+from kgschema.document import BaseDocument
 
 class LegalDomain(DomainSchema):
 

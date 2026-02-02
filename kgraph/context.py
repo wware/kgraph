@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from pydantic import BaseModel, model_validator, ConfigDict
 
-from kgraph.clock import IngestionClock
-from kgraph.document import BaseDocument
-from kgraph.domain import DomainSchema, Evidence, Provenance
 from kgraph.builders import EntityBuilder, RelationshipBuilder
+from kgraph.clock import IngestionClock
+
+from kgschema.document import BaseDocument
+from kgschema.domain import DomainSchema, Evidence, Provenance
 
 
 class IngestionContext(BaseModel):

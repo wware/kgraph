@@ -3,8 +3,14 @@
 fixes_needed() {
     echo "Something needs fixing, trying to fix it"
     set -x
-    sed -i "s/ \+$//" $(git ls-files | grep -E "\.py$")
-    uv run ruff check --fix . && uv run black .
+    uv run black kgraph kgbundle kgserver
+    uv run ruff check --fix kgraph kgbundle kgserver
+    exit 1
+}
+
+mypy_fix_needed() {
+    echo "Something mypy-ish needs fixing, You need to do that"
+    exit 1
 }
 
 echo "=========================================="
@@ -22,39 +28,56 @@ echo ""
 echo "UV Version:"
 uv --version
 
+PYTHONFILES=$(git ls-files -- kgraph kgbundle kgserver | grep -E '\.py$')
+
 echo ""
 echo "=========================================="
 echo "Running ruff check..."
 echo "=========================================="
-uv run ruff check . || fixes_needed
+uv run ruff check ${PYTHONFILES} || fixes_needed
 
 echo ""
 echo "=========================================="
 echo "Running mypy..."
 echo "=========================================="
-uv run mypy . || fixes_needed
+uv run mypy ${PYTHONFILES} || mypy_fix_needed
 
 echo ""
 echo "=========================================="
 echo "Running black check..."
 echo "=========================================="
-uv run black --check . || fixes_needed
+uv run black --check ${PYTHONFILES} || fixes_needed
 
 echo ""
 echo "=========================================="
 echo "Running flake8..."
 echo "=========================================="
-uv run flake8 . --count --show-source --statistics --exclude=.venv || fixes_needed
+uv run flake8 ${PYTHONFILES} --count --show-source --statistics || fixes_needed
 
 echo ""
 echo "=========================================="
 echo "Running pylint..."
 echo "=========================================="
-uv run pylint $(find . -name "*.py" | grep -v venv)
+uv run pylint ${PYTHONFILES}
 
 echo ""
 echo "=========================================="
 echo "Running tests..."
 echo "=========================================="
-# uv run pytest tests/ -v
+# Run tests from root for kgraph and examples
 uv run pytest tests/ -q
+
+# Run kgbundle tests (if they exist)
+if [ -d "kgbundle/tests" ]; then
+    echo ""
+    echo "Running kgbundle tests..."
+    (cd kgbundle && uv run pytest tests/ -q)
+fi
+
+# Run kgserver tests with kgbundle in PYTHONPATH
+if [ -d "kgserver/tests" ]; then
+    echo ""
+    echo "Running kgserver tests..."
+    ROOT_DIR="$(pwd)"
+    (cd kgserver && PYTHONPATH="${ROOT_DIR}:${PYTHONPATH}" uv run pytest tests/ -q)
+fi

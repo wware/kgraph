@@ -1,15 +1,14 @@
 """Domain schema for medical literature knowledge graph."""
 
-from kgraph.document import BaseDocument
-from kgraph.domain import DomainSchema, PredicateConstraint
-from kgraph.entity import BaseEntity, PromotionConfig
-from kgraph.relationship import BaseRelationship
 from kgraph.promotion import PromotionPolicy
-from kgraph.storage.interfaces import EntityStorageInterface
+
+from kgschema.document import BaseDocument
+from kgschema.domain import DomainSchema, PredicateConstraint
+from kgschema.entity import BaseEntity, PromotionConfig
+from kgschema.relationship import BaseRelationship
+from kgschema.storage import EntityStorageInterface
 
 from .documents import JournalArticle
-from .pipeline.authority_lookup import CanonicalIdLookup
-from .promotion import MedLitPromotionPolicy
 from .entities import (
     BiomarkerEntity,
     DiseaseEntity,
@@ -22,6 +21,8 @@ from .entities import (
     ProteinEntity,
     SymptomEntity,
 )
+from .pipeline.authority_lookup import CanonicalIdLookup
+from .promotion import MedLitPromotionPolicy
 from .relationships import MedicalClaimRelationship
 from .vocab import ALL_PREDICATES, get_valid_predicates
 

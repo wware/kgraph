@@ -8,7 +8,7 @@ import pytest
 from datetime import datetime, timezone
 from unittest.mock import AsyncMock, MagicMock
 
-from kgraph.entity import EntityStatus
+from kgschema.entity import EntityStatus
 from kgraph.ingest import IngestionOrchestrator
 from kgraph.storage.memory import (
     InMemoryEntityStorage,

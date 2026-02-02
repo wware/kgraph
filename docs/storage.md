@@ -23,7 +23,7 @@ The primary persistence layer for knowledge graph nodes. Supports:
 - Entity promotion (provisional → canonical) and merge operations
 
 ```python
-from kgraph.storage import EntityStorageInterface
+from kgschema.storage import EntityStorageInterface
 
 class EntityStorageInterface(ABC):
     async def add(self, entity: BaseEntity) -> str: ...
@@ -54,7 +54,7 @@ Persistence for knowledge graph edges (relationships between entities). Supports
 - Provenance queries to find relationships from specific documents
 
 ```python
-from kgraph.storage import RelationshipStorageInterface
+from kgschema.storage import RelationshipStorageInterface
 
 class RelationshipStorageInterface(ABC):
     async def add(self, relationship: BaseRelationship) -> str: ...

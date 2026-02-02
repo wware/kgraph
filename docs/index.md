@@ -23,7 +23,7 @@ Entities are the nodes in your knowledge graph. They can be:
 - **Provisional**: Awaiting promotion based on usage count and confidence scores
 
 ```python
-from kgraph import BaseEntity, EntityStatus
+from kgschema.entity import BaseEntity, EntityStatus
 
 class DrugEntity(BaseEntity):
     def get_entity_type(self) -> str:
@@ -35,7 +35,7 @@ class DrugEntity(BaseEntity):
 Relationships are edges connecting entities. Each domain defines valid predicates.
 
 ```python
-from kgraph import BaseRelationship
+from kgschema.relationship import BaseRelationship
 
 class TreatsRelationship(BaseRelationship):
     def get_edge_type(self) -> str:
@@ -47,7 +47,8 @@ class TreatsRelationship(BaseRelationship):
 Define your domain by implementing `DomainSchema`:
 
 ```python
-from kgraph import DomainSchema, PromotionConfig
+from kgschema.domain import DomainSchema
+from kgschema.entity import PromotionConfig
 
 class MedicalDomain(DomainSchema):
     @property

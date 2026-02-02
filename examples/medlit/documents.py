@@ -2,7 +2,7 @@
 
 from pydantic import Field
 
-from kgraph.document import BaseDocument
+from kgschema.document import BaseDocument
 
 
 class JournalArticle(BaseDocument):

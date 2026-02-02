@@ -12,7 +12,7 @@ This module verifies the IngestionOrchestrator's ability to:
 
 import pytest
 
-from kgraph.entity import EntityStatus
+from kgschema.entity import EntityStatus
 from kgraph.ingest import IngestionOrchestrator
 from kgraph.storage.memory import (
     InMemoryDocumentStorage,

@@ -32,7 +32,9 @@ uv pip install -e ".[dev]"
 ### 1. Define your domain
 
 ```python
-from kgraph import BaseEntity, BaseRelationship, DomainSchema, EntityStatus
+from kgschema.entity import BaseEntity, EntityStatus
+from kgschema.relationship import BaseRelationship
+from kgschema.domain import DomainSchema
 
 class PersonEntity(BaseEntity):
     def get_entity_type(self) -> str:
@@ -121,24 +123,38 @@ uv run pytest
 ## Project Structure
 
 ```
-kgraph/
-├── entity.py              # BaseEntity, EntityStatus, EntityMention, PromotionConfig
-├── relationship.py        # BaseRelationship
-├── document.py            # BaseDocument
-├── domain.py              # DomainSchema ABC
-├── ingest.py              # IngestionOrchestrator
-├── promotion.py           # PromotionPolicy ABC
-├── canonical_id/          # Canonical ID system
-│   ├── models.py          # CanonicalId model, CanonicalIdCacheInterface ABC
-│   ├── json_cache.py      # JsonFileCanonicalIdCache implementation
-│   ├── lookup.py          # CanonicalIdLookupInterface ABC
-│   └── helpers.py         # Helper functions for promotion policies
-├── storage/
-│   ├── interfaces.py      # Storage ABCs
-│   └── memory.py          # In-memory implementation
-└── pipeline/
-    ├── interfaces.py       # Parser, Extractor, Resolver ABCs
-    └── embedding.py       # EmbeddingGeneratorInterface
+kgraph/                    # Main ingestion framework
+├── kgschema/              # Data structure definitions (submodule)
+│   ├── entity.py          # BaseEntity, EntityStatus, EntityMention, PromotionConfig
+│   ├── relationship.py    # BaseRelationship
+│   ├── document.py        # BaseDocument
+│   ├── domain.py          # DomainSchema ABC
+│   └── storage.py         # Storage interface ABCs
+├── kgraph/                # Functional code
+│   ├── ingest.py          # IngestionOrchestrator
+│   ├── promotion.py       # PromotionPolicy ABC
+│   ├── export.py          # Bundle export
+│   ├── builders.py        # Builder utilities
+│   ├── canonical_id/      # Canonical ID system
+│   │   ├── models.py      # CanonicalId model, CanonicalIdCacheInterface ABC
+│   │   ├── json_cache.py  # JsonFileCanonicalIdCache implementation
+│   │   ├── lookup.py      # CanonicalIdLookupInterface ABC
+│   │   └── helpers.py     # Helper functions for promotion policies
+│   ├── storage/           # Storage implementations
+│   │   └── memory.py      # In-memory storage
+│   └── pipeline/          # Pipeline interfaces
+│       ├── interfaces.py  # Parser, Extractor, Resolver ABCs
+│       └── embedding.py   # EmbeddingGeneratorInterface
+├── kgbundle/              # Separate package for bundle models
+│   ├── models.py          # EntityRow, RelationshipRow, BundleManifestV1
+│   └── pyproject.toml     # Minimal dependencies (pydantic only)
+├── kgserver/              # Query server (separate package)
+│   ├── storage/           # PostgreSQL/SQLite backends
+│   ├── query/             # Bundle loader, GraphQL API
+│   └── mcp_server/        # MCP server implementation
+└── examples/
+    ├── medlit/            # Medical literature domain
+    └── sherlock/          # Sherlock Holmes domain
 ```
 
 ## License

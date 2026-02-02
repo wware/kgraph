@@ -103,23 +103,51 @@ Promotion policies use these abstractions to assign canonical IDs to entities. S
 
 ## Module Structure
 
+The codebase is organized into three main packages:
+
+### kgschema/ (Data Structure Definitions)
+
+Submodule within kgraph containing only Pydantic models and ABC interfaces, no functional code:
+
 ```
-kgraph/
+kgschema/
 ├── entity.py              # BaseEntity, EntityStatus, EntityMention, PromotionConfig
 ├── relationship.py        # BaseRelationship
 ├── document.py            # BaseDocument
 ├── domain.py              # DomainSchema ABC
+└── storage.py             # Storage interface ABCs
+```
+
+### kgbundle/ (Bundle Exchange Models)
+
+Separate lightweight package with minimal dependencies (pydantic only):
+
+```
+kgbundle/
+├── models.py              # EntityRow, RelationshipRow, BundleManifestV1
+└── pyproject.toml         # Standalone package configuration
+```
+
+Used by both kgraph (producer) and kgserver (consumer) for bundle file exchange.
+
+### kgraph/ (Main Framework)
+
+Functional code implementing the ingestion pipeline:
+
+```
+kgraph/
 ├── ingest.py              # IngestionOrchestrator
 ├── promotion.py           # PromotionPolicy ABC
+├── export.py              # Bundle export functionality
+├── builders.py            # Builder utilities
 ├── canonical_id/          # Canonical ID system
 │   ├── models.py          # CanonicalId model, CanonicalIdCacheInterface ABC
 │   ├── json_cache.py      # JsonFileCanonicalIdCache implementation
 │   ├── lookup.py          # CanonicalIdLookupInterface ABC
 │   └── helpers.py         # Helper functions for promotion policies
-├── storage/
-│   ├── interfaces.py      # Storage ABCs
-│   └── memory.py          # In-memory implementation
-└── pipeline/
+├── storage/               # Storage implementations
+│   └── memory.py          # In-memory storage
+└── pipeline/              # Pipeline component interfaces
     ├── interfaces.py      # Parser, Extractor, Resolver ABCs
     └── embedding.py       # EmbeddingGeneratorInterface
 ```

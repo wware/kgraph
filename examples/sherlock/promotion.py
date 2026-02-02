@@ -7,8 +7,9 @@ Uses the shared canonical ID helper functions for consistency with other domains
 from typing import Optional
 
 from kgraph.canonical_id import CanonicalId, extract_canonical_id_from_entity
-from kgraph.entity import BaseEntity
 from kgraph.promotion import PromotionPolicy
+
+from kgschema.entity import BaseEntity
 
 # Hand-curated mapping of provisional IDs to DBPedia URIs
 SHERLOCK_CANONICAL_IDS = {

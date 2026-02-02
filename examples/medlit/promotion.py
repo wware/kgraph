@@ -12,9 +12,10 @@ from kgraph.canonical_id import (
     check_entity_id_format,
     extract_canonical_id_from_entity,
 )
-from kgraph.entity import BaseEntity, EntityStatus
 from kgraph.logging import setup_logging
 from kgraph.promotion import PromotionPolicy
+
+from kgschema.entity import BaseEntity, EntityStatus
 
 from .pipeline.authority_lookup import CanonicalIdLookup
 

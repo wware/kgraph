@@ -3,12 +3,13 @@ from __future__ import annotations
 
 from typing import Optional
 
-from kgraph.document import BaseDocument
-from kgraph.domain import DomainSchema, PredicateConstraint
-from kgraph.entity import BaseEntity, PromotionConfig
-from kgraph.relationship import BaseRelationship
 from kgraph.promotion import PromotionPolicy
-from kgraph.storage.interfaces import EntityStorageInterface
+
+from kgschema.document import BaseDocument
+from kgschema.domain import DomainSchema, PredicateConstraint
+from kgschema.entity import BaseEntity, PromotionConfig
+from kgschema.relationship import BaseRelationship
+from kgschema.storage import EntityStorageInterface
 
 from .promotion import SherlockPromotionPolicy
 

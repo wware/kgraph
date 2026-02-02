@@ -42,3 +42,37 @@ uv run pytest tests/test_entities.py::test_canonical_promotion -v
 - Query optimizations and graph algorithms are shared across domains
 - Documents produce JSON output: global `entities.json` for canonicals, per-paper `paper_{id}.json` for edges and provisionals
 - Semantic vectors (embeddings) on entities enable merge detection via cosine similarity
+
+## Package Structure
+
+The codebase is organized into separate packages with clear separation of concerns:
+
+### kgschema/ (Submodule within kgraph)
+Data structure definitions only, no functional code:
+- `entity.py` - BaseEntity, EntityMention, EntityStatus, PromotionConfig
+- `relationship.py` - BaseRelationship
+- `domain.py` - DomainSchema ABC for defining entity/relationship types
+- `document.py` - BaseDocument ABC
+- `storage.py` - ABC interfaces for storage backends (EntityStorageInterface, etc.)
+
+### kgbundle/ (Separate Package)
+Lightweight Pydantic models for bundle exchange between kgraph and kgserver:
+- `models.py` - EntityRow, RelationshipRow, BundleManifestV1, DocumentAssetRow
+- Minimal dependencies (only pydantic) for lightweight imports
+- Used by both kgraph (producer) and kgserver (consumer)
+
+### kgraph/ (Main Framework)
+Functional code for ingestion and processing:
+- `ingest.py` - IngestionOrchestrator implementing two-pass pipeline
+- `promotion.py` - PromotionPolicy ABC for entity promotion logic
+- `export.py` - Bundle export functionality
+- `builders.py` - Builder utilities
+- `canonical_id/` - Canonical ID lookup and caching
+- `storage/` - In-memory storage implementations
+- `pipeline/` - Pipeline component interfaces
+
+### kgserver/ (Query Server)
+FastAPI server for querying knowledge graphs:
+- Loads bundles produced by kgraph
+- Provides MCP server, GraphQL, and REST APIs
+- PostgreSQL and SQLite backend support

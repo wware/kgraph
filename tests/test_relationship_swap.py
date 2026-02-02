@@ -3,9 +3,9 @@
 import pytest
 from datetime import datetime, timezone
 
-from kgraph.domain import DomainSchema, PredicateConstraint
-from kgraph.entity import BaseEntity, EntityStatus
-from kgraph.relationship import BaseRelationship
+from kgschema.domain import DomainSchema, PredicateConstraint
+from kgschema.entity import BaseEntity, EntityStatus
+from kgschema.relationship import BaseRelationship
 
 
 class DrugEntity(BaseEntity):

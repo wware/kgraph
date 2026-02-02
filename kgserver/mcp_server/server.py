@@ -5,7 +5,7 @@ Provides tools for querying the knowledge graph via the Model Context Protocol.
 """
 
 from typing import Optional
-from contextlib import contextmanager
+from contextlib import contextmanager, closing
 from fastmcp import FastMCP
 
 from query.storage_factory import get_engine, get_storage
@@ -22,16 +22,14 @@ def _get_storage():
     """Context manager for getting a storage instance with proper lifecycle management."""
     # Initialize engine if needed
     get_engine()
-    # Get storage from generator using context manager
-    storage_gen = get_storage()
-    storage = next(storage_gen)
-    try:
+    # Get storage from generator - use it directly as a context manager
+    # Since get_storage() is a generator, we can use it with contextlib.closing
+    # or wrap it properly to avoid manual next() calls
+    with closing(get_storage()) as storage_gen:
+        storage = next(storage_gen, None)
+        if storage is None:
+            raise RuntimeError("Failed to get storage instance from generator")
         yield storage
-    finally:
-        try:
-            next(storage_gen)
-        except StopIteration:
-            pass  # Generator completed normally
 
 
 @mcp_server.tool()

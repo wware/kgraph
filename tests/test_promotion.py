@@ -7,26 +7,29 @@ This test module covers:
 4. Entities starting as provisional with canonical_id_hint
 """
 
-import pytest
 from datetime import datetime, timezone
 
+import pytest
+
 from kgraph.canonical_id import CanonicalId
-from kgraph.entity import BaseEntity, EntityStatus, PromotionConfig
-from kgraph.promotion import PromotionPolicy
 from kgraph.ingest import IngestionOrchestrator
-from kgraph.storage.memory import (
-    InMemoryEntityStorage,
-    InMemoryRelationshipStorage,
-    InMemoryDocumentStorage,
-)
-from kgraph.domain import DomainSchema
+from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 from kgraph.pipeline.interfaces import (
     DocumentParserInterface,
     EntityExtractorInterface,
     EntityResolverInterface,
     RelationshipExtractorInterface,
 )
-from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
+from kgraph.promotion import PromotionPolicy
+from kgraph.storage.memory import (
+    InMemoryDocumentStorage,
+    InMemoryEntityStorage,
+    InMemoryRelationshipStorage,
+)
+
+from kgschema.domain import DomainSchema
+from kgschema.entity import BaseEntity, EntityStatus, PromotionConfig
+
 from examples.sherlock.domain import SherlockDomainSchema
 from examples.sherlock.pipeline import (
     SherlockDocumentParser,

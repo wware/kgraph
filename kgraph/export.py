@@ -7,7 +7,7 @@ from typing import Protocol, Dict, Any, Optional, List
 import uuid
 
 from kgbundle import BundleManifestV1, EntityRow, RelationshipRow, BundleFile, DocumentAssetRow
-from kgraph.storage.interfaces import EntityStorageInterface, RelationshipStorageInterface
+from kgschema.storage import EntityStorageInterface, RelationshipStorageInterface
 
 
 def get_git_hash() -> Optional[str]:

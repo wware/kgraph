@@ -5,9 +5,9 @@ Since the papers already have extracted entities, we convert those to EntityMent
 Can also use Ollama LLM for NER extraction from text.
 """
 
-from kgraph.document import BaseDocument
-from kgraph.domain import DomainSchema
-from kgraph.entity import EntityMention
+from kgschema.document import BaseDocument
+from kgschema.domain import DomainSchema
+from kgschema.entity import EntityMention
 from kgraph.pipeline.interfaces import EntityExtractorInterface
 
 from .llm_client import LLMClientInterface

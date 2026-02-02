@@ -19,9 +19,6 @@ from typing import Optional, Sequence
 import pytest
 
 from kgraph.canonical_id import CanonicalId
-from kgraph.document import BaseDocument
-from kgraph.domain import DomainSchema, PredicateConstraint
-from kgraph.entity import BaseEntity, EntityMention, EntityStatus, PromotionConfig
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 from kgraph.pipeline.interfaces import (
     DocumentParserInterface,
@@ -30,13 +27,16 @@ from kgraph.pipeline.interfaces import (
     RelationshipExtractorInterface,
 )
 from kgraph.promotion import PromotionPolicy
-from kgraph.relationship import BaseRelationship
-from kgraph.storage.interfaces import EntityStorageInterface
 from kgraph.storage.memory import (
     InMemoryDocumentStorage,
     InMemoryEntityStorage,
     InMemoryRelationshipStorage,
 )
+from kgschema.document import BaseDocument
+from kgschema.domain import DomainSchema, PredicateConstraint
+from kgschema.entity import BaseEntity, EntityMention, EntityStatus, PromotionConfig
+from kgschema.relationship import BaseRelationship
+from kgschema.storage import EntityStorageInterface
 
 # --- Minimal Test Domain Implementations ---
 

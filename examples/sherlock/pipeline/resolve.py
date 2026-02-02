@@ -4,9 +4,9 @@ import uuid
 from typing import Sequence
 
 from kgraph.pipeline.interfaces import EntityResolverInterface
-from kgraph.entity import BaseEntity, EntityStatus, EntityMention
-from kgraph.domain import DomainSchema
-from kgraph.storage.interfaces import EntityStorageInterface
+from kgschema.entity import BaseEntity, EntityStatus, EntityMention
+from kgschema.domain import DomainSchema
+from kgschema.storage import EntityStorageInterface
 
 
 class SherlockEntityResolver(BaseModel, EntityResolverInterface):

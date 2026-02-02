@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from kgraph.clock import IngestionClock
 from kgraph.builders import EntityBuilder, RelationshipBuilder
 from kgraph.context import IngestionContext
-from kgraph.entity import EntityMention, EntityStatus
+from kgschema.entity import EntityMention, EntityStatus
 
 
 def make_doc(doc_id: str = "doc-1", content: str = "hello world"):

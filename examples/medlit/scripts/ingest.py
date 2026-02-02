@@ -16,28 +16,29 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from kgraph.export import write_bundle
 from kgraph.ingest import IngestionOrchestrator
 from kgraph.logging import setup_logging
-from kgraph.storage.interfaces import (
-    DocumentStorageInterface,
-    EntityStorageInterface,
-    RelationshipStorageInterface,
-)
 from kgraph.storage.memory import (
     InMemoryDocumentStorage,
     InMemoryEntityStorage,
     InMemoryRelationshipStorage,
 )
-from kgraph.export import write_bundle
+
+from kgschema.storage import (
+    DocumentStorageInterface,
+    EntityStorageInterface,
+    RelationshipStorageInterface,
+)
 
 from ..domain import MedLitDomainSchema
 from ..pipeline.authority_lookup import CanonicalIdLookup
-from ..pipeline.parser import JournalArticleParser
-from ..pipeline.mentions import MedLitEntityExtractor
-from ..pipeline.resolve import MedLitEntityResolver
-from ..pipeline.relationships import MedLitRelationshipExtractor
 from ..pipeline.embeddings import OllamaMedLitEmbeddingGenerator
 from ..pipeline.llm_client import OllamaLLMClient
+from ..pipeline.mentions import MedLitEntityExtractor
+from ..pipeline.parser import JournalArticleParser
+from ..pipeline.relationships import MedLitRelationshipExtractor
+from ..pipeline.resolve import MedLitEntityResolver
 
 logger = setup_logging()
 

@@ -57,7 +57,11 @@ ignore = ["E203", "E266", "E501", "W503", "E402"]
 
 [tool.mypy]
 ignore_missing_imports = true
-exclude = ["kgserver/", "kgbundle/"]
+disable_error_code = ["call-arg", "import-untyped"]
+
+[[tool.mypy.overrides]]
+module = "kgserver.*"
+disable_error_code = ["call-arg", "import-untyped"]
 
 [tool.uv.sources]
 kgbundle = { path = "kgbundle", editable = true }

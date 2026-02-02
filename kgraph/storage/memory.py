@@ -21,10 +21,10 @@ backend (PostgreSQL with pgvector, Neo4j, etc.).
 import math
 from typing import Sequence
 
-from kgraph.document import BaseDocument
-from kgraph.entity import BaseEntity, EntityStatus
-from kgraph.relationship import BaseRelationship
-from kgraph.storage.interfaces import (
+from kgschema.document import BaseDocument
+from kgschema.entity import BaseEntity, EntityStatus
+from kgschema.relationship import BaseRelationship
+from kgschema.storage import (
     DocumentStorageInterface,
     EntityStorageInterface,
     RelationshipStorageInterface,

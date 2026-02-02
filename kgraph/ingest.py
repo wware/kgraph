@@ -55,8 +55,6 @@ from pydantic import BaseModel, ConfigDict
 from sklearn.metrics.pairwise import cosine_similarity  # type: ignore
 
 from kgraph.canonical_id import CanonicalId
-from kgraph.domain import DomainSchema
-from kgraph.entity import BaseEntity, EntityStatus
 from kgraph.logging import setup_logging
 from kgraph.promotion import PromotionPolicy
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
@@ -66,8 +64,11 @@ from kgraph.pipeline.interfaces import (
     EntityResolverInterface,
     RelationshipExtractorInterface,
 )
-from kgraph.relationship import BaseRelationship
-from kgraph.storage.interfaces import (
+
+from kgschema.domain import DomainSchema
+from kgschema.entity import BaseEntity, EntityStatus
+from kgschema.relationship import BaseRelationship
+from kgschema.storage import (
     DocumentStorageInterface,
     EntityStorageInterface,
     RelationshipStorageInterface,

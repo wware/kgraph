@@ -12,7 +12,7 @@ This module verifies:
 
 import pytest
 
-from kgraph.entity import EntityStatus
+from kgschema.entity import EntityStatus
 from kgraph.storage.memory import InMemoryEntityStorage
 
 from tests.conftest import make_test_entity

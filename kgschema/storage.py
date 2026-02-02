@@ -22,9 +22,9 @@ The storage layer supports key knowledge graph operations:
 from abc import ABC, abstractmethod
 from typing import Sequence
 
-from kgraph.document import BaseDocument
-from kgraph.entity import BaseEntity
-from kgraph.relationship import BaseRelationship
+from kgschema.document import BaseDocument
+from kgschema.entity import BaseEntity
+from kgschema.relationship import BaseRelationship
 
 
 class EntityStorageInterface(ABC):

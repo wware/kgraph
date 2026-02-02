@@ -22,10 +22,10 @@ Typical flow:
 from abc import ABC, abstractmethod
 from typing import Sequence
 
-from kgraph.document import BaseDocument
-from kgraph.entity import BaseEntity, EntityMention
-from kgraph.relationship import BaseRelationship
-from kgraph.storage.interfaces import EntityStorageInterface
+from kgschema.document import BaseDocument
+from kgschema.entity import BaseEntity, EntityMention
+from kgschema.relationship import BaseRelationship
+from kgschema.storage import EntityStorageInterface
 
 
 class DocumentParserInterface(ABC):

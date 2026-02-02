@@ -44,13 +44,14 @@ Example usage:
 
 import logging
 from abc import ABC, abstractmethod
+
 from pydantic import BaseModel, Field, model_validator
 
-from kgraph.document import BaseDocument
-from kgraph.entity import BaseEntity, PromotionConfig
-from kgraph.relationship import BaseRelationship
-from kgraph.promotion import PromotionPolicy
-from kgraph.storage.interfaces import EntityStorageInterface
+from kgschema.document import BaseDocument
+from kgschema.entity import BaseEntity, PromotionConfig
+from kgschema.promotion import PromotionPolicy
+from kgschema.relationship import BaseRelationship
+from kgschema.storage import EntityStorageInterface
 
 logger = logging.getLogger(__name__)
 

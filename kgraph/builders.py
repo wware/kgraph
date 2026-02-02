@@ -6,11 +6,11 @@ import uuid
 from pydantic import BaseModel, model_validator, ConfigDict, Field
 
 from kgraph.clock import IngestionClock
-from kgraph.document import BaseDocument
-from kgraph.domain import DomainSchema, Evidence
-from kgraph.entity import BaseEntity, EntityStatus, EntityMention
-from kgraph.relationship import BaseRelationship
-from kgraph.storage.interfaces import EntityStorageInterface  # Added import
+from kgschema.document import BaseDocument
+from kgschema.domain import DomainSchema, Evidence
+from kgschema.entity import BaseEntity, EntityStatus, EntityMention
+from kgschema.relationship import BaseRelationship
+from kgschema.storage import EntityStorageInterface
 
 
 def _strip_nonempty(s: str, *, what: str) -> str:

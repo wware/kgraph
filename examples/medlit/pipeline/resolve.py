@@ -9,12 +9,13 @@ from typing import Sequence
 
 from pydantic import BaseModel, ConfigDict
 
-from kgraph.domain import DomainSchema
-from kgraph.entity import BaseEntity, EntityMention, EntityStatus
 from kgraph.logging import setup_logging
-from kgraph.pipeline.interfaces import EntityResolverInterface
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
-from kgraph.storage.interfaces import EntityStorageInterface
+from kgraph.pipeline.interfaces import EntityResolverInterface
+
+from kgschema.domain import DomainSchema
+from kgschema.entity import BaseEntity, EntityMention, EntityStatus
+from kgschema.storage import EntityStorageInterface
 
 from .canonical_urls import build_canonical_url, build_canonical_urls_from_dict
 

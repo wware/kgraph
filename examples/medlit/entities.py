@@ -1,6 +1,6 @@
 """Medical entity types for the knowledge graph."""
 
-from kgraph.entity import BaseEntity
+from kgschema.entity import BaseEntity
 
 
 class DiseaseEntity(BaseEntity):

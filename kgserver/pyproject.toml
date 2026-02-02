@@ -46,6 +46,7 @@ ignore = ["E203", "E266", "E501", "W503", "E402"]
 
 [tool.mypy]
 ignore_missing_imports = true
+disable_error_code = ["call-arg", "import-untyped"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
@@ -55,5 +56,4 @@ testpaths = ["tests"]
 packages = ["storage", "query", "mcp_server"]
 
 [tool.uv.sources]
-# kgbundle = { path = "../kgbundle", editable = true }
-kgbundle = { path = "./kgbundle", editable = true }
+kgbundle = { path = "../kgbundle", editable = true }

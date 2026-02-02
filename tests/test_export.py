@@ -15,7 +15,7 @@ from pathlib import Path
 
 import pytest
 
-from kgraph.entity import EntityStatus
+from kgschema.entity import EntityStatus
 from kgraph.ingest import IngestionOrchestrator
 from kgraph.storage.memory import (
     InMemoryDocumentStorage,
