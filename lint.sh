@@ -28,7 +28,7 @@ echo ""
 echo "UV Version:"
 uv --version
 
-PYTHONFILES=$(git ls-files -- kgraph kgbundle kgserver | grep -E '\.py$')
+PYTHONFILES=$(git ls-files -- kgraph kgbundle kgschema kgserver examples | grep -E '\.py$')
 
 echo ""
 echo "=========================================="
