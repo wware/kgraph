@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import List, Optional, Literal
 from pydantic import BaseModel, field_validator, model_validator
-from kgschema.entity import BaseEntity
+from kgschema.entity import BaseEntity, EntityStatus
 from examples.medlit_schema.base import ExtractionProvenance, ExtractionMethod, StudyType
 
 
@@ -327,6 +327,32 @@ class PaperMetadata(BaseModel):
     primary_outcome: Optional[str] = None
     clinical_phase: Optional[str] = None
     mesh_terms: List[str] = []
+
+
+class TextSpan(BaseEntity):
+    """
+    Represents a specific span of text within a document, acting as an anchor for evidence.
+
+    This entity provides fine-grained provenance for assertions by linking them
+    to exact locations within a source paper. It serves as a first-class entity
+    that can be referenced by Evidence.
+
+    Attributes:
+        paper_id: The ID of the paper this text span belongs to.
+        section: The section of the paper (e.g., "abstract", "introduction", "results").
+        start_offset: The character offset where the span starts in the section content.
+        end_offset: The character offset where the span ends in the section content.
+        text_content: The actual text content of the span (optional, for convenience and caching).
+    """
+
+    paper_id: str
+    section: str
+    start_offset: int = 0
+    end_offset: int = 0
+    text_content: Optional[str] = None
+
+    def get_entity_type(self) -> str:
+        return "text_span"
 
 
 class Paper(BaseEntity):
@@ -707,6 +733,9 @@ class Evidence(BaseEntity):
         ...     created_at=datetime.now()
         ... )
     """
+
+    promotable: bool = False
+    status: EntityStatus = EntityStatus.CANONICAL
 
     paper_id: str
     text_span_id: str

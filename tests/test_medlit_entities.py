@@ -2,7 +2,8 @@
 import pytest
 from datetime import datetime
 from pydantic import ValidationError
-from examples.medlit_schema.entity import Disease, Gene, Drug, Protein, Procedure, Institution
+from examples.medlit_schema.entity import Disease, Gene, Drug, Protein, Procedure, Institution, Evidence
+from kgschema.entity import EntityStatus
 
 def test_disease_with_umls_id_validates():
     """Test that a Disease entity with a UMLS ID validates."""
@@ -79,4 +80,21 @@ def test_canonical_entity_without_ontology_id_fails():
             name="Breast Cancer",
             source="umls",
             created_at=datetime.now(),
+        )
+
+def test_evidence_cannot_be_provisional():
+    """Test that Evidence entities cannot be created with PROVISIONAL status."""
+    with pytest.raises(ValueError, match="Entities that are not promotable must be created with CANONICAL status."):
+        Evidence(
+            entity_id="PMC999888:results:3:llm",
+            name="Evidence from Olaparib RCT results",
+            paper_id="PMC999888",
+            text_span_id="PMC999888:results:3",
+            confidence=0.92,
+            extraction_method="llm", # Assuming this is a valid ExtractionMethod value
+            study_type="rct", # Assuming this is a valid StudyType value
+            source="extracted",
+            created_at=datetime.now(),
+            promotable=False,
+            status=EntityStatus.PROVISIONAL,
         )

@@ -29,7 +29,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from enum import Enum
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 class EntityStatus(str, Enum):
@@ -126,6 +126,7 @@ class BaseEntity(ABC, BaseModel):
 
     model_config = {"frozen": True}
 
+    promotable: bool = Field(default=True, description="Whether this entity type can be promoted from provisional to canonical.")
     entity_id: str = Field(description="Domain-specific canonical ID or provisional UUID.")
     status: EntityStatus = Field(default=EntityStatus.PROVISIONAL, description="Whether entity is canonical or provisional.")
     name: str = Field(description="Primary name/label for the entity.")
@@ -158,6 +159,12 @@ class BaseEntity(ABC, BaseModel):
         default_factory=dict,
         description="Domain-specific metadata.",
     )
+
+    @model_validator(mode="after")
+    def _ensure_canonical_if_not_promotable(self) -> "BaseEntity":
+        if not self.promotable and self.status != EntityStatus.CANONICAL:
+            raise ValueError("Entities that are not promotable must be created with CANONICAL status.")
+        return self
 
     @abstractmethod
     def get_entity_type(self) -> str:
