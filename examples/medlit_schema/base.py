@@ -59,8 +59,28 @@ class SectionType(str, Enum):
     CONCLUSION = "conclusion"
 
 
-class TextSpan(BaseModel):
-    """A span of text in a document for evidence anchoring."""
+class TextSpanRef(BaseModel):
+    """A structural locator for text within a parsed document.
+
+    This is a parser/segmentation address that uses structural coordinates
+    (section type, paragraph index, sentence index) to locate text. It is
+    distinct from TextSpan (entity.py), which is a graph entity anchor with
+    precise character offsets.
+
+    Use this for:
+    - Intermediate parsing stages before final offsets are computed
+    - Structural navigation within documents
+    - Creating TextSpan entities once offsets are finalized
+
+    Attributes:
+        paper_id: The ID of the paper this span belongs to.
+        section_type: The type of section (abstract, introduction, etc.).
+        paragraph_idx: Zero-based paragraph index within the section.
+        sentence_idx: Optional sentence index within the paragraph.
+        text_span: Optional text snippet for reference.
+        start_offset: Optional character offset (for when computed).
+        end_offset: Optional character offset (for when computed).
+    """
 
     paper_id: str
 

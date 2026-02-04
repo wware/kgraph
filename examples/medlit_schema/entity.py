@@ -337,19 +337,38 @@ class TextSpan(BaseEntity):
     to exact locations within a source paper. It serves as a first-class entity
     that can be referenced by Evidence.
 
+    TextSpan is canonical-only (not promotable) because:
+    - Character offsets are stable only relative to a specific text representation
+    - The combination of paper_id + section + offsets provides a natural canonical ID
+    - There is no meaningful "provisional" state for a text location
+
+    Note: This is distinct from TextSpanRef (base.py), which is a structural locator
+    using paragraph/sentence indices for parsing stages before final offsets are computed.
+
     Attributes:
         paper_id: The ID of the paper this text span belongs to.
         section: The section of the paper (e.g., "abstract", "introduction", "results").
-        start_offset: The character offset where the span starts in the section content.
-        end_offset: The character offset where the span ends in the section content.
+        start_offset: The character offset where the span starts in the section content (required).
+        end_offset: The character offset where the span ends in the section content (required).
         text_content: The actual text content of the span (optional, for convenience and caching).
     """
 
+    promotable: bool = False
+    status: EntityStatus = EntityStatus.CANONICAL
+
     paper_id: str
     section: str
-    start_offset: int = 0
-    end_offset: int = 0
+    start_offset: int
+    end_offset: int
     text_content: Optional[str] = None
+
+    @field_validator("end_offset")
+    def end_must_be_greater_than_start(cls, v, info):  # pylint: disable=no-self-argument
+        """Validate that end_offset > start_offset."""
+        start = info.data.get("start_offset")
+        if start is not None and v <= start:
+            raise ValueError(f"end_offset ({v}) must be greater than start_offset ({start})")
+        return v
 
     def get_entity_type(self) -> str:
         return "text_span"

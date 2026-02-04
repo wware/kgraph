@@ -64,8 +64,8 @@ echo ""
 echo "=========================================="
 echo "Running tests..."
 echo "=========================================="
-# Run tests from root for kgraph and examples
-uv run pytest tests/ -q
+# Run all tests using testpaths from pyproject.toml (tests/ + examples/medlit/tests/)
+uv run pytest -q
 
 # Run kgbundle tests (if they exist)
 if [ -d "kgbundle/tests" ]; then
