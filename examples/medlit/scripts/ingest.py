@@ -3,18 +3,36 @@
 
 Processes Paper JSON files (from med-lit-schema) and generates a kgraph bundle.
 
+The pipeline has three stages:
+    1. Entity Extraction (per-paper): Extract entities, most provisional initially
+    2. Promotion (batch): De-duplicate and promote provisionals to canonical
+    3. Relationship Extraction (per-paper): Extract relationships using canonical entities
+
+Use --stop-after to halt at any stage and dump JSON to stdout for debugging/testing.
+
 Usage:
-    python -m examples.medlit.scripts.ingest --input-dir /path/to/json_papers --output-dir medlit_bundle
-    python -m examples.medlit.scripts.ingest --input-dir /path/to/json_papers --output-dir medlit_bundle --limit 10
+    # Full pipeline
+    python -m examples.medlit.scripts.ingest --input-dir /path/to/papers --output-dir medlit_bundle --use-ollama
+
+    # Stop after entity extraction and dump JSON
+    python -m examples.medlit.scripts.ingest --input-dir /path/to/papers --use-ollama --stop-after entities
+
+    # Stop after promotion and dump JSON
+    python -m examples.medlit.scripts.ingest --input-dir /path/to/papers --use-ollama --stop-after promotion
 """
 
 import argparse
 import asyncio
+import json
 import os
+import sys
 import time
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 from tempfile import TemporaryDirectory
+
+from pydantic import BaseModel
 
 from kgraph.export import write_bundle
 from kgraph.ingest import IngestionOrchestrator
@@ -39,6 +57,18 @@ from ..pipeline.mentions import MedLitEntityExtractor
 from ..pipeline.parser import JournalArticleParser
 from ..pipeline.relationships import MedLitRelationshipExtractor
 from ..pipeline.resolve import MedLitEntityResolver
+from ..stage_models import (
+    EntityExtractionStageResult,
+    ExtractedEntityRecord,
+    ExtractedRelationshipRecord,
+    IngestionPipelineResult,
+    IngestionStage,
+    PaperEntityExtractionResult,
+    PaperRelationshipExtractionResult,
+    PromotedEntityRecord,
+    PromotionStageResult,
+    RelationshipExtractionStageResult,
+)
 
 logger = setup_logging()
 
@@ -62,18 +92,18 @@ class ProgressTracker:
             self.last_report_time = now
 
     def report(self) -> None:
-        """Print progress report."""
+        """Print progress report to stderr."""
         elapsed = time.time() - self.start_time
         if elapsed > 0:
             rate = self.completed / elapsed
             remaining = (self.total - self.completed) / rate if rate > 0 else 0
             pct = (self.completed / self.total * 100) if self.total > 0 else 0
 
-            print(f"\n  Progress: {self.completed}/{self.total} ({pct:.1f}%)")
-            print(f"    Elapsed: {elapsed/60:.1f} min")
+            print(f"\n  Progress: {self.completed}/{self.total} ({pct:.1f}%)", file=sys.stderr)
+            print(f"    Elapsed: {elapsed/60:.1f} min", file=sys.stderr)
             if remaining > 0:
-                print(f"    Estimated remaining: {remaining/60:.1f} min")
-            print(f"    Rate: {rate:.2f} papers/sec")
+                print(f"    Estimated remaining: {remaining/60:.1f} min", file=sys.stderr)
+            print(f"    Rate: {rate:.2f} papers/sec", file=sys.stderr)
 
 
 def build_orchestrator(
@@ -121,12 +151,12 @@ def build_orchestrator(
     llm_client = None
     if use_ollama:
         try:
-            print(f"  Initializing Ollama LLM: {ollama_model} at {ollama_host} (timeout: {ollama_timeout}s)...")
+            print(f"  Initializing Ollama LLM: {ollama_model} at {ollama_host} (timeout: {ollama_timeout}s)...", file=sys.stderr)
             llm_client = OllamaLLMClient(model=ollama_model, host=ollama_host, timeout=ollama_timeout)
-            print("  ✓ Ollama client created successfully")
+            print("  ✓ Ollama client created successfully", file=sys.stderr)
         except Exception as e:
-            print(f"  Warning: Failed to create Ollama client: {e}")
-            print("  Continuing without LLM extraction...")
+            print(f"  Warning: Failed to create Ollama client: {e}", file=sys.stderr)
+            print("  Continuing without LLM extraction...", file=sys.stderr)
             import traceback
 
             traceback.print_exc()
@@ -136,9 +166,9 @@ def build_orchestrator(
     if not llm_client:
         raise ValueError("LLM extraction is required for entity extraction from XML. Use --use-ollama to enable LLM extraction, or provide documents with pre-extracted entities.")
 
-    print("  Using LLM-based entity extraction...")
+    print("  Using LLM-based entity extraction...", file=sys.stderr)
     entity_extractor = MedLitEntityExtractor(llm_client=llm_client, domain=domain)
-    print("  ✓ LLM-based extractor created")
+    print("  ✓ LLM-based extractor created", file=sys.stderr)
 
     orchestrator = IngestionOrchestrator(
         domain=domain,
@@ -252,7 +282,26 @@ def parse_arguments() -> argparse.Namespace:
     Returns:
         An `argparse.Namespace` object containing the parsed arguments.
     """
-    parser = argparse.ArgumentParser(description="Ingest medical literature papers and generate bundle")
+    parser = argparse.ArgumentParser(
+        description="Ingest medical literature papers and generate bundle",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Stages:
+  entities      - Extract entities from papers (most provisional initially)
+  promotion     - De-duplicate and promote provisionals to canonical
+  relationships - Extract relationships using canonical entities
+
+Examples:
+  # Full pipeline with bundle output
+  python -m examples.medlit.scripts.ingest --input-dir papers/ --use-ollama
+
+  # Stop after entities and dump JSON to stdout
+  python -m examples.medlit.scripts.ingest --input-dir papers/ --use-ollama --stop-after entities
+
+  # Stop after promotion, save JSON to file
+  python -m examples.medlit.scripts.ingest --input-dir papers/ --use-ollama --stop-after promotion > promotion_state.json
+""",
+    )
     parser.add_argument(
         "--input-dir",
         type=str,
@@ -270,6 +319,13 @@ def parse_arguments() -> argparse.Namespace:
         type=int,
         default=None,
         help="Limit number of papers to process (for testing)",
+    )
+    parser.add_argument(
+        "--stop-after",
+        type=str,
+        choices=["entities", "promotion", "relationships"],
+        default=None,
+        help="Stop after specified stage and dump JSON to stdout (for debugging/testing)",
     )
     parser.add_argument(
         "--use-ollama",
@@ -318,6 +374,11 @@ def parse_arguments() -> argparse.Namespace:
         default=30.0,
         help="Progress report interval in seconds (default: 30)",
     )
+    parser.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Suppress progress output (useful when piping JSON to file)",
+    )
     return parser.parse_args()
 
 
@@ -352,7 +413,8 @@ async def extract_entities_phase(
     input_files: list[tuple[Path, str]],
     max_workers: int = 1,
     progress_interval: float = 30.0,
-) -> tuple[int, int]:
+    quiet: bool = False,
+) -> tuple[int, int, EntityExtractionStageResult]:
     """Coordinates the entity extraction phase for all input files.
 
     This function manages the concurrent execution of the entity extraction
@@ -364,28 +426,32 @@ async def extract_entities_phase(
         input_files: A list of file paths and their content types to process.
         max_workers: The maximum number of concurrent extraction tasks.
         progress_interval: The interval in seconds for reporting progress.
+        quiet: If True, suppress progress output.
 
     Returns:
         A tuple containing:
         - The number of files processed successfully.
         - The number of files that resulted in errors.
+        - EntityExtractionStageResult with detailed results.
     """
     workers_msg = f" (workers: {max_workers})" if max_workers > 1 else ""
-    print(f"\n[2/5] Extracting entities from all papers{workers_msg}...")
+    if not quiet:
+        print(f"\n[2/5] Extracting entities from all papers{workers_msg}...", file=sys.stderr)
 
     tracker = ProgressTracker(total=len(input_files), report_interval=progress_interval)
-    results: list[tuple[str, int, int]] = []
+    results: list[tuple[str, int, int, str | None, tuple[str, ...]]] = []
 
-    async def extract_with_progress(file_path: Path, content_type: str) -> tuple[str, int, int]:
+    async def extract_with_progress(file_path: Path, content_type: str) -> tuple[str, int, int, str | None, tuple[str, ...]]:
         result = await extract_entities_from_paper(orchestrator, file_path, content_type)
         tracker.increment()
-        return result
+        # Return (doc_id, entities, relationships, source_uri, errors)
+        return (*result, str(file_path), ())
 
     if max_workers > 1:
         # Parallel extraction with semaphore
         semaphore = asyncio.Semaphore(max_workers)
 
-        async def extract_with_limit(file_path: Path, content_type: str) -> tuple[str, int, int]:
+        async def extract_with_limit(file_path: Path, content_type: str) -> tuple[str, int, int, str | None, tuple[str, ...]]:
             async with semaphore:
                 return await extract_with_progress(file_path, content_type)
 
@@ -396,18 +462,64 @@ async def extract_entities_phase(
             results.append(await extract_with_progress(file_path, content_type))
 
     # Final report
-    tracker.report()
+    if not quiet:
+        tracker.report()
 
     processed = 0
-    errors = 0
-    for paper_id, entities, _ in results:
-        if entities > 0:
-            print(f"  {paper_id}: {entities} entities")
-            processed += 1
-        else:
-            errors += 1
+    errors_count = 0
+    paper_results: list[PaperEntityExtractionResult] = []
+    total_new = 0
+    total_existing = 0
 
-    return (processed, errors)
+    for paper_id, entities, _, source_uri, errs in results:
+        if entities > 0:
+            if not quiet:
+                print(f"  {paper_id}: {entities} entities", file=sys.stderr)
+            processed += 1
+            # For now, we don't have detailed new/existing breakdown per paper
+            # This would require modifying extract_entities_from_paper
+            total_new += entities  # Approximation
+        else:
+            errors_count += 1
+
+        paper_results.append(
+            PaperEntityExtractionResult(
+                document_id=paper_id,
+                source_uri=source_uri,
+                extracted_at=datetime.now(timezone.utc),
+                entities_extracted=entities,
+                entities_new=entities,  # Approximation
+                entities_existing=0,
+                entities=(),  # Would need to collect from orchestrator
+                errors=errs,
+            )
+        )
+
+    # Build entity type counts from storage
+    entity_type_counts: dict[str, int] = {}
+    all_entities = await orchestrator.entity_storage.list_all()
+    for entity in all_entities:
+        etype = entity.get_entity_type()
+        entity_type_counts[etype] = entity_type_counts.get(etype, 0) + 1
+
+    provisional_count = len(await orchestrator.entity_storage.list_all(status="provisional"))
+    canonical_count = len(await orchestrator.entity_storage.list_all(status="canonical"))
+
+    stage_result = EntityExtractionStageResult(
+        stage="entities",
+        completed_at=datetime.now(timezone.utc),
+        papers_processed=processed,
+        papers_failed=errors_count,
+        total_entities_extracted=sum(r.entities_extracted for r in paper_results),
+        total_entities_new=total_new,
+        total_entities_existing=total_existing,
+        paper_results=tuple(paper_results),
+        entity_type_counts=entity_type_counts,
+        provisional_count=provisional_count,
+        canonical_count=canonical_count,
+    )
+
+    return (processed, errors_count, stage_result)
 
 
 async def run_promotion_phase(
@@ -415,7 +527,8 @@ async def run_promotion_phase(
     entity_storage: EntityStorageInterface,
     cache_file: Path | None = None,
     use_ollama: bool = False,
-) -> CanonicalIdLookup | None:
+    quiet: bool = False,
+) -> tuple[CanonicalIdLookup | None, PromotionStageResult]:
     """Coordinates the entity promotion phase.
 
     This phase is responsible for upgrading provisional entities to canonical
@@ -429,56 +542,107 @@ async def run_promotion_phase(
         cache_file: An optional path to a file for caching canonical ID lookups.
         use_ollama: Flag to determine if the canonical ID lookup service
                     should be initialized.
+        quiet: If True, suppress progress output.
 
     Returns:
-        The `CanonicalIdLookup` instance if it was created, otherwise `None`.
-        This instance is returned so its resources can be cleaned up later.
+        A tuple containing:
+        - The `CanonicalIdLookup` instance if it was created, otherwise `None`.
+        - PromotionStageResult with detailed promotion results.
     """
-    print("""
-[3/5] Running entity promotion...""")
+    if not quiet:
+        print("\n[3/5] Running entity promotion...", file=sys.stderr)
 
     # Create lookup service at START of promotion phase (loads cache now)
     lookup: CanonicalIdLookup | None = None
     if use_ollama:
         try:
             cache_path = cache_file or Path("canonical_id_cache.json")
-            print(f"  Initializing canonical ID lookup (cache: {cache_path})...")
+            if not quiet:
+                print(f"  Initializing canonical ID lookup (cache: {cache_path})...", file=sys.stderr)
             lookup = CanonicalIdLookup(cache_file=cache_path)
-            print("  ✓ Canonical ID lookup created successfully")
+            if not quiet:
+                print("  ✓ Canonical ID lookup created successfully", file=sys.stderr)
         except Exception as e:
-            print(f"  Warning: Failed to create canonical ID lookup: {e}")
-            print("  Continuing without canonical ID lookup...")
+            if not quiet:
+                print(f"  Warning: Failed to create canonical ID lookup: {e}", file=sys.stderr)
+                print("  Continuing without canonical ID lookup...", file=sys.stderr)
             lookup = None
 
     # Debug: Check what provisional entities we have
     all_provisional = await entity_storage.list_all(status="provisional")
-    print(f"      Found {len(all_provisional)} provisional entities")
+    candidates_count = len(all_provisional)
+    if not quiet:
+        print(f"      Found {candidates_count} provisional entities", file=sys.stderr)
 
     # Debug: Show their usage counts and confidence
-    if all_provisional:
-        print("      Sample entity stats:")
+    if all_provisional and not quiet:
+        print("      Sample entity stats:", file=sys.stderr)
         for entity in all_provisional[:5]:  # Show first 5
-            print(f"        - {entity.name}: usage={entity.usage_count}, confidence={entity.confidence:.2f}")
+            print(f"        - {entity.name}: usage={entity.usage_count}, confidence={entity.confidence:.2f}", file=sys.stderr)
 
     # Debug: Check the thresholds
     config = orchestrator.domain.promotion_config
-    print(f"      Promotion thresholds: usage>={config.min_usage_count}, confidence>={config.min_confidence}")
+    if not quiet:
+        print(f"      Promotion thresholds: usage>={config.min_usage_count}, confidence>={config.min_confidence}", file=sys.stderr)
 
     promoted = await orchestrator.run_promotion(lookup=lookup)
-    print(f"      Promoted {len(promoted)} entities to canonical status:")
+
+    # Build promoted entity records
+    promoted_records: list[PromotedEntityRecord] = []
     for entity in promoted:
-        print(f"        - {entity.name} → {entity.entity_id}")
+        # Determine canonical source from canonical_ids
+        canonical_source = "unknown"
+        canonical_url = None
+        if entity.canonical_ids:
+            canonical_source = next(iter(entity.canonical_ids.keys()), "unknown")
+        if entity.metadata.get("canonical_url"):
+            canonical_url = entity.metadata["canonical_url"]
+
+        promoted_records.append(
+            PromotedEntityRecord(
+                old_entity_id=entity.metadata.get("old_entity_id", entity.entity_id),
+                new_entity_id=entity.entity_id,
+                name=entity.name,
+                entity_type=entity.get_entity_type(),
+                canonical_source=canonical_source,
+                canonical_url=canonical_url,
+            )
+        )
+
+    if not quiet:
+        print(f"      Promoted {len(promoted)} entities to canonical status:", file=sys.stderr)
+        for entity in promoted:
+            print(f"        - {entity.name} → {entity.entity_id}", file=sys.stderr)
 
     # Save cache IMMEDIATELY after promotion phase completes
     if lookup:
         try:
             lookup._save_cache(force=True)  # pylint: disable=protected-access
             cache_path = lookup.cache_file.absolute()
-            print(f"  ✓ Canonical ID cache saved to: {cache_path}")
+            if not quiet:
+                print(f"  ✓ Canonical ID cache saved to: {cache_path}", file=sys.stderr)
         except Exception as e:
-            print(f"  Warning: Failed to save cache: {e}")
+            if not quiet:
+                print(f"  Warning: Failed to save cache: {e}", file=sys.stderr)
 
-    return lookup
+    # Get final counts
+    final_canonical = len(await entity_storage.list_all(status="canonical"))
+    final_provisional = len(await entity_storage.list_all(status="provisional"))
+
+    stage_result = PromotionStageResult(
+        stage="promotion",
+        completed_at=datetime.now(timezone.utc),
+        candidates_evaluated=candidates_count,
+        entities_promoted=len(promoted),
+        entities_skipped_no_canonical_id=candidates_count - len(promoted),  # Approximation
+        entities_skipped_policy=0,
+        entities_skipped_storage_failure=0,
+        promoted_entities=tuple(promoted_records),
+        total_canonical_entities=final_canonical,
+        total_provisional_entities=final_provisional,
+    )
+
+    return lookup, stage_result
 
 
 async def extract_relationships_phase(
@@ -486,7 +650,8 @@ async def extract_relationships_phase(
     input_files: list[tuple[Path, str]],
     max_workers: int = 1,
     progress_interval: float = 30.0,
-) -> tuple[int, int]:
+    quiet: bool = False,
+) -> tuple[int, int, RelationshipExtractionStageResult]:
     """Coordinates the relationship extraction phase for all input files.
 
     This function manages the concurrent execution of the relationship
@@ -498,29 +663,31 @@ async def extract_relationships_phase(
         input_files: A list of file paths and their content types to process.
         max_workers: The maximum number of concurrent extraction tasks.
         progress_interval: The interval in seconds for reporting progress.
+        quiet: If True, suppress progress output.
 
     Returns:
         A tuple containing:
         - The number of files for which relationships were extracted.
         - The number of files that resulted in errors.
+        - RelationshipExtractionStageResult with detailed results.
     """
     workers_msg = f" (workers: {max_workers})" if max_workers > 1 else ""
-    print(f"""
-[4/5] Extracting relationships from all papers{workers_msg}...""")
+    if not quiet:
+        print(f"\n[4/5] Extracting relationships from all papers{workers_msg}...", file=sys.stderr)
 
     tracker = ProgressTracker(total=len(input_files), report_interval=progress_interval)
-    results: list[tuple[str, int, int]] = []
+    results: list[tuple[str, int, int, str | None]] = []
 
-    async def extract_with_progress(file_path: Path, content_type: str) -> tuple[str, int, int]:
+    async def extract_with_progress(file_path: Path, content_type: str) -> tuple[str, int, int, str | None]:
         result = await extract_relationships_from_paper(orchestrator, file_path, content_type)
         tracker.increment()
-        return result
+        return (*result, str(file_path))
 
     if max_workers > 1:
         # Parallel extraction with semaphore
         semaphore = asyncio.Semaphore(max_workers)
 
-        async def extract_with_limit(file_path: Path, content_type: str) -> tuple[str, int, int]:
+        async def extract_with_limit(file_path: Path, content_type: str) -> tuple[str, int, int, str | None]:
             async with semaphore:
                 return await extract_with_progress(file_path, content_type)
 
@@ -531,24 +698,58 @@ async def extract_relationships_phase(
             results.append(await extract_with_progress(file_path, content_type))
 
     # Final report
-    tracker.report()
+    if not quiet:
+        tracker.report()
 
     processed_rels = 0
     errors_rels = 0
-    for paper_id, _, relationships in results:
+    paper_results: list[PaperRelationshipExtractionResult] = []
+    total_relationships = 0
+
+    for paper_id, _, relationships, source_uri in results:
         if relationships > 0:
-            print(f"  {paper_id}: {relationships} relationships")
+            if not quiet:
+                print(f"  {paper_id}: {relationships} relationships", file=sys.stderr)
             processed_rels += 1
+            total_relationships += relationships
         else:
             errors_rels += 1
 
-    return (processed_rels, errors_rels)
+        paper_results.append(
+            PaperRelationshipExtractionResult(
+                document_id=paper_id,
+                source_uri=source_uri,
+                extracted_at=datetime.now(timezone.utc),
+                relationships_extracted=relationships,
+                relationships=(),  # Would need to collect from orchestrator
+                errors=(),
+            )
+        )
+
+    # Build predicate counts from storage
+    predicate_counts: dict[str, int] = {}
+    all_relationships = await orchestrator.relationship_storage.list_all()
+    for rel in all_relationships:
+        predicate_counts[rel.predicate] = predicate_counts.get(rel.predicate, 0) + 1
+
+    stage_result = RelationshipExtractionStageResult(
+        stage="relationships",
+        completed_at=datetime.now(timezone.utc),
+        papers_processed=len(results),
+        papers_with_relationships=processed_rels,
+        total_relationships_extracted=total_relationships,
+        paper_results=tuple(paper_results),
+        predicate_counts=predicate_counts,
+    )
+
+    return (processed_rels, errors_rels, stage_result)
 
 
 async def print_summary(
     document_storage: DocumentStorageInterface,
     entity_storage: EntityStorageInterface,
     relationship_storage: RelationshipStorageInterface,
+    quiet: bool = False,
 ) -> None:
     """Prints a formatted summary of the knowledge graph's contents.
 
@@ -560,9 +761,12 @@ async def print_summary(
         document_storage: The storage interface for documents.
         entity_storage: The storage interface for entities.
         relationship_storage: The storage interface for relationships.
+        quiet: If True, suppress output.
     """
-    print("""
-[5/5] Summary""")
+    if quiet:
+        return
+
+    print("\n[5/5] Summary", file=sys.stderr)
     doc_count = await document_storage.count()
     ent_count = await entity_storage.count()
     rel_count = await relationship_storage.count()
@@ -581,7 +785,7 @@ async def print_summary(
     ║    - Provisional:         {provisional_count:>10} ║
     ║  Relationships:           {rel_count:>10} ║
     ╚══════════════════════════════════════╝
-    """)
+    """, file=sys.stderr)
 
 
 async def export_bundle(
@@ -611,7 +815,7 @@ async def export_bundle(
 [6/6] Exporting bundle...
       Processed: {processed} papers
       Errors/skipped: {errors} papers
-""")
+""", file=sys.stderr)
 
     # Create bundle
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -661,7 +865,7 @@ Papers were processed from JSON format (med-lit-schema Paper format).
 
             bundle_cache_path = output_dir / cache_file.name
             shutil.copy2(cache_file, bundle_cache_path)
-            print(f"  ✓ Copied canonical ID cache to bundle: {cache_file.name}")
+            print(f"  ✓ Copied canonical ID cache to bundle: {cache_file.name}", file=sys.stderr)
 
     cache_note = f"\n     - {cache_file.name}" if cache_file and cache_file.exists() else ""
     print(f"""
@@ -671,7 +875,7 @@ Papers were processed from JSON format (med-lit-schema Paper format).
      - relationships.jsonl
      - doc_assets.jsonl (if docs provided)
      - docs/ (documentation){cache_note}
-""")
+""", file=sys.stderr)
 
 
 def _handle_keyboard_interrupt(lookup: CanonicalIdLookup | None) -> None:
@@ -685,14 +889,14 @@ def _handle_keyboard_interrupt(lookup: CanonicalIdLookup | None) -> None:
         lookup: The `CanonicalIdLookup` instance, which contains the cache
                 to be saved.
     """
-    print("\n  Interrupted by user (Ctrl+C)")
+    print("\n  Interrupted by user (Ctrl+C)", file=sys.stderr)
     if not lookup:
         return
 
     try:
         # Debug: show cache state
         metrics = lookup._cache.get_metrics()  # pylint: disable=protected-access
-        print(f"  Cache state: {metrics['total_entries']} total entries, {metrics['hits']} hits, {metrics['misses']} misses")
+        print(f"  Cache state: {metrics['total_entries']} total entries, {metrics['hits']} hits, {metrics['misses']} misses", file=sys.stderr)
 
         lookup._save_cache(force=True)  # pylint: disable=protected-access
         cache_path = lookup.cache_file.absolute()
@@ -700,16 +904,16 @@ def _handle_keyboard_interrupt(lookup: CanonicalIdLookup | None) -> None:
         # Verify file exists
         if cache_path.exists():
             file_size = cache_path.stat().st_size
-            print(f"  ✓ Canonical ID cache saved to: {cache_path} ({file_size} bytes)")
+            print(f"  ✓ Canonical ID cache saved to: {cache_path} ({file_size} bytes)", file=sys.stderr)
         else:
-            print(f"  ✗ Cache file not found at: {cache_path}")
-            print("     This should not happen - save may have failed silently")
+            print(f"  ✗ Cache file not found at: {cache_path}", file=sys.stderr)
+            print("     This should not happen - save may have failed silently", file=sys.stderr)
     except Exception as e:
-        print(f"  ✗ Warning: Failed to save cache: {e}")
+        print(f"  ✗ Warning: Failed to save cache: {e}", file=sys.stderr)
         import traceback
 
         traceback.print_exc()
-        print(f"     Cache file location: {lookup.cache_file.absolute()}")
+        print(f"     Cache file location: {lookup.cache_file.absolute()}", file=sys.stderr)
 
 
 async def _cleanup_lookup_service(lookup: CanonicalIdLookup | None) -> None:
@@ -729,7 +933,16 @@ async def _cleanup_lookup_service(lookup: CanonicalIdLookup | None) -> None:
     try:
         await lookup.close()
     except Exception as e:
-        print(f"  ✗ Warning: Failed to close lookup service: {e}")
+        print(f"  ✗ Warning: Failed to close lookup service: {e}", file=sys.stderr)
+
+
+def _output_stage_result(result: BaseModel, stage_name: str, quiet: bool) -> None:
+    """Output stage result as JSON to stdout."""
+    if not quiet:
+        print(f"\n[STOP] Pipeline stopped after '{stage_name}' stage. JSON output follows on stdout.\n", file=sys.stderr)
+
+    # Output JSON to stdout (for piping to file or further processing)
+    print(result.model_dump_json(indent=2))
 
 
 async def main() -> None:
@@ -742,36 +955,42 @@ async def main() -> None:
     4.  Relationship Extraction: Extracts relationships between canonical entities.
     5.  Summary: Prints a summary of the resulting knowledge graph.
     6.  Export: Writes the knowledge graph to a bundle directory.
+
+    Use --stop-after to halt at any stage and output JSON to stdout.
     """
     args = parse_arguments()
 
     input_dir = Path(args.input_dir)
     output_dir = Path(args.output_dir)
+    quiet = args.quiet or (args.stop_after is not None)  # Auto-quiet when stopping
 
     if not input_dir.exists():
-        print(f"ERROR: Input directory does not exist: {input_dir}")
+        print(f"ERROR: Input directory does not exist: {input_dir}", file=sys.stderr)
         return
 
     input_files = find_input_files(input_dir, args.limit)
     if not input_files:
-        print(f"ERROR: No JSON or XML files found in {input_dir}")
+        print(f"ERROR: No JSON or XML files found in {input_dir}", file=sys.stderr)
         return
 
     sep = "=" * 60
     lim = f"(Limited to {args.limit} papers)\n" if args.limit else ""
     json_count = sum(1 for _, ct in input_files if ct == "application/json")
     xml_count = sum(1 for _, ct in input_files if ct == "application/xml")
-    print(f"""{sep}
+
+    if not quiet:
+        print(f"""{sep}
 Medical Literature Knowledge Graph - Ingestion Pipeline
 {sep}
 
 Input directory: {input_dir}
 Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML)
 {lim}
+[1/5] Initializing pipeline...""", file=sys.stderr)
 
-[1/5] Initializing pipeline...""")
-
+    pipeline_started_at = datetime.now(timezone.utc)
     cache_file = Path(args.cache_file) if args.cache_file else None
+
     orchestrator, lookup = build_orchestrator(
         use_ollama=args.use_ollama,
         ollama_model=args.ollama_model,
@@ -783,23 +1002,97 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
     relationship_storage = orchestrator.relationship_storage
     document_storage = orchestrator.document_storage
 
+    # Track stage results for pipeline model
+    entity_stage_result: EntityExtractionStageResult | None = None
+    promotion_stage_result: PromotionStageResult | None = None
+    relationship_stage_result: RelationshipExtractionStageResult | None = None
+
     try:
-        processed, errors = await extract_entities_phase(
+        # =====================================================================
+        # Stage 1: Entity Extraction
+        # =====================================================================
+        processed, errors, entity_stage_result = await extract_entities_phase(
             orchestrator,
             input_files,
             max_workers=args.workers,
             progress_interval=args.progress_interval,
+            quiet=quiet,
         )
-        lookup = await run_promotion_phase(orchestrator, entity_storage, cache_file=cache_file, use_ollama=args.use_ollama)
-        await extract_relationships_phase(
+
+        if args.stop_after == "entities":
+            pipeline_result = IngestionPipelineResult(
+                started_at=pipeline_started_at,
+                completed_at=datetime.now(timezone.utc),
+                stopped_at_stage="entities",
+                entity_extraction=entity_stage_result,
+                promotion=None,
+                relationship_extraction=None,
+                total_documents=len(input_files),
+                total_entities=await entity_storage.count(),
+                total_relationships=0,
+            )
+            _output_stage_result(pipeline_result, "entities", quiet)
+            return
+
+        # =====================================================================
+        # Stage 2: Promotion
+        # =====================================================================
+        lookup, promotion_stage_result = await run_promotion_phase(
+            orchestrator,
+            entity_storage,
+            cache_file=cache_file,
+            use_ollama=args.use_ollama,
+            quiet=quiet,
+        )
+
+        if args.stop_after == "promotion":
+            pipeline_result = IngestionPipelineResult(
+                started_at=pipeline_started_at,
+                completed_at=datetime.now(timezone.utc),
+                stopped_at_stage="promotion",
+                entity_extraction=entity_stage_result,
+                promotion=promotion_stage_result,
+                relationship_extraction=None,
+                total_documents=len(input_files),
+                total_entities=await entity_storage.count(),
+                total_relationships=0,
+            )
+            _output_stage_result(pipeline_result, "promotion", quiet)
+            return
+
+        # =====================================================================
+        # Stage 3: Relationship Extraction
+        # =====================================================================
+        _, _, relationship_stage_result = await extract_relationships_phase(
             orchestrator,
             input_files,
             max_workers=args.workers,
             progress_interval=args.progress_interval,
+            quiet=quiet,
         )
-        await print_summary(document_storage, entity_storage, relationship_storage)
+
+        if args.stop_after == "relationships":
+            pipeline_result = IngestionPipelineResult(
+                started_at=pipeline_started_at,
+                completed_at=datetime.now(timezone.utc),
+                stopped_at_stage="relationships",
+                entity_extraction=entity_stage_result,
+                promotion=promotion_stage_result,
+                relationship_extraction=relationship_stage_result,
+                total_documents=len(input_files),
+                total_entities=await entity_storage.count(),
+                total_relationships=await relationship_storage.count(),
+            )
+            _output_stage_result(pipeline_result, "relationships", quiet)
+            return
+
+        # =====================================================================
+        # Full Pipeline: Summary and Export
+        # =====================================================================
+        await print_summary(document_storage, entity_storage, relationship_storage, quiet=quiet)
         cache_file_path = lookup.cache_file if lookup else cache_file
         await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors, cache_file=cache_file_path)
+
     except KeyboardInterrupt:
         _handle_keyboard_interrupt(lookup)
         raise
