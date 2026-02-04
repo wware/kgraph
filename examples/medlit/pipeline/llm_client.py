@@ -56,6 +56,29 @@ class LLMClientInterface(ABC):
             ValueError: If response is not valid JSON.
         """
 
+    async def generate_json_with_raw(
+        self,
+        prompt: str,
+        temperature: float = 0.1,
+    ) -> tuple[dict[str, Any] | list[Any], str]:
+        """Generate structured JSON response AND return the raw model text.
+
+        This is useful for debugging - you can see exactly what the LLM returned
+        before parsing, which helps diagnose extraction failures.
+
+        Default implementation calls generate_json() and returns a placeholder raw text.
+        Subclasses should override if they can provide the raw response.
+
+        Args:
+            prompt: The input prompt text (should request JSON output).
+            temperature: Sampling temperature (0.0-2.0).
+
+        Returns:
+            Tuple of (parsed JSON object, raw response text).
+        """
+        data = await self.generate_json(prompt, temperature)
+        return data, "<raw unavailable>"
+
     async def generate_json_with_tools(
         self,
         prompt: str,
@@ -103,62 +126,20 @@ class OllamaLLMClient(LLMClientInterface):
         self.timeout = timeout
         self._client = ollama.Client(host=host, timeout=timeout)
 
-    async def generate(
-        self,
-        prompt: str,
-        temperature: float = 0.1,
-        max_tokens: Optional[int] = None,
-    ) -> str:
-        """Generate text using Ollama."""
-        options: dict[str, Any] = {"temperature": temperature}
-        if max_tokens:
-            options["num_predict"] = max_tokens
+    def _parse_json_from_text(self, response_text: str) -> dict[str, Any] | list[Any]:
+        """Extract and parse JSON from response text.
 
-        # Run synchronous ollama client in thread pool to avoid blocking
-        # Use asyncio.to_thread for cleaner async execution (Python 3.9+)
-        def _generate():
-            return self._client.generate(
-                model=self.model,
-                prompt=prompt,
-                options=options,
-            )
+        Handles markdown code blocks and finds the first complete JSON structure.
 
-        try:
-            # Add timeout wrapper
-            response = await asyncio.wait_for(asyncio.to_thread(_generate), timeout=self.timeout)
-            return response.get("response", "").strip()
-        except asyncio.TimeoutError:
-            raise TimeoutError(f"Ollama request timed out after {self.timeout}s")
-        except Exception as e:
-            print(f"Ollama generate error: {e}")
-            raise
+        Args:
+            response_text: Raw text response from the LLM.
 
-    async def generate_json(
-        self,
-        prompt: str,
-        temperature: float = 0.1,
-    ) -> dict[str, Any] | list[Any]:
-        """Generate structured JSON response from a prompt."""
+        Returns:
+            Parsed JSON object (dict or list).
 
-        def _generate():
-            response = self._client.chat(
-                model=self.model,
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are a biomedical entity extraction expert. Extract entities and return ONLY valid JSON in the exact format requested. Never return the original text, only the extracted entities.",
-                    },
-                    {"role": "user", "content": prompt},
-                ],
-                options={"temperature": temperature},
-            )
-            return response["message"]["content"]
-
-        try:
-            # Add timeout wrapper to prevent indefinite hangs
-            response_text = await asyncio.wait_for(asyncio.to_thread(_generate), timeout=self.timeout)
-        except asyncio.TimeoutError:
-            raise TimeoutError(f"Ollama JSON generation timed out after {self.timeout}s")
+        Raises:
+            ValueError: If no valid JSON found in response.
+        """
         response_text = response_text.strip()
 
         # Remove markdown code blocks if present
@@ -166,7 +147,6 @@ class OllamaLLMClient(LLMClientInterface):
             lines = response_text.split("\n")
             response_text = "\n".join(lines[1:-1])
 
-        # Find and extract first complete JSON structure
         def find_matching_bracket(text: str, start: int, open_char: str, close_char: str) -> int:
             """Find the matching closing bracket for an opening bracket."""
             count = 1
@@ -202,6 +182,98 @@ class OllamaLLMClient(LLMClientInterface):
                     pass
 
         raise ValueError(f"No valid JSON found in response: {response_text[:200]}")
+
+    async def generate(
+        self,
+        prompt: str,
+        temperature: float = 0.1,
+        max_tokens: Optional[int] = None,
+    ) -> str:
+        """Generate text using Ollama."""
+        options: dict[str, Any] = {"temperature": temperature}
+        if max_tokens:
+            options["num_predict"] = max_tokens
+
+        # Run synchronous ollama client in thread pool to avoid blocking
+        # Use asyncio.to_thread for cleaner async execution (Python 3.9+)
+        def _generate():
+            return self._client.generate(
+                model=self.model,
+                prompt=prompt,
+                options=options,
+            )
+
+        try:
+            # Add timeout wrapper
+            response = await asyncio.wait_for(asyncio.to_thread(_generate), timeout=self.timeout)
+            return response.get("response", "").strip()
+        except asyncio.TimeoutError:
+            raise TimeoutError(f"Ollama request timed out after {self.timeout}s")
+        except Exception as e:
+            print(f"Ollama generate error: {e}")
+            raise
+
+    async def _call_llm_for_json(
+        self,
+        prompt: str,
+        temperature: float = 0.1,
+    ) -> str:
+        """Call LLM and return raw response text (internal helper)."""
+
+        def _generate():
+            response = self._client.chat(
+                model=self.model,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are a biomedical entity extraction expert. Extract entities and return ONLY valid JSON in the exact format requested. Never return the original text, only the extracted entities.",
+                    },
+                    {"role": "user", "content": prompt},
+                ],
+                options={"temperature": temperature},
+            )
+            return response["message"]["content"]
+
+        try:
+            # Add timeout wrapper to prevent indefinite hangs
+            response_text = await asyncio.wait_for(asyncio.to_thread(_generate), timeout=self.timeout)
+        except asyncio.TimeoutError:
+            raise TimeoutError(f"Ollama JSON generation timed out after {self.timeout}s")
+
+        return response_text.strip()
+
+    async def generate_json(
+        self,
+        prompt: str,
+        temperature: float = 0.1,
+    ) -> dict[str, Any] | list[Any]:
+        """Generate structured JSON response from a prompt."""
+        response_text = await self._call_llm_for_json(prompt, temperature)
+        return self._parse_json_from_text(response_text)
+
+    async def generate_json_with_raw(
+        self,
+        prompt: str,
+        temperature: float = 0.1,
+    ) -> tuple[dict[str, Any] | list[Any], str]:
+        """Generate structured JSON response AND return the raw model text.
+
+        This is useful for debugging - you can see exactly what the LLM returned
+        before parsing, which helps diagnose extraction failures.
+
+        Args:
+            prompt: The input prompt text (should request JSON output).
+            temperature: Sampling temperature (0.0-2.0).
+
+        Returns:
+            Tuple of (parsed JSON object, raw response text).
+
+        Raises:
+            ValueError: If response is not valid JSON.
+        """
+        raw_text = await self._call_llm_for_json(prompt, temperature)
+        parsed = self._parse_json_from_text(raw_text)
+        return parsed, raw_text
 
     async def generate_json_with_tools(
         self,

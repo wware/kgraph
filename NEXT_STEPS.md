@@ -20,13 +20,151 @@ Following a bunch of work, I have this little review from ChatGPT.
 
 At the present time I will not take action on these.
 
-## My immediate next step will be a debuggable ingestion pipeline
+## Current Status (2026-02-04)
 
-Each stage in the pipeline produces an instance of some pydantic model, we can pull out a JSON/JSONL intermediate project at any point.
+### ✅ Completed: Stage Models and --stop-after Support
 
-Take a fairly rich paper and make sure all the points you want to hit are correctly represented in the JSON at each stage. Do this for several points.
+Commit `2056bda` implemented:
+- Pydantic models for each pipeline stage (`examples/medlit/stage_models.py`)
+- `--stop-after {entities|promotion|relationships}` flag in ingest.py
+- JSON output to stdout for debugging intermediate states
+- Progress tracking with configurable reporting interval
 
-Make sure relationships are being parsed and handled as expected.
+**Usage:**
+```bash
+# Stop after entity extraction and dump JSON
+python -m examples.medlit.scripts.ingest --input-dir papers/ --use-ollama --stop-after entities > entities_state.json
+
+# Stop after promotion
+python -m examples.medlit.scripts.ingest --input-dir papers/ --use-ollama --stop-after promotion > promotion_state.json
+```
+
+---
+
+## Next: Relationship Extraction Tracing
+
+**Goal:** Answer these questions for any paper without guessing:
+- Did the LLM emit relationships?
+- Were they parsed correctly?
+- Which ones were dropped and why?
+- Were any swapped?
+
+### Action Plan
+
+#### Task 1: Add `generate_json_with_raw()` to LLM Client
+
+**File:** `examples/medlit/pipeline/llm_client.py`
+
+**Changes:**
+1. Add method to `LLMClientInterface` ABC:
+   ```python
+   async def generate_json_with_raw(
+       self, prompt: str, temperature: float = 0.1
+   ) -> tuple[dict[str, Any] | list[Any], str]:
+       """Returns (parsed_json, raw_text). Default returns placeholder raw."""
+       data = await self.generate_json(prompt, temperature)
+       return data, "<raw unavailable>"
+   ```
+
+2. Override in `OllamaLLMClient`:
+   - Refactor JSON parsing into `_parse_json_from_text(raw: str) -> Any`
+   - Implement `generate_json_with_raw()` to return both parsed and raw
+
+**Definition of Done:**
+- [ ] `generate_json_with_raw()` exists and returns `(parsed, raw_text)`
+- [ ] Existing `generate_json()` still works unchanged
+- [ ] Unit test verifies raw text is captured
+
+---
+
+#### Task 2: Add Per-Paper Relationship Trace Files
+
+**File:** `examples/medlit/pipeline/relationships.py`
+
+**Changes to `_extract_with_llm()`:**
+
+1. Create trace dict at start of method:
+   ```python
+   trace = {
+       "document_id": document.document_id,
+       "llm_model": getattr(self._llm, "model", None),
+       "created_at": datetime.now(timezone.utc).isoformat(),
+       "prompt": None,
+       "raw_llm_output": None,
+       "parsed_json": None,
+       "decisions": [],
+       "final_relationships": [],
+   }
+   ```
+
+2. Call `generate_json_with_raw()` and capture both:
+   ```python
+   response, raw = await self._llm.generate_json_with_raw(prompt)
+   trace["prompt"] = prompt
+   trace["raw_llm_output"] = raw
+   trace["parsed_json"] = response
+   ```
+
+3. For each candidate relationship, record a decision:
+   ```python
+   decision = {
+       "item": item,  # Original LLM output
+       "matched_subject": subject_entity is not None,
+       "matched_object": object_entity is not None,
+       "semantic_ok": True/False,
+       "swap_applied": True/False,
+       "accepted": True/False,
+       "drop_reason": "subject_unmatched" | "semantic_mismatch" | None,
+   }
+   trace["decisions"].append(decision)
+   ```
+
+4. Write trace file at end:
+   ```python
+   trace_dir = Path("/tmp/kgraph-relationship-traces")
+   trace_dir.mkdir(parents=True, exist_ok=True)
+   trace_path = trace_dir / f"{document.document_id}.relationships.trace.json"
+   trace_path.write_text(json.dumps(trace, indent=2))
+   ```
+
+**Definition of Done:**
+- [ ] Running ingest creates trace files in `/tmp/kgraph-relationship-traces/`
+- [ ] Each trace file contains: prompt, raw_llm_output, parsed_json, decisions, final_relationships
+- [ ] Drop reasons are recorded for every rejected relationship
+
+---
+
+#### Task 3: Run Single-Paper Test and Analyze
+
+**After Tasks 1-2 are complete:**
+
+```bash
+# Process one paper with tracing
+python -m examples.medlit.scripts.ingest \
+  --input-dir examples/medlit/pmc_xmls/ \
+  --limit 1 \
+  --use-ollama \
+  --stop-after relationships
+
+# Examine the trace
+cat /tmp/kgraph-relationship-traces/*.relationships.trace.json | jq '.decisions[] | select(.accepted == false)'
+```
+
+**Definition of Done:**
+- [ ] Can identify dominant failure mode (entity matching? semantic filter? type constraints?)
+- [ ] Document findings in this file
+
+---
+
+### Deferred (Do After Trace Analysis)
+
+These are good ideas but should wait until we understand the actual failure modes:
+
+- **Replay mode** (`--replay trace.json`) - iterate without LLM calls
+- **Structured `ValidationResult`** with repair suggestions
+- **Predicate signature table** generated from domain constraints in prompts
+- **Entity name normalization** (fuzzy matching for "HER2 protein" vs "HER2")
+- **Better JSON bracket parsing** (handle brackets inside quoted strings)
 
 
 
@@ -68,22 +206,19 @@ Make sure relationships are being parsed and handled as expected.
 ### Other
 - **Trace output location:** `/tmp/kgraph-relationship-traces/` (if implemented)
 
-## Implementation Status
-
-As of the last update (per the document footer), some of the tracing infrastructure described in the ChatGPT discussion has been implemented:
+## Implementation Status (Updated 2026-02-04)
 
 **✅ Implemented:**
 - LLM client abstraction (`examples/medlit/pipeline/llm_client.py`)
 - Relationship extractor with domain validation (`examples/medlit/pipeline/relationships.py`)
 - Domain schema with predicate constraints (`kgschema/domain.py`, `examples/medlit/domain.py`)
 - Subject/object swapping logic based on type constraints
-
-**⚠️ Partially Implemented:**
-- Some trace logging may exist (check for traces in `/tmp/kgraph-relationship-traces/`)
-- The `generate_json_with_raw()` method may or may not be fully implemented
+- **Stage models for pipeline debugging** (`examples/medlit/stage_models.py`)
+- **`--stop-after` flag** to halt pipeline at any stage and dump JSON
 
 **❌ Not Yet Implemented:**
-- Full relationship trace JSON output as described in sections below
+- `generate_json_with_raw()` method in LLM client (see Task 1 above)
+- Per-paper relationship trace JSON files (see Task 2 above)
 - Replay mode for debugging without calling the LLM
 - Structured `ValidationResult` with repair suggestions
 - Predicate signature table exposed in prompts
@@ -1769,48 +1904,19 @@ If you paste the first trace you get (or just the `decisions` section + the `raw
 
 
 ---
-## Results of running single-paper test
+## Historical Note: ChatGPT Patch Proposals (2026-02-04)
 
-> **Note:** This section describes what was implemented before the refactoring. The trace infrastructure may need to be re-verified in the current codebase structure.
+> **⚠️ CORRECTION:** The section below ("Results of running single-paper test") was
+> **aspirational documentation** that described patches as if they had been applied.
+> Verification on 2026-02-04 confirmed that the actual codebase does NOT have:
+> - `generate_json_with_raw()` in `llm_client.py`
+> - Trace file writing in `relationships.py`
+>
+> See **"Action Plan"** at the top of this file for the actual implementation tasks.
 
-### Summary
+~~### ✅ Patch 1: Added generate_json_with_raw() to LLM Client~~ **NOT IMPLEMENTED**
 
-The document footer indicates that both patches were applied to implement relationship extraction debugging:
+~~### ✅ Patch 2: Added Relationship Trace Logging~~ **NOT IMPLEMENTED**
 
-### ✅ Patch 1: Added generate_json_with_raw() to LLM Client
-
-- Added new method to LLMClientInterface that returns both parsed JSON and raw text
-- Refactored OllamaLLMClient.generate_json() to use a shared _parse_json_from_text() helper
-- Implemented generate_json_with_raw() in OllamaLLMClient to capture raw LLM output
-- File: examples/medlit/pipeline/llm_client.py:60-71,120-250
-
-### ✅ Patch 2: Added Relationship Trace Logging
-
-- Modified _extract_with_llm() to create trace files in /tmp/kgraph-relationship-traces/
-- Captures comprehensive debug information per paper:
-  - Prompt sent to LLM
-  - Raw LLM output (when available)
-  - Parsed JSON response
-  - Per-relationship decisions (matched entities, semantic checks, swaps, accept/reject reasons)
-  - Final accepted relationships
-- File: examples/medlit/pipeline/relationships.py:283-488
-
-### ✅ Test Run Results
-
-Created and ran test_single_paper.py which successfully:
-- Extracted 6 entities from PMC10759991.xml
-- Generated a trace file at /tmp/kgraph-relationship-traces/PMC10759991.relationships.trace.json
-- Captured the full prompt showing entity context and extraction instructions
-- The LLM timed out after 300 seconds, but the trace file was still written with error information
-
-### Next Steps (When Ready)
-
-The trace infrastructure is now in place. Once the LLM completes successfully, you'll be able to open the trace file and see exactly:
-- What relationships the LLM extracted
-- Which ones matched entities vs. were dropped
-- Which ones failed semantic validation
-- Which ones were swapped
-- The exact drop reason for each rejected relationship
-
-This will answer the key questions from NEXT_STEPS.md without any speculation!
+~~### ✅ Test Run Results~~ **NOT VERIFIED**
 

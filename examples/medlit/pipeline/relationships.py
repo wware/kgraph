@@ -5,7 +5,9 @@ Since the papers already have extracted relationships, we convert those to BaseR
 Can also use Ollama LLM for relationship extraction from text.
 """
 
+import json
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, Optional, Sequence
 
 from kgraph.pipeline.interfaces import RelationshipExtractorInterface
@@ -17,6 +19,9 @@ from kgschema.relationship import BaseRelationship
 
 from ..relationships import MedicalClaimRelationship
 from .llm_client import LLMClientInterface
+
+# Directory for relationship extraction trace files
+TRACE_DIR = Path("/tmp/kgraph-relationship-traces")
 
 if TYPE_CHECKING:
     from ..domain import MedLitDomainSchema
@@ -274,9 +279,28 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
         document: BaseDocument,
         entities: Sequence[BaseEntity],
     ) -> list[BaseRelationship]:
-        """Extract relationships using LLM."""
+        """Extract relationships using LLM.
+
+        Also writes a trace file to /tmp/kgraph-relationship-traces/ for debugging.
+        The trace captures: prompt, raw LLM output, parsed JSON, and per-item decisions.
+        """
         if not self._llm:
             return []
+
+        # Initialize trace for debugging
+        trace: dict[str, Any] = {
+            "document_id": document.document_id,
+            "source_uri": getattr(document, "source_uri", None),
+            "llm_model": getattr(self._llm, "model", None),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "entity_count": len(entities),
+            "prompt": None,
+            "raw_llm_output": None,
+            "parsed_json": None,
+            "decisions": [],
+            "final_relationships": [],
+            "error": None,
+        }
 
         # Build entity context for LLM
         entity_by_name: dict[str, BaseEntity] = {e.name.lower(): e for e in entities}
@@ -322,8 +346,18 @@ INVALID (skip these):
 
 Return ONLY the JSON array."""
 
+        trace["prompt"] = prompt
+
         try:
-            response = await self._llm.generate_json(prompt)
+            # Use generate_json_with_raw to capture both parsed and raw output
+            if hasattr(self._llm, "generate_json_with_raw"):
+                response, raw_output = await self._llm.generate_json_with_raw(prompt)
+                trace["raw_llm_output"] = raw_output
+            else:
+                response = await self._llm.generate_json(prompt)
+                trace["raw_llm_output"] = "<raw unavailable - method not supported>"
+
+            trace["parsed_json"] = response
             relationships: list[BaseRelationship] = []
 
             if isinstance(response, list):
@@ -335,58 +369,135 @@ Return ONLY the JSON array."""
                         confidence = float(item.get("confidence", 0.5))
                         evidence = item.get("evidence", "")
 
+                        # Initialize decision record for this item
+                        decision: dict[str, Any] = {
+                            "item": item,
+                            "subject_name": subject_name,
+                            "object_name": object_name,
+                            "predicate": predicate,
+                            "confidence": confidence,
+                            "matched_subject": False,
+                            "matched_object": False,
+                            "semantic_ok": None,
+                            "swap_applied": False,
+                            "accepted": False,
+                            "drop_reason": None,
+                            "resolved": {
+                                "subject_id": None,
+                                "subject_type": None,
+                                "object_id": None,
+                                "object_type": None,
+                            },
+                        }
+
                         # Find entities by name
                         subject_entity = entity_by_name.get(subject_name.lower())
                         object_entity = entity_by_name.get(object_name.lower())
 
-                        if subject_entity and object_entity:
-                            # Validate predicate semantics match evidence
-                            if not self._validate_predicate_semantics(predicate, evidence):
-                                print(f"  Warning: Semantic mismatch - predicate '{predicate}' " f"does not match evidence: {evidence[:100]}...")
-                                continue  # Skip this relationship
+                        decision["matched_subject"] = subject_entity is not None
+                        decision["matched_object"] = object_entity is not None
 
-                            # Check if we need to swap subject and object based on type constraints
-                            if self._should_swap_subject_object(predicate, subject_entity, object_entity):
-                                print(
-                                    f"  Swapping subject/object for predicate '{predicate}': "
-                                    f"({subject_entity.name} [{subject_entity.get_entity_type()}] ↔ "
-                                    f"{object_entity.name} [{object_entity.get_entity_type()}])"
-                                )
-                                # Swap the entities
-                                subject_entity, object_entity = object_entity, subject_entity
+                        if not subject_entity or not object_entity:
+                            # Record why we're dropping this relationship
+                            if not subject_entity and not object_entity:
+                                decision["drop_reason"] = "subject_and_object_unmatched"
+                            elif not subject_entity:
+                                decision["drop_reason"] = "subject_unmatched"
+                            else:
+                                decision["drop_reason"] = "object_unmatched"
+                            trace["decisions"].append(decision)
+                            continue
 
-                            # Create structured provenance for LLM extraction
-                            # Note: LLM extracts from abstract/sample, so we don't have precise offsets
-                            provenance = Provenance(
-                                document_id=document.document_id,
-                                source_uri=document.source_uri,
-                                section="abstract" if hasattr(document, "abstract") and document.abstract else None,
+                        # Validate predicate semantics match evidence
+                        semantic_ok = self._validate_predicate_semantics(predicate, evidence)
+                        decision["semantic_ok"] = semantic_ok
+                        if not semantic_ok:
+                            print(f"  Warning: Semantic mismatch - predicate '{predicate}' " f"does not match evidence: {evidence[:100]}...")
+                            decision["drop_reason"] = "semantic_mismatch"
+                            trace["decisions"].append(decision)
+                            continue
+
+                        # Check if we need to swap subject and object based on type constraints
+                        if self._should_swap_subject_object(predicate, subject_entity, object_entity):
+                            print(
+                                f"  Swapping subject/object for predicate '{predicate}': "
+                                f"({subject_entity.name} [{subject_entity.get_entity_type()}] ↔ "
+                                f"{object_entity.name} [{object_entity.get_entity_type()}])"
                             )
+                            # Swap the entities
+                            subject_entity, object_entity = object_entity, subject_entity
+                            decision["swap_applied"] = True
 
-                            # Create structured evidence
-                            evidence_obj = Evidence(
-                                kind="llm_extracted",
-                                source_documents=(document.document_id,),
-                                primary=provenance,
-                                mentions=(provenance,),
-                                notes={"evidence_text": evidence, "extraction_method": "llm"},
-                            )
+                        # Record resolved entity info
+                        decision["resolved"] = {
+                            "subject_id": subject_entity.entity_id,
+                            "subject_type": subject_entity.get_entity_type(),
+                            "object_id": object_entity.entity_id,
+                            "object_type": object_entity.get_entity_type(),
+                        }
 
-                            rel = MedicalClaimRelationship(
-                                subject_id=subject_entity.entity_id,
-                                predicate=predicate,
-                                object_id=object_entity.entity_id,
-                                confidence=confidence,
-                                source_documents=(document.document_id,),
-                                evidence=evidence_obj,
-                                created_at=datetime.now(timezone.utc),
-                                last_updated=None,
-                                metadata={"extraction_method": "llm"},
-                            )
-                            relationships.append(rel)
+                        # Create structured provenance for LLM extraction
+                        # Note: LLM extracts from abstract/sample, so we don't have precise offsets
+                        provenance = Provenance(
+                            document_id=document.document_id,
+                            source_uri=document.source_uri,
+                            section="abstract" if hasattr(document, "abstract") and document.abstract else None,
+                        )
+
+                        # Create structured evidence
+                        evidence_obj = Evidence(
+                            kind="llm_extracted",
+                            source_documents=(document.document_id,),
+                            primary=provenance,
+                            mentions=(provenance,),
+                            notes={"evidence_text": evidence, "extraction_method": "llm"},
+                        )
+
+                        rel = MedicalClaimRelationship(
+                            subject_id=subject_entity.entity_id,
+                            predicate=predicate,
+                            object_id=object_entity.entity_id,
+                            confidence=confidence,
+                            source_documents=(document.document_id,),
+                            evidence=evidence_obj,
+                            created_at=datetime.now(timezone.utc),
+                            last_updated=None,
+                            metadata={"extraction_method": "llm"},
+                        )
+                        relationships.append(rel)
+
+                        decision["accepted"] = True
+                        trace["decisions"].append(decision)
+
+            # Record final relationships in trace
+            trace["final_relationships"] = [
+                {
+                    "subject_id": r.subject_id,
+                    "predicate": r.predicate,
+                    "object_id": r.object_id,
+                    "confidence": getattr(r, "confidence", None),
+                }
+                for r in relationships
+            ]
+
+            # Write trace file
+            self._write_trace(document.document_id, trace)
 
             return relationships
 
         except Exception as e:
             print(f"Warning: LLM relationship extraction failed: {e}")
+            trace["error"] = repr(e)
+            # Still write trace on error so we can debug
+            self._write_trace(document.document_id, trace)
             return []
+
+    def _write_trace(self, document_id: str, trace: dict[str, Any]) -> None:
+        """Write trace file for debugging relationship extraction."""
+        try:
+            TRACE_DIR.mkdir(parents=True, exist_ok=True)
+            trace_path = TRACE_DIR / f"{document_id}.relationships.trace.json"
+            trace_path.write_text(json.dumps(trace, indent=2, ensure_ascii=False))
+            print(f"  Wrote relationship trace: {trace_path}")
+        except Exception as e:
+            print(f"  Warning: Failed to write trace file: {e}")
