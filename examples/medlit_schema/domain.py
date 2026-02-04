@@ -1,7 +1,7 @@
 """Domain schema for the Medical Literature domain."""
 
 from typing import Optional
-from kgschema.domain import DomainSchema, PredicateConstraint
+from kgschema.domain import DomainSchema, PredicateConstraint, ValidationIssue
 from kgschema.entity import BaseEntity
 from kgschema.relationship import BaseRelationship
 from kgschema.document import BaseDocument
@@ -155,12 +155,31 @@ class MedlitDomain(DomainSchema):
     def document_types(self) -> dict[str, type[BaseDocument]]:
         return {"paper_document": PaperDocument}
 
-    def validate_entity(self, entity: BaseEntity) -> bool:
+    def validate_entity(self, entity: BaseEntity) -> list[ValidationIssue]:
+        issues = []
+        # Check entity type is registered
+        entity_type = entity.get_entity_type()
+        if entity_type not in self.entity_types:
+            issues.append(
+                ValidationIssue(
+                    field="entity_type",
+                    message=f"Unknown entity type: {entity_type}",
+                    value=entity_type,
+                    code="UNKNOWN_TYPE",
+                )
+            )
+        # Run Pydantic validation
         try:
             entity.model_validate(entity.model_dump())
-            return True
-        except ValueError:
-            return False
+        except ValueError as e:
+            issues.append(
+                ValidationIssue(
+                    field="model",
+                    message=str(e),
+                    code="PYDANTIC_VALIDATION",
+                )
+            )
+        return issues
 
     async def validate_relationship(self, relationship: BaseRelationship, entity_storage=None) -> bool:
         try:

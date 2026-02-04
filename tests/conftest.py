@@ -33,7 +33,7 @@ from kgraph.storage.memory import (
     InMemoryRelationshipStorage,
 )
 from kgschema.document import BaseDocument
-from kgschema.domain import DomainSchema, PredicateConstraint
+from kgschema.domain import DomainSchema, PredicateConstraint, ValidationIssue
 from kgschema.entity import BaseEntity, EntityMention, EntityStatus, PromotionConfig
 from kgschema.relationship import BaseRelationship
 from kgschema.storage import EntityStorageInterface
@@ -159,9 +159,17 @@ class SimpleDomainSchema(DomainSchema):
             require_embedding=False,
         )
 
-    def validate_entity(self, entity: BaseEntity) -> bool:
+    def validate_entity(self, entity: BaseEntity) -> list[ValidationIssue]:
         """Check if the entity's type is registered in this schema."""
-        return entity.get_entity_type() in self.entity_types
+        entity_type = entity.get_entity_type()
+        if entity_type not in self.entity_types:
+            return [ValidationIssue(
+                field="entity_type",
+                message=f"Unknown entity type: {entity_type}",
+                value=entity_type,
+                code="UNKNOWN_TYPE",
+            )]
+        return []
 
     async def validate_relationship(
         self,

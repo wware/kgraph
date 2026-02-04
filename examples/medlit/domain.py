@@ -3,7 +3,7 @@
 from kgraph.promotion import PromotionPolicy
 
 from kgschema.document import BaseDocument
-from kgschema.domain import DomainSchema, PredicateConstraint
+from kgschema.domain import DomainSchema, PredicateConstraint, ValidationIssue
 from kgschema.entity import BaseEntity, PromotionConfig
 from kgschema.relationship import BaseRelationship
 from kgschema.storage import EntityStorageInterface
@@ -103,7 +103,7 @@ class MedLitDomainSchema(DomainSchema):
             require_embedding=False,  # Don't require embeddings (we have them but don't block)
         )
 
-    def validate_entity(self, entity: BaseEntity) -> bool:
+    def validate_entity(self, entity: BaseEntity) -> list[ValidationIssue]:
         """Validate an entity against medical domain rules.
 
         Rules:
@@ -111,17 +111,34 @@ class MedLitDomainSchema(DomainSchema):
         - Canonical entities should have canonical IDs in entity_id or canonical_ids
         - Provisional entities are allowed (they'll be promoted later)
         """
-        if entity.get_entity_type() not in self.entity_types:
-            return False
+        issues = []
+
+        entity_type = entity.get_entity_type()
+        if entity_type not in self.entity_types:
+            issues.append(
+                ValidationIssue(
+                    field="entity_type",
+                    message=f"Unknown entity type: {entity_type}",
+                    value=entity_type,
+                    code="UNKNOWN_TYPE",
+                )
+            )
 
         # Canonical entities should have meaningful IDs
         if entity.status.value == "canonical":
             # Allow IDs like "C0006142" (UMLS), "HGNC:1100", "RxNorm:1187832", etc.
             if not entity.entity_id or entity.entity_id.startswith("prov:"):
                 # Provisional prefix suggests this should be provisional
-                return False
+                issues.append(
+                    ValidationIssue(
+                        field="entity_id",
+                        message="Canonical entities must have a meaningful ID, not provisional prefix",
+                        value=entity.entity_id,
+                        code="INVALID_CANONICAL_ID",
+                    )
+                )
 
-        return True
+        return issues
 
     async def validate_relationship(
         self,

@@ -82,7 +82,7 @@ class CaseOpinion(BaseDocument):
 Bring everything together in a `DomainSchema`:
 
 ```python
-from kgschema.domain import DomainSchema
+from kgschema.domain import DomainSchema, ValidationIssue
 from kgschema.entity import PromotionConfig, BaseEntity
 from kgschema.relationship import BaseRelationship
 from kgschema.document import BaseDocument
@@ -135,16 +135,27 @@ class LegalDomain(DomainSchema):
             require_embedding=True,
         )
 
-    def validate_entity(self, entity: BaseEntity) -> bool:
+    def validate_entity(self, entity: BaseEntity) -> list[ValidationIssue]:
+        issues = []
         # Check entity type is registered
-        if entity.get_entity_type() not in self.entity_types:
-            return False
+        entity_type = entity.get_entity_type()
+        if entity_type not in self.entity_types:
+            issues.append(ValidationIssue(
+                field="entity_type",
+                message=f"Unknown entity type: {entity_type}",
+                value=entity_type,
+                code="UNKNOWN_TYPE",
+            ))
         # Add domain-specific validation
         if isinstance(entity, CaseEntity):
             # Cases should have a year if canonical
             if entity.status == EntityStatus.CANONICAL and entity.year is None:
-                return False
-        return True
+                issues.append(ValidationIssue(
+                    field="year",
+                    message="Canonical cases must have a year",
+                    code="MISSING_YEAR",
+                ))
+        return issues
 
     def validate_relationship(self, rel: BaseRelationship) -> bool:
         # Check predicate is registered

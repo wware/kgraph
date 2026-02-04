@@ -56,6 +56,25 @@ from kgschema.storage import EntityStorageInterface
 logger = logging.getLogger(__name__)
 
 
+class ValidationIssue(BaseModel, frozen=True):
+    """A structured validation error with location and diagnostic information.
+
+    Provides detailed information about why validation failed, enabling
+    better error messages and programmatic handling of validation failures.
+
+    Attributes:
+        field: The field that failed validation (e.g., "entity_type", "confidence")
+        message: Human-readable description of the issue
+        value: The invalid value (optional, for debugging)
+        code: Machine-readable error code (optional, for programmatic handling)
+    """
+
+    field: str = Field(description="The field or location that failed validation")
+    message: str = Field(description="Human-readable description of the validation issue")
+    value: str | None = Field(default=None, description="The invalid value (as string for display)")
+    code: str | None = Field(default=None, description="Machine-readable error code")
+
+
 class PredicateConstraint(BaseModel, frozen=True):
     """Defines the valid subject and object entity types for a predicate."""
 
@@ -263,7 +282,7 @@ class DomainSchema(ABC):
         return PromotionConfig()
 
     @abstractmethod
-    def validate_entity(self, entity: BaseEntity) -> bool:
+    def validate_entity(self, entity: BaseEntity) -> list[ValidationIssue]:
         """Validate an entity against domain-specific rules.
 
         Called by the ingestion pipeline before storing an entity. Use this
@@ -277,7 +296,23 @@ class DomainSchema(ABC):
             entity: The entity to validate.
 
         Returns:
-            True if the entity is valid for this domain, False otherwise.
+            Empty list if the entity is valid, otherwise a list of ValidationIssue
+            objects describing each validation failure. Multiple issues can be
+            returned to help users fix all problems at once.
+
+        Example:
+            ```python
+            def validate_entity(self, entity: BaseEntity) -> list[ValidationIssue]:
+                issues = []
+                if entity.get_entity_type() not in self.entity_types:
+                    issues.append(ValidationIssue(
+                        field="entity_type",
+                        message=f"Unknown entity type: {entity.get_entity_type()}",
+                        value=entity.get_entity_type(),
+                        code="UNKNOWN_TYPE",
+                    ))
+                return issues
+            ```
 
         Note:
             At minimum, implementations should verify that the entity's type

@@ -113,7 +113,7 @@ Optional override:
 - `promotion_config -> PromotionConfig`: Domain-specific promotion thresholds
 
 Abstract methods:
-- `validate_entity(entity: BaseEntity) -> bool`
+- `validate_entity(entity: BaseEntity) -> list[ValidationIssue]`: Returns empty list if valid, otherwise list of issues
 - `validate_relationship(rel: BaseRelationship) -> bool`
 - `get_promotion_policy(lookup: CanonicalIdLookupInterface | None) -> PromotionPolicy`: Return promotion policy
 

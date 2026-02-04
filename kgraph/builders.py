@@ -87,8 +87,10 @@ class EntityBuilder(BaseModel):
             # evidence=evidence or self._default_evidence(kind="curated"),  # uncomment when BaseEntity has it
         )
 
-        if not self.domain.validate_entity(ent):
-            raise ValueError(f"Domain {self.domain.name!r} rejected entity {ent.entity_id!r}")
+        validation_issues = self.domain.validate_entity(ent)
+        if validation_issues:
+            issue_msgs = "; ".join(f"{i.field}: {i.message}" for i in validation_issues)
+            raise ValueError(f"Domain {self.domain.name!r} rejected entity {ent.entity_id!r}: {issue_msgs}")
         return ent
 
     def provisional_from_mention(
@@ -125,8 +127,10 @@ class EntityBuilder(BaseModel):
             # evidence=evidence or self._evidence_from_mention(mention),  # uncomment when BaseEntity has it
         )
 
-        if not self.domain.validate_entity(ent):
-            raise ValueError(f"Domain {self.domain.name!r} rejected provisional entity {ent.entity_id!r}")
+        validation_issues = self.domain.validate_entity(ent)
+        if validation_issues:
+            issue_msgs = "; ".join(f"{i.field}: {i.message}" for i in validation_issues)
+            raise ValueError(f"Domain {self.domain.name!r} rejected provisional entity {ent.entity_id!r}: {issue_msgs}")
         return ent
 
     # Optional helpers once BaseEntity supports evidence

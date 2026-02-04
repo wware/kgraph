@@ -3,7 +3,7 @@
 import pytest
 from datetime import datetime, timezone
 
-from kgschema.domain import DomainSchema, PredicateConstraint
+from kgschema.domain import DomainSchema, PredicateConstraint, ValidationIssue
 from kgschema.entity import BaseEntity, EntityStatus
 from kgschema.relationship import BaseRelationship
 
@@ -60,9 +60,17 @@ class TestDomainSchema(DomainSchema):
     def document_types(self) -> dict[str, type]:
         return {}
 
-    def validate_entity(self, entity: BaseEntity) -> bool:
+    def validate_entity(self, entity: BaseEntity) -> list[ValidationIssue]:
         """Validate entity is of a registered type."""
-        return entity.get_entity_type() in self.entity_types
+        entity_type = entity.get_entity_type()
+        if entity_type not in self.entity_types:
+            return [ValidationIssue(
+                field="entity_type",
+                message=f"Unknown entity type: {entity_type}",
+                value=entity_type,
+                code="UNKNOWN_TYPE",
+            )]
+        return []
 
     def get_promotion_policy(self, lookup=None):
         """Not needed for these tests."""

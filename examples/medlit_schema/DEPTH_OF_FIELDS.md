@@ -1841,7 +1841,7 @@ def predicate_constraints(self) -> dict[str, PredicateConstraint]:
 **Add comprehensive docstrings** to validation methods:
 
 ```python
-def validate_entity(self, entity: BaseEntity) -> bool:
+def validate_entity(self, entity: BaseEntity) -> list[ValidationIssue]:
     """
     Validate medical entity against domain invariants.
 
@@ -1867,9 +1867,10 @@ def validate_entity(self, entity: BaseEntity) -> bool:
         entity: Entity to validate
 
     Returns:
-        True if valid (validation errors raise exceptions from Pydantic)
+        Empty list if valid, otherwise list of ValidationIssue objects
+        describing each validation failure.
     """
-    return True
+    return []
 
 async def validate_relationship(self, relationship: BaseRelationship, entity_storage=None) -> bool:
     """

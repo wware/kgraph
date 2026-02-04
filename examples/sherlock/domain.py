@@ -6,7 +6,7 @@ from typing import Optional
 from kgraph.promotion import PromotionPolicy
 
 from kgschema.document import BaseDocument
-from kgschema.domain import DomainSchema, PredicateConstraint
+from kgschema.domain import DomainSchema, PredicateConstraint, ValidationIssue
 from kgschema.entity import BaseEntity, PromotionConfig
 from kgschema.relationship import BaseRelationship
 from kgschema.storage import EntityStorageInterface
@@ -159,8 +159,18 @@ class SherlockDomainSchema(DomainSchema):
     def get_promotion_policy(self, lookup=None) -> PromotionPolicy:
         return SherlockPromotionPolicy(self.promotion_config)
 
-    def validate_entity(self, entity: BaseEntity) -> bool:
-        return entity.get_entity_type() in self.entity_types
+    def validate_entity(self, entity: BaseEntity) -> list[ValidationIssue]:
+        entity_type = entity.get_entity_type()
+        if entity_type not in self.entity_types:
+            return [
+                ValidationIssue(
+                    field="entity_type",
+                    message=f"Unknown entity type: {entity_type}",
+                    value=entity_type,
+                    code="UNKNOWN_TYPE",
+                )
+            ]
+        return []
 
     async def validate_relationship(
         self,

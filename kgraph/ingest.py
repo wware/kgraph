@@ -259,8 +259,10 @@ class IngestionOrchestrator(BaseModel):
                 entity, _ = await self.entity_resolver.resolve(mention, self.entity_storage)
 
                 # Validate entity against domain schema
-                if not self.domain.validate_entity(entity):
-                    errors.append(f"Entity validation failed: {entity.name} ({entity.get_entity_type()})")
+                validation_issues = self.domain.validate_entity(entity)
+                if validation_issues:
+                    issue_msgs = "; ".join(f"{i.field}: {i.message}" for i in validation_issues)
+                    errors.append(f"Entity validation failed: {entity.name} ({entity.get_entity_type()}) - {issue_msgs}")
                     continue
 
                 # Check if entity already exists
