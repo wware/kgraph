@@ -1,5 +1,39 @@
 # What are Next Steps for this thing?
 
+Following a bunch of work, I have this little review from ChatGPT.
+
+## Small suggestions / potential follow-ups ⚠️ (not blockers)
+
+1.  **`ValidationIssue.value` is typed as `str | None`**. [GitHub](https://github.com/wware/kgraph/commit/7c3d5778045027f79cda39110bd09819dc05253e)  
+    That’s fine for display, but you may eventually want either:
+    
+    -   `value: Any | None` (so callers can inspect programmatically), *or*
+        
+    -   keep `value` as `str` but add `raw_value_type: str | None` (or similar) for better debugging.  
+        Right now you’re committing to “value is pre-stringified,” which is okay, just a design choice to be aware of.
+        
+2.  Consider whether you want the same structured approach for **`validate_relationship`** eventually. The docs snippet you updated only mentions `validate_entity`’s return change; `validate_relationship` appears to still be a bool in the docs list. [GitHub+1](https://github.com/wware/kgraph/commit/7c3d5778045027f79cda39110bd09819dc05253e)  
+    Totally fine to do entity first, relationships later—just flagging symmetry.
+    
+3.  The `field` attribute is a single string. [GitHub](https://github.com/wware/kgraph/commit/7c3d5778045027f79cda39110bd09819dc05253e)  
+    That works, but if you later want nested/structured locations (like Pydantic’s `loc` tuples), you might want `field_path: tuple[str, ...]` (or `list[str]`) instead. You can defer this until you feel the pain.
+
+At the present time I will not take action on these.
+
+## My immediate next step will be a debuggable ingestion pipeline
+
+Each stage in the pipeline produces an instance of some pydantic model, we can pull out a JSON/JSONL intermediate project at any point.
+
+Take a fairly rich paper and make sure all the points you want to hit are correctly represented in the JSON at each stage. Do this for several points.
+
+Make sure relationships are being parsed and handled as expected.
+
+
+
+
+
+# THIS IS FROM A COUPLE DAYS AGO
+
 > **Note:** This document was created before the major refactoring that split the codebase into kgschema/, kgbundle/, kgraph/, and kgserver/ packages. The general intent and approach remain valid, but file paths and module references have been updated to match the current architecture.
 
 ## Quick Reference: Current Module Locations
