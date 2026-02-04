@@ -113,26 +113,29 @@ def _find_manifest(search_dir: Path) -> Path | None:
     return None
 
 
-def _load_document_assets(bundle_dir: Path, manifest: BundleManifestV1) -> None:
-    """Load document assets from documents.jsonl into /app/docs.
+def _load_doc_assets(bundle_dir: Path, manifest: BundleManifestV1) -> None:
+    """Load documentation assets from doc_assets.jsonl into /app/docs.
 
-    Reads the documents.jsonl file (if present) and copies all listed assets
+    Reads the doc_assets.jsonl file (if present) and copies all listed assets
     to /app/docs, preserving directory structure. Special handling for mkdocs.yml
     which is moved to /app/mkdocs.yml.
+
+    Note: These are human-readable documentation files (markdown, images, etc.),
+    NOT source documents (papers, articles) used for entity extraction.
     """
-    if not manifest.documents:
+    if not manifest.doc_assets:
         return
 
-    documents_file = bundle_dir / manifest.documents.path
-    if not documents_file.exists():
-        logger.warning("Documents file %s not found, skipping document asset loading", documents_file)
+    doc_assets_file = bundle_dir / manifest.doc_assets.path
+    if not doc_assets_file.exists():
+        logger.warning("Doc assets file %s not found, skipping documentation asset loading", doc_assets_file)
         return
 
     app_docs = Path("/app/docs")
     app_docs.mkdir(parents=True, exist_ok=True)
 
     asset_count = 0
-    with open(documents_file, "r") as f:
+    with open(doc_assets_file, "r") as f:
         for line in f:
             line = line.strip()
             if not line:
@@ -176,7 +179,7 @@ def _load_document_assets(bundle_dir: Path, manifest: BundleManifestV1) -> None:
                 continue
 
     if asset_count > 0:
-        logger.info("Loaded %s document assets to /app/docs", asset_count)
+        logger.info("Loaded %s documentation assets to /app/docs", asset_count)
 
         # Build mkdocs if mkdocs.yml exists
         mkdocs_yml = Path("/app/mkdocs.yml")
@@ -195,8 +198,8 @@ def _do_load(engine, db_url: str, bundle_dir: Path, manifest_path: Path) -> None
     manifest = BundleManifestV1.model_validate_json(manifest_path.read_text())
     logger.info("Loaded manifest for bundle: %s (domain: %s)", manifest.bundle_id, manifest.domain)
 
-    # Load document assets if present
-    _load_document_assets(bundle_dir, manifest)
+    # Load documentation assets if present (NOT source documents)
+    _load_doc_assets(bundle_dir, manifest)
 
     # Use bundle-specific GraphQL examples if provided
     bundle_examples = bundle_dir / "graphql_examples.yml"

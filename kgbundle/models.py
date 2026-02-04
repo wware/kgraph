@@ -58,11 +58,14 @@ class BundleFile(BaseModel):
     format: str = Field(..., description="File format (e.g., jsonl)")
 
 
-class DocumentAssetRow(BaseModel):
-    """Document asset row format for bundle documents.jsonl files.
+class DocAssetRow(BaseModel):
+    """Documentation asset row format for bundle doc_assets.jsonl files.
 
-        Lists static assets (markdown files, images, etc.) that should be
+    Lists static assets (markdown files, images, etc.) that should be
     copied from the bundle to provide documentation for the knowledge domain.
+
+    Note: This is for human-readable documentation, NOT source documents
+    (papers, articles) used for entity/relationship extraction.
     """
 
     path: str = Field(..., description="Path to the asset file relative to the bundle root")
@@ -82,7 +85,7 @@ class BundleManifestV1(BaseModel):
     created_at: str = Field(..., description="ISO 8601 creation timestamp")
     entities: BundleFile = Field(..., description="Entities file information")
     relationships: BundleFile = Field(..., description="Relationships file information")
-    documents: Optional[BundleFile] = Field(None, description="Optional documents.jsonl file listing static assets")
+    doc_assets: Optional[BundleFile] = Field(None, description="Optional doc_assets.jsonl file listing documentation assets")
     metadata: Dict[str, Any] = Field(
         default_factory=dict,
         description="Additional bundle metadata (description, counts, etc.)",

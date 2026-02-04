@@ -9,7 +9,7 @@ class JournalArticle(BaseDocument):
     """A journal article (research paper) as a source document for extraction.
 
     Maps from med-lit-schema's Paper model to kgraph's BaseDocument.
-    Papers are NOT the same as documents.jsonl (which is for documentation assets).
+    Papers are NOT the same as doc_assets.jsonl (which is for documentation assets).
     Papers are the source of information for building the knowledge graph, taken
     from sources like PubMed, PLOS ONE, or medical journals if available.
 

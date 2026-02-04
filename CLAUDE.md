@@ -57,7 +57,7 @@ Data structure definitions only, no functional code:
 
 ### kgbundle/ (Separate Package)
 Lightweight Pydantic models for bundle exchange between kgraph and kgserver:
-- `models.py` - EntityRow, RelationshipRow, BundleManifestV1, DocumentAssetRow
+- `models.py` - EntityRow, RelationshipRow, BundleManifestV1, DocAssetRow
 - Minimal dependencies (only pydantic) for lightweight imports
 - Used by both kgraph (producer) and kgserver (consumer)
 

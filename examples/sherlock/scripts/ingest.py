@@ -333,7 +333,7 @@ async def main() -> None:
 
     with TemporaryDirectory() as tmpdir:
         # Create documentation assets that will be packaged in the bundle.
-        # These files will be listed in documents.jsonl and copied to the bundle's docs/ directory.
+        # These files will be listed in doc_assets.jsonl and copied to the bundle's docs/ directory.
         temp_path = Path(tmpdir)
         md_file = temp_path / "build_orch.md"
         md_file.write_text(build_orch_blurb)
@@ -341,7 +341,7 @@ async def main() -> None:
         mkdocs_file.write_text(mkdocs_yml_replacement)
 
         # Export the bundle with documentation assets.
-        # The write_bundle function will create documents.jsonl and copy all files
+        # The write_bundle function will create doc_assets.jsonl and copy all files
         # from temp_path to bundle_path/docs/, preserving directory structure.
         bundle_output_path = Path("./sherlock_bundle")
         await write_bundle(

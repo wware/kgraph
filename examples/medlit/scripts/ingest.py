@@ -669,7 +669,7 @@ Papers were processed from JSON format (med-lit-schema Paper format).
      - manifest.json
      - entities.jsonl
      - relationships.jsonl
-     - documents.jsonl (if docs provided)
+     - doc_assets.jsonl (if docs provided)
      - docs/ (documentation){cache_note}
 """)
 

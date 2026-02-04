@@ -6,7 +6,7 @@ This package provides a kgraph domain extension for extracting knowledge from bi
 
 ### Key Design Decisions
 
-1. **Papers are NOT documents.jsonl**: Source papers are `JournalArticle(BaseDocument)` instances used for extraction, not documentation assets. The `documents.jsonl` in bundles is for human-readable documentation only.
+1. **Papers are NOT doc_assets.jsonl**: Source papers are `JournalArticle(BaseDocument)` instances used for extraction, not documentation assets. The `doc_assets.jsonl` in bundles is for human-readable documentation only.
 
 2. **Canonical IDs**: Entities use authoritative identifiers (UMLS, HGNC, RxNorm, UniProt) directly in `entity_id`, with additional mappings in `canonical_ids`.
 
@@ -178,7 +178,7 @@ This will:
    - `manifest.json` - Bundle metadata
    - `entities.jsonl` - All extracted entities
    - `relationships.jsonl` - All extracted relationships
-   - `documents.jsonl` - Documentation assets (if provided)
+   - `doc_assets.jsonl` - Documentation assets (if provided)
    - `docs/` - Documentation directory
 
 ## Resource Requirements

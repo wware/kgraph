@@ -31,7 +31,7 @@ Example:
 from .models import (
     BundleFile,
     BundleManifestV1,
-    DocumentAssetRow,
+    DocAssetRow,
     EntityRow,
     RelationshipRow,
 )
@@ -40,7 +40,7 @@ __all__ = [
     "EntityRow",
     "RelationshipRow",
     "BundleFile",
-    "DocumentAssetRow",
+    "DocAssetRow",
     "BundleManifestV1",
 ]
 

@@ -41,7 +41,7 @@ bundle/
   manifest.json          # required
   entities.jsonl         # required
   relationships.jsonl    # required
-  documents.jsonl        # optional - lists static documentation assets
+  doc_assets.jsonl       # optional - lists static documentation assets
   docs/                  # optional - directory containing documentation files
   graphql_examples.yml   # optional - replaces GraphiQL dropdown examples
 ```
@@ -55,9 +55,9 @@ bundle/
   * shape validation (manifest + row parsing)
   * referential integrity (relationship endpoints must exist)
 * Intended for querying and serving, not extraction
-* May include documentation assets (markdown, images, etc.) listed in `documents.jsonl`
+* May include documentation assets (markdown, images, etc.) listed in `doc_assets.jsonl`
 
-The server does not ingest producer-internal artifacts directly. Documentation assets listed in `documents.jsonl` are copied to `/app/docs/` at bundle load time for serving via MkDocs.
+The server does not ingest producer-internal artifacts directly. Documentation assets listed in `doc_assets.jsonl` are copied to `/app/docs/` at bundle load time for serving via MkDocs.
 
 ### Lifecycle
 

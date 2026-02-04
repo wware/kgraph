@@ -320,7 +320,7 @@ The function creates a bundle directory containing:
 - `manifest.json` - Bundle metadata and file references
 - `entities.jsonl` - Entity data in JSONL format
 - `relationships.jsonl` - Relationship data in JSONL format
-- `documents.jsonl` - (optional) List of documentation assets with paths and content types
+- `doc_assets.jsonl` - (optional) List of documentation assets with paths and content types
 - `docs/` - (optional) Directory containing documentation files (markdown, images, etc.)
 
 **Documentation Assets:**
@@ -328,8 +328,8 @@ The function creates a bundle directory containing:
 If the `docs` parameter is provided, the function will:
 
 1. Recursively copy all files from the source directory to `bundle_path/docs/`
-2. Create `documents.jsonl` listing each asset with its path (relative to bundle root) and MIME type
-3. Add a `documents` field to the manifest referencing `documents.jsonl`
+2. Create `doc_assets.jsonl` listing each asset with its path (relative to bundle root) and MIME type
+3. Add a `doc_assets` field to the manifest referencing `doc_assets.jsonl`
 
 Example:
 

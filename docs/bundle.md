@@ -390,7 +390,7 @@ sherlock_bundle/
 ├── docs
 │   ├── build_orch.md
 │   └── mkdocs.yml
-├── documents.jsonl
+├── doc_assets.jsonl
 ├── entities.jsonl
 ├── manifest.json
 └── relationships.jsonl
@@ -398,7 +398,7 @@ sherlock_bundle/
 2 directories, 6 files
 ```
 
-where `documents.jsonl` looks like this.
+where `doc_assets.jsonl` looks like this.
 
 ```json
 {"path":"docs/mkdocs.yml","content_type":"application/yaml"}
@@ -406,7 +406,7 @@ where `documents.jsonl` looks like this.
 ```
 
 <!--
-Maybe let bundles provide a full a docs sub-bundle, instead of documents.jsonl
+Maybe let bundles provide a full a docs sub-bundle, instead of doc_assets.jsonl
 
 "docs": {
   "root": "docs/",

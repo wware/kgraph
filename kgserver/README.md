@@ -123,7 +123,7 @@ in the `wware/kgraph` repository.
 * Contains:
 
   * graph data (`entities.jsonl`, `relationships.jsonl`)
-  * optional documentation assets listed in `documents.jsonl` (markdown files, images, etc.)
+  * optional documentation assets listed in `doc_assets.jsonl` (markdown files, images, etc.)
   * optional `graphql_examples.yml` to customize the GraphiQL example-query dropdown
 * Is treated as **read-only** (single source of truth for that subgraph)
 * Bundle is **immutable**, can be validated, cannot be altered
@@ -137,7 +137,7 @@ Archive:  /home/wware/S.zip
     11051  2026-01-20 15:56   sherlock_bundle/relationships.jsonl
       499  2026-01-20 15:56   sherlock_bundle/manifest.json
      5239  2026-01-20 15:56   sherlock_bundle/entities.jsonl
-     1234  2026-01-20 15:56   sherlock_bundle/documents.jsonl
+     1234  2026-01-20 15:56   sherlock_bundle/doc_assets.jsonl
      5678  2026-01-20 15:56   sherlock_bundle/docs/
 ---------                     -------
     23660                     6 files
@@ -170,8 +170,8 @@ Those belong to producer pipelines.
     "path": "relationships.jsonl",
     "format": "jsonl"
   },
-  "documents": {
-    "path": "documents.jsonl",
+  "doc_assets": {
+    "path": "doc_assets.jsonl",
     "format": "jsonl"
   },
   "metadata": {
@@ -245,9 +245,9 @@ Each relationship looks like this.
 
 Relationships are directed: `subject_id --predicate--> object_id`.
 
-### `documents.jsonl` (optional)
+### `doc_assets.jsonl` (optional)
 
-Bundles may include a `documents.jsonl` file that lists static documentation assets (markdown files, images, configuration files, etc.) to be copied to the server's documentation directory.
+Bundles may include a `doc_assets.jsonl` file that lists static documentation assets (markdown files, images, configuration files, etc.) to be copied to the server's documentation directory.
 
 Each line is a JSON object describing one asset:
 
@@ -257,7 +257,7 @@ Each line is a JSON object describing one asset:
 {"path": "docs/images/logo.png", "content_type": "image/png"}
 ```
 
-When a bundle with `documents.jsonl` is loaded:
+When a bundle with `doc_assets.jsonl` is loaded:
 - All listed files are copied from `bundle/docs/` to `/app/docs/` preserving directory structure
 - If `mkdocs.yml` is present, it's moved to `/app/mkdocs.yml` and MkDocs is built automatically
 - This enables domain-specific documentation to be bundled with the knowledge graph
@@ -279,7 +279,7 @@ The server’s responsibility is limited to validation, loading, and querying.
 
 ## Documentation Assets
 
-Bundles can include documentation assets via the `documents.jsonl` file. When a bundle is loaded, these assets are automatically copied to `/app/docs/` and MkDocs is built if `mkdocs.yml` is present. This allows domain-specific documentation to be packaged alongside the knowledge graph data.
+Bundles can include documentation assets via the `doc_assets.jsonl` file. When a bundle is loaded, these assets are automatically copied to `/app/docs/` and MkDocs is built if `mkdocs.yml` is present. This allows domain-specific documentation to be packaged alongside the knowledge graph data.
 
 ## Custom GraphQL Examples
 

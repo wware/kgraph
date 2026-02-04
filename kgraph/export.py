@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Protocol, Dict, Any, Optional, List
 import uuid
 
-from kgbundle import BundleManifestV1, EntityRow, RelationshipRow, BundleFile, DocumentAssetRow
+from kgbundle import BundleManifestV1, EntityRow, RelationshipRow, BundleFile, DocAssetRow
 from kgschema.storage import EntityStorageInterface, RelationshipStorageInterface
 
 
@@ -33,21 +33,24 @@ def get_git_hash() -> Optional[str]:
         return None
 
 
-def _collect_document_assets(docs_source: Path, bundle_path: Path) -> List[DocumentAssetRow]:
-    """Copies document assets from a source directory into the bundle.
+def _collect_doc_assets(docs_source: Path, bundle_path: Path) -> List[DocAssetRow]:
+    """Copies documentation assets from a source directory into the bundle.
 
     This function recursively walks the `docs_source` directory, copies each
     file to a `docs/` subdirectory within the `bundle_path`, and generates
-    a `DocumentAssetRow` for each copied file to be included in the bundle's
-    `documents.jsonl`.
+    a `DocAssetRow` for each copied file to be included in the bundle's
+    `doc_assets.jsonl`.
+
+    Note: These are human-readable documentation files (markdown, images, etc.),
+    NOT source documents (papers, articles) used for entity extraction.
 
     Args:
-        docs_source: The source directory containing the document assets
+        docs_source: The source directory containing the documentation assets
                      (e.g., Markdown files).
         bundle_path: The root directory of the bundle being created.
 
     Returns:
-        A list of `DocumentAssetRow` objects, one for each file copied.
+        A list of `DocAssetRow` objects, one for each file copied.
     """
     if not docs_source.exists() or not docs_source.is_dir():
         return []
@@ -81,7 +84,7 @@ def _collect_document_assets(docs_source: Path, bundle_path: Path) -> List[Docum
 
             # Create asset row with path relative to bundle root
             bundle_relative_path = f"docs/{rel_path.as_posix()}"
-            asset_rows.append(DocumentAssetRow(path=bundle_relative_path, content_type=content_type))
+            asset_rows.append(DocAssetRow(path=bundle_relative_path, content_type=content_type))
 
     return asset_rows
 
@@ -185,13 +188,13 @@ class JsonlGraphBundleExporter:
         if kgraph_version:
             manifest_metadata["kgraph_version"] = kgraph_version
 
-        # Handle document assets
-        documents_file = None
+        # Handle documentation assets (NOT source documents - these are for MkDocs)
+        doc_assets_file = None
         if docs is not None:
-            documents_file = bundle_path / "documents.jsonl"
-            asset_rows = _collect_document_assets(docs, bundle_path)
+            doc_assets_file = bundle_path / "doc_assets.jsonl"
+            asset_rows = _collect_doc_assets(docs, bundle_path)
             if asset_rows:
-                with open(documents_file, "w") as f_docs:
+                with open(doc_assets_file, "w") as f_docs:
                     for asset_row in asset_rows:
                         f_docs.write(asset_row.model_dump_json() + "\n")
 
@@ -203,7 +206,7 @@ class JsonlGraphBundleExporter:
             created_at=datetime.now(timezone.utc).isoformat(),
             entities=BundleFile(path="entities.jsonl", format="jsonl"),
             relationships=BundleFile(path="relationships.jsonl", format="jsonl"),
-            documents=BundleFile(path="documents.jsonl", format="jsonl") if documents_file and documents_file.exists() else None,
+            doc_assets=BundleFile(path="doc_assets.jsonl", format="jsonl") if doc_assets_file and doc_assets_file.exists() else None,
             metadata=manifest_metadata,
         )
         with open(manifest_file, "w") as f_manifest:
