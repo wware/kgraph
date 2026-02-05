@@ -291,6 +291,44 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
 
         return relationships
 
+    def _build_llm_prompt(self, text_sample: str, entity_list: str) -> str:
+        """Build the prompt for the LLM."""
+        return f"""Extract medical relationships from the text below.
+
+PREDICATE TYPE RULES (check entity types carefully):
+• treats: ONLY drug/procedure → disease/symptom (drug treats disease, NOT disease treats disease)
+• increases_risk: gene/ethnicity → disease (gene increases risk of disease)
+• prevents: drug/procedure → disease
+• targets: ONLY drug/procedure → gene/protein (drug targets protein, NOT gene targets disease)
+• diagnosed_by: disease → procedure/biomarker (disease diagnosed by test, NOT test diagnosed by disease)
+• associated_with: use for general correlations, disease subtypes, gene-disease links, or when other predicates don't fit
+
+Entities in document:
+{entity_list}
+
+Text:
+{text_sample}
+
+Return JSON array of relationships (extract ALL valid relationships you find):
+[
+  {{"subject": "entity_name", "predicate": "treats", "object": "entity_name", "confidence": 0.9, "evidence": "quote from text"}},
+  ...
+]
+
+Valid examples:
+{{"subject": "paclitaxel", "predicate": "treats", "object": "breast cancer", "confidence": 0.9, "evidence": "Paclitaxel therapy for breast cancer"}}
+{{"subject": "trastuzumab", "predicate": "targets", "object": "HER2", "confidence": 0.95, "evidence": "Trastuzumab targets HER2 protein"}}
+{{"subject": "BRCA1", "predicate": "increases_risk", "object": "breast cancer", "confidence": 0.9, "evidence": "BRCA1 mutations increase breast cancer risk"}}
+{{"subject": "HER2", "predicate": "associated_with", "object": "breast cancer", "confidence": 0.85, "evidence": "HER2 overexpression in breast cancer"}}
+{{"subject": "luminal A", "predicate": "associated_with", "object": "breast cancer", "confidence": 0.85, "evidence": "Luminal A subtype of breast cancer"}}
+
+INVALID (skip these):
+- {{"subject": "breast cancer", "predicate": "treats", ...}} - disease cannot treat
+- {{"subject": "HER2", "predicate": "targets", "object": "breast cancer", ...}} - gene cannot target disease, use "associated_with"
+- {{"subject": "therapy", "predicate": "increases_risk", ...}} - therapy doesn't increase risk
+
+Return ONLY the JSON array."""
+
     async def _extract_with_llm(
         self,
         document: BaseDocument,
@@ -327,41 +365,7 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
         text = document.abstract if hasattr(document, "abstract") and document.abstract else document.content
         text_sample = text[:2000]  # Limit text size for faster processing
 
-        prompt = f"""Extract medical relationships from the text below.
-
-PREDICATE TYPE RULES (check entity types carefully):
-• treats: ONLY drug/procedure → disease/symptom (drug treats disease, NOT disease treats disease)
-• increases_risk: gene/ethnicity → disease (gene increases risk of disease)
-• prevents: drug/procedure → disease
-• targets: ONLY drug/procedure → gene/protein (drug targets protein, NOT gene targets disease)
-• diagnosed_by: disease → procedure/biomarker (disease diagnosed by test, NOT test diagnosed by disease)
-• associated_with: use for general correlations, disease subtypes, gene-disease links, or when other predicates don't fit
-
-Entities in document:
-{entity_list}
-
-Text:
-{text_sample}
-
-Return JSON array of relationships (extract ALL valid relationships you find):
-[
-  {{"subject": "entity_name", "predicate": "treats", "object": "entity_name", "confidence": 0.9, "evidence": "quote from text"}},
-  ...
-]
-
-Valid examples:
-{{"subject": "paclitaxel", "predicate": "treats", "object": "breast cancer", "confidence": 0.9, "evidence": "Paclitaxel therapy for breast cancer"}}
-{{"subject": "trastuzumab", "predicate": "targets", "object": "HER2", "confidence": 0.95, "evidence": "Trastuzumab targets HER2 protein"}}
-{{"subject": "BRCA1", "predicate": "increases_risk", "object": "breast cancer", "confidence": 0.9, "evidence": "BRCA1 mutations increase breast cancer risk"}}
-{{"subject": "HER2", "predicate": "associated_with", "object": "breast cancer", "confidence": 0.85, "evidence": "HER2 overexpression in breast cancer"}}
-{{"subject": "luminal A", "predicate": "associated_with", "object": "breast cancer", "confidence": 0.85, "evidence": "Luminal A subtype of breast cancer"}}
-
-INVALID (skip these):
-- {{"subject": "breast cancer", "predicate": "treats", ...}} - disease cannot treat
-- {{"subject": "HER2", "predicate": "targets", "object": "breast cancer", ...}} - gene cannot target disease, use "associated_with"
-- {{"subject": "therapy", "predicate": "increases_risk", ...}} - therapy doesn't increase risk
-
-Return ONLY the JSON array."""
+        prompt = self._build_llm_prompt(text_sample, entity_list)
 
         trace["prompt"] = prompt
 
@@ -379,112 +383,10 @@ Return ONLY the JSON array."""
 
             if isinstance(response, list):
                 for item in response:
-                    if isinstance(item, dict):
-                        subject_name = item.get("subject", "").strip()
-                        predicate = item.get("predicate", "").lower()
-                        object_name = item.get("object", "").strip()
-                        confidence = float(item.get("confidence", 0.5))
-                        evidence = item.get("evidence", "")
-
-                        # Initialize decision record for this item
-                        decision: dict[str, Any] = {
-                            "item": item,
-                            "subject_name": subject_name,
-                            "object_name": object_name,
-                            "predicate": predicate,
-                            "confidence": confidence,
-                            "matched_subject": False,
-                            "matched_object": False,
-                            "semantic_ok": None,
-                            "swap_applied": False,
-                            "accepted": False,
-                            "drop_reason": None,
-                            "resolved": {
-                                "subject_id": None,
-                                "subject_type": None,
-                                "object_id": None,
-                                "object_type": None,
-                            },
-                        }
-
-                        # Find entities by name
-                        subject_entity = entity_by_name.get(subject_name.lower())
-                        object_entity = entity_by_name.get(object_name.lower())
-
-                        decision["matched_subject"] = subject_entity is not None
-                        decision["matched_object"] = object_entity is not None
-
-                        if not subject_entity or not object_entity:
-                            # Record why we're dropping this relationship
-                            if not subject_entity and not object_entity:
-                                decision["drop_reason"] = "subject_and_object_unmatched"
-                            elif not subject_entity:
-                                decision["drop_reason"] = "subject_unmatched"
-                            else:
-                                decision["drop_reason"] = "object_unmatched"
-                            trace["decisions"].append(decision)
-                            continue
-
-                        # Validate predicate semantics match evidence
-                        semantic_ok = self._validate_predicate_semantics(predicate, evidence)
-                        decision["semantic_ok"] = semantic_ok
-                        if not semantic_ok:
-                            print(f"  Warning: Semantic mismatch - predicate '{predicate}' " f"does not match evidence: {evidence[:100]}...")
-                            decision["drop_reason"] = "semantic_mismatch"
-                            trace["decisions"].append(decision)
-                            continue
-
-                        # Check if we need to swap subject and object based on type constraints
-                        if self._should_swap_subject_object(predicate, subject_entity, object_entity):
-                            print(
-                                f"  Swapping subject/object for predicate '{predicate}': "
-                                f"({subject_entity.name} [{subject_entity.get_entity_type()}] ↔ "
-                                f"{object_entity.name} [{object_entity.get_entity_type()}])"
-                            )
-                            # Swap the entities
-                            subject_entity, object_entity = object_entity, subject_entity
-                            decision["swap_applied"] = True
-
-                        # Record resolved entity info
-                        decision["resolved"] = {
-                            "subject_id": subject_entity.entity_id,
-                            "subject_type": subject_entity.get_entity_type(),
-                            "object_id": object_entity.entity_id,
-                            "object_type": object_entity.get_entity_type(),
-                        }
-
-                        # Create structured provenance for LLM extraction
-                        # Note: LLM extracts from abstract/sample, so we don't have precise offsets
-                        provenance = Provenance(
-                            document_id=document.document_id,
-                            source_uri=document.source_uri,
-                            section="abstract" if hasattr(document, "abstract") and document.abstract else None,
-                        )
-
-                        # Create structured evidence
-                        evidence_obj = Evidence(
-                            kind="llm_extracted",
-                            source_documents=(document.document_id,),
-                            primary=provenance,
-                            mentions=(provenance,),
-                            notes={"evidence_text": evidence, "extraction_method": "llm"},
-                        )
-
-                        rel = MedicalClaimRelationship(
-                            subject_id=subject_entity.entity_id,
-                            predicate=predicate,
-                            object_id=object_entity.entity_id,
-                            confidence=confidence,
-                            source_documents=(document.document_id,),
-                            evidence=evidence_obj,
-                            created_at=datetime.now(timezone.utc),
-                            last_updated=None,
-                            metadata={"extraction_method": "llm"},
-                        )
-                        relationships.append(rel)
-
-                        decision["accepted"] = True
-                        trace["decisions"].append(decision)
+                    relationship, decision = self._process_llm_item(item, entity_by_name, document)
+                    trace["decisions"].append(decision)
+                    if relationship:
+                        relationships.append(relationship)
 
             # Record final relationships in trace
             trace["final_relationships"] = [
@@ -508,6 +410,104 @@ Return ONLY the JSON array."""
             # Still write trace on error so we can debug
             self._write_trace(document.document_id, trace)
             return []
+
+    def _process_llm_item(self, item: Any, entity_by_name: dict[str, BaseEntity], document: BaseDocument) -> tuple[Optional[BaseRelationship], dict[str, Any]]:
+        """Process a single item from the LLM response."""
+        if not isinstance(item, dict):
+            return None, {"item": item, "accepted": False, "drop_reason": "item_not_a_dict"}
+
+        subject_name = item.get("subject", "").strip()
+        predicate = item.get("predicate", "").lower()
+        object_name = item.get("object", "").strip()
+        confidence = float(item.get("confidence", 0.5))
+        evidence = item.get("evidence", "")
+
+        decision: dict[str, Any] = {
+            "item": item,
+            "subject_name": subject_name,
+            "object_name": object_name,
+            "predicate": predicate,
+            "confidence": confidence,
+            "matched_subject": False,
+            "matched_object": False,
+            "semantic_ok": None,
+            "swap_applied": False,
+            "accepted": False,
+            "drop_reason": None,
+            "resolved": {
+                "subject_id": None,
+                "subject_type": None,
+                "object_id": None,
+                "object_type": None,
+            },
+        }
+
+        subject_entity = entity_by_name.get(subject_name.lower())
+        object_entity = entity_by_name.get(object_name.lower())
+
+        decision["matched_subject"] = subject_entity is not None
+        decision["matched_object"] = object_entity is not None
+
+        if not subject_entity or not object_entity:
+            if not subject_entity and not object_entity:
+                decision["drop_reason"] = "subject_and_object_unmatched"
+            elif not subject_entity:
+                decision["drop_reason"] = "subject_unmatched"
+            else:
+                decision["drop_reason"] = "object_unmatched"
+            return None, decision
+
+        semantic_ok = self._validate_predicate_semantics(predicate, evidence)
+        decision["semantic_ok"] = semantic_ok
+        if not semantic_ok:
+            print(f"  Warning: Semantic mismatch - predicate '{predicate}' " f"does not match evidence: {evidence[:100]}...")
+            decision["drop_reason"] = "semantic_mismatch"
+            return None, decision
+
+        if self._should_swap_subject_object(predicate, subject_entity, object_entity):
+            print(
+                f"  Swapping subject/object for predicate '{predicate}': "
+                f"({subject_entity.name} [{subject_entity.get_entity_type()}] ↔ "
+                f"{object_entity.name} [{object_entity.get_entity_type()}])"
+            )
+            subject_entity, object_entity = object_entity, subject_entity
+            decision["swap_applied"] = True
+
+        decision["resolved"] = {
+            "subject_id": subject_entity.entity_id,
+            "subject_type": subject_entity.get_entity_type(),
+            "object_id": object_entity.entity_id,
+            "object_type": object_entity.get_entity_type(),
+        }
+
+        provenance = Provenance(
+            document_id=document.document_id,
+            source_uri=document.source_uri,
+            section="abstract" if hasattr(document, "abstract") and document.abstract else None,
+        )
+
+        evidence_obj = Evidence(
+            kind="llm_extracted",
+            source_documents=(document.document_id,),
+            primary=provenance,
+            mentions=(provenance,),
+            notes={"evidence_text": evidence, "extraction_method": "llm"},
+        )
+
+        rel = MedicalClaimRelationship(
+            subject_id=subject_entity.entity_id,
+            predicate=predicate,
+            object_id=object_entity.entity_id,
+            confidence=confidence,
+            source_documents=(document.document_id,),
+            evidence=evidence_obj,
+            created_at=datetime.now(timezone.utc),
+            last_updated=None,
+            metadata={"extraction_method": "llm"},
+        )
+
+        decision["accepted"] = True
+        return rel, decision
 
     def _write_trace(self, document_id: str, trace: dict[str, Any]) -> None:
         """Write trace file for debugging relationship extraction."""

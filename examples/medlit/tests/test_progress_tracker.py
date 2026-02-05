@@ -33,7 +33,7 @@ class TestProgressTrackerBasics:
         tracker = ProgressTracker(total=100, report_interval=9999)
         tracker.completed = 25
 
-        with patch("sys.stdout", new=StringIO()) as mock_stdout:
+        with patch("sys.stderr", new=StringIO()) as mock_stdout:
             tracker.report()
             output = mock_stdout.getvalue()
 
@@ -43,7 +43,7 @@ class TestProgressTrackerBasics:
         """Report should handle zero total gracefully."""
         tracker = ProgressTracker(total=0, report_interval=9999)
 
-        with patch("sys.stdout", new=StringIO()) as mock_stdout:
+        with patch("sys.stderr", new=StringIO()) as mock_stdout:
             tracker.report()
             output = mock_stdout.getvalue()
 
@@ -54,7 +54,7 @@ class TestProgressTrackerBasics:
         tracker = ProgressTracker(total=50, report_interval=9999)
         tracker.completed = 25
 
-        with patch("sys.stdout", new=StringIO()) as mock_stdout:
+        with patch("sys.stderr", new=StringIO()) as mock_stdout:
             tracker.report()
             output = mock_stdout.getvalue()
 
@@ -71,7 +71,7 @@ class TestProgressTrackerTiming:
         # Simulate 10 seconds elapsed
         tracker.start_time = time.time() - 10.0
 
-        with patch("sys.stdout", new=StringIO()) as mock_stdout:
+        with patch("sys.stderr", new=StringIO()) as mock_stdout:
             tracker.report()
             output = mock_stdout.getvalue()
 
@@ -85,7 +85,7 @@ class TestProgressTrackerTiming:
         # Simulate 2 minutes elapsed
         tracker.start_time = time.time() - 120.0
 
-        with patch("sys.stdout", new=StringIO()) as mock_stdout:
+        with patch("sys.stderr", new=StringIO()) as mock_stdout:
             tracker.report()
             output = mock_stdout.getvalue()
 
@@ -99,7 +99,7 @@ class TestProgressTrackerTiming:
         # Simulate 1 minute elapsed (should estimate 1 more minute)
         tracker.start_time = time.time() - 60.0
 
-        with patch("sys.stdout", new=StringIO()) as mock_stdout:
+        with patch("sys.stderr", new=StringIO()) as mock_stdout:
             tracker.report()
             output = mock_stdout.getvalue()
 
@@ -113,7 +113,7 @@ class TestProgressTrackerAutoReport:
         """Should not auto-report before interval elapses."""
         tracker = ProgressTracker(total=10, report_interval=9999)
 
-        with patch("sys.stdout", new=StringIO()) as mock_stdout:
+        with patch("sys.stderr", new=StringIO()) as mock_stdout:
             tracker.increment()
             output = mock_stdout.getvalue()
 
@@ -126,7 +126,7 @@ class TestProgressTrackerAutoReport:
         # Simulate time passing
         tracker.last_report_time = time.time() - 1.0  # 1 second ago
 
-        with patch("sys.stdout", new=StringIO()) as mock_stdout:
+        with patch("sys.stderr", new=StringIO()) as mock_stdout:
             tracker.increment()
             output = mock_stdout.getvalue()
 
@@ -141,7 +141,7 @@ class TestProgressTrackerEdgeCases:
         tracker = ProgressTracker(total=1_000_000, report_interval=9999)
         tracker.completed = 500_000
 
-        with patch("sys.stdout", new=StringIO()) as mock_stdout:
+        with patch("sys.stderr", new=StringIO()) as mock_stdout:
             tracker.report()
             output = mock_stdout.getvalue()
 
@@ -157,7 +157,7 @@ class TestProgressTrackerEdgeCases:
         tracker = ProgressTracker(total=10, report_interval=9999)
         tracker.completed = 10
 
-        with patch("sys.stdout", new=StringIO()) as mock_stdout:
+        with patch("sys.stderr", new=StringIO()) as mock_stdout:
             tracker.report()
             output = mock_stdout.getvalue()
 

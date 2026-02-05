@@ -24,7 +24,6 @@ Usage:
 import argparse
 import asyncio
 import fnmatch
-import json
 import os
 import sys
 import time
@@ -36,9 +35,6 @@ from tempfile import TemporaryDirectory
 
 from pydantic import BaseModel
 
-# Trace output base directory
-TRACE_BASE_DIR = Path("/tmp/kgraph-traces")
-
 from kgraph.export import write_bundle
 from kgraph.ingest import IngestionOrchestrator
 from kgraph.logging import setup_logging
@@ -47,13 +43,11 @@ from kgraph.storage.memory import (
     InMemoryEntityStorage,
     InMemoryRelationshipStorage,
 )
-
 from kgschema.storage import (
     DocumentStorageInterface,
     EntityStorageInterface,
     RelationshipStorageInterface,
 )
-
 from ..domain import MedLitDomainSchema
 from ..pipeline.authority_lookup import CanonicalIdLookup
 from ..pipeline.embeddings import OllamaMedLitEmbeddingGenerator
@@ -64,16 +58,16 @@ from ..pipeline.relationships import MedLitRelationshipExtractor
 from ..pipeline.resolve import MedLitEntityResolver
 from ..stage_models import (
     EntityExtractionStageResult,
-    ExtractedEntityRecord,
-    ExtractedRelationshipRecord,
     IngestionPipelineResult,
-    IngestionStage,
     PaperEntityExtractionResult,
     PaperRelationshipExtractionResult,
     PromotedEntityRecord,
     PromotionStageResult,
     RelationshipExtractionStageResult,
 )
+
+# Trace output base directory
+TRACE_BASE_DIR = Path("/tmp/kgraph-traces")
 
 logger = setup_logging()
 
@@ -625,76 +619,28 @@ async def extract_entities_phase(
     return (processed, errors_count, stage_result)
 
 
-async def run_promotion_phase(
-    orchestrator: IngestionOrchestrator,
-    entity_storage: EntityStorageInterface,
-    cache_file: Path | None = None,
-    use_ollama: bool = False,
-    quiet: bool = False,
-    trace_all: bool = False,  # noqa: ARG001 - reserved for future use
-) -> tuple[CanonicalIdLookup | None, PromotionStageResult]:
-    """Coordinates the entity promotion phase.
+def _initialize_lookup(use_ollama: bool, cache_file: Path | None, quiet: bool) -> CanonicalIdLookup | None:
+    """Initializes the canonical ID lookup service."""
+    if not use_ollama:
+        return None
 
-    This phase is responsible for upgrading provisional entities to canonical
-    status based on criteria like usage count and confidence scores. It
-    initializes the `CanonicalIdLookup` service, runs the promotion logic,
-    and ensures the lookup cache is saved immediately after.
+    try:
+        cache_path = cache_file or Path("canonical_id_cache.json")
+        if not quiet:
+            print(f"  Initializing canonical ID lookup (cache: {cache_path})...", file=sys.stderr)
+        lookup = CanonicalIdLookup(cache_file=cache_path)
+        if not quiet:
+            print("  ✓ Canonical ID lookup created successfully", file=sys.stderr)
+        return lookup
+    except Exception as e:
+        if not quiet:
+            print(f"  Warning: Failed to create canonical ID lookup: {e}", file=sys.stderr)
+            print("  Continuing without canonical ID lookup...", file=sys.stderr)
+        return None
 
-    Args:
-        orchestrator: The configured `IngestionOrchestrator` instance.
-        entity_storage: The storage interface containing the entities to promote.
-        cache_file: An optional path to a file for caching canonical ID lookups.
-        use_ollama: Flag to determine if the canonical ID lookup service
-                    should be initialized.
-        quiet: If True, suppress progress output.
-        trace_all: If True, write promotion trace file.
-                   TODO: Promotion tracing not yet implemented. Would write to
-                   /tmp/kgraph-promotion-traces/promotions.trace.json
 
-    Returns:
-        A tuple containing:
-        - The `CanonicalIdLookup` instance if it was created, otherwise `None`.
-        - PromotionStageResult with detailed promotion results.
-    """
-    if not quiet:
-        print("\n[3/5] Running entity promotion...", file=sys.stderr)
-
-    # Create lookup service at START of promotion phase (loads cache now)
-    lookup: CanonicalIdLookup | None = None
-    if use_ollama:
-        try:
-            cache_path = cache_file or Path("canonical_id_cache.json")
-            if not quiet:
-                print(f"  Initializing canonical ID lookup (cache: {cache_path})...", file=sys.stderr)
-            lookup = CanonicalIdLookup(cache_file=cache_path)
-            if not quiet:
-                print("  ✓ Canonical ID lookup created successfully", file=sys.stderr)
-        except Exception as e:
-            if not quiet:
-                print(f"  Warning: Failed to create canonical ID lookup: {e}", file=sys.stderr)
-                print("  Continuing without canonical ID lookup...", file=sys.stderr)
-            lookup = None
-
-    # Debug: Check what provisional entities we have
-    all_provisional = await entity_storage.list_all(status="provisional")
-    candidates_count = len(all_provisional)
-    if not quiet:
-        print(f"      Found {candidates_count} provisional entities", file=sys.stderr)
-
-    # Debug: Show their usage counts and confidence
-    if all_provisional and not quiet:
-        print("      Sample entity stats:", file=sys.stderr)
-        for entity in all_provisional[:5]:  # Show first 5
-            print(f"        - {entity.name}: usage={entity.usage_count}, confidence={entity.confidence:.2f}", file=sys.stderr)
-
-    # Debug: Check the thresholds
-    config = orchestrator.domain.promotion_config
-    if not quiet:
-        print(f"      Promotion thresholds: usage>={config.min_usage_count}, confidence>={config.min_confidence}", file=sys.stderr)
-
-    promoted = await orchestrator.run_promotion(lookup=lookup)
-
-    # Build promoted entity records
+def _build_promoted_records(promoted: list) -> list[PromotedEntityRecord]:
+    """Builds a list of promoted entity records from a list of promoted entities."""
     promoted_records: list[PromotedEntityRecord] = []
     for entity in promoted:
         # Determine canonical source from canonical_ids
@@ -715,13 +661,48 @@ async def run_promotion_phase(
                 canonical_url=canonical_url,
             )
         )
+    return promoted_records
+
+
+async def run_promotion_phase(
+    orchestrator: IngestionOrchestrator,
+    entity_storage: EntityStorageInterface,
+    cache_file: Path | None = None,
+    use_ollama: bool = False,
+    quiet: bool = False,
+    trace_all: bool = False,  # noqa: ARG001 - reserved for future use
+) -> tuple[CanonicalIdLookup | None, PromotionStageResult]:
+    """Coordinates the entity promotion phase."""
+    if not quiet:
+        print("\n[3/5] Running entity promotion...", file=sys.stderr)
+
+    lookup = _initialize_lookup(use_ollama, cache_file, quiet)
+
+    all_provisional = await entity_storage.list_all(status="provisional")
+    candidates_count = len(all_provisional)
+    if not quiet:
+        print(f"      Found {candidates_count} provisional entities", file=sys.stderr)
+        if all_provisional:
+            print("      Sample entity stats:", file=sys.stderr)
+            for entity in all_provisional[:5]:
+                print(
+                    f"        - {entity.name}: usage={entity.usage_count}, confidence={entity.confidence:.2f}",
+                    file=sys.stderr,
+                )
+        config = orchestrator.domain.promotion_config
+        print(
+            f"      Promotion thresholds: usage>={config.min_usage_count}, confidence>={config.min_confidence}",
+            file=sys.stderr,
+        )
+
+    promoted = await orchestrator.run_promotion(lookup=lookup)
+    promoted_records = _build_promoted_records(promoted)
 
     if not quiet:
         print(f"      Promoted {len(promoted)} entities to canonical status:", file=sys.stderr)
         for entity in promoted:
             print(f"        - {entity.name} → {entity.entity_id}", file=sys.stderr)
 
-    # Save cache IMMEDIATELY after promotion phase completes
     if lookup:
         try:
             lookup._save_cache(force=True)  # pylint: disable=protected-access
@@ -732,7 +713,6 @@ async def run_promotion_phase(
             if not quiet:
                 print(f"  Warning: Failed to save cache: {e}", file=sys.stderr)
 
-    # Get final counts
     final_canonical = len(await entity_storage.list_all(status="canonical"))
     final_provisional = len(await entity_storage.list_all(status="provisional"))
 
@@ -741,7 +721,7 @@ async def run_promotion_phase(
         completed_at=datetime.now(timezone.utc),
         candidates_evaluated=candidates_count,
         entities_promoted=len(promoted),
-        entities_skipped_no_canonical_id=candidates_count - len(promoted),  # Approximation
+        entities_skipped_no_canonical_id=candidates_count - len(promoted),
         entities_skipped_policy=0,
         entities_skipped_storage_failure=0,
         promoted_entities=tuple(promoted_records),
@@ -887,7 +867,8 @@ async def print_summary(
     canonical_count = len(await entity_storage.list_all(status="canonical"))
     provisional_count = len(await entity_storage.list_all(status="provisional"))
 
-    print(f"""
+    print(
+        f"""
     ╔══════════════════════════════════════╗
     ║       Knowledge Graph Summary        ║
     ╠══════════════════════════════════════╣
@@ -897,7 +878,9 @@ async def print_summary(
     ║    - Provisional:         {provisional_count:>10} ║
     ║  Relationships:           {rel_count:>10} ║
     ╚══════════════════════════════════════╝
-    """, file=sys.stderr)
+    """,
+        file=sys.stderr,
+    )
 
 
 async def export_bundle(
@@ -923,11 +906,14 @@ async def export_bundle(
         cache_file: An optional path to the canonical ID cache file to be
                     included in the bundle.
     """
-    print(f"""
+    print(
+        f"""
 [6/6] Exporting bundle...
       Processed: {processed} papers
       Errors/skipped: {errors} papers
-""", file=sys.stderr)
+""",
+        file=sys.stderr,
+    )
 
     # Create bundle
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -980,14 +966,17 @@ Papers were processed from JSON format (med-lit-schema Paper format).
             print(f"  ✓ Copied canonical ID cache to bundle: {cache_file.name}", file=sys.stderr)
 
     cache_note = f"\n     - {cache_file.name}" if cache_file and cache_file.exists() else ""
-    print(f"""
+    print(
+        f"""
 ✓ Bundle exported to: {output_dir}
      - manifest.json
      - entities.jsonl
      - relationships.jsonl
      - doc_assets.jsonl (if docs provided)
      - docs/ (documentation){cache_note}
-""", file=sys.stderr)
+""",
+        file=sys.stderr,
+    )
 
 
 def _handle_keyboard_interrupt(lookup: CanonicalIdLookup | None) -> None:
@@ -1057,28 +1046,15 @@ def _output_stage_result(result: BaseModel, stage_name: str, quiet: bool) -> Non
     print(result.model_dump_json(indent=2))
 
 
-async def main() -> None:
-    """Runs the main ingestion pipeline for medical literature.
-
-    The pipeline consists of the following phases:
-    1.  Initialization: Sets up the ingestion orchestrator and components.
-    2.  Entity Extraction: Extracts entities from documents.
-    3.  Entity Promotion: Promotes provisional entities to canonical status.
-    4.  Relationship Extraction: Extracts relationships between canonical entities.
-    5.  Summary: Prints a summary of the resulting knowledge graph.
-    6.  Export: Writes the knowledge graph to a bundle directory.
-
-    Use --stop-after to halt at any stage and output JSON to stdout.
-    """
-    args = parse_arguments()
-
+def _initialize_pipeline(args: argparse.Namespace) -> tuple:
+    """Initializes the pipeline and returns necessary components."""
     input_dir = Path(args.input_dir)
     output_dir = Path(args.output_dir)
-    quiet = args.quiet or (args.stop_after is not None)  # Auto-quiet when stopping
+    quiet = args.quiet or (args.stop_after is not None)
 
     if not input_dir.exists():
         print(f"ERROR: Input directory does not exist: {input_dir}", file=sys.stderr)
-        return
+        sys.exit(1)
 
     input_files = find_input_files(input_dir, args.limit, args.input_papers)
     if not input_files:
@@ -1086,14 +1062,10 @@ async def main() -> None:
             print(f"ERROR: No files matching '{args.input_papers}' found in {input_dir}", file=sys.stderr)
         else:
             print(f"ERROR: No JSON or XML files found in {input_dir}", file=sys.stderr)
-        return
+        sys.exit(1)
 
-    # Initialize trace collector with unique run ID
     trace_collector = TraceCollector()
-
-    # Set up trace directories if --trace-all is enabled
     if args.trace_all:
-        # Create trace directories for this run
         trace_collector.trace_dir.mkdir(parents=True, exist_ok=True)
         trace_collector.entity_trace_dir.mkdir(parents=True, exist_ok=True)
         trace_collector.promotion_trace_dir.mkdir(parents=True, exist_ok=True)
@@ -1102,21 +1074,23 @@ async def main() -> None:
             print(f"  Trace mode enabled (run_id: {trace_collector.run_id})", file=sys.stderr)
             print(f"  Trace directory: {trace_collector.trace_dir}", file=sys.stderr)
 
-    sep = "=" * 60
-    lim = f"(Limited to {args.limit} papers)\n" if args.limit else ""
-    filter_msg = f"(Filtered by: {args.input_papers})\n" if args.input_papers else ""
-    json_count = sum(1 for _, ct in input_files if ct == "application/json")
-    xml_count = sum(1 for _, ct in input_files if ct == "application/xml")
-
     if not quiet:
-        print(f"""{sep}
+        sep = "=" * 60
+        lim = f"(Limited to {args.limit} papers)\n" if args.limit else ""
+        filter_msg = f"(Filtered by: {args.input_papers})\n" if args.input_papers else ""
+        json_count = sum(1 for _, ct in input_files if ct == "application/json")
+        xml_count = sum(1 for _, ct in input_files if ct == "application/xml")
+        print(
+            f"""{sep}
 Medical Literature Knowledge Graph - Ingestion Pipeline
 {sep}
 
 Input directory: {input_dir}
 Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML)
 {filter_msg}{lim}
-[1/5] Initializing pipeline...""", file=sys.stderr)
+[1/5] Initializing pipeline...""",
+            file=sys.stderr,
+        )
 
     pipeline_started_at = datetime.now(timezone.utc)
     cache_file = Path(args.cache_file) if args.cache_file else None
@@ -1129,19 +1103,42 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
         cache_file=cache_file,
         relationship_trace_dir=trace_collector.relationship_trace_dir if args.trace_all else None,
     )
+
+    return (
+        orchestrator,
+        lookup,
+        input_files,
+        output_dir,
+        quiet,
+        trace_collector,
+        pipeline_started_at,
+        cache_file,
+    )
+
+
+async def main() -> None:
+    """Runs the main ingestion pipeline for medical literature."""
+    args = parse_arguments()
+    (
+        orchestrator,
+        lookup,
+        input_files,
+        output_dir,
+        quiet,
+        trace_collector,
+        pipeline_started_at,
+        cache_file,
+    ) = _initialize_pipeline(args)
+
     entity_storage = orchestrator.entity_storage
     relationship_storage = orchestrator.relationship_storage
     document_storage = orchestrator.document_storage
 
-    # Track stage results for pipeline model
     entity_stage_result: EntityExtractionStageResult | None = None
     promotion_stage_result: PromotionStageResult | None = None
     relationship_stage_result: RelationshipExtractionStageResult | None = None
 
     try:
-        # =====================================================================
-        # Stage 1: Entity Extraction
-        # =====================================================================
         processed, errors, entity_stage_result = await extract_entities_phase(
             orchestrator,
             input_files,
@@ -1151,7 +1148,6 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
             trace_all=args.trace_all,
         )
 
-        # Collect entity traces (TODO: not yet implemented)
         if args.trace_all:
             trace_collector.collect_from_directory(trace_collector.entity_trace_dir, "*.entities.trace.json")
 
@@ -1172,9 +1168,6 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
             _output_stage_result(pipeline_result, "entities", quiet)
             return
 
-        # =====================================================================
-        # Stage 2: Promotion
-        # =====================================================================
         lookup, promotion_stage_result = await run_promotion_phase(
             orchestrator,
             entity_storage,
@@ -1184,7 +1177,6 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
             trace_all=args.trace_all,
         )
 
-        # Collect promotion traces (TODO: not yet implemented)
         if args.trace_all:
             trace_collector.collect_from_directory(trace_collector.promotion_trace_dir, "*.trace.json")
 
@@ -1205,9 +1197,6 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
             _output_stage_result(pipeline_result, "promotion", quiet)
             return
 
-        # =====================================================================
-        # Stage 3: Relationship Extraction
-        # =====================================================================
         _, _, relationship_stage_result = await extract_relationships_phase(
             orchestrator,
             input_files,
@@ -1217,7 +1206,6 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
             trace_all=args.trace_all,
         )
 
-        # Collect relationship traces (always written by MedLitRelationshipExtractor)
         if args.trace_all:
             trace_collector.collect_from_directory(trace_collector.relationship_trace_dir, "*.relationships.trace.json")
 
@@ -1238,14 +1226,10 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
             _output_stage_result(pipeline_result, "relationships", quiet)
             return
 
-        # =====================================================================
-        # Full Pipeline: Summary and Export
-        # =====================================================================
         await print_summary(document_storage, entity_storage, relationship_storage, quiet=quiet)
         cache_file_path = lookup.cache_file if lookup else cache_file
         await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors, cache_file=cache_file_path)
 
-        # Print trace file summary if --trace-all was used
         if args.trace_all:
             trace_collector.print_summary()
 
