@@ -20,8 +20,8 @@ from kgschema.relationship import BaseRelationship
 from ..relationships import MedicalClaimRelationship
 from .llm_client import LLMClientInterface
 
-# Directory for relationship extraction trace files
-TRACE_DIR = Path("/tmp/kgraph-relationship-traces")
+# Default directory for relationship extraction trace files
+DEFAULT_TRACE_DIR = Path("/tmp/kgraph-relationship-traces")
 
 if TYPE_CHECKING:
     from ..domain import MedLitDomainSchema
@@ -36,7 +36,12 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
     Can also use Ollama LLM to extract relationships directly from text if llm_client is provided.
     """
 
-    def __init__(self, llm_client: Optional[LLMClientInterface] = None, domain: Optional["MedLitDomainSchema"] = None):
+    def __init__(
+        self,
+        llm_client: Optional[LLMClientInterface] = None,
+        domain: Optional["MedLitDomainSchema"] = None,
+        trace_dir: Optional[Path] = None,
+    ):
         """Initialize relationship extractor.
 
         Args:
@@ -44,14 +49,26 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
                         If None, only uses pre-extracted relationships from Paper JSON.
             domain: Optional domain schema for type validation and predicate constraints.
                     If provided, will attempt to swap subject/object on type mismatches.
+            trace_dir: Optional directory for writing trace files. If None, uses default.
         """
         self._llm = llm_client
+        self._trace_dir = trace_dir or DEFAULT_TRACE_DIR
         if domain is None:
             # Import at runtime to avoid circular import
             from ..domain import MedLitDomainSchema
 
             domain = MedLitDomainSchema()
         self._domain = domain
+
+    @property
+    def trace_dir(self) -> Path:
+        """Get the trace directory."""
+        return self._trace_dir
+
+    @trace_dir.setter
+    def trace_dir(self, value: Path) -> None:
+        """Set the trace directory."""
+        self._trace_dir = value
 
     def _should_swap_subject_object(self, predicate: str, subject_entity: BaseEntity, object_entity: BaseEntity) -> bool:
         """Check if subject and object should be swapped based on type constraints.
@@ -495,8 +512,8 @@ Return ONLY the JSON array."""
     def _write_trace(self, document_id: str, trace: dict[str, Any]) -> None:
         """Write trace file for debugging relationship extraction."""
         try:
-            TRACE_DIR.mkdir(parents=True, exist_ok=True)
-            trace_path = TRACE_DIR / f"{document_id}.relationships.trace.json"
+            self._trace_dir.mkdir(parents=True, exist_ok=True)
+            trace_path = self._trace_dir / f"{document_id}.relationships.trace.json"
             trace_path.write_text(json.dumps(trace, indent=2, ensure_ascii=False))
             print(f"  Wrote relationship trace: {trace_path}")
         except Exception as e:

@@ -23,16 +23,21 @@ Usage:
 
 import argparse
 import asyncio
+import fnmatch
 import json
 import os
 import sys
 import time
+import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from pydantic import BaseModel
+
+# Trace output base directory
+TRACE_BASE_DIR = Path("/tmp/kgraph-traces")
 
 from kgraph.export import write_bundle
 from kgraph.ingest import IngestionOrchestrator
@@ -74,6 +79,59 @@ logger = setup_logging()
 
 
 @dataclass
+class TraceCollector:
+    """Collects paths to trace files written during ingestion.
+
+    Each ingestion run gets a unique UUID, and trace files are organized as:
+    /tmp/kgraph-traces/{run_id}/entities/{doc_id}.entities.trace.json
+    /tmp/kgraph-traces/{run_id}/promotion/promotions.trace.json
+    /tmp/kgraph-traces/{run_id}/relationships/{doc_id}.relationships.trace.json
+    """
+
+    run_id: str = field(default_factory=lambda: str(uuid.uuid4())[:8])
+    trace_files: list[Path] = field(default_factory=list)
+
+    @property
+    def trace_dir(self) -> Path:
+        """Get the trace directory for this run."""
+        return TRACE_BASE_DIR / self.run_id
+
+    @property
+    def entity_trace_dir(self) -> Path:
+        """Get the entity trace directory for this run."""
+        return self.trace_dir / "entities"
+
+    @property
+    def promotion_trace_dir(self) -> Path:
+        """Get the promotion trace directory for this run."""
+        return self.trace_dir / "promotion"
+
+    @property
+    def relationship_trace_dir(self) -> Path:
+        """Get the relationship trace directory for this run."""
+        return self.trace_dir / "relationships"
+
+    def add(self, path: Path) -> None:
+        """Add a trace file path."""
+        self.trace_files.append(path)
+
+    def collect_from_directory(self, directory: Path, pattern: str = "*.trace.json") -> None:
+        """Collect all trace files matching pattern from a directory."""
+        if directory.exists():
+            for trace_file in sorted(directory.glob(pattern)):
+                if trace_file not in self.trace_files:
+                    self.trace_files.append(trace_file)
+
+    def print_summary(self) -> None:
+        """Print summary of all trace files written."""
+        if not self.trace_files:
+            return
+        print(f"\nTrace files written (run_id: {self.run_id}):", file=sys.stderr)
+        for trace_file in sorted(self.trace_files):
+            print(f"  Wrote {trace_file}", file=sys.stderr)
+
+
+@dataclass
 class ProgressTracker:
     """Track and report progress during long-running operations."""
 
@@ -112,6 +170,7 @@ def build_orchestrator(
     ollama_host: str = "http://localhost:11434",
     ollama_timeout: float = 300.0,
     cache_file: Path | None = None,
+    relationship_trace_dir: Path | None = None,
 ) -> tuple[IngestionOrchestrator, CanonicalIdLookup | None]:
     """Builds and configures the ingestion orchestrator and its components.
 
@@ -127,6 +186,8 @@ def build_orchestrator(
         ollama_timeout: The timeout in seconds for requests to the Ollama server.
         cache_file: An optional path to a file for caching canonical ID lookups.
                     This is not used during initialization but passed for later use.
+        relationship_trace_dir: Optional directory for writing relationship trace files.
+                                If None, uses the default location.
 
     Returns:
         A tuple containing:
@@ -179,7 +240,10 @@ def build_orchestrator(
             embedding_generator=embedding_generator,  # Enable embedding-based resolution
             similarity_threshold=0.85,  # Require 85% similarity for matches
         ),
-        relationship_extractor=MedLitRelationshipExtractor(llm_client=llm_client),
+        relationship_extractor=MedLitRelationshipExtractor(
+            llm_client=llm_client,
+            trace_dir=relationship_trace_dir,
+        ),
         embedding_generator=embedding_generator,
         entity_storage=entity_storage,
         relationship_storage=relationship_storage,
@@ -300,6 +364,12 @@ Examples:
 
   # Stop after promotion, save JSON to file
   python -m examples.medlit.scripts.ingest --input-dir papers/ --use-ollama --stop-after promotion > promotion_state.json
+
+  # Process specific papers using glob patterns
+  python -m examples.medlit.scripts.ingest --input-dir papers/ --use-ollama --input-papers 'PMC1234*.xml,PMC56*.xml'
+
+  # Run full pipeline with trace files for debugging
+  python -m examples.medlit.scripts.ingest --input-dir papers/ --use-ollama --trace-all
 """,
     )
     parser.add_argument(
@@ -379,15 +449,32 @@ Examples:
         action="store_true",
         help="Suppress progress output (useful when piping JSON to file)",
     )
+    parser.add_argument(
+        "--input-papers",
+        type=str,
+        default=None,
+        help="Comma-separated list of glob patterns to filter papers, e.g. 'PMC1234*.xml,PMC56*.xml'",
+    )
+    parser.add_argument(
+        "--trace-all",
+        action="store_true",
+        help="Write trace JSON files for all stages (currently only relationship traces are implemented)",
+    )
     return parser.parse_args()
 
 
-def find_input_files(input_dir: Path, limit: int | None) -> list[tuple[Path, str]]:
+def find_input_files(
+    input_dir: Path,
+    limit: int | None,
+    input_papers: str | None = None,
+) -> list[tuple[Path, str]]:
     """Finds all processable JSON and XML files in the input directory.
 
     Args:
         input_dir: The directory to search for input files.
         limit: An optional integer to limit the number of files returned.
+        input_papers: Optional comma-separated glob patterns to filter files,
+                      e.g. 'PMC1234*.xml,PMC56*.xml'
 
     Returns:
         A sorted list of tuples, where each tuple contains:
@@ -403,6 +490,18 @@ def find_input_files(input_dir: Path, limit: int | None) -> list[tuple[Path, str
     files.extend((f, "application/xml") for f in xml_files)
     # Sort by filename
     files.sort(key=lambda x: x[0].name)
+
+    # Filter by glob patterns if specified
+    if input_papers:
+        patterns = [p.strip() for p in input_papers.split(",")]
+        filtered: list[tuple[Path, str]] = []
+        for file_path, content_type in files:
+            for pattern in patterns:
+                if fnmatch.fnmatch(file_path.name, pattern):
+                    filtered.append((file_path, content_type))
+                    break
+        files = filtered
+
     if limit:
         files = files[:limit]
     return files
@@ -414,6 +513,7 @@ async def extract_entities_phase(
     max_workers: int = 1,
     progress_interval: float = 30.0,
     quiet: bool = False,
+    trace_all: bool = False,  # noqa: ARG001 - reserved for future use
 ) -> tuple[int, int, EntityExtractionStageResult]:
     """Coordinates the entity extraction phase for all input files.
 
@@ -427,6 +527,9 @@ async def extract_entities_phase(
         max_workers: The maximum number of concurrent extraction tasks.
         progress_interval: The interval in seconds for reporting progress.
         quiet: If True, suppress progress output.
+        trace_all: If True, write per-paper entity trace files.
+                   TODO: Entity tracing not yet implemented. Would write to
+                   /tmp/kgraph-entity-traces/{doc_id}.entities.trace.json
 
     Returns:
         A tuple containing:
@@ -528,6 +631,7 @@ async def run_promotion_phase(
     cache_file: Path | None = None,
     use_ollama: bool = False,
     quiet: bool = False,
+    trace_all: bool = False,  # noqa: ARG001 - reserved for future use
 ) -> tuple[CanonicalIdLookup | None, PromotionStageResult]:
     """Coordinates the entity promotion phase.
 
@@ -543,6 +647,9 @@ async def run_promotion_phase(
         use_ollama: Flag to determine if the canonical ID lookup service
                     should be initialized.
         quiet: If True, suppress progress output.
+        trace_all: If True, write promotion trace file.
+                   TODO: Promotion tracing not yet implemented. Would write to
+                   /tmp/kgraph-promotion-traces/promotions.trace.json
 
     Returns:
         A tuple containing:
@@ -651,6 +758,7 @@ async def extract_relationships_phase(
     max_workers: int = 1,
     progress_interval: float = 30.0,
     quiet: bool = False,
+    trace_all: bool = False,  # noqa: ARG001 - traces written by MedLitRelationshipExtractor
 ) -> tuple[int, int, RelationshipExtractionStageResult]:
     """Coordinates the relationship extraction phase for all input files.
 
@@ -658,12 +766,16 @@ async def extract_relationships_phase(
     extraction process, which runs after entities have been promoted. It uses
     a semaphore to limit parallelism and reports progress.
 
+    Note: Relationship traces are always written by MedLitRelationshipExtractor
+    to /tmp/kgraph-relationship-traces/{doc_id}.relationships.trace.json
+
     Args:
         orchestrator: The configured `IngestionOrchestrator` instance.
         input_files: A list of file paths and their content types to process.
         max_workers: The maximum number of concurrent extraction tasks.
         progress_interval: The interval in seconds for reporting progress.
         quiet: If True, suppress progress output.
+        trace_all: Reserved for consistency; relationship traces are always written.
 
     Returns:
         A tuple containing:
@@ -968,13 +1080,31 @@ async def main() -> None:
         print(f"ERROR: Input directory does not exist: {input_dir}", file=sys.stderr)
         return
 
-    input_files = find_input_files(input_dir, args.limit)
+    input_files = find_input_files(input_dir, args.limit, args.input_papers)
     if not input_files:
-        print(f"ERROR: No JSON or XML files found in {input_dir}", file=sys.stderr)
+        if args.input_papers:
+            print(f"ERROR: No files matching '{args.input_papers}' found in {input_dir}", file=sys.stderr)
+        else:
+            print(f"ERROR: No JSON or XML files found in {input_dir}", file=sys.stderr)
         return
+
+    # Initialize trace collector with unique run ID
+    trace_collector = TraceCollector()
+
+    # Set up trace directories if --trace-all is enabled
+    if args.trace_all:
+        # Create trace directories for this run
+        trace_collector.trace_dir.mkdir(parents=True, exist_ok=True)
+        trace_collector.entity_trace_dir.mkdir(parents=True, exist_ok=True)
+        trace_collector.promotion_trace_dir.mkdir(parents=True, exist_ok=True)
+        trace_collector.relationship_trace_dir.mkdir(parents=True, exist_ok=True)
+        if not quiet:
+            print(f"  Trace mode enabled (run_id: {trace_collector.run_id})", file=sys.stderr)
+            print(f"  Trace directory: {trace_collector.trace_dir}", file=sys.stderr)
 
     sep = "=" * 60
     lim = f"(Limited to {args.limit} papers)\n" if args.limit else ""
+    filter_msg = f"(Filtered by: {args.input_papers})\n" if args.input_papers else ""
     json_count = sum(1 for _, ct in input_files if ct == "application/json")
     xml_count = sum(1 for _, ct in input_files if ct == "application/xml")
 
@@ -985,7 +1115,7 @@ Medical Literature Knowledge Graph - Ingestion Pipeline
 
 Input directory: {input_dir}
 Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML)
-{lim}
+{filter_msg}{lim}
 [1/5] Initializing pipeline...""", file=sys.stderr)
 
     pipeline_started_at = datetime.now(timezone.utc)
@@ -997,6 +1127,7 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
         ollama_host=args.ollama_host,
         ollama_timeout=args.ollama_timeout,
         cache_file=cache_file,
+        relationship_trace_dir=trace_collector.relationship_trace_dir if args.trace_all else None,
     )
     entity_storage = orchestrator.entity_storage
     relationship_storage = orchestrator.relationship_storage
@@ -1017,9 +1148,16 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
             max_workers=args.workers,
             progress_interval=args.progress_interval,
             quiet=quiet,
+            trace_all=args.trace_all,
         )
 
+        # Collect entity traces (TODO: not yet implemented)
+        if args.trace_all:
+            trace_collector.collect_from_directory(trace_collector.entity_trace_dir, "*.entities.trace.json")
+
         if args.stop_after == "entities":
+            if args.trace_all:
+                trace_collector.print_summary()
             pipeline_result = IngestionPipelineResult(
                 started_at=pipeline_started_at,
                 completed_at=datetime.now(timezone.utc),
@@ -1043,9 +1181,16 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
             cache_file=cache_file,
             use_ollama=args.use_ollama,
             quiet=quiet,
+            trace_all=args.trace_all,
         )
 
+        # Collect promotion traces (TODO: not yet implemented)
+        if args.trace_all:
+            trace_collector.collect_from_directory(trace_collector.promotion_trace_dir, "*.trace.json")
+
         if args.stop_after == "promotion":
+            if args.trace_all:
+                trace_collector.print_summary()
             pipeline_result = IngestionPipelineResult(
                 started_at=pipeline_started_at,
                 completed_at=datetime.now(timezone.utc),
@@ -1069,9 +1214,16 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
             max_workers=args.workers,
             progress_interval=args.progress_interval,
             quiet=quiet,
+            trace_all=args.trace_all,
         )
 
+        # Collect relationship traces (always written by MedLitRelationshipExtractor)
+        if args.trace_all:
+            trace_collector.collect_from_directory(trace_collector.relationship_trace_dir, "*.relationships.trace.json")
+
         if args.stop_after == "relationships":
+            if args.trace_all:
+                trace_collector.print_summary()
             pipeline_result = IngestionPipelineResult(
                 started_at=pipeline_started_at,
                 completed_at=datetime.now(timezone.utc),
@@ -1092,6 +1244,10 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
         await print_summary(document_storage, entity_storage, relationship_storage, quiet=quiet)
         cache_file_path = lookup.cache_file if lookup else cache_file
         await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors, cache_file=cache_file_path)
+
+        # Print trace file summary if --trace-all was used
+        if args.trace_all:
+            trace_collector.print_summary()
 
     except KeyboardInterrupt:
         _handle_keyboard_interrupt(lookup)
