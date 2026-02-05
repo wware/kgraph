@@ -114,11 +114,14 @@ def _find_manifest(search_dir: Path) -> Path | None:
 
 
 def _load_doc_assets(bundle_dir: Path, manifest: BundleManifestV1) -> None:
-    """Load documentation assets from doc_assets.jsonl into /app/docs.
+    """Load documentation assets from doc_assets.jsonl into docs directory.
 
     Reads the doc_assets.jsonl file (if present) and copies all listed assets
-    to /app/docs, preserving directory structure. Special handling for mkdocs.yml
-    which is moved to /app/mkdocs.yml.
+    to the docs directory, preserving directory structure. Special handling for
+    mkdocs.yml which is moved to the app root.
+
+    The docs directory defaults to /app/docs (for Docker) but can be overridden
+    via the KGSERVER_DOCS_DIR environment variable for local development.
 
     Note: These are human-readable documentation files (markdown, images, etc.),
     NOT source documents (papers, articles) used for entity extraction.
@@ -131,7 +134,9 @@ def _load_doc_assets(bundle_dir: Path, manifest: BundleManifestV1) -> None:
         logger.warning("Doc assets file %s not found, skipping documentation asset loading", doc_assets_file)
         return
 
-    app_docs = Path("/app/docs")
+    # Allow override for local development (default: /app/docs for Docker)
+    docs_dir = os.environ.get("KGSERVER_DOCS_DIR", "/app/docs")
+    app_docs = Path(docs_dir)
     app_docs.mkdir(parents=True, exist_ok=True)
 
     asset_count = 0
@@ -160,9 +165,10 @@ def _load_doc_assets(bundle_dir: Path, manifest: BundleManifestV1) -> None:
                 else:
                     rel_path = asset_path
 
-                # Special handling for mkdocs.yml - move to /app root
+                # Special handling for mkdocs.yml - move to app root
                 if rel_path == "mkdocs.yml" or asset_path.endswith("/mkdocs.yml"):
-                    dest_path = Path("/app/mkdocs.yml")
+                    app_root = os.environ.get("KGSERVER_APP_ROOT", "/app")
+                    dest_path = Path(app_root) / "mkdocs.yml"
                     shutil.copy2(source_file, dest_path)
                     logger.info("Copied %s to %s", source_file, dest_path)
                     asset_count += 1
@@ -179,10 +185,11 @@ def _load_doc_assets(bundle_dir: Path, manifest: BundleManifestV1) -> None:
                 continue
 
     if asset_count > 0:
-        logger.info("Loaded %s documentation assets to /app/docs", asset_count)
+        logger.info("Loaded %s documentation assets to %s", asset_count, app_docs)
 
         # Build mkdocs if mkdocs.yml exists
-        mkdocs_yml = Path("/app/mkdocs.yml")
+        app_root = os.environ.get("KGSERVER_APP_ROOT", "/app")
+        mkdocs_yml = Path(app_root) / "mkdocs.yml"
         if mkdocs_yml.exists():
             logger.info("Building MkDocs documentation...")
             result = subprocess.run(["uv", "run", "mkdocs", "build"], capture_output=True, text=True, check=False)

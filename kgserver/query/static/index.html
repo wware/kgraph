@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Graph Visualization</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="graph-viz.css">
+</head>
+<body>
+    <div id="app">
+        <div id="controls">
+            <h2>Graph Controls</h2>
+            
+            <div class="control-group">
+                <label for="entity-search">Search by name:</label>
+                <div class="search-container">
+                    <input type="text" id="entity-search" placeholder="e.g., breast cancer" autocomplete="off">
+                    <div id="search-results" class="search-results hidden"></div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label for="center-id">Or enter Entity ID:</label>
+                <input type="text" id="center-id" placeholder="e.g., UMLS:C0006826">
+            </div>
+            
+            <div class="control-group">
+                <label for="hops">Hops: <span id="hops-value">2</span></label>
+                <input type="range" id="hops" min="1" max="5" value="2">
+            </div>
+            
+            <div class="control-group">
+                <label for="max-nodes">Max Nodes: <span id="max-nodes-value">500</span></label>
+                <input type="range" id="max-nodes" min="10" max="1000" value="500" step="10">
+            </div>
+            
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="include-all">
+                    Show entire graph
+                </label>
+            </div>
+            
+            <div class="control-group">
+                <button id="load-graph" class="btn-primary">Load Graph</button>
+                <button id="reset-view" class="btn-secondary">Reset View</button>
+            </div>
+            
+            <div id="graph-stats" class="stats">
+                <p>Nodes: <span id="node-count">0</span></p>
+                <p>Edges: <span id="edge-count">0</span></p>
+                <p>Total entities: <span id="total-entities">0</span></p>
+                <p>Total relationships: <span id="total-relationships">0</span></p>
+                <p id="truncated-warning" class="warning hidden">Graph truncated due to size limits</p>
+            </div>
+        </div>
+        
+        <div id="graph-container">
+            <svg id="graph-svg"></svg>
+            <div id="tooltip" class="hidden"></div>
+        </div>
+        
+        <div id="detail-panel" class="hidden">
+            <button id="close-panel" class="close-btn">&times;</button>
+            <h3 id="panel-title">Details</h3>
+            <div id="panel-content"></div>
+        </div>
+    </div>
+    
+    <script src="graph-viz.js"></script>
+</body>
+</html>

@@ -17,10 +17,26 @@ class SQLiteStorage(StorageInterface):
     SQLite implementation of the storage interface.
     """
 
-    def __init__(self, db_path: str):
-        self.engine = create_engine(f"sqlite:///{db_path}")
+    def __init__(self, db_path: str, check_same_thread: bool = True):
+        # For in-memory databases used with TestClient, set check_same_thread=False
+        connect_args = {"check_same_thread": check_same_thread}
+        self.engine = create_engine(f"sqlite:///{db_path}", connect_args=connect_args)
         SQLModel.metadata.create_all(self.engine)
         self._session = Session(self.engine)
+
+    def add_entity(self, entity: Entity) -> None:
+        """
+        Add a single entity to the storage.
+        """
+        self._session.add(entity)
+        self._session.commit()
+
+    def add_relationship(self, relationship: Relationship) -> None:
+        """
+        Add a single relationship to the storage.
+        """
+        self._session.add(relationship)
+        self._session.commit()
 
     def load_bundle(self, bundle_manifest: BundleManifestV1, bundle_path: str) -> None:
         """

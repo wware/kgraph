@@ -11,6 +11,7 @@ from .storage_factory import close_storage, get_engine, get_storage
 from .bundle_loader import load_bundle_at_startup
 from .routers import rest_api
 from .routers import graphiql_custom
+from .routers import graph_api
 from .graphql_schema import Query
 from storage.interfaces import StorageInterface
 from mcp_server import mcp_server
@@ -44,6 +45,9 @@ app = FastAPI(
 
 # Mount REST API
 app.include_router(rest_api.router)
+
+# Mount Graph Visualization API
+app.include_router(graph_api.router)
 
 
 # Create a context getter that uses your dependency
@@ -89,3 +93,8 @@ async def health_check():
 _mkdocs_site = Path(__file__).parent.parent / "site"
 if _mkdocs_site.exists():
     app.mount("/mkdocs", StaticFiles(directory=_mkdocs_site, html=True), name="mkdocs")
+
+# Mount Graph Visualization static files
+_graph_viz_static = Path(__file__).parent / "static"
+if _graph_viz_static.exists():
+    app.mount("/graph-viz", StaticFiles(directory=_graph_viz_static, html=True), name="graph-viz")

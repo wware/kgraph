@@ -28,13 +28,14 @@ def file_storage(tmp_path, sample_entities, sample_relationships):
     """Create SQLite storage for thread-safe testing with FastAPI TestClient.
 
     Uses tmp_path which automatically cleans up files after tests.
-    Can't use :memory: here because FastAPI TestClient runs in a different thread.
+    Uses check_same_thread=False for TestClient threading compatibility.
     """
     from storage.backends.sqlite import SQLiteStorage
 
     # tmp_path is automatically cleaned up by pytest, so no files left behind
     db_path = tmp_path / "test.db"
-    storage = SQLiteStorage(str(db_path))
+    # Use check_same_thread=False for TestClient threading compatibility
+    storage = SQLiteStorage(str(db_path), check_same_thread=False)
 
     # Add entities and relationships
     for entity in sample_entities:

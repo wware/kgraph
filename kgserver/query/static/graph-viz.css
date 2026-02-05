@@ -1,0 +1,378 @@
+/* Graph Visualization Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background-color: #1a1a2e;
+    color: #eee;
+    overflow: hidden;
+}
+
+#app {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Controls Panel */
+#controls {
+    width: 280px;
+    min-width: 280px;
+    background-color: #16213e;
+    padding: 20px;
+    overflow-y: auto;
+    border-right: 1px solid #0f3460;
+}
+
+#controls h2 {
+    margin-bottom: 20px;
+    color: #e94560;
+    font-size: 1.2rem;
+}
+
+.control-group {
+    margin-bottom: 15px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.control-group input[type="text"] {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    background-color: #1a1a2e;
+    color: #eee;
+    font-size: 0.9rem;
+}
+
+.control-group input[type="text"]:focus {
+    outline: none;
+    border-color: #e94560;
+}
+
+/* Search container with dropdown */
+.search-container {
+    position: relative;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #1a1a2e;
+    border: 1px solid #0f3460;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 200;
+}
+
+.search-results.hidden {
+    display: none;
+}
+
+.search-result-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #0f3460;
+    transition: background-color 0.15s;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background-color: #0f3460;
+}
+
+.search-result-item.selected {
+    background-color: #0f3460;
+}
+
+.search-result-name {
+    color: #eee;
+    font-size: 0.9rem;
+    margin-bottom: 3px;
+}
+
+.search-result-type {
+    color: #888;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.search-result-id {
+    color: #666;
+    font-size: 0.7rem;
+    font-family: monospace;
+    margin-top: 2px;
+}
+
+.search-no-results {
+    padding: 12px;
+    color: #888;
+    font-style: italic;
+    text-align: center;
+}
+
+.search-loading {
+    padding: 12px;
+    color: #888;
+    text-align: center;
+}
+
+.control-group input[type="range"] {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.control-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Buttons */
+.btn-primary, .btn-secondary {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-right: 8px;
+    margin-top: 5px;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background-color: #e94560;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #ff6b6b;
+}
+
+.btn-secondary {
+    background-color: #0f3460;
+    color: #eee;
+}
+
+.btn-secondary:hover {
+    background-color: #1a4a7a;
+}
+
+/* Stats */
+.stats {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #0f3460;
+}
+
+.stats p {
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+.stats span {
+    color: #eee;
+    font-weight: 600;
+}
+
+.warning {
+    color: #ffc107 !important;
+    font-style: italic;
+}
+
+/* Graph Container */
+#graph-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+#graph-svg {
+    width: 100%;
+    height: 100%;
+    background-color: #1a1a2e;
+}
+
+/* Graph Elements */
+.node {
+    cursor: pointer;
+}
+
+.node circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+    transition: r 0.2s;
+}
+
+.node:hover circle {
+    stroke-width: 3px;
+}
+
+.node text {
+    font-size: 10px;
+    fill: #eee;
+    pointer-events: none;
+    text-anchor: middle;
+    dominant-baseline: middle;
+}
+
+.link {
+    stroke-opacity: 0.6;
+    cursor: pointer;
+}
+
+.link:hover {
+    stroke-opacity: 1;
+    stroke-width: 3px !important;
+}
+
+.link-label {
+    font-size: 9px;
+    fill: #888;
+    pointer-events: none;
+    text-anchor: middle;
+}
+
+/* Arrow markers */
+marker path {
+    fill: #999;
+}
+
+/* Tooltip */
+#tooltip {
+    position: absolute;
+    padding: 10px 14px;
+    background-color: rgba(22, 33, 62, 0.95);
+    border: 1px solid #0f3460;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    pointer-events: none;
+    z-index: 100;
+    max-width: 300px;
+}
+
+#tooltip.hidden {
+    display: none;
+}
+
+/* Detail Panel */
+#detail-panel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 350px;
+    height: 100%;
+    background-color: #16213e;
+    border-left: 1px solid #0f3460;
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 50;
+    transition: transform 0.3s ease;
+}
+
+#detail-panel.hidden {
+    transform: translateX(100%);
+}
+
+.close-btn {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.close-btn:hover {
+    color: #e94560;
+}
+
+#panel-title {
+    color: #e94560;
+    margin-bottom: 15px;
+    padding-right: 30px;
+}
+
+#panel-content {
+    font-size: 0.9rem;
+}
+
+#panel-content .property {
+    margin-bottom: 12px;
+}
+
+#panel-content .property-label {
+    color: #888;
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+}
+
+#panel-content .property-value {
+    color: #eee;
+    word-break: break-word;
+}
+
+#panel-content .property-value a {
+    color: #4fc3f7;
+    text-decoration: none;
+}
+
+#panel-content .property-value a:hover {
+    text-decoration: underline;
+}
+
+/* Hidden utility */
+.hidden {
+    display: none !important;
+}
+
+/* Entity type colors */
+.node-disease circle { fill: #e94560; }
+.node-drug circle { fill: #4fc3f7; }
+.node-gene circle { fill: #66bb6a; }
+.node-protein circle { fill: #ab47bc; }
+.node-procedure circle { fill: #ffa726; }
+.node-symptom circle { fill: #ef5350; }
+.node-anatomy circle { fill: #8d6e63; }
+.node-default circle { fill: #78909c; }
+
+/* Loading state */
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #888;
+    font-size: 1.2rem;
+}
+
+/* Error message */
+.error-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #e94560;
+    text-align: center;
+    padding: 20px;
+}

@@ -80,13 +80,31 @@ For scientific-journal-based knowledge graphs for instance, GraphQL lets an LLM 
 
 ## How to run this thing
 
+### Local development with Docker PostgreSQL
+
+The most common setup for development. See **[LOCAL_DEV.md](LOCAL_DEV.md)** for full details.
+
+```bash
+# Start postgres
+docker compose up -d postgres
+
+# Set environment
+export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/kgserver"
+export BUNDLE_PATH="/path/to/bundle.zip"
+
+# Run server
+cd query && uv run uvicorn server:app --host 0.0.0.0 --port 8000 --reload
+```
+
 ### Local testing (SQLite)
+
+For quick tests without Docker:
 
 ```bash
 BUNDLE_PATH=/home/wware/S.zip uv run uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
-### With Docker Compose (PostgreSQL)
+### Full Docker Compose (PostgreSQL)
 
 Update docker-compose.yml to add bundle volume and environment variable.
 This assumes you've packaged a bundle `S.zip` with the info for your
