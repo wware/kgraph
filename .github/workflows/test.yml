@@ -2,9 +2,9 @@ name: Run Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, plod ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, plod ]
 
 jobs:
   test_job:
@@ -30,6 +30,3 @@ jobs:
 
       - name: Run lint script
         run: ./lint.sh
-
-      - name: Run pytest cases
-        run: uv run pytest tests/ -v

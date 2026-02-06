@@ -79,5 +79,5 @@ if [ -d "kgserver/tests" ]; then
     echo ""
     echo "Running kgserver tests..."
     ROOT_DIR="$(pwd)"
-    (cd kgserver && PYTHONPATH="${ROOT_DIR}:${PYTHONPATH}" uv run pytest tests/ -q)
+    (cd kgserver && PYTHONPATH="${ROOT_DIR}/kgbundle:${PYTHONPATH}" uv run pytest tests/ -q)
 fi
