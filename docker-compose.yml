@@ -7,9 +7,10 @@ services:
     tty: true
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/kgserver
-      BUNDLE_PATH: /bundle/S.zip
-    volumes:
-      - /home/wware/S.zip:/bundle/S.zip:ro
+      BUNDLE_PATH: /bundle
+    #volumes:
+    #  # - /home/wware/S.zip:/bundle/S.zip:ro
+    #  - ./medlit_bundle:/bundle:ro
     ports:
       - "8000:8000"
     depends_on:

@@ -285,7 +285,7 @@ class TestGraphAPI:
         assert data["query"] == "Test"
         # Should find entities with "Test" in their name (e.g., "Test Character 1")
         assert len(data["results"]) > 0
-        
+
         # Check result structure
         result = data["results"][0]
         assert "entity_id" in result

@@ -88,13 +88,14 @@ async def health_check():
     return {"status": "ok"}
 
 
-# Mount MkDocs static site at /mkdocs if available
-# Built during Docker image creation via: mkdocs build
-_mkdocs_site = Path(__file__).parent.parent / "site"
-if _mkdocs_site.exists():
-    app.mount("/mkdocs", StaticFiles(directory=_mkdocs_site, html=True), name="mkdocs")
-
 # Mount Graph Visualization static files
 _graph_viz_static = Path(__file__).parent / "static"
 if _graph_viz_static.exists():
     app.mount("/graph-viz", StaticFiles(directory=_graph_viz_static, html=True), name="graph-viz")
+
+
+# Mount MkDocs static site at / if available.
+# This should be the last mount to avoid catching other API routes.
+_mkdocs_site = Path(__file__).parent.parent / "site"
+if _mkdocs_site.exists():
+    app.mount("/", StaticFiles(directory=_mkdocs_site, html=True), name="mkdocs")

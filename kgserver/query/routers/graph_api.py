@@ -26,16 +26,19 @@ from ..graph_traversal import (
 
 class SearchResult(BaseModel):
     """A single entity search result."""
+
     entity_id: str = Field(description="The entity's unique ID")
     name: str = Field(description="Display name")
     entity_type: str = Field(description="Entity type (disease, drug, gene, etc.)")
-    
+
 
 class SearchResponse(BaseModel):
     """Response from entity search."""
+
     results: list[SearchResult] = Field(description="Matching entities")
     total: int = Field(description="Total matches (may exceed returned results)")
     query: str = Field(description="The search query")
+
 
 router = APIRouter(prefix="/api/v1/graph", tags=["Graph Visualization"])
 
@@ -71,7 +74,7 @@ async def search_entities(
 ) -> SearchResponse:
     """
     Search for entities by name.
-    
+
     Returns entities whose names contain the query string (case-insensitive).
     Results are returned with exact matches prioritized.
     """
@@ -81,13 +84,13 @@ async def search_entities(
         entity_type=entity_type,
         limit=limit,
     )
-    
+
     # Get total count for this query
     total = storage.count_entities(
         name_contains=q,
         entity_type=entity_type,
     )
-    
+
     # Convert to search results
     results = [
         SearchResult(
@@ -97,15 +100,17 @@ async def search_entities(
         )
         for e in entities
     ]
-    
+
     # Sort: exact matches first, then by name length (shorter = more relevant)
     query_lower = q.lower()
-    results.sort(key=lambda r: (
-        0 if r.name.lower() == query_lower else 1,  # Exact match first
-        0 if r.name.lower().startswith(query_lower) else 1,  # Prefix match second
-        len(r.name),  # Shorter names first
-    ))
-    
+    results.sort(
+        key=lambda r: (
+            0 if r.name.lower() == query_lower else 1,  # Exact match first
+            0 if r.name.lower().startswith(query_lower) else 1,  # Prefix match second
+            len(r.name),  # Shorter names first
+        )
+    )
+
     return SearchResponse(
         results=results,
         total=total,

@@ -21,7 +21,6 @@ from storage.interfaces import StorageInterface
 from storage.backends.sqlite import SQLiteStorage
 from storage.backends.postgres import PostgresStorage
 
-# from storage.backends.sqlite import SQLiteStorage
 from storage.models.bundle import Bundle
 from storage.models.entity import Entity
 from storage.models.relationship import Relationship
@@ -113,6 +112,53 @@ def _find_manifest(search_dir: Path) -> Path | None:
     return None
 
 
+def _get_docs_destination_path(asset_path: str, app_docs: Path) -> Path | None:
+    """Determine the destination path for a documentation asset."""
+    # Destination in /app/docs (strip "docs/" prefix if present)
+    if asset_path.startswith("docs/"):
+        rel_path = asset_path[5:]  # Remove "docs/" prefix
+    else:
+        rel_path = asset_path
+
+    # Special handling for mkdocs.yml - move to app root
+    if rel_path == "mkdocs.yml" or asset_path.endswith("/mkdocs.yml"):
+        app_root = os.environ.get("KGSERVER_APP_ROOT", "/app")
+        return Path(app_root) / "mkdocs.yml"
+
+    # Regular file - copy to /app/docs preserving structure
+    return app_docs / rel_path
+
+
+def _process_single_doc_asset(line: str, bundle_dir: Path, app_docs: Path) -> bool:
+    """Process a single documentation asset entry."""
+    try:
+        asset = json.loads(line)
+        asset_path = asset.get("path")
+        if not asset_path:
+            logger.warning("Skipping asset entry without path: %s", line)
+            return False
+
+        # Source file in bundle
+        source_file = bundle_dir / asset_path
+        if not source_file.exists():
+            logger.warning("Asset file not found: %s", source_file)
+            return False
+
+        dest_path = _get_docs_destination_path(asset_path, app_docs)
+        if not dest_path:
+            logger.warning("Could not determine destination path for asset: %s", asset_path)
+            return False
+
+        dest_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source_file, dest_path)
+        logger.info("Copied %s to %s", source_file, dest_path)
+        return True
+
+    except json.JSONDecodeError as e:
+        logger.warning("Failed to parse asset entry: %s... Error: %s", line[:100], e)
+        return False
+
+
 def _load_doc_assets(bundle_dir: Path, manifest: BundleManifestV1) -> None:
     """Load documentation assets from doc_assets.jsonl into docs directory.
 
@@ -145,58 +191,53 @@ def _load_doc_assets(bundle_dir: Path, manifest: BundleManifestV1) -> None:
             line = line.strip()
             if not line:
                 continue
-
-            try:
-                asset = json.loads(line)
-                asset_path = asset.get("path")
-                if not asset_path:
-                    logger.warning("Skipping asset entry without path: %s", line)
-                    continue
-
-                # Source file in bundle
-                source_file = bundle_dir / asset_path
-                if not source_file.exists():
-                    logger.warning("Asset file not found: %s", source_file)
-                    continue
-
-                # Destination in /app/docs (strip "docs/" prefix if present)
-                if asset_path.startswith("docs/"):
-                    rel_path = asset_path[5:]  # Remove "docs/" prefix
-                else:
-                    rel_path = asset_path
-
-                # Special handling for mkdocs.yml - move to app root
-                if rel_path == "mkdocs.yml" or asset_path.endswith("/mkdocs.yml"):
-                    app_root = os.environ.get("KGSERVER_APP_ROOT", "/app")
-                    dest_path = Path(app_root) / "mkdocs.yml"
-                    shutil.copy2(source_file, dest_path)
-                    logger.info("Copied %s to %s", source_file, dest_path)
-                    asset_count += 1
-                    continue
-
-                # Regular file - copy to /app/docs preserving structure
-                dest_path = app_docs / rel_path
-                dest_path.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(source_file, dest_path)
+            if _process_single_doc_asset(line, bundle_dir, app_docs):
                 asset_count += 1
-
-            except json.JSONDecodeError as e:
-                logger.warning("Failed to parse asset entry: %s... Error: %s", line[:100], e)
-                continue
 
     if asset_count > 0:
         logger.info("Loaded %s documentation assets to %s", asset_count, app_docs)
+        _build_mkdocs_if_present()
 
-        # Build mkdocs if mkdocs.yml exists
-        app_root = os.environ.get("KGSERVER_APP_ROOT", "/app")
-        mkdocs_yml = Path(app_root) / "mkdocs.yml"
-        if mkdocs_yml.exists():
-            logger.info("Building MkDocs documentation...")
-            result = subprocess.run(["uv", "run", "mkdocs", "build"], capture_output=True, text=True, check=False)
-            if result.returncode == 0:
-                logger.info("MkDocs build completed successfully")
-            else:
-                logger.warning("MkDocs build failed: %s", result.stderr)
+
+def _build_mkdocs_if_present():
+    """Build MkDocs documentation if mkdocs.yml exists in the app root."""
+    app_root = os.environ.get("KGSERVER_APP_ROOT", "/app")
+    mkdocs_yml = Path(app_root) / "mkdocs.yml"
+    if mkdocs_yml.exists():
+        logger.info("Building MkDocs documentation...")
+        # uv run mkdocs build
+        result = subprocess.run(["uv", "run", "mkdocs", "build"], capture_output=True, text=True, check=False)
+        if result.returncode == 0:
+            logger.info("MkDocs build completed successfully")
+        else:
+            logger.warning("MkDocs build failed: %s", result.stderr)
+
+
+def _initialize_storage(session: Session, db_url: str) -> StorageInterface:
+    """Initialize and return the appropriate StorageInterface."""
+    if db_url.startswith("postgres"):
+        return PostgresStorage(session)
+    else:
+        db_path = db_url.replace("sqlite:///", "")
+        if not db_path:
+            db_path = ":memory:" if db_url == "sqlite:///:memory:" else "./test.db"
+        return SQLiteStorage(db_path)
+
+
+def _handle_force_reload(session: Session, bundle_id: str, storage: StorageInterface) -> bool:
+    """Handle force reload logic, returning True if bundle should be skipped."""
+    force = os.getenv("BUNDLE_FORCE_RELOAD", "").lower() in {"1", "true", "yes"}
+    if storage.is_bundle_loaded(bundle_id) and not force:
+        logger.info("Bundle %s already loaded. Skipping.", bundle_id)
+        return True
+
+    if force:
+        logger.info("Force reload enabled: clearing Bundle, Relationship, and Entity tables...")
+        session.exec(delete(Bundle))
+        session.exec(delete(Relationship))
+        session.exec(delete(Entity))
+        session.commit()
+    return False
 
 
 def _do_load(engine, db_url: str, bundle_dir: Path, manifest_path: Path) -> None:
@@ -217,25 +258,9 @@ def _do_load(engine, db_url: str, bundle_dir: Path, manifest_path: Path) -> None
         logger.info("Loaded bundle-specific GraphQL examples from %s", bundle_examples)
 
     with Session(engine) as session:
-        storage: StorageInterface
-        if db_url.startswith("postgres"):
-            storage = PostgresStorage(session)
-        else:
-            db_path = db_url.replace("sqlite:///", "")
-            if not db_path:
-                db_path = ":memory:" if db_url == "sqlite:///:memory:" else "./test.db"
-            storage = SQLiteStorage(db_path)
-        force = os.getenv("BUNDLE_FORCE_RELOAD", "").lower() in {"1", "true", "yes"}
-        if storage.is_bundle_loaded(manifest.bundle_id) and not force:
-            logger.info("Bundle %s already loaded. Skipping.", manifest.bundle_id)
+        storage = _initialize_storage(session, db_url)
+        if _handle_force_reload(session, manifest.bundle_id, storage):
             return
-
-        if force:
-            logger.info("Force reload enabled: clearing Bundle, Relationship, and Entity tables...")
-            session.exec(delete(Bundle))
-            session.exec(delete(Relationship))
-            session.exec(delete(Entity))
-            session.commit()
 
         storage.load_bundle(manifest, str(bundle_dir))
         logger.info("Bundle %s loaded successfully.", manifest.bundle_id)

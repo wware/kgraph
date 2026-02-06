@@ -5,7 +5,7 @@ description = "Containerized server for knowledge graph data"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "kgbundle",
+    # "kgbundle",
     "black[jupyter]>=26.1.0",
     "fastapi>=0.128.0",
     "fastmcp>=2.14.4",
@@ -55,5 +55,5 @@ testpaths = ["tests"]
 [tool.setuptools]
 packages = ["storage", "query", "mcp_server"]
 
-[tool.uv.sources]
-kgbundle = { path = "../kgbundle", editable = true }
+#[tool.uv.sources]
+#kgbundle = { path = "../kgbundle", editable = true }

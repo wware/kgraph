@@ -1,6 +1,14 @@
 # Flexible server for knowledge graphs
 
-This repository contains a **domain-neutral knowledge graph server**.
+This repository contains a **domain-neutral knowledge graph server**. While it has primarily
+been developed for medical literature, the same general architecture can serve other
+information-dense literatures (legal, financial, academic, etc).
+
+Links:
+
+- [OpenAPI spec](/docs)
+- [Graph visualization](/graph-viz/) -- currently focused on medical literature
+- [GraphQL GUI](/graphiql/)
 
 Important architectural note:
 
@@ -16,7 +24,7 @@ If you are working on ingestion, storage, or bundle loading, read:
 
 ![This works on a live KGServer instance, but not on GitHub](GraphiQL_screenshot.png)
 
-[**Link**](http://localhost:8000/graphiql/) - also doesn't work on GitHub
+[**Link**](/graphiql/) - also doesn't work on GitHub
 
 
 **Why GraphQL is ideal for LLMs + Knowledge Graphs:**

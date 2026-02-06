@@ -13,9 +13,6 @@ COPY kgbundle ./kgbundle
 COPY kgserver/pyproject.toml ./
 COPY kgserver/uv.lock ./
 
-# Fix kgbundle path for container (it's in ./kgbundle not ../kgbundle)
-RUN sed -i 's|path = "../kgbundle"|path = "./kgbundle"|' pyproject.toml
-
 # Install ALL dependencies using uv (not pip)
 RUN apt update && \
     apt install -y git vim ripgrep
@@ -28,7 +25,7 @@ RUN uv venv --python /usr/local/bin/python3 --relocatable && \
 # Copy mkdocs config and docs for building
 COPY kgserver/mkdocs.yml ./
 COPY kgserver/docs ./docs
-COPY kgserver/README.md ./docs/index.md
+COPY kgserver/index.md ./docs/index.md
 
 # Final stage - use same base image to keep Python paths consistent
 FROM python:3.13-slim
@@ -54,6 +51,8 @@ ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONPATH="/app:/app/kgbundle"
+
+COPY medlit_bundle /bundle
 
 EXPOSE 8000
 
