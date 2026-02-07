@@ -44,12 +44,18 @@ document.addEventListener('DOMContentLoaded', init);
 function init() {
     setupSVG();
     setupEventListeners();
-    
+
     // Check URL params for initial load
     const params = new URLSearchParams(window.location.search);
     const centerId = params.get('center_id');
     if (centerId) {
         centerIdInput.value = centerId;
+        loadGraph();
+    } else {
+        // On first visit with no params, show entire graph
+        includeAllCheckbox.checked = true;
+        centerIdInput.disabled = true;
+        entitySearchInput.disabled = true;
         loadGraph();
     }
 }
