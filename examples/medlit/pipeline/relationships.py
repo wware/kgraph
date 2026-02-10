@@ -6,6 +6,7 @@ Can also use Ollama LLM for relationship extraction from text.
 """
 
 import json
+from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Optional, Sequence
@@ -25,6 +26,21 @@ DEFAULT_TRACE_DIR = Path("/tmp/kgraph-relationship-traces")
 
 if TYPE_CHECKING:
     from ..domain import MedLitDomainSchema
+
+
+def _normalize_entity_name(e: str) -> str:
+    return "".join(ch for ch in e.casefold() if ch.isalnum())
+
+
+def _build_entity_index(entities: Sequence[BaseEntity]) -> dict[str, list[BaseEntity]]:
+    idx: dict[str, list[BaseEntity]] = defaultdict(list)
+    for e in entities:
+        keys = [e.name, *getattr(e, "synonyms", [])]
+        for k in keys:
+            nk = _normalize_entity_name(k)
+            if nk:
+                idx[nk].append(e)
+    return idx
 
 
 class MedLitRelationshipExtractor(RelationshipExtractorInterface):
@@ -292,42 +308,85 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
         return relationships
 
     def _build_llm_prompt(self, text_sample: str, entity_list: str) -> str:
-        """Build the prompt for the LLM."""
-        return f"""Extract medical relationships from the text below.
+        """
+        Build the prompt for the LLM.
 
-PREDICATE TYPE RULES (check entity types carefully):
-• treats: ONLY drug/procedure → disease/symptom (drug treats disease, NOT disease treats disease)
-• increases_risk: gene/ethnicity → disease (gene increases risk of disease)
-• prevents: drug/procedure → disease
-• targets: ONLY drug/procedure → gene/protein (drug targets protein, NOT gene targets disease)
-• diagnosed_by: disease → procedure/biomarker (disease diagnosed by test, NOT test diagnosed by disease)
-• associated_with: use for general correlations, disease subtypes, gene-disease links, or when other predicates don't fit
+        Notes:
+        - This prompt is driven by the domain schema:
+          - self._domain.relationship_types (vocabulary)
+          - self._domain.predicate_constraints (allowed subject/object types)
+        - Predicates must be returned in *lowercase* (e.g. "treats"), because downstream
+          code currently normalizes and stores predicates as lowercase. :contentReference[oaicite:3]{index=3}
+        """
+        # 1) Predicate inventory from domain schema
+        # Domain keys are like "TREATS"; we ask LLM for lowercase strings like "treats"
+        predicate_keys = sorted(self._domain.relationship_types.keys())
+        allowed_predicates = [k.lower() for k in predicate_keys]
 
-Entities in document:
+        # 2) Build a compact “signature table” from predicate_constraints
+        # Example: treats: drug -> disease
+        sig_lines: list[str] = []
+        for key in predicate_keys:
+            lc = key.lower()
+            c = self._domain.predicate_constraints.get(key)
+            if c:
+                subj = ", ".join(sorted(c.subject_types))
+                obj = ", ".join(sorted(c.object_types))
+                sig_lines.append(f"- {lc}: ({subj}) -> ({obj})")
+            else:
+                sig_lines.append(f"- {lc}: (no type constraints defined)")
+
+        # Optional: a tiny bit of extra guidance for a few high-frequency predicates
+        # (keep this short; the signature table does most of the work)
+        extra_guidance = [
+            "- Prefer the *most specific* predicate that matches the evidence.",
+            '- Use "associated_with" ONLY if no other predicate fits the evidence.',
+            "- Each relationship MUST include a short evidence quote where BOTH entities appear.",
+            "- Skip speculative relationships not supported by explicit text.",
+        ]
+
+        return f"""You extract medical relationships from biomedical text.
+
+You are given:
+1) A list of entities (name, type, id) already extracted from this document.
+2) A text snippet from the document.
+
+Your job:
+- Find relationships between the listed entities that are explicitly supported by the text.
+- Output ONLY valid JSON: a JSON array of relationship objects.
+- Use ONLY the allowed predicates listed below (lowercase strings).
+
+ALLOWED PREDICATES:
+{", ".join(allowed_predicates)}
+
+PREDICATE SIGNATURES (subject_type -> object_type):
+{chr(10).join(sig_lines)}
+
+GUIDELINES:
+{chr(10).join(extra_guidance)}
+
+ENTITIES IN DOCUMENT (name (type): id):
 {entity_list}
 
-Text:
+TEXT:
 {text_sample}
 
-Return JSON array of relationships (extract ALL valid relationships you find):
+OUTPUT FORMAT (JSON ARRAY ONLY):
 [
-  {{"subject": "entity_name", "predicate": "treats", "object": "entity_name", "confidence": 0.9, "evidence": "quote from text"}},
-  ...
+  {{
+    "subject": "entity_name_exactly_as_listed",
+    "predicate": "treats",
+    "object": "entity_name_exactly_as_listed",
+    "confidence": 0.0,
+    "evidence": "short exact quote from text"
+  }}
 ]
 
-Valid examples:
-{{"subject": "paclitaxel", "predicate": "treats", "object": "breast cancer", "confidence": 0.9, "evidence": "Paclitaxel therapy for breast cancer"}}
-{{"subject": "trastuzumab", "predicate": "targets", "object": "HER2", "confidence": 0.95, "evidence": "Trastuzumab targets HER2 protein"}}
-{{"subject": "BRCA1", "predicate": "increases_risk", "object": "breast cancer", "confidence": 0.9, "evidence": "BRCA1 mutations increase breast cancer risk"}}
-{{"subject": "HER2", "predicate": "associated_with", "object": "breast cancer", "confidence": 0.85, "evidence": "HER2 overexpression in breast cancer"}}
-{{"subject": "luminal A", "predicate": "associated_with", "object": "breast cancer", "confidence": 0.85, "evidence": "Luminal A subtype of breast cancer"}}
-
-INVALID (skip these):
-- {{"subject": "breast cancer", "predicate": "treats", ...}} - disease cannot treat
-- {{"subject": "HER2", "predicate": "targets", "object": "breast cancer", ...}} - gene cannot target disease, use "associated_with"
-- {{"subject": "therapy", "predicate": "increases_risk", ...}} - therapy doesn't increase risk
-
-Return ONLY the JSON array."""
+IMPORTANT:
+- Use entity names from the list when possible; do not invent entities.
+- confidence is a float in [0, 1].
+- Return ONLY the JSON array, no prose, no markdown fences.
+"""
 
     async def _extract_with_llm(
         self,
@@ -357,9 +416,25 @@ Return ONLY the JSON array."""
             "error": None,
         }
 
-        # Build entity context for LLM
-        entity_by_name: dict[str, BaseEntity] = {e.name.lower(): e for e in entities}
-        entity_list = "\n".join(f"- {e.name} ({e.get_entity_type()}): {e.entity_id}" for e in entities[:50])  # Limit to avoid huge prompts
+        """
+        Removing the limit on the size of the entities list......
+
+        This may help recall in some cases, but it can also **tank
+        relationship quality** (LLMs get overwhelmed and start producing
+        generic or spurious edges). If you notice regressions, the “best of
+        both worlds” is:
+
+        - include **all entities** in the *matching index* (which you do)
+        - but include a **curated subset** in the prompt list:
+
+            - all canonicals
+            - plus entities that appear in the abstract
+            - plus top-N by usage_count/confidence
+
+        This will reduce prompt bloat without sacrificing matching coverage.
+        """
+        # entity_list = "\n".join(f"- {e.name} ({e.get_entity_type()}): {e.entity_id}" for e in entities[:50])  # Limit to avoid huge prompts
+        entity_list = "\n".join(f"- {e.name} ({e.get_entity_type()}): {e.entity_id}" for e in entities)
 
         # Use abstract for extraction (shorter, more focused)
         text = document.abstract if hasattr(document, "abstract") and document.abstract else document.content
@@ -382,8 +457,9 @@ Return ONLY the JSON array."""
             relationships: list[BaseRelationship] = []
 
             if isinstance(response, list):
+                entity_index = _build_entity_index(entities)
                 for item in response:
-                    relationship, decision = self._process_llm_item(item, entity_by_name, document)
+                    relationship, decision = self._process_llm_item(item, entity_index, document)
                     trace["decisions"].append(decision)
                     if relationship:
                         relationships.append(relationship)
@@ -411,7 +487,7 @@ Return ONLY the JSON array."""
             self._write_trace(document.document_id, trace)
             return []
 
-    def _process_llm_item(self, item: Any, entity_by_name: dict[str, BaseEntity], document: BaseDocument) -> tuple[Optional[BaseRelationship], dict[str, Any]]:
+    def _process_llm_item(self, item: Any, entity_index: dict[str, list[BaseEntity]], document: BaseDocument) -> tuple[BaseRelationship | None, dict[str, Any]]:
         """Process a single item from the LLM response."""
         if not isinstance(item, dict):
             return None, {"item": item, "accepted": False, "drop_reason": "item_not_a_dict"}
@@ -442,8 +518,25 @@ Return ONLY the JSON array."""
             },
         }
 
-        subject_entity = entity_by_name.get(subject_name.lower())
-        object_entity = entity_by_name.get(object_name.lower())
+        def _pick_unique(cands: list[BaseEntity]) -> BaseEntity | None:
+            if not cands:
+                return None
+            if len(cands) == 1:
+                return cands[0]
+            # collision: prefer canonical, else highest usage_count/confidence if you have them
+            cands2 = sorted(
+                cands,
+                key=lambda e: (
+                    getattr(e, "status", "") == "canonical",
+                    getattr(e, "usage_count", 0),
+                    getattr(e, "confidence", 0.0),
+                ),
+                reverse=True,
+            )
+            return cands2[0]
+
+        subject_entity = _pick_unique(entity_index.get(_normalize_entity_name(subject_name), []))
+        object_entity = _pick_unique(entity_index.get(_normalize_entity_name(object_name), []))
 
         decision["matched_subject"] = subject_entity is not None
         decision["matched_object"] = object_entity is not None
@@ -464,7 +557,7 @@ Return ONLY the JSON array."""
             decision["drop_reason"] = "semantic_mismatch"
             return None, decision
 
-        if self._should_swap_subject_object(predicate, subject_entity, object_entity):
+        if self._should_swap_subject_object(predicate.upper(), subject_entity, object_entity):
             print(
                 f"  Swapping subject/object for predicate '{predicate}': "
                 f"({subject_entity.name} [{subject_entity.get_entity_type()}] ↔ "
