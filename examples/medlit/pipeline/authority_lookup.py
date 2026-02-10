@@ -135,8 +135,16 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
         # Route to appropriate authority based on entity type
         canonical_id_str: Optional[str] = None
 
+        skip_dbpedia = False
         if entity_type in ("disease", "symptom", "procedure"):
-            canonical_id_str = await self._lookup_umls(term)
+            if term.isupper() and len(term) < 5:
+                # looks like an acronym
+                skip_dbpedia = True
+                #if term == "FAP":
+                #    # canonical_id_str = "MeSH:D011125"
+                #    canonical_id_str = "D011125"
+            else:
+                canonical_id_str = await self._lookup_umls(term)
         elif entity_type == "gene":
             canonical_id_str = await self._lookup_hgnc(term)
         elif entity_type == "drug":
@@ -145,7 +153,7 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
             canonical_id_str = await self._lookup_uniprot(term)
 
         # Fallback to DBPedia for any entity type if specialized lookup failed
-        if canonical_id_str is None:
+        if canonical_id_str is None and not skip_dbpedia:
             dbpedia_result = await self._lookup_dbpedia(term)
             if dbpedia_result:
                 # Try to extract authoritative ID from DBPedia properties

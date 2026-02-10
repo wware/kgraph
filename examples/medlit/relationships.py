@@ -11,8 +11,8 @@ from kgschema.relationship import BaseRelationship
 class MedicalClaimRelationship(BaseRelationship):
     """Base class for all medical claim relationships.
 
-    This single class handles all medical predicates (TREATS, CAUSES,
-    INCREASES_RISK, etc.). The predicate field distinguishes the relationship
+    This single class handles all medical predicates (treats, causes,
+    increases_risk, etc.). The predicate field distinguishes the relationship
     type, and domain-specific metadata can be stored in the metadata dict.
 
     Mapping from med-lit-schema:

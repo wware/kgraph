@@ -190,6 +190,7 @@ class OllamaLLMClient(LLMClientInterface):
         max_tokens: Optional[int] = None,
     ) -> str:
         """Generate text using Ollama."""
+        print("DEBUG: YOW")
         options: dict[str, Any] = {"temperature": temperature}
         if max_tokens:
             options["num_predict"] = max_tokens

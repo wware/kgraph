@@ -10,7 +10,7 @@ This package provides a kgraph domain extension for extracting knowledge from bi
 
 2. **Canonical IDs**: Entities use authoritative identifiers (UMLS, HGNC, RxNorm, UniProt) directly in `entity_id`, with additional mappings in `canonical_ids`.
 
-3. **Pattern A Relationships**: All medical predicates (TREATS, CAUSES, INCREASES_RISK, etc.) use a single `MedicalClaimRelationship` class. The `predicate` field distinguishes the relationship type.
+3. **Pattern A Relationships**: All medical predicates (treats, causes, increases_risk, etc.) use a single `MedicalClaimRelationship` class. The `predicate` field distinguishes the relationship type.
 
 4. **Rich Metadata**: Paper metadata (study type, sample size, MeSH terms) and extraction provenance are preserved in `BaseDocument.metadata` and `BaseRelationship.metadata`.
 
@@ -36,7 +36,7 @@ This package provides a kgraph domain extension for extracting knowledge from bi
 ### Relationships
 
 - **MedicalClaimRelationship**: Single class for all medical predicates
-  - Supports TREATS, CAUSES, INCREASES_RISK, ASSOCIATED_WITH, INTERACTS_WITH, etc.
+  - Supports treats, causes, increases_risk, associated_with, interacts_with, etc.
   - Evidence and provenance stored in `metadata`
   - Multi-paper aggregation via `source_documents` tuple
 
@@ -44,7 +44,7 @@ This package provides a kgraph domain extension for extracting knowledge from bi
 
 - **MedLitDomainSchema**: Defines entity types, relationship types, document types
   - Promotion config: min_usage_count=2, min_confidence=0.75
-  - Predicate validation via `get_valid_predicates()` (e.g., Drug→Disease supports TREATS)
+  - Predicate validation via `get_valid_predicates()` (e.g., Drug→Disease supports treats)
 
 ## Pipeline Components
 

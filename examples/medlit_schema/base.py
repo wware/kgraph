@@ -170,6 +170,7 @@ class PredicateType(str, Enum):
     CO_OCCURS_WITH = "co_occurs_with"
     ASSOCIATED_WITH = "associated_with"
     INTERACTS_WITH = "interacts_with"
+    SUBTYPE_OF = "subtype_of"
 
     # Location
     LOCATED_IN = "located_in"

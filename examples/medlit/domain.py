@@ -75,8 +75,10 @@ class MedLitDomainSchema(DomainSchema):
                 for obj_type in entity_type_names:
                     valid_preds_for_pair = get_valid_predicates(sub_type, obj_type)
                     for pred in valid_preds_for_pair:
-                        constraints[pred].add(sub_type)
-                        reverse_constraints[pred].add(obj_type)
+                        if pred not in ALL_PREDICATES:
+                            raise ValueError(f"get_valid_predicates returned unknown predicate: {pred}")
+                        constraints.setdefault(pred, set()).add(sub_type)
+                        reverse_constraints.setdefault(pred, set()).add(obj_type)
 
             self._predicate_constraints = {
                 pred: PredicateConstraint(subject_types=constraints[pred], object_types=reverse_constraints[pred]) for pred in ALL_PREDICATES if constraints[pred] and reverse_constraints[pred]

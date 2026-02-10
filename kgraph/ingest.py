@@ -247,8 +247,12 @@ class IngestionOrchestrator(BaseModel):
         # Store document
         await self.document_storage.add(document)
 
-        # Extract entity mentions
-        mentions = await self.entity_extractor.extract(document)
+        # Extract entity mentions (pass raw_content for streaming full-paper extraction when XML)
+        mentions = await self.entity_extractor.extract(
+            document,
+            raw_content=raw_content,
+            content_type=content_type,
+        )
 
         entities_new = 0
         entities_existing = 0
