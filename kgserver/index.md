@@ -9,6 +9,7 @@ Links:
 - [OpenAPI spec](/docs)
 - [Graph visualization](/graph-viz/) -- currently focused on medical literature
 - [GraphQL GUI](/graphiql/)
+- [Jupyter notebook](/jupyter/)
 
 Important architectural note:
 

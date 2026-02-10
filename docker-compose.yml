@@ -27,6 +27,41 @@ services:
       start_period: 10s
     profiles: ["api"]
 
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyter
+    command:
+      - jupyter
+      - lab
+      - --ip=0.0.0.0
+      - --port=8888
+      - --no-browser
+      - --ServerApp.token=
+      - --ServerApp.password=
+      - --ServerApp.base_url=/jupyter
+      - --ServerApp.allow_origin=*
+      - --ServerApp.allow_root=True
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/notebooks
+      - ./examples:/home/jovyan/examples:ro
+      - ./kgraph:/home/jovyan/work/kgraph:ro
+      - ./kgbundle:/home/jovyan/work/kgbundle:ro
+      - ./kgserver:/home/jovyan/work/kgserver:ro
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/kgserver
+      - OLLAMA_BASE_URL=http://ollama:11434
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - kgserver-network
+    restart: unless-stopped
+    profiles: ["api", "jupyter"]
+
   ollama:
     image: ollama/ollama:latest
     ports:
@@ -45,11 +80,12 @@ services:
     # CPU-only configuration - no GPU required
     # Models will be pulled on first use or manually via:
     # docker exec -it med-lit-ollama ollama pull nomic-embed-text
-    profiles: ["ollama"]
+    profiles: ["ollama", "jupyter"]
 
   postgres:
     image: pgvector/pgvector:pg16
-    # user: "${UID}:${GID}"
+    # Comment out the next line when running on the Digital Ocean server
+    # because the user there is root.
     user: "1000:1000"
     environment:
       POSTGRES_USER: postgres
@@ -69,7 +105,7 @@ services:
     restart: unless-stopped
     networks:
       - kgserver-network
-    profiles: ["api", "storage"]
+    profiles: ["api", "storage", "jupyter"]
 
 volumes:
   pgadmin-data:

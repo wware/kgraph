@@ -1,0 +1,73 @@
+FROM python:3.12-slim
+
+# Create jovyan user (matches Jupyter convention)
+RUN useradd -m -s /bin/bash -u 1000 jovyan
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    postgresql-client \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN chmod -R ugo+w /usr/local
+USER jovyan
+WORKDIR /home/jovyan
+
+# Install uv for jovyan user and add to PATH
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+ENV PATH="$PATH:/home/jovyan/.local/bin"
+
+# Verify uv is installed
+RUN uv --version
+
+# RUN chmod -R go+w /usr/local/lib/python3.12
+
+# Install JupyterLab and common scientific packages using uv
+RUN uv pip install --system \
+    jupyterlab \
+    notebook \
+    ipywidgets \
+    numpy \
+    scipy \
+    pandas \
+    matplotlib \
+    seaborn \
+    plotly \
+    psycopg2-binary \
+    sqlalchemy
+
+# Copy project files
+RUN mkdir -p /home/jovyan/work/notebooks
+COPY --chown=jovyan:users *.md /home/jovyan/work/
+COPY --chown=jovyan:users pyproject.toml /home/jovyan/work/
+COPY --chown=jovyan:users examples/sherlock /home/jovyan/work/sherlock
+COPY --chown=jovyan:users examples/medlit /home/jovyan/work/medlit
+COPY --chown=jovyan:users kgbundle /home/jovyan/work/kgbundle
+COPY --chown=jovyan:users kgraph /home/jovyan/work/kgraph
+COPY --chown=jovyan:users kgschema /home/jovyan/work/kgschema
+COPY --chown=jovyan:users kgserver /home/jovyan/work/kgserver
+
+# Install project dependencies
+WORKDIR /home/jovyan/work
+RUN uv pip install --system -e ./kgbundle
+RUN uv pip install --system -e .
+
+# Create notebooks directory
+RUN mkdir -p /home/jovyan/notebooks
+RUN chmod -R 0777 /home/jovyan
+
+# Expose Jupyter port
+EXPOSE 8888
+
+# Start JupyterLab directly (not using start-notebook.sh)
+CMD ["jupyter", "lab", \
+     "--ip=0.0.0.0", \
+     "--port=8888", \
+     "--no-browser", \
+     "--ServerApp.token=", \
+     "--ServerApp.password=", \
+     "--ServerApp.base_url=/jupyter", \
+     "--ServerApp.allow_origin=*", \
+     "--ServerApp.allow_root=True"]
