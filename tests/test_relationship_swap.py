@@ -204,3 +204,82 @@ def test_should_swap_detection():
     # Reversed order: disease treats drug - should detect swap is needed
     # pylint: disable=protected-access
     assert extractor._should_swap_subject_object("treats", disease, drug)
+
+
+def test_evidence_contains_both_entities_both_present():
+    """Evidence containing both subject and object is accepted."""
+    from examples.medlit.pipeline.relationships import _evidence_contains_both_entities
+
+    ok, drop_reason, detail = _evidence_contains_both_entities(
+        evidence="Aspirin treats headache in this study.",
+        subject_name="Aspirin",
+        object_name="headache",
+        subject_entity=None,
+        object_entity=None,
+    )
+    assert ok is True
+    assert drop_reason is None
+    assert detail["subject_in_evidence"] is True
+    assert detail["object_in_evidence"] is True
+
+
+def test_evidence_contains_both_entities_missing_subject():
+    """Evidence missing subject is rejected with evidence_missing_subject."""
+    from examples.medlit.pipeline.relationships import _evidence_contains_both_entities
+
+    ok, drop_reason, detail = _evidence_contains_both_entities(
+        evidence="headache was improved.",
+        subject_name="Aspirin",
+        object_name="headache",
+        subject_entity=None,
+        object_entity=None,
+    )
+    assert ok is False
+    assert drop_reason == "evidence_missing_subject"
+    assert detail["subject_in_evidence"] is False
+    assert detail["object_in_evidence"] is True
+
+
+def test_evidence_contains_both_entities_empty_evidence():
+    """Empty evidence is rejected with evidence_empty."""
+    from examples.medlit.pipeline.relationships import _evidence_contains_both_entities
+
+    ok, drop_reason, detail = _evidence_contains_both_entities(
+        evidence="",
+        subject_name="Aspirin",
+        object_name="headache",
+        subject_entity=None,
+        object_entity=None,
+    )
+    assert ok is False
+    assert drop_reason == "evidence_empty"
+    assert detail["subject_in_evidence"] is False
+    assert detail["object_in_evidence"] is False
+
+
+def test_evidence_contains_both_entities_synonym_match():
+    """Entity synonym appearing in evidence counts as match."""
+    from examples.medlit.pipeline.relationships import _evidence_contains_both_entities
+
+    drug = DrugEntity(
+        entity_id="drug:1",
+        name="Acetylsalicylic acid",
+        status=EntityStatus.CANONICAL,
+        confidence=1.0,
+        usage_count=1,
+        source="test",
+        canonical_ids={},
+        created_at=datetime.now(timezone.utc),
+        last_updated=None,
+        synonyms=("Aspirin",),
+    )
+
+    ok, drop_reason, _ = _evidence_contains_both_entities(
+        evidence="Aspirin reduces pain.",
+        subject_name="Acetylsalicylic acid",
+        object_name="pain",
+        subject_entity=drug,
+        object_entity=None,
+    )
+    assert ok is True
+    assert drop_reason is None

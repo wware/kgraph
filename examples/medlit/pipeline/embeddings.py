@@ -59,16 +59,33 @@ class OllamaMedLitEmbeddingGenerator(EmbeddingGeneratorInterface):
             ValueError: If response format is unexpected
         """
         async with httpx.AsyncClient(timeout=self.timeout) as client:
-            response = await client.post(f"{self.ollama_host}/api/embed", json={"model": self.model, "input": text})
-            response.raise_for_status()
+            print("DEBUG: Inside async context manager")  # Add this
+            self.model = "nomic-embed-text"
+            print(f"DEBUG: Set model to {self.model}")  # Add this
+            url = self.ollama_host + "/api/embeddings"
+            print(f"DEBUG: URL is {url}")  # Add this
+            try:
+                response = await client.post(
+                    url,
+                    json={"model": self.model, "prompt": text},
+                )
+                print("EMBED STATUS:", response.status_code)
+                if response.status_code != 200:
+                    print("EMBED BODY:", response.text[:500])
+                response.raise_for_status()
+                data = response.json()
+            except Exception as e:
+                import traceback
+                print("EMBED EXCEPTION:", repr(e))
+                traceback.print_exc()
+                raise
 
-            data = response.json()
-
-            # Ollama returns {"embeddings": [[...]], ...}
-            if "embeddings" not in data or not data["embeddings"]:
+            if "embedding" in data and isinstance(data["embedding"], list):
+                embedding = data["embedding"]
+            elif "embeddings" in data and data["embeddings"]:
+                embedding = data["embeddings"][0]
+            else:
                 raise ValueError(f"Unexpected response format: {data}")
-
-            embedding = data["embeddings"][0]
 
             # Set dimension on first call
             if self._dimension is None:

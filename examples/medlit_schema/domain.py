@@ -54,6 +54,7 @@ from examples.medlit_schema.relationship import (
     Supports,
     Refutes,
     Generates,
+    SubtypeOf,
 )
 from examples.medlit_schema.document import PaperDocument
 
@@ -120,6 +121,7 @@ class MedlitDomain(DomainSchema):
             "SUPPORTS": Supports,
             "REFUTES": Refutes,
             "GENERATES": Generates,
+            "SUBTYPE_OF": SubtypeOf,
         }
 
     @property

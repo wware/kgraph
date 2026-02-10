@@ -43,6 +43,57 @@ def _build_entity_index(entities: Sequence[BaseEntity]) -> dict[str, list[BaseEn
     return idx
 
 
+def _normalize_evidence_for_match(text: str) -> str:
+    """Normalize evidence text for substring matching: lowercase, strip, collapse whitespace."""
+    return " ".join(text.strip().lower().split()) if text else ""
+
+
+def _evidence_contains_both_entities(
+    evidence: str,
+    subject_name: str,
+    object_name: str,
+    subject_entity: BaseEntity | None,
+    object_entity: BaseEntity | None,
+) -> tuple[bool, str | None, dict[str, Any]]:
+    """Check that both subject and object (or synonyms) appear in the evidence text.
+
+    Returns:
+        (ok, drop_reason, detail): ok is True only if both entities appear;
+        drop_reason is set when ok is False; detail has subject_in_evidence, object_in_evidence.
+    """
+    detail: dict[str, Any] = {"subject_in_evidence": False, "object_in_evidence": False}
+    norm_evidence = _normalize_evidence_for_match(evidence)
+
+    if not norm_evidence:
+        return False, "evidence_empty", detail
+
+    def _name_or_synonyms_appear_in_text(name: str, entity: BaseEntity | None) -> bool:
+        candidates = [name]
+        if entity is not None:
+            candidates.append(entity.name)
+            candidates.extend(getattr(entity, "synonyms", []))
+        for c in candidates:
+            if not c or not isinstance(c, str):
+                continue
+            norm = c.strip().lower()
+            if norm and norm in norm_evidence:
+                return True
+        return False
+
+    subject_ok = _name_or_synonyms_appear_in_text(subject_name, subject_entity)
+    object_ok = _name_or_synonyms_appear_in_text(object_name, object_entity)
+    detail["subject_in_evidence"] = subject_ok
+    detail["object_in_evidence"] = object_ok
+
+    if not subject_ok and not object_ok:
+        return False, "evidence_missing_subject_and_object", detail
+    if not subject_ok:
+        return False, "evidence_missing_subject", detail
+    if not object_ok:
+        return False, "evidence_missing_object", detail
+    return True, None, detail
+
+
 class MedLitRelationshipExtractor(RelationshipExtractorInterface):
     """Extract relationships from journal articles.
 
@@ -319,7 +370,7 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
           code currently normalizes and stores predicates as lowercase. :contentReference[oaicite:3]{index=3}
         """
         # 1) Predicate inventory from domain schema
-        # Domain keys are like "TREATS"; we ask LLM for lowercase strings like "treats"
+        # Domain keys are like "treats"; we ask LLM for lowercase strings like "treats"
         predicate_keys = sorted(self._domain.relationship_types.keys())
         allowed_predicates = [k.lower() for k in predicate_keys]
 
@@ -353,6 +404,7 @@ You are given:
 
 Your job:
 - Find relationships between the listed entities that are explicitly supported by the text.
+- You MUST choose a predicate whose subject/object types match the signature table. If none apply, output no relationship.
 - Output ONLY valid JSON: a JSON array of relationship objects.
 - Use ONLY the allowed predicates listed below (lowercase strings).
 
@@ -550,6 +602,14 @@ IMPORTANT:
                 decision["drop_reason"] = "object_unmatched"
             return None, decision
 
+        evidence_ok, evidence_drop_reason, evidence_detail = _evidence_contains_both_entities(
+            evidence, subject_name, object_name, subject_entity, object_entity
+        )
+        decision["evidence_check"] = evidence_detail
+        if not evidence_ok:
+            decision["drop_reason"] = evidence_drop_reason
+            return None, decision
+
         semantic_ok = self._validate_predicate_semantics(predicate, evidence)
         decision["semantic_ok"] = semantic_ok
         if not semantic_ok:
@@ -557,7 +617,7 @@ IMPORTANT:
             decision["drop_reason"] = "semantic_mismatch"
             return None, decision
 
-        if self._should_swap_subject_object(predicate.upper(), subject_entity, object_entity):
+        if self._should_swap_subject_object(predicate, subject_entity, object_entity):
             print(
                 f"  Swapping subject/object for predicate '{predicate}': "
                 f"({subject_entity.name} [{subject_entity.get_entity_type()}] ↔ "
@@ -572,6 +632,26 @@ IMPORTANT:
             "object_id": object_entity.entity_id,
             "object_type": object_entity.get_entity_type(),
         }
+
+
+        constraint = self._domain.predicate_constraints.get(predicate)
+
+        if constraint:
+            s_type = subject_entity.get_entity_type()
+            o_type = object_entity.get_entity_type()
+
+            ok = (s_type in constraint.subject_types) and (o_type in constraint.object_types)
+            if not ok:
+                decision["accepted"] = False
+                decision["drop_reason"] = "type_constraint_mismatch"
+                decision["type_check"] = {
+                    "predicate_key": predicate,
+                    "got_subject_type": s_type,
+                    "got_object_type": o_type,
+                    "expected_subject_types": sorted(constraint.subject_types),
+                    "expected_object_types": sorted(constraint.object_types),
+                }
+                return None, decision
 
         provenance = Provenance(
             document_id=document.document_id,

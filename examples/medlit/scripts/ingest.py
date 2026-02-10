@@ -30,6 +30,7 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from logging import DEBUG
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -454,7 +455,15 @@ Examples:
         action="store_true",
         help="Write trace JSON files for all stages (currently only relationship traces are implemented)",
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Logging is done at DEBUG level",
+    )
+    args: argparse.Namespace = parser.parse_args()
+    if args.debug:
+        logger.setLevel(DEBUG)
+    return args
 
 
 def find_input_files(

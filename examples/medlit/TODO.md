@@ -163,7 +163,7 @@ class SpacyEntityExtractor(MedLitEntityExtractor):
 ```python
 import re
 
-PREDICATE_PATTERNS = [
+predicate_PATTERNS = [
     ("treats", [
         r"\b(treats?|treatment|therapeutic|efficacy)\b.*\b(?:of|for|in)\b",
         r"\b(effective|efficacious)\b.*\b(?:against|for|in)\b",
@@ -185,7 +185,7 @@ class PatternRelationshipExtractor(MedLitRelationshipExtractor):
         for section_name, section_text in document.get_sections():
             sentences = re.split(r'[.!?]+', section_text)
             for sentence in sentences:
-                for predicate, patterns, evidence_type in PREDICATE_PATTERNS:
+                for predicate, patterns, evidence_type in predicate_PATTERNS:
                     for pattern in patterns:
                         if re.search(pattern, sentence, re.IGNORECASE):
                             # Try to find entities in sentence
