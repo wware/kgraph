@@ -39,6 +39,10 @@ from pydantic import BaseModel
 from kgraph.export import write_bundle
 from kgraph.ingest import IngestionOrchestrator
 from kgraph.logging import setup_logging
+from kgraph.pipeline.streaming import (
+    BatchingEntityExtractor,
+    WindowedRelationshipExtractor,
+)
 from kgraph.storage.memory import (
     InMemoryDocumentStorage,
     InMemoryEntityStorage,
@@ -54,6 +58,7 @@ from ..pipeline.authority_lookup import CanonicalIdLookup
 from ..pipeline.embeddings import OllamaMedLitEmbeddingGenerator
 from ..pipeline.llm_client import OllamaLLMClient
 from ..pipeline.mentions import MedLitEntityExtractor
+from ..pipeline.pmc_chunker import PMCStreamingChunker
 from ..pipeline.parser import JournalArticleParser
 from ..pipeline.relationships import MedLitRelationshipExtractor
 from ..pipeline.resolve import MedLitEntityResolver
@@ -226,6 +231,19 @@ def build_orchestrator(
     entity_extractor = MedLitEntityExtractor(llm_client=llm_client, domain=domain)
     print("  ✓ LLM-based extractor created", file=sys.stderr)
 
+    relationship_extractor = MedLitRelationshipExtractor(
+        llm_client=llm_client,
+        trace_dir=relationship_trace_dir,
+    )
+    document_chunker = PMCStreamingChunker()
+    streaming_entity_extractor = BatchingEntityExtractor(
+        base_extractor=entity_extractor,
+        deduplicate=True,
+    )
+    streaming_relationship_extractor = WindowedRelationshipExtractor(
+        base_extractor=relationship_extractor,
+    )
+
     orchestrator = IngestionOrchestrator(
         domain=domain,
         parser=JournalArticleParser(),
@@ -235,14 +253,14 @@ def build_orchestrator(
             embedding_generator=embedding_generator,  # Enable embedding-based resolution
             similarity_threshold=0.85,  # Require 85% similarity for matches
         ),
-        relationship_extractor=MedLitRelationshipExtractor(
-            llm_client=llm_client,
-            trace_dir=relationship_trace_dir,
-        ),
+        relationship_extractor=relationship_extractor,
         embedding_generator=embedding_generator,
         entity_storage=entity_storage,
         relationship_storage=relationship_storage,
         document_storage=document_storage,
+        document_chunker=document_chunker,
+        streaming_entity_extractor=streaming_entity_extractor,
+        streaming_relationship_extractor=streaming_relationship_extractor,
     )
 
     return orchestrator, None

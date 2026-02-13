@@ -11,7 +11,6 @@ from kgschema.entity import EntityMention
 from kgraph.pipeline.interfaces import EntityExtractorInterface
 
 from .llm_client import LLMClientInterface
-from .pmc_streaming import iter_pmc_windows
 
 
 def _normalize_mention_key(name: str, entity_type: str) -> tuple[str, str]:
@@ -137,30 +136,21 @@ JSON:"""
         # Unknown type - skip this entity
         return None
 
-    async def extract(
-        self,
-        document: BaseDocument,
-        *,
-        raw_content: bytes | None = None,
-        content_type: str | None = None,
-    ) -> list[EntityMention]:
-        """Extract entity mentions from a journal article.
+    async def extract(self, document: BaseDocument) -> list[EntityMention]:
+        """Extract entity mentions from a journal article (single chunk).
 
         If the document metadata contains pre-extracted entities (from med-lit-schema),
         we convert those to EntityMention objects. Otherwise, if llm_client is provided,
-        extracts entities from document text using LLM.
+        extracts entities from document text using LLM (one prompt per document/chunk).
 
-        When raw_content and content_type are provided and indicate PMC XML,
-        uses streaming overlapping windows over the full paper: one NER prompt per
-        window, then merges and dedupes mentions by (normalized name, type).
+        When used behind BatchingEntityExtractor, this is called once per chunk;
+        the orchestrator handles streaming and deduplication across chunks.
 
         Args:
-            document: The journal article document.
-            raw_content: Optional raw bytes (e.g. PMC XML) for streaming chunked extraction.
-            content_type: Optional MIME type when raw_content is set.
+            document: The journal article document (or a chunk document).
 
         Returns:
-            List of EntityMention objects representing entities mentioned in the paper.
+            List of EntityMention objects for this document/chunk.
         """
         mentions: list[EntityMention] = []
 
@@ -203,104 +193,47 @@ JSON:"""
         if not self._llm:
             return mentions
 
-        use_streaming = (
-            raw_content is not None
-            and content_type is not None
-            and content_type.lower() in ("application/xml", "text/xml")
+        text = (
+            document.abstract
+            if hasattr(document, "abstract") and document.abstract
+            else document.content
         )
+        if not text or len(text) < 50:
+            return mentions
 
-        if use_streaming:
-            try:
-                seen: dict[tuple[str, str], EntityMention] = {}
-                window_count = 0
-                for window_index, text in iter_pmc_windows(raw_content):
-                    window_count += 1
-                    if not text or len(text) < 50:
+        try:
+            text_sample = text[:8000]  # Single chunk may be up to window size
+            prompt = self.OLLAMA_NER_PROMPT.format(text=text_sample)
+            response = await self._llm.generate_json(prompt)
+            if isinstance(response, list):
+                for item in response:
+                    if not isinstance(item, dict):
                         continue
-                    prompt = self.OLLAMA_NER_PROMPT.format(text=text[:8000])
-                    response = await self._llm.generate_json(prompt)
-                    if not isinstance(response, list):
+                    entity_name = (item.get("entity") or item.get("name", "")).strip()
+                    entity_type_raw = item.get("type", "disease")
+                    entity_type = self._normalize_entity_type(entity_type_raw)
+                    if entity_type is None or len(entity_name) < 3:
                         continue
-                    for item in response:
-                        if not isinstance(item, dict):
-                            continue
-                        entity_name = (item.get("entity") or item.get("name", "")).strip()
-                        entity_type_raw = item.get("type", "disease")
-                        entity_type = self._normalize_entity_type(entity_type_raw)
-                        if entity_type is None or len(entity_name) < 3:
-                            continue
-                        confidence = float(item.get("confidence", 0.5))
-                        if confidence < 0.5:
-                            continue
-                        key = _normalize_mention_key(entity_name, entity_type)
-                        mention = EntityMention(
-                            text=entity_name,
-                            entity_type=entity_type,
-                            start_offset=0,
-                            end_offset=0,
-                            confidence=confidence,
-                            context=None,
-                            metadata={
-                                "document_id": document.document_id,
-                                "extraction_method": "llm_streaming",
-                                "window_index": window_index,
-                            },
-                        )
-                        if key not in seen or seen[key].confidence < confidence:
-                            seen[key] = mention
-                mentions = list(seen.values())
-                print(f"  Extracting entities with LLM from {window_count} windows (full paper)...")
-                print(f"  LLM returned {len(mentions)} unique entities (merged from windows)")
-            except Exception as e:
-                print(f"Warning: LLM streaming entity extraction failed: {e}")
-                import traceback
+                    confidence = float(item.get("confidence", 0.5))
+                    if confidence < 0.5:
+                        continue
+                    mention = EntityMention(
+                        text=entity_name,
+                        entity_type=entity_type,
+                        start_offset=0,
+                        end_offset=0,
+                        confidence=confidence,
+                        context=None,
+                        metadata={
+                            "document_id": document.document_id,
+                            "extraction_method": "llm",
+                        },
+                    )
+                    mentions.append(mention)
+        except Exception as e:
+            print(f"Warning: LLM entity extraction failed: {e}")
+            import traceback
 
-                traceback.print_exc()
-                use_streaming = False
-
-        if not use_streaming and document.content:
-            try:
-                text = (
-                    document.abstract
-                    if hasattr(document, "abstract") and document.abstract
-                    else document.content
-                )
-                text_sample = text[:2000]
-
-                print(f"  Extracting entities with LLM from {len(text_sample)} chars...")
-                prompt = self.OLLAMA_NER_PROMPT.format(text=text_sample)
-                response = await self._llm.generate_json(prompt)
-
-                print(f"  LLM returned {len(response) if isinstance(response, list) else 0} entities")
-
-                if isinstance(response, list):
-                    for item in response:
-                        if isinstance(item, dict):
-                            entity_name = (item.get("entity") or item.get("name", "")).strip()
-                            entity_type_raw = item.get("type", "disease")
-                            entity_type = self._normalize_entity_type(entity_type_raw)
-                            if entity_type is None:
-                                continue
-                            confidence = float(item.get("confidence", 0.5))
-                            if len(entity_name) < 3 or confidence < 0.5:
-                                continue
-                            mention = EntityMention(
-                                text=entity_name,
-                                entity_type=entity_type,
-                                start_offset=0,
-                                end_offset=0,
-                                confidence=confidence,
-                                context=None,
-                                metadata={
-                                    "document_id": document.document_id,
-                                    "extraction_method": "llm",
-                                },
-                            )
-                            mentions.append(mention)
-            except Exception as e:
-                print(f"Warning: LLM entity extraction failed: {e}")
-                import traceback
-
-                traceback.print_exc()
+            traceback.print_exc()
 
         return mentions
