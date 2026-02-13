@@ -274,12 +274,14 @@ class MockEntityExtractor(EntityExtractorInterface):
 
         mentions = []
         for match in re.finditer(r"\[([^\]]+)\]", document.content):
+            # Use match.start(1) and match.end(1) to get offsets of captured group
+            # (the text without brackets), not the full match including brackets
             mentions.append(
                 EntityMention(
                     text=match.group(1),
                     entity_type="test_entity",
-                    start_offset=match.start(),
-                    end_offset=match.end(),
+                    start_offset=match.start(1),
+                    end_offset=match.end(1),
                     confidence=0.9,
                 )
             )
