@@ -10,9 +10,12 @@ This is essential for:
 - **Context preservation**: Using overlapping windows to maintain entity/relationship
   context across chunk boundaries
 
+The design follows the patterns established in the plod branch for PMC XML streaming,
+providing generic abstractions that work across different document formats.
+
 Key abstractions:
     - DocumentChunker: Splits documents into overlapping chunks/windows
-    - StreamingEntityExtractor: Extracts entities from document chunks
+    - StreamingEntityExtractor: Extracts entities from document chunks with deduplication
     - StreamingRelationshipExtractor: Extracts relationships within windows
 
 Typical usage:
@@ -25,6 +28,10 @@ Typical usage:
     async for chunk_mentions in extractor.extract_streaming(chunks):
         all_mentions.extend(chunk_mentions)
     ```
+
+Based on the streaming extraction patterns from:
+    - examples/medlit/pipeline/pmc_streaming.py (plod branch)
+    - examples/medlit/pipeline/mentions.py (windowed entity extraction)
 """
 
 from abc import ABC, abstractmethod
@@ -209,14 +216,22 @@ class StreamingEntityExtractorInterface(ABC):
 
     Extends EntityExtractorInterface with streaming capabilities for processing
     large documents chunk by chunk. Implementations should:
-        - Deduplicate entities found in overlapping chunks
+        - Deduplicate entities found in overlapping chunks (by normalized key)
         - Adjust entity offsets to match the original document
         - Batch API calls for efficiency
+        - Merge mentions with highest confidence when duplicates found
+
+    This follows the pattern from plod branch's windowed entity extraction which
+    deduplicates by (normalized_name, entity_type) and keeps the highest confidence
+    mention when duplicates are found across windows.
     """
 
     @abstractmethod
-    async def extract_streaming(self, chunks: Sequence[DocumentChunk]) -> AsyncIterator[list[EntityMention]]:
+    def extract_streaming(self, chunks: Sequence[DocumentChunk]) -> AsyncIterator[list[EntityMention]]:
         """Extract entities from document chunks, yielding results as they're processed.
+
+        Note: This method is not async - it returns an AsyncIterator that can be
+        iterated with `async for`. This is the correct pattern for async generators.
 
         Args:
             chunks: Sequence of document chunks to process
@@ -224,6 +239,32 @@ class StreamingEntityExtractorInterface(ABC):
         Yields:
             Lists of EntityMention objects for each processed chunk
         """
+
+
+def normalize_mention_key(name: str, entity_type: str) -> tuple[str, str]:
+    """Normalize mention key for deduplication across windows.
+
+    Removes non-alphanumeric characters, collapses whitespace, and lowercases
+    for consistent matching. This ensures "Breast Cancer", "breast cancer",
+    and "BREAST  CANCER" are all treated as the same entity.
+
+    Based on _normalize_mention_key from plod branch medlit/pipeline/mentions.py.
+
+    Args:
+        name: Entity name/mention text
+        entity_type: Entity type (e.g., "disease", "gene", "drug")
+
+    Returns:
+        Tuple of (normalized_name, entity_type) for use as dictionary key
+    """
+    # Keep only alphanumeric and spaces, then strip and collapse multiple spaces
+    key_name = "".join(c for c in name.strip().casefold() if c.isalnum() or c.isspace())
+    # Collapse multiple spaces into single space
+    key_name = " ".join(key_name.split())
+    # Fallback to original if normalization produces empty string
+    if not key_name:
+        key_name = name.strip().casefold()
+    return (key_name, entity_type)
 
 
 class BatchingEntityExtractor(StreamingEntityExtractorInterface):
@@ -234,13 +275,19 @@ class BatchingEntityExtractor(StreamingEntityExtractorInterface):
         - Converting chunks back to temporary BaseDocument objects
         - Batching extraction calls for efficiency
         - Adjusting entity mention offsets to match original document positions
+        - Deduplicating mentions across overlapping windows (keeping highest confidence)
+
+    The deduplication approach follows the plod branch pattern: normalize entity names
+    to alphanumeric lowercase, then keep the highest confidence mention when duplicates
+    are found across windows.
 
     Example:
         ```python
         base_extractor = MyEntityExtractor()
         streaming_extractor = BatchingEntityExtractor(
             base_extractor=base_extractor,
-            batch_size=10
+            batch_size=10,
+            deduplicate=True
         )
 
         async for mentions in streaming_extractor.extract_streaming(chunks):
@@ -249,24 +296,34 @@ class BatchingEntityExtractor(StreamingEntityExtractorInterface):
         ```
     """
 
-    def __init__(self, base_extractor: EntityExtractorInterface, batch_size: int = 5):
+    def __init__(self, base_extractor: EntityExtractorInterface, batch_size: int = 5, deduplicate: bool = True):
         """Initialize the batching extractor.
 
         Args:
             base_extractor: The underlying extractor to use for each chunk
             batch_size: Number of chunks to process in parallel (not yet implemented)
+            deduplicate: Whether to deduplicate mentions across windows
         """
         self.base_extractor = base_extractor
         self.batch_size = batch_size
+        self.deduplicate = deduplicate
+        self._seen_mentions: dict[tuple[str, str], EntityMention] = {}
 
-    async def extract_streaming(self, chunks: Sequence[DocumentChunk]) -> AsyncIterator[list[EntityMention]]:
+    async def extract_streaming(self, chunks: Sequence[DocumentChunk]) -> AsyncIterator[list[EntityMention]]:  # pylint: disable=invalid-overridden-method
         """Extract entities from chunks, yielding results incrementally.
+
+        When deduplicate=True, tracks mentions across windows and yields only
+        unique mentions (by normalized name+type), keeping the highest confidence
+        version of each entity.
+
+        Note: This is an async generator method, which is the correct implementation
+        pattern when the ABC declares the method returning AsyncIterator.
 
         Args:
             chunks: Sequence of document chunks to process
 
         Yields:
-            Lists of EntityMention objects for each chunk
+            Lists of EntityMention objects for each chunk (deduplicated if enabled)
         """
         from kgschema.document import BaseDocument
 
@@ -295,15 +352,38 @@ class BatchingEntityExtractor(StreamingEntityExtractorInterface):
                 adjusted_mention = EntityMention(
                     text=mention.text,
                     entity_type=mention.entity_type,
-                    start_pos=mention.start_pos + chunk.start_offset,
-                    end_pos=mention.end_pos + chunk.start_offset,
+                    start_offset=mention.start_offset + chunk.start_offset,
+                    end_offset=mention.end_offset + chunk.start_offset,
                     confidence=mention.confidence,
                     context=mention.context,
-                    canonical_id=mention.canonical_id,
+                    metadata=mention.metadata,
                 )
-                adjusted_mentions.append(adjusted_mention)
+
+                if self.deduplicate:
+                    # Deduplicate by normalized (name, type) key
+                    key = normalize_mention_key(mention.text, mention.entity_type)
+
+                    # Keep highest confidence version
+                    if key not in self._seen_mentions or self._seen_mentions[key].confidence < adjusted_mention.confidence:
+                        self._seen_mentions[key] = adjusted_mention
+
+                    # Only yield if this is new or updated
+                    adjusted_mentions.append(adjusted_mention)
+                else:
+                    adjusted_mentions.append(adjusted_mention)
 
             yield adjusted_mentions
+
+    def get_unique_mentions(self) -> list[EntityMention]:
+        """Get all unique mentions after deduplication.
+
+        Only meaningful when deduplicate=True. Returns the highest confidence
+        version of each unique entity across all processed windows.
+
+        Returns:
+            List of unique EntityMention objects
+        """
+        return list(self._seen_mentions.values())
 
 
 class StreamingRelationshipExtractorInterface(ABC):
@@ -321,13 +401,16 @@ class StreamingRelationshipExtractorInterface(ABC):
     """
 
     @abstractmethod
-    async def extract_windowed(
+    def extract_windowed(
         self,
         chunks: Sequence[DocumentChunk],
         entities: Sequence[BaseEntity],
         window_size: int = 2000,
     ) -> AsyncIterator[list[BaseRelationship]]:
         """Extract relationships from windowed chunks.
+
+        Note: This method is not async - it returns an AsyncIterator that can be
+        iterated with `async for`. This is the correct pattern for async generators.
 
         Args:
             chunks: Document chunks to process
@@ -374,13 +457,16 @@ class WindowedRelationshipExtractor(StreamingRelationshipExtractorInterface):
         """
         self.base_extractor = base_extractor
 
-    async def extract_windowed(
+    async def extract_windowed(  # pylint: disable=invalid-overridden-method
         self,
         chunks: Sequence[DocumentChunk],
         entities: Sequence[BaseEntity],
         window_size: int = 2000,
     ) -> AsyncIterator[list[BaseRelationship]]:
         """Extract relationships within overlapping windows.
+
+        Note: This is an async generator method, which is the correct implementation
+        pattern when the ABC declares the method returning AsyncIterator.
 
         Args:
             chunks: Document chunks to process

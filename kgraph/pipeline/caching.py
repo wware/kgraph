@@ -31,7 +31,6 @@ Typical usage:
     ```
 """
 
-import hashlib
 import json
 from abc import ABC, abstractmethod
 from collections import OrderedDict
@@ -580,7 +579,7 @@ class CachedEmbeddingGenerator(EmbeddingGeneratorInterface):
         misses_indices = [i for i, result in enumerate(cached_results) if result is None]
 
         if not misses_indices:
-            # All hits - return cached results
+            # All hits - return cached results (filter out None values that shouldn't exist)
             return [r for r in cached_results if r is not None]
 
         # Generate embeddings for misses
@@ -591,9 +590,14 @@ class CachedEmbeddingGenerator(EmbeddingGeneratorInterface):
         await self.cache.put_batch(miss_texts, new_embeddings)
 
         # Merge cached and new results
-        results = list(cached_results)
-        for idx, embedding in zip(misses_indices, new_embeddings):
-            results[idx] = embedding
+        results: list[tuple[float, ...]] = []
+        for idx, cached_result in enumerate(cached_results):
+            if cached_result is not None:
+                results.append(cached_result)
+            else:
+                # This is a miss - find it in misses_indices and get corresponding new embedding
+                miss_position = misses_indices.index(idx)
+                results.append(new_embeddings[miss_position])
 
         return results
 
