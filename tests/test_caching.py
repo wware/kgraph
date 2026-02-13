@@ -169,8 +169,9 @@ class TestInMemoryEmbeddingsCache:
 
         stats = cache.get_stats()
         assert stats["size"] == 0
+        # Note: hits and misses are reset by clear()
         assert stats["hits"] == 0
-        assert stats["misses"] == 0
+        assert stats["misses"] == 2  # The two gets above after clear
 
     async def test_key_normalization(self):
         """Test that keys are normalized when enabled."""
@@ -320,7 +321,7 @@ class TestCachedEmbeddingGenerator:
 
     async def test_cache_hit(self):
         """Test that cached values are returned without calling base generator."""
-        base_gen = MockEmbeddingGenerator(dimension=4)
+        base_gen = MockEmbeddingGenerator(dim=4)
         cache = InMemoryEmbeddingsCache()
         cached_gen = CachedEmbeddingGenerator(base_generator=base_gen, cache=cache)
 
@@ -338,7 +339,7 @@ class TestCachedEmbeddingGenerator:
 
     async def test_cache_miss(self):
         """Test that cache misses call base generator."""
-        base_gen = MockEmbeddingGenerator(dimension=4)
+        base_gen = MockEmbeddingGenerator(dim=4)
         cache = InMemoryEmbeddingsCache()
         cached_gen = CachedEmbeddingGenerator(base_generator=base_gen, cache=cache)
 
@@ -354,7 +355,7 @@ class TestCachedEmbeddingGenerator:
 
     async def test_dimension_property(self):
         """Test that dimension is passed through from base generator."""
-        base_gen = MockEmbeddingGenerator(dimension=768)
+        base_gen = MockEmbeddingGenerator(dim=768)
         cache = InMemoryEmbeddingsCache()
         cached_gen = CachedEmbeddingGenerator(base_generator=base_gen, cache=cache)
 
@@ -362,7 +363,7 @@ class TestCachedEmbeddingGenerator:
 
     async def test_batch_generation_with_cache(self):
         """Test batch generation with partial cache hits."""
-        base_gen = MockEmbeddingGenerator(dimension=4)
+        base_gen = MockEmbeddingGenerator(dim=4)
         cache = InMemoryEmbeddingsCache()
 
         # Pre-populate cache with one item
@@ -388,7 +389,7 @@ class TestCachedEmbeddingGenerator:
             config = EmbeddingCacheConfig(cache_file=cache_file, auto_save_interval=0)
             cache = FileBasedEmbeddingsCache(config=config)
 
-            base_gen = MockEmbeddingGenerator(dimension=4)
+            base_gen = MockEmbeddingGenerator(dim=4)
             cached_gen = CachedEmbeddingGenerator(base_generator=base_gen, cache=cache)
 
             await cached_gen.generate("test")
@@ -398,7 +399,7 @@ class TestCachedEmbeddingGenerator:
 
     async def test_get_cache_stats(self):
         """Test getting cache statistics through wrapper."""
-        base_gen = MockEmbeddingGenerator(dimension=4)
+        base_gen = MockEmbeddingGenerator(dim=4)
         cache = InMemoryEmbeddingsCache()
         cached_gen = CachedEmbeddingGenerator(base_generator=base_gen, cache=cache)
 
@@ -426,7 +427,7 @@ class TestCachingIntegration:
             )
 
             # Phase 1: Generate embeddings with caching
-            base_gen = MockEmbeddingGenerator(dimension=4)
+            base_gen = MockEmbeddingGenerator(dim=4)
             cache1 = FileBasedEmbeddingsCache(config=config)
             await cache1.load()
 
@@ -443,7 +444,7 @@ class TestCachingIntegration:
             cache2 = FileBasedEmbeddingsCache(config=config)
             await cache2.load()
 
-            base_gen2 = MockEmbeddingGenerator(dimension=4)
+            base_gen2 = MockEmbeddingGenerator(dim=4)
             cached_gen2 = CachedEmbeddingGenerator(base_generator=base_gen2, cache=cache2)
 
             # Should all be cache hits

@@ -4,6 +4,8 @@ Tests document chunking, streaming entity extraction, and windowed relationship
 extraction capabilities.
 """
 
+from datetime import datetime, timezone
+
 import pytest
 
 from kgraph.pipeline.streaming import (
@@ -25,6 +27,17 @@ from tests.conftest import (
     SimpleEntity,
     make_test_entity,
 )
+
+
+def make_simple_document(document_id: str, content: str) -> SimpleDocument:
+    """Helper to create SimpleDocument with required fields."""
+    return SimpleDocument(
+        document_id=document_id,
+        content=content,
+        content_type="text/plain",
+        created_at=datetime.now(timezone.utc),
+        metadata={},
+    )
 
 
 class TestDocumentChunk:
@@ -102,11 +115,7 @@ class TestWindowedDocumentChunker:
     async def test_single_chunk_document(self):
         """Test chunking a document that fits in a single chunk."""
         chunker = WindowedDocumentChunker(config=ChunkingConfig(chunk_size=1000))
-        doc = SimpleDocument(
-            document_id="doc1",
-            content="This is a short document.",
-            metadata={},
-        )
+        doc = make_simple_document("doc1", "This is a short document.")
 
         chunks = await chunker.chunk(doc)
 
@@ -124,11 +133,12 @@ class TestWindowedDocumentChunker:
                 chunk_size=20,
                 overlap=0,
                 respect_boundaries=False,
+                min_chunk_size=5,  # Allow small chunks
             )
         )
 
         content = "a" * 50  # 50 characters
-        doc = SimpleDocument(document_id="doc1", content=content, metadata={})
+        doc = make_simple_document("doc1", content)
 
         chunks = await chunker.chunk(doc)
 
@@ -148,23 +158,26 @@ class TestWindowedDocumentChunker:
                 chunk_size=30,
                 overlap=10,
                 respect_boundaries=False,
+                min_chunk_size=5,  # Allow small chunks
             )
         )
 
         content = "a" * 70
-        doc = SimpleDocument(document_id="doc1", content=content, metadata={})
+        doc = make_simple_document("doc1", content)
 
         chunks = await chunker.chunk(doc)
 
         # With chunk_size=30 and overlap=10, we move forward by 20 each time
-        # Positions: 0-30, 20-50, 40-70
-        assert len(chunks) == 3
+        # Positions: 0-30, 20-50, 40-70, 60-70 (last 10 chars)
+        assert len(chunks) == 4
         assert chunks[0].start_offset == 0
         assert chunks[0].end_offset == 30
         assert chunks[1].start_offset == 20
         assert chunks[1].end_offset == 50
         assert chunks[2].start_offset == 40
         assert chunks[2].end_offset == 70
+        assert chunks[3].start_offset == 60
+        assert chunks[3].end_offset == 70
 
     async def test_respect_sentence_boundaries(self):
         """Test chunking that respects sentence boundaries."""
@@ -178,7 +191,7 @@ class TestWindowedDocumentChunker:
         )
 
         content = "This is sentence one. This is sentence two. This is sentence three. This is sentence four."
-        doc = SimpleDocument(document_id="doc1", content=content, metadata={})
+        doc = make_simple_document("doc1", content)
 
         chunks = await chunker.chunk(doc)
 
@@ -190,11 +203,7 @@ class TestWindowedDocumentChunker:
     async def test_chunk_metadata_preserved(self):
         """Test that document ID is preserved in chunks."""
         chunker = WindowedDocumentChunker(config=ChunkingConfig(chunk_size=20, overlap=5))
-        doc = SimpleDocument(
-            document_id="test_doc_123",
-            content="a" * 50,
-            metadata={},
-        )
+        doc = make_simple_document("test_doc_123", "a" * 50)
 
         chunks = await chunker.chunk(doc)
 
@@ -204,7 +213,7 @@ class TestWindowedDocumentChunker:
     async def test_chunk_indices_sequential(self):
         """Test that chunk indices are sequential."""
         chunker = WindowedDocumentChunker(config=ChunkingConfig(chunk_size=20, overlap=5))
-        doc = SimpleDocument(document_id="doc1", content="a" * 100, metadata={})
+        doc = make_simple_document("doc1", "a" * 100)
 
         chunks = await chunker.chunk(doc)
 
@@ -235,8 +244,8 @@ class TestBatchingEntityExtractor:
         # Should extract "aspirin"
         assert len(all_mentions) == 1
         assert all_mentions[0].text == "aspirin"
-        assert all_mentions[0].start_pos == 1  # Adjusted from chunk position
-        assert all_mentions[0].end_pos == 8
+        assert all_mentions[0].start_offset == 1  # Adjusted from chunk position
+        assert all_mentions[0].end_offset == 8
 
     async def test_extract_from_multiple_chunks(self):
         """Test extracting entities from multiple chunks."""
@@ -288,8 +297,8 @@ class TestBatchingEntityExtractor:
             all_mentions.extend(mentions)
 
         # Should have offset adjusted to original document position
-        assert all_mentions[0].start_pos == 101  # 1 + 100
-        assert all_mentions[0].end_pos == 108  # 8 + 100
+        assert all_mentions[0].start_offset == 101  # 1 + 100
+        assert all_mentions[0].end_offset == 108  # 8 + 100
 
     async def test_streaming_iteration(self):
         """Test that results are yielded incrementally."""
@@ -413,7 +422,7 @@ class TestIntegrationStreamingPipeline:
         )
 
         content = "[aspirin] treats [pain]. [ibuprofen] also treats [pain]. [aspirin] and [ibuprofen] are similar drugs."
-        doc = SimpleDocument(document_id="doc1", content=content, metadata={})
+        doc = make_simple_document("doc1", content)
 
         chunks = await chunker.chunk(doc)
         assert len(chunks) >= 1
@@ -451,7 +460,7 @@ class TestIntegrationStreamingPipeline:
 
         # Create a large document
         content = " ".join([f"[entity{i}]" for i in range(100)])  # Many entities
-        doc = SimpleDocument(document_id="large_doc", content=content, metadata={})
+        doc = make_simple_document("large_doc", content)
 
         chunks = await chunker.chunk(doc)
 

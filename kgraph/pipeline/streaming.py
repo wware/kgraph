@@ -326,6 +326,7 @@ class BatchingEntityExtractor(StreamingEntityExtractorInterface):
             Lists of EntityMention objects for each chunk (deduplicated if enabled)
         """
         from kgschema.document import BaseDocument
+        from datetime import datetime, timezone
 
         # Simple temporary document class for chunk processing
         class ChunkDocument(BaseDocument):
@@ -340,6 +341,8 @@ class BatchingEntityExtractor(StreamingEntityExtractorInterface):
             chunk_doc = ChunkDocument(
                 document_id=f"{chunk.document_id}_chunk_{chunk.chunk_index}",
                 content=chunk.content,
+                content_type="text/plain",
+                created_at=datetime.now(timezone.utc),
                 metadata={},
             )
 
@@ -477,6 +480,7 @@ class WindowedRelationshipExtractor(StreamingRelationshipExtractorInterface):
             Lists of BaseRelationship objects found in each window
         """
         from kgschema.document import BaseDocument
+        from datetime import datetime, timezone
 
         # Simple temporary document class for window processing
         class WindowDocument(BaseDocument):
@@ -508,6 +512,8 @@ class WindowedRelationshipExtractor(StreamingRelationshipExtractorInterface):
             window_doc = WindowDocument(
                 document_id=f"{chunk.document_id}_window_{chunk.chunk_index}",
                 content=chunk.content,
+                content_type="text/plain",
+                created_at=datetime.now(timezone.utc),
                 metadata={},
             )
 
