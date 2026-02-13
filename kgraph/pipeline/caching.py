@@ -115,7 +115,11 @@ class EmbeddingsCacheInterface(ABC):
 
     @abstractmethod
     async def clear(self) -> None:
-        """Clear all cached embeddings."""
+        """Clear all cached embeddings and reset statistics.
+
+        Implementations should reset hit/miss counters in addition to clearing
+        the cache contents to provide a clean slate for fresh cache usage tracking.
+        """
 
     @abstractmethod
     def get_stats(self) -> dict[str, int]:
@@ -254,7 +258,12 @@ class InMemoryEmbeddingsCache(EmbeddingsCacheInterface):
             await self.put(text, embedding)
 
     async def clear(self) -> None:
-        """Clear all cached embeddings."""
+        """Clear all cached embeddings and reset statistics.
+
+        Note: This method resets hit/miss/eviction counters in addition to
+        clearing the cache contents. Use get_stats() before calling clear()
+        if you need to preserve statistics.
+        """
         self._cache.clear()
         self._hits = 0
         self._misses = 0
@@ -424,7 +433,12 @@ class FileBasedEmbeddingsCache(EmbeddingsCacheInterface):
             self._updates_since_save = 0
 
     async def clear(self) -> None:
-        """Clear all cached embeddings."""
+        """Clear all cached embeddings and reset statistics.
+
+        Note: This method resets hit/miss/eviction counters in addition to
+        clearing the cache contents. Use get_stats() before calling clear()
+        if you need to preserve statistics.
+        """
         self._cache.clear()
         self._hits = 0
         self._misses = 0

@@ -316,8 +316,10 @@ class BatchingEntityExtractor(StreamingEntityExtractorInterface):
         unique mentions (by normalized name+type), keeping the highest confidence
         version of each entity.
 
-        Note: This is an async generator method, which is the correct implementation
-        pattern when the ABC declares the method returning AsyncIterator.
+        Note: This is an async generator method. Pylint incorrectly flags async
+        generators that override methods returning AsyncIterator. The pattern is
+        correct: ABCs declare non-async methods returning AsyncIterator, while
+        implementations use async def to create the async generator.
 
         Args:
             chunks: Sequence of document chunks to process
@@ -468,8 +470,9 @@ class WindowedRelationshipExtractor(StreamingRelationshipExtractorInterface):
     ) -> AsyncIterator[list[BaseRelationship]]:
         """Extract relationships within overlapping windows.
 
-        Note: This is an async generator method, which is the correct implementation
-        pattern when the ABC declares the method returning AsyncIterator.
+        Note: This is an async generator method. Pylint incorrectly flags async
+        generators that override methods returning AsyncIterator. See extract_streaming
+        comment for details on this pattern.
 
         Args:
             chunks: Document chunks to process
