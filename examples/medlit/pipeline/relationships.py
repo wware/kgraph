@@ -683,10 +683,21 @@ IMPORTANT:
         return rel, decision
 
     def _write_trace(self, document_id: str, trace: dict[str, Any]) -> None:
-        """Write trace file for debugging relationship extraction."""
+        """Write trace file for debugging relationship extraction.
+
+        When document_id is from a windowed run (e.g. PMC12770061_window_5),
+        the filename includes the window index so each window gets its own file
+        (e.g. PMC12770061.5.relationships.trace.json) and earlier windows are
+        not overwritten.
+        """
         try:
             self._trace_dir.mkdir(parents=True, exist_ok=True)
-            trace_path = self._trace_dir / f"{document_id}.relationships.trace.json"
+            base_id = document_id
+            window_suffix = ""
+            if "_window_" in document_id:
+                base_id, _, window_index = document_id.partition("_window_")
+                window_suffix = f".{window_index}"
+            trace_path = self._trace_dir / f"{base_id}{window_suffix}.relationships.trace.json"
             trace_path.write_text(json.dumps(trace, indent=2, ensure_ascii=False))
             print(f"  Wrote relationship trace: {trace_path}")
         except Exception as e:
