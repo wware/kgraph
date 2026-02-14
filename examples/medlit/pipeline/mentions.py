@@ -203,10 +203,12 @@ JSON:"""
         if not self._llm:
             return mentions
 
+        # Normalize MIME type (strip parameters like "; charset=utf-8") so streaming is used for XML
+        content_type_base = (content_type or "").split(";")[0].strip().lower()
         use_streaming = (
             raw_content is not None
             and content_type is not None
-            and content_type.lower() in ("application/xml", "text/xml")
+            and content_type_base in ("application/xml", "text/xml")
         )
 
         if use_streaming:
