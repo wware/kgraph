@@ -64,6 +64,11 @@ from kgraph.pipeline.interfaces import (
     EntityResolverInterface,
     RelationshipExtractorInterface,
 )
+from kgraph.pipeline.streaming import (
+    DocumentChunkerInterface,
+    StreamingEntityExtractorInterface,
+    StreamingRelationshipExtractorInterface,
+)
 
 from kgschema.domain import DomainSchema
 from kgschema.entity import BaseEntity, EntityStatus
@@ -202,6 +207,10 @@ class IngestionOrchestrator(BaseModel):
     entity_storage: EntityStorageInterface
     relationship_storage: RelationshipStorageInterface
     document_storage: DocumentStorageInterface
+    # Optional streaming path: when set, entity/relationship extraction use chunked streaming
+    document_chunker: DocumentChunkerInterface | None = None
+    streaming_entity_extractor: StreamingEntityExtractorInterface | None = None
+    streaming_relationship_extractor: StreamingRelationshipExtractorInterface | None = None
 
     async def extract_entities_from_document(
         self,
@@ -230,29 +239,75 @@ class IngestionOrchestrator(BaseModel):
             and any errors encountered.
         """
         errors: list[str] = []
-
-        # Parse document
-        try:
-            document = await self.parser.parse(raw_content, content_type, source_uri)
-        except Exception as e:
-            return DocumentResult(
-                document_id="",
-                entities_extracted=0,
-                entities_new=0,
-                entities_existing=0,
-                relationships_extracted=0,
-                errors=(f"Parse error: {e}",),
-            )
-
-        # Store document
-        await self.document_storage.add(document)
-
-        # Extract entity mentions (pass raw_content for streaming full-paper extraction when XML)
-        mentions = await self.entity_extractor.extract(
-            document,
-            raw_content=raw_content,
-            content_type=content_type,
+        use_streaming = (
+            self.document_chunker is not None
+            and self.streaming_entity_extractor is not None
         )
+        document = None
+        mentions: list[Any] = []
+
+        if use_streaming:
+            # Get chunks: try chunk_from_raw for XML when chunker supports it
+            content_type_base = (content_type or "").split(";")[0].strip().lower()
+            is_xml = content_type_base in ("application/xml", "text/xml")
+            chunk_document_id = Path(source_uri).stem if source_uri else ""
+
+            try:
+                if (
+                    is_xml
+                    and chunk_document_id
+                    and hasattr(self.document_chunker, "chunk_from_raw")
+                ):
+                    chunks = await self.document_chunker.chunk_from_raw(
+                        raw_content, content_type, chunk_document_id, source_uri
+                    )
+                else:
+                    document = await self.parser.parse(raw_content, content_type, source_uri)
+                    chunks = await self.document_chunker.chunk(document)
+            except NotImplementedError:
+                document = await self.parser.parse(raw_content, content_type, source_uri)
+                chunks = await self.document_chunker.chunk(document)
+            except Exception as e:
+                return DocumentResult(
+                    document_id="",
+                    entities_extracted=0,
+                    entities_new=0,
+                    entities_existing=0,
+                    relationships_extracted=0,
+                    errors=(f"Parse error: {e}",),
+                )
+
+            async for batch in self.streaming_entity_extractor.extract_streaming(chunks):
+                mentions.extend(batch)
+
+            if document is None:
+                try:
+                    document = await self.parser.parse(raw_content, content_type, source_uri)
+                except Exception as e:
+                    return DocumentResult(
+                        document_id=chunk_document_id or "",
+                        entities_extracted=len(mentions),
+                        entities_new=0,
+                        entities_existing=0,
+                        relationships_extracted=0,
+                        errors=(f"Parse error after extraction: {e}",),
+                    )
+            await self.document_storage.add(document)
+        else:
+            # Legacy path: parse, store, extract
+            try:
+                document = await self.parser.parse(raw_content, content_type, source_uri)
+            except Exception as e:
+                return DocumentResult(
+                    document_id="",
+                    entities_extracted=0,
+                    entities_new=0,
+                    entities_existing=0,
+                    relationships_extracted=0,
+                    errors=(f"Parse error: {e}",),
+                )
+            await self.document_storage.add(document)
+            mentions = await self.entity_extractor.extract(document)
 
         entities_new = 0
         entities_existing = 0
@@ -384,14 +439,42 @@ class IngestionOrchestrator(BaseModel):
         relationships: list[BaseRelationship] = []
 
         if document_entities:
+            use_streaming_rels = (
+                self.streaming_relationship_extractor is not None
+                and self.document_chunker is not None
+            )
             try:
-                extracted_rels = await self.relationship_extractor.extract(document, document_entities)
-                for rel in extracted_rels:
-                    if await self.domain.validate_relationship(rel, entity_storage=self.entity_storage):
-                        await self.relationship_storage.add(rel)
-                        relationships.append(rel)
-                    else:
-                        errors.append(f"Relationship validation failed: {rel.subject_id} -{rel.predicate}-> {rel.object_id}")
+                if use_streaming_rels:
+                    chunks = await self.document_chunker.chunk(document)
+                    async for rel_batch in self.streaming_relationship_extractor.extract_windowed(
+                        chunks, document_entities
+                    ):
+                        for rel in rel_batch:
+                            if await self.domain.validate_relationship(
+                                rel, entity_storage=self.entity_storage
+                            ):
+                                await self.relationship_storage.add(rel)
+                                relationships.append(rel)
+                            else:
+                                errors.append(
+                                    f"Relationship validation failed: {rel.subject_id} "
+                                    f"-{rel.predicate}-> {rel.object_id}"
+                                )
+                else:
+                    extracted_rels = await self.relationship_extractor.extract(
+                        document, document_entities
+                    )
+                    for rel in extracted_rels:
+                        if await self.domain.validate_relationship(
+                            rel, entity_storage=self.entity_storage
+                        ):
+                            await self.relationship_storage.add(rel)
+                            relationships.append(rel)
+                        else:
+                            errors.append(
+                                f"Relationship validation failed: {rel.subject_id} "
+                                f"-{rel.predicate}-> {rel.object_id}"
+                            )
             except Exception as e:
                 errors.append(f"Relationship extraction error: {e}")
         # If no entities found, that's fine - just return 0 relationships (no error)

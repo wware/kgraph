@@ -101,6 +101,9 @@ class DocumentChunkerInterface(ABC):
 
     The chunker preserves document structure and maintains metadata for
     reconstructing entity positions in the original document.
+
+    Optional: implement chunk_from_raw() for memory-efficient chunking from
+    raw bytes (e.g. PMC XML via iterparse) without loading the full document.
     """
 
     @abstractmethod
@@ -113,6 +116,32 @@ class DocumentChunkerInterface(ABC):
         Returns:
             List of DocumentChunk objects in document order
         """
+
+    async def chunk_from_raw(
+        self,
+        raw_content: bytes,
+        content_type: str,
+        document_id: str,
+        source_uri: str | None = None,
+    ) -> list[DocumentChunk]:
+        """Chunk from raw bytes without parsing the full document (optional).
+
+        Override this to support memory-efficient chunking (e.g. PMC XML
+        via iterparse). Default implementation raises NotImplementedError.
+
+        Args:
+            raw_content: Raw byte content of the document.
+            content_type: MIME type (e.g. "application/xml").
+            document_id: Document ID to assign to produced chunks.
+            source_uri: Optional source URI (e.g. file path).
+
+        Returns:
+            List of DocumentChunk objects in order.
+
+        Raises:
+            NotImplementedError: If this chunker does not support raw chunking.
+        """
+        raise NotImplementedError("This chunker does not support chunk_from_raw")
 
 
 class WindowedDocumentChunker(DocumentChunkerInterface):
