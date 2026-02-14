@@ -39,6 +39,11 @@ from pydantic import BaseModel
 from kgraph.export import write_bundle
 from kgraph.ingest import IngestionOrchestrator
 from kgraph.logging import setup_logging
+from kgraph.pipeline.caching import (
+    CachedEmbeddingGenerator,
+    EmbeddingCacheConfig,
+    FileBasedEmbeddingsCache,
+)
 from kgraph.pipeline.streaming import (
     BatchingEntityExtractor,
     WindowedRelationshipExtractor,
@@ -171,7 +176,8 @@ def build_orchestrator(
     ollama_timeout: float = 300.0,
     cache_file: Path | None = None,
     relationship_trace_dir: Path | None = None,
-) -> tuple[IngestionOrchestrator, CanonicalIdLookup | None]:
+    embeddings_cache_file: Path | None = None,
+) -> tuple[IngestionOrchestrator, CanonicalIdLookup | None, CachedEmbeddingGenerator | None]:
     """Builds and configures the ingestion orchestrator and its components.
 
     This function sets up the entire pipeline, including storage,
@@ -188,12 +194,17 @@ def build_orchestrator(
                     This is not used during initialization but passed for later use.
         relationship_trace_dir: Optional directory for writing relationship trace files.
                                 If None, uses the default location.
+        embeddings_cache_file: Optional path for a persistent embeddings cache (JSON).
+                               If set, wraps the embedding generator with
+                               CachedEmbeddingGenerator + FileBasedEmbeddingsCache.
 
     Returns:
         A tuple containing:
         - An instance of `IngestionOrchestrator` configured for the pipeline.
         - `None`, as the `CanonicalIdLookup` service is initialized later,
           just before the promotion phase.
+        - The CachedEmbeddingGenerator if embeddings_cache_file was set, else None
+          (caller should await cache.load() before use and save_cache() when done).
     """
     domain = MedLitDomainSchema()
 
@@ -202,8 +213,20 @@ def build_orchestrator(
     relationship_storage = InMemoryRelationshipStorage()
     document_storage = InMemoryDocumentStorage()
 
-    # Create embedding generator (used by both extractors)
-    embedding_generator = OllamaMedLitEmbeddingGenerator(ollama_host=ollama_host)
+    # Create embedding generator (used by resolver and for new-entity embeddings)
+    base_embedding_generator = OllamaMedLitEmbeddingGenerator(ollama_host=ollama_host)
+    cached_embedding_generator: CachedEmbeddingGenerator | None = None
+    if embeddings_cache_file is not None:
+        embeddings_cache = FileBasedEmbeddingsCache(
+            config=EmbeddingCacheConfig(cache_file=embeddings_cache_file),
+        )
+        cached_embedding_generator = CachedEmbeddingGenerator(
+            base_generator=base_embedding_generator,
+            cache=embeddings_cache,
+        )
+        embedding_generator = cached_embedding_generator
+    else:
+        embedding_generator = base_embedding_generator
 
     # Canonical ID lookup service will be created at the start of promotion phase
     # (stage 3) to load cache at that time, not during initialization
@@ -263,7 +286,7 @@ def build_orchestrator(
         streaming_relationship_extractor=streaming_relationship_extractor,
     )
 
-    return orchestrator, None
+    return orchestrator, None, cached_embedding_generator
 
 
 async def extract_entities_from_paper(
@@ -1121,19 +1144,22 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
 
     pipeline_started_at = datetime.now(timezone.utc)
     cache_file = Path(args.cache_file) if args.cache_file else None
+    embeddings_cache_file = output_dir / "embeddings_cache.json"
 
-    orchestrator, lookup = build_orchestrator(
+    orchestrator, lookup, cached_embedding_generator = build_orchestrator(
         use_ollama=args.use_ollama,
         ollama_model=args.ollama_model,
         ollama_host=args.ollama_host,
         ollama_timeout=args.ollama_timeout,
         cache_file=cache_file,
         relationship_trace_dir=trace_collector.relationship_trace_dir if args.trace_all else None,
+        embeddings_cache_file=embeddings_cache_file,
     )
 
     return (
         orchestrator,
         lookup,
+        cached_embedding_generator,
         input_files,
         output_dir,
         quiet,
@@ -1149,6 +1175,7 @@ async def main() -> None:
     (
         orchestrator,
         lookup,
+        cached_embedding_generator,
         input_files,
         output_dir,
         quiet,
@@ -1156,6 +1183,12 @@ async def main() -> None:
         pipeline_started_at,
         cache_file,
     ) = _initialize_pipeline(args)
+
+    if cached_embedding_generator is not None:
+        await cached_embedding_generator.cache.load()
+        if not quiet:
+            stats = cached_embedding_generator.get_cache_stats()
+            print(f"  Embeddings cache loaded ({stats.get('size', 0)} entries)", file=sys.stderr)
 
     entity_storage = orchestrator.entity_storage
     relationship_storage = orchestrator.relationship_storage
@@ -1264,6 +1297,11 @@ async def main() -> None:
         _handle_keyboard_interrupt(lookup)
         raise
     finally:
+        if cached_embedding_generator is not None:
+            await cached_embedding_generator.save_cache()
+            if not quiet:
+                stats = cached_embedding_generator.get_cache_stats()
+                print(f"  Embeddings cache saved ({stats.get('size', 0)} entries)", file=sys.stderr)
         await _cleanup_lookup_service(lookup)
 
 
