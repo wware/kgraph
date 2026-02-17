@@ -537,7 +537,7 @@ class WindowedRelationshipExtractor(StreamingRelationshipExtractorInterface):
             doc_hint,
         )
 
-        for chunk in chunks:
+        for window_num, chunk in enumerate(chunks, start=1):
             # Find entities that appear in this chunk
             # Note: This assumes entities have position information
             # In practice, you'd need to match entity mentions to chunk boundaries
@@ -571,6 +571,13 @@ class WindowedRelationshipExtractor(StreamingRelationshipExtractorInterface):
                 )
                 continue
 
+            logger.info(
+                "Relationship window %d/%d: %s (%d entities)",
+                window_num,
+                len(chunks),
+                window_id,
+                len(chunk_entities),
+            )
             logger.debug("Running relationship LLM for window %s (%d entities)", window_id, len(chunk_entities))
 
             # Create temporary document for this window

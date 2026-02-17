@@ -4,6 +4,8 @@ This repository contains a **domain-neutral knowledge graph server**. While it h
 been developed for medical literature, the same general architecture can serve other
 information-dense literatures (legal, financial, academic, etc).
 
+![subgraph](subgraph.jpg)
+
 Links:
 
 - [OpenAPI spec](/docs)

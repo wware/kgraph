@@ -262,9 +262,7 @@ def build_orchestrator(
     print("  ✓ LLM-based extractor created", file=sys.stderr)
 
     # When mode is "string", disable semantic evidence validation (no embedding generator)
-    rel_embedding_generator = (
-        None if evidence_validation_mode == "string" else embedding_generator
-    )
+    rel_embedding_generator = None if evidence_validation_mode == "string" else embedding_generator
     relationship_extractor = MedLitRelationshipExtractor(
         llm_client=llm_client,
         trace_dir=relationship_trace_dir,

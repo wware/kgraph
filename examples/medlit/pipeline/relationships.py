@@ -51,8 +51,7 @@ def _normalize_evidence_for_match(text: str) -> str:
 
 # Words that suggest evidence is about disease/marker context (IHC, staining, tumor, etc.)
 _EVIDENCE_DISEASE_CONTEXT_WORDS = frozenset(
-    {"tumor", "cancer", "cell", "cells", "positive", "negativity", "negative",
-     "staining", "ihc", "immunohisto", "immunoreactivity", "positivity", "neoplastic"}
+    {"tumor", "cancer", "cell", "cells", "positive", "negativity", "negative", "staining", "ihc", "immunohisto", "immunoreactivity", "positivity", "neoplastic"}
 )
 
 
@@ -136,9 +135,7 @@ async def _evidence_contains_both_entities_semantic(
     # Evidence embedding (cached)
     if evidence not in evidence_cache:
         evidence_emb = await embedding_generator.generate(evidence)
-        evidence_cache[evidence] = (
-            evidence_emb if isinstance(evidence_emb, tuple) else tuple(evidence_emb)
-        )
+        evidence_cache[evidence] = evidence_emb if isinstance(evidence_emb, tuple) else tuple(evidence_emb)
     evidence_emb = evidence_cache[evidence]
 
     # Subject embedding: use entity.embedding or generate and cache by name
@@ -146,9 +143,7 @@ async def _evidence_contains_both_entities_semantic(
     if subject_emb is None or (hasattr(subject_emb, "__len__") and len(subject_emb) == 0):
         if subject_entity.name not in entity_name_cache:
             raw = await embedding_generator.generate(subject_entity.name)
-            entity_name_cache[subject_entity.name] = (
-                raw if isinstance(raw, tuple) else tuple(raw)
-            )
+            entity_name_cache[subject_entity.name] = raw if isinstance(raw, tuple) else tuple(raw)
         subject_emb = entity_name_cache[subject_entity.name]
     subject_emb = subject_emb if isinstance(subject_emb, tuple) else tuple(subject_emb)
 
@@ -157,9 +152,7 @@ async def _evidence_contains_both_entities_semantic(
     if object_emb is None or (hasattr(object_emb, "__len__") and len(object_emb) == 0):
         if object_entity.name not in entity_name_cache:
             raw = await embedding_generator.generate(object_entity.name)
-            entity_name_cache[object_entity.name] = (
-                raw if isinstance(raw, tuple) else tuple(raw)
-            )
+            entity_name_cache[object_entity.name] = raw if isinstance(raw, tuple) else tuple(raw)
         object_emb = entity_name_cache[object_entity.name]
     object_emb = object_emb if isinstance(object_emb, tuple) else tuple(object_emb)
 
@@ -613,6 +606,7 @@ IMPORTANT:
 
         try:
             # Use generate_json_with_raw to capture both parsed and raw output
+            print("  Calling LLM for relationships (window may take 1–2 min)...", flush=True)
             if hasattr(self._llm, "generate_json_with_raw"):
                 response, raw_output = await self._llm.generate_json_with_raw(prompt)
                 trace["raw_llm_output"] = raw_output
@@ -620,15 +614,17 @@ IMPORTANT:
                 response = await self._llm.generate_json(prompt)
                 trace["raw_llm_output"] = "<raw unavailable - method not supported>"
 
+            n_items = len(response) if isinstance(response, list) else 0
+            print(f"  LLM returned {n_items} candidate relationship(s), validating...", flush=True)
             trace["parsed_json"] = response
             relationships: list[BaseRelationship] = []
 
             if isinstance(response, list):
                 entity_index = _build_entity_index(entities)
-                for item in response:
-                    relationship, decision = await self._process_llm_item(
-                        item, entity_index, document
-                    )
+                for i, item in enumerate(response):
+                    if n_items > 5 and (i + 1) % 5 == 0:
+                        print(f"  Validated {i + 1}/{n_items} items...", flush=True)
+                    relationship, decision = await self._process_llm_item(item, entity_index, document)
                     trace["decisions"].append(decision)
                     if relationship:
                         relationships.append(relationship)
@@ -656,7 +652,7 @@ IMPORTANT:
             self._write_trace(document.document_id, trace)
             return []
 
-    async def _process_llm_item(
+    async def _process_llm_item(  # pylint: disable=too-many-statements
         self,
         item: Any,
         entity_index: dict[str, list[BaseEntity]],
@@ -724,22 +720,18 @@ IMPORTANT:
                 decision["drop_reason"] = "object_unmatched"
             return None, decision
 
-        evidence_ok, evidence_drop_reason, evidence_detail = _evidence_contains_both_entities(
-            evidence, subject_name, object_name, subject_entity, object_entity
-        )
+        evidence_ok, evidence_drop_reason, evidence_detail = _evidence_contains_both_entities(evidence, subject_name, object_name, subject_entity, object_entity)
         if evidence_ok:
             evidence_detail["method"] = "string_match"
         if not evidence_ok and self._embedding_generator is not None:
-            evidence_ok, evidence_drop_reason, evidence_detail = (
-                await _evidence_contains_both_entities_semantic(
-                    evidence,
-                    subject_entity,
-                    object_entity,
-                    self._embedding_generator,
-                    self._evidence_similarity_threshold,
-                    self._evidence_embedding_cache,
-                    self._entity_name_embedding_cache,
-                )
+            evidence_ok, evidence_drop_reason, evidence_detail = await _evidence_contains_both_entities_semantic(
+                evidence,
+                subject_entity,
+                object_entity,
+                self._embedding_generator,
+                self._evidence_similarity_threshold,
+                self._evidence_embedding_cache,
+                self._entity_name_embedding_cache,
             )
             if evidence_ok:
                 evidence_detail["method"] = "semantic_match"
