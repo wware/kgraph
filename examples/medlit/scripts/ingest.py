@@ -179,6 +179,8 @@ def build_orchestrator(
     cache_file: Path | None = None,
     relationship_trace_dir: Path | None = None,
     embeddings_cache_file: Path | None = None,
+    evidence_validation_mode: str = "hybrid",
+    evidence_similarity_threshold: float = 0.5,
 ) -> tuple[IngestionOrchestrator, CanonicalIdLookup | None, CachedEmbeddingGenerator | None]:
     """Builds and configures the ingestion orchestrator and its components.
 
@@ -257,9 +259,15 @@ def build_orchestrator(
     entity_extractor = MedLitEntityExtractor(llm_client=llm_client, domain=domain)
     print("  ✓ LLM-based extractor created", file=sys.stderr)
 
+    # When mode is "string", disable semantic evidence validation (no embedding generator)
+    rel_embedding_generator = (
+        None if evidence_validation_mode == "string" else embedding_generator
+    )
     relationship_extractor = MedLitRelationshipExtractor(
         llm_client=llm_client,
         trace_dir=relationship_trace_dir,
+        embedding_generator=rel_embedding_generator,
+        evidence_similarity_threshold=evidence_similarity_threshold,
     )
     document_chunker = PMCStreamingChunker()
     streaming_entity_extractor = BatchingEntityExtractor(
@@ -503,6 +511,19 @@ Examples:
         "--debug",
         action="store_true",
         help="Logging is done at DEBUG level",
+    )
+    parser.add_argument(
+        "--evidence-validation-mode",
+        type=str,
+        choices=("string", "semantic", "hybrid"),
+        default="hybrid",
+        help="Evidence validation: string (exact match only), semantic (embedding similarity), hybrid (string then semantic fallback). Default: hybrid",
+    )
+    parser.add_argument(
+        "--evidence-similarity-threshold",
+        type=float,
+        default=0.5,
+        help="Minimum cosine similarity for semantic evidence validation (default: 0.5)",
     )
     args: argparse.Namespace = parser.parse_args()
     if args.debug:
@@ -1163,6 +1184,8 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
         cache_file=cache_file,
         relationship_trace_dir=trace_collector.relationship_trace_dir if args.trace_all else None,
         embeddings_cache_file=embeddings_cache_file,
+        evidence_validation_mode=args.evidence_validation_mode,
+        evidence_similarity_threshold=args.evidence_similarity_threshold,
     )
 
     return (

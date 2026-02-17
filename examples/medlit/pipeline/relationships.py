@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Optional, Sequence
 
 from kgraph.pipeline.interfaces import RelationshipExtractorInterface
+from kgraph.storage.memory import _cosine_similarity
 
 from kgschema.document import BaseDocument
 from kgschema.domain import Evidence, Provenance
@@ -94,6 +95,79 @@ def _evidence_contains_both_entities(
     return True, None, detail
 
 
+async def _evidence_contains_both_entities_semantic(
+    evidence: str,
+    subject_entity: BaseEntity,
+    object_entity: BaseEntity,
+    embedding_generator: Any,
+    threshold: float,
+    evidence_cache: dict[str, tuple[float, ...]],
+    entity_name_cache: dict[str, tuple[float, ...]],
+) -> tuple[bool, str | None, dict[str, Any]]:
+    """Check that evidence semantically contains both entities via embedding similarity.
+
+    Uses evidence_cache and entity_name_cache to avoid duplicate embedding API calls
+    within a document. Returns same shape as _evidence_contains_both_entities.
+    """
+    if not evidence or not evidence.strip():
+        detail: dict[str, Any] = {
+            "subject_in_evidence": False,
+            "object_in_evidence": False,
+            "subject_similarity": 0.0,
+            "object_similarity": 0.0,
+        }
+        return False, "evidence_empty", detail
+
+    # Evidence embedding (cached)
+    if evidence not in evidence_cache:
+        evidence_emb = await embedding_generator.generate(evidence)
+        evidence_cache[evidence] = (
+            evidence_emb if isinstance(evidence_emb, tuple) else tuple(evidence_emb)
+        )
+    evidence_emb = evidence_cache[evidence]
+
+    # Subject embedding: use entity.embedding or generate and cache by name
+    subject_emb = getattr(subject_entity, "embedding", None)
+    if subject_emb is None or (hasattr(subject_emb, "__len__") and len(subject_emb) == 0):
+        if subject_entity.name not in entity_name_cache:
+            raw = await embedding_generator.generate(subject_entity.name)
+            entity_name_cache[subject_entity.name] = (
+                raw if isinstance(raw, tuple) else tuple(raw)
+            )
+        subject_emb = entity_name_cache[subject_entity.name]
+    subject_emb = subject_emb if isinstance(subject_emb, tuple) else tuple(subject_emb)
+
+    # Object embedding: same
+    object_emb = getattr(object_entity, "embedding", None)
+    if object_emb is None or (hasattr(object_emb, "__len__") and len(object_emb) == 0):
+        if object_entity.name not in entity_name_cache:
+            raw = await embedding_generator.generate(object_entity.name)
+            entity_name_cache[object_entity.name] = (
+                raw if isinstance(raw, tuple) else tuple(raw)
+            )
+        object_emb = entity_name_cache[object_entity.name]
+    object_emb = object_emb if isinstance(object_emb, tuple) else tuple(object_emb)
+
+    subject_sim = _cosine_similarity(evidence_emb, subject_emb)
+    object_sim = _cosine_similarity(evidence_emb, object_emb)
+
+    subject_ok = subject_sim >= threshold
+    object_ok = object_sim >= threshold
+    detail = {
+        "subject_in_evidence": subject_ok,
+        "object_in_evidence": object_ok,
+        "subject_similarity": round(subject_sim, 4),
+        "object_similarity": round(object_sim, 4),
+    }
+    if not subject_ok and not object_ok:
+        return False, "evidence_missing_subject_and_object", detail
+    if not subject_ok:
+        return False, "evidence_missing_subject", detail
+    if not object_ok:
+        return False, "evidence_missing_object", detail
+    return True, None, detail
+
+
 class MedLitRelationshipExtractor(RelationshipExtractorInterface):
     """Extract relationships from journal articles.
 
@@ -108,6 +182,8 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
         llm_client: Optional[LLMClientInterface] = None,
         domain: Optional["MedLitDomainSchema"] = None,
         trace_dir: Optional[Path] = None,
+        embedding_generator: Any = None,
+        evidence_similarity_threshold: float = 0.5,
     ):
         """Initialize relationship extractor.
 
@@ -117,9 +193,17 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
             domain: Optional domain schema for type validation and predicate constraints.
                     If provided, will attempt to swap subject/object on type mismatches.
             trace_dir: Optional directory for writing trace files. If None, uses default.
+            embedding_generator: Optional embedding generator for semantic evidence validation.
+                                When set, failed string evidence check is retried with cosine similarity.
+            evidence_similarity_threshold: Minimum cosine similarity (0-1) for semantic evidence pass. Default 0.5.
         """
         self._llm = llm_client
         self._trace_dir = trace_dir or DEFAULT_TRACE_DIR
+        self._embedding_generator = embedding_generator
+        self._evidence_similarity_threshold = evidence_similarity_threshold
+        # Per-document caches; reset at start of each _extract_with_llm call
+        self._evidence_embedding_cache: dict[str, tuple[float, ...]] = {}
+        self._entity_name_embedding_cache: dict[str, tuple[float, ...]] = {}
         if domain is None:
             # Import at runtime to avoid circular import
             from ..domain import MedLitDomainSchema
@@ -453,6 +537,10 @@ IMPORTANT:
         if not self._llm:
             return []
 
+        # Reset per-document caches for semantic evidence validation
+        self._evidence_embedding_cache = {}
+        self._entity_name_embedding_cache = {}
+
         # Initialize trace for debugging
         trace: dict[str, Any] = {
             "document_id": document.document_id,
@@ -511,7 +599,9 @@ IMPORTANT:
             if isinstance(response, list):
                 entity_index = _build_entity_index(entities)
                 for item in response:
-                    relationship, decision = self._process_llm_item(item, entity_index, document)
+                    relationship, decision = await self._process_llm_item(
+                        item, entity_index, document
+                    )
                     trace["decisions"].append(decision)
                     if relationship:
                         relationships.append(relationship)
@@ -539,7 +629,12 @@ IMPORTANT:
             self._write_trace(document.document_id, trace)
             return []
 
-    def _process_llm_item(self, item: Any, entity_index: dict[str, list[BaseEntity]], document: BaseDocument) -> tuple[BaseRelationship | None, dict[str, Any]]:
+    async def _process_llm_item(
+        self,
+        item: Any,
+        entity_index: dict[str, list[BaseEntity]],
+        document: BaseDocument,
+    ) -> tuple[BaseRelationship | None, dict[str, Any]]:
         """Process a single item from the LLM response."""
         if not isinstance(item, dict):
             return None, {"item": item, "accepted": False, "drop_reason": "item_not_a_dict"}
@@ -602,7 +697,26 @@ IMPORTANT:
                 decision["drop_reason"] = "object_unmatched"
             return None, decision
 
-        evidence_ok, evidence_drop_reason, evidence_detail = _evidence_contains_both_entities(evidence, subject_name, object_name, subject_entity, object_entity)
+        evidence_ok, evidence_drop_reason, evidence_detail = _evidence_contains_both_entities(
+            evidence, subject_name, object_name, subject_entity, object_entity
+        )
+        if evidence_ok:
+            evidence_detail["method"] = "string_match"
+        if not evidence_ok and self._embedding_generator is not None:
+            evidence_ok, evidence_drop_reason, evidence_detail = (
+                await _evidence_contains_both_entities_semantic(
+                    evidence,
+                    subject_entity,
+                    object_entity,
+                    self._embedding_generator,
+                    self._evidence_similarity_threshold,
+                    self._evidence_embedding_cache,
+                    self._entity_name_embedding_cache,
+                )
+            )
+            if evidence_ok:
+                evidence_detail["method"] = "semantic_match"
+                evidence_detail["threshold"] = self._evidence_similarity_threshold
         decision["evidence_check"] = evidence_detail
         if not evidence_ok:
             decision["drop_reason"] = evidence_drop_reason
