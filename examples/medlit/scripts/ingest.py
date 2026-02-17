@@ -28,6 +28,7 @@ import os
 import sys
 import time
 import uuid
+from typing import Any
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 import logging
@@ -699,7 +700,12 @@ async def extract_entities_phase(
     return (processed, errors_count, stage_result)
 
 
-def _initialize_lookup(use_ollama: bool, cache_file: Path | None, quiet: bool) -> CanonicalIdLookup | None:
+def _initialize_lookup(
+    use_ollama: bool,
+    cache_file: Path | None,
+    quiet: bool,
+    embedding_generator: Any = None,
+) -> CanonicalIdLookup | None:
     """Initializes the canonical ID lookup service."""
     if not use_ollama:
         return None
@@ -708,7 +714,11 @@ def _initialize_lookup(use_ollama: bool, cache_file: Path | None, quiet: bool) -
         cache_path = cache_file or Path("canonical_id_cache.json")
         if not quiet:
             print(f"  Initializing canonical ID lookup (cache: {cache_path})...", file=sys.stderr)
-        lookup = CanonicalIdLookup(cache_file=cache_path)
+        lookup = CanonicalIdLookup(
+            cache_file=cache_path,
+            embedding_generator=embedding_generator,
+            similarity_threshold=0.5,
+        )
         if not quiet:
             print("  ✓ Canonical ID lookup created successfully", file=sys.stderr)
         return lookup
@@ -756,7 +766,8 @@ async def run_promotion_phase(
     if not quiet:
         print("\n[3/5] Running entity promotion...", file=sys.stderr)
 
-    lookup = _initialize_lookup(use_ollama, cache_file, quiet)
+    embedding_generator = getattr(orchestrator, "embedding_generator", None)
+    lookup = _initialize_lookup(use_ollama, cache_file, quiet, embedding_generator=embedding_generator)
 
     all_provisional = await entity_storage.list_all(status="provisional")
     candidates_count = len(all_provisional)

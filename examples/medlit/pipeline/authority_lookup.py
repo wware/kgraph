@@ -8,7 +8,7 @@ Features persistent caching to avoid repeated API calls across runs.
 
 import os
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 try:
     import httpx
@@ -21,6 +21,7 @@ from kgraph.canonical_id import (
     JsonFileCanonicalIdCache,
 )
 from kgraph.logging import setup_logging
+from kgraph.storage.memory import _cosine_similarity
 
 from .canonical_urls import build_canonical_url
 
@@ -78,6 +79,8 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
         self,
         umls_api_key: Optional[str] = None,
         cache_file: Optional[Path] = None,
+        embedding_generator: Any = None,
+        similarity_threshold: float = 0.5,
     ):
         """Initialize the canonical ID lookup service.
 
@@ -86,6 +89,10 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
                          read from UMLS_API_KEY environment variable.
             cache_file: Optional path to cache file. If not provided, defaults
                        to "canonical_id_cache.json" in current directory.
+            embedding_generator: Optional; if set, used to rerank multiple candidates
+                                (UMLS/MeSH) by cosine similarity to the search term.
+                                Must have async generate(text: str) -> tuple[float, ...].
+            similarity_threshold: Min cosine similarity when using embedding rerank (0-1).
         """
         if httpx is None:
             raise ImportError("httpx is required for authority lookup. Install with: uv add httpx")
@@ -93,6 +100,8 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
         self.client = httpx.AsyncClient(timeout=10.0)
         self.umls_api_key = umls_api_key or os.getenv("UMLS_API_KEY")
         self.cache_file = cache_file or Path("canonical_id_cache.json")
+        self._embedding_generator = embedding_generator
+        self._similarity_threshold = similarity_threshold
         self._cache = JsonFileCanonicalIdCache(cache_file=self.cache_file)
         self._cache.load(str(self.cache_file))
         self._lookup_count = 0  # Track lookups for periodic saves
@@ -248,43 +257,90 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
 
         return canonical_id_str
 
+    async def _rerank_by_similarity(
+        self,
+        term: str,
+        candidates: list[tuple[str, str]],
+    ) -> Optional[str]:
+        """Pick the candidate whose label is most similar to the search term.
+
+        candidates: list of (id, label) e.g. (cui, name) or (mesh_id, label).
+        Returns the id of the best candidate above threshold, or None.
+        """
+        if not self._embedding_generator or not candidates:
+            return None
+        try:
+            term_emb = await self._embedding_generator.generate(term)
+            term_vec = term_emb if isinstance(term_emb, tuple) else tuple(term_emb)
+            best_id: Optional[str] = None
+            best_sim = self._similarity_threshold
+            for cand_id, label in candidates:
+                label_emb = await self._embedding_generator.generate(label)
+                label_vec = label_emb if isinstance(label_emb, tuple) else tuple(label_emb)
+                sim = _cosine_similarity(term_vec, label_vec)
+                if sim > best_sim:
+                    best_sim = sim
+                    best_id = cand_id
+            return best_id
+        except Exception as e:
+            logger.warning(
+                {"message": "Embedding rerank failed", "term": term, "error": str(e)},
+                pprint=True,
+            )
+            return None
+
     async def _lookup_umls(self, term: str) -> Optional[str]:
         """Look up UMLS CUI for a disease/symptom term.
 
-        Falls back to MeSH lookup if UMLS API key is not available.
+        Tries exact match first, then words match for broader candidates.
+        When multiple results and embedding_generator is set, reranks by cosine similarity.
+        Falls back to MeSH if UMLS API key is not available.
         """
-        # Try UMLS first if API key is available
-        if self.umls_api_key:
-            try:
-                # UMLS REST API search endpoint
-                url = "https://uts-ws.nlm.nih.gov/rest/search/current"
+        if not self.umls_api_key:
+            return await self._lookup_mesh(term)
+
+        url = "https://uts-ws.nlm.nih.gov/rest/search/current"
+        results: list[dict] = []
+        try:
+            for search_type in ("exact", "words"):
                 params = {
                     "string": term,
                     "apiKey": self.umls_api_key,
-                    "searchType": "exact",
+                    "searchType": search_type,
+                    "pageSize": "200",
                 }
                 response = await self.client.get(url, params=params)
+                if response.status_code != 200:
+                    continue
+                data = response.json()
+                page = data.get("result", {}).get("results", [])
+                if page:
+                    results = page
+                    break
+        except Exception as e:
+            logger.warning(
+                {
+                    "message": f"UMLS lookup failed for '{term}', trying MeSH fallback",
+                    "term": term,
+                    "error": str(e),
+                },
+                pprint=True,
+            )
 
-                if response.status_code == 200:
-                    data = response.json()
-                    results = data.get("result", {}).get("results", [])
-                    if results:
-                        # Return first match CUI
-                        cui = results[0].get("ui")
-                        if cui:
-                            return cui  # e.g., "C0006142"
-            except Exception as e:
-                logger.warning(
-                    {
-                        "message": f"UMLS lookup failed for '{term}', trying MeSH fallback",
-                        "term": term,
-                        "error": str(e),
-                    },
-                    pprint=True,
-                )
+        if not results:
+            return await self._lookup_mesh(term)
 
-        # Fall back to MeSH (no API key required)
-        return await self._lookup_mesh(term)
+        if len(results) == 1:
+            cui = results[0].get("ui")
+            return cui if cui else await self._lookup_mesh(term)
+
+        if self._embedding_generator:
+            candidates = [(r.get("ui", ""), r.get("name", "")) for r in results if r.get("ui") and r.get("name")]
+            best_cui = await self._rerank_by_similarity(term, candidates)
+            if best_cui:
+                return best_cui
+
+        return results[0].get("ui") or await self._lookup_mesh(term)
 
     def _normalize_mesh_search_terms(self, term: str) -> list[str]:
         """Generate normalized search terms for MeSH lookup.
@@ -340,6 +396,19 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
 
         if not all_results:
             return None
+
+        if self._embedding_generator:
+            candidates: list[tuple[str, str]] = []
+            for r in all_results:
+                resource = r.get("resource", "")
+                label = r.get("label", "").strip()
+                if "/mesh/D" in resource and label:
+                    mesh_id = resource.split("/mesh/")[-1]
+                    candidates.append((mesh_id, label))
+            if candidates:
+                best_mesh_id = await self._rerank_by_similarity(term, candidates)
+                if best_mesh_id:
+                    return f"MeSH:{best_mesh_id}"
 
         # Score all results together, considering all search terms
         return self._extract_mesh_id_from_results(all_results, search_terms)
