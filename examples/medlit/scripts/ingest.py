@@ -66,6 +66,7 @@ from ..pipeline.authority_lookup import CanonicalIdLookup
 from ..pipeline.embeddings import OllamaMedLitEmbeddingGenerator
 from ..pipeline.llm_client import LLMTimeoutError, OllamaLLMClient
 from ..pipeline.mentions import MedLitEntityExtractor
+from ..pipeline.config import load_medlit_config
 from ..pipeline.pmc_chunker import PMCStreamingChunker
 from ..pipeline.parser import JournalArticleParser
 from ..pipeline.relationships import MedLitRelationshipExtractor
@@ -270,7 +271,11 @@ def build_orchestrator(
         embedding_generator=rel_embedding_generator,
         evidence_similarity_threshold=evidence_similarity_threshold,
     )
-    document_chunker = PMCStreamingChunker()
+    chunker_cfg = load_medlit_config()["chunker"]
+    document_chunker = PMCStreamingChunker(
+        window_size=chunker_cfg["window_size"],
+        overlap=chunker_cfg["overlap"],
+    )
     streaming_entity_extractor = BatchingEntityExtractor(
         base_extractor=entity_extractor,
         deduplicate=True,

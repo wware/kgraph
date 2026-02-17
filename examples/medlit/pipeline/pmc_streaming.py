@@ -16,9 +16,10 @@ import io
 import xml.etree.ElementTree as ET
 from typing import Iterator
 
-# Default window size and overlap for LLM prompts (chars)
-DEFAULT_WINDOW_SIZE = 4000
-DEFAULT_OVERLAP = 800
+# Default window size and overlap for LLM prompts (chars).
+# Override via medlit.toml [chunker] or MEDLIT_CONFIG.
+DEFAULT_WINDOW_SIZE = 1536
+DEFAULT_OVERLAP = 400
 
 
 def _local_tag(tag: str) -> str:
@@ -64,8 +65,8 @@ def iter_pmc_sections(raw_content: bytes) -> Iterator[tuple[str, str]]:
 
 def iter_overlapping_windows(
     sections: Iterator[tuple[str, str]],
-    window_size: int = 4000,
-    overlap: int = 800,
+    window_size: int = DEFAULT_WINDOW_SIZE,
+    overlap: int = DEFAULT_OVERLAP,
     *,
     include_abstract_separately: bool = True,
 ) -> Iterator[tuple[int, str]]:
