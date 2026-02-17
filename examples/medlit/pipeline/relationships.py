@@ -478,7 +478,16 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
             '- Use "associated_with" ONLY if no other predicate fits the evidence.',
             "- Each relationship MUST include a short evidence quote where BOTH entities appear.",
             "- Skip speculative relationships not supported by explicit text.",
+            '- "treats" means ONLY (drug) -> (disease). A disease never "treats" a procedure or protein.',
+            "- When a procedure (e.g. IHC, biopsy) is used to work up a disease, use diagnosed_by: (disease) -> (procedure).",
+            "- When a protein/marker is positive in a disease context, use indicates (marker -> disease) or associated_with, not treats.",
         ]
+
+        examples_section = """
+EXAMPLES (follow subject/object order and predicate from the signature table):
+- Text: "IHC was performed; tumor cells were positive for BerEp4." → (BerEp4, indicates, Disease) or (Disease, associated_with, BerEp4); NOT (Disease, treats, BerEp4).
+- Text: "Immunohistochemistry was performed on cell blocks." for disease + procedure → (Disease, diagnosed_by, Immunohistochemical staining).
+"""
 
         return f"""You extract medical relationships from biomedical text.
 
@@ -500,7 +509,7 @@ PREDICATE SIGNATURES (subject_type -> object_type):
 
 GUIDELINES:
 {chr(10).join(extra_guidance)}
-
+{examples_section}
 ENTITIES IN DOCUMENT (name (type): id):
 {entity_list}
 

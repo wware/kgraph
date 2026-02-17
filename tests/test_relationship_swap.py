@@ -206,6 +206,58 @@ def test_should_swap_detection():
     assert extractor._should_swap_subject_object("treats", disease, drug)
 
 
+@pytest.mark.asyncio
+async def test_process_llm_item_reversed_treats_swap_accepted():
+    """Reversed (disease, treats, drug) is fixed by swap and relationship is accepted."""
+    from types import SimpleNamespace
+
+    from examples.medlit.domain import MedLitDomainSchema
+    from examples.medlit.pipeline.relationships import (
+        _build_entity_index,
+        MedLitRelationshipExtractor,
+    )
+
+    domain = MedLitDomainSchema()
+    extractor = MedLitRelationshipExtractor(domain=domain)
+    drug = DrugEntity(
+        entity_id="drug:aspirin",
+        name="Aspirin",
+        status=EntityStatus.CANONICAL,
+        confidence=1.0,
+        usage_count=1,
+        source="test",
+        canonical_ids={"test": "drug:aspirin"},
+        created_at=datetime.now(timezone.utc),
+        last_updated=None,
+    )
+    disease = DiseaseEntity(
+        entity_id="disease:headache",
+        name="Headache",
+        status=EntityStatus.CANONICAL,
+        confidence=1.0,
+        usage_count=1,
+        source="test",
+        canonical_ids={"test": "disease:headache"},
+        created_at=datetime.now(timezone.utc),
+        last_updated=None,
+    )
+    entity_index = _build_entity_index([drug, disease])
+    document = SimpleNamespace(document_id="test_doc", source_uri=None, abstract=None)
+    item = {
+        "subject": "Headache",
+        "predicate": "treats",
+        "object": "Aspirin",
+        "confidence": 0.9,
+        "evidence": "Aspirin treats headache in this study.",
+    }
+    rel, decision = await extractor._process_llm_item(item, entity_index, document)
+    assert rel is not None
+    assert decision["accepted"] is True
+    assert decision["swap_applied"] is True
+    assert rel.subject_id == drug.entity_id
+    assert rel.object_id == disease.entity_id
+
+
 def test_evidence_contains_both_entities_both_present():
     """Evidence containing both subject and object is accepted."""
     from examples.medlit.pipeline.relationships import _evidence_contains_both_entities
