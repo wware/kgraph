@@ -1,6 +1,7 @@
 /**
  * Knowledge Graph Force-Directed Visualization
- * Uses D3.js v7 for rendering
+ * Uses D3.js v7 for rendering.
+ * Edges that share a target or (source,target) pair are drawn as curved paths to avoid overlap.
  */
 
 // State
@@ -343,12 +344,38 @@ function renderGraph(data) {
         return;
     }
     
-    // Create links data with source/target references
-    const links = data.edges.map(d => ({
-        ...d,
-        source: d.source,
-        target: d.target
-    }));
+    // Assign curve offset so edges converging on the same node (or same pair) bow out
+    const byTarget = {};
+    const byPair = {};
+    data.edges.forEach(d => {
+        const t = d.target;
+        const p = `${d.source}\0${d.target}`;
+        if (!byTarget[t]) byTarget[t] = [];
+        if (!byPair[p]) byPair[p] = [];
+        byTarget[t].push(d);
+        byPair[p].push(d);
+    });
+    const links = data.edges.map(d => {
+        const t = d.target;
+        const p = `${d.source}\0${d.target}`;
+        const targetGroup = byTarget[t];
+        const pairGroup = byPair[p];
+        const nTarget = targetGroup.length;
+        const nPair = pairGroup.length;
+        const idxTarget = targetGroup.indexOf(d);
+        const idxPair = pairGroup.indexOf(d);
+        // Offset when multiple edges share target or share (source,target)
+        const spread = 28;
+        let curveOffset = 0;
+        if (nTarget > 1) curveOffset += (idxTarget - (nTarget - 1) / 2) * spread;
+        if (nPair > 1) curveOffset += (idxPair - (nPair - 1) / 2) * spread * 0.5;
+        return {
+            ...d,
+            source: d.source,
+            target: d.target,
+            curveOffset
+        };
+    });
     
     // Create nodes data
     const nodes = data.nodes.map(d => ({ ...d }));
@@ -364,15 +391,16 @@ function renderGraph(data) {
         .force('collision', d3.forceCollide()
             .radius(40));
     
-    // Create link elements
+    // Create link elements (path for curved edges)
     const link = g.append('g')
         .attr('class', 'links')
-        .selectAll('line')
+        .selectAll('path')
         .data(links)
-        .join('line')
+        .join('path')
         .attr('class', 'link')
         .attr('stroke', '#999')
         .attr('stroke-width', 1.5)
+        .attr('fill', 'none')
         .attr('marker-end', 'url(#arrowhead)')
         .on('click', (event, d) => showEdgeDetails(d))
         .on('mouseenter', (event, d) => showTooltip(event, `${d.label}`))
@@ -412,18 +440,50 @@ function renderGraph(data) {
         .attr('dy', 20)
         .text(d => truncateLabel(d.label, 15));
     
+    // Quadratic path: source -> control -> target; control offset perpendicular to line
+    function linkPath(d) {
+        const sx = d.source.x;
+        const sy = d.source.y;
+        const tx = d.target.x;
+        const ty = d.target.y;
+        const offset = d.curveOffset || 0;
+        if (offset === 0) {
+            return `M${sx},${sy} L${tx},${ty}`;
+        }
+        const mx = (sx + tx) / 2;
+        const my = (sy + ty) / 2;
+        const dx = tx - sx;
+        const dy = ty - sy;
+        const len = Math.sqrt(dx * dx + dy * dy) || 1;
+        const px = (-dy / len) * offset;
+        const py = (dx / len) * offset;
+        const cpx = mx + px;
+        const cpy = my + py;
+        return `M${sx},${sy} Q${cpx},${cpy} ${tx},${ty}`;
+    }
+
     // Update positions on tick
     simulation.on('tick', () => {
-        link
-            .attr('x1', d => d.source.x)
-            .attr('y1', d => d.source.y)
-            .attr('x2', d => d.target.x)
-            .attr('y2', d => d.target.y);
-        
+        link.attr('d', linkPath);
+
         linkLabel
-            .attr('x', d => (d.source.x + d.target.x) / 2)
-            .attr('y', d => (d.source.y + d.target.y) / 2);
-        
+            .attr('x', d => {
+                const sx = d.source.x, sy = d.source.y, tx = d.target.x, ty = d.target.y;
+                const o = d.curveOffset || 0;
+                if (o === 0) return (sx + tx) / 2;
+                const mx = (sx + tx) / 2, my = (sy + ty) / 2;
+                const dx = tx - sx, dy = ty - sy, len = Math.sqrt(dx * dx + dy * dy) || 1;
+                return mx + (-dy / len) * o;
+            })
+            .attr('y', d => {
+                const sx = d.source.x, sy = d.source.y, tx = d.target.x, ty = d.target.y;
+                const o = d.curveOffset || 0;
+                if (o === 0) return (sy + ty) / 2;
+                const mx = (sx + tx) / 2, my = (sy + ty) / 2;
+                const dx = tx - sx, dy = ty - sy, len = Math.sqrt(dx * dx + dy * dy) || 1;
+                return my + (dx / len) * o;
+            });
+
         node.attr('transform', d => `translate(${d.x},${d.y})`);
     });
 }
