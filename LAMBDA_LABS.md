@@ -108,6 +108,79 @@ docker compose run ingest \
 
 The **A10 for $0.75/hr** is a sweet spot for hobby work - you won't need a second mortgage on your house if you forget to terminate it.
 
+## Seeing logs
+
+### Solution: View Docker Container Logs
+
+#### **From the host (outside container):**
+
+```bash
+# View live logs (equivalent to journalctl -f) -- what is Ollama doing RIGHT NOW?
+sudo docker logs -f ollama
+
+# View last 100 lines
+sudo docker logs --tail 100 ollama
+
+# View logs with timestamps
+sudo docker logs -f --timestamps ollama
+
+# View logs since a specific time
+sudo docker logs --since 10m ollama  # Last 10 minutes
+```
+
+### Understanding Your Docker Setup
+
+You have Ollama running in a Docker container named `ollama`. The container doesn't have systemd, so `journalctl` won't work. Instead, Docker captures all stdout/stderr from the container, which you access via `docker logs`.
+
+### Common Ollama Docker Log Commands
+
+```bash
+# See what model is currently loaded
+sudo docker logs ollama | grep "llama runner started"
+
+# Check for errors
+sudo docker logs ollama | grep -i error
+
+# See recent API requests
+sudo docker logs ollama | tail -50
+
+# Monitor live activity
+sudo docker logs -f ollama
+```
+
+### If You Want More Detailed Logging
+
+If the logs aren't showing enough detail, you can restart the container with debug logging:
+
+```bash
+# Stop current container
+sudo docker stop ollama
+
+# Start with debug logging
+sudo docker run -d \
+  --name ollama \
+  --gpus all \
+  -v ollama:/root/.ollama \
+  -p 11434:11434 \
+  -e OLLAMA_DEBUG=1 \
+  ollama/ollama
+
+# Now follow logs
+sudo docker logs -f ollama
+```
+
+### Quick Reference
+
+| What you want | Command |
+|---------------|---------|
+| Live logs (like `journalctl -f`) | `sudo docker logs -f ollama` |
+| Last 100 lines | `sudo docker logs --tail 100 ollama` |
+| All logs | `sudo docker logs ollama` |
+| Logs from last 10 min | `sudo docker logs --since 10m ollama` |
+| Logs with timestamps | `sudo docker logs -f --timestamps ollama` |
+
+**TL;DR**: Use `sudo docker logs -f ollama` to see live logs from your Ollama container. This is the Docker equivalent of `journalctl -f -u ollama`.
+
 ## Cleanup
 
 It's simplest to terminate the instance from the Lambda Labs dashboard.
