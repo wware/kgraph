@@ -49,6 +49,21 @@ def _normalize_evidence_for_match(text: str) -> str:
     return " ".join(text.strip().lower().split()) if text else ""
 
 
+# Words that suggest evidence is about disease/marker context (IHC, staining, tumor, etc.)
+_EVIDENCE_DISEASE_CONTEXT_WORDS = frozenset(
+    {"tumor", "cancer", "cell", "cells", "positive", "negativity", "negative",
+     "staining", "ihc", "immunohisto", "immunoreactivity", "positivity", "neoplastic"}
+)
+
+
+def _evidence_has_disease_context(evidence: str) -> bool:
+    """Return True if evidence text suggests disease/marker context (IHC, tumor, etc.)."""
+    if not evidence:
+        return False
+    norm = " ".join(evidence.strip().lower().split())
+    return any(w in norm for w in _EVIDENCE_DISEASE_CONTEXT_WORDS)
+
+
 def _evidence_contains_both_entities(
     evidence: str,
     subject_name: str,
@@ -481,11 +496,14 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
             '- "treats" means ONLY (drug) -> (disease). A disease never "treats" a procedure or protein.',
             "- When a procedure (e.g. IHC, biopsy) is used to work up a disease, use diagnosed_by: (disease) -> (procedure).",
             "- When a protein/marker is positive in a disease context, use indicates (marker -> disease) or associated_with, not treats.",
+            "- When the text lists multiple markers (e.g. 'positivity for BerEp4, CAM5.2, Ki67'), extract (marker, indicates, disease) or (disease, associated_with, marker) for EACH marker listed; do not skip markers just because there are many.",
+            "- For marker-disease relationships, the evidence quote must include the marker; the disease may be inferred from document context (e.g. 'tumor cells' in a paper about that cancer) and need not appear in the same quote.",
         ]
 
         examples_section = """
 EXAMPLES (follow subject/object order and predicate from the signature table):
 - Text: "IHC was performed; tumor cells were positive for BerEp4." → (BerEp4, indicates, Disease) or (Disease, associated_with, BerEp4); NOT (Disease, treats, BerEp4).
+- Text: "positivity for BerEp4, CAM5.2, Ki67" in a paper about a cancer → extract (BerEp4, indicates, Disease), (CAM5.2, indicates, Disease), (Ki67, indicates, Disease) (one per marker).
 - Text: "Immunohistochemistry was performed on cell blocks." for disease + procedure → (Disease, diagnosed_by, Immunohistochemical staining).
 """
 
@@ -726,6 +744,16 @@ IMPORTANT:
             if evidence_ok:
                 evidence_detail["method"] = "semantic_match"
                 evidence_detail["threshold"] = self._evidence_similarity_threshold
+        # Marker-disease (indicates/associated_with): allow evidence that names the marker
+        # and has disease context (tumor, IHC, etc.) when the disease appears elsewhere in the window.
+        if not evidence_ok and predicate in ("indicates", "associated_with"):
+            if object_entity.get_entity_type() == "disease" and evidence_detail.get("subject_in_evidence"):
+                window_text = getattr(document, "content", "") or ""
+                if window_text and object_entity.name.lower() in window_text.lower():
+                    if _evidence_has_disease_context(evidence):
+                        evidence_ok = True
+                        evidence_detail["object_in_evidence"] = True
+                        evidence_detail["method"] = "context_inferred"
         decision["evidence_check"] = evidence_detail
         if not evidence_ok:
             decision["drop_reason"] = evidence_drop_reason
