@@ -30,6 +30,7 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+import logging
 from logging import DEBUG
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -39,6 +40,7 @@ from pydantic import BaseModel
 from kgraph.export import write_bundle
 from kgraph.ingest import IngestionOrchestrator
 from kgraph.logging import setup_logging
+from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 from kgraph.pipeline.caching import (
     CachedEmbeddingGenerator,
     EmbeddingCacheConfig,
@@ -61,7 +63,7 @@ from kgschema.storage import (
 from ..domain import MedLitDomainSchema
 from ..pipeline.authority_lookup import CanonicalIdLookup
 from ..pipeline.embeddings import OllamaMedLitEmbeddingGenerator
-from ..pipeline.llm_client import OllamaLLMClient
+from ..pipeline.llm_client import LLMTimeoutError, OllamaLLMClient
 from ..pipeline.mentions import MedLitEntityExtractor
 from ..pipeline.pmc_chunker import PMCStreamingChunker
 from ..pipeline.parser import JournalArticleParser
@@ -216,6 +218,7 @@ def build_orchestrator(
     # Create embedding generator (used by resolver and for new-entity embeddings)
     base_embedding_generator = OllamaMedLitEmbeddingGenerator(ollama_host=ollama_host)
     cached_embedding_generator: CachedEmbeddingGenerator | None = None
+    embedding_generator: EmbeddingGeneratorInterface
     if embeddings_cache_file is not None:
         embeddings_cache = FileBasedEmbeddingsCache(
             config=EmbeddingCacheConfig(cache_file=embeddings_cache_file),
@@ -504,6 +507,12 @@ Examples:
     args: argparse.Namespace = parser.parse_args()
     if args.debug:
         logger.setLevel(DEBUG)
+        stream_log = logging.getLogger("kgraph.pipeline.streaming")
+        stream_log.setLevel(DEBUG)
+        if not stream_log.handlers:
+            handler = logging.StreamHandler()
+            handler.setFormatter(logging.Formatter("%(asctime)s - %(pathname)s:%(lineno)d - %(levelname)s - %(message)s"))
+            stream_log.addHandler(handler)
     return args
 
 
@@ -1169,7 +1178,7 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
     )
 
 
-async def main() -> None:
+async def main() -> None:  # pylint: disable=too-many-statements
     """Runs the main ingestion pipeline for medical literature."""
     args = parse_arguments()
     (
@@ -1197,6 +1206,7 @@ async def main() -> None:
     entity_stage_result: EntityExtractionStageResult | None = None
     promotion_stage_result: PromotionStageResult | None = None
     relationship_stage_result: RelationshipExtractionStageResult | None = None
+    llm_timeout_abort = False
 
     try:
         processed, errors, entity_stage_result = await extract_entities_phase(
@@ -1293,11 +1303,26 @@ async def main() -> None:
         if args.trace_all:
             trace_collector.print_summary()
 
+    except (LLMTimeoutError, TimeoutError) as e:
+        llm_timeout_abort = True
+        print(
+            """
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  LLM TIMEOUT — INGESTION ABORTED                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  The LLM (Ollama) request exceeded the timeout. This run is invalid.         ║
+║  No bundle or caches will be written from this point. Exiting.               ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+""",
+            file=sys.stderr,
+        )
+        print(f"  Error: {e}", file=sys.stderr)
+        sys.exit(1)
     except KeyboardInterrupt:
         _handle_keyboard_interrupt(lookup)
         raise
     finally:
-        if cached_embedding_generator is not None:
+        if not llm_timeout_abort and cached_embedding_generator is not None:
             await cached_embedding_generator.save_cache()
             if not quiet:
                 stats = cached_embedding_generator.get_cache_stats()

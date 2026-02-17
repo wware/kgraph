@@ -58,6 +58,7 @@ def test_medlit_domain_relationship_types():
         "REFUTES",
         "TESTED_BY",
         "SUPPORTS",
+        "SUBTYPE_OF",
         "GENERATES",
     }
     assert expected_relationships == set(domain.relationship_types.keys())

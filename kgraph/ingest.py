@@ -212,7 +212,7 @@ class IngestionOrchestrator(BaseModel):
     streaming_entity_extractor: StreamingEntityExtractorInterface | None = None
     streaming_relationship_extractor: StreamingRelationshipExtractorInterface | None = None
 
-    async def extract_entities_from_document(
+    async def extract_entities_from_document(  # pylint: disable=too-many-statements
         self,
         raw_content: bytes,
         content_type: str,
@@ -239,28 +239,21 @@ class IngestionOrchestrator(BaseModel):
             and any errors encountered.
         """
         errors: list[str] = []
-        use_streaming = (
-            self.document_chunker is not None
-            and self.streaming_entity_extractor is not None
-        )
+        use_streaming = self.document_chunker is not None and self.streaming_entity_extractor is not None
         document = None
         mentions: list[Any] = []
 
         if use_streaming:
+            assert self.document_chunker is not None
+            assert self.streaming_entity_extractor is not None
             # Get chunks: try chunk_from_raw for XML when chunker supports it
             content_type_base = (content_type or "").split(";")[0].strip().lower()
             is_xml = content_type_base in ("application/xml", "text/xml")
             chunk_document_id = Path(source_uri).stem if source_uri else ""
 
             try:
-                if (
-                    is_xml
-                    and chunk_document_id
-                    and hasattr(self.document_chunker, "chunk_from_raw")
-                ):
-                    chunks = await self.document_chunker.chunk_from_raw(
-                        raw_content, content_type, chunk_document_id, source_uri
-                    )
+                if is_xml and chunk_document_id and hasattr(self.document_chunker, "chunk_from_raw"):
+                    chunks = await self.document_chunker.chunk_from_raw(raw_content, content_type, chunk_document_id, source_uri)
                 else:
                     document = await self.parser.parse(raw_content, content_type, source_uri)
                     chunks = await self.document_chunker.chunk(document)
@@ -439,42 +432,27 @@ class IngestionOrchestrator(BaseModel):
         relationships: list[BaseRelationship] = []
 
         if document_entities:
-            use_streaming_rels = (
-                self.streaming_relationship_extractor is not None
-                and self.document_chunker is not None
-            )
+            use_streaming_rels = self.streaming_relationship_extractor is not None and self.document_chunker is not None
             try:
                 if use_streaming_rels:
+                    assert self.document_chunker is not None
+                    assert self.streaming_relationship_extractor is not None
                     chunks = await self.document_chunker.chunk(document)
-                    async for rel_batch in self.streaming_relationship_extractor.extract_windowed(
-                        chunks, document_entities
-                    ):
+                    async for rel_batch in self.streaming_relationship_extractor.extract_windowed(chunks, document_entities):
                         for rel in rel_batch:
-                            if await self.domain.validate_relationship(
-                                rel, entity_storage=self.entity_storage
-                            ):
+                            if await self.domain.validate_relationship(rel, entity_storage=self.entity_storage):
                                 await self.relationship_storage.add(rel)
                                 relationships.append(rel)
                             else:
-                                errors.append(
-                                    f"Relationship validation failed: {rel.subject_id} "
-                                    f"-{rel.predicate}-> {rel.object_id}"
-                                )
+                                errors.append(f"Relationship validation failed: {rel.subject_id} " f"-{rel.predicate}-> {rel.object_id}")
                 else:
-                    extracted_rels = await self.relationship_extractor.extract(
-                        document, document_entities
-                    )
+                    extracted_rels = await self.relationship_extractor.extract(document, document_entities)
                     for rel in extracted_rels:
-                        if await self.domain.validate_relationship(
-                            rel, entity_storage=self.entity_storage
-                        ):
+                        if await self.domain.validate_relationship(rel, entity_storage=self.entity_storage):
                             await self.relationship_storage.add(rel)
                             relationships.append(rel)
                         else:
-                            errors.append(
-                                f"Relationship validation failed: {rel.subject_id} "
-                                f"-{rel.predicate}-> {rel.object_id}"
-                            )
+                            errors.append(f"Relationship validation failed: {rel.subject_id} " f"-{rel.predicate}-> {rel.object_id}")
             except Exception as e:
                 errors.append(f"Relationship extraction error: {e}")
         # If no entities found, that's fine - just return 0 relationships (no error)

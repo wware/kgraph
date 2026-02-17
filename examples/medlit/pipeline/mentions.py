@@ -193,11 +193,7 @@ JSON:"""
         if not self._llm:
             return mentions
 
-        text = (
-            document.abstract
-            if hasattr(document, "abstract") and document.abstract
-            else document.content
-        )
+        text = document.abstract if hasattr(document, "abstract") and document.abstract else document.content
         if not text or len(text) < 50:
             return mentions
 

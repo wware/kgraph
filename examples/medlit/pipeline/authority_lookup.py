@@ -24,6 +24,40 @@ from kgraph.logging import setup_logging
 
 from .canonical_urls import build_canonical_url
 
+# Terms that are entity-type words or generic concepts; never look up in authorities.
+# (e.g. "gene" must not resolve to Gene Autry; "variant" not to SARS-CoV-2 Omicron variant)
+LOOKUP_BLOCKLIST = frozenset(
+    {
+        "gene",
+        "disease",
+        "drug",
+        "protein",
+        "symptom",
+        "procedure",
+        "biomarker",
+        "pathway",
+        "location",
+        "ethnicity",
+        "variant",
+        "diseases",
+        "genes",
+        "drugs",
+        "proteins",
+        "symptoms",
+        "procedures",
+        "biomarkers",
+        "pathways",
+        "variants",
+        "pathogenic variant",
+        "loss-of-function variant",
+        "genetic variant",
+        "germline variant",
+        "somatic variant",
+        "sequence variant",
+        "gene variant",
+    }
+)
+
 # Module-level logger for sync methods
 logger = setup_logging()
 
@@ -99,7 +133,23 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
         """
         logger = setup_logging()
 
-        # Check cache first
+        term_normalized = term.strip().lower()
+
+        # Never look up generic/type-like terms (avoids "gene" → Gene Autry, "variant" → SARS-CoV-2 Omicron).
+        # Check before cache so we never return a cached wrong result for these.
+        if term_normalized in LOOKUP_BLOCKLIST:
+            logger.debug(
+                {
+                    "message": f"Blocklisted generic term '{term}' ({entity_type}), skipping lookup",
+                    "term": term,
+                    "entity_type": entity_type,
+                },
+                pprint=True,
+            )
+            self._cache.mark_known_bad(term, entity_type)
+            return None
+
+        # Check cache
         cached = self._cache.fetch(term, entity_type)
         if cached is not None:
             logger.debug(
@@ -140,13 +190,17 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
             if term.isupper() and len(term) < 5:
                 # looks like an acronym
                 skip_dbpedia = True
-                #if term == "FAP":
+                # if term == "FAP":
                 #    # canonical_id_str = "MeSH:D011125"
                 #    canonical_id_str = "D011125"
             else:
                 canonical_id_str = await self._lookup_umls(term)
         elif entity_type == "gene":
             canonical_id_str = await self._lookup_hgnc(term)
+            # Do not fall back to DBPedia for genes: it returns wrong matches (e.g. "gene" → Gene
+            # Autry, "variant" → SARS-CoV-2_Omicron_variant). Viral variants would need a proper
+            # source (e.g. GISAID, WHO/Pango nomenclature) if we add variant support later.
+            skip_dbpedia = True
         elif entity_type == "drug":
             canonical_id_str = await self._lookup_rxnorm(term)
         elif entity_type == "protein":
@@ -1131,6 +1185,11 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
         term_normalized = term.strip().lower()
         entity_type_normalized = entity_type.lower()
 
+        # Never look up generic/type-like terms (same as async path; check before cache)
+        if term_normalized in LOOKUP_BLOCKLIST:
+            self._cache.mark_known_bad(term, entity_type)
+            return None
+
         # Check cache first (this is synchronous)
         cached = self._cache.fetch(term, entity_type)
         if cached is not None:
@@ -1167,13 +1226,14 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
                     canonical_id_str = self._lookup_umls_sync(sync_client, term)
                 elif entity_type_normalized == "gene":
                     canonical_id_str = self._lookup_hgnc_sync(sync_client, term)
+                    # Skip DBPedia for genes (same as async path)
                 elif entity_type_normalized == "drug":
                     canonical_id_str = self._lookup_rxnorm_sync(sync_client, term)
                 elif entity_type_normalized == "protein":
                     canonical_id_str = self._lookup_uniprot_sync(sync_client, term)
 
-                # Fallback to DBPedia if specialized lookup failed
-                if canonical_id_str is None:
+                # Fallback to DBPedia if specialized lookup failed (never for gene)
+                if canonical_id_str is None and entity_type_normalized != "gene":
                     dbpedia_result = self._lookup_dbpedia_sync(sync_client, term)
                     if dbpedia_result:
                         # Try to extract authoritative ID from DBPedia properties (sync version)

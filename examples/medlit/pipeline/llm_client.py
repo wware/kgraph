@@ -16,6 +16,14 @@ except ImportError:
     OLLAMA_AVAILABLE = False
 
 
+class LLMTimeoutError(TimeoutError):
+    """Raised when an LLM request (e.g. Ollama) exceeds the configured timeout.
+
+    Ingestion should treat this as a hard failure: abort the run, do not save
+    bundle or caches, and exit loudly.
+    """
+
+
 class LLMClientInterface(ABC):
     """Abstract interface for LLM clients."""
 
@@ -209,7 +217,7 @@ class OllamaLLMClient(LLMClientInterface):
             response = await asyncio.wait_for(asyncio.to_thread(_generate), timeout=self.timeout)
             return response.get("response", "").strip()
         except asyncio.TimeoutError:
-            raise TimeoutError(f"Ollama request timed out after {self.timeout}s")
+            raise LLMTimeoutError(f"Ollama request timed out after {self.timeout}s")
         except Exception as e:
             print(f"Ollama generate error: {e}")
             raise
@@ -239,7 +247,7 @@ class OllamaLLMClient(LLMClientInterface):
             # Add timeout wrapper to prevent indefinite hangs
             response_text = await asyncio.wait_for(asyncio.to_thread(_generate), timeout=self.timeout)
         except asyncio.TimeoutError:
-            raise TimeoutError(f"Ollama JSON generation timed out after {self.timeout}s")
+            raise LLMTimeoutError(f"Ollama JSON generation timed out after {self.timeout}s")
 
         return response_text.strip()
 

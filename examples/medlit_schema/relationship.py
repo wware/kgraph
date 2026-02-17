@@ -439,6 +439,7 @@ class SubtypeOf(BaseMedicalRelationship):
     """
     When one disease is a subtype of another disease
     """
+
     def get_edge_type(self) -> str:
         return "SUBTYPE_OF"
 

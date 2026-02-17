@@ -43,7 +43,11 @@ from kgschema.document import BaseDocument
 from kgschema.entity import BaseEntity, EntityMention
 from kgschema.relationship import BaseRelationship
 
+import logging
+
 from .interfaces import EntityExtractorInterface, RelationshipExtractorInterface
+
+logger = logging.getLogger(__name__)
 
 
 class DocumentChunk(BaseModel):
@@ -525,6 +529,14 @@ class WindowedRelationshipExtractor(StreamingRelationshipExtractorInterface):
         # Track seen relationships to deduplicate across windows
         seen_relationships: set[tuple[str, str, str]] = set()
 
+        doc_hint = chunks[0].document_id if chunks else "unknown"
+        logger.info(
+            "Relationship extraction: %d chunks, %d entities (document hint: %s)",
+            len(chunks),
+            len(entities),
+            doc_hint,
+        )
+
         for chunk in chunks:
             # Find entities that appear in this chunk
             # Note: This assumes entities have position information
@@ -536,13 +548,34 @@ class WindowedRelationshipExtractor(StreamingRelationshipExtractorInterface):
                 if entity.name.lower() in chunk.content.lower():
                     chunk_entities.append(entity)
 
+            window_id = f"{chunk.document_id}_window_{chunk.chunk_index}"
+            logger.debug(
+                "Chunk %s (index %s): %d entities in window",
+                chunk.document_id,
+                chunk.chunk_index,
+                len(chunk_entities),
+            )
+
             if len(chunk_entities) < 2:
-                # Need at least 2 entities for a relationship
+                # Need at least 2 entities for a relationship; write skip trace when supported
+                if hasattr(self.base_extractor, "write_skip_trace"):
+                    self.base_extractor.write_skip_trace(
+                        window_id,
+                        reason="fewer_than_2_entities",
+                        entity_count=len(chunk_entities),
+                    )
+                logger.debug(
+                    "Skipping window %s: fewer than 2 entities (%d)",
+                    window_id,
+                    len(chunk_entities),
+                )
                 continue
+
+            logger.debug("Running relationship LLM for window %s (%d entities)", window_id, len(chunk_entities))
 
             # Create temporary document for this window
             window_doc = WindowDocument(
-                document_id=f"{chunk.document_id}_window_{chunk.chunk_index}",
+                document_id=window_id,
                 content=chunk.content,
                 content_type="text/plain",
                 created_at=datetime.now(timezone.utc),

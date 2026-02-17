@@ -602,9 +602,7 @@ IMPORTANT:
                 decision["drop_reason"] = "object_unmatched"
             return None, decision
 
-        evidence_ok, evidence_drop_reason, evidence_detail = _evidence_contains_both_entities(
-            evidence, subject_name, object_name, subject_entity, object_entity
-        )
+        evidence_ok, evidence_drop_reason, evidence_detail = _evidence_contains_both_entities(evidence, subject_name, object_name, subject_entity, object_entity)
         decision["evidence_check"] = evidence_detail
         if not evidence_ok:
             decision["drop_reason"] = evidence_drop_reason
@@ -632,7 +630,6 @@ IMPORTANT:
             "object_id": object_entity.entity_id,
             "object_type": object_entity.get_entity_type(),
         }
-
 
         constraint = self._domain.predicate_constraints.get(predicate)
 
@@ -681,6 +678,27 @@ IMPORTANT:
 
         decision["accepted"] = True
         return rel, decision
+
+    def write_skip_trace(
+        self,
+        document_id: str,
+        reason: str,
+        entity_count: int,
+    ) -> None:
+        """Write a minimal trace file when a window is skipped (e.g. fewer than 2 entities).
+
+        Uses the same path convention as _write_trace so skip and full traces
+        appear in the same directory. Call from WindowedRelationshipExtractor
+        when a chunk is skipped so --trace-all still produces a trace per window.
+        """
+        trace: dict[str, Any] = {
+            "document_id": document_id,
+            "skipped": True,
+            "reason": reason,
+            "entity_count": entity_count,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }
+        self._write_trace(document_id, trace)
 
     def _write_trace(self, document_id: str, trace: dict[str, Any]) -> None:
         """Write trace file for debugging relationship extraction.
