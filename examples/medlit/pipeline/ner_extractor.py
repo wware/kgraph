@@ -154,9 +154,7 @@ class MedLitNEREntityExtractor(EntityExtractorInterface):
         try:
             from transformers import pipeline as hf_pipeline
         except ImportError as e:
-            raise ImportError(
-                'NER entity extraction requires the "ner" extra. Install with: pip install -e ".[ner]"'
-            ) from e
+            raise ImportError('NER entity extraction requires the "ner" extra. Install with: pip install -e ".[ner]"') from e
 
         if device == "cpu":
             pipeline_device = -1
@@ -165,6 +163,7 @@ class MedLitNEREntityExtractor(EntityExtractorInterface):
         else:
             try:
                 import torch
+
                 pipeline_device = 0 if torch.cuda.is_available() else -1
             except ImportError:
                 pipeline_device = -1
@@ -187,10 +186,11 @@ class MedLitNEREntityExtractor(EntityExtractorInterface):
         loop = asyncio.get_event_loop()
         chunk_results: list[tuple[int, list[dict]]] = []
         for chunk_start, chunk_text in chunks:
-            raw = await loop.run_in_executor(
-                None,
-                lambda t=chunk_text: _run_ner_sync(self._pipeline, t),
-            )
+
+            def run_chunk(t: str = chunk_text) -> list[dict]:
+                return _run_ner_sync(self._pipeline, t)
+
+            raw = await loop.run_in_executor(None, run_chunk)
             chunk_results.append((chunk_start, raw))
 
         merged = _merge_and_dedupe(chunk_results)

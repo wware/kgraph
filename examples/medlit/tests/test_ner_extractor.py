@@ -126,22 +126,26 @@ class TestMedLitNEREntityExtractorWithMock:
             result = []
             if "diabetes" in text.lower():
                 idx = text.lower().index("diabetes")
-                result.append({
-                    "start": idx,
-                    "end": idx + 8,
-                    "entity_group": "Disease",
-                    "score": 0.92,
-                    "word": "diabetes",
-                })
+                result.append(
+                    {
+                        "start": idx,
+                        "end": idx + 8,
+                        "entity_group": "Disease",
+                        "score": 0.92,
+                        "word": "diabetes",
+                    }
+                )
             if "aspirin" in text.lower():
                 idx = text.lower().index("aspirin")
-                result.append({
-                    "start": idx,
-                    "end": idx + 7,
-                    "entity_group": "Chemical",
-                    "score": 0.88,
-                    "word": "aspirin",
-                })
+                result.append(
+                    {
+                        "start": idx,
+                        "end": idx + 7,
+                        "entity_group": "Chemical",
+                        "score": 0.88,
+                        "word": "aspirin",
+                    }
+                )
             return result
 
         return run
@@ -205,6 +209,7 @@ class TestMedLitNEREntityExtractorWithMock:
     @pytest.mark.asyncio
     async def test_type_as_name_filtered_out(self, mock_pipeline):
         """When mock returns entity with word 'disease' (type label), it should be filtered out."""
+
         def mock_return_disease_word(text):
             if len(text) < 10:
                 return []
@@ -238,6 +243,7 @@ class TestMedLitNEREntityExtractorImportError:
         """When transformers is not installed, constructing without pipeline= raises ImportError."""
         try:
             import transformers  # noqa: F401
+
             pytest.skip("transformers is installed; cannot test ImportError path")
         except ImportError:
             pass

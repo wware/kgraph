@@ -37,12 +37,30 @@ TYPE_MAPPING: dict[str, str | None] = {
 }
 
 # Entity type labels that must not be used as entity names (LLM sometimes returns type in "entity" field)
-KNOWN_TYPE_LABELS: frozenset[str] = frozenset({
-    "disease", "gene", "drug", "protein", "symptom", "procedure",
-    "biomarker", "pathway", "location", "ethnicity",
-    "variant", "polymorphism", "mutation", "test", "diagnostic",
-    "imaging", "assay", "marker", "system", "organization",
-})
+KNOWN_TYPE_LABELS: frozenset[str] = frozenset(
+    {
+        "disease",
+        "gene",
+        "drug",
+        "protein",
+        "symptom",
+        "procedure",
+        "biomarker",
+        "pathway",
+        "location",
+        "ethnicity",
+        "variant",
+        "polymorphism",
+        "mutation",
+        "test",
+        "diagnostic",
+        "imaging",
+        "assay",
+        "marker",
+        "system",
+        "organization",
+    }
+)
 
 
 def _is_type_masquerading_as_name(name: str, entity_type: str) -> bool:
