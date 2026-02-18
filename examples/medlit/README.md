@@ -54,9 +54,13 @@ This package provides a kgraph domain extension for extracting knowledge from bi
   - Currently supports JSON format (from med-lit-schema's Paper)
   - PMC XML parsing TODO (can reuse med-lit-schema's pmc_parser.py logic)
 
+### Entity Extractors
+
+- **MedLitNEREntityExtractor**: Local NER model (e.g. BC5CDR) for fast entity extraction; optional `.[ner]` dependency.
+- **LLM-based extractor**: Ollama-based entity extraction with type normalization.
+
 ### TODO: Remaining Pipeline Components
 
-- **EntityExtractor**: Extract entity mentions from journal articles
 - **EntityResolver**: Resolve mentions to canonical entities (UMLS, HGNC, etc.)
 - **RelationshipExtractor**: Extract relationships with evidence and provenance
 - **EmbeddingGenerator**: Generate biomedical embeddings for entities
@@ -132,15 +136,30 @@ with open("paper.json", "rb") as f:
 
 ### Basic Ingestion
 
-Process Paper JSON/XML files and generate a bundle:
+Process Paper JSON/XML files and generate a bundle. You can use either **NER** (local, fast) or **LLM** (Ollama) for entity extraction; relationship extraction still uses the LLM when `--use-ollama` is set.
+
+**With NER entity extraction (recommended for speed):**
 
 ```bash
+pip install -e ".[ner]"   # one-time: install transformers/torch for NER
 cd /path/to/kgraph
 uv run python -m examples.medlit.scripts.ingest \
     --input-dir /path/to/papers \
     --output-dir medlit_bundle \
+    --entity-extractor ner \
     --use-ollama \
     --limit 10  # Optional: limit number of papers for testing
+```
+
+**With LLM entity extraction (default):**
+
+```bash
+uv run python -m examples.medlit.scripts.ingest \
+    --input-dir /path/to/papers \
+    --output-dir medlit_bundle \
+    --entity-extractor llm \
+    --use-ollama \
+    --limit 10
 ```
 
 ### Processing with Parallel Extraction
@@ -151,6 +170,8 @@ Use multiple workers for faster processing:
 uv run python -m examples.medlit.scripts.ingest \
     --input-dir /path/to/papers \
     --output-dir medlit_bundle \
+    --entity-extractor ner \
+    --ner-model tner/roberta-base-bc5cdr \
     --use-ollama \
     --workers 3 \
     --progress-interval 15
@@ -162,7 +183,9 @@ uv run python -m examples.medlit.scripts.ingest \
 |--------|---------|-------------|
 | `--input-dir` | (required) | Directory containing Paper JSON/XML files |
 | `--output-dir` | `medlit_bundle` | Output directory for the bundle |
-| `--use-ollama` | `false` | Use Ollama LLM for entity/relationship extraction |
+| `--entity-extractor` | `llm` | Entity extraction: `llm` (Ollama) or `ner` (local NER model) |
+| `--ner-model` | `tner/roberta-base-bc5cdr` | HuggingFace model for NER (BC5CDR chemical/disease) |
+| `--use-ollama` | `false` | Use Ollama for relationship extraction (and entity extraction if `--entity-extractor llm`) |
 | `--ollama-model` | `llama3.1:8b` | Ollama model name |
 | `--ollama-host` | `localhost:11434` | Ollama server URL |
 | `--ollama-timeout` | `300` | Timeout in seconds for Ollama requests |
@@ -217,6 +240,7 @@ Requirements:
 
 ## Completed Features
 
+- ✅ **NER-based Entity Extraction**: Optional local NER model (BC5CDR) for fast entity extraction; install with `.[ner]`
 - ✅ **LLM-based Entity Extraction**: Extracts entities from raw text using Ollama
 - ✅ **LLM-based Relationship Extraction**: Extracts relationships with semantic validation
 - ✅ **Entity Type Normalization**: Handles LLM mistakes and validates against schema

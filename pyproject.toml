@@ -30,6 +30,12 @@ dev = [
     "ruff>=0.5.5",
     "flake8>=7.1.0",
 ]
+# NER-based entity extraction (medlit): install with pip install -e ".[ner]"
+ner = [
+    "transformers>=4.36.0",
+    "torch>=2.0.0",
+    "tokenizers>=0.19.0",
+]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

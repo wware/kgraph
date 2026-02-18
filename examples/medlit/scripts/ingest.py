@@ -67,6 +67,7 @@ from ..pipeline.authority_lookup import CanonicalIdLookup
 from ..pipeline.embeddings import OllamaMedLitEmbeddingGenerator
 from ..pipeline.llm_client import LLMTimeoutError, OllamaLLMClient
 from ..pipeline.mentions import MedLitEntityExtractor
+from ..pipeline.ner_extractor import MedLitNEREntityExtractor
 from ..pipeline.config import load_medlit_config
 from ..pipeline.pmc_chunker import PMCStreamingChunker
 from ..pipeline.parser import JournalArticleParser
@@ -184,6 +185,8 @@ def build_orchestrator(
     embeddings_cache_file: Path | None = None,
     evidence_validation_mode: str = "hybrid",
     evidence_similarity_threshold: float = 0.5,
+    entity_extractor: str = "llm",
+    ner_model: str = "tner/roberta-base-bc5cdr",
 ) -> tuple[IngestionOrchestrator, CanonicalIdLookup | None, CachedEmbeddingGenerator | None]:
     """Builds and configures the ingestion orchestrator and its components.
 
@@ -255,13 +258,27 @@ def build_orchestrator(
             traceback.print_exc()
             llm_client = None
 
-    # Entity extraction always requires LLM (embedding extraction needs pre-populated storage)
-    if not llm_client:
-        raise ValueError("LLM extraction is required for entity extraction from XML. Use --use-ollama to enable LLM extraction, or provide documents with pre-extracted entities.")
-
-    print("  Using LLM-based entity extraction...", file=sys.stderr)
-    entity_extractor = MedLitEntityExtractor(llm_client=llm_client, domain=domain)
-    print("  ✓ LLM-based extractor created", file=sys.stderr)
+    # Entity extractor: NER (local model) or LLM (Ollama)
+    if entity_extractor == "ner":
+        print(f"  Using NER-based entity extraction (model: {ner_model})...", file=sys.stderr)
+        try:
+            entity_extractor_instance = MedLitNEREntityExtractor(
+                model_name_or_path=ner_model,
+                domain=domain,
+            )
+            print("  ✓ NER-based extractor created", file=sys.stderr)
+        except ImportError as e:
+            print(f"  ERROR: {e}", file=sys.stderr)
+            raise
+    else:
+        if not llm_client:
+            raise ValueError(
+                "LLM entity extraction requires --use-ollama. "
+                "Use --entity-extractor ner for local NER extraction, or provide documents with pre-extracted entities."
+            )
+        print("  Using LLM-based entity extraction...", file=sys.stderr)
+        entity_extractor_instance = MedLitEntityExtractor(llm_client=llm_client, domain=domain)
+        print("  ✓ LLM-based extractor created", file=sys.stderr)
 
     # When mode is "string", disable semantic evidence validation (no embedding generator)
     rel_embedding_generator = None if evidence_validation_mode == "string" else embedding_generator
@@ -277,7 +294,7 @@ def build_orchestrator(
         overlap=chunker_cfg["overlap"],
     )
     streaming_entity_extractor = BatchingEntityExtractor(
-        base_extractor=entity_extractor,
+        base_extractor=entity_extractor_instance,
         deduplicate=True,
     )
     streaming_relationship_extractor = WindowedRelationshipExtractor(
@@ -288,7 +305,7 @@ def build_orchestrator(
     orchestrator = IngestionOrchestrator(
         domain=domain,
         parser=JournalArticleParser(),
-        entity_extractor=entity_extractor,
+        entity_extractor=entity_extractor_instance,
         entity_resolver=MedLitEntityResolver(
             domain=domain,
             embedding_generator=embedding_generator,  # Enable embedding-based resolution
@@ -455,13 +472,20 @@ Examples:
     parser.add_argument(
         "--use-ollama",
         action="store_true",
-        help="Use Ollama LLM for relationship extraction (entity extraction uses embeddings by default)",
+        help="Use Ollama LLM for relationship extraction (stage 4). Required for LLM entity extraction (stage 2) when --entity-extractor llm.",
     )
     parser.add_argument(
-        "--use-llm-extraction",
-        action="store_true",
-        default=True,
-        help="Use LLM for entity extraction (required for XML input; embedding extraction needs pre-populated storage)",
+        "--entity-extractor",
+        type=str,
+        choices=("llm", "ner"),
+        default="llm",
+        help="Entity extraction method: llm (Ollama, requires --use-ollama) or ner (local NER model, faster). Default: llm",
+    )
+    parser.add_argument(
+        "--ner-model",
+        type=str,
+        default="tner/roberta-base-bc5cdr",
+        help="HuggingFace model for NER entity extraction when --entity-extractor ner (default: tner/roberta-base-bc5cdr)",
     )
     parser.add_argument(
         "--ollama-model",
@@ -1206,6 +1230,8 @@ Found {len(input_files)} paper(s) to process ({json_count} JSON, {xml_count} XML
         embeddings_cache_file=embeddings_cache_file,
         evidence_validation_mode=args.evidence_validation_mode,
         evidence_similarity_threshold=args.evidence_similarity_threshold,
+        entity_extractor=args.entity_extractor,
+        ner_model=args.ner_model,
     )
 
     return (
