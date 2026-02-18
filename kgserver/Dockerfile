@@ -19,7 +19,7 @@ RUN apt update && \
 # Re-lock after path fix, then sync with relocatable venv
 RUN uv venv --python /usr/local/bin/python3 --relocatable && \
     uv lock && uv sync && \
-    uv pip install uvicorn fastapi \
+    uv pip install uvicorn fastapi zensical \
         mkdocs mkdocs-material pymdown-extensions
 
 # Copy mkdocs config and docs for building

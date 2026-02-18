@@ -53,10 +53,8 @@ function init() {
         centerIdInput.value = centerId;
         loadGraph();
     } else {
-        // On first visit with no params, show entire graph
+        // On first visit with no params, show entire graph (inputs stay enabled so user can search/enter ID)
         includeAllCheckbox.checked = true;
-        centerIdInput.disabled = true;
-        entitySearchInput.disabled = true;
         loadGraph();
     }
 }
@@ -676,6 +674,7 @@ function recenterOn(entityId) {
     centerIdInput.value = entityId;
     includeAllCheckbox.checked = false;
     centerIdInput.disabled = false;
+    entitySearchInput.disabled = false;
     loadGraph();
 }
 

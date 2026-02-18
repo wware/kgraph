@@ -205,8 +205,8 @@ def _build_mkdocs_if_present():
     mkdocs_yml = Path(app_root) / "mkdocs.yml"
     if mkdocs_yml.exists():
         logger.info("Building MkDocs documentation...")
-        # uv run mkdocs build
-        result = subprocess.run(["uv", "run", "mkdocs", "build"], capture_output=True, text=True, check=False)
+        # uv run zensical build
+        result = subprocess.run(["uv", "run", "zensical", "build"], capture_output=True, text=True, check=False)
         if result.returncode == 0:
             logger.info("MkDocs build completed successfully")
         else:

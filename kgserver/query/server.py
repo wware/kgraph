@@ -16,10 +16,10 @@ from .graphql_schema import Query
 from storage.interfaces import StorageInterface
 from mcp_server import mcp_server
 
-# Let's take this opportunity to do the mkdocs build
+# Let's take this opportunity to do the zensical build
 logging.basicConfig(format="%(levelname)s:     %(asctime)s - %(message)s", level=logging.INFO, datefmt="%Y-%m-%d %H:%M:%S")
 logger = logging.getLogger()
-result = subprocess.run(["uv", "run", "mkdocs", "build"], check=False)
+result = subprocess.run(["uv", "run", "zensical", "build"], check=False)
 if result.returncode != 0:
     logger.error("MKDOCS BUILD FAILED")
 
