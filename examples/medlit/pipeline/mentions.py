@@ -36,6 +36,32 @@ TYPE_MAPPING: dict[str, str | None] = {
     "organization": None,
 }
 
+# Entity type labels that must not be used as entity names (LLM sometimes returns type in "entity" field)
+KNOWN_TYPE_LABELS: frozenset[str] = frozenset({
+    "disease", "gene", "drug", "protein", "symptom", "procedure",
+    "biomarker", "pathway", "location", "ethnicity",
+    "variant", "polymorphism", "mutation", "test", "diagnostic",
+    "imaging", "assay", "marker", "system", "organization",
+})
+
+
+def _is_type_masquerading_as_name(name: str, entity_type: str) -> bool:
+    """Return True if the name is just the entity type (or a type label), not a real entity name.
+
+    When the LLM (or pre-extracted data) puts the type in the 'entity'/'name' field,
+    we get e.g. name='disease', type='disease'. Reject these so we never create
+    entities whose name is the type.
+    """
+    n = name.strip().lower()
+    t = entity_type.strip().lower()
+    if not n:
+        return True
+    if n == t:
+        return True
+    if n in KNOWN_TYPE_LABELS:
+        return True
+    return False
+
 
 class MedLitEntityExtractor(EntityExtractorInterface):
     """Extract entity mentions from journal articles.
@@ -171,6 +197,10 @@ JSON:"""
                     # (they should match, but normalize just in case)
                     entity_type = entity_type.lower() if entity_type else ""
 
+                    # Skip if name is actually the type (e.g. name="disease", type="disease")
+                    if _is_type_masquerading_as_name(entity_name, entity_type):
+                        continue
+
                     # Create mention (we don't have exact text spans, so use 0 offsets)
                     # The text is the name as it appeared in the paper
                     mention = EntityMention(
@@ -209,6 +239,9 @@ JSON:"""
                     entity_type_raw = item.get("type", "disease")
                     entity_type = self._normalize_entity_type(entity_type_raw)
                     if entity_type is None or len(entity_name) < 3:
+                        continue
+                    # Skip if LLM put the type in the "entity" field (e.g. entity="disease", type="disease")
+                    if _is_type_masquerading_as_name(entity_name, entity_type):
                         continue
                     confidence = float(item.get("confidence", 0.5))
                     if confidence < 0.5:

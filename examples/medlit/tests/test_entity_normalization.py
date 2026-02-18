@@ -11,7 +11,11 @@ Tests the _normalize_entity_type() method which handles:
 import pytest
 
 from examples.medlit.domain import MedLitDomainSchema
-from examples.medlit.pipeline.mentions import MedLitEntityExtractor, TYPE_MAPPING
+from examples.medlit.pipeline.mentions import (
+    MedLitEntityExtractor,
+    TYPE_MAPPING,
+    _is_type_masquerading_as_name,
+)
 
 
 class TestTypeNormalizationWithDomain:
@@ -142,3 +146,60 @@ class TestTypeMappingConstants:
         assert TYPE_MAPPING.get("organization") is None
         assert "system" in TYPE_MAPPING  # Key exists with None value
         assert "organization" in TYPE_MAPPING
+
+
+class TestTypeMasqueradingAsName:
+    """Reject entity names that are actually type labels (e.g. LLM returns entity='disease', type='disease')."""
+
+    def test_name_equals_type_rejected(self):
+        """When name equals type, treat as type masquerading as name."""
+        assert _is_type_masquerading_as_name("disease", "disease") is True
+        assert _is_type_masquerading_as_name("gene", "gene") is True
+        assert _is_type_masquerading_as_name("variant", "gene") is True  # variant is a type label
+
+    def test_known_type_labels_rejected_as_name(self):
+        """Known type labels must not be used as entity names."""
+        assert _is_type_masquerading_as_name("disease", "disease") is True
+        assert _is_type_masquerading_as_name("gene", "drug") is True  # "gene" as name with any type
+        assert _is_type_masquerading_as_name("procedure", "procedure") is True
+
+    def test_real_entity_names_allowed(self):
+        """Real entity names should not be rejected."""
+        assert _is_type_masquerading_as_name("breast cancer", "disease") is False
+        assert _is_type_masquerading_as_name("BRCA1", "gene") is False
+        assert _is_type_masquerading_as_name("aspirin", "drug") is False
+        assert _is_type_masquerading_as_name("p.Arg2336His", "gene") is False
+
+    def test_empty_name_rejected(self):
+        """Empty or whitespace-only name is rejected."""
+        assert _is_type_masquerading_as_name("", "disease") is True
+        assert _is_type_masquerading_as_name("   ", "gene") is True
+
+    @pytest.mark.asyncio
+    async def test_pre_extracted_type_as_name_dropped(self):
+        """Pre-extracted entities with name=type (e.g. name='disease', type='disease') produce no mention."""
+        from datetime import datetime, timezone
+
+        from examples.medlit.documents import JournalArticle
+
+        domain = MedLitDomainSchema()
+        extractor = MedLitEntityExtractor(llm_client=None, domain=domain)
+        doc = JournalArticle(
+            document_id="test-doc",
+            content="",
+            content_type="text/plain",
+            abstract="",
+            created_at=datetime.now(timezone.utc),
+            metadata={
+                "entities": [
+                    {"id": "C001", "name": "disease", "type": "disease"},
+                    {"id": "C002", "name": "male breast cancer", "type": "disease"},
+                    {"id": "C003", "name": "gene", "type": "gene"},
+                ],
+            },
+        )
+        mentions = await extractor.extract(doc)
+        # Only "male breast cancer" should appear; "disease" and "gene" as names are dropped
+        assert len(mentions) == 1
+        assert mentions[0].text == "male breast cancer"
+        assert mentions[0].entity_type == "disease"
