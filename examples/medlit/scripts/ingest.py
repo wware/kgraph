@@ -232,6 +232,7 @@ def build_orchestrator(
             cache=embeddings_cache,
         )
         embedding_generator = cached_embedding_generator
+        # Single cached embedding generator is shared so all embedding calls hit the same cache.
     else:
         embedding_generator = base_embedding_generator
 
@@ -1364,6 +1365,7 @@ async def main() -> None:  # pylint: disable=too-many-statements
             if not quiet:
                 stats = cached_embedding_generator.get_cache_stats()
                 print(f"  Embeddings cache saved ({stats.get('size', 0)} entries)", file=sys.stderr)
+                print(f"  Cache stats: {stats.get('hits', 0)} hits, {stats.get('misses', 0)} misses", file=sys.stderr)
         await _cleanup_lookup_service(lookup)
 
 

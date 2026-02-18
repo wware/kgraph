@@ -1,5 +1,9 @@
 """Caching interfaces for embeddings and other computed artifacts.
 
+Uses asyncio.Lock in concrete caches so that concurrent get/put/save/load
+do not corrupt in-memory state. Lock is held only around critical sections
+to avoid deadlock (e.g. get_batch calling get, put calling save).
+
 This module provides abstractions for caching expensive computations, particularly
 embeddings (semantic vectors). Caching is critical for:
 
@@ -31,7 +35,10 @@ Typical usage:
     ```
 """
 
+import asyncio
 import json
+import logging
+import os
 from abc import ABC, abstractmethod
 from collections import OrderedDict
 from pathlib import Path
@@ -50,6 +57,7 @@ class EmbeddingCacheConfig(BaseModel):
         cache_file: Path to persistent cache file (for file-based caches)
         auto_save_interval: Number of cache updates before auto-saving (0 = manual save only)
         normalize_keys: Whether to normalize cache keys (lowercase, strip whitespace)
+        normalize_collapse_whitespace: When True, collapse internal whitespace to one space (optional).
     """
 
     model_config = {"frozen": True}
@@ -58,6 +66,7 @@ class EmbeddingCacheConfig(BaseModel):
     cache_file: Path | None = Field(None, description="Path to persistent cache file")
     auto_save_interval: int = Field(100, ge=0, description="Auto-save every N updates (0 = manual only)")
     normalize_keys: bool = Field(True, description="Normalize cache keys for consistent lookups")
+    normalize_collapse_whitespace: bool = Field(False, description="Collapse internal whitespace to single space when normalizing keys")
 
 
 class EmbeddingsCacheInterface(ABC):
@@ -192,6 +201,14 @@ class InMemoryEmbeddingsCache(EmbeddingsCacheInterface):
         self._hits = 0
         self._misses = 0
         self._evictions = 0
+        self._lock = asyncio.Lock()
+
+    def _normalize_key(self, text: str) -> str:
+        """Normalize cache key; optionally collapse internal whitespace."""
+        base = text.lower().strip()
+        if getattr(self.config, "normalize_collapse_whitespace", False):
+            return " ".join(base.split())
+        return base
 
     async def get(self, text: str) -> Optional[tuple[float, ...]]:
         """Retrieve embedding from memory cache.
@@ -203,15 +220,21 @@ class InMemoryEmbeddingsCache(EmbeddingsCacheInterface):
             Embedding vector if found, None otherwise
         """
         key = self._normalize_key(text) if self.config.normalize_keys else text
-
-        if key in self._cache:
-            self._hits += 1
-            # Move to end (mark as recently used)
-            self._cache.move_to_end(key)
-            return self._cache[key]
-
-        self._misses += 1
-        return None
+        async with self._lock:
+            if key in self._cache:
+                self._hits += 1
+                self._cache.move_to_end(key)
+                result: Optional[tuple[float, ...]] = self._cache[key]
+            else:
+                self._misses += 1
+                result = None
+        if os.environ.get("KG_EMBED_CACHE_DEBUG"):
+            log = logging.getLogger(__name__)
+            if result is not None:
+                log.info("CACHE HIT %s", (key[:40] + "..") if len(key) > 40 else key)
+            else:
+                log.info("CACHE MISS %s", (key[:40] + "..") if len(key) > 40 else key)
+        return result
 
     async def get_batch(self, texts: Sequence[str]) -> list[Optional[tuple[float, ...]]]:
         """Retrieve multiple embeddings from cache.
@@ -235,17 +258,13 @@ class InMemoryEmbeddingsCache(EmbeddingsCacheInterface):
             embedding: The embedding vector to store
         """
         key = self._normalize_key(text) if self.config.normalize_keys else text
-
-        # Update existing entry or add new one
-        if key in self._cache:
-            # Update and mark as recently used
-            self._cache.move_to_end(key)
-        self._cache[key] = embedding
-
-        # Enforce LRU eviction if needed
-        while len(self._cache) > self.config.max_cache_size:
-            self._cache.popitem(last=False)  # Remove oldest (first) item
-            self._evictions += 1
+        async with self._lock:
+            if key in self._cache:
+                self._cache.move_to_end(key)
+            self._cache[key] = embedding
+            while len(self._cache) > self.config.max_cache_size:
+                self._cache.popitem(last=False)
+                self._evictions += 1
 
     async def put_batch(self, texts: Sequence[str], embeddings: Sequence[tuple[float, ...]]) -> None:
         """Store multiple embeddings efficiently.
@@ -254,8 +273,15 @@ class InMemoryEmbeddingsCache(EmbeddingsCacheInterface):
             texts: Sequence of texts
             embeddings: Sequence of embedding vectors (same order)
         """
-        for text, embedding in zip(texts, embeddings):
-            await self.put(text, embedding)
+        async with self._lock:
+            for text, embedding in zip(texts, embeddings):
+                key = self._normalize_key(text) if self.config.normalize_keys else text
+                if key in self._cache:
+                    self._cache.move_to_end(key)
+                self._cache[key] = embedding
+                while len(self._cache) > self.config.max_cache_size:
+                    self._cache.popitem(last=False)
+                    self._evictions += 1
 
     async def clear(self) -> None:
         """Clear all cached embeddings and reset statistics.
@@ -264,10 +290,11 @@ class InMemoryEmbeddingsCache(EmbeddingsCacheInterface):
         clearing the cache contents. Use get_stats() before calling clear()
         if you need to preserve statistics.
         """
-        self._cache.clear()
-        self._hits = 0
-        self._misses = 0
-        self._evictions = 0
+        async with self._lock:
+            self._cache.clear()
+            self._hits = 0
+            self._misses = 0
+            self._evictions = 0
 
     def get_stats(self) -> dict[str, int]:
         """Get cache statistics.
@@ -345,6 +372,14 @@ class FileBasedEmbeddingsCache(EmbeddingsCacheInterface):
         self._evictions = 0
         self._updates_since_save = 0
         self._dirty = False
+        self._lock = asyncio.Lock()
+
+    def _normalize_key(self, text: str) -> str:
+        """Normalize cache key; optionally collapse internal whitespace."""
+        base = text.lower().strip()
+        if getattr(self.config, "normalize_collapse_whitespace", False):
+            return " ".join(base.split())
+        return base
 
     async def get(self, text: str) -> Optional[tuple[float, ...]]:
         """Retrieve embedding from cache.
@@ -356,15 +391,21 @@ class FileBasedEmbeddingsCache(EmbeddingsCacheInterface):
             Embedding vector if found, None otherwise
         """
         key = self._normalize_key(text) if self.config.normalize_keys else text
-
-        if key in self._cache:
-            self._hits += 1
-            # Move to end (mark as recently used)
-            self._cache.move_to_end(key)
-            return self._cache[key]
-
-        self._misses += 1
-        return None
+        async with self._lock:
+            if key in self._cache:
+                self._hits += 1
+                self._cache.move_to_end(key)
+                result: Optional[tuple[float, ...]] = self._cache[key]
+            else:
+                self._misses += 1
+                result = None
+        if os.environ.get("KG_EMBED_CACHE_DEBUG"):
+            log = logging.getLogger(__name__)
+            if result is not None:
+                log.info("CACHE HIT %s", (key[:40] + "..") if len(key) > 40 else key)
+            else:
+                log.info("CACHE MISS %s", (key[:40] + "..") if len(key) > 40 else key)
+        return result
 
     async def get_batch(self, texts: Sequence[str]) -> list[Optional[tuple[float, ...]]]:
         """Retrieve multiple embeddings from cache.
@@ -388,23 +429,20 @@ class FileBasedEmbeddingsCache(EmbeddingsCacheInterface):
             embedding: The embedding vector to store
         """
         key = self._normalize_key(text) if self.config.normalize_keys else text
-
-        # Update existing entry or add new one
-        if key in self._cache:
-            self._cache.move_to_end(key)
-        self._cache[key] = embedding
-        self._dirty = True
-
-        # Enforce LRU eviction if needed
-        while len(self._cache) > self.config.max_cache_size:
-            self._cache.popitem(last=False)
-            self._evictions += 1
-
-        # Auto-save if enabled
-        self._updates_since_save += 1
-        if self.config.auto_save_interval > 0 and self._updates_since_save >= self.config.auto_save_interval:
+        async with self._lock:
+            if key in self._cache:
+                self._cache.move_to_end(key)
+            self._cache[key] = embedding
+            self._dirty = True
+            while len(self._cache) > self.config.max_cache_size:
+                self._cache.popitem(last=False)
+                self._evictions += 1
+            self._updates_since_save += 1
+            do_save = self.config.auto_save_interval > 0 and self._updates_since_save >= self.config.auto_save_interval
+            if do_save:
+                self._updates_since_save = 0
+        if do_save:
             await self.save()
-            self._updates_since_save = 0
 
     async def put_batch(self, texts: Sequence[str], embeddings: Sequence[tuple[float, ...]]) -> None:
         """Store multiple embeddings efficiently.
@@ -413,24 +451,23 @@ class FileBasedEmbeddingsCache(EmbeddingsCacheInterface):
             texts: Sequence of texts
             embeddings: Sequence of embedding vectors (same order)
         """
-        for text, embedding in zip(texts, embeddings):
-            # Don't trigger auto-save for each item in batch
-            key = self._normalize_key(text) if self.config.normalize_keys else text
-            if key in self._cache:
-                self._cache.move_to_end(key)
-            self._cache[key] = embedding
-            self._dirty = True
-
-            # Enforce LRU eviction
-            while len(self._cache) > self.config.max_cache_size:
-                self._cache.popitem(last=False)
-                self._evictions += 1
-
-        # Save once after batch
-        self._updates_since_save += len(texts)
-        if self.config.auto_save_interval > 0 and self._updates_since_save >= self.config.auto_save_interval:
+        do_save = False
+        async with self._lock:
+            for text, embedding in zip(texts, embeddings):
+                key = self._normalize_key(text) if self.config.normalize_keys else text
+                if key in self._cache:
+                    self._cache.move_to_end(key)
+                self._cache[key] = embedding
+                self._dirty = True
+                while len(self._cache) > self.config.max_cache_size:
+                    self._cache.popitem(last=False)
+                    self._evictions += 1
+            self._updates_since_save += len(texts)
+            if self.config.auto_save_interval > 0 and self._updates_since_save >= self.config.auto_save_interval:
+                self._updates_since_save = 0
+                do_save = True
+        if do_save:
             await self.save()
-            self._updates_since_save = 0
 
     async def clear(self) -> None:
         """Clear all cached embeddings and reset statistics.
@@ -439,12 +476,13 @@ class FileBasedEmbeddingsCache(EmbeddingsCacheInterface):
         clearing the cache contents. Use get_stats() before calling clear()
         if you need to preserve statistics.
         """
-        self._cache.clear()
-        self._hits = 0
-        self._misses = 0
-        self._evictions = 0
-        self._updates_since_save = 0
-        self._dirty = True
+        async with self._lock:
+            self._cache.clear()
+            self._hits = 0
+            self._misses = 0
+            self._evictions = 0
+            self._updates_since_save = 0
+            self._dirty = True
 
     def get_stats(self) -> dict[str, int]:
         """Get cache statistics.
@@ -464,40 +502,34 @@ class FileBasedEmbeddingsCache(EmbeddingsCacheInterface):
 
         Uses atomic write (write to temp file, then rename) to prevent corruption.
         """
-        if not self._dirty:
-            return
-
-        if self.config.cache_file is None:
-            return
-
-        # Convert cache to JSON-serializable format
-        data = {key: list(value) for key, value in self._cache.items()}
-
-        # Atomic write: write to temp file, then rename
+        async with self._lock:
+            if not self._dirty:
+                return
+            if self.config.cache_file is None:
+                return
+            data = {key: list(value) for key, value in self._cache.items()}
+            self._dirty = False
+        # I/O outside lock
         temp_file = self.config.cache_file.with_suffix(".tmp")
         temp_file.parent.mkdir(parents=True, exist_ok=True)
-
         with open(temp_file, "w") as f:
             json.dump(data, f, indent=2)
-
-        # Atomic rename
         temp_file.replace(self.config.cache_file)
-        self._dirty = False
 
     async def load(self) -> None:
         """Load cache from JSON file.
 
         If file doesn't exist, starts with empty cache.
+        Keys are normalized on load when normalize_keys is True so lookups match.
         """
         if self.config.cache_file is None or not self.config.cache_file.exists():
             return
-
         with open(self.config.cache_file, "r") as f:
             data = json.load(f)
-
-        # Convert lists back to tuples
-        self._cache = OrderedDict((key, tuple(value)) for key, value in data.items())
-        self._dirty = False
+        # Normalize keys on load so in-memory keys match get()/put() convention
+        async with self._lock:
+            self._cache = OrderedDict((self._normalize_key(k) if self.config.normalize_keys else k, tuple(v)) for k, v in data.items())
+            self._dirty = False
 
 
 class CachedEmbeddingGenerator(EmbeddingGeneratorInterface):

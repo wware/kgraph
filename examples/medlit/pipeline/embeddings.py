@@ -1,7 +1,6 @@
 """Embedding generation for medical entities.
 
-Simple hash-based embedding generator for now. Can be enhanced with
-biomedical embedding models (BioBERT, etc.) later.
+Uses Ollama's /api/embed endpoint (single or batch input).
 """
 
 import os
@@ -15,14 +14,14 @@ from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 class OllamaMedLitEmbeddingGenerator(EmbeddingGeneratorInterface):
     """Real embedding generator using Ollama.
 
-    Uses Ollama's embedding API to generate vectors for medical entities.
-    Default model is nomic-embed-text which performs well on medical text.
+    Uses Ollama's /api/embed API. Supports single text or batch of texts
+    in one request. Default model is nomic-embed-text; mxbai-embed-large
+    also works well on medical text.
     """
 
     def __init__(
         self,
-        # model: str = "nomic-embed-text",
-        model: str = "mxbai-embed-large",
+        model: str = "nomic-embed-text",
         ollama_host: str | None = None,
         timeout: float = 30.0,
     ):
@@ -41,61 +40,48 @@ class OllamaMedLitEmbeddingGenerator(EmbeddingGeneratorInterface):
         - bge-large: 1024
         """
         if self._dimension is None:
-            # Lazy initialization - get dimension from first embedding
             raise RuntimeError("Dimension not yet determined. Call generate() at least once first.")
         return self._dimension
 
+    def _url(self) -> str:
+        return f"{self.ollama_host.rstrip('/')}/api/embed"
+
     async def generate(self, text: str) -> tuple[float, ...]:
-        """Generate embedding for a single text using Ollama.
+        """Generate embedding for a single text using Ollama /api/embed.
 
         Args:
             text: The text to generate an embedding for.
 
         Returns:
             Tuple of float values representing the embedding vector.
-
-        Raises:
-            httpx.HTTPError: If Ollama request fails
-            ValueError: If response format is unexpected
         """
+        result = await self._request_batch([text])
+        return result[0]
+
+    async def _request_batch(self, texts: list[str]) -> list[tuple[float, ...]]:
+        """One HTTP request for one or more texts. Response order matches input order."""
+        if not texts:
+            return []
         async with httpx.AsyncClient(timeout=self.timeout) as client:
-            print("DEBUG: Inside async context manager")  # Add this
-            self.model = "nomic-embed-text"
-            print(f"DEBUG: Set model to {self.model}")  # Add this
-            url = self.ollama_host + "/api/embeddings"
-            print(f"DEBUG: URL is {url}")  # Add this
-            try:
-                response = await client.post(
-                    url,
-                    json={"model": self.model, "prompt": text},
-                )
-                print("EMBED STATUS:", response.status_code)
-                if response.status_code != 200:
-                    print("EMBED BODY:", response.text[:500])
-                response.raise_for_status()
-                data = response.json()
-            except Exception as e:
-                import traceback
-
-                print("EMBED EXCEPTION:", repr(e))
-                traceback.print_exc()
-                raise
-
-            if "embedding" in data and isinstance(data["embedding"], list):
-                embedding = data["embedding"]
-            elif "embeddings" in data and data["embeddings"]:
-                embedding = data["embeddings"][0]
+            payload: dict = {"model": self.model}
+            if len(texts) == 1:
+                payload["input"] = texts[0]
             else:
-                raise ValueError(f"Unexpected response format: {data}")
-
-            # Set dimension on first call
-            if self._dimension is None:
-                self._dimension = len(embedding)
-
-            return tuple(embedding)
+                payload["input"] = texts
+            response = await client.post(self._url(), json=payload)
+            response.raise_for_status()
+            data = response.json()
+        emb_list = data.get("embeddings")
+        if not emb_list or not isinstance(emb_list, list):
+            raise ValueError(f"Unexpected response format: {data}")
+        if len(emb_list) != len(texts):
+            raise ValueError(f"Embedding count {len(emb_list)} does not match input count {len(texts)}")
+        if self._dimension is None and emb_list:
+            self._dimension = len(emb_list[0])
+        return [tuple(e) for e in emb_list]
 
     async def generate_batch(self, texts: Sequence[str]) -> list[tuple[float, ...]]:
-        """Generate embeddings for multiple texts.
+        """Generate embeddings for multiple texts in one request when possible.
 
         Args:
             texts: Sequence of texts to generate embeddings for.
@@ -103,4 +89,7 @@ class OllamaMedLitEmbeddingGenerator(EmbeddingGeneratorInterface):
         Returns:
             List of embedding tuples in the same order as input texts.
         """
-        return [await self.generate(t) for t in texts]
+        if not texts:
+            return []
+        texts_list = list(texts)
+        return await self._request_batch(texts_list)

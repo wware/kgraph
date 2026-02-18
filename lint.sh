@@ -67,14 +67,17 @@ echo "=========================================="
 # Run all tests using testpaths from pyproject.toml (tests/ + examples/medlit/tests/)
 uv run pytest -q
 
-# Run kgbundle tests (if they exist)
+# Run kgbundle tests from repo root so the root venv (kgbundle + pydantic) is used.
+# Do not "cd kgbundle && uv run pytest": that can use a venv without pydantic.
 if [ -d "kgbundle/tests" ]; then
     echo ""
     echo "Running kgbundle tests..."
-    (cd kgbundle && uv run pytest tests/ -q)
+    uv run pytest kgbundle/tests/ -q
 fi
 
-# Run kgserver tests with kgbundle in PYTHONPATH
+# Run kgserver tests from kgserver/ so uv uses kgserver's pyproject (sqlalchemy, etc.).
+# Do not run "pytest kgserver/tests/" from root: that uses the root venv, which lacks kgserver deps.
+# PYTHONPATH adds root kgbundle so kgserver can import it (kgserver does not list kgbundle as a dep).
 if [ -d "kgserver/tests" ]; then
     echo ""
     echo "Running kgserver tests..."

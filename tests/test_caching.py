@@ -3,8 +3,11 @@
 Tests in-memory and file-based caching, as well as the cached embedding generator.
 """
 
+import asyncio
+import json
 import tempfile
 from pathlib import Path
+from typing import Sequence
 
 import pytest
 
@@ -14,6 +17,7 @@ from kgraph.pipeline.caching import (
     FileBasedEmbeddingsCache,
     InMemoryEmbeddingsCache,
 )
+from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 
 from tests.conftest import MockEmbeddingGenerator
 
@@ -270,6 +274,30 @@ class TestFileBasedEmbeddingsCache:
             # Cache should be empty
             assert await cache.get("text1") is None
 
+    async def test_normalize_keys_on_load(self):
+        """Keys loaded from file are normalized so get() with different casing hits."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            cache_file = Path(tmpdir) / "cache.json"
+            # Write file with mixed-case and extra whitespace keys
+            with open(cache_file, "w") as f:
+                json.dump(
+                    {
+                        "Aspirin": [0.1, 0.2],
+                        "  ibuprofen  ": [0.3, 0.4],
+                    },
+                    f,
+                )
+            config = EmbeddingCacheConfig(cache_file=cache_file, normalize_keys=True)
+            cache = FileBasedEmbeddingsCache(config=config)
+            await cache.load()
+
+            # Both lookups for aspirin (different casing) must return same embedding
+            assert await cache.get("aspirin") == (0.1, 0.2)
+            assert await cache.get("Aspirin") == (0.1, 0.2)
+            assert await cache.get("ibuprofen") == (0.3, 0.4)
+            # After load, in-memory keys are normalized so we have 2 entries
+            assert len(cache._cache) == 2
+
     async def test_lru_eviction_with_persistence(self):
         """Test LRU eviction works with persistent cache."""
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -314,6 +342,31 @@ class TestFileBasedEmbeddingsCache:
 
             results = await cache2.get_batch(texts)
             assert results == list(embeddings)
+
+    async def test_concurrent_access(self):
+        """Concurrent get/put/save/load do not corrupt cache."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            cache_file = Path(tmpdir) / "cache.json"
+            config = EmbeddingCacheConfig(
+                cache_file=cache_file, auto_save_interval=50, normalize_keys=True
+            )
+            cache = FileBasedEmbeddingsCache(config=config)
+
+            async def do_ops(i: int) -> None:
+                key = f"key_{i % 20}"
+                emb = (float(i), float(i + 1))
+                await cache.put(key, emb)
+                await cache.get(key)
+
+            await asyncio.gather(*[do_ops(i) for i in range(50)])
+            await cache.save()
+            await cache.load()
+
+            # All keys 0..19 should be present (normalized)
+            for i in range(20):
+                result = await cache.get(f"key_{i}")
+                assert result is not None
+            assert len(cache._cache) == 20
 
 
 class TestCachedEmbeddingGenerator:
@@ -411,6 +464,51 @@ class TestCachedEmbeddingGenerator:
         assert stats["hits"] == 1
         assert stats["misses"] == 2
         assert stats["size"] == 2
+
+    async def test_cached_generator_calls_base_once_per_text(self):
+        """Repeated generate() with same text calls base generator only once."""
+        call_log: list[str] = []
+
+        class RecordingMock(EmbeddingGeneratorInterface):
+            def __init__(self) -> None:
+                self._dim = 4
+
+            @property
+            def dimension(self) -> int:
+                return self._dim
+
+            async def generate(self, text: str) -> tuple[float, ...]:
+                call_log.append(("generate", text))
+                return (hash(text) % 1000 / 1000.0,) * self._dim
+
+            async def generate_batch(self, texts: Sequence[str]) -> list[tuple[float, ...]]:
+                call_log.append(("generate_batch", list(texts)))
+                return [await self.generate(t) for t in texts]
+
+        base = RecordingMock()
+        cache = InMemoryEmbeddingsCache()
+        cached = CachedEmbeddingGenerator(base_generator=base, cache=cache)
+
+        await cached.generate("x")
+        await cached.generate("x")
+        assert len(call_log) == 1 and call_log[0] == ("generate", "x")
+
+    async def test_cached_generator_batch_returns_correct_order(self):
+        """generate_batch with mixed hits/misses returns list in input order."""
+        base_gen = MockEmbeddingGenerator(dim=4)
+        cache = InMemoryEmbeddingsCache()
+        await cache.put("a", (0.1, 0.2, 0.3, 0.4))
+        cached = CachedEmbeddingGenerator(base_generator=base_gen, cache=cache)
+
+        results = await cached.generate_batch(["a", "b", "a"])
+
+        assert len(results) == 3
+        assert results[0] == (0.1, 0.2, 0.3, 0.4)
+        assert results[2] == (0.1, 0.2, 0.3, 0.4)
+        assert results[1] is not None and len(results[1]) == 4
+        # Only "b" was a miss; base generate_batch called once with ["b"]
+        assert cache.get_stats()["misses"] == 1
+        assert cache.get_stats()["size"] == 2
 
 
 class TestCachingIntegration:
