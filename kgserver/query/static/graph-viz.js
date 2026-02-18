@@ -403,7 +403,7 @@ function renderGraph(data) {
         .attr('fill', 'none')
         .attr('marker-end', 'url(#arrowhead)')
         .on('click', (event, d) => showEdgeDetails(d))
-        .on('mouseenter', (event, d) => showTooltip(event, `${d.label}`))
+        .on('mouseenter', (event, d) => showEdgeTooltip(event, d))
         .on('mouseleave', hideTooltip);
     
     // Create link labels
@@ -428,7 +428,7 @@ function renderGraph(data) {
             .on('end', dragended))
         .on('click', (event, d) => showNodeDetails(d))
         .on('dblclick', (event, d) => recenterOn(d.id))
-        .on('mouseenter', (event, d) => showTooltip(event, `${d.label}\n(${d.entity_type})`))
+        .on('mouseenter', (event, d) => showNodeTooltip(event, d))
         .on('mouseleave', hideTooltip);
     
     // Add circles to nodes
@@ -525,6 +525,22 @@ function showTooltip(event, text) {
     tooltip.style.top = (event.pageY + 10) + 'px';
 }
 
+function showNodeTooltip(event, d) {
+    let text = `${d.label}\n(${d.entity_type})`;
+    const p = (d.properties || {});
+    if (p.first_seen_document != null) text += `\nFirst seen: ${p.first_seen_document}`;
+    if (p.total_mentions != null) text += `\nMentions: ${p.total_mentions}`;
+    showTooltip(event, text);
+}
+
+function showEdgeTooltip(event, d) {
+    let text = d.label;
+    const p = (d.properties || {});
+    if (p.evidence_count != null) text += `\nEvidence: ${p.evidence_count}`;
+    if (p.strongest_evidence_quote) text += `\n"${truncateLabel(p.strongest_evidence_quote, 60)}"`;
+    showTooltip(event, text);
+}
+
 function hideTooltip() {
     tooltip.classList.add('hidden');
 }
@@ -557,7 +573,23 @@ function showNodeDetails(node) {
     if (props.synonyms && props.synonyms.length > 0) {
         html += createProperty('Synonyms', props.synonyms.join(', '));
     }
-    
+
+    // Provenance summary
+    if (props.first_seen_document != null) {
+        const docLink = formatSourceLink(props.first_seen_document);
+        html += createProperty('First seen document', docLink);
+    }
+    if (props.first_seen_section != null) {
+        html += createProperty('First seen section', props.first_seen_section);
+    }
+    if (props.total_mentions != null) {
+        html += createProperty('Total mentions', props.total_mentions);
+    }
+    if (props.supporting_documents && props.supporting_documents.length > 0) {
+        const linked = props.supporting_documents.map(d => formatSourceLink(d)).join(', ');
+        html += createProperty('Supporting documents', linked);
+    }
+
     panelContent.innerHTML = html;
     detailPanel.classList.remove('hidden');
 }
@@ -613,7 +645,18 @@ function showEdgeDetails(edge) {
             .join(', ');
         html += createProperty('Source Documents', linkedDocs);
     }
-    
+
+    // Evidence summary
+    if (props.evidence_count != null) {
+        html += createProperty('Evidence count', props.evidence_count);
+    }
+    if (props.evidence_confidence_avg != null) {
+        html += createProperty('Evidence confidence (avg)', props.evidence_confidence_avg);
+    }
+    if (props.strongest_evidence_quote) {
+        html += createProperty('Strongest evidence', escapeHtml(props.strongest_evidence_quote));
+    }
+
     panelContent.innerHTML = html;
     detailPanel.classList.remove('hidden');
 }

@@ -46,9 +46,9 @@ Example usage:
 """
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Optional, Sequence
 
 import numpy as np
 from pydantic import BaseModel, ConfigDict
@@ -56,6 +56,7 @@ from sklearn.metrics.pairwise import cosine_similarity  # type: ignore
 
 from kgraph.canonical_id import CanonicalId
 from kgraph.logging import setup_logging
+from kgraph.provenance import ProvenanceAccumulator
 from kgraph.promotion import PromotionPolicy
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
 from kgraph.pipeline.interfaces import (
@@ -78,6 +79,37 @@ from kgschema.storage import (
     EntityStorageInterface,
     RelationshipStorageInterface,
 )
+
+
+def _record_relationship_evidence(
+    accumulator: Optional[ProvenanceAccumulator],
+    rel: BaseRelationship,
+) -> None:
+    """If accumulator and rel.evidence are set, record evidence rows."""
+    if accumulator is None or getattr(rel, "evidence", None) is None:
+        return
+    evidence = rel.evidence
+    rel_key = f"{rel.subject_id}:{rel.predicate}:{rel.object_id}"
+    confidence = getattr(rel, "confidence", 0.0) or 0.0
+    evidence_text = (evidence.notes or {}).get("evidence_text", "") or ""
+
+    def add_from_provenance(prov) -> None:
+        if prov is None:
+            return
+        accumulator.add_evidence(
+            relationship_key=rel_key,
+            document_id=prov.document_id,
+            section=prov.section,
+            start_offset=prov.start_offset if prov.start_offset is not None else 0,
+            end_offset=prov.end_offset if prov.end_offset is not None else 0,
+            text_span=evidence_text,
+            confidence=confidence,
+            supports=True,
+        )
+
+    add_from_provenance(evidence.primary)
+    for prov in evidence.mentions or ():
+        add_from_provenance(prov)
 
 
 class DocumentResult(BaseModel):
@@ -211,6 +243,7 @@ class IngestionOrchestrator(BaseModel):
     document_chunker: DocumentChunkerInterface | None = None
     streaming_entity_extractor: StreamingEntityExtractorInterface | None = None
     streaming_relationship_extractor: StreamingRelationshipExtractorInterface | None = None
+    provenance_accumulator: Optional[ProvenanceAccumulator] = None
 
     async def extract_entities_from_document(  # pylint: disable=too-many-statements
         self,
@@ -323,6 +356,20 @@ class IngestionOrchestrator(BaseModel):
                     # Increment usage count
                     updated = existing.model_copy(update={"usage_count": existing.usage_count + 1})
                     await self.entity_storage.update(updated)
+                    if self.provenance_accumulator is not None:
+                        doc_meta = document.metadata if hasattr(document, "metadata") and document.metadata else None
+                        self.provenance_accumulator.add_mention(
+                            entity_id=updated.entity_id,
+                            document_id=document.document_id,
+                            section=doc_meta.get("section") if doc_meta else None,
+                            start_offset=mention.start_offset,
+                            end_offset=mention.end_offset,
+                            text_span=mention.text,
+                            context=mention.context,
+                            confidence=mention.confidence,
+                            extraction_method=doc_meta.get("extraction_method", "llm") if doc_meta else "llm",
+                            created_at=datetime.now(timezone.utc).isoformat(),
+                        )
                     resolved_entities.append(updated)
                     entities_existing += 1
                 else:
@@ -339,6 +386,20 @@ class IngestionOrchestrator(BaseModel):
                         entity = entity.model_copy(update={"source": document.document_id})
 
                     await self.entity_storage.add(entity)
+                    if self.provenance_accumulator is not None:
+                        doc_meta = document.metadata if hasattr(document, "metadata") and document.metadata else None
+                        self.provenance_accumulator.add_mention(
+                            entity_id=entity.entity_id,
+                            document_id=document.document_id,
+                            section=doc_meta.get("section") if doc_meta else None,
+                            start_offset=mention.start_offset,
+                            end_offset=mention.end_offset,
+                            text_span=mention.text,
+                            context=mention.context,
+                            confidence=mention.confidence,
+                            extraction_method=doc_meta.get("extraction_method", "llm") if doc_meta else "llm",
+                            created_at=datetime.now(timezone.utc).isoformat(),
+                        )
                     resolved_entities.append(entity)
                     entities_new += 1
 
@@ -442,6 +503,7 @@ class IngestionOrchestrator(BaseModel):
                         for rel in rel_batch:
                             if await self.domain.validate_relationship(rel, entity_storage=self.entity_storage):
                                 await self.relationship_storage.add(rel)
+                                _record_relationship_evidence(self.provenance_accumulator, rel)
                                 relationships.append(rel)
                             else:
                                 errors.append(f"Relationship validation failed: {rel.subject_id} " f"-{rel.predicate}-> {rel.object_id}")
@@ -450,6 +512,7 @@ class IngestionOrchestrator(BaseModel):
                     for rel in extracted_rels:
                         if await self.domain.validate_relationship(rel, entity_storage=self.entity_storage):
                             await self.relationship_storage.add(rel)
+                            _record_relationship_evidence(self.provenance_accumulator, rel)
                             relationships.append(rel)
                         else:
                             errors.append(f"Relationship validation failed: {rel.subject_id} " f"-{rel.predicate}-> {rel.object_id}")

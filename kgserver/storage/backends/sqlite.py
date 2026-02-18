@@ -8,8 +8,8 @@ from typing import Optional, Sequence
 from sqlalchemy import func
 from sqlmodel import Session, SQLModel, create_engine, select
 from storage.interfaces import StorageInterface
-from storage.models import Bundle, Entity, Relationship
-from kgbundle import BundleManifestV1
+from storage.models import Bundle, BundleEvidence, Entity, Mention, Relationship
+from kgbundle import BundleManifestV1, EvidenceRow, MentionRow
 
 
 class SQLiteStorage(StorageInterface):
@@ -69,6 +69,56 @@ class SQLiteStorage(StorageInterface):
                     relationship = Relationship(**relationship_data)
                     self._session.merge(relationship)
 
+        # Load provenance when present
+        if bundle_manifest.mentions is not None:
+            mentions_path = f"{bundle_path}/{bundle_manifest.mentions.path}"
+            try:
+                with open(mentions_path, "r") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        mention_row = MentionRow.model_validate_json(line)
+                        self._session.add(
+                            Mention(
+                                entity_id=mention_row.entity_id,
+                                document_id=mention_row.document_id,
+                                section=mention_row.section,
+                                start_offset=mention_row.start_offset,
+                                end_offset=mention_row.end_offset,
+                                text_span=mention_row.text_span,
+                                context=mention_row.context,
+                                confidence=mention_row.confidence,
+                                extraction_method=mention_row.extraction_method,
+                                created_at=mention_row.created_at,
+                            )
+                        )
+            except FileNotFoundError:
+                pass
+        if bundle_manifest.evidence is not None:
+            evidence_path = f"{bundle_path}/{bundle_manifest.evidence.path}"
+            try:
+                with open(evidence_path, "r") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        evidence_row = EvidenceRow.model_validate_json(line)
+                        self._session.add(
+                            BundleEvidence(
+                                relationship_key=evidence_row.relationship_key,
+                                document_id=evidence_row.document_id,
+                                section=evidence_row.section,
+                                start_offset=evidence_row.start_offset,
+                                end_offset=evidence_row.end_offset,
+                                text_span=evidence_row.text_span,
+                                confidence=evidence_row.confidence,
+                                supports=evidence_row.supports,
+                            )
+                        )
+            except FileNotFoundError:
+                pass
+
         self.record_bundle(bundle_manifest)
         self._session.commit()
 
@@ -109,6 +159,14 @@ class SQLiteStorage(StorageInterface):
                 elif "canonicalUrl" in props:
                     result["canonical_url"] = props.pop("canonicalUrl")
 
+        # Move provenance summary fields into properties so Entity() accepts only known columns
+        for key in ("first_seen_document", "first_seen_section", "total_mentions", "supporting_documents"):
+            if key in result:
+                result.setdefault("properties", {})[key] = result.pop(key)
+        # Entity model has no created_at; keep it in properties if present
+        if "created_at" in result:
+            result.setdefault("properties", {})["created_at"] = result.pop("created_at")
+
         return result
 
     def _normalize_relationship(self, data: dict) -> dict:
@@ -125,6 +183,13 @@ class SQLiteStorage(StorageInterface):
             result.setdefault("properties", {}).update(meta)
         result.pop("relationship_id", None)
         result.pop("evidence_document_id", None)
+        # Move evidence summary fields into properties
+        for key in ("evidence_count", "strongest_evidence_quote", "evidence_confidence_avg"):
+            if key in result:
+                result.setdefault("properties", {})[key] = result.pop(key)
+        # Relationship model has no created_at; keep it in properties if present
+        if "created_at" in result:
+            result.setdefault("properties", {})["created_at"] = result.pop("created_at")
         return result
 
     def is_bundle_loaded(self, bundle_id: str) -> bool:
@@ -272,6 +337,45 @@ class SQLiteStorage(StorageInterface):
         """
         statement = select(Bundle).order_by(Bundle.created_at.desc()).limit(1)
         return self._session.exec(statement).first()
+
+    def get_mentions_for_entity(self, entity_id: str) -> Sequence[MentionRow]:
+        """Return all mention rows for the given entity (bundle provenance)."""
+        statement = select(Mention).where(Mention.entity_id == entity_id)
+        rows = self._session.exec(statement).all()
+        return [
+            MentionRow(
+                entity_id=r.entity_id,
+                document_id=r.document_id,
+                section=r.section,
+                start_offset=r.start_offset,
+                end_offset=r.end_offset,
+                text_span=r.text_span,
+                context=r.context,
+                confidence=r.confidence,
+                extraction_method=r.extraction_method,
+                created_at=r.created_at,
+            )
+            for r in rows
+        ]
+
+    def get_evidence_for_relationship(self, subject_id: str, predicate: str, object_id: str) -> Sequence[EvidenceRow]:
+        """Return all evidence rows for the given relationship triple (bundle provenance)."""
+        rel_key = f"{subject_id}:{predicate}:{object_id}"
+        statement = select(BundleEvidence).where(BundleEvidence.relationship_key == rel_key)
+        rows = self._session.exec(statement).all()
+        return [
+            EvidenceRow(
+                relationship_key=r.relationship_key,
+                document_id=r.document_id,
+                section=r.section,
+                start_offset=r.start_offset,
+                end_offset=r.end_offset,
+                text_span=r.text_span,
+                confidence=r.confidence,
+                supports=r.supports,
+            )
+            for r in rows
+        ]
 
     def close(self) -> None:
         """

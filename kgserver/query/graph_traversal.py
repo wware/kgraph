@@ -62,21 +62,27 @@ class SubgraphResponse(BaseModel):
 
 def _entity_to_node(entity) -> GraphNode:
     """Convert a storage Entity to a GraphNode."""
+    props: dict[str, Any] = {
+        "entity_id": entity.entity_id,
+        "entity_type": entity.entity_type,
+        "name": entity.name,
+        "status": entity.status,
+        "confidence": entity.confidence,
+        "usage_count": entity.usage_count,
+        "source": entity.source,
+        "canonical_url": entity.canonical_url,
+        "synonyms": entity.synonyms or [],
+    }
+    # Include provenance summary from properties (set during bundle load)
+    if entity.properties:
+        for key in ("first_seen_document", "first_seen_section", "total_mentions", "supporting_documents"):
+            if key in entity.properties:
+                props[key] = entity.properties[key]
     return GraphNode(
         id=entity.entity_id,
         label=entity.name or entity.entity_id,
         entity_type=entity.entity_type,
-        properties={
-            "entity_id": entity.entity_id,
-            "entity_type": entity.entity_type,
-            "name": entity.name,
-            "status": entity.status,
-            "confidence": entity.confidence,
-            "usage_count": entity.usage_count,
-            "source": entity.source,
-            "canonical_url": entity.canonical_url,
-            "synonyms": entity.synonyms,
-        },
+        properties=props,
     )
 
 
@@ -85,18 +91,25 @@ def _relationship_to_edge(rel) -> GraphEdge:
     # Create human-readable label from predicate
     label = rel.predicate.replace("_", " ").lower()
 
+    props: dict[str, Any] = {
+        "subject_id": rel.subject_id,
+        "predicate": rel.predicate,
+        "object_id": rel.object_id,
+        "confidence": rel.confidence,
+        "source_documents": rel.source_documents or [],
+    }
+    # Include evidence summary from properties (set during bundle load)
+    if rel.properties:
+        for key in ("evidence_count", "strongest_evidence_quote", "evidence_confidence_avg"):
+            if key in rel.properties:
+                props[key] = rel.properties[key]
+
     return GraphEdge(
         source=rel.subject_id,
         target=rel.object_id,
         label=label,
         predicate=rel.predicate,
-        properties={
-            "subject_id": rel.subject_id,
-            "predicate": rel.predicate,
-            "object_id": rel.object_id,
-            "confidence": rel.confidence,
-            "source_documents": rel.source_documents,
-        },
+        properties=props,
     )
 
 

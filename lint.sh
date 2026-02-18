@@ -52,7 +52,8 @@ echo ""
 echo "=========================================="
 echo "Running flake8..."
 echo "=========================================="
-uv run flake8 ${PYTHONFILES} --count --show-source --statistics || fixes_needed
+# Use -j 1 to avoid multiprocessing (avoids PermissionError in sandbox/CI)
+uv run flake8 ${PYTHONFILES} --count --show-source --statistics -j 1 || fixes_needed
 
 echo ""
 echo "=========================================="
@@ -64,7 +65,7 @@ echo ""
 echo "=========================================="
 echo "Running tests..."
 echo "=========================================="
-# Run all tests using testpaths from pyproject.toml (tests/ + examples/medlit/tests/)
+# Root tests: tests/ + examples/medlit/tests/ (includes provenance, export, ingestion, etc.)
 uv run pytest -q
 
 # Run kgbundle tests from repo root so the root venv (kgbundle + pydantic) is used.

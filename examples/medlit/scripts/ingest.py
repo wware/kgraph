@@ -39,6 +39,7 @@ from tempfile import TemporaryDirectory
 from pydantic import BaseModel
 
 from kgraph.export import write_bundle
+from kgraph.provenance import ProvenanceAccumulator
 from kgraph.ingest import IngestionOrchestrator
 from kgraph.logging import setup_logging
 from kgraph.pipeline.embedding import EmbeddingGeneratorInterface
@@ -283,6 +284,7 @@ def build_orchestrator(
         base_extractor=relationship_extractor,
     )
 
+    provenance_accumulator = ProvenanceAccumulator()
     orchestrator = IngestionOrchestrator(
         domain=domain,
         parser=JournalArticleParser(),
@@ -300,6 +302,7 @@ def build_orchestrator(
         document_chunker=document_chunker,
         streaming_entity_extractor=streaming_entity_extractor,
         streaming_relationship_extractor=streaming_relationship_extractor,
+        provenance_accumulator=provenance_accumulator,
     )
 
     return orchestrator, None, cached_embedding_generator
@@ -985,6 +988,7 @@ async def export_bundle(
     processed: int,
     errors: int,
     cache_file: Path | None = None,
+    provenance_accumulator: ProvenanceAccumulator | None = None,
 ) -> None:
     """Exports the final knowledge graph to a bundle directory.
 
@@ -1050,6 +1054,7 @@ Papers were processed from JSON format (med-lit-schema Paper format).
             label="medical-literature",
             docs=temp_path,
             description="Knowledge graph bundle of biomedical journal articles",
+            provenance_accumulator=provenance_accumulator,
         )
 
         # Copy cache file to bundle if it exists
@@ -1336,7 +1341,15 @@ async def main() -> None:  # pylint: disable=too-many-statements
 
         await print_summary(document_storage, entity_storage, relationship_storage, quiet=quiet)
         cache_file_path = lookup.cache_file if lookup else cache_file
-        await export_bundle(entity_storage, relationship_storage, output_dir, processed, errors, cache_file=cache_file_path)
+        await export_bundle(
+            entity_storage,
+            relationship_storage,
+            output_dir,
+            processed,
+            errors,
+            cache_file=cache_file_path,
+            provenance_accumulator=orchestrator.provenance_accumulator,
+        )
 
         if args.trace_all:
             trace_collector.print_summary()

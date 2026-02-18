@@ -196,21 +196,26 @@ async def get_node_details(
     if not entity:
         raise HTTPException(status_code=404, detail="Entity not found")
 
+    props = {
+        "entity_id": entity.entity_id,
+        "entity_type": entity.entity_type,
+        "name": entity.name,
+        "status": entity.status,
+        "confidence": entity.confidence,
+        "usage_count": entity.usage_count,
+        "source": entity.source,
+        "canonical_url": entity.canonical_url,
+        "synonyms": entity.synonyms or [],
+    }
+    if entity.properties:
+        for key in ("first_seen_document", "first_seen_section", "total_mentions", "supporting_documents"):
+            if key in entity.properties:
+                props[key] = entity.properties[key]
     return GraphNode(
         id=entity.entity_id,
         label=entity.name or entity.entity_id,
         entity_type=entity.entity_type,
-        properties={
-            "entity_id": entity.entity_id,
-            "entity_type": entity.entity_type,
-            "name": entity.name,
-            "status": entity.status,
-            "confidence": entity.confidence,
-            "usage_count": entity.usage_count,
-            "source": entity.source,
-            "canonical_url": entity.canonical_url,
-            "synonyms": entity.synonyms,
-        },
+        properties=props,
     )
 
 
@@ -237,16 +242,69 @@ async def get_edge_details(
 
     label = rel.predicate.replace("_", " ").lower()
 
+    props = {
+        "subject_id": rel.subject_id,
+        "predicate": rel.predicate,
+        "object_id": rel.object_id,
+        "confidence": rel.confidence,
+        "source_documents": rel.source_documents or [],
+    }
+    if rel.properties:
+        for key in ("evidence_count", "strongest_evidence_quote", "evidence_confidence_avg"):
+            if key in rel.properties:
+                props[key] = rel.properties[key]
     return GraphEdge(
         source=rel.subject_id,
         target=rel.object_id,
         label=label,
         predicate=rel.predicate,
-        properties={
-            "subject_id": rel.subject_id,
-            "predicate": rel.predicate,
-            "object_id": rel.object_id,
-            "confidence": rel.confidence,
-            "source_documents": rel.source_documents,
-        },
+        properties=props,
     )
+
+
+class MentionsResponse(BaseModel):
+    """Mentions (provenance) for an entity."""
+
+    mentions: list[dict] = Field(description="List of mention records from bundle provenance")
+
+
+@router.get(
+    "/entity/{entity_id}/mentions",
+    response_model=MentionsResponse,
+    summary="Get mentions for an entity",
+    description="Return all mention records (provenance) for the given entity.",
+)
+async def get_entity_mentions(
+    entity_id: str,
+    storage: StorageInterface = Depends(get_storage),
+) -> MentionsResponse:
+    """Get mention provenance for an entity."""
+    rows = storage.get_mentions_for_entity(entity_id)
+    return MentionsResponse(mentions=[r.model_dump() for r in rows])
+
+
+class EvidenceResponse(BaseModel):
+    """Evidence for a relationship."""
+
+    evidence: list[dict] = Field(description="List of evidence records for the relationship")
+
+
+@router.get(
+    "/edge/evidence",
+    response_model=EvidenceResponse,
+    summary="Get evidence for an edge",
+    description="Return evidence records for the relationship (subject_id, predicate, object_id).",
+)
+async def get_edge_evidence(
+    subject_id: str = Query(..., description="Subject entity ID"),
+    predicate: str = Query(..., description="Relationship predicate"),
+    object_id: str = Query(..., description="Object entity ID"),
+    storage: StorageInterface = Depends(get_storage),
+) -> EvidenceResponse:
+    """Get evidence for a relationship."""
+    rows = storage.get_evidence_for_relationship(
+        subject_id=subject_id,
+        predicate=predicate,
+        object_id=object_id,
+    )
+    return EvidenceResponse(evidence=[r.model_dump() for r in rows])

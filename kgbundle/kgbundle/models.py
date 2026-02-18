@@ -31,6 +31,13 @@ class EntityRow(BaseModel):
         default_factory=dict,
         description="Additional entity properties",
     )
+    first_seen_document: Optional[str] = Field(None, description="Document ID of earliest mention")
+    first_seen_section: Optional[str] = Field(None, description="Section of earliest mention")
+    total_mentions: int = Field(0, description="Total number of mention rows for this entity")
+    supporting_documents: List[str] = Field(
+        default_factory=list,
+        description="Distinct document IDs where this entity is mentioned",
+    )
 
 
 class RelationshipRow(BaseModel):
@@ -49,6 +56,43 @@ class RelationshipRow(BaseModel):
         default_factory=dict,
         description="Additional relationship properties (co_occurrence_count, etc.)",
     )
+    evidence_count: int = Field(0, description="Number of evidence spans for this relationship")
+    strongest_evidence_quote: Optional[str] = Field(None, description="Text span of highest-confidence evidence")
+    evidence_confidence_avg: Optional[float] = Field(None, description="Mean confidence of evidence spans")
+
+
+class MentionRow(BaseModel):
+    """One entity mention occurrence (one line in mentions.jsonl)."""
+
+    entity_id: str = Field(..., description="Entity ID this mention resolves to")
+    document_id: str = Field(..., description="Document where the mention appears")
+    section: Optional[str] = Field(None, description="Section within the document")
+    start_offset: int = Field(..., description="Start character offset in document")
+    end_offset: int = Field(..., description="End character offset in document")
+    text_span: str = Field(..., description="Mention text")
+    context: Optional[str] = Field(None, description="Surrounding context")
+    confidence: float = Field(..., description="Extraction confidence")
+    extraction_method: str = Field(
+        ...,
+        description="How the mention was extracted (e.g. llm, rule_based, canonical_lookup)",
+    )
+    created_at: str = Field(..., description="ISO 8601 creation timestamp")
+
+
+class EvidenceRow(BaseModel):
+    """One evidence span supporting a relationship (one line in evidence.jsonl)."""
+
+    relationship_key: str = Field(
+        ...,
+        description="Composite key: subject_id:predicate:object_id",
+    )
+    document_id: str = Field(..., description="Document where the evidence appears")
+    section: Optional[str] = Field(None, description="Section within the document")
+    start_offset: int = Field(..., description="Start character offset")
+    end_offset: int = Field(..., description="End character offset")
+    text_span: str = Field(..., description="Evidence quote text")
+    confidence: float = Field(..., description="Confidence for this evidence")
+    supports: bool = Field(True, description="True=supports, False=contradicts")
 
 
 class BundleFile(BaseModel):
@@ -86,6 +130,8 @@ class BundleManifestV1(BaseModel):
     entities: BundleFile = Field(..., description="Entities file information")
     relationships: BundleFile = Field(..., description="Relationships file information")
     doc_assets: Optional[BundleFile] = Field(None, description="Optional doc_assets.jsonl file listing documentation assets")
+    mentions: Optional[BundleFile] = Field(None, description="Optional mentions.jsonl (entity provenance)")
+    evidence: Optional[BundleFile] = Field(None, description="Optional evidence.jsonl (relationship evidence)")
     metadata: Dict[str, Any] = Field(
         default_factory=dict,
         description="Additional bundle metadata (description, counts, etc.)",

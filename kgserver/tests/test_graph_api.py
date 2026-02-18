@@ -12,6 +12,17 @@ from query.graph_traversal import (
 )
 
 
+@pytest.fixture
+def app():
+    """Create FastAPI app with Graph API router (module-level for use by all API test classes)."""
+    from fastapi import FastAPI
+    from query.routers import graph_api
+
+    _app = FastAPI()
+    _app.include_router(graph_api.router)
+    return _app
+
+
 class TestGraphTraversal:
     """Tests for BFS graph traversal logic."""
 
@@ -124,16 +135,6 @@ class TestGraphTraversal:
 
 class TestGraphAPI:
     """Tests for graph visualization REST API."""
-
-    @pytest.fixture
-    def app(self):
-        """Create FastAPI app with Graph API router."""
-        from fastapi import FastAPI
-        from query.routers import graph_api
-
-        app = FastAPI()
-        app.include_router(graph_api.router)
-        return app
 
     @pytest.fixture
     def file_storage(self, tmp_path, sample_entities, sample_relationships):
@@ -317,3 +318,201 @@ class TestGraphAPI:
         assert len(data["results"]) > 0
         for result in data["results"]:
             assert result["entity_type"] == "character"
+
+    def test_get_entity_mentions_empty_without_provenance(self, client):
+        """GET /entity/{id}/mentions returns 200 and empty list when no mentions stored."""
+        response = client.get("/api/v1/graph/entity/test:entity:1/mentions")
+        assert response.status_code == 200
+        data = response.json()
+        assert "mentions" in data
+        assert data["mentions"] == []
+
+    def test_get_edge_evidence_empty_without_provenance(self, client):
+        """GET /edge/evidence returns 200 and empty list when no evidence stored."""
+        response = client.get(
+            "/api/v1/graph/edge/evidence",
+            params={
+                "subject_id": "test:entity:1",
+                "predicate": "co_occurs_with",
+                "object_id": "test:entity:2",
+            },
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert "evidence" in data
+        assert data["evidence"] == []
+
+
+class TestGraphAPIProvenance:
+    """Graph API includes provenance/evidence in node and edge payloads when present."""
+
+    @pytest.fixture
+    def storage_with_provenance_properties(self, tmp_path):
+        """Storage with entities and relationships that have provenance in properties."""
+        from storage.backends.sqlite import SQLiteStorage
+        from storage.models import Entity, Relationship
+
+        db_path = tmp_path / "provenance.db"
+        storage = SQLiteStorage(str(db_path), check_same_thread=False)
+        storage.add_entity(
+            Entity(
+                entity_id="prov:entity:1",
+                entity_type="drug",
+                name="Aspirin",
+                status="canonical",
+                confidence=0.95,
+                usage_count=5,
+                source="test",
+                synonyms=[],
+                properties={
+                    "first_seen_document": "doc-1",
+                    "first_seen_section": "abstract",
+                    "total_mentions": 3,
+                    "supporting_documents": ["doc-1", "doc-2"],
+                },
+            )
+        )
+        storage.add_entity(
+            Entity(
+                entity_id="prov:entity:2",
+                entity_type="disease",
+                name="Headache",
+                status="canonical",
+                confidence=0.9,
+                usage_count=1,
+                source="test",
+                synonyms=[],
+                properties={},
+            )
+        )
+        storage.add_relationship(
+            Relationship(
+                subject_id="prov:entity:1",
+                predicate="treats",
+                object_id="prov:entity:2",
+                confidence=0.88,
+                source_documents=["doc-1"],
+                properties={
+                    "evidence_count": 2,
+                    "strongest_evidence_quote": "Aspirin treats headache.",
+                    "evidence_confidence_avg": 0.85,
+                },
+            )
+        )
+        try:
+            yield storage
+        finally:
+            storage.close()
+
+    @pytest.fixture
+    def client_provenance(self, app, storage_with_provenance_properties):
+        """Test client with storage that has provenance in entity/relationship properties."""
+        from query.storage_factory import get_storage
+
+        def override():
+            yield storage_with_provenance_properties
+
+        app.dependency_overrides[get_storage] = override
+        client = TestClient(app)
+        yield client
+        app.dependency_overrides.clear()
+
+    def test_node_details_include_provenance(self, client_provenance):
+        """GET /node/{id} includes first_seen_document, total_mentions, supporting_documents in properties."""
+        response = client_provenance.get("/api/v1/graph/node/prov:entity:1")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["id"] == "prov:entity:1"
+        props = data["properties"]
+        assert props.get("first_seen_document") == "doc-1"
+        assert props.get("first_seen_section") == "abstract"
+        assert props.get("total_mentions") == 3
+        assert props.get("supporting_documents") == ["doc-1", "doc-2"]
+
+    def test_edge_details_include_evidence_summary(self, client_provenance):
+        """GET /edge includes evidence_count, strongest_evidence_quote, evidence_confidence_avg in properties."""
+        response = client_provenance.get(
+            "/api/v1/graph/edge",
+            params={
+                "subject_id": "prov:entity:1",
+                "predicate": "treats",
+                "object_id": "prov:entity:2",
+            },
+        )
+        assert response.status_code == 200
+        data = response.json()
+        props = data["properties"]
+        assert props.get("evidence_count") == 2
+        assert props.get("strongest_evidence_quote") == "Aspirin treats headache."
+        assert props.get("evidence_confidence_avg") == 0.85
+
+    def test_subgraph_node_properties_include_provenance(self, client_provenance):
+        """Subgraph nodes include provenance fields in properties when present."""
+        response = client_provenance.get(
+            "/api/v1/graph/subgraph",
+            params={"center_id": "prov:entity:1", "hops": 1},
+        )
+        assert response.status_code == 200
+        data = response.json()
+        node = next(n for n in data["nodes"] if n["id"] == "prov:entity:1")
+        assert node["properties"].get("first_seen_document") == "doc-1"
+        assert node["properties"].get("total_mentions") == 3
+
+    def test_subgraph_edge_properties_include_evidence(self, client_provenance):
+        """Subgraph edges include evidence summary in properties when present."""
+        response = client_provenance.get(
+            "/api/v1/graph/subgraph",
+            params={"center_id": "prov:entity:1", "hops": 1},
+        )
+        assert response.status_code == 200
+        data = response.json()
+        edge = next(
+            (e for e in data["edges"] if e["predicate"] == "treats"),
+            None,
+        )
+        assert edge is not None
+        assert edge["properties"].get("evidence_count") == 2
+        assert edge["properties"].get("strongest_evidence_quote") == "Aspirin treats headache."
+
+
+class TestGraphAPIMentionsEvidenceEndpoints:
+    """GET /entity/{id}/mentions and GET /edge/evidence return stored provenance."""
+
+    @pytest.fixture
+    def client_with_mentions_evidence(self, app, storage_with_provenance_bundle):
+        """Test client with storage that has mentions and evidence from a loaded bundle."""
+        from query.storage_factory import get_storage
+
+        def override():
+            yield storage_with_provenance_bundle
+
+        app.dependency_overrides[get_storage] = override
+        client = TestClient(app)
+        yield client
+        app.dependency_overrides.clear()
+
+    def test_get_entity_mentions_returns_mentions(self, client_with_mentions_evidence):
+        """GET /entity/{id}/mentions returns mention rows when bundle had mentions.jsonl."""
+        response = client_with_mentions_evidence.get("/api/v1/graph/entity/e1/mentions")
+        assert response.status_code == 200
+        data = response.json()
+        assert "mentions" in data
+        assert len(data["mentions"]) == 1
+        m = data["mentions"][0]
+        assert m["entity_id"] == "e1"
+        assert m["document_id"] == "doc-1"
+        assert m["text_span"] == "Aspirin"
+
+    def test_get_edge_evidence_returns_evidence(self, client_with_mentions_evidence):
+        """GET /edge/evidence returns evidence rows when bundle had evidence.jsonl."""
+        response = client_with_mentions_evidence.get(
+            "/api/v1/graph/edge/evidence",
+            params={"subject_id": "e1", "predicate": "treats", "object_id": "e2"},
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert "evidence" in data
+        assert len(data["evidence"]) == 1
+        e = data["evidence"][0]
+        assert e["relationship_key"] == "e1:treats:e2"
+        assert e["text_span"] == "Aspirin treats headache."

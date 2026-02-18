@@ -16,7 +16,9 @@ from pathlib import Path
 import pytest
 
 from kgschema.entity import EntityStatus
+from kgraph.export import write_bundle
 from kgraph.ingest import IngestionOrchestrator
+from kgraph.provenance import ProvenanceAccumulator
 from kgraph.storage.memory import (
     InMemoryDocumentStorage,
     InMemoryEntityStorage,
@@ -458,3 +460,235 @@ class TestListAllMethods:
 
         all_rels = await orchestrator.relationship_storage.list_all()
         assert len(all_rels) == 2
+
+
+class TestExportBundleProvenance:
+    """Tests for bundle export with provenance (mentions.jsonl, evidence.jsonl, summary fields)."""
+
+    async def test_write_bundle_with_provenance_writes_mentions_and_evidence(
+        self, orchestrator: IngestionOrchestrator, tmp_path: Path
+    ) -> None:
+        """With provenance_accumulator populated, write_bundle writes mentions.jsonl and evidence.jsonl and sets manifest."""
+        e1 = make_test_entity("Entity1", status=EntityStatus.CANONICAL, entity_id="e1")
+        e2 = make_test_entity("Entity2", status=EntityStatus.CANONICAL, entity_id="e2")
+        await orchestrator.entity_storage.add(e1)
+        await orchestrator.entity_storage.add(e2)
+
+        rel = SimpleRelationship(
+            subject_id="e1",
+            predicate="related_to",
+            object_id="e2",
+            confidence=0.9,
+            source_documents=("doc-1",),
+            created_at=datetime.now(timezone.utc),
+        )
+        await orchestrator.relationship_storage.add(rel)
+
+        acc = ProvenanceAccumulator()
+        acc.add_mention(
+            entity_id="e1",
+            document_id="doc-1",
+            section="abstract",
+            start_offset=0,
+            end_offset=7,
+            text_span="Entity1",
+            context="First mention of Entity1",
+            confidence=0.95,
+            extraction_method="llm",
+            created_at="2024-01-15T12:00:00Z",
+        )
+        acc.add_mention(
+            entity_id="e1",
+            document_id="doc-2",
+            section=None,
+            start_offset=10,
+            end_offset=17,
+            text_span="Entity1",
+            context=None,
+            confidence=0.9,
+            extraction_method="llm",
+            created_at="2024-01-15T12:01:00Z",
+        )
+        acc.add_evidence(
+            relationship_key="e1:related_to:e2",
+            document_id="doc-1",
+            section="results",
+            start_offset=100,
+            end_offset=130,
+            text_span="Entity1 is related to Entity2.",
+            confidence=0.88,
+            supports=True,
+        )
+
+        bundle_path = tmp_path / "bundle"
+        await write_bundle(
+            entity_storage=orchestrator.entity_storage,
+            relationship_storage=orchestrator.relationship_storage,
+            bundle_path=bundle_path,
+            domain="test_domain",
+            label="Test bundle",
+            provenance_accumulator=acc,
+        )
+
+        assert (bundle_path / "manifest.json").exists()
+        with open(bundle_path / "manifest.json") as f:
+            manifest = json.load(f)
+        assert manifest.get("mentions") is not None
+        assert manifest["mentions"]["path"] == "mentions.jsonl"
+        assert manifest.get("evidence") is not None
+        assert manifest["evidence"]["path"] == "evidence.jsonl"
+
+        mentions_file = bundle_path / "mentions.jsonl"
+        assert mentions_file.exists()
+        lines = mentions_file.read_text().strip().split("\n")
+        assert len(lines) == 2
+        m1 = json.loads(lines[0])
+        assert m1["entity_id"] == "e1"
+        assert m1["document_id"] == "doc-1"
+        assert m1["section"] == "abstract"
+        assert m1["text_span"] == "Entity1"
+        m2 = json.loads(lines[1])
+        assert m2["document_id"] == "doc-2"
+
+        evidence_file = bundle_path / "evidence.jsonl"
+        assert evidence_file.exists()
+        elines = evidence_file.read_text().strip().split("\n")
+        assert len(elines) == 1
+        ev = json.loads(elines[0])
+        assert ev["relationship_key"] == "e1:related_to:e2"
+        assert ev["text_span"] == "Entity1 is related to Entity2."
+        assert ev["confidence"] == 0.88
+
+    async def test_write_bundle_entity_rows_get_provenance_summary(
+        self, orchestrator: IngestionOrchestrator, tmp_path: Path
+    ) -> None:
+        """Entity rows in entities.jsonl include first_seen_document, total_mentions, supporting_documents."""
+        e1 = make_test_entity("E1", status=EntityStatus.CANONICAL, entity_id="e1")
+        await orchestrator.entity_storage.add(e1)
+
+        acc = ProvenanceAccumulator()
+        acc.add_mention(
+            entity_id="e1",
+            document_id="doc-a",
+            section="intro",
+            start_offset=0,
+            end_offset=2,
+            text_span="E1",
+            context=None,
+            confidence=1.0,
+            extraction_method="test",
+            created_at="2024-01-01T00:00:00Z",
+        )
+        acc.add_mention(
+            entity_id="e1",
+            document_id="doc-b",
+            section=None,
+            start_offset=0,
+            end_offset=2,
+            text_span="E1",
+            context=None,
+            confidence=1.0,
+            extraction_method="test",
+            created_at="2024-01-02T00:00:00Z",
+        )
+
+        bundle_path = tmp_path / "bundle"
+        await write_bundle(
+            entity_storage=orchestrator.entity_storage,
+            relationship_storage=orchestrator.relationship_storage,
+            bundle_path=bundle_path,
+            domain="test",
+            provenance_accumulator=acc,
+        )
+
+        entities_lines = (bundle_path / "entities.jsonl").read_text().strip().split("\n")
+        assert len(entities_lines) == 1
+        row = json.loads(entities_lines[0])
+        assert row["entity_id"] == "e1"
+        assert row["first_seen_document"] == "doc-a"
+        assert row["first_seen_section"] == "intro"
+        assert row["total_mentions"] == 2
+        assert set(row["supporting_documents"]) == {"doc-a", "doc-b"}
+
+    async def test_write_bundle_relationship_rows_get_evidence_summary(
+        self, orchestrator: IngestionOrchestrator, tmp_path: Path
+    ) -> None:
+        """Relationship rows in relationships.jsonl include evidence_count, strongest_evidence_quote, evidence_confidence_avg."""
+        e1 = make_test_entity("E1", status=EntityStatus.CANONICAL, entity_id="e1")
+        e2 = make_test_entity("E2", status=EntityStatus.CANONICAL, entity_id="e2")
+        await orchestrator.entity_storage.add(e1)
+        await orchestrator.entity_storage.add(e2)
+        rel = SimpleRelationship(
+            subject_id="e1",
+            predicate="causes",
+            object_id="e2",
+            confidence=0.9,
+            source_documents=("d1",),
+            created_at=datetime.now(timezone.utc),
+        )
+        await orchestrator.relationship_storage.add(rel)
+
+        acc = ProvenanceAccumulator()
+        acc.add_evidence(
+            relationship_key="e1:causes:e2",
+            document_id="d1",
+            section=None,
+            start_offset=0,
+            end_offset=20,
+            text_span="E1 causes E2.",
+            confidence=0.9,
+            supports=True,
+        )
+        acc.add_evidence(
+            relationship_key="e1:causes:e2",
+            document_id="d1",
+            section=None,
+            start_offset=50,
+            end_offset=75,
+            text_span="Strong evidence: E1 causes E2.",
+            confidence=0.95,
+            supports=True,
+        )
+
+        bundle_path = tmp_path / "bundle"
+        await write_bundle(
+            entity_storage=orchestrator.entity_storage,
+            relationship_storage=orchestrator.relationship_storage,
+            bundle_path=bundle_path,
+            domain="test",
+            provenance_accumulator=acc,
+        )
+
+        rel_lines = (bundle_path / "relationships.jsonl").read_text().strip().split("\n")
+        assert len(rel_lines) == 1
+        row = json.loads(rel_lines[0])
+        assert row["subject_id"] == "e1"
+        assert row["predicate"] == "causes"
+        assert row["object_id"] == "e2"
+        assert row["evidence_count"] == 2
+        assert row["strongest_evidence_quote"] == "Strong evidence: E1 causes E2."
+        assert row["evidence_confidence_avg"] == round((0.9 + 0.95) / 2, 4)
+
+    async def test_write_bundle_without_provenance_no_mentions_or_evidence_files(
+        self, orchestrator: IngestionOrchestrator, tmp_path: Path
+    ) -> None:
+        """Without provenance_accumulator, no mentions.jsonl or evidence.jsonl and manifest has no mentions/evidence."""
+        e1 = make_test_entity("E1", status=EntityStatus.CANONICAL, entity_id="e1")
+        await orchestrator.entity_storage.add(e1)
+        rel = make_test_relationship("e1", "e2")
+        await orchestrator.relationship_storage.add(rel)
+
+        bundle_path = tmp_path / "bundle"
+        await write_bundle(
+            entity_storage=orchestrator.entity_storage,
+            relationship_storage=orchestrator.relationship_storage,
+            bundle_path=bundle_path,
+            domain="test",
+        )
+
+        assert not (bundle_path / "mentions.jsonl").exists()
+        assert not (bundle_path / "evidence.jsonl").exists()
+        with open(bundle_path / "manifest.json") as f:
+            manifest = json.load(f)
+        assert manifest.get("mentions") is None
+        assert manifest.get("evidence") is None

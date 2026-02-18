@@ -3,13 +3,13 @@ Storage interfaces for the Knowledge Graph Server.
 """
 
 from abc import ABC, abstractmethod
-from typing import Optional, Sequence, TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional, Sequence
 from .models.entity import Entity
 from .models.relationship import Relationship
 from kgbundle import BundleManifestV1
 
 if TYPE_CHECKING:
-    pass
+    from kgbundle import EvidenceRow, MentionRow
 
 
 class StorageInterface(ABC):
@@ -123,6 +123,20 @@ class StorageInterface(ABC):
         Returns None if no bundle is loaded.
         """
         pass
+
+    def get_mentions_for_entity(self, entity_id: str) -> Sequence["MentionRow"]:
+        """
+        Return all mention rows for the given entity (bundle provenance).
+        Returns empty list if no mentions or provenance not loaded.
+        """
+        return []
+
+    def get_evidence_for_relationship(self, subject_id: str, predicate: str, object_id: str) -> Sequence["EvidenceRow"]:
+        """
+        Return all evidence rows for the given relationship triple (bundle provenance).
+        Returns empty list if no evidence or provenance not loaded.
+        """
+        return []
 
     @abstractmethod
     def close(self) -> None:

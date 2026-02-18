@@ -33,6 +33,8 @@ from .models import (
     BundleManifestV1,
     DocAssetRow,
     EntityRow,
+    EvidenceRow,
+    MentionRow,
     RelationshipRow,
 )
 
@@ -42,6 +44,8 @@ __all__ = [
     "BundleFile",
     "DocAssetRow",
     "BundleManifestV1",
+    "MentionRow",
+    "EvidenceRow",
 ]
 
 __version__ = "0.1.0"
