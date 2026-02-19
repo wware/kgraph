@@ -273,7 +273,7 @@ def build_orchestrator(
             raise
     else:
         if not llm_client:
-            raise ValueError("LLM entity extraction requires --use-ollama. " "Use --entity-extractor ner for local NER extraction, or provide documents with pre-extracted entities.")
+            raise ValueError("LLM entity extraction requires --use-ollama. Use --entity-extractor ner for local NER extraction, or provide documents with pre-extracted entities.")
         print("  Using LLM-based entity extraction...", file=sys.stderr)
         entity_extractor_instance = MedLitEntityExtractor(llm_client=llm_client, domain=domain)
         print("  ✓ LLM-based extractor created", file=sys.stderr)
