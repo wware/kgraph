@@ -11,7 +11,7 @@ Execute steps in order from the **repository root**. All edits are in `examples/
 From repo root:
 
 ```bash
-uv run pytest examples/medlit/ -v -k "relationship or medlit" --tb=short 2>&1 | tail -30
+(./lint.sh && uv run pytest examples/medlit/ -v -k "relationship or medlit" --tb=short) 2>&1 | tail -30
 ```
 
 Note any failures. After each step below, re-run the same and fix regressions.
