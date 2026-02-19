@@ -25,6 +25,14 @@ from .llm_client import LLMClientInterface
 # Default directory for relationship extraction trace files
 DEFAULT_TRACE_DIR = Path("/tmp/kgraph-relationship-traces")
 
+# Predicate specificity for deduplication: when the same (subject_id, object_id) has multiple
+# predicates, we keep the one with highest specificity (e.g. indicates > associated_with).
+# Predicates not listed have specificity 0.
+PREDICATE_SPECIFICITY: dict[str, int] = {
+    "indicates": 2,
+    "associated_with": 1,
+}
+
 if TYPE_CHECKING:
     from ..domain import MedLitDomainSchema
 
@@ -42,6 +50,28 @@ def _build_entity_index(entities: Sequence[BaseEntity]) -> dict[str, list[BaseEn
             if nk:
                 idx[nk].append(e)
     return idx
+
+
+def _deduplicate_relationships_by_predicate_specificity(
+    relationships: list[BaseRelationship],
+) -> list[BaseRelationship]:
+    """For each (subject_id, object_id), keep only the relationship with highest predicate specificity."""
+    if not relationships:
+        return relationships
+    key_to_best: dict[tuple[str, str], BaseRelationship] = {}
+    for rel in relationships:
+        key = (rel.subject_id, rel.object_id)
+        pred = (getattr(rel, "predicate", "") or "").strip().lower()
+        specificity = PREDICATE_SPECIFICITY.get(pred, 0)
+        existing = key_to_best.get(key)
+        if existing is None:
+            key_to_best[key] = rel
+            continue
+        existing_pred = (getattr(existing, "predicate", "") or "").strip().lower()
+        existing_spec = PREDICATE_SPECIFICITY.get(existing_pred, 0)
+        if specificity > existing_spec:
+            key_to_best[key] = rel
+    return list(key_to_best.values())
 
 
 def _normalize_evidence_for_match(text: str) -> str:
@@ -466,21 +496,7 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
         predicate_keys = sorted(self._domain.relationship_types.keys())
         allowed_predicates = [k.lower() for k in predicate_keys]
 
-        # 2) Build a compact “signature table” from predicate_constraints
-        # Example: treats: drug -> disease
-        sig_lines: list[str] = []
-        for key in predicate_keys:
-            lc = key.lower()
-            c = self._domain.predicate_constraints.get(key)
-            if c:
-                subj = ", ".join(sorted(c.subject_types))
-                obj = ", ".join(sorted(c.object_types))
-                sig_lines.append(f"- {lc}: ({subj}) -> ({obj})")
-            else:
-                sig_lines.append(f"- {lc}: (no type constraints defined)")
-
         # Optional: a tiny bit of extra guidance for a few high-frequency predicates
-        # (keep this short; the signature table does most of the work)
         extra_guidance = [
             "- Prefer the *most specific* predicate that matches the evidence.",
             '- Use "associated_with" ONLY if no other predicate fits the evidence.',
@@ -494,7 +510,7 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
         ]
 
         examples_section = """
-EXAMPLES (follow subject/object order and predicate from the signature table):
+EXAMPLES (follow subject/object order and use allowed predicates):
 - Text: "IHC was performed; tumor cells were positive for BerEp4." → (BerEp4, indicates, Disease) or (Disease, associated_with, BerEp4); NOT (Disease, treats, BerEp4).
 - Text: "positivity for BerEp4, CAM5.2, Ki67" in a paper about a cancer → extract (BerEp4, indicates, Disease), (CAM5.2, indicates, Disease), (Ki67, indicates, Disease) (one per marker).
 - Text: "Immunohistochemistry was performed on cell blocks." for disease + procedure → (Disease, diagnosed_by, Immunohistochemical staining).
@@ -508,15 +524,12 @@ You are given:
 
 Your job:
 - Find relationships between the listed entities that are explicitly supported by the text.
-- You MUST choose a predicate whose subject/object types match the signature table. If none apply, output no relationship.
+- We validate subject/object types server-side; use entity names from the list.
 - Output ONLY valid JSON: a JSON array of relationship objects.
 - Use ONLY the allowed predicates listed below (lowercase strings).
 
 ALLOWED PREDICATES:
 {", ".join(allowed_predicates)}
-
-PREDICATE SIGNATURES (subject_type -> object_type):
-{chr(10).join(sig_lines)}
 
 GUIDELINES:
 {chr(10).join(extra_guidance)}
@@ -629,6 +642,8 @@ IMPORTANT:
                     if relationship:
                         relationships.append(relationship)
 
+            relationships = _deduplicate_relationships_by_predicate_specificity(relationships)
+
             # Record final relationships in trace
             trace["final_relationships"] = [
                 {
@@ -723,6 +738,10 @@ IMPORTANT:
         evidence_ok, evidence_drop_reason, evidence_detail = _evidence_contains_both_entities(evidence, subject_name, object_name, subject_entity, object_entity)
         if evidence_ok:
             evidence_detail["method"] = "string_match"
+        if not evidence_ok and evidence_drop_reason in ("evidence_missing_subject", "evidence_missing_object"):
+            decision["evidence_check"] = evidence_detail
+            decision["drop_reason"] = evidence_drop_reason
+            return None, decision
         if not evidence_ok and self._embedding_generator is not None:
             evidence_ok, evidence_drop_reason, evidence_detail = await _evidence_contains_both_entities_semantic(
                 evidence,
