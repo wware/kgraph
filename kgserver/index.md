@@ -15,6 +15,7 @@ Links:
   ```bash
   ssh -L 8888:127.0.0.1:8888 root@SERVER_IP
   ```
+  then direct your browser to [http://localhost:8888/jupyter/lab](http://localhost:8888/jupyter/lab)
 
 Important architectural note:
 
