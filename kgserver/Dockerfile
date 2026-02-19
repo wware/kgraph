@@ -22,9 +22,9 @@ RUN uv venv --python /usr/local/bin/python3 --relocatable && \
     uv pip install uvicorn fastapi zensical \
         mkdocs mkdocs-material pymdown-extensions
 
-# Copy mkdocs config and build docs/ from repo markdown (framework = site home)
+# Copy mkdocs config and build docs/ from repo markdown (kgserver index = site home)
 COPY kgserver/mkdocs.yml ./
-COPY docs/index.md ./docs/index.md
+COPY kgserver/index.md ./docs/index.md
 COPY docs/architecture.md ./docs/architecture.md
 COPY docs/index.md ./docs/reference/index.md
 COPY docs/api.md docs/bundle.md docs/canonical_ids.md docs/determinism.md docs/domains.md docs/pipeline.md docs/storage.md docs/graph_visualization.md docs/RELATIONSHIP_TRACING.md ./docs/reference/
