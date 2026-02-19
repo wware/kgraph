@@ -51,8 +51,8 @@ COPY --chown=jovyan:users kgserver /home/jovyan/work/kgserver
 
 # Install project dependencies
 WORKDIR /home/jovyan/work
-RUN uv pip install --system -e ./kgbundle
-RUN uv pip install --system -e .
+RUN uv pip install --system ./kgbundle
+RUN uv pip install --system .
 
 # Create notebooks directory (only chmod dirs that need to be writable by host mounts)
 RUN mkdir -p /home/jovyan/notebooks

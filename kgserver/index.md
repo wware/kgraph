@@ -11,7 +11,10 @@ Links:
 - [OpenAPI spec](/docs)
 - [Graph visualization](/graph-viz/) -- currently focused on medical literature
 - [GraphQL GUI](/graphiql/)
-- [Jupyter notebook](/jupyter/)
+- Jupyter notebook: Use SSH tunnel command below
+  ```bash
+  ssh -L 8888:127.0.0.1:8888 root@SERVER_IP
+  ```
 
 Important architectural note:
 

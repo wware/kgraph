@@ -156,13 +156,12 @@ docker-compose down -v  # Warning: removes volumes!
 
 ## Optional: GUI Tools
 
-Start pgAdmin (PostgreSQL GUI) and Redis Commander:
+Start Redis Commander:
 
 ```bash
 docker-compose --profile tools up -d
 ```
 
-- **pgAdmin**: http://localhost:5050 (admin@medlit.local / admin)
 - **Redis Commander**: http://localhost:8081
 
 ## Troubleshooting

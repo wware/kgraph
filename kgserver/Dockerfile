@@ -27,12 +27,15 @@ COPY kgserver/mkdocs.yml ./
 COPY kgserver/docs ./docs
 COPY kgserver/index.md ./docs/index.md
 
+# Prebuild MkDocs site so runtime does not run zensical build (avoids hang on small droplets)
+RUN uv run zensical build
+
 # Final stage - use same base image to keep Python paths consistent
 FROM python:3.13-slim
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    libpq5 unzip \
+    libpq5 unzip curl \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -40,12 +43,14 @@ WORKDIR /app
 # Copy the venv from builder (symlinks will work since same Python path)
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=builder /app/docs /app/docs
+COPY --from=builder /app/site /app/site
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
-RUN mkdir -p /app/site
 
 # Copy kgbundle first, then kgserver contents
 COPY kgbundle ./kgbundle
 COPY kgserver/ .
+# Ensure docs has index.md (kgserver index is at repo root, not in docs/)
+COPY kgserver/index.md ./docs/index.md
 
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \

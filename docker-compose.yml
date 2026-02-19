@@ -43,13 +43,9 @@ services:
       - --ServerApp.allow_origin=*
       - --ServerApp.allow_root=True
     ports:
-      - "8888:8888"
+      - "127.0.0.1:8888:8888"
     volumes:
       - ./notebooks:/home/jovyan/notebooks
-      - ./examples:/home/jovyan/examples:ro
-      - ./kgraph:/home/jovyan/work/kgraph:ro
-      - ./kgbundle:/home/jovyan/work/kgbundle:ro
-      - ./kgserver:/home/jovyan/work/kgserver:ro
     environment:
       - JUPYTER_ENABLE_LAB=yes
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/kgserver
@@ -84,19 +80,12 @@ services:
 
   postgres:
     image: pgvector/pgvector:pg16
-    # Comment out the next line when running on the Digital Ocean server
-    # because the user there is root.
-    user: "1000:1000"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: kgserver
-      # Optional: set shared_buffers and work_mem for better performance
-      # POSTGRES_INITDB_ARGS: "-c shared_buffers=256MB -c work_mem=16MB"
-    ports:
-      - "5432:5432"
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d kgserver"]
       interval: 10s
@@ -108,7 +97,7 @@ services:
     profiles: ["api", "storage", "jupyter"]
 
 volumes:
-  pgadmin-data:
+  pgdata:
     driver: local
 
 networks:

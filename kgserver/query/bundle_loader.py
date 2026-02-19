@@ -200,17 +200,27 @@ def _load_doc_assets(bundle_dir: Path, manifest: BundleManifestV1) -> None:
 
 
 def _build_mkdocs_if_present():
-    """Build MkDocs documentation if mkdocs.yml exists in the app root."""
-    app_root = os.environ.get("KGSERVER_APP_ROOT", "/app")
-    mkdocs_yml = Path(app_root) / "mkdocs.yml"
-    if mkdocs_yml.exists():
-        logger.info("Building MkDocs documentation...")
-        # uv run zensical build
-        result = subprocess.run(["uv", "run", "zensical", "build"], capture_output=True, text=True, check=False)
-        if result.returncode == 0:
-            logger.info("MkDocs build completed successfully")
-        else:
-            logger.warning("MkDocs build failed: %s", result.stderr)
+    """Build MkDocs documentation if mkdocs.yml exists and site is not already prebuilt."""
+    app_root = Path(os.environ.get("KGSERVER_APP_ROOT", "/app"))
+    mkdocs_yml = app_root / "mkdocs.yml"
+    site_index = app_root / "site" / "index.html"
+    if not mkdocs_yml.exists():
+        return
+    if site_index.exists():
+        logger.info("Using prebuilt site, skipping MkDocs build after doc asset load")
+        return
+    logger.info("Building MkDocs documentation...")
+    result = subprocess.run(
+        ["uv", "run", "zensical", "build"],
+        cwd=str(app_root),
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode == 0:
+        logger.info("MkDocs build completed successfully")
+    else:
+        logger.warning("MkDocs build failed: %s", result.stderr)
 
 
 def _initialize_storage(session: Session, db_url: str) -> StorageInterface:

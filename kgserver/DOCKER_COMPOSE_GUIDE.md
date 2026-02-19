@@ -45,13 +45,6 @@ docker compose down -v
    - URL: http://localhost:8081
    - Start with: `docker compose --profile tools up redis-commander -d`
 
-4. **pgAdmin** (`pgadmin`)
-   - Web UI for PostgreSQL management
-   - URL: http://localhost:5050
-   - Email: admin@medlit.local
-   - Password: admin
-   - Start with: `docker compose --profile tools up pgadmin -d`
-
 ## Usage Examples
 
 ### Initialize Database Schema
@@ -107,7 +100,7 @@ redis_client = redis.from_url("redis://localhost:6379/0")
 
 ### Using Management Tools
 
-Start Redis Commander and pgAdmin:
+Start Redis Commander:
 
 ```bash
 docker compose --profile tools up -d
@@ -115,25 +108,12 @@ docker compose --profile tools up -d
 
 Access:
 - Redis Commander: http://localhost:8081
-- pgAdmin: http://localhost:5050
-
-To add PostgreSQL server in pgAdmin:
-1. Open http://localhost:5050
-2. Right-click "Servers" → "Register" → "Server"
-3. General tab: Name = "Local MedLit"
-4. Connection tab:
-   - Host: postgres (or host.docker.internal on Mac/Windows)
-   - Port: 5432
-   - Database: medlit
-   - Username: postgres
-   - Password: postgres
 
 ## Data Persistence
 
 Data is stored in named Docker volumes:
 - `postgres-data`: PostgreSQL data
 - `redis-data`: Redis persistence files
-- `pgadmin-data`: pgAdmin configuration
 
 ### Backup Data
 
