@@ -34,8 +34,94 @@ MCP URL is again **`http://localhost:8001/sse`**.
 
 ## Running in the cloud
 
-1. Configure nginx with the snippet in **`kgserver/nginx-mcp.conf`** so `/mcp/` proxies to the `mcpserver` container.
+1. Configure nginx with the snippet in **`kgserver/nginx-mcp.conf`** so `/mcp/` proxies to the MCP server (see below for step-by-step on a droplet).
 2. The external SSE URL is **`https://YOUR_DOMAIN/mcp/sse`** (or `http://` if not using TLS). Replace `YOUR_DOMAIN` with the host you use (e.g. the same host as the API).
+
+---
+
+## Adding MCP to nginx on a droplet (all steps)
+
+These steps assume you already have nginx on the droplet and the kgserver stack (API, mcpserver, postgres) running via Docker with ports 8000 and 8001 exposed on the host.
+
+**1. Ensure the MCP container is running**
+
+From your project directory on the droplet:
+
+```bash
+docker compose --profile api up -d
+docker compose --profile api ps
+```
+
+You should see `api` and `mcpserver` (and `postgres`) up. Check MCP health:
+
+```bash
+curl -s http://localhost:8001/health
+```
+
+Expect `{"status":"ok"}`.
+
+**2. Open your nginx site config**
+
+If you use a single site file (e.g. from jupyter.md):
+
+```bash
+sudo vim /etc/nginx/sites-available/kgraph
+```
+
+If you use a different path (e.g. `sites-available/default` or `conf.d/`), open that file instead.
+
+**3. Add the MCP location block**
+
+Inside the `server { ... }` block (the same block where you have `location /` for the API), add a **new** `location` for MCP. Place it **before** the catch-all `location /` if you have one, so `/mcp/` is matched first.
+
+Add exactly:
+
+```nginx
+    # MCP server (SSE) – required for Cursor/Claude Code
+    location /mcp/ {
+        proxy_pass http://127.0.0.1:8001/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_buffering off;
+        proxy_cache off;
+        proxy_read_timeout 3600s;
+    }
+```
+
+Notes:
+
+- Use **`http://127.0.0.1:8001/`** (trailing slash) when nginx is on the **host** and Docker exposes 8001 on localhost. If nginx runs in a container on the same Docker network as `mcpserver`, use **`http://mcpserver:8001/`** instead. The trailing slash makes nginx strip `/mcp/` so the MCP server sees `/sse` for a request to `/mcp/sse`.
+- **`proxy_buffering off`** and **`proxy_read_timeout 3600s`** are required for SSE; without them the stream can hang or not reach the client.
+
+**4. Test and reload nginx**
+
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+If `nginx -t` reports an error, fix the config (e.g. missing semicolon, wrong brace) and try again.
+
+**5. (Optional) If you use HTTPS**
+
+If your site is already behind SSL (e.g. Let’s Encrypt), the same `location /mcp/` block works inside your `listen 443 ssl` server block; no extra SSL config is needed for MCP. Just add the block in step 3 to that server block and reload.
+
+**6. Verify from outside**
+
+From your laptop (replace with your droplet hostname or IP):
+
+```bash
+# might be http rather than https...
+curl -s https://YOUR_DROPLET/mcp/sse -N -H "Accept: text/event-stream" -m 3
+```
+
+You should see SSE output (e.g. `event: endpoint` and a `data:` line). Then in Cursor or Claude Code set the MCP URL to **`https://YOUR_DROPLET/mcp/sse`** (or `http://` if you are not using TLS).
 
 ## Cursor IDE (Linux)
 
