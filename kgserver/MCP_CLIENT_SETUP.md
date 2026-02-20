@@ -70,14 +70,32 @@ sudo vim /etc/nginx/sites-available/kgraph
 
 If you use a different path (e.g. `sites-available/default` or `conf.d/`), open that file instead.
 
-**3. Add the MCP location block**
+**3. Add the MCP location blocks (two blocks required)**
 
-Inside the `server { ... }` block (the same block where you have `location /` for the API), add a **new** `location` for MCP. Place it **before** the catch-all `location /` if you have one, so `/mcp/` is matched first.
+Inside the `server { ... }` block (the same block where you have `location /` for the API), add **two** `location` blocks. Place both **before** the catch-all `location /` so they are matched first.
 
-Add exactly:
+The MCP client GETs `/mcp/sse` to open the stream, then POSTs to `/messages/?session_id=...` (the URL is sent in the SSE event). If nginx does not proxy `/messages/` to the MCP server, those POSTs hit the API and you get **405 Method Not Allowed** on the api container. So you need both blocks.
+
+Add exactly (use `127.0.0.1` when nginx is on the host; use `mcpserver` if nginx is in Docker on the same network):
 
 ```nginx
-    # MCP server (SSE) – required for Cursor/Claude Code
+    # MCP: messages endpoint (client POSTs here; must go to mcpserver, not API)
+    location /messages/ {
+        proxy_pass http://127.0.0.1:8001/messages/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_buffering off;
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 300s;
+    }
+
+    # MCP: SSE endpoint
     location /mcp/ {
         proxy_pass http://127.0.0.1:8001/;
         proxy_http_version 1.1;
@@ -96,7 +114,8 @@ Add exactly:
 
 Notes:
 
-- Use **`http://127.0.0.1:8001/`** (trailing slash) when nginx is on the **host** and Docker exposes 8001 on localhost. If nginx runs in a container on the same Docker network as `mcpserver`, use **`http://mcpserver:8001/`** instead. The trailing slash makes nginx strip `/mcp/` so the MCP server sees `/sse` for a request to `/mcp/sse`.
+- Use **`http://127.0.0.1:8001/`** when nginx is on the **host** and Docker exposes 8001 on localhost. If nginx runs in a container on the same Docker network as `mcpserver`, use **`http://mcpserver:8001/`** in both blocks.
+- The trailing slash in `proxy_pass http://127.0.0.1:8001/` makes nginx strip `/mcp/` so the MCP server sees `/sse` for a request to `/mcp/sse`.
 - **`proxy_buffering off`** and **`proxy_read_timeout 3600s`** are required for SSE; without them the stream can hang or not reach the client.
 
 **4. Test and reload nginx**
