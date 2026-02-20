@@ -21,6 +21,15 @@ docker compose down
 docker compose down -v
 ```
 
+## KG server API and MCP (profile api)
+
+When using `docker compose --profile api up -d`, the stack includes:
+
+- **API** (`api`): FastAPI server on port 8000; loads the bundle from `BUNDLE_PATH` and serves REST, GraphQL, and graph endpoints. Depends on `postgres`.
+- **MCP server** (`mcpserver`): Standalone MCP server on port **8001**, SSE only. Uses the same `DATABASE_URL` as the API (reads from the same Postgres); does not load bundles. Depends on `api` (starts after the API is healthy).
+
+To put MCP behind nginx (e.g. in the cloud), use the snippet in **`kgserver/nginx-mcp.conf`** so `/mcp/` proxies to `mcpserver:8001` with SSE-safe settings (`proxy_buffering off`, `proxy_read_timeout`). For connecting from Cursor IDE or Claude Code (local and cloud), see **`kgserver/MCP_CLIENT_SETUP.md`**.
+
 ## Services Included
 
 ### Core Services (Always Running)

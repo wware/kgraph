@@ -14,7 +14,6 @@ from .routers import graphiql_custom
 from .routers import graph_api
 from .graphql_schema import Query
 from storage.interfaces import StorageInterface
-from mcp_server import mcp_server
 
 # Let's take this opportunity to do the zensical build
 logging.basicConfig(format="%(levelname)s:     %(asctime)s - %(message)s", level=logging.INFO, datefmt="%Y-%m-%d %H:%M:%S")
@@ -71,13 +70,6 @@ app.include_router(graphql_app, prefix="/graphql")
 
 # Mount custom GraphiQL interface with example queries
 app.include_router(graphiql_custom.router, prefix="/graphiql", tags=["GraphQL"])
-
-# Mount MCP API (Server-Sent Events and HTTP endpoints)
-# FastMCP uses http_app() method with transport parameter
-mcp_sse_app = mcp_server.http_app(path="/sse", transport="sse")
-mcp_http_app = mcp_server.http_app(path="/mcp", transport="streamable-http")
-app.mount("/mcp/sse", mcp_sse_app)
-app.mount("/mcp", mcp_http_app)
 
 
 @app.get("/health")
