@@ -4,11 +4,16 @@ MCP Server implementation using FastMCP.
 Provides tools for querying the knowledge graph via the Model Context Protocol.
 """
 
-from typing import Optional
+from typing import Optional, Any
 from contextlib import contextmanager, closing
 from fastmcp import FastMCP
+import strawberry
 
 from query.storage_factory import get_engine, get_storage
+from query.graphql_schema import Query
+
+# Schema for executing GraphQL queries (same as HTTP /graphql)
+_graphql_schema = strawberry.Schema(query=Query)
 
 # Create the FastMCP server instance
 mcp_server = FastMCP(
@@ -300,4 +305,37 @@ def get_bundle_info() -> dict | None:
             "domain": bundle.domain,
             "createdAt": bundle.created_at.isoformat() if bundle.created_at else None,
             "metadata": bundle.metadata,
+        }
+
+
+@mcp_server.tool()
+def graphql_query(query: str, variables: Optional[dict[str, Any]] = None) -> dict:
+    """
+    Run an arbitrary GraphQL query against the knowledge graph.
+
+    Uses the same schema as the HTTP /graphql endpoint. Use this for custom
+    query shapes, multiple roots in one request, or when the discrete tools
+    are not enough. The schema supports: entity(id), entities(limit, offset,
+    filter), relationship(subjectId, predicate, objectId), relationships(limit,
+    offset, filter), bundle.
+
+    Args:
+        query: GraphQL query string (e.g. "{ entity(id: \"MeSH:D001943\") { name } }").
+        variables: Optional map of variable names to values for parameterized queries.
+
+    Returns:
+        Dictionary with "data" (result payload, or None if errors) and "errors"
+        (list of error dicts, or None if successful). Same shape as standard
+        GraphQL JSON responses.
+    """
+    with _get_storage() as storage:
+        context = {"storage": storage}
+        result = _graphql_schema.execute_sync(
+            query,
+            variable_values=variables or {},
+            context_value=context,
+        )
+        return {
+            "data": result.data,
+            "errors": [{"message": e.message, "path": getattr(e, "path", None)} for e in (result.errors or [])] if result.errors else None,
         }
