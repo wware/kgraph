@@ -1,4 +1,4 @@
-# Plan: Split medlit ingest.py by stage
+# UNIMPLEMENTED — Plan: Split medlit ingest.py by stage
 
 Split `examples/medlit/scripts/ingest.py` into separate source files by pipeline stage. The plan is written so it can be executed mechanically without ambiguity.
 

@@ -1,4 +1,4 @@
-# Plan: Mitigate relationship extraction performance issues (PLAN6)
+# UNIMPLEMENTED — Plan: Mitigate relationship extraction performance issues (PLAN6)
 
 Execute steps in order from the **repository root**. All edits are in `examples/medlit/pipeline/relationships.py` unless stated otherwise. Reference: **A.md** (Gemini observations).
 
