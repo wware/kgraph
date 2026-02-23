@@ -1,0 +1,632 @@
+{
+  "paper": {
+    "doi": null,
+    "pmcid": "PMC12757875",
+    "title": "The DDR-immune fitness score: a biomarker for guiding parp and immunotherapy synergy in extensive-stage small cell lung cancer",
+    "authors": [],
+    "journal": null,
+    "year": null,
+    "study_type": "systematic review and biomarker development",
+    "eco_type": "computational modeling"
+  },
+  "extraction_provenance": {
+    "extraction_pipeline": {
+      "name": "medlit_pass1_extract",
+      "version": "0.1.0",
+      "git_commit": "b806ec36126690c24218bfa2f6999b594dcf4d10",
+      "git_commit_short": "b806ec3",
+      "git_branch": "ingest-refactor",
+      "git_dirty": true,
+      "repo_url": "https://github.com/org/medlit"
+    },
+    "models": {
+      "llm": {
+        "name": "claude-sonnet-4-20250514",
+        "version": ""
+      }
+    },
+    "prompt": {
+      "version": "v1",
+      "template": "medlit_extraction_v1",
+      "checksum": "sha256:f94cc0ab23940d18"
+    },
+    "execution": {
+      "timestamp": "2026-02-23T17:40:23.737411Z",
+      "hostname": "unknown",
+      "python_version": "3.13.3",
+      "duration_seconds": 42.94
+    },
+    "entity_resolution": null,
+    "model_info": null
+  },
+  "entities": [
+    {
+      "id": "disease_1",
+      "class": "Disease",
+      "name": "extensive-stage small-cell lung cancer",
+      "synonyms": [
+        "ES-SCLC",
+        "extensive-stage SCLC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0149925",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "disease_2",
+      "class": "Disease",
+      "name": "small cell lung cancer",
+      "synonyms": [
+        "SCLC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0149925",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "biomarker_1",
+      "class": "Biomarker",
+      "name": "DDR-Immune Fitness score",
+      "synonyms": [
+        "DDR-IF score",
+        "DDR-IF"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "biomarker_2",
+      "class": "Biomarker",
+      "name": "homologous recombination deficiency",
+      "synonyms": [
+        "HRD"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "biomarker_3",
+      "class": "Biomarker",
+      "name": "tumor mutational burden",
+      "synonyms": [
+        "TMB"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "biomarker_4",
+      "class": "Biomarker",
+      "name": "STING pathway activity",
+      "synonyms": [
+        "STING activation"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "drug_1",
+      "class": "Drug",
+      "name": "PARP inhibitor",
+      "synonyms": [
+        "PARPi",
+        "PARP inhibitors"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1598392",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "drug_2",
+      "class": "Drug",
+      "name": "immune checkpoint blocker",
+      "synonyms": [
+        "ICB",
+        "immune checkpoint blockers"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "drug_3",
+      "class": "Drug",
+      "name": "PD-L1 inhibitor",
+      "synonyms": [
+        "anti-PD-L1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gene_1",
+      "class": "Gene",
+      "name": "ATM",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:795",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gene_2",
+      "class": "Gene",
+      "name": "BRCA1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1100",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gene_3",
+      "class": "Gene",
+      "name": "BRCA2",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1101",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gene_4",
+      "class": "Gene",
+      "name": "PARP1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:270",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gene_5",
+      "class": "Gene",
+      "name": "RAD51",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:9817",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gene_6",
+      "class": "Gene",
+      "name": "SLFN11",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:31119",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gene_7",
+      "class": "Gene",
+      "name": "STING",
+      "synonyms": [
+        "TMEM173"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:27962",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pathway_1",
+      "class": "Pathway",
+      "name": "DNA damage repair pathway",
+      "synonyms": [
+        "DDR pathway"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pathway_2",
+      "class": "Pathway",
+      "name": "cGAS-STING pathway",
+      "synonyms": [
+        "STING pathway"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cell_type_1",
+      "class": "CellType",
+      "name": "CD8+ T cell",
+      "synonyms": [
+        "CD8+ cytotoxic T cell"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "treatment_1",
+      "class": "Treatment",
+      "name": "PARP-ICB combination",
+      "synonyms": [
+        "PARP-ICB",
+        "DDR-ICB"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    }
+  ],
+  "evidence_entities": [
+    {
+      "id": "paper_1:background:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper_1",
+      "text_span_id": "background_1",
+      "text": "DDR-IF-high tumors were characterized by a distinct biological profile, including (i) transcriptional exhaustion of the cGAS-STING innate immune pathway (p < 0.001), (ii) significantly reduced CD8+ T cell infiltration (2.3-fold fewer, p = 0.004), and (iii) a superior pooled objective response rate to PARP-ICB combinations (42% vs 18%; risk ratio 2.3, 95% CI 1.3-4.2; p = 0.003)",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "systematic review and biomarker development",
+      "eco_type": "computational modeling",
+      "source": "extracted"
+    },
+    {
+      "id": "paper_1:methods:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper_1",
+      "text_span_id": "methods_1",
+      "text": "The final DDR-IF score was defined using standardized coefficients: DDR-IF = 0.4 \u00d7 (HRD score) + 0.35 \u00d7 log10(TMB + 1) + 0.25 \u00d7 (STING activation score)",
+      "confidence": 0.98,
+      "extraction_method": "llm",
+      "study_type": "systematic review and biomarker development",
+      "eco_type": "computational modeling",
+      "source": "extracted"
+    },
+    {
+      "id": "paper_1:results:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper_1",
+      "text_span_id": "results_1",
+      "text": "A meta-analysis of six trials (2020\u20132024) confirmed that DDR-IF-high tumors (e.g., ATM/BRCA1/2-altered) show a 2.3-fold higher ORR to PARP-ICB versus DDR-IF-low (42% vs. 18%, p=0.003)",
+      "confidence": 0.92,
+      "extraction_method": "llm",
+      "study_type": "systematic review and biomarker development",
+      "eco_type": "computational modeling",
+      "source": "extracted"
+    },
+    {
+      "id": "paper_1:results:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper_1",
+      "text_span_id": "results_2",
+      "text": "the DDR-IF score demonstrated superior predictive power for PARP-ICB response (AUROC = 0.81) compared to SLFN11 expression alone (AUROC = 0.64), ATM mutation status (AUROC = 0.59), or a simple TMB-PD-L1 composite model (AUROC = 0.72)",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "systematic review and biomarker development",
+      "eco_type": "computational modeling",
+      "source": "extracted"
+    }
+  ],
+  "relationships": [
+    {
+      "subject": "biomarker_1",
+      "predicate": "INDICATES",
+      "object": "treatment_1",
+      "evidence_ids": [
+        "paper_1:background:1:llm",
+        "paper_1:results:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "response_rate": "42% vs 18%",
+        "risk_ratio": "2.3 (95% CI 1.3-4.2)"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "biomarker_2",
+      "predicate": "SUBTYPE_OF",
+      "object": "biomarker_1",
+      "evidence_ids": [
+        "paper_1:methods:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.98,
+      "properties": {
+        "weight": "0.4"
+      },
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "biomarker_3",
+      "predicate": "SUBTYPE_OF",
+      "object": "biomarker_1",
+      "evidence_ids": [
+        "paper_1:methods:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.98,
+      "properties": {
+        "weight": "0.35"
+      },
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "biomarker_4",
+      "predicate": "SUBTYPE_OF",
+      "object": "biomarker_1",
+      "evidence_ids": [
+        "paper_1:methods:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.98,
+      "properties": {
+        "weight": "0.25"
+      },
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "biomarker_1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "cell_type_1",
+      "evidence_ids": [
+        "paper_1:background:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.92,
+      "properties": {
+        "relationship_type": "reduced infiltration",
+        "fold_change": "2.3-fold fewer"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "treatment_1",
+      "predicate": "TREATS",
+      "object": "disease_1",
+      "evidence_ids": [
+        "paper_1:background:1:llm",
+        "paper_1:results:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "response_rate": "42% in DDR-IF-high tumors"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "gene_1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "biomarker_2",
+      "evidence_ids": [
+        "paper_1:results:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.85,
+      "properties": {
+        "mutation_frequency": "11.2%"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "gene_2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "biomarker_2",
+      "evidence_ids": [
+        "paper_1:results:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.85,
+      "properties": {
+        "mutation_frequency": "6.7%"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "gene_3",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "biomarker_2",
+      "evidence_ids": [
+        "paper_1:results:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.85,
+      "properties": {
+        "mutation_frequency": "6.7%"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pathway_2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "biomarker_4",
+      "evidence_ids": [
+        "paper_1:background:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "relationship_type": "exhaustion"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    }
+  ],
+  "notes": [
+    "The DDR-IF score is described as exploratory and requires prospective validation",
+    "The study integrated data from 82 SCLC tumors and six phase II trials",
+    "DDR-IF-high tumors showed superior response to PARP-ICB combinations but reduced immune infiltration"
+  ]
+}

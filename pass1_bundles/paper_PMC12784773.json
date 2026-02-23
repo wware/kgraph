@@ -1,0 +1,821 @@
+{
+  "paper": {
+    "doi": null,
+    "pmcid": "PMC12784773",
+    "title": "Ferroptosis\u2014The \"Double-Edged Sword\" in Cancer: Mechanisms of Tumor Suppression/Resistance and Therapeutic Manipulation",
+    "authors": [],
+    "journal": null,
+    "year": null,
+    "study_type": "narrative review",
+    "eco_type": null
+  },
+  "extraction_provenance": {
+    "extraction_pipeline": {
+      "name": "medlit_pass1_extract",
+      "version": "0.1.0",
+      "git_commit": "b806ec36126690c24218bfa2f6999b594dcf4d10",
+      "git_commit_short": "b806ec3",
+      "git_branch": "ingest-refactor",
+      "git_dirty": true,
+      "repo_url": "https://github.com/org/medlit"
+    },
+    "models": {
+      "llm": {
+        "name": "claude-sonnet-4-20250514",
+        "version": ""
+      }
+    },
+    "prompt": {
+      "version": "v1",
+      "template": "medlit_extraction_v1",
+      "checksum": "sha256:f94cc0ab23940d18"
+    },
+    "execution": {
+      "timestamp": "2026-02-23T17:42:46.001099Z",
+      "hostname": "unknown",
+      "python_version": "3.13.3",
+      "duration_seconds": 46.65
+    },
+    "entity_resolution": null,
+    "model_info": null
+  },
+  "entities": [
+    {
+      "id": "ferroptosis",
+      "class": "Biological Process",
+      "name": "ferroptosis",
+      "synonyms": [
+        "iron-dependent cell death",
+        "ferroptotic cell death"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cancer",
+      "class": "Disease",
+      "name": "cancer",
+      "synonyms": [
+        "malignancy",
+        "tumor",
+        "neoplasm"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "TP53",
+      "class": "Gene",
+      "name": "TP53",
+      "synonyms": [
+        "tumor protein 53",
+        "p53"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11998",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "SLC7A11",
+      "class": "Gene",
+      "name": "SLC7A11",
+      "synonyms": [
+        "cystine transporter solute carrier family 7 member 11",
+        "xCT"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11059",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "GPX4",
+      "class": "Gene",
+      "name": "GPX4",
+      "synonyms": [
+        "glutathione peroxidase 4"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:4555",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ACSL4",
+      "class": "Gene",
+      "name": "ACSL4",
+      "synonyms": [
+        "Acyl-CoA Synthetase Long Chain Family Member 4"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:3571",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "FSP1",
+      "class": "Gene",
+      "name": "FSP1",
+      "synonyms": [
+        "Ferroptosis suppressor protein 1",
+        "AIFM2"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:16686",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "NRF2",
+      "class": "Gene",
+      "name": "NRF2",
+      "synonyms": [
+        "Nuclear factor (erythroid-derived 2)-like 2"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:7782",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "KEAP1",
+      "class": "Gene",
+      "name": "KEAP1",
+      "synonyms": [
+        "kelch-like ECH-associated protein 1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:23177",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "BAP1",
+      "class": "Gene",
+      "name": "BAP1",
+      "synonyms": [
+        "BRCA1-associated protein-1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:950",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "RAS",
+      "class": "Gene",
+      "name": "RAS",
+      "synonyms": [
+        "RAS proto-oncogenes"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "erastin",
+      "class": "Drug",
+      "name": "erastin",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "RSL3",
+      "class": "Drug",
+      "name": "RSL3",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "sorafenib",
+      "class": "Drug",
+      "name": "sorafenib",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "608804",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ferrostatin-1",
+      "class": "Drug",
+      "name": "ferrostatin-1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "liproxstatin-1",
+      "class": "Drug",
+      "name": "liproxstatin-1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hepatocellular_carcinoma",
+      "class": "Disease",
+      "name": "hepatocellular carcinoma",
+      "synonyms": [
+        "HCC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C2239176",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pancreatic_ductal_adenocarcinoma",
+      "class": "Disease",
+      "name": "pancreatic ductal adenocarcinoma",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C1335302",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "clear_cell_renal_cell_carcinoma",
+      "class": "Disease",
+      "name": "clear cell renal cell carcinoma",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0279702",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "triple_negative_breast_cancer",
+      "class": "Disease",
+      "name": "triple-negative breast cancer",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C3539878",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ovarian_cancer",
+      "class": "Disease",
+      "name": "ovarian cancer",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0029925",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "lung_cancer",
+      "class": "Disease",
+      "name": "lung cancer",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0242379",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "melanoma",
+      "class": "Disease",
+      "name": "melanoma",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0025202",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "iron",
+      "class": "Chemical",
+      "name": "iron",
+      "synonyms": [
+        "Fe"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "reactive_oxygen_species",
+      "class": "Chemical",
+      "name": "reactive oxygen species",
+      "synonyms": [
+        "ROS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "glutathione",
+      "class": "Chemical",
+      "name": "glutathione",
+      "synonyms": [
+        "GSH"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "lipid_peroxidation",
+      "class": "Biological Process",
+      "name": "lipid peroxidation",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    }
+  ],
+  "evidence_entities": [
+    {
+      "id": "paper:introduction:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": "intro_1",
+      "text": "Ferroptosis is an iron-dependent form of programmed cell death that is driven by the accumulation of reactive oxygen species (ROS), leading to the formation of membrane-damaging lipid peroxides",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "narrative review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "paper:mechanisms:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": "mech_1",
+      "text": "TP53 is the most frequently mutated tumor-suppressor gene and can play an important role in the promotion of ferroptosis in cancer. It is well established that p53 is crucial for restricting tumor cell growth and, in terms of ferroptosis, downregulates SLC7A11 expression",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "narrative review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "paper:therapeutics:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": "ther_1",
+      "text": "erastin and RSL3 are two molecules that have been extensively studied in the induction of ferroptosis. Erastin acts through the inhibition of the xCT antiporter composed of both SLC7A11 and SLC3A2",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "narrative review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "paper:therapeutics:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": "ther_2",
+      "text": "sorafenib enhances ferroptosis through the inhibition of SLC7A11 and subsequent decrease in cystine uptake",
+      "confidence": 0.85,
+      "extraction_method": "llm",
+      "study_type": "narrative review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "paper:cancer_types:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": "cancer_1",
+      "text": "Malignancies such as pancreatic ductal adenocarcinoma, HCC, clear cell renal cell carcinoma, and triple-negative breast cancer demonstrate these dysregulations. These cancers in particular display either extreme iron dependence or occur in cells that are involved in lipid storage or metabolism",
+      "confidence": 0.8,
+      "extraction_method": "llm",
+      "study_type": "narrative review",
+      "eco_type": null,
+      "source": "extracted"
+    }
+  ],
+  "relationships": [
+    {
+      "subject": "ferroptosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "cancer",
+      "evidence_ids": [
+        "paper:introduction:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "relationship_type": "dual_role"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "TP53",
+      "predicate": "REGULATES",
+      "object": "ferroptosis",
+      "evidence_ids": [
+        "paper:mechanisms:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "mechanism": "promotes"
+      },
+      "section": "mechanisms",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "TP53",
+      "predicate": "REGULATES",
+      "object": "SLC7A11",
+      "evidence_ids": [
+        "paper:mechanisms:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "mechanism": "downregulates"
+      },
+      "section": "mechanisms",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "erastin",
+      "predicate": "INHIBITS",
+      "object": "SLC7A11",
+      "evidence_ids": [
+        "paper:therapeutics:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "mechanism": "xCT antiporter inhibition"
+      },
+      "section": "therapeutics",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "erastin",
+      "predicate": "INDUCES",
+      "object": "ferroptosis",
+      "evidence_ids": [
+        "paper:therapeutics:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.9,
+      "properties": {},
+      "section": "therapeutics",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "RSL3",
+      "predicate": "INDUCES",
+      "object": "ferroptosis",
+      "evidence_ids": [
+        "paper:therapeutics:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "mechanism": "GPX4 inhibition"
+      },
+      "section": "therapeutics",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "sorafenib",
+      "predicate": "TREATS",
+      "object": "hepatocellular_carcinoma",
+      "evidence_ids": [
+        "paper:therapeutics:2:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.85,
+      "properties": {
+        "mechanism": "ferroptosis induction"
+      },
+      "section": "therapeutics",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "sorafenib",
+      "predicate": "INDUCES",
+      "object": "ferroptosis",
+      "evidence_ids": [
+        "paper:therapeutics:2:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.85,
+      "properties": {
+        "mechanism": "SLC7A11 inhibition"
+      },
+      "section": "therapeutics",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ferroptosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "pancreatic_ductal_adenocarcinoma",
+      "evidence_ids": [
+        "paper:cancer_types:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.8,
+      "properties": {
+        "vulnerability": "high"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ferroptosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "hepatocellular_carcinoma",
+      "evidence_ids": [
+        "paper:cancer_types:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.8,
+      "properties": {
+        "vulnerability": "high"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ferroptosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "clear_cell_renal_cell_carcinoma",
+      "evidence_ids": [
+        "paper:cancer_types:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.8,
+      "properties": {
+        "vulnerability": "high"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ferroptosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "triple_negative_breast_cancer",
+      "evidence_ids": [
+        "paper:cancer_types:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.8,
+      "properties": {
+        "vulnerability": "high"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "iron",
+      "predicate": "REQUIRED_FOR",
+      "object": "ferroptosis",
+      "evidence_ids": [
+        "paper:introduction:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "reactive_oxygen_species",
+      "predicate": "CAUSES",
+      "object": "ferroptosis",
+      "evidence_ids": [
+        "paper:introduction:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "mechanism": "lipid peroxide formation"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    }
+  ],
+  "notes": [
+    "This is a narrative review discussing the dual role of ferroptosis in cancer",
+    "The paper emphasizes the context-dependent nature of ferroptosis in cancer biology",
+    "Multiple therapeutic strategies targeting ferroptosis are discussed but most are still in preclinical stages"
+  ]
+}
