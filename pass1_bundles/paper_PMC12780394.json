@@ -6,8 +6,8 @@
     "authors": [
       "Not specified"
     ],
-    "journal": "Journal of Thoracic Disease",
-    "year": 2025,
+    "journal": "Not specified",
+    "year": 2024,
     "study_type": "bibliometric analysis",
     "eco_type": null
   },
@@ -15,8 +15,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "b806ec36126690c24218bfa2f6999b594dcf4d10",
-      "git_commit_short": "b806ec3",
+      "git_commit": "39f1b7e43865f4ea820908097aed6859daeae7cf",
+      "git_commit_short": "39f1b7e",
       "git_branch": "ingest-refactor",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -33,10 +33,10 @@
       "checksum": "sha256:f94cc0ab23940d18"
     },
     "execution": {
-      "timestamp": "2026-02-23T17:41:05.745628Z",
+      "timestamp": "2026-02-23T18:23:09.176960Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 41.96
+      "duration_seconds": 46.98
     },
     "entity_resolution": null,
     "model_info": null
@@ -99,23 +99,6 @@
     {
       "id": "gene_2",
       "class": "Gene",
-      "name": "BAP1",
-      "synonyms": [
-        "BRCA1-associated protein 1"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:950",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "gene_3",
-      "class": "Gene",
       "name": "PD-L1",
       "synonyms": [
         "programmed cell death ligand-1",
@@ -132,7 +115,7 @@
       "uniprot_id": null
     },
     {
-      "id": "gene_4",
+      "id": "gene_3",
       "class": "Gene",
       "name": "osteopontin",
       "synonyms": [
@@ -151,6 +134,23 @@
       "uniprot_id": null
     },
     {
+      "id": "gene_4",
+      "class": "Gene",
+      "name": "BAP1",
+      "synonyms": [
+        "BRCA1-associated protein 1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:950",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "gene_5",
       "class": "Gene",
       "name": "miR-182-5p",
@@ -162,7 +162,7 @@
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:31568",
+      "hgnc_id": "HGNC:31586",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -179,7 +179,41 @@
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:31476",
+      "hgnc_id": "HGNC:31482",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gene_7",
+      "class": "Gene",
+      "name": "FOXO1",
+      "synonyms": [
+        "forkhead box O1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:3819",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gene_8",
+      "class": "Gene",
+      "name": "FOXO3",
+      "synonyms": [
+        "forkhead box O3"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:3821",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -188,7 +222,9 @@
       "id": "drug_1",
       "class": "Drug",
       "name": "nivolumab",
-      "synonyms": [],
+      "synonyms": [
+        "Opdivo"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -203,7 +239,9 @@
       "id": "drug_2",
       "class": "Drug",
       "name": "ipilimumab",
-      "synonyms": [],
+      "synonyms": [
+        "Yervoy"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -218,7 +256,9 @@
       "id": "drug_3",
       "class": "Drug",
       "name": "pembrolizumab",
-      "synonyms": [],
+      "synonyms": [
+        "Keytruda"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -233,23 +273,8 @@
       "id": "drug_4",
       "class": "Drug",
       "name": "pemetrexed",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "282464",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "exposure_1",
-      "class": "Environmental_Factor",
-      "name": "asbestos",
       "synonyms": [
-        "asbestos exposure"
+        "Alimta"
       ],
       "symbol": null,
       "brand_names": [],
@@ -257,7 +282,7 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": null,
+      "rxnorm_id": "282464",
       "loinc_code": null,
       "uniprot_id": null
     },
@@ -314,12 +339,11 @@
       "uniprot_id": null
     },
     {
-      "id": "treatment_1",
-      "class": "Treatment",
-      "name": "immunotherapy",
+      "id": "exposure_1",
+      "class": "Environmental_Factor",
+      "name": "asbestos",
       "synonyms": [
-        "immune checkpoint inhibitors",
-        "ICIs"
+        "asbestos exposure"
       ],
       "symbol": null,
       "brand_names": [],
@@ -332,8 +356,26 @@
       "uniprot_id": null
     },
     {
-      "id": "treatment_2",
-      "class": "Treatment",
+      "id": "therapy_1",
+      "class": "Therapy",
+      "name": "immunotherapy",
+      "synonyms": [
+        "immune checkpoint inhibitor therapy",
+        "ICT"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "therapy_2",
+      "class": "Therapy",
       "name": "CAR-T therapy",
       "synonyms": [
         "chimeric antigen receptor T-cell therapy"
@@ -408,7 +450,7 @@
       "entity_id": null,
       "paper_id": "paper_1",
       "text_span_id": "discussion_5",
-      "text": "The PD-L1 protein plays a central role in the antitumor immune response.",
+      "text": "The PD-L1 protein plays a central role in the antitumor immune response. sPD-L1 concentrations were positively correlated with OS.",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "bibliometric analysis",
@@ -434,7 +476,7 @@
       "entity_id": null,
       "paper_id": "paper_1",
       "text_span_id": "discussion_7",
-      "text": "For chimeric antigen receptor T-cell (CAR-T) therapy, mesothelin represents a relatively suitable target. It exhibits low expression in normal mesothelial tissue yet is overexpressed in the majority of epithelial-type PM.",
+      "text": "One of the tumorigenic miRNAs associated with PM development is miR-182-5p. miR-182-5p's oncogenic function was first identified in melanoma, where the miRNA promotes tumor migration and invasion by inhibiting the activity of the forkhead box O3 (FOXO3) transcription factor.",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "bibliometric analysis",
@@ -474,7 +516,7 @@
       ],
       "confidence": 0.9,
       "properties": {
-        "expression_pattern": "overexpressed"
+        "expression_level": "abundantly expressed"
       },
       "section": "discussion",
       "asserted_by": "llm",
@@ -501,9 +543,27 @@
       "note": null
     },
     {
-      "subject": "gene_3",
+      "subject": "biomarker_1",
+      "predicate": "SAME_AS",
+      "object": "gene_1",
+      "evidence_ids": [
+        "paper_1:discussion:3:llm",
+        "paper_1:discussion:4:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.9,
+      "properties": {},
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": "SMRP is derived from mesothelin expression"
+    },
+    {
+      "subject": "gene_2",
       "predicate": "ASSOCIATED_WITH",
-      "object": "treatment_1",
+      "object": "disease_1",
       "evidence_ids": [
         "paper_1:discussion:5:llm"
       ],
@@ -512,7 +572,7 @@
       ],
       "confidence": 0.9,
       "properties": {
-        "role": "antitumor immune response"
+        "correlation": "positive correlation with overall survival"
       },
       "section": "discussion",
       "asserted_by": "llm",
@@ -521,7 +581,7 @@
     },
     {
       "subject": "biomarker_3",
-      "predicate": "ASSOCIATED_WITH",
+      "predicate": "INDICATES",
       "object": "disease_1",
       "evidence_ids": [
         "paper_1:discussion:6:llm"
@@ -531,7 +591,7 @@
       ],
       "confidence": 0.85,
       "properties": {
-        "mechanism": "tumor growth, invasion and angiogenesis"
+        "mechanism": "affects tumor growth, invasion and angiogenesis"
       },
       "section": "discussion",
       "asserted_by": "llm",
@@ -539,9 +599,9 @@
       "note": null
     },
     {
-      "subject": "gene_1",
+      "subject": "gene_5",
       "predicate": "ASSOCIATED_WITH",
-      "object": "treatment_2",
+      "object": "disease_1",
       "evidence_ids": [
         "paper_1:discussion:7:llm"
       ],
@@ -550,7 +610,27 @@
       ],
       "confidence": 0.9,
       "properties": {
-        "target_suitability": "suitable target"
+        "role": "tumorigenic",
+        "mechanism": "promotes tumor migration and invasion"
+      },
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "gene_5",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "gene_8",
+      "evidence_ids": [
+        "paper_1:discussion:7:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "interaction": "inhibits FOXO3 transcription factor activity"
       },
       "section": "discussion",
       "asserted_by": "llm",
@@ -609,24 +689,27 @@
       "note": null
     },
     {
-      "subject": "biomarker_1",
-      "predicate": "SAME_AS",
-      "object": "gene_1",
+      "subject": "therapy_1",
+      "predicate": "TREATS",
+      "object": "disease_1",
       "evidence_ids": [],
       "source_papers": [
         "paper_1"
       ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "discussion",
+      "confidence": 0.85,
+      "properties": {
+        "emerging_hotspot": "true"
+      },
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
-      "note": "SMRP is derived from mesothelin"
+      "note": null
     }
   ],
   "notes": [
     "This bibliometric analysis covers 662 publications on pleural mesothelioma biomarkers from 2002-2024",
     "The study identifies immunotherapy and epigenetics as emerging research hotspots",
-    "SMRP is currently the only FDA-approved biomarker for pleural mesothelioma"
+    "SMRP is currently the only FDA-approved biomarker for pleural mesothelioma",
+    "Clinical translation of biomarkers remains limited despite growing research interest"
   ]
 }

@@ -17,8 +17,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "b806ec36126690c24218bfa2f6999b594dcf4d10",
-      "git_commit_short": "b806ec3",
+      "git_commit": "39f1b7e43865f4ea820908097aed6859daeae7cf",
+      "git_commit_short": "39f1b7e",
       "git_branch": "ingest-refactor",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -35,10 +35,10 @@
       "checksum": "sha256:f94cc0ab23940d18"
     },
     "execution": {
-      "timestamp": "2026-02-23T17:43:27.022677Z",
+      "timestamp": "2026-02-23T18:25:13.453713Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 40.97
+      "duration_seconds": 48.92
     },
     "entity_resolution": null,
     "model_info": null
@@ -189,7 +189,7 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0001624",
+      "umls_id": "C0001623",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -231,74 +231,21 @@
     },
     {
       "id": "E12",
-      "class": "Biomarker",
-      "name": "estrogen receptor",
-      "synonyms": [
-        "ER"
-      ],
+      "class": "Drug",
+      "name": "tamoxifen",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0034804",
+      "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": null,
+      "rxnorm_id": "10324",
       "loinc_code": null,
       "uniprot_id": null
     },
     {
       "id": "E13",
-      "class": "Biomarker",
-      "name": "progesterone receptor",
-      "synonyms": [
-        "PR"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0034833",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E14",
-      "class": "Biomarker",
-      "name": "HER2",
-      "synonyms": [
-        "human epidermal growth factor receptor 2"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0069515",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E15",
-      "class": "Treatment",
-      "name": "bilateral mastectomy",
-      "synonyms": [
-        "mastectomy"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0024881",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E16",
       "class": "Treatment",
       "name": "radiation therapy",
       "synonyms": [
@@ -315,34 +262,70 @@
       "uniprot_id": null
     },
     {
-      "id": "E17",
+      "id": "E14",
       "class": "Treatment",
-      "name": "sentinel lymph node biopsy",
+      "name": "mastectomy",
       "synonyms": [
-        "SLNB"
+        "bilateral mastectomy"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C1519247",
+      "umls_id": "C0024881",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E18",
-      "class": "Drug",
-      "name": "tamoxifen",
-      "synonyms": [],
+      "id": "E15",
+      "class": "Gene",
+      "name": "estrogen receptor",
+      "synonyms": [
+        "ER"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "10324",
+      "hgnc_id": "HGNC:3467",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E16",
+      "class": "Gene",
+      "name": "progesterone receptor",
+      "synonyms": [
+        "PR"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:8910",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E17",
+      "class": "Gene",
+      "name": "HER2",
+      "synonyms": [
+        "human epidermal growth factor receptor 2"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:3430",
+      "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     }
@@ -354,7 +337,7 @@
       "entity_id": null,
       "paper_id": "case_report",
       "text_span_id": "genetics_1",
-      "text": "She completed a comprehensive 76\u2010gene germline genetic test, which revealed tumor protein p53 (TP53) likely pathogenic variant (LPV; c.716A>G; p.N239S)",
+      "text": "She completed a comprehensive 76\u2010gene germline genetic test, which revealed tumor protein p53 (TP53) likely pathogenic variant (LPV; c.716A>G; p.N239S).",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "case_report",
@@ -367,7 +350,7 @@
       "entity_id": null,
       "paper_id": "case_report",
       "text_span_id": "genetics_2",
-      "text": "When TP53 PVs/LPVs are identified in a comprehensive germline panel, this raises concern for Li\u2013Fraumeni syndrome (LFS)",
+      "text": "When TP53 PVs/LPVs are identified in a comprehensive germline panel, this raises concern for Li\u2013Fraumeni syndrome (LFS).",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "case_report",
@@ -380,7 +363,7 @@
       "entity_id": null,
       "paper_id": "case_report",
       "text_span_id": "genetics_3",
-      "text": "LFS is a hereditary cancer syndrome that is associated with increased risk for multiple cancers, including, but not limited to, breast cancer, sarcoma, central nervous system tumors, and adrenocortical carcinoma",
+      "text": "LFS is a hereditary cancer syndrome that is associated with increased risk for multiple cancers, including, but not limited to, breast cancer, sarcoma, central nervous system tumors, and adrenocortical carcinoma.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "case_report",
@@ -393,20 +376,7 @@
       "entity_id": null,
       "paper_id": "case_report",
       "text_span_id": "genetics_4",
-      "text": "The breast cancer risk for women with LFS/germline TP53 LPVs/PVs is 80%\u201390%",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "case_report",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "case_report:genetics:5:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "case_report",
-      "text_span_id": "genetics_5",
-      "text": "The same specific TP53 LPV (c.716A>G [p.N239S]) was detected in all three tumors",
+      "text": "The same specific TP53 LPV (c.716A>G [p.N239S]) was detected in all three tumors.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "case_report",
@@ -419,7 +389,7 @@
       "entity_id": null,
       "paper_id": "case_report",
       "text_span_id": "surgery_1",
-      "text": "An LFS diagnosis in an individual with newly diagnosed breast cancer includes consideration of bilateral mastectomy, as opposed to breast\u2010conserving surgery",
+      "text": "The breast cancer risk for women with LFS/germline TP53 LPVs/PVs is 80%\u201390%, with most breast cancers occurring at a younger age.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "case_report",
@@ -432,7 +402,20 @@
       "entity_id": null,
       "paper_id": "case_report",
       "text_span_id": "radiation_1",
-      "text": "patients with LFS who receive radiation therapy have an increased risk of radiation\u2010related malignancies within irradiated areas. The reported risk of developing radiation\u2010induced malignancy ranges from 15% to 35%",
+      "text": "It has been demonstrated that patients with LFS who receive radiation therapy have an increased risk of radiation\u2010related malignancies within irradiated areas.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "case_report",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "case_report:medical:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "case_report",
+      "text_span_id": "medical_1",
+      "text": "Phyllodes tumors have been associated with germline TP53, BRCA1, and RB1 PVs/LPVs.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "case_report",
@@ -443,7 +426,7 @@
   "relationships": [
     {
       "subject": "E2",
-      "predicate": "INCREASES_RISK",
+      "predicate": "INDICATES",
       "object": "E3",
       "evidence_ids": [
         "case_report:genetics:2:llm"
@@ -464,7 +447,7 @@
       "object": "E1",
       "evidence_ids": [
         "case_report:genetics:3:llm",
-        "case_report:genetics:4:llm"
+        "case_report:surgery:1:llm"
       ],
       "source_papers": [
         "case_report"
@@ -530,20 +513,35 @@
       "note": null
     },
     {
-      "subject": "E15",
-      "predicate": "TREATS",
-      "object": "E1",
+      "subject": "E2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "E4",
       "evidence_ids": [
-        "case_report:surgery:1:llm"
+        "case_report:medical:1:llm"
       ],
       "source_papers": [
         "case_report"
       ],
       "confidence": 0.95,
-      "properties": {
-        "indication": "LFS-associated breast cancer"
-      },
-      "section": "surgery",
+      "properties": {},
+      "section": "medical_oncology",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "E5",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "E4",
+      "evidence_ids": [
+        "case_report:medical:1:llm"
+      ],
+      "source_papers": [
+        "case_report"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "medical_oncology",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -551,7 +549,7 @@
     {
       "subject": "E3",
       "predicate": "INCREASES_RISK",
-      "object": "E16",
+      "object": "E13",
       "evidence_ids": [
         "case_report:radiation:1:llm"
       ],
@@ -560,37 +558,36 @@
       ],
       "confidence": 0.95,
       "properties": {
-        "risk_type": "radiation-induced malignancy",
-        "risk_percentage": "15-35%"
+        "risk_type": "radiation-related malignancies"
       },
-      "section": "radiation",
+      "section": "radiation_oncology",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "E2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "E11",
+      "subject": "E14",
+      "predicate": "TREATS",
+      "object": "E1",
       "evidence_ids": [
-        "case_report:genetics:5:llm"
+        "case_report:surgery:1:llm"
       ],
       "source_papers": [
         "case_report"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "properties": {
-        "variant": "c.716A>G (p.N239S)"
+        "context": "LFS patients"
       },
-      "section": "genetics",
+      "section": "surgery",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
-    "This case report describes a 36-year-old woman with bilateral breast cancer and a malignant phyllodes tumor who was found to have a mosaic TP53 likely pathogenic variant",
-    "The mosaic nature of the TP53 variant was confirmed through multiple tissue testing approaches including tumor analysis and embryo testing",
-    "The diagnosis of mosaic Li-Fraumeni syndrome significantly altered treatment recommendations, favoring bilateral mastectomy over breast-conserving surgery and avoiding radiation therapy"
+    "This case report describes a 36-year-old woman with bilateral breast cancer and a malignant phyllodes tumor found to have a mosaic TP53 likely pathogenic variant diagnostic for Li-Fraumeni syndrome.",
+    "The mosaic nature of the TP53 variant was confirmed through multiple tissue testing including tumor samples and embryo testing during IVF.",
+    "The diagnosis of LFS significantly altered treatment recommendations, leading to bilateral mastectomy instead of breast-conserving surgery and avoidance of radiation therapy."
   ]
 }
