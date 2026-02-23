@@ -65,6 +65,10 @@ This package provides a kgraph domain extension for extracting knowledge from bi
 - **RelationshipExtractor**: Extract relationships with evidence and provenance
 - **EmbeddingGenerator**: Generate biomedical embeddings for entities
 
+## Two-pass ingestion (per-paper bundles)
+
+Pass 1 writes one JSON bundle per paper (immutable); Pass 2 deduplicates and merges without modifying those files. See **INGESTION.md** for the two-pass flow and **LLM_SETUP.md** for configuring the LLM (Anthropic, OpenAI, Ollama) for Pass 1.
+
 ## Usage Example
 
 ```python

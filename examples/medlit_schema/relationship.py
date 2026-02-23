@@ -527,6 +527,38 @@ class PartOf(ResearchRelationship):
         return "PART_OF"
 
 
+class SameAs(ResearchRelationship):
+    """
+    Provisional identity link between two entities.
+
+    Not a BaseMedicalRelationship — no evidence_ids required.
+    Direction: conventionally lower bundle ID → higher bundle ID.
+
+    Attributes:
+        confidence: Strength of identity claim (0.0-1.0)
+        resolution: Outcome after review ("merged", "distinct", null = unreviewed)
+        note: Free text explaining the ambiguity
+    """
+
+    confidence: float = Field(ge=0.0, le=1.0, default=0.5)
+    resolution: Optional[Literal["merged", "distinct"]] = None
+    note: Optional[str] = None
+
+    def get_edge_type(self) -> str:
+        return "SAME_AS"
+
+
+class Indicates(BaseMedicalRelationship):
+    """
+    Biomarker or test result indicates disease or condition.
+
+    Direction: Biomarker / Evidence → Disease
+    """
+
+    def get_edge_type(self) -> str:
+        return "INDICATES"
+
+
 # Hypothesis Relationships
 class Predicts(BaseMedicalRelationship):
     """
@@ -640,6 +672,10 @@ RELATIONSHIP_TYPE_MAP = {
     "INTERACTS_WITH": InteractsWith,
     "DIAGNOSED_BY": DiagnosedBy,
     "PARTICIPATES_IN": ParticipatesIn,
+    "INDICATES": Indicates,
+    "SUBTYPE_OF": SubtypeOf,
+    # Identity
+    "SAME_AS": SameAs,
     # Biological
     "ENCODES": Encodes,
     "BINDS_TO": BindsTo,

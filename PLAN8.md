@@ -262,3 +262,47 @@ Re-run full Step 0 pre-flight.
 - **SAME_AS:** INGESTION_REFACTOR.md "The SAME_AS Predicate" (schema addition, when to emit, resolution lifecycle)
 - **Synonym cache:** INGESTION_REFACTOR.md "Synonym and Identity Cache"
 - **Provenance:** INGESTION_REFACTOR.md "Extraction Provenance"
+
+---
+
+## Implementation summary (executed)
+
+**Step 1: Schema (SUBTYPE_OF, SAME_AS, INDICATES)**
+
+- **examples/medlit_schema/base.py:** Added `SAME_AS = "same_as"` to `PredicateType`.
+- **examples/medlit_schema/relationship.py:** Added `SameAs(ResearchRelationship)` and `Indicates(BaseMedicalRelationship)`; added `"SUBTYPE_OF"`, `"SAME_AS"`, `"INDICATES"` to `RELATIONSHIP_TYPE_MAP`.
+- **examples/medlit_schema/domain.py:** Imported `SameAs`, `Indicates`; added to `relationship_types` and `predicate_constraints` (including `SUBTYPE_OF`).
+
+**Step 2: Per-paper bundle models**
+
+- **examples/medlit/bundle_models.py:** Added `PaperInfo`, `ExtractedEntityRow`, `EvidenceEntityRow`, `RelationshipRow`, `PerPaperBundle` with `entity_class`/`object_id` and `Field(alias="class")`/`Field(alias="object")` for JSON. `to_bundle_dict()` and `from_bundle_dict()` for serialization.
+
+**Step 3: Pass 1 script and LLM backends**
+
+- **examples/medlit/pipeline/pass1_llm.py:** `Pass1LLMInterface`, `AnthropicPass1LLM`, `OpenAIPass1LLM`, `OllamaPass1LLM`, and `get_pass1_llm(backend)`.
+- **examples/medlit/scripts/pass1_extract.py:** CLI `--input-dir`, `--output-dir`, `--llm-backend anthropic|openai|ollama`, `--limit`; loads papers via `JournalArticleParser`, calls LLM, builds `ExtractionProvenance` (git, execution, prompt), writes one `paper_{id}.json` per paper.
+- **examples/medlit/LLM_SETUP.md:** Describes Anthropic, OpenAI, Lambda Labs, and Ollama setup and env vars.
+
+**Step 4: Pass 2 dedup and synonym cache**
+
+- **examples/medlit/pipeline/synonym_cache.py:** `load_synonym_cache`, `save_synonym_cache`, `lookup_entity`, `add_same_as_to_cache`.
+- **examples/medlit/pipeline/dedup.py:** `run_pass2(bundle_dir, output_dir, synonym_cache_path)`: load bundles and cache, name/type index (using cache), high-confidence SAME_AS merge, canonical ID assignment, ontology stub (no-op), relationship refs, triple accumulation, save cache; writes `entities.json`, `relationships.json`, and synonym cache; does not modify input bundles.
+- **examples/medlit/scripts/pass2_dedup.py:** CLI for Pass 2.
+
+**Step 5 & 6: Audit and docs**
+
+- Pass 1 already fills provenance and Evidence-style IDs; no code change.
+- **examples/medlit/INGESTION.md:** Two-pass flow, immutability, one-line usage, review GUI out of scope.
+- **examples/medlit/README.md:** Short “Two-pass ingestion” section with links to INGESTION.md and LLM_SETUP.md.
+
+**Step 7: Integration test and fixtures**
+
+- **examples/medlit/tests/fixtures/bundles/paper_PMC12756687.json** and **paper_PMC99999999.json:** Minimal per-paper bundles (second shares “male breast cancer” Disease for merging).
+- **examples/medlit/tests/test_two_pass_ingestion.py:** Tests Pass 2 merge by (name, class), synonym cache write, no modification of inputs, relationship aggregation, and fixture load.
+
+**Other**
+
+- **tests/test_medlit_domain.py:** `expected_relationships` updated to include `INDICATES` and `SAME_AS`.
+- **examples/medlit/pipeline/dedup.py:** Uses `rel.object_id` (not `rel.object`) for `RelationshipRow`.
+
+All 82 medlit tests and medlit domain tests pass. Pass 1 verification is manual (requires a configured LLM).

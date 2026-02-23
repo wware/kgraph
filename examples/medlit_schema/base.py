@@ -172,6 +172,9 @@ class PredicateType(str, Enum):
     INTERACTS_WITH = "interacts_with"
     SUBTYPE_OF = "subtype_of"
 
+    # Identity (provisional same-entity links)
+    SAME_AS = "same_as"
+
     # Location
     LOCATED_IN = "located_in"
     AFFECTS = "affects"

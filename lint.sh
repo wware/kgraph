@@ -3,8 +3,8 @@
 fixes_needed() {
     echo "Something needs fixing, trying to fix it"
     set -x
-    uv run black kgraph kgbundle kgserver
-    uv run ruff check --fix kgraph kgbundle kgserver
+    uv run black kgraph kgbundle kgserver examples
+    uv run ruff check --fix kgraph kgbundle kgserver examples
     exit 1
 }
 

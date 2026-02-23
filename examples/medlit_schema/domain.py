@@ -49,6 +49,8 @@ from examples.medlit_schema.relationship import (
     Cites,
     StudiedIn,
     PartOf,
+    SameAs,
+    Indicates,
     Predicts,
     TestedBy,
     Supports,
@@ -122,6 +124,8 @@ class MedlitDomain(DomainSchema):
             "REFUTES": Refutes,
             "GENERATES": Generates,
             "SUBTYPE_OF": SubtypeOf,
+            "INDICATES": Indicates,
+            "SAME_AS": SameAs,
         }
 
     @property
@@ -151,6 +155,12 @@ class MedlitDomain(DomainSchema):
             "SUPPORTS": PredicateConstraint(subject_types={"evidence"}, object_types={"hypothesis"}),
             "REFUTES": PredicateConstraint(subject_types={"evidence"}, object_types={"hypothesis"}),
             "GENERATES": PredicateConstraint(subject_types={"clinical_trial", "paper"}, object_types={"evidence"}),
+            "SUBTYPE_OF": PredicateConstraint(subject_types={"disease"}, object_types={"disease"}),
+            "INDICATES": PredicateConstraint(subject_types={"biomarker", "evidence"}, object_types={"disease"}),
+            "SAME_AS": PredicateConstraint(
+                subject_types={"disease", "gene", "drug", "protein", "biomarker", "symptom", "mutation"},
+                object_types={"disease", "gene", "drug", "protein", "biomarker", "symptom", "mutation"},
+            ),
         }
 
     @property
