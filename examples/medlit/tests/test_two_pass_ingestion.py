@@ -78,6 +78,26 @@ def test_pass2_does_not_modify_input_bundles(fixture_bundle_dir, tmp_path):
     assert mtime_before == mtime_after, "Pass 2 must not modify input bundle files"
 
 
+def test_pass2_writes_id_map(fixture_bundle_dir, tmp_path):
+    """Pass 2 writes id_map.json so Pass 3 can resolve (paper_id, local_id) -> merge_key."""
+    output_dir = tmp_path / "merged"
+    run_pass2(
+        bundle_dir=fixture_bundle_dir,
+        output_dir=output_dir,
+        synonym_cache_path=output_dir / "synonym_cache.json",
+    )
+    id_map_path = output_dir / "id_map.json"
+    assert id_map_path.exists()
+    with open(id_map_path, encoding="utf-8") as f:
+        id_map = json.load(f)
+    assert isinstance(id_map, dict)
+    for paper_id, local_map in id_map.items():
+        assert isinstance(paper_id, str)
+        assert isinstance(local_map, dict)
+        for local_id, merge_key in local_map.items():
+            assert isinstance(local_id, str) and isinstance(merge_key, str)
+
+
 def test_pass2_accumulates_relationship_sources(fixture_bundle_dir, tmp_path):
     """Merged relationships aggregate source_papers and evidence_ids."""
     output_dir = tmp_path / "merged"

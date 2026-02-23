@@ -1,6 +1,6 @@
-# MedLit two-pass ingestion
+# MedLit ingestion (three passes)
 
-Ingestion is split into two passes. **Pass 1** produces immutable per-paper bundle JSON files. **Pass 2** reads those bundles and writes a merged graph (and synonym cache) to a separate directory; it never modifies the Pass 1 files.
+Ingestion is split into three passes. **Pass 1** produces immutable per-paper bundle JSON files. **Pass 2** reads those bundles and writes a merged graph (entities, relationships, id_map, synonym cache) to a separate directory; it never modifies the Pass 1 files. **Pass 3** reads the merged output and Pass 1 bundles and writes a **kgbundle** directory (entities.jsonl, relationships.jsonl, evidence.jsonl, mentions.jsonl, manifest.json, etc.) loadable by kgserver.
 
 The two-pass flow does **not** use promotion (no usage/confidence thresholds, no `PromotionPolicy`). Canonical vs provisional is reflected only by whether an entity has an authoritative `canonical_id` in the Pass 2 output (present) or `canonical_id` null (provisional in that sense).
 
@@ -21,7 +21,7 @@ Pass 1 requires an LLM. See **LLM_SETUP.md** for backends (Anthropic, OpenAI, La
 ## Pass 2: Deduplication and promotion
 
 - **Input:** Directory of per-paper bundle JSON files (Pass 1 output).
-- **Output:** A separate directory with `entities.json`, `relationships.json`, and `synonym_cache.json`. Original bundle files are **not** modified. Each entity has **entity_id** (stable merge key, always present) and **canonical_id** (set only when from an ontology; null otherwise).
+- **Output:** A separate directory with `entities.json`, `relationships.json`, `id_map.json`, and `synonym_cache.json`. Original bundle files are **not** modified. Each entity has **entity_id** (stable merge key, always present) and **canonical_id** (set only when from an ontology; null otherwise). **id_map.json** maps (paper_id → local_id → merge_key) for Pass 3.
 - **Synonym cache:** Pass 2 loads and saves a synonym cache so that (name, type) → merge key and SAME_AS links persist across runs (idempotent behavior).
 - **Optional authority lookup:** Use `--canonical-id-cache path/to/cache.json` to resolve entities via MeSH/UMLS, HGNC, RxNorm, UniProt when possible. Use `--no-canonical-id-lookup` to disable lookups (e.g. offline).
 
@@ -33,14 +33,29 @@ python -m examples.medlit.scripts.pass2_dedup --bundle-dir pass1_bundles/ --outp
 python -m examples.medlit.scripts.pass2_dedup --bundle-dir pass1_bundles/ --output-dir pass2_merged/ --canonical-id-cache canonical_id_cache.json
 ```
 
+## Pass 3: Build kgbundle
+
+- **Input:** Pass 2 merged directory (`entities.json`, `relationships.json`, **id_map.json**, `synonym_cache.json`) and Pass 1 bundles directory (`paper_*.json`).
+- **Output:** A kgbundle directory (e.g. `medlit_bundle/`) with `entities.jsonl`, `relationships.jsonl`, `evidence.jsonl`, `mentions.jsonl`, `manifest.json`, `doc_assets.jsonl`, `docs/README.md`, `canonical_id_cache.json`, in the format kgserver expects.
+- **Requirement:** Pass 2 must have been run so that the merged directory contains **id_map.json**. If it is missing, Pass 3 exits with an error.
+
+**Run:**
+
+```bash
+python -m examples.medlit.scripts.pass3_build_bundle --merged-dir pass2_merged/ --bundles-dir pass1_bundles/ --output-dir medlit_bundle
+```
+
 ## One-line usage
 
 ```bash
 # Pass 1 (requires LLM backend and API key or Ollama)
 python -m examples.medlit.scripts.pass1_extract --input-dir pmc_xmls/ --output-dir pass1_bundles/ --llm-backend anthropic
 
-# Pass 2 (no LLM; reads bundles, writes merged graph)
+# Pass 2 (no LLM; reads bundles, writes merged graph + id_map)
 python -m examples.medlit.scripts.pass2_dedup --bundle-dir pass1_bundles/ --output-dir pass2_merged/
+
+# Pass 3 (build kgbundle for kgserver)
+python -m examples.medlit.scripts.pass3_build_bundle --merged-dir pass2_merged/ --bundles-dir pass1_bundles/ --output-dir medlit_bundle
 ```
 
 ## Review GUI (out of scope)

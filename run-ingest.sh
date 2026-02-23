@@ -35,3 +35,8 @@ uv run python -m examples.medlit.scripts.pass1_extract \
 uv run python -m examples.medlit.scripts.pass2_dedup \
   --bundle-dir pass1_bundles \
   --output-dir medlit_merged
+
+uv run python -m examples.medlit.scripts.pass3_build_bundle \
+  --merged-dir medlit_merged \
+  --bundles-dir pass1_bundles \
+  --output-dir medlit_bundle

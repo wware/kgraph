@@ -308,6 +308,13 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
     save_synonym_cache(synonym_cache_path, cache)
 
     # 9) Write merged output (do not touch original bundles)
+    by_paper: dict[str, dict[str, str]] = {}
+    for (paper_id, local_id), merge_key in local_to_canonical.items():
+        by_paper.setdefault(paper_id, {})[local_id] = merge_key
+    id_map_path = output_dir / "id_map.json"
+    with open(id_map_path, "w", encoding="utf-8") as f:
+        json.dump(by_paper, f, indent=2)
+
     entities_path = output_dir / "entities.json"
     relationships_path = output_dir / "relationships.json"
     with open(entities_path, "w", encoding="utf-8") as f:
