@@ -343,6 +343,11 @@ def _build_mention_rows(
 def run_pass3(merged_dir: Path, bundles_dir: Path, output_dir: Path) -> dict[str, Any]:
     """Build kgbundle from merged Pass 2 output and Pass 1 bundles. Writes all bundle files."""
     entities_list, relationships_list, id_map, _ = load_merged_output(merged_dir)
+
+    # get rid of orphan entities
+    referenced_ids = {r["subject"] for r in relationships_list} | {r["object"] for r in relationships_list}
+    entities_list = [e for e in entities_list if e["entity_id"] in referenced_ids]
+
     bundles = load_pass1_bundles(bundles_dir)
 
     created_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
@@ -361,6 +366,16 @@ def run_pass3(merged_dir: Path, bundles_dir: Path, output_dir: Path) -> dict[str
     with open(output_dir / "entities.jsonl", "w", encoding="utf-8") as f:
         for entity_row in entity_rows:
             f.write(entity_row.model_dump_json() + "\n")
+
+    seen_rel_keys = set()
+    deduped_rel_rows = []
+    for rel_row in relationship_rows:
+        key = (rel_row.subject_id, rel_row.predicate, rel_row.object_id)
+        if key not in seen_rel_keys:
+            seen_rel_keys.add(key)
+            deduped_rel_rows.append(rel_row)
+        # else: drop silently; Pass 2 should have merged these but didn't
+    relationship_rows = deduped_rel_rows
 
     with open(output_dir / "relationships.jsonl", "w", encoding="utf-8") as f:
         for rel_row in relationship_rows:

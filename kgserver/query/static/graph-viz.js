@@ -464,10 +464,12 @@ function renderGraph(data) {
     simulation.on('tick', () => {
         link.attr('d', linkPath);
 
+        // Place labels at 1/4 of the curve offset so they sit closer to the edge
+        const labelOffsetScale = 0.25;
         linkLabel
             .attr('x', d => {
                 const sx = d.source.x, sy = d.source.y, tx = d.target.x, ty = d.target.y;
-                const o = d.curveOffset || 0;
+                const o = (d.curveOffset || 0) * labelOffsetScale;
                 if (o === 0) return (sx + tx) / 2;
                 const mx = (sx + tx) / 2, my = (sy + ty) / 2;
                 const dx = tx - sx, dy = ty - sy, len = Math.sqrt(dx * dx + dy * dy) || 1;
@@ -475,7 +477,7 @@ function renderGraph(data) {
             })
             .attr('y', d => {
                 const sx = d.source.x, sy = d.source.y, tx = d.target.x, ty = d.target.y;
-                const o = d.curveOffset || 0;
+                const o = (d.curveOffset || 0) * labelOffsetScale;
                 if (o === 0) return (sy + ty) / 2;
                 const mx = (sx + tx) / 2, my = (sy + ty) / 2;
                 const dx = tx - sx, dy = ty - sy, len = Math.sqrt(dx * dx + dy * dy) || 1;

@@ -7,7 +7,7 @@ model_dump(by_alias=True) for JSON and populate_by_name=True for parsing.
 
 from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from examples.medlit_schema.base import ExtractionProvenance
 
@@ -27,6 +27,16 @@ class PaperInfo(BaseModel):
     year: Optional[int] = None
     study_type: Optional[str] = None
     eco_type: Optional[str] = None
+
+    @field_validator("year", mode="before")
+    @classmethod
+    def coerce_year(cls, v):
+        if v is None:
+            return None
+        try:
+            return int(v)
+        except (ValueError, TypeError):
+            return None
 
 
 # -----------------------------------------------------------------------------
@@ -73,7 +83,7 @@ class EvidenceEntityRow(BaseModel):
     entity_class: Literal["Evidence"] = Field(default="Evidence", alias="class")
     entity_id: Optional[str] = None  # same as id typically; for compatibility
     paper_id: str
-    text_span_id: str
+    text_span_id: Optional[str] = None
     text: Optional[str] = None
     confidence: float = 0.5
     extraction_method: str = "llm"

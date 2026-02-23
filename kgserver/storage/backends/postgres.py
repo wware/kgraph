@@ -5,7 +5,7 @@ PostgreSQL implementation of the storage interface.
 import json
 from datetime import datetime
 from typing import Optional, Sequence
-from sqlalchemy import func
+from sqlalchemy import func, text
 from sqlmodel import Session, select
 from storage.interfaces import StorageInterface
 from storage.models import Bundle, BundleEvidence, Entity, Mention, Relationship
@@ -31,6 +31,9 @@ class PostgresStorage(StorageInterface):
             return
 
         print(f"Loading bundle {bundle_manifest.bundle_id} from {bundle_path}")
+        # Truncate all bundle tables so re-loads are idempotent
+        self._session.execute(text("TRUNCATE TABLE bundle, relationship, entity RESTART IDENTITY CASCADE"))
+        self._session.commit()
 
         # Load entities
         if bundle_manifest.entities:
