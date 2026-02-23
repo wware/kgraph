@@ -2,6 +2,8 @@
 
 Ingestion is split into two passes. **Pass 1** produces immutable per-paper bundle JSON files. **Pass 2** reads those bundles and writes a merged graph (and synonym cache) to a separate directory; it never modifies the Pass 1 files.
 
+The two-pass flow does **not** use promotion (no usage/confidence thresholds, no `PromotionPolicy`). Canonical vs provisional is reflected only by whether an entity has an authoritative `canonical_id` in the Pass 2 output (present) or `canonical_id` null (provisional in that sense).
+
 ## Pass 1: LLM extraction → per-paper bundle
 
 - **Input:** Directory of paper files (JATS XML or JSON).
@@ -19,13 +21,16 @@ Pass 1 requires an LLM. See **LLM_SETUP.md** for backends (Anthropic, OpenAI, La
 ## Pass 2: Deduplication and promotion
 
 - **Input:** Directory of per-paper bundle JSON files (Pass 1 output).
-- **Output:** A separate directory with `entities.json`, `relationships.json`, and `synonym_cache.json`. Original bundle files are **not** modified.
-- **Synonym cache:** Pass 2 loads and saves a synonym cache so that (name, type) → canonical_id and SAME_AS links persist across runs (idempotent behavior).
+- **Output:** A separate directory with `entities.json`, `relationships.json`, and `synonym_cache.json`. Original bundle files are **not** modified. Each entity has **entity_id** (stable merge key, always present) and **canonical_id** (set only when from an ontology; null otherwise).
+- **Synonym cache:** Pass 2 loads and saves a synonym cache so that (name, type) → merge key and SAME_AS links persist across runs (idempotent behavior).
+- **Optional authority lookup:** Use `--canonical-id-cache path/to/cache.json` to resolve entities via MeSH/UMLS, HGNC, RxNorm, UniProt when possible. Use `--no-canonical-id-lookup` to disable lookups (e.g. offline).
 
 **Run:**
 
 ```bash
 python -m examples.medlit.scripts.pass2_dedup --bundle-dir pass1_bundles/ --output-dir pass2_merged/
+# With authority lookup (requires network for cache misses):
+python -m examples.medlit.scripts.pass2_dedup --bundle-dir pass1_bundles/ --output-dir pass2_merged/ --canonical-id-cache canonical_id_cache.json
 ```
 
 ## One-line usage

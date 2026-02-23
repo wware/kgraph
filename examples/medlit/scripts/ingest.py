@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Ingestion script for medical literature knowledge graph.
 
+Legacy pipeline: uses PromotionPolicy and run_promotion between entity and relationship
+extraction. The two-pass pipeline (pass1_extract, pass2_dedup) does not use promotion.
+
 Processes Paper JSON files (from med-lit-schema) and generates a kgraph bundle.
 
 The pipeline has three stages:

@@ -9,7 +9,7 @@ import pytest
 from pathlib import Path
 
 from examples.medlit.bundle_models import PerPaperBundle
-from examples.medlit.pipeline.dedup import run_pass2
+from examples.medlit.pipeline.dedup import _is_authoritative_id, run_pass2
 from examples.medlit.pipeline.synonym_cache import load_synonym_cache
 
 FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures" / "bundles"
@@ -103,3 +103,61 @@ def test_fixture_bundles_load(fixture_bundle_dir):
         assert bundle.paper
         assert len(bundle.entities) >= 1
         assert isinstance(bundle.relationships, list)
+
+
+def test_is_authoritative_id():
+    """_is_authoritative_id returns True for ontology IDs, False for synthetic slugs."""
+    assert _is_authoritative_id("C0006142") is True
+    assert _is_authoritative_id("HGNC:1100") is True
+    assert _is_authoritative_id("MeSH:D001943") is True
+    assert _is_authoritative_id("RxNorm:161") is True
+    assert _is_authoritative_id("P38398") is True
+    assert _is_authoritative_id("DBPedia:Breast_cancer") is True
+    assert _is_authoritative_id("canon-abc123") is False
+    assert _is_authoritative_id("canon-960ca8acbab3") is False
+    assert _is_authoritative_id("") is False
+
+
+def test_pass2_output_has_entity_id_and_canonical_id_null_when_synthetic(fixture_bundle_dir, tmp_path):
+    """Pass 2 output entities have entity_id (merge key) and canonical_id null when synthetic."""
+    output_dir = tmp_path / "merged"
+    run_pass2(
+        bundle_dir=fixture_bundle_dir,
+        output_dir=output_dir,
+        synonym_cache_path=output_dir / "synonym_cache.json",
+    )
+    with open(output_dir / "entities.json", encoding="utf-8") as f:
+        entities = json.load(f)
+    for e in entities:
+        assert "entity_id" in e, "every entity must have entity_id"
+        if e["entity_id"].startswith("canon-"):
+            assert e.get("canonical_id") is None, "synthetic entity_id must have canonical_id null"
+
+
+def test_pass2_authoritative_id_from_bundle_preserved(tmp_path):
+    """When a bundle entity has umls_id (or other authoritative ID), Pass 2 uses it as entity_id and canonical_id."""
+    bundle_data = {
+        "paper": {"pmcid": "PMCtest", "title": "Test", "authors": []},
+        "entities": [
+            {"id": "e1", "class": "Disease", "name": "breast cancer", "synonyms": [], "source": "extracted", "umls_id": "C0006142"},
+        ],
+        "evidence_entities": [],
+        "relationships": [],
+        "notes": [],
+    }
+    bundle_dir = tmp_path / "bundles"
+    bundle_dir.mkdir()
+    with open(bundle_dir / "paper_PMCtest.json", "w", encoding="utf-8") as f:
+        json.dump(bundle_data, f, indent=2)
+    output_dir = tmp_path / "merged"
+    run_pass2(
+        bundle_dir=bundle_dir,
+        output_dir=output_dir,
+        synonym_cache_path=output_dir / "synonym_cache.json",
+    )
+    with open(output_dir / "entities.json", encoding="utf-8") as f:
+        entities = json.load(f)
+    bc = [e for e in entities if e.get("name") == "breast cancer"]
+    assert len(bc) == 1
+    assert bc[0]["entity_id"] == "C0006142"
+    assert bc[0]["canonical_id"] == "C0006142"

@@ -44,16 +44,32 @@ def main() -> None:
         default=None,
         help="Path to synonym cache file (default: <output-dir>/synonym_cache.json)",
     )
+    parser.add_argument(
+        "--canonical-id-cache",
+        type=Path,
+        default=None,
+        help="Path to canonical ID lookup cache (e.g. canonical_id_cache.json). If set, Pass 2 resolves entities via authority APIs when possible.",
+    )
+    parser.add_argument(
+        "--no-canonical-id-lookup",
+        action="store_true",
+        help="Disable authority lookup even if --canonical-id-cache is set (e.g. for quick runs without network).",
+    )
     args = parser.parse_args()
 
     if not args.bundle_dir.exists():
         print(f"Error: bundle dir not found: {args.bundle_dir}", file=sys.stderr)
         sys.exit(1)
 
+    canonical_id_cache_path = None
+    if args.canonical_id_cache is not None and not args.no_canonical_id_lookup:
+        canonical_id_cache_path = args.canonical_id_cache
+
     result = run_pass2(
         bundle_dir=args.bundle_dir,
         output_dir=args.output_dir,
         synonym_cache_path=args.synonym_cache,
+        canonical_id_cache_path=canonical_id_cache_path,
     )
 
     if "error" in result:

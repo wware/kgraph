@@ -32,6 +32,7 @@ if str(REPO_ROOT) not in sys.path:
 # Load .env from repo root so ANTHROPIC_API_KEY etc. are available
 try:
     from dotenv import load_dotenv
+
     load_dotenv(REPO_ROOT / ".env")
 except ImportError:
     pass
@@ -186,7 +187,7 @@ def _paper_content_fallback(raw_content: bytes, source_uri: str) -> tuple[str, P
     return text or "(no content)", PaperInfo(pmcid=stem if stem.startswith("PMC") else None, title=stem, authors=[])
 
 
-async def run_pass1(
+async def run_pass1(  # pylint: disable=too-many-statements
     input_dir: Path,
     output_dir: Path,
     llm_backend: str,

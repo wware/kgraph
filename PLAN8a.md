@@ -200,16 +200,53 @@ Run lint and fix any issues:
 
 ## Summary checklist
 
-- [ ] Phase 1: Docs (INGESTION.md, CANONICAL_IDS.md, run-ingest.sh, ingest.py docstring) — new pipeline doesn’t use promotion; old ingest labeled legacy
-- [ ] Step 0: Pre-flight
-- [ ] Step 1: `_authoritative_id_from_entity(e)` in dedup.py
-- [ ] Step 2: `_is_authoritative_id(s)` in dedup.py
-- [ ] Step 3: `_entity_class_to_lookup_type(entity_class)` in dedup.py
-- [ ] Step 4: `run_pass2(..., canonical_id_cache_path=...)`, optional CanonicalIdLookup, new ID assignment (bundle → cache → lookup → slug), pass entity row into get_or_assign_canonical
-- [ ] Step 5: Output entities have entity_id (merge key) and canonical_id (only when authoritative)
-- [ ] Step 6: SAME_AS merge prefers authoritative ID as winner
-- [ ] Step 7: pass2_dedup CLI: --canonical-id-cache, --no-canonical-id-lookup
-- [ ] Step 8: CanonicalIdLookup lifecycle (save cache, close) in run_pass2
-- [ ] Step 9: Tests for authoritative vs synthetic IDs and for _is_authoritative_id
-- [ ] Step 10: CANONICAL_IDS.md and INGESTION.md/README updated
-- [ ] Step 11: Verification and lint
+- [x] Phase 1: Docs (INGESTION.md, CANONICAL_IDS.md, run-ingest.sh, ingest.py docstring) — new pipeline doesn’t use promotion; old ingest labeled legacy
+- [x] Step 0: Pre-flight
+- [x] Step 1: `_authoritative_id_from_entity(e)` in dedup.py
+- [x] Step 2: `_is_authoritative_id(s)` in dedup.py
+- [x] Step 3: `_entity_class_to_lookup_type(entity_class)` in dedup.py
+- [x] Step 4: `run_pass2(..., canonical_id_cache_path=...)`, optional CanonicalIdLookup, new ID assignment (bundle → cache → lookup → slug), pass entity row into get_or_assign_canonical
+- [x] Step 5: Output entities have entity_id (merge key) and canonical_id (only when authoritative)
+- [x] Step 6: SAME_AS merge prefers authoritative ID as winner
+- [x] Step 7: pass2_dedup CLI: --canonical-id-cache, --no-canonical-id-lookup
+- [x] Step 8: CanonicalIdLookup lifecycle (save cache, close) in run_pass2
+- [x] Step 9: Tests for authoritative vs synthetic IDs and for _is_authoritative_id
+- [x] Step 10: CANONICAL_IDS.md and INGESTION.md/README updated
+- [x] Step 11: Verification and lint
+
+---
+
+## Implementation summary (executed)
+
+**Phase 1 (documentation)**  
+- **INGESTION.md**: Added that the two-pass flow does not use promotion; canonical vs provisional is only via `canonical_id` in Pass 2 output.  
+- **CANONICAL_IDS.md**: Added "Two-pass vs legacy" and "Pass 2 (two-pass pipeline)" (optional lookup, `entity_id` / `canonical_id`, `--no-canonical-id-lookup`).  
+- **run-ingest.sh**: Comment that this is the two-pass pipeline and the legacy single pipeline is `ingest`.  
+- **examples/medlit/scripts/ingest.py**: Docstring that it is the legacy pipeline and that the two-pass pipeline does not use promotion.
+
+**Steps 1–3 (dedup helpers)**  
+- **`_is_authoritative_id(s)`**: True for MeSH, UMLS, HGNC, RxNorm, UniProt, DBPedia patterns; False for `canon-*` and empty.  
+- **`_authoritative_id_from_entity(e)`**: First authoritative value among `canonical_id`, `umls_id`, `hgnc_id`, `rxnorm_id`, `uniprot_id`.  
+- **`_entity_class_to_lookup_type(entity_class)`**: Maps Disease→disease, Gene→gene, Drug→drug, Protein→protein, Biomarker→disease.
+
+**Steps 4–8 (Pass 2 behavior)**  
+- **`run_pass2(..., canonical_id_cache_path=None)`**: Optional `CanonicalIdLookup`; ID assignment order: bundle authoritative → synonym cache → lookup (if enabled) → synthetic slug.  
+- **`get_or_assign_canonical(..., entity_row=None)`**: Uses `entity_row` for bundle authoritative ID when provided.  
+- **SAME_AS merge**: Winner is the authoritative ID when one side is authoritative and the other is synthetic.  
+- **Output**: Each entity has **entity_id** (merge key) and **canonical_id** (merge key only when authoritative, else null).  
+- **Lifecycle**: In a `finally`, call `lookup._save_cache(force=True)` when a lookup was created.
+
+**Step 7 (CLI)**  
+- **pass2_dedup**: `--canonical-id-cache`, `--no-canonical-id-lookup`; passes `canonical_id_cache_path` into `run_pass2`.
+
+**Step 9 (tests)**  
+- **test_is_authoritative_id**: C0006142, HGNC:1100, MeSH:D001943, etc. → True; `canon-*`, "" → False.  
+- **test_pass2_output_has_entity_id_and_canonical_id_null_when_synthetic**: Synthetic entities have `entity_id` and `canonical_id` null.  
+- **test_pass2_authoritative_id_from_bundle_preserved**: Bundle entity with `umls_id: C0006142` yields output with `entity_id` and `canonical_id` both `C0006142`.
+
+**Step 10 (docs)**  
+- **CANONICAL_IDS.md**: "Pass 2 (two-pass pipeline)" section.  
+- **INGESTION.md**: Pass 2 output schema and `--canonical-id-cache` / `--no-canonical-id-lookup` usage.
+
+**Step 11**  
+- **./lint.sh** and full test suite (343 + 9 + 105) pass. Pylint issues in dedup and pass1_extract addressed (disables and small cleanups).

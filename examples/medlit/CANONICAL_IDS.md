@@ -9,6 +9,14 @@ Medical knowledge graphs require standardized identifiers to link entities acros
 1. **During Extraction**: The LLM can call a lookup tool to find canonical IDs while extracting entities from text
 2. **During Promotion**: Provisional entities without canonical IDs can be enriched via API lookup before promotion
 
+### Two-pass vs legacy
+
+The **two-pass pipeline** (Pass 1 → Pass 2) assigns authoritative IDs from the bundle and optionally via `CanonicalIdLookup` in Pass 2; it does not run the legacy promotion step (no usage/confidence thresholds or `PromotionPolicy`). The **legacy pipeline** (`examples.medlit.scripts.ingest`) runs promotion between entity and relationship extraction.
+
+### Pass 2 (two-pass pipeline)
+
+Pass 2 can optionally use the same `CanonicalIdLookup` and cache file. Use `--canonical-id-cache path/to/cache.json` to enable authority lookups for entities that do not already have an authoritative ID from the bundle or synonym cache. Pass 2 output uses **entity_id** as the stable merge key (always present) and **canonical_id** only when the entity has an authoritative ontology ID; otherwise **canonical_id** is null. For runs without network or API access, use `--no-canonical-id-lookup` to disable lookups even when a cache path is set.
+
 ## Supported Ontologies
 
 | Entity Type | Ontology | ID Format | Example |
