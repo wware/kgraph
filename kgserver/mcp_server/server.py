@@ -4,8 +4,9 @@ MCP Server implementation using FastMCP.
 Provides tools for querying the knowledge graph via the Model Context Protocol.
 """
 
-from typing import Optional, Any
+from collections import deque
 from contextlib import contextmanager, closing
+from typing import Optional, Any
 from fastmcp import FastMCP
 import strawberry
 
@@ -281,6 +282,85 @@ def find_relationships(
             "total": total,
             "limit": limit,
             "offset": offset,
+        }
+
+
+@mcp_server.tool()
+def find_entities_within_hops(
+    start_id: str,
+    max_hops: int = 3,
+    entity_type: Optional[str] = None,
+) -> dict:
+    """
+    Find all entities within N hops of a starting entity using BFS traversal.
+
+    Traverses the graph bidirectionally (follows both incoming and outgoing edges).
+    Returns entities grouped by their hop distance from the start entity.
+    Optionally filters results to a specific entity type.
+
+    Args:
+        start_id: The entity ID to start from (e.g. 'C0006142' for breast cancer)
+        max_hops: Maximum number of hops to traverse (default 3, max 5)
+        entity_type: Optional entity type filter (e.g. 'gene', 'drug', 'disease')
+
+    Returns:
+        Dictionary with start_id, max_hops, entity_type_filter, total_entities_found,
+        and results_by_hop (hop distance -> list of entity dicts with entity_id,
+        entity_type, name, status, hop_distance).
+    """
+    max_hops = min(max_hops, 5)  # Hard cap to prevent runaway traversal
+
+    with _get_storage() as storage:
+        # BFS
+        visited: dict[str, int] = {start_id: 0}  # entity_id -> hop distance
+        queue = deque([(start_id, 0)])
+
+        while queue:
+            current_id, distance = queue.popleft()
+            if distance >= max_hops:
+                continue
+
+            # Outgoing edges
+            outgoing = storage.find_relationships(subject_id=current_id, limit=200)
+            for rel in outgoing:
+                if rel.object_id not in visited:
+                    visited[rel.object_id] = distance + 1
+                    queue.append((rel.object_id, distance + 1))
+
+            # Incoming edges
+            incoming = storage.find_relationships(object_id=current_id, limit=200)
+            for rel in incoming:
+                if rel.subject_id not in visited:
+                    visited[rel.subject_id] = distance + 1
+                    queue.append((rel.subject_id, distance + 1))
+
+        # Fetch entity details and group by distance
+        results_by_hop: dict[int, list[dict]] = {}
+        for entity_id, distance in visited.items():
+            if entity_id == start_id:
+                continue
+            entity = storage.get_entity(entity_id=entity_id)
+            if entity is None:
+                continue
+            if entity_type and entity.entity_type != entity_type:
+                continue
+            results_by_hop.setdefault(distance, []).append(
+                {
+                    "entity_id": entity.entity_id,
+                    "entity_type": entity.entity_type,
+                    "name": entity.name,
+                    "status": entity.status,
+                    "hop_distance": distance,
+                }
+            )
+
+        total = sum(len(entities) for entities in results_by_hop.values())
+        return {
+            "start_id": start_id,
+            "max_hops": max_hops,
+            "entity_type_filter": entity_type,
+            "total_entities_found": total,
+            "results_by_hop": {str(hop): entities for hop, entities in sorted(results_by_hop.items())},
         }
 
 
