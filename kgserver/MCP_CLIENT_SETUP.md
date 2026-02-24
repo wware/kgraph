@@ -6,6 +6,8 @@ This guide explains how to connect **Cursor IDE** or **Claude Code** (on Linux) 
 
 - **API and MCP servers** must be running (e.g. `docker compose --profile api up -d`, or run API and MCP with uvicorn locally).
 - A **bundle must be loaded**: the API loads it at startup when `BUNDLE_PATH` is set. The MCP server only reads from the same database; it does not load bundles.
+
+**Slow startup on small droplets:** The MCP server can take **30–60 seconds** to become ready on low-CPU hosts (e.g. small DigitalOcean droplets). At startup it loads the full Python stack (FastMCP, Strawberry GraphQL, SQLAlchemy, storage backends) before binding to port 8001. The docker-compose healthcheck uses a 60s `start_period` and 5 retries so the container is not marked unhealthy while still loading. If clients connect too soon, wait and retry or increase the droplet size.
 - **MCP SSE endpoint:**
   - **Local:** `http://localhost:8001/sse`
   - **Cloud (behind nginx):** `https://YOUR_HOST/mcp/sse` (or `http://` if no TLS). Use the same host as your API when nginx is in front.

@@ -1,7 +1,8 @@
 """
 Medical Literature Knowledge Graph — Chainlit Chat UI
 
-Runs on port 8002 (use: chainlit run app.py --host 0.0.0.0 --port 8002).
+Can run standalone (chainlit run app.py --host 0.0.0.0 --port 8002) or mounted
+at /chat inside the kgserver API (same port as the API, no separate port).
 
 Environment variables:
   MCP_SSE_URL       URL of the MCP SSE server (default: http://localhost/mcp/sse)
@@ -13,6 +14,7 @@ Environment variables:
   OLLAMA_MODEL      (default: llama3.2)
   OLLAMA_BASE_URL   (default: http://ollama:11434)
   EXAMPLES_FILE     path to YAML file of example prompts (default: examples.yaml)
+  MCP_CONNECT_TIMEOUT  seconds to wait for MCP connection (default: 25)
 """
 
 import asyncio
@@ -99,6 +101,8 @@ EXAMPLE_PLACEHOLDER = "— select an example —"
 
 # ── MCP session management ────────────────────────────────────────────────────
 
+MCP_CONNECT_TIMEOUT = float(os.environ.get("MCP_CONNECT_TIMEOUT", "25"))
+
 async def create_mcp_session() -> tuple[ClientSession, AsyncExitStack]:
     stack = AsyncExitStack()
     read, write = await stack.enter_async_context(sse_client(MCP_SSE_URL))
@@ -126,17 +130,31 @@ def mcp_tools_to_litellm(tools) -> list[dict]:
 
 @cl.on_chat_start
 async def on_chat_start():
-    # Connect to MCP server
-    try:
+    # Show UI immediately so the page doesn't hang while connecting to MCP
+    await cl.Message(content="Connecting to knowledge graph tools…").send()
+    await asyncio.sleep(0)  # yield so the message is flushed to the client
+
+    async def connect_mcp():
         session, stack = await create_mcp_session()
         tools_result = await session.list_tools()
-        tools = tools_result.tools
+        return session, stack, tools_result.tools
+
+    try:
+        session, stack, tools = await asyncio.wait_for(
+            connect_mcp(),
+            timeout=MCP_CONNECT_TIMEOUT,
+        )
         cl.user_session.set("mcp_session", session)
         cl.user_session.set("mcp_stack", stack)
         cl.user_session.set("mcp_tools", tools)
         cl.user_session.set("litellm_tools", mcp_tools_to_litellm(tools))
         tool_names = [t.name for t in tools]
         status = f"✅ Connected to MCP server — {len(tools)} tools: `{'`, `'.join(tool_names)}`"
+    except asyncio.TimeoutError:
+        cl.user_session.set("mcp_session", None)
+        cl.user_session.set("mcp_tools", [])
+        cl.user_session.set("litellm_tools", [])
+        status = f"⚠️ MCP server did not respond within {int(MCP_CONNECT_TIMEOUT)}s. Chat works but tools are unavailable. Try again in a moment."
     except Exception as e:
         cl.user_session.set("mcp_session", None)
         cl.user_session.set("mcp_tools", [])
@@ -192,7 +210,16 @@ async def on_message(message: cl.Message):
 async def on_chat_end():
     stack: AsyncExitStack | None = cl.user_session.get("mcp_stack")
     if stack:
-        await stack.aclose()
+        try:
+            await stack.aclose()
+        except RuntimeError as e:
+            # MCP SSE client uses anyio cancel scopes that must be exited in the same
+            # task they were entered; on_chat_end runs in a different task than
+            # on_chat_start, so graceful close is not possible. Connection will
+            # be cleaned up when the client disconnects.
+            if "different task" not in str(e).lower():
+                raise
+            # Suppress: expected when closing from on_chat_end
 
 
 # ── Core chat loop ────────────────────────────────────────────────────────────

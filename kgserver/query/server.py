@@ -1,4 +1,5 @@
 import logging
+import os
 import subprocess
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -85,6 +86,28 @@ _graph_viz_static = Path(__file__).parent / "static"
 if _graph_viz_static.exists():
     app.mount("/graph-viz", StaticFiles(directory=_graph_viz_static, html=True), name="graph-viz")
 
+# Mount Chainlit chat UI at /chat (optional: only if chainlit app is present)
+_chainlit_app = os.environ.get("CHAINLIT_APP_PATH") or next(
+    (
+        p
+        for p in [
+            Path(__file__).resolve().parent.parent / "chainlit" / "app.py",
+            Path(__file__).resolve().parent.parent.parent / "chainlit" / "app.py",
+        ]
+        if p.exists()
+    ),
+    None,
+)
+if _chainlit_app is not None:
+    try:
+        from chainlit.utils import mount_chainlit
+
+        mount_chainlit(app=app, target=str(_chainlit_app), path="/chat")
+        logger.info("Chainlit mounted at /chat (app=%s)", _chainlit_app)
+    except Exception as e:  # pylint: disable=broad-exception-caught
+        logger.warning("Chainlit mount failed (app=%s): %s", _chainlit_app, e)
+else:
+    logger.info("Chainlit not mounted: no app at CHAINLIT_APP_PATH or .../chainlit/app.py")
 
 # Mount MkDocs static site at / if available.
 # This should be the last mount to avoid catching other API routes.
