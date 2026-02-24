@@ -1,0 +1,454 @@
+{
+  "paper": {
+    "doi": null,
+    "pmcid": "PMC12785631",
+    "title": "The Role of Aurora Kinase A in HBV-Associated Hepatocellular Carcinomas: A Molecular and Immunohistochemical Study",
+    "authors": [],
+    "journal": null,
+    "year": null,
+    "study_type": "molecular and immunohistochemical study",
+    "eco_type": "experimental"
+  },
+  "extraction_provenance": {
+    "extraction_pipeline": {
+      "name": "medlit_pass1_extract",
+      "version": "0.1.0",
+      "git_commit": "f5da8dd9b8dd84ea4823af0e58537841df333399",
+      "git_commit_short": "f5da8dd",
+      "git_branch": "ingest-refactor",
+      "git_dirty": true,
+      "repo_url": "https://github.com/org/medlit"
+    },
+    "models": {
+      "llm": {
+        "name": "claude-sonnet-4-20250514",
+        "version": ""
+      }
+    },
+    "prompt": {
+      "version": "v1",
+      "template": "medlit_extraction_v1",
+      "checksum": "sha256:f94cc0ab23940d18"
+    },
+    "execution": {
+      "timestamp": "2026-02-23T22:37:40.191203Z",
+      "hostname": "unknown",
+      "python_version": "3.13.3",
+      "duration_seconds": 33.5
+    },
+    "entity_resolution": null,
+    "model_info": null
+  },
+  "entities": [
+    {
+      "id": "AURKA",
+      "class": "Gene",
+      "name": "Aurora kinase A",
+      "synonyms": [
+        "AURKA"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11393",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "PLK1",
+      "class": "Gene",
+      "name": "Polo-like kinase 1",
+      "synonyms": [
+        "PLK1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:9077",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "TP53",
+      "class": "Gene",
+      "name": "p53",
+      "synonyms": [
+        "P53",
+        "TP53"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11998",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "BRCA1",
+      "class": "Gene",
+      "name": "breast cancer type 1 susceptibility protein",
+      "synonyms": [
+        "BRCA1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1100",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "HBV-HCC",
+      "class": "Disease",
+      "name": "hepatitis B virus-associated hepatocellular carcinoma",
+      "synonyms": [
+        "HBV-HCC",
+        "HBV-related hepatocellular carcinoma"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0019204",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Cr-HCC",
+      "class": "Disease",
+      "name": "cryptogenic hepatocellular carcinoma",
+      "synonyms": [
+        "Cr-HCC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0019204",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "HCC",
+      "class": "Disease",
+      "name": "hepatocellular carcinoma",
+      "synonyms": [
+        "HCC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0019204",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "HBV",
+      "class": "Pathogen",
+      "name": "hepatitis B virus",
+      "synonyms": [
+        "HBV"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0019169",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "MLN8237",
+      "class": "Drug",
+      "name": "Alisertib",
+      "synonyms": [
+        "MLN8237",
+        "Alisertib"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1298331",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Sorafenib",
+      "class": "Drug",
+      "name": "Sorafenib",
+      "synonyms": [
+        "Sorafenib"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "608406",
+      "loinc_code": null,
+      "uniprot_id": null
+    }
+  ],
+  "evidence_entities": [
+    {
+      "id": "paper:results:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": "results_1",
+      "text": "AURKA level was significantly increased in both test groups (p < 0.001). At the protein level, AURKA was significantly higher in both cancer groups compared to the control group (p < 0.001).",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "molecular and immunohistochemical study",
+      "eco_type": "experimental",
+      "source": "extracted"
+    },
+    {
+      "id": "paper:results:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": "results_2",
+      "text": "Phospho-P53Ser315 levels were significantly higher in both HBV-HCC and Cr-HCC groups compared to the control group (p = 0.002 and p < 0.001, respectively). Cr-HCC cases also showed significantly higher levels compared to HBV-HCC (p = 0.025).",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "molecular and immunohistochemical study",
+      "eco_type": "experimental",
+      "source": "extracted"
+    },
+    {
+      "id": "paper:results:3:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": "results_3",
+      "text": "For phospho-PLK1Thr210, Cr-HCC cases showed statistically higher expression compared to both the control group and HBV-HCC cases (p = 0.001).",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "molecular and immunohistochemical study",
+      "eco_type": "experimental",
+      "source": "extracted"
+    },
+    {
+      "id": "paper:discussion:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": "discussion_1",
+      "text": "experimental studies have demonstrated that MLN8237 exhibits a strong synergistic effect with Sorafenib in HCC models",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "molecular and immunohistochemical study",
+      "eco_type": "experimental",
+      "source": "extracted"
+    },
+    {
+      "id": "paper:introduction:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": "introduction_1",
+      "text": "AURKA directly phosphorylates the Thr210 residue within the PLK1 kinase domain, initiating mitotic progression",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "molecular and immunohistochemical study",
+      "eco_type": "experimental",
+      "source": "extracted"
+    },
+    {
+      "id": "paper:introduction:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": "introduction_2",
+      "text": "Overexpression of AURKA has been shown to destabilize p53 through Ser315 phosphorylation, leading to loss of function, centrosome amplification, chromosomal instability, and oncogenic transformation",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "molecular and immunohistochemical study",
+      "eco_type": "experimental",
+      "source": "extracted"
+    }
+  ],
+  "relationships": [
+    {
+      "subject": "AURKA",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "HBV-HCC",
+      "evidence_ids": [
+        "paper:results:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "expression_level": "increased"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "AURKA",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "Cr-HCC",
+      "evidence_ids": [
+        "paper:results:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "expression_level": "increased"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "AURKA",
+      "predicate": "PHOSPHORYLATES",
+      "object": "PLK1",
+      "evidence_ids": [
+        "paper:introduction:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "residue": "Thr210",
+        "effect": "initiates mitotic progression"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "AURKA",
+      "predicate": "PHOSPHORYLATES",
+      "object": "TP53",
+      "evidence_ids": [
+        "paper:introduction:2:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "residue": "Ser315",
+        "effect": "destabilization and loss of function"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "MLN8237",
+      "predicate": "SYNERGISTIC_WITH",
+      "object": "Sorafenib",
+      "evidence_ids": [
+        "paper:discussion:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "context": "HCC models"
+      },
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "MLN8237",
+      "predicate": "TREATS",
+      "object": "HCC",
+      "evidence_ids": [
+        "paper:discussion:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.85,
+      "properties": {
+        "mechanism": "AURKA inhibition"
+      },
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "HBV-HCC",
+      "predicate": "SUBTYPE_OF",
+      "object": "HCC",
+      "evidence_ids": [
+        "paper:results:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 1.0,
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Cr-HCC",
+      "predicate": "SUBTYPE_OF",
+      "object": "HCC",
+      "evidence_ids": [
+        "paper:results:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 1.0,
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    }
+  ],
+  "notes": [
+    "Study found differential AURKA substrate phosphorylation patterns between HBV-HCC and Cr-HCC subtypes",
+    "RNA quality issues prevented gene expression analysis, requiring reliance on immunohistochemistry",
+    "No AURKA copy number variations were detected in either HCC subtype"
+  ]
+}

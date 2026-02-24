@@ -38,6 +38,7 @@ class Entity:
 @strawberry.type
 class Relationship:
     """Generic relationship GraphQL type."""
+
     id: strawberry.ID = strawberry.field(name="id")
     subject_id: strawberry.ID = strawberry.field(name="subjectId")
     predicate: str
