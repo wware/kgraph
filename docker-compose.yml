@@ -50,6 +50,39 @@ services:
       start_period: 10s
     profiles: ["api"]
 
+  # Chat: API keys from environment or project .env (Compose loads .env for substitution)
+  chat:
+    build:
+      context: ./chainlit
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      MCP_SSE_URL: ${MCP_SSE_URL:-http://mcpserver:8001/sse}
+      LLM_PROVIDER: ${LLM_PROVIDER:-anthropic}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-sonnet-4-6}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-llama3.2}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://ollama:11434}
+      EXAMPLES_FILE: /app/examples.yaml
+    volumes:
+      - ./chainlit/examples.yaml:/app/examples.yaml:ro
+    depends_on:
+      mcpserver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - kgserver-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8002/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    profiles: ["api"]
+
   jupyter:
     build:
       context: .
