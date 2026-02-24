@@ -22,7 +22,8 @@ MAX_LIMIT = int(os.getenv("GRAPHQL_MAX_LIMIT", "100"))
 class Entity:
     """Generic entity GraphQL type."""
 
-    entity_id: str = strawberry.field(name="entityId")
+    id: strawberry.ID = strawberry.field(name="id")
+    entity_id: strawberry.ID = strawberry.field(name="entityId")
     entity_type: str = strawberry.field(name="entityType")
     name: Optional[str] = None
     status: Optional[str] = None
@@ -37,12 +38,10 @@ class Entity:
 @strawberry.type
 class Relationship:
     """Generic relationship GraphQL type."""
-
-    # Note: id field exists internally in the Relationship model but is not exposed in GraphQL schema.
-    # It could be exposed if needed in the future by adding: id: strawberry.ID = strawberry.field(name="id")
-    subject_id: str = strawberry.field(name="subjectId")
+    id: strawberry.ID = strawberry.field(name="id")
+    subject_id: strawberry.ID = strawberry.field(name="subjectId")
     predicate: str
-    object_id: str = strawberry.field(name="objectId")
+    object_id: strawberry.ID = strawberry.field(name="objectId")
     confidence: Optional[float] = None
     source_documents: List[str] = strawberry.field(name="sourceDocuments", default_factory=list)
     properties: Optional[JSON] = None
@@ -83,8 +82,8 @@ class EntityFilter:
 class RelationshipFilter:
     """Filter criteria for relationship queries."""
 
-    subject_id: Optional[str] = None
-    object_id: Optional[str] = None
+    subject_id: Optional[strawberry.ID] = None
+    object_id: Optional[strawberry.ID] = None
     predicate: Optional[str] = None
 
 
@@ -92,6 +91,7 @@ class RelationshipFilter:
 class BundleInfo:
     """Bundle metadata for debugging and provenance."""
 
+    id: strawberry.ID = strawberry.field(name="id")
     bundle_id: str = strawberry.field(name="bundleId")
     domain: str
     created_at: Optional[datetime] = strawberry.field(name="createdAt", default=None)
@@ -107,6 +107,7 @@ class Query:
         entity_model = storage.get_entity(entity_id=id)
         if entity_model:
             return Entity(
+                id=entity_model.entity_id,
                 entity_id=entity_model.entity_id,
                 entity_type=entity_model.entity_type,
                 name=entity_model.name,
@@ -166,6 +167,7 @@ class Query:
 
         items = [
             Entity(
+                id=e.entity_id,
                 entity_id=e.entity_id,
                 entity_type=e.entity_type,
                 name=e.name,
@@ -186,9 +188,9 @@ class Query:
     def relationship(
         self,
         info: Info,
-        subject_id: str,
+        subject_id: strawberry.ID,
         predicate: str,
-        object_id: str,
+        object_id: strawberry.ID,
     ) -> Optional[Relationship]:
         """Retrieve a single relationship by its triple."""
         storage = info.context["storage"]
@@ -199,6 +201,7 @@ class Query:
         )
         if relationship_model:
             return Relationship(
+                id=str(relationship_model.id),
                 subject_id=relationship_model.subject_id,
                 predicate=relationship_model.predicate,
                 object_id=relationship_model.object_id,
@@ -248,6 +251,7 @@ class Query:
 
         items = [
             Relationship(
+                id=str(r.id),
                 subject_id=r.subject_id,
                 predicate=r.predicate,
                 object_id=r.object_id,
@@ -270,6 +274,7 @@ class Query:
             # Try to get metadata from bundle manifest if available
             # For now, return None for metadata as it's not stored in the Bundle model
             return BundleInfo(
+                id=bundle_model.bundle_id,
                 bundle_id=bundle_model.bundle_id,
                 domain=bundle_model.domain,
                 created_at=bundle_model.created_at,

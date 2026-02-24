@@ -506,8 +506,8 @@ class TestFieldNaming:
         assert result["relationship"]["objectId"] == "test:entity:2"
         assert len(result["relationship"]["sourceDocuments"]) == 2
 
-    def test_relationship_no_id_field(self, graphql_schema, graphql_context):
-        """Test that relationship id field is not exposed in GraphQL."""
+    def test_relationship_id_field(self, graphql_schema, graphql_context):
+        """Test that relationship id field is exposed and is a string (UUID)."""
         query = """
         query {
             relationship(
@@ -515,6 +515,7 @@ class TestFieldNaming:
                 predicate: "co_occurs_with"
                 objectId: "test:entity:2"
             ) {
+                id
                 subjectId
                 predicate
                 objectId
@@ -523,8 +524,10 @@ class TestFieldNaming:
         """
         result = execute_query(graphql_schema, query, graphql_context)
 
-        # Verify id field is not in the result
-        assert "id" not in result["relationship"]
+        assert "id" in result["relationship"]
+        assert isinstance(result["relationship"]["id"], str)
+        assert result["relationship"]["subjectId"] == "test:entity:1"
+        assert result["relationship"]["objectId"] == "test:entity:2"
 
 
 class TestPaginationMetadata:
