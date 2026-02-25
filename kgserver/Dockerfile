@@ -61,10 +61,9 @@ COPY --from=builder /app/docs /app/docs
 COPY --from=builder /app/site /app/site
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-# Copy kgbundle first, then kgserver contents and chainlit app (mounted at /chat)
+# Copy kgbundle first, then kgserver (includes kgserver/chainlit for /chat UI)
 COPY kgbundle ./kgbundle
 COPY kgserver/ .
-COPY chainlit ./chainlit
 
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \

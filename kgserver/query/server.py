@@ -88,14 +88,7 @@ if _graph_viz_static.exists():
 
 # Mount Chainlit chat UI at /chat (optional: only if chainlit app is present)
 _chainlit_app = os.environ.get("CHAINLIT_APP_PATH") or next(
-    (
-        p
-        for p in [
-            Path(__file__).resolve().parent.parent / "chainlit" / "app.py",
-            Path(__file__).resolve().parent.parent.parent / "chainlit" / "app.py",
-        ]
-        if p.exists()
-    ),
+    (p for p in [Path(__file__).resolve().parent.parent / "chainlit" / "app.py"] if p.exists()),
     None,
 )
 if _chainlit_app is not None:
@@ -107,7 +100,7 @@ if _chainlit_app is not None:
     except Exception as e:  # pylint: disable=broad-exception-caught
         logger.warning("Chainlit mount failed (app=%s): %s", _chainlit_app, e)
 else:
-    logger.info("Chainlit not mounted: no app at CHAINLIT_APP_PATH or .../chainlit/app.py")
+    logger.info("Chainlit not mounted: no app at CHAINLIT_APP_PATH or kgserver/chainlit/app.py")
 
 # Mount MkDocs static site at / if available.
 # This should be the last mount to avoid catching other API routes.

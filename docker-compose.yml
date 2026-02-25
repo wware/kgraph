@@ -20,7 +20,7 @@ services:
       EXAMPLES_FILE: /app/chainlit/examples.yaml
     volumes:
       - ./medlit_bundle:/bundle:ro
-      - ./chainlit/examples.yaml:/app/chainlit/examples.yaml:ro
+      - ./kgserver/chainlit/examples.yaml:/app/chainlit/examples.yaml:ro
     #  # - /home/wware/S.zip:/bundle/S.zip:ro
     ports:
       - "8000:8000"
