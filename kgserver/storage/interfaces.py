@@ -3,13 +3,14 @@ Storage interfaces for the Knowledge Graph Server.
 """
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Optional, Sequence
+from typing import TYPE_CHECKING, Any, Optional, Sequence
 from .models.entity import Entity
 from .models.relationship import Relationship
 from kgbundle import BundleManifestV1
 
 if TYPE_CHECKING:
     from kgbundle import EvidenceRow, MentionRow
+    from .models.ingest_job import IngestJob
 
 
 class StorageInterface(ABC):
@@ -22,6 +23,14 @@ class StorageInterface(ABC):
         """
         Load a data bundle into the storage.
         This should be an idempotent operation.
+        """
+        pass
+
+    @abstractmethod
+    def load_bundle_incremental(self, bundle_manifest: BundleManifestV1, bundle_path: str) -> None:
+        """
+        Load a bundle into the graph without truncating; add/merge entities and
+        relationships (e.g. upsert entities and accumulate usage_count).
         """
         pass
 
@@ -122,6 +131,21 @@ class StorageInterface(ABC):
         Get bundle metadata (latest bundle).
         Returns None if no bundle is loaded.
         """
+        pass
+
+    @abstractmethod
+    def create_ingest_job(self, url: str) -> "IngestJob":
+        """Create a new ingest job and return it."""
+        pass
+
+    @abstractmethod
+    def get_ingest_job(self, job_id: str) -> Optional["IngestJob"]:
+        """Get an ingest job by id, or None if not found."""
+        pass
+
+    @abstractmethod
+    def update_ingest_job(self, job_id: str, **fields: Any) -> Optional["IngestJob"]:
+        """Update an ingest job by id; return updated model or None if not found."""
         pass
 
     def get_mentions_for_entity(self, entity_id: str) -> Sequence["MentionRow"]:

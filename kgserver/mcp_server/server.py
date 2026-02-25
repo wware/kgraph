@@ -365,6 +365,72 @@ def find_entities_within_hops(
 
 
 @mcp_server.tool()
+async def ingest_paper(url: str) -> dict:
+    """
+    Ingest a medical paper from a URL into the knowledge graph.
+
+    Kicks off a background job. Returns immediately with a job_id.
+    Poll check_ingest_status(job_id) to track progress.
+    Supports PMC full-text URLs and direct XML/JSON URLs.
+
+    Returns:
+        Dict with job_id, status, url, message.
+    """
+    from mcp_server.ingest_worker import enqueue_job
+
+    with _get_storage() as storage:
+        job = storage.create_ingest_job(url)
+    await enqueue_job(job.id)
+    return {
+        "job_id": job.id,
+        "status": "queued",
+        "url": url,
+        "message": "Job queued. Use check_ingest_status(job_id) to track progress.",
+    }
+
+
+@mcp_server.tool()
+def check_ingest_status(job_id: str) -> dict:
+    """
+    Check the status of a paper ingestion job.
+
+    Returns:
+        Dict with job_id, status, url, paper_title, pmcid, entities_added,
+        relationships_added, error, created_at, started_at, completed_at.
+    Status values: queued | running | complete | failed | not_found
+    """
+    with _get_storage() as storage:
+        job = storage.get_ingest_job(job_id)
+    if job is None:
+        return {
+            "job_id": job_id,
+            "status": "not_found",
+            "url": "",
+            "paper_title": None,
+            "pmcid": None,
+            "entities_added": 0,
+            "relationships_added": 0,
+            "error": "No such job",
+            "created_at": None,
+            "started_at": None,
+            "completed_at": None,
+        }
+    return {
+        "job_id": job.id,
+        "status": job.status,
+        "url": job.url,
+        "paper_title": job.paper_title,
+        "pmcid": job.pmcid,
+        "entities_added": job.entities_added,
+        "relationships_added": job.relationships_added,
+        "error": job.error,
+        "created_at": job.created_at.isoformat() if job.created_at else None,
+        "started_at": job.started_at.isoformat() if job.started_at else None,
+        "completed_at": job.completed_at.isoformat() if job.completed_at else None,
+    }
+
+
+@mcp_server.tool()
 def get_bundle_info() -> dict | None:
     """
     Get bundle metadata for debugging and provenance.

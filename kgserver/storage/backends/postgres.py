@@ -3,12 +3,13 @@ PostgreSQL implementation of the storage interface.
 """
 
 import json
-from datetime import datetime
-from typing import Optional, Sequence
+import uuid
+from datetime import datetime, timezone
+from typing import Any, Optional, Sequence
 from sqlalchemy import func, text
 from sqlmodel import Session, select
 from storage.interfaces import StorageInterface
-from storage.models import Bundle, BundleEvidence, Entity, Mention, Relationship
+from storage.models import Bundle, BundleEvidence, Entity, IngestJob, Mention, Relationship
 from kgbundle import BundleManifestV1, EntityRow, EvidenceRow, MentionRow, RelationshipRow
 from pydantic import ValidationError
 
@@ -98,6 +99,180 @@ class PostgresStorage(StorageInterface):
 
         self.record_bundle(bundle_manifest)
         self._session.commit()
+
+    def load_bundle_incremental(self, bundle_manifest: BundleManifestV1, bundle_path: str) -> None:
+        """
+        Load a bundle into the graph without truncating; upsert entities (accumulate
+        usage_count) and relationships, append provenance.
+        """
+        if bundle_manifest.entities:
+            entities_file = f"{bundle_path}/{bundle_manifest.entities.path}"
+            self._load_entities_incremental(entities_file)
+        if bundle_manifest.relationships:
+            relationships_file = f"{bundle_path}/{bundle_manifest.relationships.path}"
+            self._load_relationships_incremental(relationships_file)
+        if bundle_manifest.mentions is not None:
+            mentions_path = f"{bundle_path}/{bundle_manifest.mentions.path}"
+            try:
+                with open(mentions_path, "r") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        mention_row = MentionRow.model_validate_json(line)
+                        self._session.add(
+                            Mention(
+                                entity_id=mention_row.entity_id,
+                                document_id=mention_row.document_id,
+                                section=mention_row.section,
+                                start_offset=mention_row.start_offset,
+                                end_offset=mention_row.end_offset,
+                                text_span=mention_row.text_span,
+                                context=mention_row.context,
+                                confidence=mention_row.confidence,
+                                extraction_method=mention_row.extraction_method,
+                                created_at=mention_row.created_at,
+                            )
+                        )
+            except FileNotFoundError:
+                pass
+        if bundle_manifest.evidence is not None:
+            evidence_path = f"{bundle_path}/{bundle_manifest.evidence.path}"
+            try:
+                with open(evidence_path, "r") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        evidence_row = EvidenceRow.model_validate_json(line)
+                        self._session.add(
+                            BundleEvidence(
+                                relationship_key=evidence_row.relationship_key,
+                                document_id=evidence_row.document_id,
+                                section=evidence_row.section,
+                                start_offset=evidence_row.start_offset,
+                                end_offset=evidence_row.end_offset,
+                                text_span=evidence_row.text_span,
+                                confidence=evidence_row.confidence,
+                                supports=evidence_row.supports,
+                            )
+                        )
+            except FileNotFoundError:
+                pass
+        self.record_bundle(bundle_manifest)
+        self._session.commit()
+
+    def _load_entities_incremental(self, entities_file: str) -> None:
+        """Upsert entities from JSONL; on conflict add usage_count to existing row."""
+        with open(entities_file, "r") as f:
+            for line in f:
+                entity_data = json.loads(line)
+                try:
+                    entity_row = EntityRow.model_validate(entity_data)
+                    entity_data = entity_row.model_dump(exclude_unset=True)
+                except ValidationError:
+                    continue
+                normalized = self._normalize_entity(entity_data)
+                # Build INSERT ... ON CONFLICT (entity_id) DO UPDATE SET usage_count = entity.usage_count + excluded.usage_count, ...
+                usage = normalized.get("usage_count") or 0
+                name = normalized.get("name")
+                entity_type = normalized.get("entity_type", "")
+                status = normalized.get("status")
+                confidence = normalized.get("confidence")
+                source = normalized.get("source")
+                canonical_url = normalized.get("canonical_url")
+                synonyms = json.dumps(normalized.get("synonyms") or [])
+                properties = json.dumps(normalized.get("properties") or {})
+                entity_id = normalized["entity_id"]
+                stmt = text("""
+                    INSERT INTO entity (entity_id, entity_type, name, status, confidence, usage_count, source, canonical_url, synonyms, properties)
+                    VALUES (:entity_id, :entity_type, :name, :status, :confidence, :usage_count, :source, :canonical_url,
+                            CAST(:synonyms AS json), CAST(:properties AS json))
+                    ON CONFLICT (entity_id) DO UPDATE SET
+                        usage_count = entity.usage_count + COALESCE(EXCLUDED.usage_count, 0),
+                        name = COALESCE(EXCLUDED.name, entity.name),
+                        entity_type = COALESCE(EXCLUDED.entity_type, entity.entity_type),
+                        status = COALESCE(EXCLUDED.status, entity.status),
+                        confidence = COALESCE(EXCLUDED.confidence, entity.confidence),
+                        source = COALESCE(EXCLUDED.source, entity.source),
+                        canonical_url = COALESCE(EXCLUDED.canonical_url, entity.canonical_url),
+                        synonyms = COALESCE(EXCLUDED.synonyms, entity.synonyms),
+                        properties = COALESCE(EXCLUDED.properties, entity.properties)
+                """)
+                self._session.execute(
+                    stmt,
+                    {
+                        "entity_id": entity_id,
+                        "entity_type": entity_type,
+                        "name": name,
+                        "status": status,
+                        "confidence": confidence,
+                        "usage_count": usage,
+                        "source": source,
+                        "canonical_url": canonical_url,
+                        "synonyms": synonyms,
+                        "properties": properties,
+                    },
+                )
+
+    def _load_relationships_incremental(self, relationships_file: str) -> None:
+        """Upsert relationships from JSONL by (subject_id, predicate, object_id)."""
+        with open(relationships_file, "r") as f:
+            for line in f:
+                relationship_data = json.loads(line)
+                try:
+                    relationship_row = RelationshipRow.model_validate(relationship_data)
+                    relationship_data = relationship_row.model_dump(exclude_unset=True)
+                except ValidationError:
+                    continue
+                relationship_data = self._normalize_relationship(relationship_data)
+                # Relationship has id UUID PK; we upsert on the unique triple.
+                # Use session.merge with a new UUID so we don't conflict on id; but merge uses PK.
+                # So we need to select by triple first: if exists get its id and merge; else add new.
+                subj = relationship_data.get("subject_id")
+                pred = relationship_data.get("predicate")
+                obj = relationship_data.get("object_id")
+                existing = self.get_relationship(subj, pred, obj)
+                if existing:
+                    # Update in place (confidence, source_documents, properties)
+                    existing.confidence = relationship_data.get("confidence", existing.confidence)
+                    existing.source_documents = relationship_data.get("source_documents", existing.source_documents) or []
+                    existing.properties = relationship_data.get("properties", existing.properties) or {}
+                    self._session.add(existing)
+                else:
+                    rel = Relationship(**relationship_data)
+                    self._session.add(rel)
+
+    def create_ingest_job(self, url: str) -> IngestJob:
+        """Create a new ingest job and return it."""
+        job = IngestJob(
+            id=uuid.uuid4().hex,
+            url=url,
+            status="queued",
+            created_at=datetime.now(timezone.utc),
+        )
+        self._session.add(job)
+        self._session.commit()
+        self._session.refresh(job)
+        return job
+
+    def get_ingest_job(self, job_id: str) -> Optional[IngestJob]:
+        """Get an ingest job by id, or None if not found."""
+        return self._session.get(IngestJob, job_id)
+
+    def update_ingest_job(self, job_id: str, **fields: Any) -> Optional[IngestJob]:
+        """Update an ingest job by id; return updated model or None if not found."""
+        job = self._session.get(IngestJob, job_id)
+        if job is None:
+            return None
+        allowed = {"status", "started_at", "completed_at", "paper_title", "pmcid", "entities_added", "relationships_added", "error"}
+        for key, value in fields.items():
+            if key in allowed and hasattr(job, key):
+                setattr(job, key, value)
+        self._session.add(job)
+        self._session.commit()
+        self._session.refresh(job)
+        return job
 
     def _debug_print_sample_entities(self, entities_file: str) -> None:
         """Print first few entities for debugging."""

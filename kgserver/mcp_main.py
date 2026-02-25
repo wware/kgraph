@@ -6,13 +6,31 @@ Run with: uvicorn mcp_main:app --host 0.0.0.0 --port 8001
 SSE endpoint: http://localhost:8001/sse (mount at root so path stays /sse).
 """
 
-from fastapi import FastAPI
+import os
+from contextlib import asynccontextmanager
 
-from mcp_server import mcp_server
+from fastapi import FastAPI
+from sqlmodel import SQLModel
+
+from mcp_server import ingest_worker, mcp_server
+from query.storage_factory import get_engine
+from storage.models import IngestJob
 
 sse_app = mcp_server.http_app(path="/sse", transport="sse")
 
-app = FastAPI(title="Knowledge Graph MCP", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Create ingest_jobs table and start/stop the background ingest worker."""
+    engine, _ = get_engine()
+    SQLModel.metadata.create_all(engine, tables=[IngestJob.__table__])
+    max_workers = int(os.environ.get("INGEST_MAX_WORKERS", "1"))
+    await ingest_worker.start_worker(max_workers=max_workers)
+    yield
+    await ingest_worker.stop_worker()
+
+
+app = FastAPI(title="Knowledge Graph MCP", version="0.1.0", lifespan=lifespan)
 
 
 # Register /health before the mount so it takes precedence

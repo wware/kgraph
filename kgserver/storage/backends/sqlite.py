@@ -3,13 +3,15 @@ SQLite implementation of the storage interface.
 """
 
 import json
-from datetime import datetime
-from typing import Optional, Sequence
+import uuid
+from datetime import datetime, timezone
+from typing import Any, Optional, Sequence
 from sqlalchemy import func
 from sqlmodel import Session, SQLModel, create_engine, select
 from storage.interfaces import StorageInterface
-from storage.models import Bundle, BundleEvidence, Entity, Mention, Relationship
-from kgbundle import BundleManifestV1, EvidenceRow, MentionRow
+from storage.models import Bundle, BundleEvidence, Entity, IngestJob, Mention, Relationship
+from kgbundle import BundleManifestV1, EntityRow, EvidenceRow, MentionRow, RelationshipRow
+from pydantic import ValidationError
 
 
 class SQLiteStorage(StorageInterface):
@@ -121,6 +123,140 @@ class SQLiteStorage(StorageInterface):
 
         self.record_bundle(bundle_manifest)
         self._session.commit()
+
+    def load_bundle_incremental(self, bundle_manifest: BundleManifestV1, bundle_path: str) -> None:
+        """
+        Load a bundle without truncating; upsert entities (accumulate usage_count)
+        and relationships, append provenance.
+        """
+        if bundle_manifest.entities:
+            entities_file = f"{bundle_path}/{bundle_manifest.entities.path}"
+            with open(entities_file, "r") as f:
+                for line in f:
+                    entity_data = json.loads(line)
+                    try:
+                        entity_row = EntityRow.model_validate(entity_data)
+                        entity_data = entity_row.model_dump(exclude_unset=True)
+                    except ValidationError:
+                        continue
+                    entity_data = self._normalize_entity(entity_data)
+                    existing = self.get_entity(entity_data["entity_id"])
+                    if existing:
+                        existing.usage_count = (existing.usage_count or 0) + (entity_data.get("usage_count") or 0)
+                        existing.name = entity_data.get("name") or existing.name
+                        existing.entity_type = entity_data.get("entity_type") or existing.entity_type
+                        existing.status = entity_data.get("status") or existing.status
+                        existing.confidence = entity_data.get("confidence") or existing.confidence
+                        existing.source = entity_data.get("source") or existing.source
+                        existing.canonical_url = entity_data.get("canonical_url") or existing.canonical_url
+                        existing.synonyms = entity_data.get("synonyms", existing.synonyms) or []
+                        existing.properties = entity_data.get("properties", existing.properties) or {}
+                        self._session.add(existing)
+                    else:
+                        self._session.add(Entity(**entity_data))
+        if bundle_manifest.relationships:
+            relationships_file = f"{bundle_path}/{bundle_manifest.relationships.path}"
+            with open(relationships_file, "r") as f:
+                for line in f:
+                    relationship_data = json.loads(line)
+                    try:
+                        relationship_row = RelationshipRow.model_validate(relationship_data)
+                        relationship_data = relationship_row.model_dump(exclude_unset=True)
+                    except ValidationError:
+                        continue
+                    relationship_data = self._normalize_relationship(relationship_data)
+                    subj = relationship_data.get("subject_id")
+                    pred = relationship_data.get("predicate")
+                    obj = relationship_data.get("object_id")
+                    existing = self.get_relationship(subj, pred, obj)
+                    if existing:
+                        existing.confidence = relationship_data.get("confidence", existing.confidence)
+                        existing.source_documents = relationship_data.get("source_documents", existing.source_documents) or []
+                        existing.properties = relationship_data.get("properties", existing.properties) or {}
+                        self._session.add(existing)
+                    else:
+                        self._session.add(Relationship(**relationship_data))
+        if bundle_manifest.mentions is not None:
+            mentions_path = f"{bundle_path}/{bundle_manifest.mentions.path}"
+            try:
+                with open(mentions_path, "r") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        mention_row = MentionRow.model_validate_json(line)
+                        self._session.add(
+                            Mention(
+                                entity_id=mention_row.entity_id,
+                                document_id=mention_row.document_id,
+                                section=mention_row.section,
+                                start_offset=mention_row.start_offset,
+                                end_offset=mention_row.end_offset,
+                                text_span=mention_row.text_span,
+                                context=mention_row.context,
+                                confidence=mention_row.confidence,
+                                extraction_method=mention_row.extraction_method,
+                                created_at=mention_row.created_at,
+                            )
+                        )
+            except FileNotFoundError:
+                pass
+        if bundle_manifest.evidence is not None:
+            evidence_path = f"{bundle_path}/{bundle_manifest.evidence.path}"
+            try:
+                with open(evidence_path, "r") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        evidence_row = EvidenceRow.model_validate_json(line)
+                        self._session.add(
+                            BundleEvidence(
+                                relationship_key=evidence_row.relationship_key,
+                                document_id=evidence_row.document_id,
+                                section=evidence_row.section,
+                                start_offset=evidence_row.start_offset,
+                                end_offset=evidence_row.end_offset,
+                                text_span=evidence_row.text_span,
+                                confidence=evidence_row.confidence,
+                                supports=evidence_row.supports,
+                            )
+                        )
+            except FileNotFoundError:
+                pass
+        self.record_bundle(bundle_manifest)
+        self._session.commit()
+
+    def create_ingest_job(self, url: str) -> IngestJob:
+        """Create a new ingest job and return it."""
+        job = IngestJob(
+            id=uuid.uuid4().hex,
+            url=url,
+            status="queued",
+            created_at=datetime.now(timezone.utc),
+        )
+        self._session.add(job)
+        self._session.commit()
+        self._session.refresh(job)
+        return job
+
+    def get_ingest_job(self, job_id: str) -> Optional[IngestJob]:
+        """Get an ingest job by id, or None if not found."""
+        return self._session.get(IngestJob, job_id)
+
+    def update_ingest_job(self, job_id: str, **fields: Any) -> Optional[IngestJob]:
+        """Update an ingest job by id; return updated model or None if not found."""
+        job = self._session.get(IngestJob, job_id)
+        if job is None:
+            return None
+        allowed = {"status", "started_at", "completed_at", "paper_title", "pmcid", "entities_added", "relationships_added", "error"}
+        for key, value in fields.items():
+            if key in allowed and hasattr(job, key):
+                setattr(job, key, value)
+        self._session.add(job)
+        self._session.commit()
+        self._session.refresh(job)
+        return job
 
     def _normalize_entity(self, data: dict) -> dict:
         """Normalize entity data, flattening metadata fields."""
