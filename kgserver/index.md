@@ -8,8 +8,8 @@ information-dense literatures (legal, financial, academic, etc).
 
 Links:
 
-- [Medical literature chat](/chat)
-- [OpenAPI spec](/docs)
+- [Medical literature chat](/chat/)
+- [OpenAPI spec](/docs/)
 - [Graph visualization](/graph-viz/) -- currently focused on medical literature
 - [GraphQL GUI](/graphiql/)
 - Jupyter notebook: Use SSH tunnel command below

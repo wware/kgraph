@@ -8,6 +8,7 @@ import asyncio
 import logging
 import os
 import re
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -125,9 +126,10 @@ async def _run_ingest_job(job_id: str) -> None:
 
 async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> None:
     """Core implementation: fetch URL, run pipeline, load bundle."""
+    url = job.url
+    logger.info("Ingest job %s starting: url=%s", job_id, url)
     storage.update_ingest_job(job_id, status="running", started_at=datetime.now(timezone.utc))
 
-    url = job.url
     pmcid = None
     paper_title = None
     entities_added = 0
@@ -145,6 +147,7 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
         output_dir.mkdir()
 
         # Fetch URL content
+        t_fetch_start = time.perf_counter()
         match = _PMC_URL_RE.search(url)
         if match:
             pmcid_num = match.group(1)
@@ -155,6 +158,7 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
                 resp.raise_for_status()
                 input_path = input_dir / "paper.xml"
                 input_path.write_bytes(resp.content)
+            logger.info("Ingest job %s: fetched PMC XML in %.1fs, %s bytes", job_id, time.perf_counter() - t_fetch_start, len(resp.content))
         else:
             async with httpx.AsyncClient(timeout=60.0, follow_redirects=True) as client:
                 resp = await client.get(url)
@@ -162,15 +166,30 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
                 suffix = ".xml" if "xml" in (resp.headers.get("content-type") or "").lower() else ".json"
                 input_path = input_dir / f"paper{suffix}"
                 input_path.write_bytes(resp.content)
+            logger.info("Ingest job %s: fetched URL in %.1fs, %s bytes -> %s", job_id, time.perf_counter() - t_fetch_start, len(resp.content), input_path.name)
 
         # Pass 1
         from examples.medlit.scripts.pass1_extract import run_pass1
 
         llm_backend = os.environ.get("PASS1_LLM_BACKEND", "anthropic")
+        logger.info("Ingest job %s: starting Pass 1 (backend=%s)", job_id, llm_backend)
+        t0 = time.perf_counter()
         await run_pass1(input_dir, bundles_dir, llm_backend, limit=1)
+        pass1_sec = time.perf_counter() - t0
+
+        bundle_files = sorted(bundles_dir.glob("paper_*.json"))
+        logger.info("Ingest job %s: Pass 1 done in %.1fs, bundle_files=%s", job_id, pass1_sec, [p.name for p in bundle_files])
+        if not bundle_files:
+            logger.warning("Ingest job %s: Pass 1 produced no bundle files", job_id)
+            storage.update_ingest_job(
+                job_id,
+                status="failed",
+                completed_at=datetime.now(timezone.utc),
+                error="Pass 1 produced no bundle files (LLM may have failed, timed out, or returned invalid JSON).",
+            )
+            return
 
         # Optionally set paper_title from first Pass 1 bundle
-        bundle_files = sorted(bundles_dir.glob("paper_*.json"))
         if bundle_files:
             try:
                 import json
@@ -184,22 +203,60 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
         # Pass 2 (sync — run in thread)
         from examples.medlit.pipeline.dedup import run_pass2
 
-        await asyncio.to_thread(
+        logger.info("Ingest job %s: starting Pass 2", job_id)
+        t0 = time.perf_counter()
+        pass2_result = await asyncio.to_thread(
             run_pass2,
             bundle_dir=bundles_dir,
             output_dir=merged_dir,
             synonym_cache_path=merged_dir / "synonym_cache.json",
             canonical_id_cache_path=None,
         )
+        pass2_sec = time.perf_counter() - t0
+        logger.info("Ingest job %s: Pass 2 done in %.1fs, result: %s", job_id, pass2_sec, pass2_result)
+        if isinstance(pass2_result, dict) and pass2_result.get("error"):
+            logger.warning("Ingest job %s: Pass 2 returned error: %s", job_id, pass2_result.get("error"))
+            storage.update_ingest_job(
+                job_id,
+                status="failed",
+                completed_at=datetime.now(timezone.utc),
+                error=f"Pass 2 failed: {pass2_result['error']}",
+            )
+            return
+        id_map_path = merged_dir / "id_map.json"
+        if not id_map_path.exists():
+            logger.warning("Ingest job %s: id_map.json missing after Pass 2", job_id)
+            storage.update_ingest_job(
+                job_id,
+                status="failed",
+                completed_at=datetime.now(timezone.utc),
+                error="Pass 2 did not produce id_map.json (entity merge step failed or produced no output).",
+            )
+            return
 
         # Pass 3 (sync — run in thread)
         from examples.medlit.pipeline.bundle_builder import run_pass3
 
-        await asyncio.to_thread(run_pass3, merged_dir, bundles_dir, output_dir)
+        logger.info("Ingest job %s: starting Pass 3", job_id)
+        try:
+            t0 = time.perf_counter()
+            await asyncio.to_thread(run_pass3, merged_dir, bundles_dir, output_dir)
+            pass3_sec = time.perf_counter() - t0
+            logger.info("Ingest job %s: Pass 3 done in %.1fs", job_id, pass3_sec)
+        except FileNotFoundError as e:
+            logger.warning("Ingest job %s: Pass 3 FileNotFoundError: %s", job_id, e)
+            storage.update_ingest_job(
+                job_id,
+                status="failed",
+                completed_at=datetime.now(timezone.utc),
+                error=f"Pass 3 failed (missing input): {e}",
+            )
+            return
 
         # Load bundle incrementally with a fresh storage session
         manifest_path = output_dir / "manifest.json"
         if not manifest_path.exists():
+            logger.warning("Ingest job %s: manifest.json missing after Pass 3", job_id)
             storage.update_ingest_job(
                 job_id,
                 status="failed",
@@ -212,12 +269,14 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
 
         manifest_data = manifest_path.read_text()
         manifest = BundleManifestV1.model_validate_json(manifest_data)
+        logger.info("Ingest job %s: loading bundle incrementally (bundle_id=%s)", job_id, manifest.bundle_id)
 
         load_storage, load_close = _storage_for_worker()
         try:
             load_storage.load_bundle_incremental(manifest, str(output_dir))
         finally:
             load_close()
+        logger.info("Ingest job %s: bundle loaded", job_id)
 
         if manifest.entities and manifest.entities.path:
             entities_file = output_dir / manifest.entities.path
@@ -238,4 +297,7 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
             relationships_added=relationships_added,
             error=None,
         )
-        logger.info("Ingest job %s complete: %s entities, %s relationships", job_id, entities_added, relationships_added)
+        logger.info(
+            "Ingest job %s complete: %s entities, %s relationships (Pass1=%.1fs Pass2=%.1fs Pass3=%.1fs)",
+            job_id, entities_added, relationships_added, pass1_sec, pass2_sec, pass3_sec,
+        )

@@ -64,13 +64,16 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 # Copy kgbundle first, then kgserver (includes kgserver/chainlit for /chat UI)
 COPY kgbundle ./kgbundle
 COPY kgserver/ .
+# Ingest worker (MCP ingest_paper) imports examples.medlit -> examples.medlit_schema -> kgschema
+COPY kgschema ./kgschema
+COPY kgraph ./kgraph
+COPY medlit_bundle /bundle
+COPY examples ./examples
 
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONPATH="/app:/app/kgbundle"
-
-COPY medlit_bundle /bundle
+    PYTHONPATH="/app:/app/kgbundle:/app/kgschema"
 
 EXPOSE 8000
 

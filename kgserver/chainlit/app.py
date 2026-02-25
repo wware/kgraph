@@ -30,6 +30,12 @@ import litellm
 from mcp import ClientSession
 from mcp.client.sse import sse_client
 
+# Disable Chainlit DB persistence: API container sets DATABASE_URL for kgserver
+# (Postgres), but we don't create Chainlit's Thread/steps tables there.
+@cl.data_layer
+def get_data_layer():
+    return None
+
 # ── Configuration ────────────────────────────────────────────────────────────
 
 MCP_SSE_URL   = os.environ.get("MCP_SSE_URL", "http://localhost/mcp/sse")
