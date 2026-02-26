@@ -92,6 +92,13 @@ def load_examples() -> dict[str, str]:
         "H. pylori → YY1 → JAK2/STAT3 → gastric cancer": ("How does H. pylori drive gastric cancer through the YY1–JAK2–STAT3 axis and EMT, and which drugs interrupt this pathway?"),
         "Bioactive glass nanoparticles & TNBC": ("What mechanisms do bioactive glass nanoparticles use against triple-negative breast cancer, and what cellular processes do they induce?"),
         "GenMine TOP vs FoundationOne in sarcoma": ("How do GenMine TOP and FoundationOne CDx compare for fusion genes and actionable targets in sarcoma, and what treatments do they enable?"),
+        "Drugs linked to Type 2 Diabetes": ("What drugs are linked to Type 2 Diabetes? Use the knowledge graph to find entities and relationships (e.g. treats)."),
+        "Genes within 1 hop of Hypothyroidism": ("What genes are within 1 hop of Hypothyroidism? Use find_entities_within_hops with entity_type gene."),
+        "Metformin and insulin resistance": ("Is there a direct relationship between metformin and insulin resistance? Check for a treats or related relationship."),
+        "Entities connected to Addison's disease": ("What entities are directly connected to Addison's disease? Use find_entities_within_hops with max_hops=1."),
+        "Documents mentioning cortisol and depression": (
+            "What documents (papers) mention both cortisol and depression? Search for each entity and compare their supporting documents for overlapping PMC IDs."
+        ),
     }
 
 
