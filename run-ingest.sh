@@ -21,7 +21,7 @@
 # PAPER="PMC12757875.xml,PMC12784210.xml,PMC12784773.xml,PMC12788344.xml,PMC12780394.xml,PMC12757429.xml,PMC12784249.xml,PMC12764803.xml,PMC12783088.xml,PMC12775561.xml,PMC12766194.xml,PMC12750049.xml,PMC12758042.xml,PMC12780067.xml,PMC12785246.xml,PMC12785631.xml,PMC12753587.xml,PMC12754092.xml,PMC12764813.xml,PMC5487382.xml"
 
 # Endocrinology/Cushing's papers
-PAPER="PMC11560769.xml,PMC11779774.xml,PMC11548364.xml,PMC2386281.xml,PMC12187266.xml,PMC4374115.xml,PMC11128938.xml,PMC11685751.xml,PMC12035109.xml,PMC12055610.xml"
+# PAPER="PMC11560769.xml,PMC11779774.xml,PMC11548364.xml,PMC2386281.xml,PMC12187266.xml,PMC4374115.xml,PMC11128938.xml,PMC11685751.xml,PMC12035109.xml,PMC12055610.xml"
 
 # For reference, here's what each one is:
 
@@ -39,6 +39,18 @@ PAPER="PMC11560769.xml,PMC11779774.xml,PMC11548364.xml,PMC2386281.xml,PMC1218726
 # | PMC12055610 | Osilodrostat for Cushing syndrome (new steroidogenesis inhibitor) | 2025 |
 
 # Good topical spread — covers diagnosis, medical management, novel drugs, comorbidities, cognitive effects, edge cases (pregnancy, pseudo-Cushing's), and the classic guideline paper. All are open-access CC-licensed, so XML should be available via the PMC OA FTP or API.
+
+# adrenal stuff
+PAPER="PMC10667925.xml,PMC4880116.xml,PMC11795198.xml"
+
+(
+cd examples/medlit/pmc_xmls
+for PMC in $(echo $PAPER | tr ',' '\n' | sed 's/\.xml//'); do
+    curl -o "${PMC}.xml" \
+      "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=${PMC}&rettype=xml&retmode=xml"
+    sleep 0.5
+done
+)
 
 # DEBUG=
 DEBUG="--debug"
