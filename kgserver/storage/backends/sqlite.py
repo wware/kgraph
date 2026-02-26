@@ -168,6 +168,8 @@ class SQLiteStorage(StorageInterface):
                     subj = relationship_data.get("subject_id")
                     pred = relationship_data.get("predicate")
                     obj = relationship_data.get("object_id")
+                    if subj is None or pred is None or obj is None:
+                        continue
                     existing = self.get_relationship(subj, pred, obj)
                     if existing:
                         existing.confidence = relationship_data.get("confidence", existing.confidence)

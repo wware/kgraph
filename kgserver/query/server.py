@@ -93,7 +93,7 @@ _chainlit_app = os.environ.get("CHAINLIT_APP_PATH") or next(
 )
 if _chainlit_app is not None:
     try:
-        from chainlit.utils import mount_chainlit
+        from chainlit.utils import mount_chainlit  # pylint: disable=no-name-in-module
 
         mount_chainlit(app=app, target=str(_chainlit_app), path="/chat")
         logger.info("Chainlit mounted at /chat (app=%s)", _chainlit_app)

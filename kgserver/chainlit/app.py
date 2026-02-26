@@ -30,16 +30,18 @@ import litellm
 from mcp import ClientSession
 from mcp.client.sse import sse_client
 
+
 # Disable Chainlit DB persistence: API container sets DATABASE_URL for kgserver
 # (Postgres), but we don't create Chainlit's Thread/steps tables there.
 @cl.data_layer
 def get_data_layer():
     return None
 
+
 # ── Configuration ────────────────────────────────────────────────────────────
 
-MCP_SSE_URL   = os.environ.get("MCP_SSE_URL", "http://localhost/mcp/sse")
-LLM_PROVIDER  = os.environ.get("LLM_PROVIDER", "anthropic").lower()
+MCP_SSE_URL = os.environ.get("MCP_SSE_URL", "http://localhost/mcp/sse")
+LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "anthropic").lower()
 EXAMPLES_FILE = os.environ.get("EXAMPLES_FILE", "examples.yaml")
 
 SYSTEM_PROMPT = """You are an expert assistant for a medical literature knowledge graph.
@@ -69,6 +71,7 @@ def get_litellm_model() -> dict[str, Any]:
 
 # ── Examples ─────────────────────────────────────────────────────────────────
 
+
 def load_examples() -> dict[str, str]:
     """Load examples from YAML: {label: prompt_text}"""
     try:
@@ -81,23 +84,14 @@ def load_examples() -> dict[str, str]:
             return {item["label"]: item["prompt"] for item in data}
     except FileNotFoundError:
         pass
-    # Fallback built-in examples
+    # Fallback built-in examples (short versions aligned with graph content)
     return {
-        "HIV treatment resistance mechanisms": (
-            "What does the literature say about mechanisms of HIV resistance to antiretroviral therapy?"
-        ),
-        "CD4 count as prognostic marker": (
-            "Summarize evidence on CD4 T-cell count as a prognostic marker in HIV/AIDS progression."
-        ),
-        "Drug-drug interactions in ART": (
-            "What are the most clinically significant drug-drug interactions in antiretroviral therapy regimens?"
-        ),
-        "Long COVID neurological symptoms": (
-            "What patterns of neurological symptoms appear in long COVID, according to recent literature?"
-        ),
-        "Graph: Find related conditions": (
-            "Use the knowledge graph to find conditions strongly related to HIV-associated neurocognitive disorder."
-        ),
+        "BRCA mutations & cancer risk": ("What does the graph say about BRCA1/BRCA2 mutations and risk of breast and ovarian cancer, and what risk-reducing interventions are supported?"),
+        "ST3Gal1 & ulcerative colitis": ("How does ST3Gal1 regulate intestinal barrier function and inflammatory cytokines in ulcerative colitis, and what downstream genes does it control?"),
+        "DDR biomarkers & ES-SCLC": ("What is the DDR-Immune Fitness score, and how do HRD, TMB, and cGAS-STING predict response to PARP inhibitors and checkpoint blockers in ES-SCLC?"),
+        "H. pylori → YY1 → JAK2/STAT3 → gastric cancer": ("How does H. pylori drive gastric cancer through the YY1–JAK2–STAT3 axis and EMT, and which drugs interrupt this pathway?"),
+        "Bioactive glass nanoparticles & TNBC": ("What mechanisms do bioactive glass nanoparticles use against triple-negative breast cancer, and what cellular processes do they induce?"),
+        "GenMine TOP vs FoundationOne in sarcoma": ("How do GenMine TOP and FoundationOne CDx compare for fusion genes and actionable targets in sarcoma, and what treatments do they enable?"),
     }
 
 
@@ -108,6 +102,7 @@ EXAMPLE_PLACEHOLDER = "— select an example —"
 # ── MCP session management ────────────────────────────────────────────────────
 
 MCP_CONNECT_TIMEOUT = float(os.environ.get("MCP_CONNECT_TIMEOUT", "25"))
+
 
 async def create_mcp_session() -> tuple[ClientSession, AsyncExitStack]:
     stack = AsyncExitStack()
@@ -121,18 +116,21 @@ def mcp_tools_to_litellm(tools) -> list[dict]:
     """Convert MCP tool descriptors to OpenAI-style tool dicts for litellm."""
     result = []
     for t in tools:
-        result.append({
-            "type": "function",
-            "function": {
-                "name": t.name,
-                "description": t.description or "",
-                "parameters": t.inputSchema if t.inputSchema else {"type": "object", "properties": {}},
-            },
-        })
+        result.append(
+            {
+                "type": "function",
+                "function": {
+                    "name": t.name,
+                    "description": t.description or "",
+                    "parameters": t.inputSchema if t.inputSchema else {"type": "object", "properties": {}},
+                },
+            }
+        )
     return result
 
 
 # ── Chainlit lifecycle ────────────────────────────────────────────────────────
+
 
 @cl.on_chat_start
 async def on_chat_start():
@@ -170,7 +168,7 @@ async def on_chat_start():
     # Initialize message history
     cl.user_session.set("history", [{"role": "system", "content": SYSTEM_PROMPT}])
 
-    # Build the examples dropdown as a Chat Setting
+    # Build the examples dropdown in the settings panel (gear icon)
     example_labels = [EXAMPLE_PLACEHOLDER] + list(EXAMPLES.keys())
     await cl.ChatSettings(
         [
@@ -185,11 +183,22 @@ async def on_chat_start():
 
     provider_label = LLM_PROVIDER.upper()
     model_info = get_litellm_model()["model"]
-    await cl.Message(
-        content=f"{status}\n\n**LLM:** `{provider_label}` → `{model_info}`\n\n"
-                "Ask me anything about the medical literature knowledge graph, "
-                "or pick an example from the dropdown above ↑"
-    ).send()
+    await cl.Message(content=f"{status}\n\n**LLM:** `{provider_label}` → `{model_info}`\n\n" "Ask me anything about the medical literature knowledge graph, " "or click an example below.").send()
+
+    # Visible example buttons in the main chat (so users don't have to open settings)
+    example_actions = [cl.Action(name="run_example", label=label, payload={"prompt": prompt}) for label, prompt in EXAMPLES.items()]
+    await cl.Message(content="**Example prompts:**", actions=example_actions).send()
+
+
+@cl.action_callback("run_example")
+async def on_example_action(action: cl.Action):
+    """When user clicks an example button, send that prompt and run the chat."""
+    prompt = action.payload.get("prompt") if action.payload else None
+    if not prompt:
+        return
+    await cl.Message(content=prompt, author="User").send()
+    await run_chat(prompt)
+    await action.remove()
 
 
 @cl.on_settings_update
@@ -228,7 +237,49 @@ async def on_chat_end():
             # Suppress: expected when closing from on_chat_end
 
 
+# ── Billing / rate-limit detection ────────────────────────────────────────────
+
+BILLING_RATE_LIMIT_PATTERNS = (
+    "billing",
+    "credit",
+    "rate limit",
+    "quota",
+    "usage limit",
+    "exceeded",
+    "insufficient credit",
+    "payment required",
+    "429",
+)
+
+
+def _looks_like_billing_or_rate_limit(text: str) -> bool:
+    """True if the response suggests an API billing, credit, or rate-limit issue."""
+    if not text or not text.strip():
+        return False
+    lower = text.lower()
+    return any(p in lower for p in BILLING_RATE_LIMIT_PATTERNS)
+
+
+# Visible spinner frames (braille pattern, one character at a time)
+SPINNER_FRAMES = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
+SPINNER_INTERVAL = 0.12
+
+
+async def _run_spinner(msg: cl.Message, stop_event: asyncio.Event) -> None:
+    """Update msg with rotating spinner + 'Working…' until stop_event is set."""
+    i = 0
+    while not stop_event.is_set():
+        msg.content = SPINNER_FRAMES[i % len(SPINNER_FRAMES)] + " Working…"
+        await msg.update()
+        i += 1
+        try:
+            await asyncio.wait_for(stop_event.wait(), timeout=SPINNER_INTERVAL)
+        except asyncio.TimeoutError:
+            pass
+
+
 # ── Core chat loop ────────────────────────────────────────────────────────────
+
 
 async def run_chat(user_text: str):
     history: list[dict] = cl.user_session.get("history")
@@ -238,44 +289,66 @@ async def run_chat(user_text: str):
     litellm_tools: list[dict] = cl.user_session.get("litellm_tools", [])
     llm_kwargs = get_litellm_model()
 
-    thinking_msg = cl.Message(content="")
+    thinking_msg = cl.Message(content=SPINNER_FRAMES[0] + " Working…")
     await thinking_msg.send()
+    stop_spinner = asyncio.Event()
+    spinner_task = asyncio.create_task(_run_spinner(thinking_msg, stop_spinner))
 
-    # Agentic tool-call loop
     max_iterations = 8
-    for _ in range(max_iterations):
-        response = await asyncio.to_thread(
-            litellm.completion,
-            messages=history,
-            tools=litellm_tools if litellm_tools else None,
-            tool_choice="auto" if litellm_tools else None,
-            stream=False,
-            **llm_kwargs,
-        )
 
-        msg = response.choices[0].message
-        history.append(msg.model_dump(exclude_none=True))
+    try:
+        for _ in range(max_iterations):
+            response = await asyncio.to_thread(
+                litellm.completion,
+                messages=history,
+                tools=litellm_tools if litellm_tools else None,
+                tool_choice="auto" if litellm_tools else None,
+                stream=False,
+                **llm_kwargs,
+            )
 
-        # If the LLM wants to call tools
-        if msg.tool_calls:
-            tool_results = await execute_tool_calls(msg.tool_calls, mcp_session, thinking_msg)
-            history.extend(tool_results)
-            continue  # loop back with tool results
+            msg = response.choices[0].message
+            history.append(msg.model_dump(exclude_none=True))
 
-        # Final text response
-        final_text = msg.content or ""
-        await thinking_msg.update()
-        thinking_msg.content = final_text
-        await thinking_msg.update()
-        break
+            if msg.tool_calls:
+                tool_results = await execute_tool_calls(msg.tool_calls, mcp_session)
+                history.extend(tool_results)
+                continue
 
+            # Final text response
+            stop_spinner.set()
+            try:
+                await asyncio.wait_for(spinner_task, timeout=1.0)
+            except (asyncio.CancelledError, asyncio.TimeoutError):
+                spinner_task.cancel()
+                try:
+                    await spinner_task
+                except asyncio.CancelledError:
+                    pass
+            final_text = msg.content or ""
+            thinking_msg.content = final_text
+            await thinking_msg.update()
+
+            if _looks_like_billing_or_rate_limit(final_text):
+                await cl.Message(content="⚠️ **This response may indicate an API billing, credit, or rate limit issue.** Check your provider dashboard or API key.").send()
+            break
+
+    finally:
+        stop_spinner.set()
+        if not spinner_task.done():
+            spinner_task.cancel()
+            try:
+                await spinner_task
+            except asyncio.CancelledError:
+                pass
     cl.user_session.set("history", history)
 
 
 async def execute_tool_calls(
-    tool_calls, mcp_session: ClientSession | None, status_msg: cl.Message
+    tool_calls,
+    mcp_session: ClientSession | None,
 ) -> list[dict]:
-    """Run each tool call against the MCP server, return tool-result messages."""
+    """Run each tool call against the MCP server."""
     result_messages = []
 
     for tc in tool_calls:
@@ -285,30 +358,23 @@ async def execute_tool_calls(
         except json.JSONDecodeError:
             fn_args = {}
 
-        # Show a spinner/status for the tool call
-        async with cl.Step(name=f"🔧 {fn_name}", type="tool") as step:
-            step.input = json.dumps(fn_args, indent=2)
+        tool_output: str | dict[str, Any]
+        if mcp_session is None:
+            tool_output = {"error": "MCP session not available"}
+        else:
+            try:
+                mcp_result = await mcp_session.call_tool(fn_name, fn_args)
+                tool_output = " ".join(block.text for block in mcp_result.content if hasattr(block, "text")) or str(mcp_result.content)
+            except Exception as e:
+                tool_output = f"Tool error: {e}"
 
-            if mcp_session is None:
-                tool_output = {"error": "MCP session not available"}
-            else:
-                try:
-                    mcp_result = await mcp_session.call_tool(fn_name, fn_args)
-                    # MCP result content is a list of content blocks
-                    tool_output = " ".join(
-                        block.text for block in mcp_result.content
-                        if hasattr(block, "text")
-                    ) or str(mcp_result.content)
-                except Exception as e:
-                    tool_output = f"Tool error: {e}"
-
-            step.output = tool_output if isinstance(tool_output, str) else json.dumps(tool_output)
-
-        result_messages.append({
-            "role": "tool",
-            "tool_call_id": tc.id,
-            "name": fn_name,
-            "content": tool_output if isinstance(tool_output, str) else json.dumps(tool_output),
-        })
+        result_messages.append(
+            {
+                "role": "tool",
+                "tool_call_id": tc.id,
+                "name": fn_name,
+                "content": tool_output if isinstance(tool_output, str) else json.dumps(tool_output),
+            }
+        )
 
     return result_messages

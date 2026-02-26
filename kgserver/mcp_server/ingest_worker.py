@@ -193,6 +193,7 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
         if bundle_files:
             try:
                 import json
+
                 data = json.loads(bundle_files[0].read_text(encoding="utf-8"))
                 paper = data.get("paper") or {}
                 if paper.get("title"):
@@ -299,5 +300,10 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
         )
         logger.info(
             "Ingest job %s complete: %s entities, %s relationships (Pass1=%.1fs Pass2=%.1fs Pass3=%.1fs)",
-            job_id, entities_added, relationships_added, pass1_sec, pass2_sec, pass3_sec,
+            job_id,
+            entities_added,
+            relationships_added,
+            pass1_sec,
+            pass2_sec,
+            pass3_sec,
         )

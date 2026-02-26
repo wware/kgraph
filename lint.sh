@@ -40,7 +40,9 @@ echo ""
 echo "=========================================="
 echo "Running mypy..."
 echo "=========================================="
-uv run mypy ${PYTHONFILES} || mypy_fix_needed
+# Exclude chainlit app: Chainlit has no type stubs and uses dynamic decorators
+MYPY_FILES=$(echo "${PYTHONFILES}" | tr ' ' '\n' | grep -v 'kgserver/chainlit/app\.py' | tr '\n' ' ')
+uv run mypy ${MYPY_FILES} || mypy_fix_needed
 
 echo ""
 echo "=========================================="
@@ -59,7 +61,9 @@ echo ""
 echo "=========================================="
 echo "Running pylint..."
 echo "=========================================="
-uv run pylint ${PYTHONFILES}
+# Exclude chainlit app: Chainlit uses dynamic decorators and has no static introspection
+PYLINT_FILES=$(echo "${PYTHONFILES}" | tr ' ' '\n' | grep -v 'kgserver/chainlit/app\.py' | tr '\n' ' ')
+uv run pylint ${PYLINT_FILES}
 
 echo ""
 echo "=========================================="
