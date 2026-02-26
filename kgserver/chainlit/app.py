@@ -15,6 +15,8 @@ Environment variables:
   OLLAMA_BASE_URL   (default: http://ollama:11434)
   EXAMPLES_FILE     path to YAML file of example prompts (default: examples.yaml)
   MCP_CONNECT_TIMEOUT  seconds to wait for MCP connection (default: 25)
+  LLM_REQUEST_DELAY_SECONDS  delay after each LLM request to throttle rate (default: 1.0)
+  LLM_RATE_LIMIT_RETRY_DELAY_SECONDS  seconds to wait before retry after rate limit (default: 20)
 """
 
 import asyncio
@@ -27,6 +29,7 @@ import yaml
 import chainlit as cl
 from chainlit.input_widget import Select
 import litellm
+from litellm import RateLimitError
 from mcp import ClientSession
 from mcp.client.sse import sse_client
 
@@ -43,6 +46,10 @@ def get_data_layer():
 MCP_SSE_URL = os.environ.get("MCP_SSE_URL", "http://localhost/mcp/sse")
 LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "anthropic").lower()
 EXAMPLES_FILE = os.environ.get("EXAMPLES_FILE", "examples.yaml")
+LLM_REQUEST_DELAY_SECONDS = float(os.environ.get("LLM_REQUEST_DELAY_SECONDS", "1.0"))
+LLM_RATE_LIMIT_RETRY_DELAY_SECONDS = float(
+    os.environ.get("LLM_RATE_LIMIT_RETRY_DELAY_SECONDS", "20")
+)
 
 SYSTEM_PROMPT = """You are an expert assistant for a medical literature knowledge graph.
 You have access to tools that can query a graph database of medical research papers,
@@ -303,14 +310,31 @@ async def run_chat(user_text: str):
 
     try:
         for _ in range(max_iterations):
-            response = await asyncio.to_thread(
-                litellm.completion,
-                messages=history,
-                tools=litellm_tools if litellm_tools else None,
-                tool_choice="auto" if litellm_tools else None,
-                stream=False,
-                **llm_kwargs,
-            )
+            last_error = None
+            for attempt in range(3):
+                try:
+                    response = await asyncio.to_thread(
+                        litellm.completion,
+                        messages=history,
+                        tools=litellm_tools if litellm_tools else None,
+                        tool_choice="auto" if litellm_tools else None,
+                        stream=False,
+                        **llm_kwargs,
+                    )
+                    break
+                except RateLimitError as e:
+                    last_error = e
+                    if attempt < 2:
+                        delay = LLM_RATE_LIMIT_RETRY_DELAY_SECONDS
+                        await cl.Message(
+                            content=f"⏳ Rate limited; waiting {int(delay)}s before retry…"
+                        ).send()
+                        await asyncio.sleep(delay)
+                    else:
+                        raise
+
+            if LLM_REQUEST_DELAY_SECONDS > 0:
+                await asyncio.sleep(LLM_REQUEST_DELAY_SECONDS)
 
             msg = response.choices[0].message
             history.append(msg.model_dump(exclude_none=True))
