@@ -41,7 +41,9 @@
 # Good topical spread — covers diagnosis, medical management, novel drugs, comorbidities, cognitive effects, edge cases (pregnancy, pseudo-Cushing's), and the classic guideline paper. All are open-access CC-licensed, so XML should be available via the PMC OA FTP or API.
 
 # adrenal stuff
-PAPER="PMC10667925.xml,PMC4880116.xml,PMC11795198.xml"
+# PAPER="PMC10667925.xml,PMC4880116.xml,PMC11795198.xml"
+# other stuff
+PAPER="PMC6727998.xml,PMC4192497.xml,PMC4480270.xml,PMC3607291.xml,PMC4398279.xml,PMC5579818.xml"
 
 (
 cd examples/medlit/pmc_xmls
