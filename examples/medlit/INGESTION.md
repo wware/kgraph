@@ -58,6 +58,42 @@ python -m examples.medlit.scripts.pass2_dedup --bundle-dir pass1_bundles/ --outp
 python -m examples.medlit.scripts.pass3_build_bundle --merged-dir pass2_merged/ --bundles-dir pass1_bundles/ --output-dir medlit_bundle
 ```
 
+## Adding more papers to an existing bundle
+
+You can add new papers **only if you still have the intermediate dirs** from the first run: `pass1_bundles/` (per-paper JSONs) and the Pass 2 merged dir (e.g. `medlit_merged/` or `pass2_merged/`). The final bundle dir (`medlit_bundle/`) alone is not enough—Pass 2 needs all per-paper bundles and the synonym cache to re-merge.
+
+1. **Run Pass 1 for the new papers only**, writing into your **existing** Pass 1 dir. Pass 1 skips any paper that already has a `paper_<id>.json` file, so only new papers are extracted.
+
+   ```bash
+   # Same --output-dir as before; --papers lists only the new PMC IDs or filenames
+   uv run python -m examples.medlit.scripts.pass1_extract \
+     --input-dir examples/medlit/pmc_xmls \
+     --output-dir pass1_bundles \
+     --llm-backend anthropic \
+     --papers "PMC12345678.xml,PMC87654321.xml"
+   ```
+
+2. **Re-run Pass 2** on the full `pass1_bundles/` dir, with the **same** merged output dir and synonym cache so the cache is reused and entity merge keys stay consistent.
+
+   ```bash
+   uv run python -m examples.medlit.scripts.pass2_dedup \
+     --bundle-dir pass1_bundles \
+     --output-dir medlit_merged \
+     --synonym-cache medlit_merged/synonym_cache.json
+   # Optional: add --canonical-id-cache medlit_bundle/canonical_id_cache.json if you use authority lookup
+   ```
+
+3. **Re-run Pass 3** to rebuild the final kgbundle (old + new papers).
+
+   ```bash
+   uv run python -m examples.medlit.scripts.pass3_build_bundle \
+     --merged-dir medlit_merged \
+     --bundles-dir pass1_bundles \
+     --output-dir medlit_bundle
+   ```
+
+If you no longer have `pass1_bundles/` and the merged dir, you must re-run the full pipeline (Pass 1 on all papers, then Pass 2, then Pass 3) to get a bundle that includes the new papers.
+
 ## Review GUI (out of scope)
 
 The spec (INGESTION_REFACTOR.md) describes a **review GUI** for unreviewed SAME_AS links (`predicate="SAME_AS"`, `resolution=null`). That GUI is **not** implemented in this plan. Low- and medium-confidence SAME_AS links are preserved in the graph and in the synonym cache for future review tooling.

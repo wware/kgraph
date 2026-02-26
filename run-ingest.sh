@@ -1,4 +1,9 @@
 #!/bin/bash -xe
+# Three-pass medlit ingestion: Pass 1 (LLM extract) → Pass 2 (dedup) → Pass 3 (build kgbundle).
+# To ADD more papers to an existing bundle: keep pass1_bundles/ and medlit_merged/ from the first run.
+# Then run Pass 1 with --output-dir pass1_bundles and --papers "NEW_PAPER1.xml,NEW_PAPER2.xml" (skips existing),
+# then re-run Pass 2 (same --output-dir medlit_merged, same --synonym-cache), then re-run Pass 3.
+# See examples/medlit/INGESTION.md § "Adding more papers to an existing bundle".
 
 # a nice short paper
 # PAPER="PMC12771675.xml"
