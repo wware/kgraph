@@ -138,75 +138,40 @@ with open("paper.json", "rb") as f:
 
 ## Usage
 
-### Basic Ingestion
+The canonical ingestion flow is the **three-pass pipeline**: Pass 1 (LLM extraction → per-paper bundles), Pass 2 (dedup + merge), Pass 3 (build kgbundle). See **INGESTION.md** for full details and **run-ingest.sh** (in the repo root) for a ready-to-run example.
 
-Process Paper JSON/XML files and generate a bundle. You can use either **NER** (local, fast) or **LLM** (Ollama) for entity extraction; relationship extraction still uses the LLM when `--use-ollama` is set.
-
-**With NER entity extraction (recommended for speed):**
+**Basic three-pass run (from repo root):**
 
 ```bash
-pip install -e ".[ner]"   # one-time: install transformers/torch for NER
-cd /path/to/kgraph
-uv run python -m examples.medlit.scripts.ingest \
-    --input-dir /path/to/papers \
-    --output-dir medlit_bundle \
-    --entity-extractor ner \
-    --use-ollama \
-    --limit 10  # Optional: limit number of papers for testing
+# Pass 1: extract entities and relationships per paper (requires LLM; see LLM_SETUP.md)
+uv run python -m examples.medlit.scripts.pass1_extract \
+  --input-dir examples/medlit/pmc_xmls \
+  --output-dir pass1_bundles \
+  --llm-backend anthropic \
+  --papers "PMC123.xml,PMC456.xml"
+
+# Pass 2: deduplicate and merge (no LLM)
+uv run python -m examples.medlit.scripts.pass2_dedup \
+  --bundle-dir pass1_bundles \
+  --output-dir medlit_merged \
+  --synonym-cache medlit_merged/synonym_cache.json
+
+# Pass 3: build kgbundle for kgserver
+uv run python -m examples.medlit.scripts.pass3_build_bundle \
+  --merged-dir medlit_merged \
+  --bundles-dir pass1_bundles \
+  --output-dir medlit_bundle
 ```
 
-**With LLM entity extraction (default):**
+To add more papers to an existing bundle, keep `pass1_bundles/` and `medlit_merged/`, run Pass 1 for the new papers only (same `--output-dir`), then re-run Pass 2 and Pass 3. See **INGESTION.md** § "Adding more papers to an existing bundle".
 
-```bash
-uv run python -m examples.medlit.scripts.ingest \
-    --input-dir /path/to/papers \
-    --output-dir medlit_bundle \
-    --entity-extractor llm \
-    --use-ollama \
-    --limit 10
-```
+### Script options
 
-### Processing with Parallel Extraction
+- **pass1_extract**: `--input-dir`, `--output-dir`, `--llm-backend` (anthropic, openai, ollama, etc.), `--papers` (glob patterns). See **LLM_SETUP.md**.
+- **pass2_dedup**: `--bundle-dir`, `--output-dir`, `--synonym-cache`, optional `--canonical-id-cache`.
+- **pass3_build_bundle**: `--merged-dir`, `--bundles-dir`, `--output-dir`.
 
-Use multiple workers for faster processing:
-
-```bash
-uv run python -m examples.medlit.scripts.ingest \
-    --input-dir /path/to/papers \
-    --output-dir medlit_bundle \
-    --entity-extractor ner \
-    --ner-model tner/roberta-base-bc5cdr \
-    --use-ollama \
-    --workers 3 \
-    --progress-interval 15
-```
-
-### CLI Options
-
-| Option | Default | Description |
-|--------|---------|-------------|
-| `--input-dir` | (required) | Directory containing Paper JSON/XML files |
-| `--output-dir` | `medlit_bundle` | Output directory for the bundle |
-| `--entity-extractor` | `llm` | Entity extraction: `llm` (Ollama) or `ner` (local NER model) |
-| `--ner-model` | `tner/roberta-base-bc5cdr` | HuggingFace model for NER (BC5CDR chemical/disease) |
-| `--use-ollama` | `false` | Use Ollama for relationship extraction (and entity extraction if `--entity-extractor llm`) |
-| `--ollama-model` | `llama3.1:8b` | Ollama model name |
-| `--ollama-host` | `localhost:11434` | Ollama server URL |
-| `--ollama-timeout` | `300` | Timeout in seconds for Ollama requests |
-| `--workers` | `1` | Number of parallel workers for extraction |
-| `--progress-interval` | `30` | Progress report interval in seconds |
-| `--limit` | (none) | Limit number of papers to process |
-| `--cache-file` | (auto) | Path to canonical ID lookup cache file |
-
-This will:
-1. Process all Paper JSON files in the input directory
-2. Extract entities and relationships (if present in the Paper JSON)
-3. Generate a kgraph bundle with:
-   - `manifest.json` - Bundle metadata
-   - `entities.jsonl` - All extracted entities
-   - `relationships.jsonl` - All extracted relationships
-   - `doc_assets.jsonl` - Documentation assets (if provided)
-   - `docs/` - Documentation directory
+Full CLI options for each script: `uv run python -m examples.medlit.scripts.pass1_extract --help` (and similarly for pass2_dedup, pass3_build_bundle).
 
 ## Resource Requirements
 

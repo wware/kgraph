@@ -4,8 +4,8 @@ The machinery for tracing relationship ingestion (and the decision to
 keep or discard a relationship) is now working.
 
 ```bash
-$ cd /home/wware/kgraph && rm -f /tmp/kgraph-relationship-traces/*.json && uv run python -m examples.medlit.scripts.ingest --input-dir examples/medlit/pmc_xmls/
-    --limit 1 --use-ollama --ollama-timeout 1200 --stop-after relationships 2>&1 | tee /tmp/ingest_output.txt
+# Three-pass pipeline (ingest.py removed). Pass 1 extracts entities and relationships per paper.
+$ cd /home/wware/kgraph && rm -f /tmp/kgraph-relationship-traces/*.json && uv run python -m examples.medlit.scripts.pass1_extract --input-dir examples/medlit/pmc_xmls --output-dir pass1_bundles --llm-backend ollama --papers "PMC10759991.xml" 2>&1 | tee /tmp/ingest_output.txt
 ```
 
 Let me check the trace file. Read /tmp/kgraph-relationship-traces/PMC10759991.relationships.trace.json

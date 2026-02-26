@@ -58,12 +58,7 @@ done
 DEBUG="--debug"
 TIMEOUT=1000
 
-#uv run python -m examples.medlit.scripts.ingest \
-#  --input-dir examples/medlit/pmc_xmls \
-#  --input-papers $PAPER \
-#  --output-dir medlit_bundle \
-#  --ollama-timeout $TIMEOUT \
-#  --use-ollama --trace-all $DEBUG
+# Legacy ingest.py removed (PLAN10). Use the three-pass pipeline below.
 
 uv run python -m examples.medlit.scripts.pass1_extract \
   --input-dir examples/medlit/pmc_xmls \

@@ -28,7 +28,8 @@ echo ""
 echo "UV Version:"
 uv --version
 
-PYTHONFILES=$(git ls-files -- kgraph kgbundle kgschema kgserver examples | grep -E '\.py$')
+# Only list .py files that exist (git ls-files includes deleted-but-unstaged files)
+PYTHONFILES=$(git ls-files -- kgraph kgbundle kgschema kgserver examples | grep -E '\.py$' | while read -r f; do [ -f "$f" ] && echo "$f"; done)
 
 echo ""
 echo "=========================================="

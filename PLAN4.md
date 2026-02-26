@@ -1,10 +1,14 @@
 # UNIMPLEMENTED — Plan: Split medlit ingest.py by stage
 
+**Superseded:** ingest.py has been removed (PLAN10). The pipeline is now split into pass1_extract, pass2_dedup, pass3_build_bundle. See run-ingest.sh and examples/medlit/INGESTION.md. The plan below is retained for historical reference.
+
+---
+
 Split `examples/medlit/scripts/ingest.py` into separate source files by pipeline stage. The plan is written so it can be executed mechanically without ambiguity.
 
 **Reference file:** `examples/medlit/scripts/ingest.py` (current state; line numbers below refer to it).
 
-**Package context:** Scripts live under `examples/medlit/scripts/`. Imports from medlit use `..` for `scripts` → `medlit` and `...` for `scripts/stages` → `medlit`. Run as `python -m examples.medlit.scripts.ingest`.
+**Package context:** Scripts live under `examples/medlit/scripts/`. Imports from medlit use `..` for `scripts` → `medlit` and `...` for `scripts/stages` → `medlit`. (ingest.py removed in PLAN10; canonical entrypoints are pass1_extract, pass2_dedup, pass3_build_bundle.)
 
 ---
 
@@ -336,15 +340,16 @@ And in the body, `logger = setup_logging()` (used by `parse_arguments` for `args
 From the repository root:
 
 ```bash
-# 1. Help and entrypoint
-uv run python -m examples.medlit.scripts.ingest --help
+# 1. Help (ingest removed; use three-pass scripts)
+uv run python -m examples.medlit.scripts.pass1_extract --help
 
 # 2. Medlit tests
 uv run pytest examples/medlit/ -v
 
-# 3. Stop-after (use an existing dir with at least one JSON or XML; e.g. examples/medlit/pmc_xmls)
-uv run python -m examples.medlit.scripts.ingest --input-dir examples/medlit/pmc_xmls --limit 1 --stop-after entities
-uv run python -m examples.medlit.scripts.ingest --input-dir examples/medlit/pmc_xmls --limit 1 --use-ollama --stop-after promotion 2>/dev/null || true
+# 3. Three-pass pipeline (see run-ingest.sh)
+uv run python -m examples.medlit.scripts.pass1_extract --input-dir examples/medlit/pmc_xmls --output-dir pass1_bundles --llm-backend ollama --papers "PMC12756687.xml"
+uv run python -m examples.medlit.scripts.pass2_dedup --bundle-dir pass1_bundles --output-dir medlit_merged --synonym-cache medlit_merged/synonym_cache.json
+uv run python -m examples.medlit.scripts.pass3_build_bundle --merged-dir medlit_merged --bundles-dir pass1_bundles --output-dir medlit_bundle
 ```
 
 If any command fails, fix the introduced file before proceeding. After the full refactor, a full pipeline run (with `--use-ollama` if available) and bundle export should behave as before.

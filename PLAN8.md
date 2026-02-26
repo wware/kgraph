@@ -109,7 +109,7 @@ Use `model_json_schema()` / `model_dump()` for serialization. Keep bundle JSON k
 
 **Files to create or modify:**
 
-- **New or refactored script:** e.g. `examples/medlit/scripts/pass1_extract.py` (or refactor `scripts/ingest.py` to have a `--pass1-only` mode that writes per-paper bundles instead of running promotion/relationship stage).
+- **New or refactored script:** e.g. `examples/medlit/scripts/pass1_extract.py` (canonical; ingest.py removed in PLAN10).
 - **System prompt:** Ensure the prompt includes entity type taxonomy, predicate vocabulary, direction conventions (e.g. TREATS = Drug→Disease), and per-entity/per-relationship JSON schema (from `PerPaperBundle` or medlit_schema Pydantic `model_json_schema()`). Include guidance for SAME_AS (when to emit, confidence bands) and for confidence scoring (definitive 0.9–1.0, hedged 0.4–0.6, etc.).
 - **Evidence canonical ID:** When creating Evidence entities, use format `{paper_id}:{section}:{paragraph_idx}:{method}`; use `SectionType` values for section (abstract, introduction, methods, results, discussion, conclusion).
 

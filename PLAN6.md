@@ -1,5 +1,7 @@
 # UNIMPLEMENTED — Plan: Mitigate relationship extraction performance issues (PLAN6)
 
+**Obsoleted by PLAN8.** This plan is retained for historical reference.
+
 Execute steps in order from the **repository root**. All edits are in `examples/medlit/pipeline/relationships.py` unless stated otherwise. Reference: **A.md** (Gemini observations).
 
 **Scope:** 6.1 Skip semantic when string says entity missing; 6.2 Shorten prompt (remove signature table); 6.3 Predicate hierarchy post-filter (Option B). 6.4 Batch semantic checks is specified so it can be implemented later without supervision.
@@ -324,7 +326,8 @@ uv run pytest examples/medlit/ -v -k "relationship or medlit" --tb=short 2>&1 | 
 Optional end-to-end (requires Ollama or mock):
 
 ```bash
-uv run python -m examples.medlit.scripts.ingest --input-dir examples/medlit/pmc_xmls --limit 1 --use-ollama --stop-after relationships 2>&1 | tail -20
+# Three-pass pipeline (no single "stop-after" flag; run pass1 then optionally pass2/pass3)
+uv run python -m examples.medlit.scripts.pass1_extract --input-dir examples/medlit/pmc_xmls --output-dir pass1_bundles --llm-backend ollama --papers "PMC12756687.xml" 2>&1 | tail -20
 ```
 
 Inspect a trace file under `/tmp/kgraph-relationship-traces/` (or path from script): confirm 6.1 (no semantic when entity missing), 6.2 (no signature block in prompt), 6.3 (at most one predicate per (subject_id, object_id) in final_relationships).

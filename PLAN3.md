@@ -82,7 +82,7 @@ The interface is unchanged: `EntityExtractorInterface.extract(document) -> list[
 
 ## Phase 2: Wire NER extractor into ingest script
 
-**Owner:** `examples/medlit/scripts/ingest.py` and config.
+**Owner:** `examples/medlit/scripts/pass1_extract.py` (and config). Legacy ingest.py removed (PLAN10).
 
 ### 2.1 CLI / config
 

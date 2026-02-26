@@ -2,7 +2,7 @@
 
 **Status:** For later consideration. Not part of PLAN8a.
 
-**Context:** The new two-pass medlit pipeline (Pass 1 → Pass 2) does not use promotion. It does not call `run_promotion`, `PromotionPolicy`, or storage `promote()` / `find_provisional_for_promotion`. Canonical vs provisional is expressed only via Pass 2 output: `canonical_id` set when we have an authoritative ID, null otherwise. The old pipeline (`examples/medlit/scripts/ingest`, `run-ingest.sh`) still uses the full promotion workflow (usage/confidence thresholds, `MedLitPromotionPolicy`, `run_promotion`). This document describes a possible future change to remove or simplify that machinery. It is a larger refactor that touches kgschema and kgraph and should be decided with care.
+**Context:** The new two-pass medlit pipeline (Pass 1 → Pass 2) does not use promotion. It does not call `run_promotion`, `PromotionPolicy`, or storage `promote()` / `find_provisional_for_promotion`. Canonical vs provisional is expressed only via Pass 2 output: `canonical_id` set when we have an authoritative ID, null otherwise. The legacy script `examples/medlit/scripts/ingest` has been removed; the canonical flow is the three-pass pipeline (pass1_extract, pass2_dedup, pass3_build_bundle). `run-ingest.sh` now uses that pipeline (usage/confidence thresholds, `MedLitPromotionPolicy`, `run_promotion`). This document describes a possible future change to remove or simplify that machinery. It is a larger refactor that touches kgschema and kgraph and should be decided with care.
 
 ---
 
@@ -31,7 +31,7 @@ Remove or reduce code that exists only to support the old promotion workflow, on
 
 - **promotion.py** — remove `MedLitPromotionPolicy` (or move to a legacy module).
 - **domain.py** — remove `promotion_config` and `get_promotion_policy`, or implement them as deprecated/no-op.
-- **scripts/ingest.py** — remove or stub `run_promotion_phase` and the call to `orchestrator.run_promotion(lookup=...)`. If the old ingest is retired entirely, this script may be removed or replaced by a small wrapper that points users to pass1_extract + pass2_dedup.
+- **scripts/ingest.py** — removed (PLAN10). The two-pass pipeline (pass1_extract, pass2_dedup, pass3_build_bundle) is canonical; no promotion phase.
 
 ### examples/sherlock
 

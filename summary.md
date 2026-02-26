@@ -1,9 +1,5 @@
 # Project Summary
 
-```shell
-$ git ls-files | rg '(\.py$|\.md$)' | uv run summarize_codebase.py > summary.md 
-```
-
 ## Contents
 
 - [.github/copilot-instructions.md](#user-content-githubcopilot-instructionsmd)
@@ -15,6 +11,7 @@ $ git ls-files | rg '(\.py$|\.md$)' | uv run summarize_codebase.py > summary.md
 - [MEDLIT_SCHEMA_SPEC.md](#user-content-medlitschemaspecmd)
 - [NEXT_STEPS.md](#user-content-nextstepsmd)
 - [PLAN1.md](#user-content-plan1md)
+- [PLAN10.md](#user-content-plan10md)
 - [PLAN2.md](#user-content-plan2md)
 - [PLAN3.md](#user-content-plan3md)
 - [PLAN4.md](#user-content-plan4md)
@@ -71,10 +68,10 @@ $ git ls-files | rg '(\.py$|\.md$)' | uv run summarize_codebase.py > summary.md
 - [examples/medlit/pipeline/relationships.py](#user-content-examplesmedlitpipelinerelationshipspy)
 - [examples/medlit/pipeline/resolve.py](#user-content-examplesmedlitpipelineresolvepy)
 - [examples/medlit/pipeline/synonym_cache.py](#user-content-examplesmedlitpipelinesynonymcachepy)
+- [examples/medlit/progress.py](#user-content-examplesmedlitprogresspy)
 - [examples/medlit/promotion.py](#user-content-examplesmedlitpromotionpy)
 - [examples/medlit/relationships.py](#user-content-examplesmedlitrelationshipspy)
 - [examples/medlit/scripts/__init__.py](#user-content-examplesmedlitscriptsinitpy)
-- [examples/medlit/scripts/ingest.py](#user-content-examplesmedlitscriptsingestpy)
 - [examples/medlit/scripts/parse_pmc_xml.py](#user-content-examplesmedlitscriptsparsepmcxmlpy)
 - [examples/medlit/scripts/pass1_extract.py](#user-content-examplesmedlitscriptspass1extractpy)
 - [examples/medlit/scripts/pass2_dedup.py](#user-content-examplesmedlitscriptspass2deduppy)
@@ -192,6 +189,7 @@ $ git ls-files | rg '(\.py$|\.md$)' | uv run summarize_codebase.py > summary.md
 - [kgserver/tests/test_find_entities_within_hops.py](#user-content-kgserverteststestfindentitieswithinhopspy)
 - [kgserver/tests/test_graph_api.py](#user-content-kgserverteststestgraphapipy)
 - [kgserver/tests/test_graphql_schema.py](#user-content-kgserverteststestgraphqlschemapy)
+- [kgserver/tests/test_ingest_worker.py](#user-content-kgserverteststestingestworkerpy)
 - [kgserver/tests/test_mcp_graphql_tool.py](#user-content-kgserverteststestmcpgraphqltoolpy)
 - [kgserver/tests/test_rest_api.py](#user-content-kgserverteststestrestapipy)
 - [kgserver/tests/test_storage_backends.py](#user-content-kgserverteststeststoragebackendspy)
@@ -377,6 +375,22 @@ This plan implements the design in **TODO1.md**: extend the V1 bundle contract t
 
     ...
 
+<span id="user-content-plan10md"></span>
+
+# PLAN10.md
+
+# PLAN10: Persistent ingest workspace + remove legacy ingest.py
+
+A detailed implementation plan for two related changes: (1) refactoring `kgserver/mcp_server/ingest_worker.py` so ingestion uses a persistent workspace instead of a temp directory, and (2) deleting the legacy `examples/medlit/scripts/ingest.py` entrypoint and cleaning up references to it.
+
+---
+
+## Part 1: Persistent workspace refactor (`ingest_worker.py`)
+
+### Problem
+
+    ...
+
 <span id="user-content-plan2md"></span>
 
 # PLAN2.md
@@ -415,13 +429,13 @@ This plan replaces (or offers as an alternative to) **LLM-based entity extractio
 
 # UNIMPLEMENTED — Plan: Split medlit ingest.py by stage
 
+**Superseded:** ingest.py has been removed (PLAN10). The pipeline is now split into pass1_extract, pass2_dedup, pass3_build_bundle. See run-ingest.sh and examples/medlit/INGESTION.md. The plan below is retained for historical reference.
+
+---
+
 Split `examples/medlit/scripts/ingest.py` into separate source files by pipeline stage. The plan is written so it can be executed mechanically without ambiguity.
 
 **Reference file:** `examples/medlit/scripts/ingest.py` (current state; line numbers below refer to it).
-
-**Package context:** Scripts live under `examples/medlit/scripts/`. Imports from medlit use `..` for `scripts` → `medlit` and `...` for `scripts/stages` → `medlit`. Run as `python -m examples.medlit.scripts.ingest`.
-
----
 
     ...
 
@@ -448,13 +462,13 @@ Collect all Markdown files from the repository into a single organized tree unde
 
 # UNIMPLEMENTED — Plan: Mitigate relationship extraction performance issues (PLAN6)
 
+**Obsoleted by PLAN8.** This plan is retained for historical reference.
+
 Execute steps in order from the **repository root**. All edits are in `examples/medlit/pipeline/relationships.py` unless stated otherwise. Reference: **A.md** (Gemini observations).
 
 **Scope:** 6.1 Skip semantic when string says entity missing; 6.2 Shorten prompt (remove signature table); 6.3 Predicate hierarchy post-filter (Option B). 6.4 Batch semantic checks is specified so it can be implemented later without supervision.
 
 ---
-
-## Step 0. Pre-flight
 
     ...
 
@@ -580,7 +594,7 @@ This document describes a proposed alternative to the current relationship-extra
 
 **Status:** For later consideration. Not part of PLAN8a.
 
-**Context:** The new two-pass medlit pipeline (Pass 1 → Pass 2) does not use promotion. It does not call `run_promotion`, `PromotionPolicy`, or storage `promote()` / `find_provisional_for_promotion`. Canonical vs provisional is expressed only via Pass 2 output: `canonical_id` set when we have an authoritative ID, null otherwise. The old pipeline (`examples/medlit/scripts/ingest`, `run-ingest.sh`) still uses the full promotion workflow (usage/confidence thresholds, `MedLitPromotionPolicy`, `run_promotion`). This document describes a possible future change to remove or simplify that machinery. It is a larger refactor that touches kgschema and kgraph and should be decided with care.
+**Context:** The new two-pass medlit pipeline (Pass 1 → Pass 2) does not use promotion. It does not call `run_promotion`, `PromotionPolicy`, or storage `promote()` / `find_provisional_for_promotion`. Canonical vs provisional is expressed only via Pass 2 output: `canonical_id` set when we have an authoritative ID, null otherwise. The legacy script `examples/medlit/scripts/ingest` has been removed; the canonical flow is the three-pass pipeline (pass1_extract, pass2_dedup, pass3_build_bundle). `run-ingest.sh` now uses that pipeline (usage/confidence thresholds, `MedLitPromotionPolicy`, `run_promotion`). This document describes a possible future change to remove or simplify that machinery. It is a larger refactor that touches kgschema and kgraph and should be decided with care.
 
 ---
 
@@ -665,8 +679,8 @@ The machinery for tracing relationship ingestion (and the decision to
 keep or discard a relationship) is now working.
 
 ```bash
-$ cd /home/wware/kgraph && rm -f /tmp/kgraph-relationship-traces/*.json && uv run python -m examples.medlit.scripts.ingest --input-dir examples/medlit/pmc_xmls/
-    --limit 1 --use-ollama --ollama-timeout 1200 --stop-after relationships 2>&1 | tee /tmp/ingest_output.txt
+# Three-pass pipeline (ingest.py removed). Pass 1 extracts entities and relationships per paper.
+$ cd /home/wware/kgraph && rm -f /tmp/kgraph-relationship-traces/*.json && uv run python -m examples.medlit.scripts.pass1_extract --input-dir examples/medlit/pmc_xmls --output-dir pass1_bundles --llm-backend ollama --papers "PMC10759991.xml" 2>&1 | tee /tmp/ingest_output.txt
 ```
 
     ...
@@ -2749,6 +2763,34 @@ Returns:
 Append a SAME_AS link to the in-memory cache (indexed by normalized names).
 
 
+<span id="user-content-examplesmedlitprogresspy"></span>
+
+# examples/medlit/progress.py
+
+Progress tracking for long-running medlit operations (extracted from legacy ingest).
+
+## `class ProgressTracker(BaseModel)`
+
+Track and report progress during long-running operations.
+**Fields:**
+
+```python
+total: int
+completed: int
+report_interval: float
+start_time: float
+last_report_time: float
+```
+
+### `def ProgressTracker.increment(self) -> None`
+
+Increment completed count and report if interval elapsed.
+
+### `def ProgressTracker.report(self) -> None`
+
+Print progress report to stderr.
+
+
 <span id="user-content-examplesmedlitpromotionpy"></span>
 
 # examples/medlit/promotion.py
@@ -2864,329 +2906,6 @@ each would return its specific type.
 # examples/medlit/scripts/__init__.py
 
 Scripts for medical literature ingestion.
-
-
-<span id="user-content-examplesmedlitscriptsingestpy"></span>
-
-# examples/medlit/scripts/ingest.py
-
-Ingestion script for medical literature knowledge graph.
-
-Legacy pipeline: uses PromotionPolicy and run_promotion between entity and relationship
-extraction. The two-pass pipeline (pass1_extract, pass2_dedup) does not use promotion.
-
-Processes Paper JSON files (from med-lit-schema) and generates a kgraph bundle.
-
-The pipeline has three stages:
-    1. Entity Extraction (per-paper): Extract entities, most provisional initially
-    2. Promotion (batch): De-duplicate and promote provisionals to canonical
-    3. Relationship Extraction (per-paper): Extract relationships using canonical entities
-
-Use --stop-after to halt at any stage and dump JSON to stdout for debugging/testing.
-
-Usage:
-    # Full pipeline
-    python -m examples.medlit.scripts.ingest --input-dir /path/to/papers --output-dir medlit_bundle --use-ollama
-
-    # Stop after entity extraction and dump JSON
-    python -m examples.medlit.scripts.ingest --input-dir /path/to/papers --use-ollama --stop-after entities
-
-    # Stop after promotion and dump JSON
-    python -m examples.medlit.scripts.ingest --input-dir /path/to/papers --use-ollama --stop-after promotion
-
-> Ingestion script for medical literature knowledge graph.
-
-Legacy pipeline: uses PromotionPolicy and run_promotion between entity and relationship
-extraction. The two-pass pipeline (pass1_extract, pass2_dedup) does not use promotion.
-
-Processes Paper JSON files (from med-lit-schema) and generates a kgraph bundle.
-
-The pipeline has three stages:
-    1. Entity Extraction (per-paper): Extract entities, most provisional initially
-    2. Promotion (batch): De-duplicate and promote provisionals to canonical
-    3. Relationship Extraction (per-paper): Extract relationships using canonical entities
-
-Use --stop-after to halt at any stage and dump JSON to stdout for debugging/testing.
-
-Usage:
-    # Full pipeline
-    python -m examples.medlit.scripts.ingest --input-dir /path/to/papers --output-dir medlit_bundle --use-ollama
-
-    # Stop after entity extraction and dump JSON
-    python -m examples.medlit.scripts.ingest --input-dir /path/to/papers --use-ollama --stop-after entities
-
-    # Stop after promotion and dump JSON
-    python -m examples.medlit.scripts.ingest --input-dir /path/to/papers --use-ollama --stop-after promotion
-
-
-## `class TraceCollector`
-
-Collects paths to trace files written during ingestion.
-
-Each ingestion run gets a unique UUID, and trace files are organized as:
-/tmp/kgraph-traces/{run_id}/entities/{doc_id}.entities.trace.json
-/tmp/kgraph-traces/{run_id}/promotion/promotions.trace.json
-/tmp/kgraph-traces/{run_id}/relationships/{doc_id}.relationships.trace.json
-
-### `def TraceCollector.trace_dir(self) -> Path`
-
-Get the trace directory for this run.
-
-### `def TraceCollector.entity_trace_dir(self) -> Path`
-
-Get the entity trace directory for this run.
-
-### `def TraceCollector.promotion_trace_dir(self) -> Path`
-
-Get the promotion trace directory for this run.
-
-### `def TraceCollector.relationship_trace_dir(self) -> Path`
-
-Get the relationship trace directory for this run.
-
-### `def TraceCollector.add(self, path: Path) -> None`
-
-Add a trace file path.
-
-### `def TraceCollector.collect_from_directory(self, directory: Path, pattern: str = '*.trace.json') -> None`
-
-Collect all trace files matching pattern from a directory.
-
-### `def TraceCollector.print_summary(self) -> None`
-
-Print summary of all trace files written.
-
-## `class ProgressTracker`
-
-Track and report progress during long-running operations.
-
-### `def ProgressTracker.increment(self) -> None`
-
-Increment completed count and report if interval elapsed.
-
-### `def ProgressTracker.report(self) -> None`
-
-Print progress report to stderr.
-
-### `def build_orchestrator(use_ollama: bool = False, ollama_model: str = 'llama3.1:8b', ollama_host: str = 'http://localhost:11434', ollama_timeout: float = 300.0, cache_file: Path | None = None, relationship_trace_dir: Path | None = None, embeddings_cache_file: Path | None = None, evidence_validation_mode: str = 'hybrid', evidence_similarity_threshold: float = 0.5, entity_extractor: str = 'llm', ner_model: str = 'tner/roberta-base-bc5cdr') -> tuple[IngestionOrchestrator, CanonicalIdLookup | None, CachedEmbeddingGenerator | None]`
-
-Builds and configures the ingestion orchestrator and its components.
-
-This function sets up the entire pipeline, including storage,
-extractors, resolvers, and the main orchestrator instance.
-
-Args:
-    use_ollama: If True, initializes the Ollama LLM client for extraction tasks.
-                This is mandatory for the current entity and relationship
-                extraction strategies.
-    ollama_model: The name of the Ollama model to use (e.g., "llama3.1:8b").
-    ollama_host: The URL of the Ollama server.
-    ollama_timeout: The timeout in seconds for requests to the Ollama server.
-    cache_file: An optional path to a file for caching canonical ID lookups.
-                This is not used during initialization but passed for later use.
-    relationship_trace_dir: Optional directory for writing relationship trace files.
-                            If None, uses the default location.
-    embeddings_cache_file: Optional path for a persistent embeddings cache (JSON).
-                           If set, wraps the embedding generator with
-                           CachedEmbeddingGenerator + FileBasedEmbeddingsCache.
-
-Returns:
-    A tuple containing:
-    - An instance of `IngestionOrchestrator` configured for the pipeline.
-    - `None`, as the `CanonicalIdLookup` service is initialized later,
-      just before the promotion phase.
-    - The CachedEmbeddingGenerator if embeddings_cache_file was set, else None
-      (caller should await cache.load() before use and save_cache() when done).
-
-### `async def extract_entities_from_paper(orchestrator: IngestionOrchestrator, file_path: Path, content_type: str) -> tuple[str, int, int]`
-
-Extracts entities from a single document file.
-
-This function reads a file, passes its content to the ingestion
-orchestrator's entity extraction pipeline, and handles any exceptions
-that occur during the process. It is designed to be called concurrently.
-
-Args:
-    orchestrator: The configured `IngestionOrchestrator` instance.
-    file_path: The `Path` to the input document (e.g., a JSON or XML file).
-    content_type: The MIME type of the file, such as "application/json".
-
-Returns:
-    A tuple containing:
-    - The document ID (typically the file stem).
-    - The number of entities successfully extracted.
-    - The number of relationships extracted (will be 0 in this phase).
-    Returns (file_stem, 0, 0) on failure.
-
-### `async def extract_relationships_from_paper(orchestrator: IngestionOrchestrator, file_path: Path, content_type: str) -> tuple[str, int, int]`
-
-Extracts relationships from a single document file.
-
-This function reads a file and passes its content to the ingestion
-orchestrator's relationship extraction pipeline. It is designed to be
-called concurrently after the entity promotion phase is complete.
-
-Args:
-    orchestrator: The configured `IngestionOrchestrator` instance.
-    file_path: The `Path` to the input document (e.g., a JSON or XML file).
-    content_type: The MIME type of the file, such as "application/json".
-
-Returns:
-    A tuple containing:
-    - The document ID (typically the file stem).
-    - The number of entities extracted (0 in this phase).
-    - The number of relationships successfully extracted.
-    Returns (file_stem, 0, 0) on failure.
-
-### `def parse_arguments() -> argparse.Namespace`
-
-Parses and validates command-line arguments for the ingestion script.
-
-Returns:
-    An `argparse.Namespace` object containing the parsed arguments.
-
-### `def find_input_files(input_dir: Path, limit: int | None, input_papers: str | None = None) -> list[tuple[Path, str]]`
-
-Finds all processable JSON and XML files in the input directory.
-
-Args:
-    input_dir: The directory to search for input files.
-    limit: An optional integer to limit the number of files returned.
-    input_papers: Optional comma-separated glob patterns to filter files,
-                  e.g. 'PMC1234*.xml,PMC56*.xml'
-
-Returns:
-    A sorted list of tuples, where each tuple contains:
-    - A `Path` object for a found file.
-    - A string with the file's MIME content type.
-
-### `async def extract_entities_phase(orchestrator: IngestionOrchestrator, input_files: list[tuple[Path, str]], max_workers: int = 1, progress_interval: float = 30.0, quiet: bool = False, trace_all: bool = False) -> tuple[int, int, EntityExtractionStageResult]`
-
-Coordinates the entity extraction phase for all input files.
-
-This function manages the concurrent execution of the entity extraction
-process across multiple files, using a semaphore to limit parallelism.
-It also tracks and reports progress.
-
-Args:
-    orchestrator: The configured `IngestionOrchestrator` instance.
-    input_files: A list of file paths and their content types to process.
-    max_workers: The maximum number of concurrent extraction tasks.
-    progress_interval: The interval in seconds for reporting progress.
-    quiet: If True, suppress progress output.
-    trace_all: If True, write per-paper entity trace files.
-               TODO: Entity tracing not yet implemented. Would write to
-               /tmp/kgraph-entity-traces/{doc_id}.entities.trace.json
-
-Returns:
-    A tuple containing:
-    - The number of files processed successfully.
-    - The number of files that resulted in errors.
-    - EntityExtractionStageResult with detailed results.
-
-### `def _initialize_lookup(use_ollama: bool, cache_file: Path | None, quiet: bool, embedding_generator: Any = None) -> CanonicalIdLookup | None`
-
-Initializes the canonical ID lookup service.
-
-### `def _build_promoted_records(promoted: list) -> list[PromotedEntityRecord]`
-
-Builds a list of promoted entity records from a list of promoted entities.
-
-### `async def run_promotion_phase(orchestrator: IngestionOrchestrator, entity_storage: EntityStorageInterface, cache_file: Path | None = None, use_ollama: bool = False, quiet: bool = False, trace_all: bool = False) -> tuple[CanonicalIdLookup | None, PromotionStageResult]`
-
-Coordinates the entity promotion phase.
-
-### `async def extract_relationships_phase(orchestrator: IngestionOrchestrator, input_files: list[tuple[Path, str]], max_workers: int = 1, progress_interval: float = 30.0, quiet: bool = False, trace_all: bool = False) -> tuple[int, int, RelationshipExtractionStageResult]`
-
-Coordinates the relationship extraction phase for all input files.
-
-This function manages the concurrent execution of the relationship
-extraction process, which runs after entities have been promoted. It uses
-a semaphore to limit parallelism and reports progress.
-
-Note: Relationship traces are always written by MedLitRelationshipExtractor
-to /tmp/kgraph-relationship-traces/{doc_id}.relationships.trace.json
-
-Args:
-    orchestrator: The configured `IngestionOrchestrator` instance.
-    input_files: A list of file paths and their content types to process.
-    max_workers: The maximum number of concurrent extraction tasks.
-    progress_interval: The interval in seconds for reporting progress.
-    quiet: If True, suppress progress output.
-    trace_all: Reserved for consistency; relationship traces are always written.
-
-Returns:
-    A tuple containing:
-    - The number of files for which relationships were extracted.
-    - The number of files that resulted in errors.
-    - RelationshipExtractionStageResult with detailed results.
-
-### `async def print_summary(document_storage: DocumentStorageInterface, entity_storage: EntityStorageInterface, relationship_storage: RelationshipStorageInterface, quiet: bool = False) -> None`
-
-Prints a formatted summary of the knowledge graph's contents.
-
-This function queries the storage interfaces to get counts of documents,
-entities (total, canonical, and provisional), and relationships, then
-displays them in a table.
-
-Args:
-    document_storage: The storage interface for documents.
-    entity_storage: The storage interface for entities.
-    relationship_storage: The storage interface for relationships.
-    quiet: If True, suppress output.
-
-### `async def export_bundle(entity_storage: EntityStorageInterface, relationship_storage: RelationshipStorageInterface, output_dir: Path, processed: int, errors: int, cache_file: Path | None = None, provenance_accumulator: ProvenanceAccumulator | None = None) -> None`
-
-Exports the final knowledge graph to a bundle directory.
-
-This function uses `kgraph.export.write_bundle` to serialize the entities
-and relationships from storage into JSONL files. It also creates a
-README, a manifest, and copies the canonical ID cache into the bundle.
-
-Args:
-    entity_storage: The storage interface for entities.
-    relationship_storage: The storage interface for relationships.
-    output_dir: The path to the directory where the bundle will be written.
-    processed: The number of papers successfully processed, for metadata.
-    errors: The number of papers that failed, for metadata.
-    cache_file: An optional path to the canonical ID cache file to be
-                included in the bundle.
-
-### `def _handle_keyboard_interrupt(lookup: CanonicalIdLookup | None) -> None`
-
-Handles graceful shutdown on KeyboardInterrupt (Ctrl+C).
-
-This function is registered as an exception handler to ensure that the
-canonical ID lookup cache is saved before the program exits, preventing
-loss of work.
-
-Args:
-    lookup: The `CanonicalIdLookup` instance, which contains the cache
-            to be saved.
-
-### `async def _cleanup_lookup_service(lookup: CanonicalIdLookup | None) -> None`
-
-Closes resources associated with the lookup service.
-
-This function is called in a `finally` block to ensure that the
-underlying HTTP client in the `CanonicalIdLookup` service is closed
-gracefully, regardless of whether the pipeline succeeded or failed.
-The cache is saved separately and not handled here.
-
-Args:
-    lookup: The `CanonicalIdLookup` instance to clean up.
-
-### `def _output_stage_result(result: BaseModel, stage_name: str, quiet: bool) -> None`
-
-Output stage result as JSON to stdout.
-
-### `def _initialize_pipeline(args: argparse.Namespace) -> tuple`
-
-Initializes the pipeline and returns necessary components.
-
-### `async def main() -> None`
-
-Runs the main ingestion pipeline for medical literature.
 
 
 <span id="user-content-examplesmedlitscriptsparsepmcxmlpy"></span>
@@ -3868,11 +3587,11 @@ load_pass1_bundles returns list of (paper_id, PerPaperBundle).
 
 # examples/medlit/tests/test_progress_tracker.py
 
-Tests for ProgressTracker in the ingestion script.
+Tests for ProgressTracker (examples/medlit/progress.py).
 
 Tests progress tracking and reporting functionality.
 
-> Tests for ProgressTracker in the ingestion script.
+> Tests for ProgressTracker (examples/medlit/progress.py).
 
 Tests progress tracking and reporting functionality.
 
@@ -10851,6 +10570,25 @@ Processes jobs from a queue: fetch URL, run Pass 1/2/3 pipeline, load bundle inc
 
 Return (storage, close_fn) for use in the worker. Caller must call close_fn when done.
 
+### `def _workspace_root() -> Path`
+
+Persistent workspace root from env, defaulting to ./ingest_workspace.
+
+### `def _ensure_workspace_dirs(root: Path) -> tuple[Path, Path, Path]`
+
+Create and return (bundles_dir, merged_dir, output_dir). These persist across jobs.
+
+Note: output_dir (medlit_bundle/) is always fully rebuilt by Pass 3.
+The true incremental state is bundles_dir + merged_dir (especially synonym_cache.json).
+
+### `def _workspace_lock(workspace_root: Path)`
+
+File lock serializing Pass 2 → Pass 3 → load_bundle_incremental across workers.
+
+### `def _run_pass2_pass3_load(workspace_root: Path, bundles_dir: Path, merged_dir: Path, output_dir: Path) -> None`
+
+Run Pass 2, Pass 3, and load_bundle_incremental under workspace lock. Raises on failure.
+
 ### `async def start_worker(max_workers: int = 1) -> None`
 
 Start background worker tasks that process the ingest job queue.
@@ -12592,6 +12330,50 @@ Test that pagination metadata is correct.
 ### `def TestPaginationMetadata.test_relationships_pagination_metadata(self, graphql_schema, graphql_context)`
 
 Test that relationship pagination metadata is correct.
+
+
+<span id="user-content-kgserverteststestingestworkerpy"></span>
+
+# kgserver/tests/test_ingest_worker.py
+
+Tests for mcp_server/ingest_worker persistent workspace and no-op guard.
+
+## `class TestWorkspaceHelpers`
+
+Unit tests for workspace root and dirs.
+
+### `def TestWorkspaceHelpers.test_workspace_root_default(self, monkeypatch, tmp_path)`
+
+_workspace_root returns resolve()d path; default includes ingest_workspace.
+
+### `def TestWorkspaceHelpers.test_workspace_root_from_env(self, monkeypatch, tmp_path)`
+
+_workspace_root uses INGEST_WORKSPACE_ROOT when set.
+
+### `def TestWorkspaceHelpers.test_ensure_workspace_dirs(self, tmp_path)`
+
+_ensure_workspace_dirs creates pass1_bundles, medlit_merged, medlit_bundle.
+
+## `class TestWorkspaceLock`
+
+Unit tests for workspace file lock.
+
+### `def TestWorkspaceLock.test_workspace_lock_acquires_and_releases(self, tmp_path)`
+
+_workspace_lock acquires and releases; second acquisition in same process succeeds.
+
+### `def _minimal_paper_bundle(pmcid: str, title: str = 'Test') -> dict`
+
+Minimal per-paper bundle dict for pass2/pass3.
+
+## `class TestPersistentWorkspaceIntegration`
+
+Integration test: run Pass 2+3+load twice; second run has more entities.
+
+### `def TestPersistentWorkspaceIntegration.test_pass2_pass3_load_incremental_entity_count(self, monkeypatch, tmp_path)`
+
+With 2 papers then 3 papers in workspace, entity count increases after second run.
+Requires examples.medlit (PYTHONPATH including repo root when run from kgserver).
 
 
 <span id="user-content-kgserverteststestmcpgraphqltoolpy"></span>

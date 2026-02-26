@@ -21,8 +21,7 @@ Do this first; no code removal. It clarifies that the new two-pass pipeline does
 
 **1.2 Label the old ingest as legacy**
 
-- In **run-ingest.sh**: Add a short comment at the top (e.g. `# Legacy pipeline: uses examples.medlit.scripts.ingest (entity extraction → promotion → relationship extraction). For the two-pass pipeline use pass1_extract then pass2_dedup.`) so it is clear this script is the old path.
-- Optionally in **examples/medlit/scripts/ingest.py**: In the module docstring, add one line such as "Legacy pipeline: uses PromotionPolicy and run_promotion between entity and relationship extraction. The two-pass pipeline (pass1_extract, pass2_dedup) does not use promotion."
+- In **run-ingest.sh**: The script uses the three-pass pipeline (pass1_extract, pass2_dedup, pass3_build_bundle). Legacy ingest.py has been removed (PLAN10).
 
 **1.3 No removal**
 

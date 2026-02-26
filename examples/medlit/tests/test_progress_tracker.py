@@ -1,4 +1,4 @@
-"""Tests for ProgressTracker in the ingestion script.
+"""Tests for ProgressTracker (examples/medlit/progress.py).
 
 Tests progress tracking and reporting functionality.
 """
@@ -7,8 +7,7 @@ import time
 from io import StringIO
 from unittest.mock import patch
 
-
-from examples.medlit.scripts.ingest import ProgressTracker
+from examples.medlit.progress import ProgressTracker
 
 
 class TestProgressTrackerBasics:

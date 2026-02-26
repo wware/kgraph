@@ -11,7 +11,7 @@ Medical knowledge graphs require standardized identifiers to link entities acros
 
 ### Two-pass vs legacy
 
-The **two-pass pipeline** (Pass 1 → Pass 2) assigns authoritative IDs from the bundle and optionally via `CanonicalIdLookup` in Pass 2; it does not run the legacy promotion step (no usage/confidence thresholds or `PromotionPolicy`). The **legacy pipeline** (`examples.medlit.scripts.ingest`) runs promotion between entity and relationship extraction.
+The **two-pass pipeline** (Pass 1 → Pass 2) is the canonical flow. It assigns authoritative IDs from the bundle and optionally via `CanonicalIdLookup` in Pass 2; it does not use usage/confidence promotion. The legacy promotion path is no longer available via a supported CLI.
 
 ### Pass 2 (two-pass pipeline)
 
@@ -90,11 +90,9 @@ This allows entities to be enriched with canonical IDs immediately during extrac
 ### CLI Options
 
 ```bash
-python -m examples.medlit.scripts.ingest \
-    --input-dir ./papers \
-    --output-dir ./bundle \
-    --use-ollama \
-    --cache-file canonical_id_cache.json
+# Pass 1 and Pass 2 with canonical ID cache (Pass 2 only uses the cache)
+uv run python -m examples.medlit.scripts.pass1_extract --input-dir ./papers --output-dir pass1_bundles --llm-backend anthropic
+uv run python -m examples.medlit.scripts.pass2_dedup --bundle-dir pass1_bundles --output-dir ./merged --synonym-cache ./merged/synonym_cache.json --canonical-id-cache canonical_id_cache.json
 ```
 
 ## Lookup Strategy
@@ -172,4 +170,4 @@ curl "https://rxnav.nlm.nih.gov/REST/rxcui.json?name=aspirin"
 - `pipeline/llm_client.py`: LLM client with tool calling support
 - `pipeline/mentions.py`: Entity extractor with optional tool calling
 - `promotion.py`: Promotion policy with external lookup integration
-- `scripts/ingest.py`: CLI wiring and lifecycle management
+- `scripts/pass1_extract.py`, `pass2_dedup.py`, `pass3_build_bundle.py`: canonical three-pass CLI (see INGESTION.md and run-ingest.sh)

@@ -30,13 +30,11 @@ Commit `2056bda` implemented:
 - JSON output to stdout for debugging intermediate states
 - Progress tracking with configurable reporting interval
 
-**Usage:**
+**Usage:** (Legacy ingest.py removed; three-pass pipeline has no stop-after. For extraction state use Pass 1 only; promotion is not in the three-pass flow.)
 ```bash
-# Stop after entity extraction and dump JSON
-python -m examples.medlit.scripts.ingest --input-dir papers/ --use-ollama --stop-after entities > entities_state.json
-
-# Stop after promotion
-python -m examples.medlit.scripts.ingest --input-dir papers/ --use-ollama --stop-after promotion > promotion_state.json
+# Pass 1 only: entity and relationship extraction per paper
+uv run python -m examples.medlit.scripts.pass1_extract --input-dir papers/ --output-dir pass1_bundles --llm-backend ollama
+# Pass 2/3: see run-ingest.sh and INGESTION.md
 ```
 
 ---
@@ -139,14 +137,14 @@ python -m examples.medlit.scripts.ingest --input-dir papers/ --use-ollama --stop
 **After Tasks 1-2 are complete:**
 
 ```bash
-# Process one paper with tracing
-python -m examples.medlit.scripts.ingest \
+# Process one paper (ingest.py removed; use pass1_extract)
+uv run python -m examples.medlit.scripts.pass1_extract \
   --input-dir examples/medlit/pmc_xmls/ \
-  --limit 1 \
-  --use-ollama \
-  --stop-after relationships
+  --output-dir pass1_bundles \
+  --llm-backend ollama \
+  --papers "PMC10759991.xml"
 
-# Examine the trace
+# Examine traces (if relationship tracing is re-enabled in pass1 pipeline)
 cat /tmp/kgraph-relationship-traces/*.relationships.trace.json | jq '.decisions[] | select(.accepted == false)'
 ```
 
@@ -313,12 +311,11 @@ Entity extraction is working well, but relationship extraction needs improvement
 
    **Current State:** The relationship extractor is at `examples/medlit/pipeline/relationships.py:25-50+`. The LLM client interface is at `examples/medlit/pipeline/llm_client.py`.
 
-2. Create a debug ingestion script for single-paper analysis:
+2. For single-paper analysis use the three-pass pipeline with one paper:
    ```bash
-   python -m examples.medlit.scripts.ingest --debug --single-paper PMC12748354
+   uv run python -m examples.medlit.scripts.pass1_extract --input-dir examples/medlit/pmc_xmls --output-dir pass1_bundles --llm-backend ollama --papers "PMC12748354.xml"
    ```
-
-   Or adapt the existing `examples/medlit/scripts/ingest.py` script.
+   (Legacy `examples/medlit/scripts/ingest.py` was removed in PLAN10.)
 
 3. Analyze the debug output to identify:
    - Are relationships being extracted?
@@ -694,15 +691,13 @@ This makes “it got rejected on load” debuggable without reproducing the run.
 Add to your script:
 
 ```bash
-python -m examples.medlit.scripts.ingest_single_debug \
-  --paper PMC12748354 \
-  --replay output/debug/traces/PMC12748354.relationships.trace.json \
-  --stage validate
+# Replay/debug: legacy ingest_single_debug was part of removed ingest. For single-paper debug use pass1_extract; replay/validate would need to be reimplemented in the pass1 pipeline if desired.
+uv run python -m examples.medlit.scripts.pass1_extract --input-dir examples/medlit/pmc_xmls --output-dir pass1_bundles --llm-backend ollama --papers "PMC12748354.xml"
 ```
 
-Implementation approach:
+Implementation approach (if adding replay to pass1):
 
-* `ingest_single_debug` loads the trace
+* A replay helper would load the trace
 * re-runs parse/validate/transform steps on recorded `raw_response` or recorded `parsed`
 * never hits the model
 
