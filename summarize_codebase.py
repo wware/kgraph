@@ -1,268 +1,202 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run python
 """
-summarize_codebase.py
+Extract documentation from Python source files into Markdown.
 
-Produces a compact structural summary of a Python codebase suitable for
-sharing with an LLM. Outputs only:
-  - Package/module hierarchy
-  - Imports (collapsed to one line per module)
-  - Class definitions with base classes
-  - Method and function signatures (no bodies)
-  - Docstrings (optional, truncated)
+Walks the AST to find docstrings, standalone strings, and creates
+formatted signatures for classes, methods, and functions.
 
-Usage:
-    python summarize_codebase.py [root_dir] [options]
+Includes a portion of each *.md, *.yml, Dockerfile, and shell script
+to add more context.
 
-Options:
-    --no-docs        Omit all docstrings
-    --no-imports     Omit import summaries
-    --no-private     Omit names starting with _
-    --max-doc N      Truncate docstrings to N chars (default: 120)
-    --exclude GLOB   Exclude paths matching glob (repeatable)
-    --out FILE       Write output to FILE instead of stdout
-
-Examples:
-    # Basic — signatures + truncated docstrings
-    python summarize_codebase.py /path/to/project --out summary.md
-
-    # Most compact — no docs, no imports, no private names
-    python summarize_codebase.py /path/to/project --no-docs --no-imports --no-private --out summary.md
-
-    # Exclude test dirs and migrations
-    python summarize_codebase.py . --exclude "tests/*" --exclude "*/migrations/*" --out summary.md
+$ git ls-files | uv run python extract_summary.py > summary.md
 """
 
 import ast
 import argparse
-import fnmatch
+import glob
+import os
+import re
 import sys
 from pathlib import Path
+from typing import List, Tuple
 
 
-def parse_args():
-    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("root", nargs="?", default=".", help="Root directory (default: .)")
-    p.add_argument("--no-docs", action="store_true", help="Omit docstrings")
-    p.add_argument("--no-imports", action="store_true", help="Omit import lines")
-    p.add_argument("--no-private", action="store_true", help="Omit _private names")
-    p.add_argument("--max-doc", type=int, default=120, help="Truncate docstrings to N chars")
-    p.add_argument("--exclude", action="append", default=[], metavar="GLOB", help="Exclude path globs")
-    p.add_argument("--out", default=None, help="Output file (default: stdout)")
-    p.add_argument("--files", nargs="*", metavar="FILE",
-                   help="Explicit list of files (overrides root dir scan)")
-    return p.parse_args()
+class DocExtractor(ast.NodeVisitor):
+    def __init__(self):
+        self.sections: List[Tuple[str, str, str, str]] = []  # (type, signature, doc, fields)
+        self.current_class = None
 
+    def visit_Module(self, node: ast.Module) -> None:
+        """Extract module-level docstring and top-level standalone strings."""
+        docstring = ast.get_docstring(node)
+        if docstring:
+            self.sections.append(("module", "", docstring, ""))
 
-def get_docstring(node: ast.AST, max_len: int) -> str | None:
-    doc = ast.get_docstring(node)
-    if not doc:
-        return None
-    doc = doc.strip().split("\n")[0]  # first line only
-    if len(doc) > max_len:
-        doc = doc[:max_len] + "…"
-    return doc
+        # Capture other top-level strings (not the docstring)
+        for stmt in node.body:
+            if isinstance(stmt, ast.Expr) and isinstance(stmt.value, (ast.Constant, ast.Str)):
+                val = stmt.value.value if isinstance(stmt.value, ast.Constant) else stmt.value.s
+                if isinstance(val, str) and val != docstring:
+                    self.sections.append(("note", "", val, ""))
 
+        self.generic_visit(node)
 
-def format_annotation(node) -> str:
-    if node is None:
-        return ""
-    return f": {ast.unparse(node)}"
+    def visit_ClassDef(self, node: ast.ClassDef) -> None:
+        bases = ", ".join(self._format_expr(base) for base in node.bases)
+        sig = f"class {node.name}({bases})" if bases else f"class {node.name}"
+        docstring = ast.get_docstring(node)
 
+        is_pydantic = self._is_pydantic_model(node)
+        fields_md = self._extract_pydantic_fields(node) if is_pydantic else ""
 
-def format_default(node) -> str:
-    try:
-        return ast.unparse(node)
-    except Exception:
-        return "..."
+        if docstring or fields_md:
+            self.sections.append(("class", sig, docstring or "", fields_md))
 
+        old_class = self.current_class
+        self.current_class = node.name
+        self.generic_visit(node)
+        self.current_class = old_class
 
-def format_args(args: ast.arguments) -> str:
-    parts = []
-    # positional-only
-    n_posonlyargs = len(args.posonlyargs)
-    all_args = args.posonlyargs + args.args
-    n_defaults_offset = len(all_args) - len(args.defaults)
+    def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
+        self.visit_FunctionDef(node)
 
-    for i, arg in enumerate(all_args):
-        ann = format_annotation(arg.annotation)
-        default_idx = i - n_defaults_offset
-        if default_idx >= 0:
-            default = f"={format_default(args.defaults[default_idx])}"
+    def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
+        prefix = "async " if isinstance(node, ast.AsyncFunctionDef) else ""
+        args = self._format_arguments(node.args)
+        returns = f" -> {self._format_expr(node.returns)}" if node.returns else ""
+
+        if self.current_class:
+            sig = f"{prefix}def {self.current_class}.{node.name}({args}){returns}"
+            doc_type = "method"
         else:
-            default = ""
-        parts.append(f"{arg.arg}{ann}{default}")
-        if i == n_posonlyargs - 1 and n_posonlyargs:
-            parts.append("/")
+            sig = f"{prefix}def {node.name}({args}){returns}"
+            doc_type = "function"
 
-    if args.vararg:
-        ann = format_annotation(args.vararg.annotation)
-        parts.append(f"*{args.vararg.arg}{ann}")
-    elif args.kwonlyargs:
-        parts.append("*")
+        docstring = ast.get_docstring(node)
+        if docstring:
+            self.sections.append((doc_type, sig, docstring, ""))
 
-    for i, arg in enumerate(args.kwonlyargs):
-        ann = format_annotation(arg.annotation)
-        default = ""
-        if args.kw_defaults[i] is not None:
-            default = f"={format_default(args.kw_defaults[i])}"
-        parts.append(f"{arg.arg}{ann}{default}")
+        self.generic_visit(node)
 
-    if args.kwarg:
-        ann = format_annotation(args.kwarg.annotation)
-        parts.append(f"**{args.kwarg.arg}{ann}")
+    def _format_arguments(self, args: ast.arguments) -> str:
+        parts = []
+        for i, arg in enumerate(args.args):
+            annotation = f": {self._format_expr(arg.annotation)}" if arg.annotation else ""
+            default_offset = len(args.args) - len(args.defaults)
+            if i >= default_offset:
+                default = self._format_expr(args.defaults[i - default_offset])
+                parts.append(f"{arg.arg}{annotation} = {default}")
+            else:
+                parts.append(f"{arg.arg}{annotation}")
+        if args.vararg:
+            parts.append(f"*{args.vararg.arg}")
+        if args.kwarg:
+            parts.append(f"**{args.kwarg.arg}")
+        return ", ".join(parts)
 
-    return ", ".join(parts)
+    def _format_expr(self, node) -> str:
+        return ast.unparse(node) if node else ""
 
+    def _is_pydantic_model(self, node: ast.ClassDef) -> bool:
+        base_names = [self._format_expr(b) for b in node.bases]
+        return any("BaseModel" in n or "Entity" in n for n in base_names)
 
-def format_func(node: ast.FunctionDef | ast.AsyncFunctionDef, indent: str, args: argparse.Namespace) -> list[str]:
-    if args.no_private and node.name.startswith("_") and node.name != "__init__":
-        return []
-    lines = []
-    decorators = [f"{indent}@{ast.unparse(d)}" for d in node.decorator_list]
-    lines.extend(decorators)
-    prefix = "async def" if isinstance(node, ast.AsyncFunctionDef) else "def"
-    ret = ""
-    if node.returns:
-        ret = f" -> {ast.unparse(node.returns)}"
-    sig = f"{indent}{prefix} {node.name}({format_args(node.args)}){ret}"
-    if not args.no_docs:
-        doc = get_docstring(node, args.max_doc)
-        if doc:
-            sig += f'  # "{doc}"'
-    lines.append(sig)
-    return lines
-
-
-def format_class(node: ast.ClassDef, indent: str, args: argparse.Namespace) -> list[str]:
-    if args.no_private and node.name.startswith("_"):
-        return []
-    lines = []
-    decorators = [f"{indent}@{ast.unparse(d)}" for d in node.decorator_list]
-    lines.extend(decorators)
-    bases = ", ".join(ast.unparse(b) for b in node.bases)
-    header = f"{indent}class {node.name}({bases}):" if bases else f"{indent}class {node.name}:"
-    if not args.no_docs:
-        doc = get_docstring(node, args.max_doc)
-        if doc:
-            header += f'  # "{doc}"'
-    lines.append(header)
-
-    child_indent = indent + "    "
-    # class-level assignments (typed attributes)
-    for child in ast.walk(node):
-        if child is node:
-            continue
-        if isinstance(child, ast.ClassDef):
-            break  # don't recurse into nested here
-    
-    for child in node.body:
-        if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            lines.extend(format_func(child, child_indent, args))
-        elif isinstance(child, ast.ClassDef):
-            lines.extend(format_class(child, child_indent, args))
-        elif isinstance(child, ast.AnnAssign) and isinstance(child.target, ast.Name):
-            if args.no_private and child.target.id.startswith("_"):
-                continue
-            ann = ast.unparse(child.annotation)
-            val = f" = {ast.unparse(child.value)}" if child.value else ""
-            lines.append(f"{child_indent}{child.target.id}: {ann}{val}")
-
-    if len(lines) == len(decorators) + 1:
-        lines.append(f"{child_indent}...")
-    return lines
+    def _extract_pydantic_fields(self, node: ast.ClassDef) -> str:
+        fields = []
+        for stmt in node.body:
+            if isinstance(stmt, ast.AnnAssign) and isinstance(stmt.target, ast.Name):
+                name = stmt.target.id
+                if not name.startswith("_"):
+                    t = self._format_expr(stmt.annotation)
+                    fields.append(f"{name}: {t}")
+        return "**Fields:**\n\n```python\n" + "\n".join(fields) + "\n```\n" if fields else ""
 
 
-def summarize_module(path: Path, rel: Path, args: argparse.Namespace) -> list[str]:
+def _heading_anchor(path: str) -> str:
+    s = re.sub(r"[^a-z0-9-]", "", path.lower().replace(" ", "-"))
+    return s or "section"
+
+
+def process_file(path: str) -> str:
+    p = Path(path)
+    if not p.exists() or p.is_dir():
+        return ""
+
+    if p.suffix == ".py":
+        try:
+            tree = ast.parse(p.read_text())
+            extractor = DocExtractor()
+            extractor.visit(tree)
+            lines = []
+            for doc_type, sig, content, fields in extractor.sections:
+                if doc_type == "module":
+                    lines.append(f"{content}\n")
+                elif doc_type == "class":
+                    lines.append(f"## `{sig}`\n\n{content}\n{fields}")
+                elif doc_type in ("function", "method"):
+                    lines.append(f"### `{sig}`\n\n{content}\n")
+                elif doc_type == "note":
+                    lines.append(f"> {content}\n")
+            return "\n".join(lines)
+        except Exception as e:
+            return f"Error parsing {path}: {e}"
+
+    # Non-python files
     try:
-        source = path.read_text(encoding="utf-8", errors="replace")
-        tree = ast.parse(source, filename=str(path))
-    except SyntaxError as e:
-        return [f"# PARSE ERROR: {e}"]
-
-    lines = []
-
-    if not args.no_imports:
-        imports = []
-        for node in ast.walk(tree):
-            if isinstance(node, ast.Import):
-                for alias in node.names:
-                    imports.append(alias.name)
-            elif isinstance(node, ast.ImportFrom):
-                mod = node.module or ""
-                names = ", ".join(a.name for a in node.names)
-                imports.append(f"{'.' * node.level}{mod}.{names}" if mod else f"{'.' * node.level}{names}")
-        if imports:
-            lines.append(f"# imports: {', '.join(sorted(set(imports)))}")
-
-    for node in tree.body:
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-            if args.no_private and node.name.startswith("_"):
-                continue
-            lines.extend(format_func(node, "", args))
-        elif isinstance(node, ast.ClassDef):
-            lines.extend(format_class(node, "", args))
-        elif isinstance(node, ast.Assign):
-            for target in node.targets:
-                if isinstance(target, ast.Name):
-                    if args.no_private and target.id.startswith("_"):
-                        continue
-                    try:
-                        lines.append(f"{target.id} = {ast.unparse(node.value)}")
-                    except Exception:
-                        pass
-        elif isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Name):
-            if args.no_private and node.target.id.startswith("_"):
-                continue
-            ann = ast.unparse(node.annotation)
-            val = f" = {ast.unparse(node.value)}" if node.value else ""
-            lines.append(f"{node.target.id}: {ann}{val}")
-
-    return lines
-
-
-def is_excluded(path: Path, root: Path, excludes: list[str]) -> bool:
-    try:
-        rel = str(path.relative_to(root))
-    except ValueError:
-        rel = str(path)
-    for pattern in excludes:
-        if fnmatch.fnmatch(rel, pattern) or fnmatch.fnmatch(path.name, pattern):
-            return True
-    return False
+        with open(p) as f:
+            lines = [f.readline() for _ in range(10)]
+        body = "".join(lines).rstrip()
+        ext = p.suffix.lstrip(".")
+        lang = "dockerfile" if "Dockerfile" in path else ext if ext in ["yml", "yaml", "sh"] else ""
+        return f"```{lang}\n{body}\n\n    ...\n```" if lang else f"{body}\n\n    ..."
+    except:
+        return f"Could not read {path}"
 
 
 def main():
-    args = parse_args()
-    root = Path(args.root).resolve()
-    out = open(args.out, "w", encoding="utf-8") if args.out else sys.stdout
+    parser = argparse.ArgumentParser(description="Extract documentation and context from files.")
+    parser.add_argument("-i", "--include", help="Comma-separated globs (e.g. '*.py,*.md')")
+    parser.add_argument("-l", "--list", help="File with list of paths, or '-' for stdin")
+    args = parser.parse_args()
 
-    default_excludes = ["*.pyc", "__pycache__", ".git", ".venv", "venv", "node_modules", "*.egg-info"]
-    all_excludes = default_excludes + args.exclude
-    if args.files:
-        py_files = [Path(f) for f in args.files]
-    else:
-        py_files = sorted(root.rglob("*.py"))
+    # Default logic: if no arguments provided, act as if -l - was passed
+    if args.include is None and args.list is None:
+        args.list = "-"
 
-    total_chars = 0
-    for path in py_files:
-        if is_excluded(path, root, all_excludes):
-            continue
-        try:
-            rel = path.relative_to(root)
-        except ValueError:
-            rel = path
-        header = f"\n{'='*60}\n# {rel}\n{'='*60}"
-        body_lines = summarize_module(path, rel, args)
-        body = "\n".join(body_lines)
-        block = f"{header}\n{body}\n"
-        total_chars += len(block)
-        out.write(block)
+    files = []
+    if args.list:
+        stream = sys.stdin if args.list == "-" else open(args.list)
+        # If reading from stdin and it's a TTY, maybe warn the user?
+        # But usually, we just wait for input.
+        files = [line.strip() for line in stream if line.strip()]
+        if args.list != "-":
+            stream.close()
+    elif args.include:
+        globs = args.include.split(",")
+        for g in globs:
+            files.extend(glob.glob(g, recursive=True))
 
-    summary = f"\n# Total: {len(py_files)} files, ~{total_chars:,} chars\n"
-    out.write(summary)
-    if args.out:
-        out.close()
-        print(f"Written to {args.out} ({total_chars:,} chars)", file=sys.stderr)
+    files = sorted(list(set(files)))
+
+    sections = []
+    for f in files:
+        content = process_file(f)
+        if content:
+            sections.append((f, content))
+
+    if not sections:
+        return
+
+    # Output to stdout
+    sys.stdout.write("# Project Summary\n\n## Contents\n\n")
+    for path, _ in sections:
+        sys.stdout.write(f"- [{path}](#user-content-{_heading_anchor(path)})\n")
+    sys.stdout.write("\n---\n\n")
+
+    for path, content in sections:
+        sys.stdout.write(f'<span id="user-content-{_heading_anchor(path)}"></span>\n\n# {path}\n\n')
+        sys.stdout.write(content)
+        sys.stdout.write("\n\n")
 
 
 if __name__ == "__main__":
