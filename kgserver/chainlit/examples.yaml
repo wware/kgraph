@@ -20,18 +20,18 @@
 "GenMine TOP vs FoundationOne in sarcoma": >
   How do GenMine TOP and FoundationOne CDx compare for fusion genes and actionable targets in sarcoma, and what treatments do they enable?
 
-# Endocrinology / graph-query style examples
+# Endocrinology / graph-query style (plain questions to avoid excess tool-call rounds)
 "Drugs linked to Type 2 Diabetes": >
-  What drugs are linked to Type 2 Diabetes? Use the knowledge graph to find entities and relationships (e.g. treats).
+  What drugs are linked to or treat Type 2 Diabetes in the knowledge graph?
 
 "Genes within 1 hop of Hypothyroidism": >
-  What genes are within 1 hop of Hypothyroidism? Use find_entities_within_hops with entity_type gene.
+  What genes are connected to hypothyroidism in the graph?
 
 "Metformin and insulin resistance": >
-  Is there a direct relationship between metformin and insulin resistance? Check for a treats or related relationship.
+  Is there a direct relationship between metformin and insulin resistance in the literature graph?
 
 "Entities connected to Addison's disease": >
-  What entities are directly connected to Addison's disease? Use find_entities_within_hops with max_hops=1.
+  What conditions, genes, or drugs are directly connected to Addison's disease in the graph?
 
 "Documents mentioning cortisol and depression": >
-  What documents (papers) mention both cortisol and depression? Search for each entity and compare their supporting documents for overlapping PMC IDs.
+  Which papers in the graph mention both cortisol and depression?
