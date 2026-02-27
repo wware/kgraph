@@ -1,23 +1,23 @@
 {
   "paper": {
     "doi": null,
-    "pmcid": "PMC11729065",
+    "pmcid": "PMC11729395",
     "title": "Divergent evolution of hepatocellular carcinoma genomes in chimpanzees and humans",
     "authors": [
-      "Authors not specified in abstract"
+      "Authors not specified"
     ],
     "journal": "Not specified",
     "year": 2024,
-    "study_type": "comparative genomics",
+    "study_type": "comparative genomic study",
     "eco_type": "whole genome sequencing"
   },
   "extraction_provenance": {
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "f5da8dd9b8dd84ea4823af0e58537841df333399",
-      "git_commit_short": "f5da8dd",
-      "git_branch": "ingest-refactor",
+      "git_commit": "777544707e2808fd01d9cb8fbe5dc1d74b29532b",
+      "git_commit_short": "7775447",
+      "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
     },
@@ -30,62 +30,24 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:f94cc0ab23940d18"
+      "checksum": "sha256:5bdf447f3cfe242d"
     },
     "execution": {
-      "timestamp": "2026-02-23T22:35:44.371748Z",
+      "timestamp": "2026-02-27T16:14:47.279553Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 44.18
+      "duration_seconds": 50.12
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "disease_1",
+      "id": "chimpanzee_hcc_1",
       "class": "Disease",
-      "name": "hepatocellular carcinoma",
+      "name": "chimpanzee hepatocellular carcinoma",
       "synonyms": [
-        "HCC",
-        "liver cancer",
-        "primary liver cancer"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C2239176",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_2",
-      "class": "Disease",
-      "name": "cancer",
-      "synonyms": [
-        "malignancy",
-        "tumor",
-        "neoplasm"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0006826",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_3",
-      "class": "Disease",
-      "name": "scirrhous subtype",
-      "synonyms": [
-        "scirrhous HCC"
+        "chimpanzee HCC"
       ],
       "symbol": null,
       "brand_names": [],
@@ -98,30 +60,130 @@
       "uniprot_id": null
     },
     {
-      "id": "gene_1",
+      "id": "pan_troglodytes_1",
+      "class": "Other",
+      "name": "Pan troglodytes",
+      "synonyms": [
+        "chimpanzees"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tsc2_mutations_1",
+      "class": "Mutation",
+      "name": "TSC2 mutations",
+      "synonyms": [
+        "TSC2 alterations"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "scirrhous_hcc_1",
+      "class": "Disease",
+      "name": "scirrhous HCC subtype",
+      "synonyms": [
+        "scirrhous hepatocellular carcinoma"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mtor_pathway_1",
+      "class": "Pathway",
+      "name": "mTOR signaling pathway",
+      "synonyms": [
+        "mammalian target of rapamycin pathway"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "wnt_beta_catenin_1",
+      "class": "Pathway",
+      "name": "Wnt/\u03b2-catenin signaling",
+      "synonyms": [
+        "Wnt beta-catenin pathway"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "fat4_gene_1",
       "class": "Gene",
-      "name": "TSC2",
+      "name": "FAT4",
       "synonyms": [
-        "Tuberous Sclerosis Complex 2",
-        "tuberin"
+        "FAT Atypical Cadherin 4"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:12363",
+      "hgnc_id": "HGNC:23109",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "gene_2",
+      "id": "ctnnb1_gene_1",
+      "class": "Gene",
+      "name": "CTNNB1",
+      "synonyms": [
+        "beta-catenin gene"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:2514",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tp53_gene_1",
       "class": "Gene",
       "name": "TP53",
       "synonyms": [
-        "tumor protein p53",
-        "guardian of the genome"
+        "tumor protein p53"
       ],
       "symbol": null,
       "brand_names": [],
@@ -134,7 +196,7 @@
       "uniprot_id": null
     },
     {
-      "id": "gene_3",
+      "id": "arid1a_gene_1",
       "class": "Gene",
       "name": "ARID1A",
       "synonyms": [
@@ -152,80 +214,29 @@
       "uniprot_id": null
     },
     {
-      "id": "gene_4",
+      "id": "tsc2_gene_1",
       "class": "Gene",
-      "name": "CTNNB1",
+      "name": "TSC2",
       "synonyms": [
-        "\u03b2-catenin",
-        "beta-catenin"
+        "Tuberous Sclerosis Complex 2",
+        "Tuberin"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:2514",
+      "hgnc_id": "HGNC:12363",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "gene_5",
-      "class": "Gene",
-      "name": "FAT4",
-      "synonyms": [
-        "FAT Atypical Cadherin 4"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:23109",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "gene_6",
-      "class": "Gene",
-      "name": "TTN",
-      "synonyms": [
-        "titin"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:12403",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "gene_7",
-      "class": "Gene",
-      "name": "FGA",
-      "synonyms": [
-        "fibrinogen alpha chain"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:3661",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "gene_8",
+      "id": "fap_gene_1",
       "class": "Gene",
       "name": "FAP",
       "synonyms": [
-        "fibroblast activation protein"
+        "Fibroblast Activation Protein"
       ],
       "symbol": null,
       "brand_names": [],
@@ -238,62 +249,28 @@
       "uniprot_id": null
     },
     {
-      "id": "gene_9",
+      "id": "vim_gene_1",
       "class": "Gene",
-      "name": "FAT1",
+      "name": "VIM",
       "synonyms": [
-        "FAT Atypical Cadherin 1"
+        "vimentin"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:3595",
+      "hgnc_id": "HGNC:12692",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "gene_10",
+      "id": "tgfb_gene_1",
       "class": "Gene",
-      "name": "FAT2",
+      "name": "TGF-\u03b2",
       "synonyms": [
-        "FAT Atypical Cadherin 2"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:23108",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "gene_11",
-      "class": "Gene",
-      "name": "FAT3",
-      "synonyms": [
-        "FAT Atypical Cadherin 3"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:23107",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "species_1",
-      "class": "Species",
-      "name": "chimpanzee",
-      "synonyms": [
-        "Pan troglodytes"
+        "transforming growth factor beta"
       ],
       "symbol": null,
       "brand_names": [],
@@ -306,11 +283,60 @@
       "uniprot_id": null
     },
     {
-      "id": "species_2",
-      "class": "Species",
-      "name": "human",
+      "id": "ttn_gene_1",
+      "class": "Gene",
+      "name": "TTN",
       "synonyms": [
-        "Homo sapiens"
+        "Titin"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:12403",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "fga_gene_1",
+      "class": "Gene",
+      "name": "FGA",
+      "synonyms": [
+        "Fibrinogen alpha chain"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:3661",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "brd7_gene_1",
+      "class": "Gene",
+      "name": "BRD7",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1103",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "whole_genome_sequencing_1",
+      "class": "Procedure",
+      "name": "whole genome sequencing",
+      "synonyms": [
+        "WGS"
       ],
       "symbol": null,
       "brand_names": [],
@@ -323,11 +349,11 @@
       "uniprot_id": null
     },
     {
-      "id": "pathway_1",
-      "class": "Pathway",
-      "name": "mTOR signaling pathway",
+      "id": "whole_exome_sequencing_1",
+      "class": "Procedure",
+      "name": "whole exome sequencing",
       "synonyms": [
-        "mammalian target of rapamycin pathway"
+        "WES"
       ],
       "symbol": null,
       "brand_names": [],
@@ -340,11 +366,96 @@
       "uniprot_id": null
     },
     {
-      "id": "pathway_2",
-      "class": "Pathway",
-      "name": "Wnt/\u03b2-catenin signaling",
+      "id": "immunohistochemistry_1",
+      "class": "Procedure",
+      "name": "immunohistochemistry",
       "synonyms": [
-        "Wnt signaling pathway"
+        "IHC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mutational_burden_1",
+      "class": "Biomarker",
+      "name": "mutational burden",
+      "synonyms": [
+        "mutation load"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "somatic_mutations_1",
+      "class": "Mutation",
+      "name": "somatic mutations",
+      "synonyms": [
+        "somatic variants"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "microsatellite_instability_1",
+      "class": "Biomarker",
+      "name": "microsatellite instability",
+      "synonyms": [
+        "MSI"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tcga_dataset_1",
+      "class": "Other",
+      "name": "TCGA",
+      "synonyms": [
+        "The Cancer Genome Atlas"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "icgc_dataset_1",
+      "class": "Other",
+      "name": "ICGC",
+      "synonyms": [
+        "International Cancer Genome Consortium"
       ],
       "symbol": null,
       "brand_names": [],
@@ -359,139 +470,131 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC11729065:abstract:1:llm",
+      "id": "PMC11729395:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11729065",
-      "text_span_id": "abstract_1",
+      "paper_id": "PMC11729395",
+      "text_span_id": "results_1",
+      "text": "Chimpanzee HCCs exhibited histological and immunohistochemical features similar to human tumors but displayed sharply divergent genomic landscapes. Chimpanzee tumors carried significantly higher coding mutation loads (mean 5632 per sample vs. 96\u2013275 in humans).",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "comparative genomic study",
+      "eco_type": "whole genome sequencing",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11729395:results:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11729395",
+      "text_span_id": "results_2",
       "text": "Non-synonymous TSC2 mutations occurred in 80% of chimpanzees, versus ~7% in human HCC, suggesting a species-specific oncogenic pathway linked to the scirrhous subtype.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "comparative genomics",
+      "study_type": "comparative genomic study",
       "eco_type": "whole genome sequencing",
       "source": "extracted"
     },
     {
-      "id": "PMC11729065:results:1:llm",
+      "id": "PMC11729395:results:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11729065",
-      "text_span_id": "results_1",
-      "text": "Chimpanzee tumors carried significantly higher coding mutation loads (mean 5632 per sample vs. 96\u2013275 in humans).",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "comparative genomics",
-      "eco_type": "whole genome sequencing",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC11729065:results:2:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC11729065",
-      "text_span_id": "results_2",
+      "paper_id": "PMC11729395",
+      "text_span_id": "results_3",
       "text": "Additional recurrently mutated genes included ARID1A, FAT1\u20134, TP53, and FGA.",
       "confidence": 0.9,
       "extraction_method": "llm",
-      "study_type": "comparative genomics",
+      "study_type": "comparative genomic study",
       "eco_type": "whole genome sequencing",
       "source": "extracted"
     },
     {
-      "id": "PMC11729065:results:3:llm",
+      "id": "PMC11729395:results:4:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11729065",
-      "text_span_id": "results_3",
+      "paper_id": "PMC11729395",
+      "text_span_id": "results_4",
       "text": "Shared alterations across species involved canonical drivers such as TP53, CTNNB1, FAT4, and TTN.",
       "confidence": 0.9,
       "extraction_method": "llm",
-      "study_type": "comparative genomics",
+      "study_type": "comparative genomic study",
       "eco_type": "whole genome sequencing",
       "source": "extracted"
     },
     {
-      "id": "PMC11729065:discussion:1:llm",
+      "id": "PMC11729395:discussion:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11729065",
+      "paper_id": "PMC11729395",
       "text_span_id": "discussion_1",
-      "text": "TSC2 alterations are present in only 7% of human HCC patients, whereas 80% of chimpanzees with HCC in our study possessed TSC2 mutations.",
+      "text": "TSC2 functions as a tumor suppressor and is a critical negative regulator of the pro-oncogenic mTOR signaling pathway.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "comparative genomics",
-      "eco_type": "whole genome sequencing",
+      "study_type": "comparative genomic study",
+      "eco_type": "literature review",
       "source": "extracted"
     },
     {
-      "id": "PMC11729065:discussion:2:llm",
+      "id": "PMC11729395:discussion:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11729065",
+      "paper_id": "PMC11729395",
       "text_span_id": "discussion_2",
-      "text": "TSC2 is a tumor suppressor gene that encodes the protein Tuberin complexing with Hamartin, the protein encoded by TSC1, and together they inhibit the mammalian target of rapamycin (mTOR) pathway.",
+      "text": "Dysregulated Wnt/\u03b2-catenin signaling is implicated in ~40% of HCC cases. This pathway's aberrant activation, often due to mutations in components like CTNNB1 (encoding \u03b2-catenin), plays a significant role in HCC pathogenesis.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "comparative genomics",
+      "study_type": "comparative genomic study",
+      "eco_type": "literature review",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11729395:discussion:3:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11729395",
+      "text_span_id": "discussion_3",
+      "text": "The tumor suppressor gene FAT Atypical Cadherin 4 (FAT4), which regulates Wnt/\u03b2-catenin signaling, is mutated in all HCC cases in our chimpanzee study.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "comparative genomic study",
       "eco_type": "whole genome sequencing",
       "source": "extracted"
     }
   ],
   "relationships": [
     {
-      "subject": "gene_1",
+      "subject": "tsc2_mutations_1",
       "predicate": "ASSOCIATED_WITH",
-      "object": "disease_3",
+      "object": "scirrhous_hcc_1",
       "evidence_ids": [
-        "PMC11729065:abstract:1:llm",
-        "PMC11729065:discussion:1:llm"
+        "PMC11729395:results:2:llm"
       ],
       "source_papers": [
-        "PMC11729065"
+        "PMC11729395"
       ],
       "confidence": 0.95,
       "properties": {
         "frequency_chimpanzee": "80%",
-        "frequency_human": "7%"
+        "frequency_human": "~7%"
       },
-      "section": "abstract",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "gene_1",
-      "predicate": "INCREASES_RISK",
-      "object": "disease_1",
-      "evidence_ids": [
-        "PMC11729065:abstract:1:llm",
-        "PMC11729065:discussion:1:llm"
-      ],
-      "source_papers": [
-        "PMC11729065"
-      ],
-      "confidence": 0.9,
-      "properties": {
-        "species_specific": true
-      },
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "gene_1",
+      "subject": "tsc2_gene_1",
       "predicate": "REGULATES",
-      "object": "pathway_1",
+      "object": "mtor_pathway_1",
       "evidence_ids": [
-        "PMC11729065:discussion:2:llm"
+        "PMC11729395:discussion:1:llm"
       ],
       "source_papers": [
-        "PMC11729065"
+        "PMC11729395"
       ],
       "confidence": 0.95,
       "properties": {
-        "regulation_type": "inhibits"
+        "regulation_type": "negative"
       },
       "section": "discussion",
       "asserted_by": "llm",
@@ -499,135 +602,55 @@
       "note": null
     },
     {
-      "subject": "gene_2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_1",
+      "subject": "fat4_gene_1",
+      "predicate": "REGULATES",
+      "object": "wnt_beta_catenin_1",
       "evidence_ids": [
-        "PMC11729065:results:2:llm",
-        "PMC11729065:results:3:llm"
+        "PMC11729395:discussion:3:llm"
       ],
       "source_papers": [
-        "PMC11729065"
+        "PMC11729395"
       ],
-      "confidence": 0.9,
-      "properties": {
-        "mutation_type": "recurrent"
-      },
-      "section": "results",
+      "confidence": 0.95,
+      "properties": {},
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "gene_3",
+      "subject": "ctnnb1_gene_1",
       "predicate": "ASSOCIATED_WITH",
-      "object": "disease_1",
+      "object": "hepatocellular carcinoma",
       "evidence_ids": [
-        "PMC11729065:results:2:llm"
+        "PMC11729395:discussion:2:llm"
       ],
       "source_papers": [
-        "PMC11729065"
-      ],
-      "confidence": 0.9,
-      "properties": {
-        "mutation_type": "recurrent"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "gene_4",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_1",
-      "evidence_ids": [
-        "PMC11729065:results:3:llm"
-      ],
-      "source_papers": [
-        "PMC11729065"
-      ],
-      "confidence": 0.9,
-      "properties": {
-        "conservation": "cross-species"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "gene_5",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_1",
-      "evidence_ids": [
-        "PMC11729065:results:2:llm",
-        "PMC11729065:results:3:llm"
-      ],
-      "source_papers": [
-        "PMC11729065"
-      ],
-      "confidence": 0.9,
-      "properties": {
-        "conservation": "cross-species"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "gene_6",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_1",
-      "evidence_ids": [
-        "PMC11729065:results:3:llm"
-      ],
-      "source_papers": [
-        "PMC11729065"
-      ],
-      "confidence": 0.9,
-      "properties": {
-        "conservation": "cross-species"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "gene_7",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_1",
-      "evidence_ids": [
-        "PMC11729065:results:2:llm"
-      ],
-      "source_papers": [
-        "PMC11729065"
-      ],
-      "confidence": 0.9,
-      "properties": {
-        "mutation_type": "recurrent"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "species_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_1",
-      "evidence_ids": [
-        "PMC11729065:results:1:llm"
-      ],
-      "source_papers": [
-        "PMC11729065"
+        "PMC11729395"
       ],
       "confidence": 0.95,
       "properties": {
-        "mutation_burden": "higher",
-        "mean_mutations": 5632
+        "involvement_percentage": "~40%"
+      },
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "chimpanzee_hcc_1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "mutational_burden_1",
+      "evidence_ids": [
+        "PMC11729395:results:1:llm"
+      ],
+      "source_papers": [
+        "PMC11729395"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "mean_mutations": "5632",
+        "comparison": "vs 96-275 in humans"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -635,20 +658,94 @@
       "note": null
     },
     {
-      "subject": "species_2",
+      "subject": "arid1a_gene_1",
       "predicate": "ASSOCIATED_WITH",
-      "object": "disease_1",
+      "object": "chimpanzee_hcc_1",
       "evidence_ids": [
-        "PMC11729065:results:1:llm"
+        "PMC11729395:results:3:llm"
       ],
       "source_papers": [
-        "PMC11729065"
+        "PMC11729395"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "mutation_type": "recurrent"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "tp53_gene_1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "chimpanzee_hcc_1",
+      "evidence_ids": [
+        "PMC11729395:results:3:llm",
+        "PMC11729395:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC11729395"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "conservation": "shared across species"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "fga_gene_1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "chimpanzee_hcc_1",
+      "evidence_ids": [
+        "PMC11729395:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC11729395"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "mutation_type": "recurrent"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ttn_gene_1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "hepatocellular carcinoma",
+      "evidence_ids": [
+        "PMC11729395:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC11729395"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "conservation": "shared across species"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "whole_genome_sequencing_1",
+      "predicate": "INDICATES",
+      "object": "somatic_mutations_1",
+      "evidence_ids": [
+        "PMC11729395:results:1:llm"
+      ],
+      "source_papers": [
+        "PMC11729395"
       ],
       "confidence": 0.95,
-      "properties": {
-        "mutation_burden": "lower",
-        "mean_mutations": "96-275"
-      },
+      "properties": {},
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -657,7 +754,8 @@
   ],
   "notes": [
     "This study represents the first comparative genomic analysis of hepatocellular carcinoma between chimpanzees and humans",
-    "The high frequency of TSC2 mutations in chimpanzee HCC suggests a species-specific oncogenic pathway",
-    "Sample size is limited (n=5 chimpanzees) due to rarity of cancer in non-human primates"
+    "The high frequency of TSC2 mutations in chimpanzee HCC (80% vs ~7% in humans) suggests species-specific oncogenic pathways",
+    "Chimpanzee HCCs show significantly higher mutational burden compared to human HCCs",
+    "Despite genomic differences, some canonical cancer drivers (TP53, CTNNB1, FAT4, TTN) are conserved across species"
   ]
 }

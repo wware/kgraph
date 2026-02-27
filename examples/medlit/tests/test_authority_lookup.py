@@ -1,11 +1,12 @@
 """Tests for canonical ID authority lookup.
 
-Tests the matching logic for DBPedia and other ontology lookups.
+Tests the matching logic for DBPedia and other ontology lookups,
+and UMLS type validation (validate_umls_type).
 """
 
 import pytest
 
-from examples.medlit.pipeline.authority_lookup import CanonicalIdLookup
+from examples.medlit.pipeline.authority_lookup import CanonicalIdLookup, validate_umls_type
 
 
 class TestDBPediaLabelMatching:
@@ -150,3 +151,45 @@ class TestMeSHTermNormalization:
         # Exact match should win even if it appears later
         result = lookup._extract_mesh_id_from_results(data, "breast cancer")  # pylint: disable=protected-access
         assert result == "MeSH:D999999", f"Expected MeSH:D999999 (exact match), got {result}"
+
+
+class TestValidateUmlsType:
+    """Test validate_umls_type with injected semantic type mapping (no live API)."""
+
+    def test_cortisol_gene_misclassified_returns_correction(self):
+        """Cortisol (C0020268) as hormone/drug; assigned type 'gene' should return (False, correct_type)."""
+        override = {"C0020268": ["Pharmacologic Substance"]}  # cortisol -> drug
+        ok, correct = validate_umls_type("C0020268", "gene", _semantic_types_override=override)
+        assert ok is False
+        assert correct == "drug"
+
+    def test_pasireotide_drug_compatible_returns_ok(self):
+        """Pasireotide (or any CUI) mapped to Pharmacologic Substance with type drug returns (True, None)."""
+        override = {"C2975503": ["Pharmacologic Substance"]}
+        ok, correct = validate_umls_type("C2975503", "drug", _semantic_types_override=override)
+        assert ok is True
+        assert correct is None
+
+    def test_unknown_cui_returns_ok_no_correction(self):
+        """Unknown CUI (not in override, or empty override) returns (True, None)."""
+        override = {}
+        ok, correct = validate_umls_type("C9999999", "gene", _semantic_types_override=override)
+        assert ok is True
+        assert correct is None
+
+    def test_cache_reused(self):
+        """Results are cached when _cache dict is passed; second call does not recompute."""
+        override = {"C0020268": ["Pharmacologic Substance"]}
+        cache = {}
+        ok1, correct1 = validate_umls_type("C0020268", "gene", _cache=cache, _semantic_types_override=override)
+        ok2, correct2 = validate_umls_type("C0020268", "gene", _cache=cache, _semantic_types_override=override)
+        assert ok1 is ok2 is False
+        assert correct1 == correct2 == "drug"
+        assert len(cache) == 1
+
+    def test_ambiguous_multiple_allowed_returns_false_none(self):
+        """When UMLS maps to multiple allowed types (e.g. drug or biomarker), return (False, None)."""
+        override = {"C1234567": ["Steroid"]}  # Steroid -> ["drug", "biomarker"]
+        ok, correct = validate_umls_type("C1234567", "gene", _semantic_types_override=override)
+        assert ok is False
+        assert correct is None  # ambiguous

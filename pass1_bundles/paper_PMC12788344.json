@@ -1,25 +1,23 @@
 {
   "paper": {
     "doi": null,
-    "pmcid": "PMC12788344",
+    "pmcid": "PMC_UNKNOWN",
     "title": "A patient with newly diagnosed breast cancer found to have mosaic TP53 likely pathogenic variant",
     "authors": [
-      "Kara L. Leonard",
-      "Mary Anne Fenton",
-      "et al."
+      "Unknown"
     ],
-    "journal": null,
-    "year": null,
-    "study_type": "case_report",
+    "journal": "Unknown",
+    "year": 2024,
+    "study_type": "case report",
     "eco_type": null
   },
   "extraction_provenance": {
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "39f1b7e43865f4ea820908097aed6859daeae7cf",
-      "git_commit_short": "39f1b7e",
-      "git_branch": "ingest-refactor",
+      "git_commit": "777544707e2808fd01d9cb8fbe5dc1d74b29532b",
+      "git_commit_short": "7775447",
+      "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
     },
@@ -32,44 +30,24 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:f94cc0ab23940d18"
+      "checksum": "sha256:5bdf447f3cfe242d"
     },
     "execution": {
-      "timestamp": "2026-02-23T18:25:13.453713Z",
+      "timestamp": "2026-02-27T16:19:45.141002Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 48.92
+      "duration_seconds": 43.72
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "E1",
-      "class": "Disease",
-      "name": "breast cancer",
-      "synonyms": [
-        "ductal carcinoma in situ",
-        "DCIS",
-        "invasive breast cancer"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0006142",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E2",
+      "id": "TP53",
       "class": "Gene",
       "name": "TP53",
       "synonyms": [
-        "tumor protein p53",
-        "p53"
+        "tumor protein p53"
       ],
       "symbol": null,
       "brand_names": [],
@@ -82,7 +60,25 @@
       "uniprot_id": null
     },
     {
-      "id": "E3",
+      "id": "mosaic_TP53_variant",
+      "class": "Mutation",
+      "name": "mosaic TP53 likely pathogenic variant",
+      "synonyms": [
+        "c.716A>G",
+        "p.N239S"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Li_Fraumeni_syndrome",
       "class": "Disease",
       "name": "Li-Fraumeni syndrome",
       "synonyms": [
@@ -92,111 +88,48 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0085390",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E4",
+      "id": "ductal_carcinoma_in_situ",
       "class": "Disease",
-      "name": "phyllodes tumor",
+      "name": "ductal carcinoma in situ",
       "synonyms": [
-        "malignant phyllodes tumor"
+        "DCIS"
       ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0206650",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E5",
-      "class": "Gene",
-      "name": "BRCA1",
-      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:1100",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E6",
-      "class": "Gene",
-      "name": "BRCA2",
-      "synonyms": [],
+      "id": "malignant_phyllodes_tumor",
+      "class": "Disease",
+      "name": "malignant phyllodes tumor",
+      "synonyms": [
+        "phyllodes tumor"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:1101",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E7",
-      "class": "Disease",
-      "name": "sarcoma",
-      "synonyms": [
-        "liposarcoma"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C1261473",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E8",
-      "class": "Disease",
-      "name": "central nervous system tumors",
-      "synonyms": [
-        "brain cancer",
-        "brain tumors"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0006118",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E9",
-      "class": "Disease",
-      "name": "adrenocortical carcinoma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0001623",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E10",
+      "id": "clonal_hematopoiesis_indeterminate_potential",
       "class": "Disease",
       "name": "clonal hematopoiesis of indeterminate potential",
       "synonyms": [
@@ -206,15 +139,15 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C4551538",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E11",
-      "class": "Disease",
+      "id": "mosaicism",
+      "class": "Mutation",
       "name": "mosaicism",
       "synonyms": [
         "constitutional mosaicism"
@@ -223,64 +156,83 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0026046",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E12",
-      "class": "Drug",
-      "name": "tamoxifen",
-      "synonyms": [],
+      "id": "bilateral_mastectomy",
+      "class": "Procedure",
+      "name": "bilateral mastectomy",
+      "synonyms": [
+        "bilateral skin and nipple-sparing mastectomy"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "10324",
+      "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E13",
-      "class": "Treatment",
-      "name": "radiation therapy",
+      "id": "sentinel_lymph_node_biopsy",
+      "class": "Procedure",
+      "name": "sentinel lymph node biopsy",
       "synonyms": [
-        "radiotherapy"
+        "SLNB"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C1522449",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E14",
-      "class": "Treatment",
-      "name": "mastectomy",
+      "id": "whole_body_MRI",
+      "class": "Procedure",
+      "name": "whole-body MRI",
       "synonyms": [
-        "bilateral mastectomy"
+        "whole-body magnetic resonance imaging"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0024881",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E15",
-      "class": "Gene",
+      "id": "variant_allele_frequency",
+      "class": "Biomarker",
+      "name": "variant allele frequency",
+      "synonyms": [
+        "VAF"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "estrogen_receptor",
+      "class": "Protein",
       "name": "estrogen receptor",
       "synonyms": [
         "ER"
@@ -290,14 +242,14 @@
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:3467",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E16",
-      "class": "Gene",
+      "id": "progesterone_receptor",
+      "class": "Protein",
       "name": "progesterone receptor",
       "synonyms": [
         "PR"
@@ -307,24 +259,123 @@
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:8910",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E17",
-      "class": "Gene",
-      "name": "HER2",
+      "id": "HER2",
+      "class": "Protein",
+      "name": "human epidermal growth factor receptor 2",
       "synonyms": [
-        "human epidermal growth factor receptor 2"
+        "HER-2",
+        "HER2"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:3430",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Ki67",
+      "class": "Biomarker",
+      "name": "Ki-67",
+      "synonyms": [
+        "Ki-67 index"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "neurotization",
+      "class": "Procedure",
+      "name": "neurotization",
+      "synonyms": [
+        "nerve grafting"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "preimplantation_genetic_diagnosis",
+      "class": "Procedure",
+      "name": "preimplantation genetic diagnosis",
+      "synonyms": [
+        "PGD"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cascade_testing",
+      "class": "Procedure",
+      "name": "cascade testing",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "skin_biopsy",
+      "class": "Procedure",
+      "name": "skin biopsy",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "superparamagnetic_iron_oxide",
+      "class": "Drug",
+      "name": "superparamagnetic iron oxide",
+      "synonyms": [
+        "SPIO"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -332,107 +383,108 @@
   ],
   "evidence_entities": [
     {
-      "id": "case_report:genetics:1:llm",
+      "id": "PMC_UNKNOWN:case_overview:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "case_report",
-      "text_span_id": "genetics_1",
+      "paper_id": "PMC_UNKNOWN",
+      "text_span_id": "case_overview_1",
       "text": "She completed a comprehensive 76\u2010gene germline genetic test, which revealed tumor protein p53 (TP53) likely pathogenic variant (LPV; c.716A>G; p.N239S).",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "case_report",
+      "study_type": "case report",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "case_report:genetics:2:llm",
+      "id": "PMC_UNKNOWN:genetics:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "case_report",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "genetics_2",
       "text": "When TP53 PVs/LPVs are identified in a comprehensive germline panel, this raises concern for Li\u2013Fraumeni syndrome (LFS).",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "case_report",
+      "study_type": "case report",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "case_report:genetics:3:llm",
+      "id": "PMC_UNKNOWN:genetics:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "case_report",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "genetics_3",
       "text": "LFS is a hereditary cancer syndrome that is associated with increased risk for multiple cancers, including, but not limited to, breast cancer, sarcoma, central nervous system tumors, and adrenocortical carcinoma.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "case_report",
+      "study_type": "case report",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "case_report:genetics:4:llm",
+      "id": "PMC_UNKNOWN:genetics:4:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "case_report",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "genetics_4",
       "text": "The same specific TP53 LPV (c.716A>G [p.N239S]) was detected in all three tumors.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "case_report",
+      "study_type": "case report",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "case_report:surgery:1:llm",
+      "id": "PMC_UNKNOWN:genetics:5:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "case_report",
+      "paper_id": "PMC_UNKNOWN",
+      "text_span_id": "genetics_5",
+      "text": "The evidence of the somatic molecular testing and the embryos is consistent with mosaicism in our patient and is diagnostic for LFS.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "case report",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_UNKNOWN:surgery:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "surgery_1",
       "text": "The breast cancer risk for women with LFS/germline TP53 LPVs/PVs is 80%\u201390%, with most breast cancers occurring at a younger age.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "case_report",
+      "study_type": "case report",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "case_report:radiation:1:llm",
+      "id": "PMC_UNKNOWN:radiation:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "case_report",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "radiation_1",
-      "text": "It has been demonstrated that patients with LFS who receive radiation therapy have an increased risk of radiation\u2010related malignancies within irradiated areas.",
+      "text": "It has been demonstrated that patients with LFS who receive radiation therapy have an increased risk of radiation\u2010related malignancies within irradiated areas. The reported risk of developing radiation\u2010induced malignancy ranges from 15% to 35% in the modern literature.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "case_report",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "case_report:medical:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "case_report",
-      "text_span_id": "medical_1",
-      "text": "Phyllodes tumors have been associated with germline TP53, BRCA1, and RB1 PVs/LPVs.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "case_report",
+      "study_type": "case report",
       "eco_type": null,
       "source": "extracted"
     }
   ],
   "relationships": [
     {
-      "subject": "E2",
+      "subject": "mosaic_TP53_variant",
       "predicate": "INDICATES",
-      "object": "E3",
+      "object": "Li_Fraumeni_syndrome",
       "evidence_ids": [
-        "case_report:genetics:2:llm"
+        "PMC_UNKNOWN:genetics:2:llm",
+        "PMC_UNKNOWN:genetics:5:llm"
       ],
       "source_papers": [
-        "case_report"
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.95,
       "properties": {},
@@ -442,15 +494,15 @@
       "note": null
     },
     {
-      "subject": "E3",
+      "subject": "Li_Fraumeni_syndrome",
       "predicate": "INCREASES_RISK",
-      "object": "E1",
+      "object": "breast cancer",
       "evidence_ids": [
-        "case_report:genetics:3:llm",
-        "case_report:surgery:1:llm"
+        "PMC_UNKNOWN:genetics:3:llm",
+        "PMC_UNKNOWN:surgery:1:llm"
       ],
       "source_papers": [
-        "case_report"
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.95,
       "properties": {
@@ -462,14 +514,14 @@
       "note": null
     },
     {
-      "subject": "E3",
+      "subject": "Li_Fraumeni_syndrome",
       "predicate": "INCREASES_RISK",
-      "object": "E7",
+      "object": "central nervous system tumors",
       "evidence_ids": [
-        "case_report:genetics:3:llm"
+        "PMC_UNKNOWN:genetics:3:llm"
       ],
       "source_papers": [
-        "case_report"
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.95,
       "properties": {},
@@ -479,14 +531,14 @@
       "note": null
     },
     {
-      "subject": "E3",
+      "subject": "Li_Fraumeni_syndrome",
       "predicate": "INCREASES_RISK",
-      "object": "E8",
+      "object": "adrenocortical carcinoma",
       "evidence_ids": [
-        "case_report:genetics:3:llm"
+        "PMC_UNKNOWN:genetics:3:llm"
       ],
       "source_papers": [
-        "case_report"
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.95,
       "properties": {},
@@ -496,69 +548,52 @@
       "note": null
     },
     {
-      "subject": "E3",
+      "subject": "bilateral_mastectomy",
+      "predicate": "TREATS",
+      "object": "ductal_carcinoma_in_situ",
+      "evidence_ids": [
+        "PMC_UNKNOWN:case_overview:1:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
+      "properties": {},
+      "section": "case_overview",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "bilateral_mastectomy",
+      "predicate": "TREATS",
+      "object": "malignant_phyllodes_tumor",
+      "evidence_ids": [
+        "PMC_UNKNOWN:case_overview:1:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
+      "properties": {},
+      "section": "case_overview",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Li_Fraumeni_syndrome",
       "predicate": "INCREASES_RISK",
-      "object": "E9",
+      "object": "radiation-induced malignancy",
       "evidence_ids": [
-        "case_report:genetics:3:llm"
+        "PMC_UNKNOWN:radiation:1:llm"
       ],
       "source_papers": [
-        "case_report"
-      ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "genetics",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "E4",
-      "evidence_ids": [
-        "case_report:medical:1:llm"
-      ],
-      "source_papers": [
-        "case_report"
-      ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "medical_oncology",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E5",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "E4",
-      "evidence_ids": [
-        "case_report:medical:1:llm"
-      ],
-      "source_papers": [
-        "case_report"
-      ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "medical_oncology",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E3",
-      "predicate": "INCREASES_RISK",
-      "object": "E13",
-      "evidence_ids": [
-        "case_report:radiation:1:llm"
-      ],
-      "source_papers": [
-        "case_report"
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.95,
       "properties": {
-        "risk_type": "radiation-related malignancies"
+        "risk_percentage": "15-35%"
       },
       "section": "radiation_oncology",
       "asserted_by": "llm",
@@ -566,28 +601,64 @@
       "note": null
     },
     {
-      "subject": "E14",
-      "predicate": "TREATS",
-      "object": "E1",
+      "subject": "mosaic_TP53_variant",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "mosaicism",
       "evidence_ids": [
-        "case_report:surgery:1:llm"
+        "PMC_UNKNOWN:genetics:5:llm"
       ],
       "source_papers": [
-        "case_report"
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "genetics",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "whole_body_MRI",
+      "predicate": "INDICATES",
+      "object": "Li_Fraumeni_syndrome",
+      "evidence_ids": [
+        "PMC_UNKNOWN:genetics:5:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.85,
+      "properties": {
+        "indication": "surveillance"
+      },
+      "section": "genetics",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "preimplantation_genetic_diagnosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "mosaic_TP53_variant",
+      "evidence_ids": [
+        "PMC_UNKNOWN:genetics:4:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.9,
       "properties": {
-        "context": "LFS patients"
+        "purpose": "embryo testing"
       },
-      "section": "surgery",
+      "section": "genetics",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
-    "This case report describes a 36-year-old woman with bilateral breast cancer and a malignant phyllodes tumor found to have a mosaic TP53 likely pathogenic variant diagnostic for Li-Fraumeni syndrome.",
-    "The mosaic nature of the TP53 variant was confirmed through multiple tissue testing including tumor samples and embryo testing during IVF.",
-    "The diagnosis of LFS significantly altered treatment recommendations, leading to bilateral mastectomy instead of breast-conserving surgery and avoidance of radiation therapy."
+    "This case demonstrates the complexity of interpreting TP53 variants and the importance of distinguishing between germline, mosaic, and clonal hematopoiesis origins",
+    "The patient had three separate breast tumors all harboring the same TP53 variant, supporting the diagnosis of mosaic Li-Fraumeni syndrome",
+    "Management decisions were significantly altered by the genetic findings, including choice of bilateral mastectomy over breast-conserving surgery and avoidance of radiation therapy"
   ]
 }

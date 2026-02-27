@@ -1,21 +1,23 @@
 {
   "paper": {
     "doi": null,
-    "pmcid": "PMC12035109",
+    "pmcid": "PMC_UNKNOWN",
     "title": "The impact of prolonged high-concentration cortisol exposure on cognitive function and risk factors: Evidence from Cushing's disease patients",
-    "authors": [],
-    "journal": null,
+    "authors": [
+      "Not specified"
+    ],
+    "journal": "Not specified",
     "year": null,
     "study_type": "retrospective cohort study",
-    "eco_type": "clinical study"
+    "eco_type": null
   },
   "extraction_provenance": {
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "183c4f4a44bdf0f9c4ea77266c938d9a49d36e4b",
-      "git_commit_short": "183c4f4",
-      "git_branch": "endocrinology",
+      "git_commit": "777544707e2808fd01d9cb8fbe5dc1d74b29532b",
+      "git_commit_short": "7775447",
+      "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
     },
@@ -28,56 +30,25 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:f94cc0ab23940d18"
+      "checksum": "sha256:5bdf447f3cfe242d"
     },
     "execution": {
-      "timestamp": "2026-02-26T16:31:00.271463Z",
+      "timestamp": "2026-02-27T16:02:49.060646Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 34.22
+      "duration_seconds": 56.5
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "E1",
+      "id": "prolonged_high_cortisol_exposure",
       "class": "Disease",
-      "name": "Cushing's disease",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0010481",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E2",
-      "class": "Disease",
-      "name": "cognitive impairment",
+      "name": "prolonged high-concentration cortisol exposure",
       "synonyms": [
-        "cognitive decline"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0338656",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E3",
-      "class": "Drug",
-      "name": "cortisol",
-      "synonyms": [
-        "CORT"
+        "prolonged high cortisol exposure",
+        "long-term elevated cortisol exposure"
       ],
       "symbol": null,
       "brand_names": [],
@@ -85,29 +56,30 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "3264",
+      "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E4",
-      "class": "Gene",
-      "name": "ACTH",
+      "id": "montreal_cognitive_assessment",
+      "class": "Procedure",
+      "name": "Montreal Cognitive Assessment",
       "synonyms": [
-        "adrenocorticotropic hormone"
+        "MoCA",
+        "MoCA scale"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:13758",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E5",
+      "id": "cortisol_am_pm_ratio",
       "class": "Biomarker",
       "name": "cortisol AM/PM ratio",
       "synonyms": [
@@ -124,11 +96,12 @@
       "uniprot_id": null
     },
     {
-      "id": "E6",
+      "id": "8am_cortisol",
       "class": "Biomarker",
       "name": "8 a.m. cortisol concentration",
       "synonyms": [
-        "COR-8am"
+        "COR-8am",
+        "morning cortisol"
       ],
       "symbol": null,
       "brand_names": [],
@@ -141,11 +114,12 @@
       "uniprot_id": null
     },
     {
-      "id": "E7",
-      "class": "Biomarker",
-      "name": "body mass index",
+      "id": "nomogram_model",
+      "class": "StatisticalMethod",
+      "name": "nomogram prediction model",
       "synonyms": [
-        "BMI"
+        "nomogram model",
+        "nomogram"
       ],
       "symbol": null,
       "brand_names": [],
@@ -158,11 +132,12 @@
       "uniprot_id": null
     },
     {
-      "id": "E8",
-      "class": "Biomarker",
-      "name": "fasting plasma glucose",
+      "id": "lasso_regression",
+      "class": "StatisticalMethod",
+      "name": "least absolute shrinkage and selection operator regression",
       "synonyms": [
-        "FPG"
+        "LASSO regression",
+        "LASSO"
       ],
       "symbol": null,
       "brand_names": [],
@@ -175,67 +150,315 @@
       "uniprot_id": null
     },
     {
-      "id": "E9",
-      "class": "Anatomy",
+      "id": "pla_general_hospital",
+      "class": "Institution",
+      "name": "First Medical Center of the PLA General Hospital",
+      "synonyms": [
+        "PLA General Hospital"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "world_health_organization",
+      "class": "Institution",
+      "name": "World Health Organization",
+      "synonyms": [
+        "WHO"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "glucocorticoid_receptors",
+      "class": "Protein",
+      "name": "glucocorticoid receptors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mineralocorticoid_receptors",
+      "class": "Protein",
+      "name": "mineralocorticoid receptors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hippocampus",
+      "class": "AnatomicalStructure",
       "name": "hippocampus",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0019564",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E10",
-      "class": "Anatomy",
+      "id": "prefrontal_cortex",
+      "class": "AnatomicalStructure",
       "name": "prefrontal cortex",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0162783",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E11",
-      "class": "Disease",
-      "name": "depression",
+      "id": "neuroplasticity",
+      "class": "BiologicalProcess",
+      "name": "neuroplasticity",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0011570",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E12",
-      "class": "Disease",
-      "name": "anxiety",
+      "id": "neuroinflammation",
+      "class": "BiologicalProcess",
+      "name": "neuroinflammation",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0003467",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E13",
+      "id": "oxidative_stress",
+      "class": "BiologicalProcess",
+      "name": "oxidative stress",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hpa_axis",
+      "class": "BiologicalProcess",
+      "name": "hypothalamic-pituitary-adrenal axis",
+      "synonyms": [
+        "HPA axis"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "executive_function",
+      "class": "BiologicalProcess",
+      "name": "executive function",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "memory_decline",
+      "class": "Symptom",
+      "name": "memory decline",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "emotional_regulation_disturbances",
+      "class": "Symptom",
+      "name": "emotional regulation disturbances",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "circadian_rhythm_disruption",
+      "class": "BiologicalProcess",
+      "name": "circadian rhythm disruption",
+      "synonyms": [
+        "disrupted cortisol circadian rhythms"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hippocampal_atrophy",
+      "class": "Disease",
+      "name": "hippocampal atrophy",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "synaptic_dysfunction",
+      "class": "BiologicalProcess",
+      "name": "synaptic dysfunction",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "neuronal_damage",
+      "class": "BiologicalProcess",
+      "name": "neuronal damage",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cerebrovascular_damage",
+      "class": "Disease",
+      "name": "cerebrovascular damage",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "insulin_signaling_pathways",
+      "class": "Pathway",
+      "name": "insulin signaling pathways",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "glucose_metabolism",
+      "class": "BiologicalProcess",
+      "name": "glucose metabolism",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "chronic_stress",
       "class": "Disease",
       "name": "chronic stress",
       "synonyms": [],
@@ -243,19 +466,77 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0449430",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E14",
-      "class": "Assessment",
-      "name": "Montreal Cognitive Assessment",
-      "synonyms": [
-        "MoCA"
-      ],
+      "id": "metabolic_syndrome",
+      "class": "Disease",
+      "name": "metabolic syndrome",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "insulin_resistance",
+      "class": "Disease",
+      "name": "insulin resistance",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "immunosuppression",
+      "class": "BiologicalProcess",
+      "name": "immunosuppression",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "osteoporosis",
+      "class": "Disease",
+      "name": "osteoporosis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "psychological_disorders",
+      "class": "Disease",
+      "name": "psychological disorders",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -269,97 +550,110 @@
   ],
   "evidence_entities": [
     {
-      "id": "paper_id:background:1:llm",
+      "id": "PMC_UNKNOWN:background:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "background_1",
       "text": "Prolonged high-concentration cortisol exposure may impair cognitive function, but its mechanisms and risk factors remain unclear in humans.",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "retrospective cohort study",
-      "eco_type": "clinical study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_id:results:1:llm",
+      "id": "PMC_UNKNOWN:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "results_1",
       "text": "Cortisol AM/PM ratio, 8 a.m. cortisol concentration, body mass index, and fasting plasma glucose were significant risk factors for cognitive impairment.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "retrospective cohort study",
-      "eco_type": "clinical study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_id:introduction:2:llm",
+      "id": "PMC_UNKNOWN:results:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "introduction_2",
+      "paper_id": "PMC_UNKNOWN",
+      "text_span_id": "results_2",
+      "text": "The nomogram demonstrated strong predictive ability, with ROC values of 0.80 (training) and 0.91 (validation).",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_UNKNOWN:introduction:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_UNKNOWN",
+      "text_span_id": "introduction_1",
       "text": "High cortisol exerts its effects through glucocorticoid receptors and mineralocorticoid receptors in the hippocampus, mediating neurophysiological responses. Prolonged activation may lead to neuronal damage, reduced neuroplasticity, and cognitive impairment.",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "retrospective cohort study",
-      "eco_type": "clinical study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_id:introduction:3:llm",
+      "id": "PMC_UNKNOWN:introduction:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "introduction_3",
-      "text": "Patients with Cushing's disease often experience cognitive impairments, with clinical manifestations including memory decline, attention deficits, and impaired executive function.",
+      "paper_id": "PMC_UNKNOWN",
+      "text_span_id": "introduction_2",
+      "text": "brain regions such as the prefrontal cortex and amygdala are also impacted, potentially causing attentional deficits, impaired executive function, and emotional regulation disturbances.",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "retrospective cohort study",
-      "eco_type": "clinical study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_id:discussion:1:llm",
+      "id": "PMC_UNKNOWN:discussion:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "discussion_1",
       "text": "Increased BMI was identified as an independent risk factor for cognitive impairment, likely due to chronic inflammation and oxidative stress caused by metabolic disorders.",
-      "confidence": 0.85,
+      "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "retrospective cohort study",
-      "eco_type": "clinical study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_id:discussion:2:llm",
+      "id": "PMC_UNKNOWN:discussion:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "discussion_2",
-      "text": "High blood glucose was another critical risk factor, potentially affecting cognitive function through various mechanisms: prolonged hyperglycemia can lead to cerebrovascular damage and impaired blood supply to the brain.",
-      "confidence": 0.85,
+      "text": "Circadian rhythm disruption may accelerate hippocampal atrophy and prefrontal cortex dysfunction by affecting the regulation of the hypothalamic-pituitary-adrenal (HPA) axis.",
+      "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "retrospective cohort study",
-      "eco_type": "clinical study",
+      "eco_type": null,
       "source": "extracted"
     }
   ],
   "relationships": [
     {
-      "subject": "E3",
+      "subject": "prolonged_high_cortisol_exposure",
       "predicate": "INCREASES_RISK",
-      "object": "E2",
+      "object": "cognitive impairment",
       "evidence_ids": [
-        "paper_id:background:1:llm",
-        "paper_id:introduction:2:llm"
+        "PMC_UNKNOWN:background:1:llm",
+        "PMC_UNKNOWN:results:1:llm"
       ],
       "source_papers": [
-        "paper_id"
+        "PMC_UNKNOWN"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "properties": {},
       "section": "background",
       "asserted_by": "llm",
@@ -367,14 +661,83 @@
       "note": null
     },
     {
-      "subject": "E1",
+      "subject": "cortisol_am_pm_ratio",
+      "predicate": "INDICATES",
+      "object": "cognitive impairment",
+      "evidence_ids": [
+        "PMC_UNKNOWN:results:1:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "8am_cortisol",
+      "predicate": "INDICATES",
+      "object": "cognitive impairment",
+      "evidence_ids": [
+        "PMC_UNKNOWN:results:1:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "body mass index",
+      "predicate": "INCREASES_RISK",
+      "object": "cognitive impairment",
+      "evidence_ids": [
+        "PMC_UNKNOWN:results:1:llm",
+        "PMC_UNKNOWN:discussion:1:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "fasting plasma glucose",
+      "predicate": "INCREASES_RISK",
+      "object": "cognitive impairment",
+      "evidence_ids": [
+        "PMC_UNKNOWN:results:1:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
       "predicate": "ASSOCIATED_WITH",
-      "object": "E2",
+      "object": "glucocorticoid_receptors",
       "evidence_ids": [
-        "paper_id:introduction:3:llm"
+        "PMC_UNKNOWN:introduction:1:llm"
       ],
       "source_papers": [
-        "paper_id"
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.9,
       "properties": {},
@@ -384,84 +747,14 @@
       "note": null
     },
     {
-      "subject": "E5",
-      "predicate": "INDICATES",
-      "object": "E2",
+      "subject": "cortisol",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "mineralocorticoid_receptors",
       "evidence_ids": [
-        "paper_id:results:1:llm"
+        "PMC_UNKNOWN:introduction:1:llm"
       ],
       "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E6",
-      "predicate": "INDICATES",
-      "object": "E2",
-      "evidence_ids": [
-        "paper_id:results:1:llm"
-      ],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E7",
-      "predicate": "INCREASES_RISK",
-      "object": "E2",
-      "evidence_ids": [
-        "paper_id:results:1:llm",
-        "paper_id:discussion:1:llm"
-      ],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E8",
-      "predicate": "INCREASES_RISK",
-      "object": "E2",
-      "evidence_ids": [
-        "paper_id:results:1:llm",
-        "paper_id:discussion:2:llm"
-      ],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E3",
-      "predicate": "AFFECTS",
-      "object": "E9",
-      "evidence_ids": [
-        "paper_id:introduction:2:llm"
-      ],
-      "source_papers": [
-        "paper_id"
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.9,
       "properties": {},
@@ -471,14 +764,16 @@
       "note": null
     },
     {
-      "subject": "E1",
-      "predicate": "CAUSED_BY",
-      "object": "E4",
-      "evidence_ids": [],
-      "source_papers": [
-        "paper_id"
+      "subject": "prolonged_high_cortisol_exposure",
+      "predicate": "INCREASES_RISK",
+      "object": "neuronal_damage",
+      "evidence_ids": [
+        "PMC_UNKNOWN:introduction:1:llm"
       ],
-      "confidence": 0.95,
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
       "properties": {},
       "section": "introduction",
       "asserted_by": "llm",
@@ -486,39 +781,202 @@
       "note": null
     },
     {
-      "subject": "E13",
+      "subject": "prolonged_high_cortisol_exposure",
       "predicate": "INCREASES_RISK",
-      "object": "E11",
-      "evidence_ids": [],
+      "object": "neuroplasticity",
+      "evidence_ids": [
+        "PMC_UNKNOWN:introduction:1:llm"
+      ],
       "source_papers": [
-        "paper_id"
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "effect": "reduced"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "prefrontal_cortex",
+      "evidence_ids": [
+        "PMC_UNKNOWN:introduction:2:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "amygdala",
+      "evidence_ids": [
+        "PMC_UNKNOWN:introduction:2:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "INCREASES_RISK",
+      "object": "attention deficits",
+      "evidence_ids": [
+        "PMC_UNKNOWN:introduction:2:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "INCREASES_RISK",
+      "object": "executive_function",
+      "evidence_ids": [
+        "PMC_UNKNOWN:introduction:2:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "effect": "impaired"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "INCREASES_RISK",
+      "object": "emotional_regulation_disturbances",
+      "evidence_ids": [
+        "PMC_UNKNOWN:introduction:2:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Cushing's disease",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "prolonged_high_cortisol_exposure",
+      "evidence_ids": [
+        "PMC_UNKNOWN:background:1:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "circadian_rhythm_disruption",
+      "predicate": "INCREASES_RISK",
+      "object": "hippocampal_atrophy",
+      "evidence_ids": [
+        "PMC_UNKNOWN:discussion:2:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
+      "properties": {},
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "circadian_rhythm_disruption",
+      "predicate": "INCREASES_RISK",
+      "object": "prefrontal_cortex",
+      "evidence_ids": [
+        "PMC_UNKNOWN:discussion:2:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "effect": "dysfunction"
+      },
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "circadian_rhythm_disruption",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "hpa_axis",
+      "evidence_ids": [
+        "PMC_UNKNOWN:discussion:2:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
+      "properties": {},
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "chronic_stress",
+      "predicate": "SAME_AS",
+      "object": "Cushing's disease",
+      "evidence_ids": [
+        "PMC_UNKNOWN:discussion:2:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.8,
       "properties": {},
-      "section": "introduction",
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E13",
-      "predicate": "INCREASES_RISK",
-      "object": "E12",
-      "evidence_ids": [],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.8,
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
+      "note": "Similar pathophysiological mechanisms in terms of HPA axis activation and cortisol elevation"
     }
   ],
   "notes": [
-    "This study used Cushing's disease patients as a model to investigate prolonged high cortisol exposure effects on cognitive function",
-    "The nomogram model showed strong predictive performance with AUC values of 0.80 (training) and 0.91 (validation)",
-    "Study included 107 patients with 58 showing cognitive impairment and 49 with normal cognitive function"
+    "This study used Cushing's disease patients as a natural model to study the effects of prolonged high cortisol exposure on cognitive function",
+    "The nomogram model developed showed strong predictive performance with AUC values of 0.80 (training) and 0.91 (validation)",
+    "Four key risk factors were identified: cortisol AM/PM ratio, 8 a.m. cortisol concentration, BMI, and fasting plasma glucose"
   ]
 }

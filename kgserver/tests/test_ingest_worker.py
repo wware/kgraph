@@ -31,20 +31,23 @@ class TestWorkspaceHelpers:
         assert root == want.resolve()
 
     def test_ensure_workspace_dirs(self, tmp_path):
-        """_ensure_workspace_dirs creates pass1_bundles, medlit_merged, medlit_bundle."""
+        """_ensure_workspace_dirs creates pass1_bundles, medlit_merged, medlit_bundle, pass1_vocab."""
         root = tmp_path / "ws"
-        bundles_dir, merged_dir, output_dir = _ensure_workspace_dirs(root)
+        bundles_dir, merged_dir, output_dir, vocab_dir = _ensure_workspace_dirs(root)
         assert bundles_dir == root / "pass1_bundles"
         assert merged_dir == root / "medlit_merged"
         assert output_dir == root / "medlit_bundle"
+        assert vocab_dir == root / "pass1_vocab"
         assert bundles_dir.is_dir()
         assert merged_dir.is_dir()
         assert output_dir.is_dir()
+        assert vocab_dir.is_dir()
         # Idempotent
-        bundles_dir2, merged_dir2, output_dir2 = _ensure_workspace_dirs(root)
+        bundles_dir2, merged_dir2, output_dir2, vocab_dir2 = _ensure_workspace_dirs(root)
         assert bundles_dir2 == bundles_dir
         assert merged_dir2 == merged_dir
         assert output_dir2 == output_dir
+        assert vocab_dir2 == vocab_dir
 
 
 class TestWorkspaceLock:
@@ -112,7 +115,7 @@ class TestPersistentWorkspaceIntegration:
         workspace.mkdir()
         monkeypatch.setenv("INGEST_WORKSPACE_ROOT", str(workspace))
 
-        bundles_dir, merged_dir, output_dir = _ensure_workspace_dirs(workspace)
+        bundles_dir, merged_dir, output_dir, _vocab_dir = _ensure_workspace_dirs(workspace)
 
         # Use a real SQLite file so load_bundle_incremental can run (and same process can read)
         db_path = str(tmp_path / "test.db")

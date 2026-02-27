@@ -9,15 +9,15 @@
     "journal": "Not specified",
     "year": null,
     "study_type": "experimental",
-    "eco_type": "in_vitro_in_vivo"
+    "eco_type": "in vitro and in vivo"
   },
   "extraction_provenance": {
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "79b943b6f54c8c87c9947c3504758e5fe8d99315",
-      "git_commit_short": "79b943b",
-      "git_branch": "ingest-refactor",
+      "git_commit": "777544707e2808fd01d9cb8fbe5dc1d74b29532b",
+      "git_commit_short": "7775447",
+      "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
     },
@@ -30,13 +30,13 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:f94cc0ab23940d18"
+      "checksum": "sha256:5bdf447f3cfe242d"
     },
     "execution": {
-      "timestamp": "2026-02-23T22:26:09.539528Z",
+      "timestamp": "2026-02-27T16:07:04.363604Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 38.02
+      "duration_seconds": 49.96
     },
     "entity_resolution": null,
     "model_info": null
@@ -79,9 +79,9 @@
       "uniprot_id": null
     },
     {
-      "id": "LUAD",
+      "id": "lung_adenocarcinoma",
       "class": "Disease",
-      "name": "Lung adenocarcinoma",
+      "name": "lung adenocarcinoma",
       "synonyms": [
         "LUAD"
       ],
@@ -96,103 +96,35 @@
       "uniprot_id": null
     },
     {
-      "id": "NSCLC",
-      "class": "Disease",
-      "name": "Non-small cell lung cancer",
+      "id": "TGF_beta_Smad_pathway",
+      "class": "Pathway",
+      "name": "TGF-\u03b2/Smad pathway",
       "synonyms": [
-        "NSCLC"
+        "TGF-beta/Smad signaling"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0007131",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "TGF-\u03b2",
-      "class": "Gene",
-      "name": "TGF-\u03b2",
+      "id": "PI3K_AKT_mTOR_pathway",
+      "class": "Pathway",
+      "name": "PI3K/AKT/mTOR pathway",
       "synonyms": [
-        "Transforming growth factor beta"
+        "PI3K/AKT/mTOR signaling"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:11766",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "PI3K",
-      "class": "Gene",
-      "name": "PI3K",
-      "synonyms": [
-        "Phosphoinositide 3-kinase"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:8975",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "AKT",
-      "class": "Gene",
-      "name": "AKT",
-      "synonyms": [
-        "AKT serine/threonine kinase"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:391",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "mTOR",
-      "class": "Gene",
-      "name": "mTOR",
-      "synonyms": [
-        "mechanistic target of rapamycin"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:3942",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "Smad",
-      "class": "Gene",
-      "name": "Smad",
-      "synonyms": [
-        "SMAD family member"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:6768",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -213,9 +145,43 @@
       "uniprot_id": null
     },
     {
-      "id": "Galunisertib",
+      "id": "galunisertib",
       "class": "Drug",
-      "name": "Galunisertib",
+      "name": "galunisertib",
+      "synonyms": [
+        "TGF-\u03b2 inhibitor"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "K63_linked_ubiquitination",
+      "class": "BiologicalProcess",
+      "name": "K63-linked ubiquitination",
+      "synonyms": [
+        "K63-linked ubiquitin chains"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "deubiquitination",
+      "class": "BiologicalProcess",
+      "name": "deubiquitination",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -223,7 +189,169 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "1598392",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "protein_stability",
+      "class": "BiologicalProcess",
+      "name": "protein stability",
+      "synonyms": [
+        "protein stabilization"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "immunosuppressive_microenvironment",
+      "class": "BiologicalProcess",
+      "name": "immunosuppressive microenvironment",
+      "synonyms": [
+        "immunosuppressive tumor microenvironment"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "H1299_cells",
+      "class": "AnatomicalStructure",
+      "name": "H1299 cells",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "PC9_cells",
+      "class": "AnatomicalStructure",
+      "name": "PC9 cells",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "H1975_cells",
+      "class": "AnatomicalStructure",
+      "name": "H1975 cells",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "A549_cells",
+      "class": "AnatomicalStructure",
+      "name": "A549 cells",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "overall_survival",
+      "class": "Biomarker",
+      "name": "overall survival",
+      "synonyms": [
+        "OS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "disease_specific_survival",
+      "class": "Biomarker",
+      "name": "disease-specific survival",
+      "synonyms": [
+        "DSS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "progression_free_interval",
+      "class": "Biomarker",
+      "name": "progression-free interval",
+      "synonyms": [
+        "PFI"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "disease_free_interval",
+      "class": "Biomarker",
+      "name": "disease-free interval",
+      "synonyms": [
+        "DFI"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     }
@@ -239,7 +367,7 @@
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "expression_analysis",
+      "eco_type": "in vitro",
       "source": "extracted"
     },
     {
@@ -248,11 +376,11 @@
       "entity_id": null,
       "paper_id": "PMC_extracted",
       "text_span_id": "results_2",
-      "text": "Kaplan\u2013Meier survival analysis demonstrated that patients with high PSMD14 expression had significantly worse overall survival (OS, p = 0.003), disease-specific survival (DSS, p = 0.001), progression-free interval (PFI, p < 0.001), and disease-free interval (DFI, p < 0.001) compared to those with low expression.",
+      "text": "PSMD14 exhibits significant diagnostic value in LUAD. Receiver operating characteristic (ROC) curve analysis yielded an area under the curve (AUC) of 0.898 (95% CI: 0.877\u20130.918), suggesting excellent diagnostic performance.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "survival_analysis",
+      "eco_type": "in vitro",
       "source": "extracted"
     },
     {
@@ -261,11 +389,11 @@
       "entity_id": null,
       "paper_id": "PMC_extracted",
       "text_span_id": "results_3",
-      "text": "Using co-immunoprecipitation (Co-IP) assays, we confirmed a specific interaction between PSMD14 and HMMR. Subsequent knockdown and overexpression of PSMD14 in LUAD cell lines demonstrated that HMMR expression is positively regulated by PSMD14 at both the mRNA and protein levels.",
+      "text": "Kaplan\u2013Meier survival analysis demonstrated that patients with high PSMD14 expression had significantly worse overall survival (OS, p = 0.003), disease-specific survival (DSS, p = 0.001), progression-free interval (PFI, p < 0.001), and disease-free interval (DFI, p < 0.001) compared to those with low expression.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "protein_interaction",
+      "eco_type": "clinical",
       "source": "extracted"
     },
     {
@@ -274,11 +402,11 @@
       "entity_id": null,
       "paper_id": "PMC_extracted",
       "text_span_id": "results_4",
-      "text": "PSMD14 knockdown markedly enhanced HMMR ubiquitination, whereas its overexpression reduced it. PSMD14 primarily cleaved K63-linked ubiquitin chains from HMMR.",
+      "text": "Using co-immunoprecipitation (Co-IP) assays, we confirmed a specific interaction between PSMD14 and HMMR. Subsequent knockdown and overexpression of PSMD14 in LUAD cell lines demonstrated that HMMR expression is positively regulated by PSMD14 at both the mRNA and protein levels.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "biochemical_assay",
+      "eco_type": "in vitro",
       "source": "extracted"
     },
     {
@@ -287,11 +415,11 @@
       "entity_id": null,
       "paper_id": "PMC_extracted",
       "text_span_id": "results_5",
-      "text": "CCK-8 assays revealed that PSMD14 knockdown significantly suppressed proliferation in H1299 and PC9 cells, while its overexpression markedly enhanced proliferation in H1975 cells.",
+      "text": "PSMD14 knockdown markedly enhanced HMMR ubiquitination, whereas its overexpression reduced it. PSMD14 primarily cleaved K63-linked ubiquitin chains from HMMR.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "cell_proliferation_assay",
+      "eco_type": "in vitro",
       "source": "extracted"
     },
     {
@@ -300,11 +428,11 @@
       "entity_id": null,
       "paper_id": "PMC_extracted",
       "text_span_id": "results_6",
-      "text": "PSMD14 knockdown reduced TGF-\u03b2, p-Smad2/3 phosphorylation, and CD44 expression, whereas PSMD14 overexpression increased these markers. Similarly, PSMD14 knockdown decreased phosphorylation of mTOR, PI3K, and AKT, while its overexpression enhanced their activation.",
+      "text": "CCK-8 assays revealed that PSMD14 knockdown significantly suppressed proliferation in H1299 and PC9 cells, while its overexpression markedly enhanced proliferation in H1975 cells.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "western_blot",
+      "eco_type": "in vitro",
       "source": "extracted"
     },
     {
@@ -313,11 +441,24 @@
       "entity_id": null,
       "paper_id": "PMC_extracted",
       "text_span_id": "results_7",
+      "text": "PSMD14 knockdown led to reduced expression of TGF-\u03b2, p-Smad2/3 phosphorylation, and CD44 expression, whereas PSMD14 overexpression increased these markers. Similarly, PSMD14 knockdown decreased phosphorylation of mTOR, PI3K, and AKT, while its overexpression enhanced their activation.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "in vitro",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_extracted:results:8:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_extracted",
+      "text_span_id": "results_8",
       "text": "The PSMD14 inhibitor Capzimin exhibited potent anti-tumor effects in vitro and in vivo, and combination therapy with the TGF-\u03b2 inhibitor galunisertib demonstrated enhanced efficacy.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "drug_treatment",
+      "eco_type": "in vivo",
       "source": "extracted"
     }
   ],
@@ -325,10 +466,10 @@
     {
       "subject": "PSMD14",
       "predicate": "INCREASES_RISK",
-      "object": "LUAD",
+      "object": "lung_adenocarcinoma",
       "evidence_ids": [
         "PMC_extracted:results:1:llm",
-        "PMC_extracted:results:2:llm"
+        "PMC_extracted:results:3:llm"
       ],
       "source_papers": [
         "PMC_extracted"
@@ -342,8 +483,27 @@
     },
     {
       "subject": "PSMD14",
+      "predicate": "INDICATES",
+      "object": "lung_adenocarcinoma",
+      "evidence_ids": [
+        "PMC_extracted:results:2:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "AUC": "0.898"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PSMD14",
       "predicate": "ASSOCIATED_WITH",
-      "object": "HMMR",
+      "object": "overall_survival",
       "evidence_ids": [
         "PMC_extracted:results:3:llm"
       ],
@@ -352,8 +512,82 @@
       ],
       "confidence": 0.95,
       "properties": {
-        "interaction_type": "protein-protein"
+        "relationship_type": "negative"
       },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PSMD14",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "disease_specific_survival",
+      "evidence_ids": [
+        "PMC_extracted:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "relationship_type": "negative"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PSMD14",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "progression_free_interval",
+      "evidence_ids": [
+        "PMC_extracted:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "relationship_type": "negative"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PSMD14",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "disease_free_interval",
+      "evidence_ids": [
+        "PMC_extracted:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "relationship_type": "negative"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PSMD14",
+      "predicate": "INTERACTS_WITH",
+      "object": "HMMR",
+      "evidence_ids": [
+        "PMC_extracted:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {},
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -364,8 +598,8 @@
       "predicate": "REGULATES",
       "object": "HMMR",
       "evidence_ids": [
-        "PMC_extracted:results:3:llm",
-        "PMC_extracted:results:4:llm"
+        "PMC_extracted:results:4:llm",
+        "PMC_extracted:results:5:llm"
       ],
       "source_papers": [
         "PMC_extracted"
@@ -381,17 +615,17 @@
     },
     {
       "subject": "PSMD14",
-      "predicate": "ACTIVATES",
-      "object": "TGF-\u03b2",
+      "predicate": "REGULATES",
+      "object": "protein_stability",
       "evidence_ids": [
-        "PMC_extracted:results:6:llm"
+        "PMC_extracted:results:5:llm"
       ],
       "source_papers": [
         "PMC_extracted"
       ],
       "confidence": 0.95,
       "properties": {
-        "pathway": "TGF-\u03b2/Smad"
+        "target": "HMMR"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -400,8 +634,8 @@
     },
     {
       "subject": "PSMD14",
-      "predicate": "ACTIVATES",
-      "object": "PI3K",
+      "predicate": "REGULATES",
+      "object": "cell proliferation",
       "evidence_ids": [
         "PMC_extracted:results:6:llm"
       ],
@@ -409,9 +643,41 @@
         "PMC_extracted"
       ],
       "confidence": 0.95,
-      "properties": {
-        "pathway": "PI3K/AKT/mTOR"
-      },
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PSMD14",
+      "predicate": "ACTIVATES",
+      "object": "TGF_beta_Smad_pathway",
+      "evidence_ids": [
+        "PMC_extracted:results:7:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PSMD14",
+      "predicate": "ACTIVATES",
+      "object": "PI3K_AKT_mTOR_pathway",
+      "evidence_ids": [
+        "PMC_extracted:results:7:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {},
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -420,14 +686,14 @@
     {
       "subject": "Capzimin",
       "predicate": "TREATS",
-      "object": "LUAD",
+      "object": "lung_adenocarcinoma",
       "evidence_ids": [
-        "PMC_extracted:results:7:llm"
+        "PMC_extracted:results:8:llm"
       ],
       "source_papers": [
         "PMC_extracted"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "properties": {
         "mechanism": "PSMD14 inhibition"
       },
@@ -437,19 +703,18 @@
       "note": null
     },
     {
-      "subject": "Galunisertib",
+      "subject": "galunisertib",
       "predicate": "TREATS",
-      "object": "LUAD",
+      "object": "lung_adenocarcinoma",
       "evidence_ids": [
-        "PMC_extracted:results:7:llm"
+        "PMC_extracted:results:8:llm"
       ],
       "source_papers": [
         "PMC_extracted"
       ],
       "confidence": 0.9,
       "properties": {
-        "mechanism": "TGF-\u03b2 inhibition",
-        "combination_therapy": true
+        "combination_with": "Capzimin"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -458,8 +723,8 @@
     }
   ],
   "notes": [
-    "This study demonstrates that PSMD14 acts as a key driver of LUAD progression through stabilization of HMMR via K63-linked deubiquitination",
-    "The PSMD14-HMMR axis coordinately activates both TGF-\u03b2/Smad and PI3K/AKT/mTOR signaling pathways",
-    "Combination therapy with PSMD14 and TGF-\u03b2 inhibitors shows enhanced therapeutic efficacy"
+    "This study demonstrates PSMD14 as a key driver of lung adenocarcinoma through HMMR stabilization and dual pathway activation",
+    "The PSMD14-HMMR axis represents a novel therapeutic target with both diagnostic and prognostic value",
+    "Combination therapy with PSMD14 and TGF-\u03b2 inhibitors shows enhanced efficacy"
   ]
 }

@@ -147,6 +147,41 @@ def build_provenance(
     )
 
 
+# Normalized (lowercase, no spaces) -> bundle "class" (PascalCase) for dedup/synonym_cache compatibility.
+# Must match _entity_class_to_lookup_type and lookup_entity in dedup/synonym_cache.
+NORMALIZED_TO_BUNDLE_CLASS: dict[str, str] = {
+    "disease": "Disease", "gene": "Gene", "drug": "Drug", "protein": "Protein",
+    "biomarker": "Biomarker", "symptom": "Symptom", "procedure": "Procedure",
+    "mutation": "Mutation", "pathway": "Pathway", "biologicalprocess": "BiologicalProcess",
+    "anatomicalstructure": "AnatomicalStructure", "clinicaltrial": "ClinicalTrial",
+    "institution": "Institution", "author": "Author", "studydesign": "StudyDesign",
+    "statisticalmethod": "StatisticalMethod", "adverseevent": "AdverseEvent",
+    "hypothesis": "Hypothesis",
+}
+
+
+def normalize_entity_type(raw_type: str) -> str:
+    """Map raw LLM type string to bundle entity_class (PascalCase). Unknown types -> 'Other'."""
+    if not raw_type or not str(raw_type).strip():
+        return "Other"
+    normalized = str(raw_type).strip().lower().replace(" ", "").replace("_", "")
+    return NORMALIZED_TO_BUNDLE_CLASS.get(normalized, "Other")
+
+
+def _build_system_prompt_with_vocab(
+    base_prompt: str,
+    vocab_entries: Optional[list[dict]] = None,
+) -> str:
+    """Append vocabulary context to base prompt when vocab_entries is provided."""
+    if not vocab_entries:
+        return base_prompt
+    # Cap size: include up to 500 entries (or 300 by name) to avoid token overflow
+    subset = sorted(vocab_entries, key=lambda e: (e.get("name") or "").lower())[:500]
+    lines = [f"- {e.get('name', '')} ({e.get('type', '')})" for e in subset if e.get("name")]
+    vocab_section = "\n".join(lines) if lines else "(none)"
+    return base_prompt + "\n\n---\n\nThe following entities have already been identified across the corpus. Use these exact names and types where applicable rather than creating new variants:\n\n" + vocab_section
+
+
 def _default_system_prompt() -> str:
     """Minimal system prompt asking for per-paper bundle JSON."""
     return """You are a biomedical knowledge extraction expert. Extract entities and relationships from the given paper and return a single JSON object with this structure (use the exact keys):
@@ -194,12 +229,23 @@ async def run_pass1(  # pylint: disable=too-many-statements
     limit: Optional[int] = None,
     papers: Optional[list[str]] = None,
     system_prompt: Optional[str] = None,
+    vocab_file: Optional[Path] = None,
 ) -> None:
     """Run Pass 1: for each paper in input_dir, call LLM and write bundle JSON to output_dir."""
     from examples.medlit.pipeline.pass1_llm import get_pass1_llm
 
     llm = get_pass1_llm(llm_backend)
-    prompt = system_prompt or _default_system_prompt()
+    base_prompt = system_prompt or _default_system_prompt()
+    vocab_entries: Optional[list[dict]] = None
+    if vocab_file is not None and vocab_file.exists():
+        try:
+            import json
+            with open(vocab_file, encoding="utf-8") as f:
+                data = json.load(f)
+            vocab_entries = data if isinstance(data, list) else None
+        except Exception:
+            vocab_entries = None
+    prompt = _build_system_prompt_with_vocab(base_prompt, vocab_entries)
     prompt_checksum = hashlib.sha256(prompt.encode()).hexdigest()[:16]
 
     # Discover input files: by glob patterns or all *.xml/*.json
@@ -255,8 +301,12 @@ async def run_pass1(  # pylint: disable=too-many-statements
             continue
         duration = time.perf_counter() - start
 
-        # Parse rows (JSON may use "class" / "object"; models use alias)
-        entities = [ExtractedEntityRow.model_validate(e) for e in raw_bundle.get("entities", [])]
+        # Normalize entity types to bundle PascalCase, then parse rows
+        raw_entities = raw_bundle.get("entities", [])
+        for e in raw_entities:
+            if isinstance(e, dict) and "class" in e:
+                e["class"] = normalize_entity_type(e.get("class") or "")
+        entities = [ExtractedEntityRow.model_validate(e) for e in raw_entities]
         evidence_entities = [EvidenceEntityRow.model_validate(ev) for ev in raw_bundle.get("evidence_entities", [])]
         relationships = [RelationshipRow.model_validate(r) for r in raw_bundle.get("relationships", [])]
 
@@ -324,6 +374,12 @@ def main() -> None:
         metavar="GLOB[,GLOB,...]",
         help="Comma-separated glob patterns for input files (e.g. PMC127*.xml,PMC128*.json). Resolved under --input-dir. If omitted, all *.xml and *.json are used.",
     )
+    parser.add_argument(
+        "--vocab-file",
+        type=Path,
+        default=None,
+        help="Path to vocab.json (Pass 1a output). If present, entity list is included in the extraction prompt and types are normalized.",
+    )
     args = parser.parse_args()
     import asyncio
 
@@ -331,7 +387,14 @@ def main() -> None:
     if args.papers is not None:
         papers_list = [p.strip() for p in args.papers.split(",") if p.strip()]
 
-    asyncio.run(run_pass1(args.input_dir, args.output_dir, args.llm_backend, args.limit, papers_list))
+    asyncio.run(run_pass1(
+        args.input_dir,
+        args.output_dir,
+        args.llm_backend,
+        args.limit,
+        papers_list,
+        vocab_file=args.vocab_file,
+    ))
 
 
 if __name__ == "__main__":

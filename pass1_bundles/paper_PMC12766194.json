@@ -8,16 +8,16 @@
     ],
     "journal": "Not specified",
     "year": 2024,
-    "study_type": "cohort study",
-    "eco_type": "population-based retrospective cohort"
+    "study_type": "retrospective cohort study",
+    "eco_type": null
   },
   "extraction_provenance": {
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "f5da8dd9b8dd84ea4823af0e58537841df333399",
-      "git_commit_short": "f5da8dd",
-      "git_branch": "ingest-refactor",
+      "git_commit": "777544707e2808fd01d9cb8fbe5dc1d74b29532b",
+      "git_commit_short": "7775447",
+      "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
     },
@@ -30,20 +30,20 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:f94cc0ab23940d18"
+      "checksum": "sha256:5bdf447f3cfe242d"
     },
     "execution": {
-      "timestamp": "2026-02-23T22:33:25.130550Z",
+      "timestamp": "2026-02-27T16:11:12.852835Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 40.18
+      "duration_seconds": 37.88
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "disease_1",
+      "id": "male_breast_cancer",
       "class": "Disease",
       "name": "male breast cancer",
       "synonyms": [
@@ -53,14 +53,14 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0238033",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "disease_2",
+      "id": "breast_cancer_general",
       "class": "Disease",
       "name": "breast cancer",
       "synonyms": [],
@@ -68,14 +68,14 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0006142",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "disease_3",
+      "id": "female_breast_cancer",
       "class": "Disease",
       "name": "female breast cancer",
       "synonyms": [
@@ -85,81 +85,6 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0006142",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_4",
-      "class": "Disease",
-      "name": "diabetes",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0011847",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_5",
-      "class": "Disease",
-      "name": "obesity",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0028754",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "gene_1",
-      "class": "Gene",
-      "name": "BRCA1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1100",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "gene_2",
-      "class": "Gene",
-      "name": "BRCA2",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1101",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "variant_1",
-      "class": "Variant",
-      "name": "5296del4",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
@@ -167,23 +92,8 @@
       "uniprot_id": null
     },
     {
-      "id": "variant_2",
-      "class": "Variant",
-      "name": "6174delT",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "population_1",
-      "class": "Population",
+      "id": "han_ethnicity",
+      "class": "Other",
       "name": "Han",
       "synonyms": [],
       "symbol": null,
@@ -197,8 +107,8 @@
       "uniprot_id": null
     },
     {
-      "id": "population_2",
-      "class": "Population",
+      "id": "mongolian_ethnicity",
+      "class": "Other",
       "name": "Mongolian",
       "synonyms": [],
       "symbol": null,
@@ -212,9 +122,26 @@
       "uniprot_id": null
     },
     {
-      "id": "population_3",
-      "class": "Population",
-      "name": "Asian Americans",
+      "id": "age_standardized_incidence_rate",
+      "class": "Biomarker",
+      "name": "age-standardized incidence rate",
+      "synonyms": [
+        "ASR of incidence"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "five_year_prevalence_rate",
+      "class": "Biomarker",
+      "name": "5-year prevalence rate",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -227,9 +154,9 @@
       "uniprot_id": null
     },
     {
-      "id": "population_4",
-      "class": "Population",
-      "name": "African Americans",
+      "id": "all_cause_mortality",
+      "class": "Biomarker",
+      "name": "all-cause mortality",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -242,9 +169,9 @@
       "uniprot_id": null
     },
     {
-      "id": "treatment_1",
-      "class": "Treatment",
-      "name": "surgery",
+      "id": "breast_cancer_specific_mortality",
+      "class": "Biomarker",
+      "name": "breast cancer-specific mortality",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -257,9 +184,9 @@
       "uniprot_id": null
     },
     {
-      "id": "treatment_2",
-      "class": "Treatment",
-      "name": "chemotherapy",
+      "id": "healthcare_utilization",
+      "class": "Other",
+      "name": "healthcare utilization",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -272,9 +199,9 @@
       "uniprot_id": null
     },
     {
-      "id": "treatment_3",
-      "class": "Treatment",
-      "name": "endocrine therapy",
+      "id": "medical_cost",
+      "class": "Other",
+      "name": "medical cost",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -287,9 +214,9 @@
       "uniprot_id": null
     },
     {
-      "id": "treatment_4",
-      "class": "Treatment",
-      "name": "targeted therapy",
+      "id": "survival_rate",
+      "class": "Biomarker",
+      "name": "survival rate",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -302,9 +229,77 @@
       "uniprot_id": null
     },
     {
-      "id": "treatment_5",
-      "class": "Treatment",
-      "name": "radiotherapy",
+      "id": "gdp_level",
+      "class": "Other",
+      "name": "GDP level",
+      "synonyms": [
+        "gross domestic product level"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "inner_mongolia_regional_health_information_platform",
+      "class": "Institution",
+      "name": "Inner Mongolia Regional Health Information Platform",
+      "synonyms": [
+        "IMRHIP"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "national_basic_medical_insurance",
+      "class": "Institution",
+      "name": "National Basic Medical Insurance",
+      "synonyms": [
+        "NBMI"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "national_cancer_registry",
+      "class": "Institution",
+      "name": "National Cancer Registry",
+      "synonyms": [
+        "NCR"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "kaplan_meier_method",
+      "class": "StatisticalMethod",
+      "name": "Kaplan-Meier method",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -317,9 +312,26 @@
       "uniprot_id": null
     },
     {
-      "id": "location_1",
-      "class": "Location",
-      "name": "Inner Mongolia",
+      "id": "cox_proportional_hazards_model",
+      "class": "StatisticalMethod",
+      "name": "Cox proportional hazards model",
+      "synonyms": [
+        "stratified Cox model"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "fine_gray_competing_risk_model",
+      "class": "StatisticalMethod",
+      "name": "Fine and Gray competing risk model",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -332,9 +344,9 @@
       "uniprot_id": null
     },
     {
-      "id": "location_2",
-      "class": "Location",
-      "name": "China",
+      "id": "cause_specific_hazard_model",
+      "class": "StatisticalMethod",
+      "name": "Cause-specific hazard model",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -354,11 +366,11 @@
       "entity_id": null,
       "paper_id": "PMC_PLACEHOLDER",
       "text_span_id": "results_1",
-      "text": "Among 630 participants (mean [SD] age, 59.4 [13.1] years), age-standardized rates of incidence were 1.2 (95% CI: 0.4\u20132.1) per 100, 000. All-cause mortality was 50.8 per 1000 person-years (95% CI: 42.4\u201360.4).",
+      "text": "Among 630 participants (mean [SD] age, 59.4 [13.1] years), age-standardized rates of incidence were 1.2 (95% CI: 0.4\u20132.1) per 100, 000.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "cohort study",
-      "eco_type": "population-based retrospective cohort",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
@@ -367,24 +379,11 @@
       "entity_id": null,
       "paper_id": "PMC_PLACEHOLDER",
       "text_span_id": "results_2",
-      "text": "Regarding ethnicity, Mongolian had a higher age-standardized 5-year prevalence rate than Han (3.2[95% CI: 2.5\u20134.0] vs 2.3[95% CI: 1.7\u20133.0], P=0.016), but no significant differences existed in incidence rates, survival rates, and risk of all-cause and breast cancer-specific mortality.",
+      "text": "All-cause mortality was 50.8 per 1000 person-years (95% CI: 42.4\u201360.4).",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "cohort study",
-      "eco_type": "population-based retrospective cohort",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC_PLACEHOLDER:background:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC_PLACEHOLDER",
-      "text_span_id": "background_1",
-      "text": "BRCA1/2 (e.g. 5296del4 in BRCA1 and 6174delT in BRCA2) mutation was considered as the crucial risk factor in breast cancer, and BRCA2 mutations were more common in MBC.",
-      "confidence": 0.9,
-      "extraction_method": "llm",
-      "study_type": "cohort study",
-      "eco_type": "population-based retrospective cohort",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
@@ -393,157 +392,45 @@
       "entity_id": null,
       "paper_id": "PMC_PLACEHOLDER",
       "text_span_id": "results_3",
-      "text": "Apart from the result that there was a significantly higher proportion of Mongolian patients who used chemotherapy (38.7% vs 25.0%, P=0.020), no significant disparities were observed in the treatment pattern.",
+      "text": "Regarding ethnicity, Mongolian had a higher age-standardized 5-year prevalence rate than Han (3.2[95% CI: 2.5\u20134.0] vs 2.3[95% CI: 1.7\u20133.0], P=0.016), but no significant differences existed in incidence rates, survival rates, and risk of all-cause and breast cancer-specific mortality.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "cohort study",
-      "eco_type": "population-based retrospective cohort",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_PLACEHOLDER:results:4:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_PLACEHOLDER",
+      "text_span_id": "results_4",
+      "text": "Meanwhile, few significant disparities in healthcare utilization between Han and Mongolian were observed.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_PLACEHOLDER:discussion:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_PLACEHOLDER",
+      "text_span_id": "discussion_1",
+      "text": "After adjusted for covariates, male breast cancer patients residing in cities of a low GDP level were associated with increased breast-cancer specific mortality (HR, 22.5, [95% CI: 1.6\u2013325.0]; P=0.022)",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
       "source": "extracted"
     }
   ],
   "relationships": [
     {
-      "subject": "variant_1",
+      "subject": "mongolian_ethnicity",
       "predicate": "ASSOCIATED_WITH",
-      "object": "gene_1",
-      "evidence_ids": [
-        "PMC_PLACEHOLDER:background:1:llm"
-      ],
-      "source_papers": [
-        "PMC_PLACEHOLDER"
-      ],
-      "confidence": 0.9,
-      "properties": {
-        "variant_type": "deletion",
-        "location": "BRCA1"
-      },
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "variant_2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "gene_2",
-      "evidence_ids": [
-        "PMC_PLACEHOLDER:background:1:llm"
-      ],
-      "source_papers": [
-        "PMC_PLACEHOLDER"
-      ],
-      "confidence": 0.9,
-      "properties": {
-        "variant_type": "deletion",
-        "location": "BRCA2"
-      },
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "gene_1",
-      "predicate": "INCREASES_RISK",
-      "object": "disease_2",
-      "evidence_ids": [
-        "PMC_PLACEHOLDER:background:1:llm"
-      ],
-      "source_papers": [
-        "PMC_PLACEHOLDER"
-      ],
-      "confidence": 0.9,
-      "properties": {
-        "risk_type": "genetic susceptibility"
-      },
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "gene_2",
-      "predicate": "INCREASES_RISK",
-      "object": "disease_2",
-      "evidence_ids": [
-        "PMC_PLACEHOLDER:background:1:llm"
-      ],
-      "source_papers": [
-        "PMC_PLACEHOLDER"
-      ],
-      "confidence": 0.9,
-      "properties": {
-        "risk_type": "genetic susceptibility"
-      },
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "gene_2",
-      "predicate": "INCREASES_RISK",
-      "object": "disease_1",
-      "evidence_ids": [
-        "PMC_PLACEHOLDER:background:1:llm"
-      ],
-      "source_papers": [
-        "PMC_PLACEHOLDER"
-      ],
-      "confidence": 0.9,
-      "properties": {
-        "risk_type": "genetic susceptibility",
-        "note": "BRCA2 mutations were more common in MBC"
-      },
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "population_2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_1",
-      "evidence_ids": [
-        "PMC_PLACEHOLDER:results:2:llm"
-      ],
-      "source_papers": [
-        "PMC_PLACEHOLDER"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "association_type": "higher 5-year prevalence rate",
-        "prevalence_rate": "3.2 per 100,000"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "population_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_1",
-      "evidence_ids": [
-        "PMC_PLACEHOLDER:results:2:llm"
-      ],
-      "source_papers": [
-        "PMC_PLACEHOLDER"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "association_type": "5-year prevalence rate",
-        "prevalence_rate": "2.3 per 100,000"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "population_2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "treatment_2",
+      "object": "five_year_prevalence_rate",
       "evidence_ids": [
         "PMC_PLACEHOLDER:results:3:llm"
       ],
@@ -552,8 +439,8 @@
       ],
       "confidence": 0.95,
       "properties": {
-        "association_type": "higher utilization rate",
-        "utilization_rate": "38.7%"
+        "statistical_significance": "P=0.016",
+        "comparison": "higher than Han"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -561,9 +448,9 @@
       "note": null
     },
     {
-      "subject": "population_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "treatment_2",
+      "subject": "mongolian_ethnicity",
+      "predicate": "NOT_ASSOCIATED_WITH",
+      "object": "age_standardized_incidence_rate",
       "evidence_ids": [
         "PMC_PLACEHOLDER:results:3:llm"
       ],
@@ -572,8 +459,7 @@
       ],
       "confidence": 0.95,
       "properties": {
-        "association_type": "utilization rate",
-        "utilization_rate": "25.0%"
+        "statistical_significance": "no significant differences"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -581,18 +467,98 @@
       "note": null
     },
     {
-      "subject": "disease_4",
-      "predicate": "INCREASES_RISK",
-      "object": "disease_1",
+      "subject": "mongolian_ethnicity",
+      "predicate": "NOT_ASSOCIATED_WITH",
+      "object": "survival_rate",
       "evidence_ids": [
-        "PMC_PLACEHOLDER:results:2:llm"
+        "PMC_PLACEHOLDER:results:3:llm"
       ],
       "source_papers": [
         "PMC_PLACEHOLDER"
       ],
-      "confidence": 0.8,
+      "confidence": 0.95,
       "properties": {
-        "risk_type": "endocrine disease association"
+        "statistical_significance": "no significant differences"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "mongolian_ethnicity",
+      "predicate": "NOT_ASSOCIATED_WITH",
+      "object": "all_cause_mortality",
+      "evidence_ids": [
+        "PMC_PLACEHOLDER:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC_PLACEHOLDER"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "statistical_significance": "no significant differences"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "mongolian_ethnicity",
+      "predicate": "NOT_ASSOCIATED_WITH",
+      "object": "breast_cancer_specific_mortality",
+      "evidence_ids": [
+        "PMC_PLACEHOLDER:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC_PLACEHOLDER"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "statistical_significance": "no significant differences"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "han_ethnicity",
+      "predicate": "NOT_ASSOCIATED_WITH",
+      "object": "healthcare_utilization",
+      "evidence_ids": [
+        "PMC_PLACEHOLDER:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC_PLACEHOLDER"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "comparison": "vs Mongolian",
+        "statistical_significance": "few significant disparities"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "gdp_level",
+      "predicate": "INCREASES_RISK",
+      "object": "breast_cancer_specific_mortality",
+      "evidence_ids": [
+        "PMC_PLACEHOLDER:discussion:1:llm"
+      ],
+      "source_papers": [
+        "PMC_PLACEHOLDER"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "hazard_ratio": "22.5",
+        "confidence_interval": "1.6-325.0",
+        "p_value": "0.022",
+        "condition": "low GDP level"
       },
       "section": "discussion",
       "asserted_by": "llm",
@@ -600,29 +566,24 @@
       "note": null
     },
     {
-      "subject": "disease_5",
-      "predicate": "INCREASES_RISK",
-      "object": "disease_1",
-      "evidence_ids": [
-        "PMC_PLACEHOLDER:results:2:llm"
-      ],
+      "subject": "male_breast_cancer",
+      "predicate": "SAME_AS",
+      "object": "breast_cancer_general",
+      "evidence_ids": [],
       "source_papers": [
         "PMC_PLACEHOLDER"
       ],
-      "confidence": 0.8,
-      "properties": {
-        "risk_type": "lifestyle factor"
-      },
-      "section": "discussion",
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
       "asserted_by": "llm",
       "resolution": null,
-      "note": null
+      "note": "Male breast cancer is a subtype of breast cancer"
     }
   ],
   "notes": [
     "This study examined ethnic disparities in male breast cancer between Han and Mongolian populations in Inner Mongolia, China",
-    "The study found no significant ethnic disparities in disease burden and healthcare utilization overall",
-    "Mongolian patients had higher 5-year prevalence rates and chemotherapy utilization rates compared to Han patients",
-    "BRCA mutations, particularly BRCA2, are important risk factors for male breast cancer"
+    "The study found minimal ethnic disparities in disease burden and healthcare utilization, but identified economic factors as important predictors",
+    "Sample size limitations for Mongolian patients may have affected statistical power for some analyses"
   ]
 }

@@ -55,18 +55,19 @@ def _workspace_root() -> Path:
     return root
 
 
-def _ensure_workspace_dirs(root: Path) -> tuple[Path, Path, Path]:
-    """Create and return (bundles_dir, merged_dir, output_dir). These persist across jobs.
+def _ensure_workspace_dirs(root: Path) -> tuple[Path, Path, Path, Path]:
+    """Create and return (bundles_dir, merged_dir, output_dir, vocab_dir). These persist across jobs.
 
     Note: output_dir (medlit_bundle/) is always fully rebuilt by Pass 3.
-    The true incremental state is bundles_dir + merged_dir (especially synonym_cache.json).
+    The true incremental state is bundles_dir + merged_dir + vocab_dir (especially synonym_cache.json).
     """
     bundles_dir = root / "pass1_bundles"
     merged_dir = root / "medlit_merged"
     output_dir = root / "medlit_bundle"
-    for d in (bundles_dir, merged_dir, output_dir):
+    vocab_dir = root / "pass1_vocab"
+    for d in (bundles_dir, merged_dir, output_dir, vocab_dir):
         d.mkdir(parents=True, exist_ok=True)
-    return bundles_dir, merged_dir, output_dir
+    return bundles_dir, merged_dir, output_dir, vocab_dir
 
 
 @contextmanager
@@ -94,11 +95,14 @@ def _run_pass2_pass3_load(
     from examples.medlit.pipeline.bundle_builder import run_pass3
     from examples.medlit.pipeline.dedup import run_pass2
 
+    seeded_cache = workspace_root / "pass1_vocab" / "seeded_synonym_cache.json"
+    synonym_cache_path = seeded_cache if seeded_cache.exists() else merged_dir / "synonym_cache.json"
+
     with _workspace_lock(workspace_root):
         run_pass2(
             bundle_dir=bundles_dir,
             output_dir=merged_dir,
-            synonym_cache_path=merged_dir / "synonym_cache.json",
+            synonym_cache_path=synonym_cache_path,
             canonical_id_cache_path=None,
         )
         run_pass3(merged_dir, bundles_dir, output_dir)
@@ -198,6 +202,7 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
     from kgbundle import BundleManifestV1
 
     from examples.medlit.scripts.pass1_extract import run_pass1
+    from examples.medlit.scripts.pass1a_vocab import run_pass1a
 
     url = job.url
     logger.info("Ingest job %s starting: url=%s", job_id, url)
@@ -209,7 +214,7 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
     relationships_added = 0
 
     workspace = _workspace_root()
-    bundles_dir, merged_dir, output_dir = _ensure_workspace_dirs(workspace)
+    bundles_dir, merged_dir, output_dir, vocab_dir = _ensure_workspace_dirs(workspace)
 
     with TemporaryDirectory(prefix="ingest_input_") as tmp_input:
         input_dir = Path(tmp_input)
@@ -262,11 +267,20 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
             logger.info("Ingest job %s: skipped (paper %s already in workspace)", job_id, pmcid)
             return
 
-        # Pass 1 (outside lock)
+        # Pass 1a: merge this paper's vocab into workspace vocab (outside lock)
         llm_backend = os.environ.get("PASS1_LLM_BACKEND", "anthropic")
+        logger.info("Ingest job %s: starting Pass 1a (backend=%s)", job_id, llm_backend)
+        await run_pass1a(input_dir, vocab_dir, llm_backend, papers=None, limit=1)
+        # Pass 1b: full extraction with vocabulary context
         logger.info("Ingest job %s: starting Pass 1 (backend=%s)", job_id, llm_backend)
         t0 = time.perf_counter()
-        await run_pass1(input_dir, bundles_dir, llm_backend, limit=1)
+        await run_pass1(
+            input_dir,
+            bundles_dir,
+            llm_backend,
+            limit=1,
+            vocab_file=vocab_dir / "vocab.json",
+        )
         pass1_sec = time.perf_counter() - t0
 
         bundle_files = sorted(bundles_dir.glob("paper_*.json"))

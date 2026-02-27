@@ -62,6 +62,110 @@ LOOKUP_BLOCKLIST = frozenset(
 # Module-level logger for sync methods
 logger = setup_logging()
 
+# UMLS semantic type group -> allowed entity types (lowercase) for validate_umls_type.
+# Used to catch misclassifications (e.g. cortisol as gene when it is a hormone/drug).
+UMLS_SEMANTIC_TYPE_TO_ENTITY_TYPES: dict[str, list[str]] = {
+    "Pharmacologic Substance": ["drug"],
+    "Clinical Drug": ["drug"],
+    "Disease or Syndrome": ["disease", "symptom", "adverseevent"],
+    "Finding": ["disease", "symptom", "adverseevent"],
+    "Gene or Genome": ["gene"],
+    "Amino Acid, Peptide, or Protein": ["protein", "biomarker"],
+    "Biologic Function": ["biologicalprocess"],
+    "Body Part, Organ, or Organ Component": ["anatomicalstructure"],
+    "Body Part": ["anatomicalstructure"],
+    "Organ": ["anatomicalstructure"],
+    "Diagnostic Procedure": ["procedure"],
+    "Therapeutic or Preventive Procedure": ["procedure"],
+    "Laboratory Procedure": ["procedure", "biomarker"],
+    "Quantitative Concept": ["biomarker"],
+    "Steroid": ["drug", "biomarker"],
+    "Hormone": ["drug", "biomarker"],
+}
+
+
+def validate_umls_type(
+    umls_id: str,
+    assigned_type: str,
+    _cache: dict[tuple[str, str], tuple[bool, str | None]] | None = None,
+    _semantic_types_override: dict[str, list[str]] | None = None,
+) -> tuple[bool, str | None]:
+    """Return (ok, correct_type_if_known).
+
+    Looks up the UMLS semantic type(s) for the CUI and checks whether assigned_type
+    is compatible. Returns (False, expected_type) when assigned_type is incompatible
+    and the mapping is unambiguous; (True, None) when compatible; (False, None) when
+    ambiguous (multiple allowed types). Uses in-memory cache keyed by (umls_id,
+    assigned_type) so each CUI is looked up at most once per run when cache is passed.
+    For tests, pass _semantic_types_override mapping CUI -> list of semantic type names
+    to avoid live API calls.
+    """
+    cache = _cache if _cache is not None else {}
+    key = (umls_id.strip(), assigned_type.strip().lower())
+    if key in cache:
+        return cache[key]
+
+    # Strip CUI prefix if present (e.g. "C0020268" or "CUI:C0020268")
+    cui = umls_id.strip().replace("CUI:", "").upper()
+    if not cui.startswith("C") or len(cui) < 2:
+        cache[key] = (True, None)
+        return (True, None)
+
+    if _semantic_types_override is not None:
+        type_names = _semantic_types_override.get(cui) or []
+    else:
+        api_key = os.getenv("UMLS_API_KEY")
+        if not api_key:
+            cache[key] = (True, None)
+            return (True, None)
+
+        try:
+            import httpx as _httpx
+
+            with _httpx.Client(timeout=10.0) as client:
+                url = f"https://uts-ws.nlm.nih.gov/rest/content/current/CUI/{cui}"
+                resp = client.get(url, params={"apiKey": api_key})
+                if resp.status_code != 200:
+                    cache[key] = (True, None)
+                    return (True, None)
+                data = resp.json()
+        except Exception as e:
+            logger.warning(
+                {"message": "UMLS semantic type lookup failed", "umls_id": umls_id, "error": str(e)},
+                pprint=True,
+            )
+            cache[key] = (True, None)
+            return (True, None)
+
+        semantic_types = data.get("semanticTypes") or []
+        type_names = [st.get("name") for st in semantic_types if isinstance(st, dict) and st.get("name")]
+    if not type_names:
+        cache[key] = (True, None)
+        return (True, None)
+
+    allowed: set[str] = set()
+    for st_name in type_names:
+        for entity_type in UMLS_SEMANTIC_TYPE_TO_ENTITY_TYPES.get(st_name, []):
+            allowed.add(entity_type)
+
+    if not allowed:
+        cache[key] = (True, None)
+        return (True, None)
+
+    assigned_lower = assigned_type.strip().lower()
+    if assigned_lower in allowed:
+        cache[key] = (True, None)
+        return (True, None)
+
+    # Unambiguous: one allowed type -> suggest it
+    if len(allowed) == 1:
+        correct = next(iter(allowed))
+        cache[key] = (False, correct)
+        return (False, correct)
+    # Ambiguous: multiple allowed types
+    cache[key] = (False, None)
+    return (False, None)
+
 
 class CanonicalIdLookup(CanonicalIdLookupInterface):
     """Look up canonical IDs from various medical ontology authorities.

@@ -1,11 +1,13 @@
 {
   "paper": {
     "doi": null,
-    "pmcid": "PMC12784773",
+    "pmcid": "PMC_FERROPTOSIS_2024",
     "title": "Ferroptosis\u2014The \"Double-Edged Sword\" in Cancer: Mechanisms of Tumor Suppression/Resistance and Therapeutic Manipulation",
-    "authors": [],
-    "journal": null,
-    "year": null,
+    "authors": [
+      "Not specified"
+    ],
+    "journal": "Not specified",
+    "year": 2024,
     "study_type": "narrative review",
     "eco_type": null
   },
@@ -13,9 +15,9 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "39f1b7e43865f4ea820908097aed6859daeae7cf",
-      "git_commit_short": "39f1b7e",
-      "git_branch": "ingest-refactor",
+      "git_commit": "777544707e2808fd01d9cb8fbe5dc1d74b29532b",
+      "git_commit_short": "7775447",
+      "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
     },
@@ -28,13 +30,13 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:f94cc0ab23940d18"
+      "checksum": "sha256:5bdf447f3cfe242d"
     },
     "execution": {
-      "timestamp": "2026-02-23T18:24:24.505730Z",
+      "timestamp": "2026-02-27T16:17:22.115529Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 40.46
+      "duration_seconds": 78.39
     },
     "entity_resolution": null,
     "model_info": null
@@ -42,7 +44,7 @@
   "entities": [
     {
       "id": "ferroptosis",
-      "class": "Biological Process",
+      "class": "BiologicalProcess",
       "name": "ferroptosis",
       "synonyms": [
         "iron-dependent cell death",
@@ -59,13 +61,11 @@
       "uniprot_id": null
     },
     {
-      "id": "cancer",
-      "class": "Disease",
-      "name": "cancer",
+      "id": "reactive_oxygen_species",
+      "class": "Biomarker",
+      "name": "reactive oxygen species",
       "synonyms": [
-        "malignancy",
-        "tumor",
-        "neoplasm"
+        "ROS"
       ],
       "symbol": null,
       "brand_names": [],
@@ -78,25 +78,58 @@
       "uniprot_id": null
     },
     {
-      "id": "TP53",
-      "class": "Gene",
-      "name": "TP53",
+      "id": "lipid_peroxidation",
+      "class": "BiologicalProcess",
+      "name": "lipid peroxidation",
       "synonyms": [
-        "tumor protein 53",
-        "p53"
+        "membrane lipid peroxidation"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:11998",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "SLC7A11",
+      "id": "iron_metabolism",
+      "class": "BiologicalProcess",
+      "name": "iron metabolism",
+      "synonyms": [
+        "iron homeostasis"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "glutathione_peroxidase_4",
+      "class": "Protein",
+      "name": "glutathione peroxidase 4",
+      "synonyms": [
+        "GPX4"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:4555",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "slc7a11",
       "class": "Gene",
       "name": "SLC7A11",
       "synonyms": [
@@ -113,53 +146,19 @@
       "uniprot_id": null
     },
     {
-      "id": "GPX4",
+      "id": "tp53",
       "class": "Gene",
-      "name": "GPX4",
+      "name": "TP53",
       "synonyms": [
-        "glutathione peroxidase 4"
+        "tumor protein 53",
+        "p53"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:4555",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ACSL4",
-      "class": "Gene",
-      "name": "ACSL4",
-      "synonyms": [
-        "Acyl-CoA Synthetase Long Chain Family Member 4"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:3571",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "FSP1",
-      "class": "Gene",
-      "name": "FSP1",
-      "synonyms": [
-        "Ferroptosis suppressor protein 1",
-        "AIFM2"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:16686",
+      "hgnc_id": "HGNC:11998",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -180,7 +179,7 @@
       "uniprot_id": null
     },
     {
-      "id": "RSL3",
+      "id": "rsl3",
       "class": "Drug",
       "name": "RSL3",
       "synonyms": [],
@@ -205,7 +204,7 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "608804",
+      "rxnorm_id": "681479",
       "loinc_code": null,
       "uniprot_id": null
     },
@@ -220,7 +219,7 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C2239176",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -235,7 +234,7 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C1335302",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -250,16 +249,16 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C3539878",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "clear_cell_renal_cell_carcinoma",
-      "class": "Disease",
-      "name": "clear cell renal cell carcinoma",
+      "id": "fenton_reaction",
+      "class": "BiologicalProcess",
+      "name": "Fenton reaction",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -272,42 +271,93 @@
       "uniprot_id": null
     },
     {
-      "id": "ROS",
-      "class": "Chemical",
-      "name": "reactive oxygen species",
+      "id": "steap3",
+      "class": "Protein",
+      "name": "Six-Transmembrane Epithelial Antigen of Prostate 3",
       "synonyms": [
-        "ROS"
+        "STEAP3"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": null,
+      "hgnc_id": "HGNC:17885",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "iron",
-      "class": "Chemical",
-      "name": "iron",
+      "id": "ncoa4",
+      "class": "Protein",
+      "name": "Nuclear Receptor Coactivator 4",
       "synonyms": [
-        "Fe"
+        "NCOA4"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": null,
+      "hgnc_id": "HGNC:7670",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "lpcat3",
+      "class": "Protein",
+      "name": "Lysophosphatidylcholine Acyltransferase 3",
+      "synonyms": [
+        "LPCAT3"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:26032",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "por",
+      "class": "Protein",
+      "name": "cytochrome P450 oxidoreductase",
+      "synonyms": [
+        "POR"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:9208",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "slc3a2",
+      "class": "Gene",
+      "name": "SLC3A2",
+      "synonyms": [
+        "cystine transporter solute carrier family 3 member 2"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11025",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
       "id": "glutathione",
-      "class": "Chemical",
+      "class": "Biomarker",
       "name": "glutathione",
       "synonyms": [
         "GSH"
@@ -323,26 +373,45 @@
       "uniprot_id": null
     },
     {
-      "id": "lipid_peroxidation",
-      "class": "Biological Process",
-      "name": "lipid peroxidation",
-      "synonyms": [],
+      "id": "bap1",
+      "class": "Protein",
+      "name": "BRCA1-associated protein-1",
+      "synonyms": [
+        "BAP1"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": null,
+      "hgnc_id": "HGNC:950",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "NRF2",
-      "class": "Gene",
-      "name": "NRF2",
+      "id": "amer1",
+      "class": "Protein",
+      "name": "APC membrane recruitment protein 1",
       "synonyms": [
-        "Nuclear factor (erythroid-derived 2)-like 2"
+        "AMER1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:26837",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "nrf2",
+      "class": "Protein",
+      "name": "Nuclear factor (erythroid-derived 2)-like 2",
+      "synonyms": [
+        "NRF2"
       ],
       "symbol": null,
       "brand_names": [],
@@ -355,18 +424,453 @@
       "uniprot_id": null
     },
     {
-      "id": "KEAP1",
-      "class": "Gene",
-      "name": "KEAP1",
+      "id": "keap1",
+      "class": "Protein",
+      "name": "kelch-like ECH-associated protein 1",
       "synonyms": [
-        "kelch-like ECH-associated protein 1"
+        "KEAP1"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:23177",
+      "hgnc_id": "HGNC:6309",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "fsp1",
+      "class": "Protein",
+      "name": "Ferroptosis suppressor protein 1",
+      "synonyms": [
+        "FSP1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "coq10",
+      "class": "Drug",
+      "name": "CoQ10",
+      "synonyms": [
+        "coenzyme Q10"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "p27",
+      "class": "Protein",
+      "name": "cyclin-dependent kinase inhibitor p27",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ovarian_cancer",
+      "class": "Disease",
+      "name": "ovarian cancer",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0029925",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mll4",
+      "class": "Protein",
+      "name": "lysine methyltransferase 2B",
+      "synonyms": [
+        "MLL4"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:7133",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "alox12",
+      "class": "Gene",
+      "name": "ALOX12",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:434",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "alox12b",
+      "class": "Gene",
+      "name": "ALOX12B",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:435",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "aloxe3",
+      "class": "Gene",
+      "name": "ALOXE3",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:437",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ras",
+      "class": "Gene",
+      "name": "RAS",
+      "synonyms": [
+        "RAS proto-oncogenes"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "eno1",
+      "class": "Protein",
+      "name": "enolase 1",
+      "synonyms": [
+        "ENO1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:3350",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "drp1",
+      "class": "Protein",
+      "name": "dynamin-related protein 1",
+      "synonyms": [
+        "DRP1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:2850",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cgas",
+      "class": "Protein",
+      "name": "cyclic GMP-AMP synthase",
+      "synonyms": [
+        "cGAS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:21367",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mitophagy",
+      "class": "BiologicalProcess",
+      "name": "mitophagy",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ferrostatin_1",
+      "class": "Drug",
+      "name": "ferrostatin-1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "liproxstatin_1",
+      "class": "Drug",
+      "name": "liproxstatin-1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "vitamin_e",
+      "class": "Drug",
+      "name": "vitamin E",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "11256",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "damps",
+      "class": "Biomarker",
+      "name": "damage-associated molecular patterns",
+      "synonyms": [
+        "DAMPs"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "dendritic_cells",
+      "class": "AnatomicalStructure",
+      "name": "dendritic cells",
+      "synonyms": [
+        "DCs"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "interferon_gamma",
+      "class": "Protein",
+      "name": "interferon-\u03b3",
+      "synonyms": [
+        "IFN-\u03b3"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:5438",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "natural_killer_cells",
+      "class": "AnatomicalStructure",
+      "name": "natural killer cells",
+      "synonyms": [
+        "NK cells"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "prlx93936",
+      "class": "Drug",
+      "name": "PRLX93936",
+      "synonyms": [
+        "erastin analog"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cnsi_fe",
+      "class": "Drug",
+      "name": "Carbon Nanoparticle-Loaded Iron",
+      "synonyms": [
+        "CNSI-Fe(II)"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "indole_3_aldehyde",
+      "class": "Drug",
+      "name": "indole-3-aldehyde",
+      "synonyms": [
+        "I3A"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "aryl_hydrocarbon_receptor",
+      "class": "Protein",
+      "name": "aryl hydrocarbon receptor",
+      "synonyms": [
+        "AHR"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:348",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "lactobacillus_reuteri",
+      "class": "AnatomicalStructure",
+      "name": "Lactobacillus reuteri",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "melanoma",
+      "class": "Disease",
+      "name": "melanoma",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0025202",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "lung_cancer",
+      "class": "Disease",
+      "name": "lung cancer",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0242379",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -374,11 +878,11 @@
   ],
   "evidence_entities": [
     {
-      "id": "paper_1:introduction:1:llm",
+      "id": "PMC_FERROPTOSIS_2024:introduction:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "intro_1",
+      "paper_id": "PMC_FERROPTOSIS_2024",
+      "text_span_id": "intro_ferroptosis_def",
       "text": "Ferroptosis is an iron-dependent form of programmed cell death that is driven by the accumulation of reactive oxygen species (ROS), leading to the formation of membrane-damaging lipid peroxides",
       "confidence": 0.95,
       "extraction_method": "llm",
@@ -387,11 +891,24 @@
       "source": "extracted"
     },
     {
-      "id": "paper_1:introduction:2:llm",
+      "id": "PMC_FERROPTOSIS_2024:introduction:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "intro_2",
+      "paper_id": "PMC_FERROPTOSIS_2024",
+      "text_span_id": "ferroptosis_morphology",
+      "text": "Morphologically, cells undergoing ferroptosis exhibit several changes in their mitochondria, including smaller size, decreased cristae, and much more condensed membranes",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "narrative review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_FERROPTOSIS_2024:introduction:3:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_FERROPTOSIS_2024",
+      "text_span_id": "cancer_dual_role",
       "text": "The manipulation of ferroptosis has become an attractive area of cancer research, as both the promotion and inhibition of this form of cell death have been seen to positively affect cancer outcomes",
       "confidence": 0.9,
       "extraction_method": "llm",
@@ -400,12 +917,12 @@
       "source": "extracted"
     },
     {
-      "id": "paper_1:mechanisms:1:llm",
+      "id": "PMC_FERROPTOSIS_2024:players:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "mech_1",
-      "text": "TP53 is the most frequently mutated tumor-suppressor gene and can play an important role in the promotion of ferroptosis in cancer. It downregulates SLC7A11 expression, a key component of the xCT system",
+      "paper_id": "PMC_FERROPTOSIS_2024",
+      "text_span_id": "fenton_reaction_role",
+      "text": "Iron in its ferrous state (Fe2+) is required for the Fenton reaction, a chemical process in which ferrous iron ions are used in the decomposition of hydrogen peroxide (H2O2) to create reactive hydroxyl radicals",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "narrative review",
@@ -413,11 +930,37 @@
       "source": "extracted"
     },
     {
-      "id": "paper_1:therapeutics:1:llm",
+      "id": "PMC_FERROPTOSIS_2024:players:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "ther_1",
+      "paper_id": "PMC_FERROPTOSIS_2024",
+      "text_span_id": "xct_system_function",
+      "text": "The xCT system is composed of two transmembrane proteins, SLC7A11 and SLC3A2, which create a cystine/glutamate antiporter. This allows for the uptake of cystine into the cell, which is a key precursor for glutathione (GSH) synthesis",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "narrative review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_FERROPTOSIS_2024:suppression:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_FERROPTOSIS_2024",
+      "text_span_id": "p53_ferroptosis_role",
+      "text": "TP53 is the most frequently mutated tumor-suppressor gene and can play an important role in the promotion of ferroptosis in cancer. It downregulates SLC7A11 expression, a key component of the xCT system",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "narrative review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_FERROPTOSIS_2024:therapeutics:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_FERROPTOSIS_2024",
+      "text_span_id": "erastin_mechanism",
       "text": "Erastin acts through the inhibition of the xCT antiporter composed of both SLC7A11 and SLC3A2. Inhibition of this antiporter leads to decreased intracellular cystine uptake and subsequent depletion of GSH",
       "confidence": 0.95,
       "extraction_method": "llm",
@@ -426,11 +969,11 @@
       "source": "extracted"
     },
     {
-      "id": "paper_1:therapeutics:2:llm",
+      "id": "PMC_FERROPTOSIS_2024:therapeutics:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "ther_2",
+      "paper_id": "PMC_FERROPTOSIS_2024",
+      "text_span_id": "rsl3_mechanism",
       "text": "RSL3 is another induction molecule that directly inhibits GPX4 by bypassing the need for GSH depletion",
       "confidence": 0.95,
       "extraction_method": "llm",
@@ -439,13 +982,26 @@
       "source": "extracted"
     },
     {
-      "id": "paper_1:therapeutics:3:llm",
+      "id": "PMC_FERROPTOSIS_2024:therapeutics:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "ther_3",
-      "text": "An HCC study has shown that sorafenib enhances ferroptosis through the inhibition of SLC7A11 and subsequent decrease in cystine uptake",
+      "paper_id": "PMC_FERROPTOSIS_2024",
+      "text_span_id": "sorafenib_ferroptosis",
+      "text": "A well-known chemotherapeutic agent, sorafenib, has also demonstrated ferroptosis induction. An HCC study has shown that sorafenib enhances ferroptosis through the inhibition of SLC7A11 and subsequent decrease in cystine uptake",
       "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "narrative review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_FERROPTOSIS_2024:immune:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_FERROPTOSIS_2024",
+      "text_span_id": "immune_ferroptosis_effect",
+      "text": "Dendritic cells failed to effectively present tumor antigens as they undergo ferroptosis, resulting in weakened CD8+ T cell responses",
+      "confidence": 0.85,
       "extraction_method": "llm",
       "study_type": "narrative review",
       "eco_type": null,
@@ -456,71 +1012,137 @@
     {
       "subject": "ferroptosis",
       "predicate": "ASSOCIATED_WITH",
-      "object": "cancer",
+      "object": "reactive_oxygen_species",
       "evidence_ids": [
-        "paper_1:introduction:2:llm"
+        "PMC_FERROPTOSIS_2024:introduction:1:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_FERROPTOSIS_2024"
       ],
-      "confidence": 0.9,
-      "properties": {
-        "relationship_type": "bidirectional"
-      },
+      "confidence": 0.95,
+      "properties": {},
       "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "TP53",
-      "predicate": "REGULATES",
-      "object": "SLC7A11",
+      "subject": "ferroptosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "lipid_peroxidation",
       "evidence_ids": [
-        "paper_1:mechanisms:1:llm"
+        "PMC_FERROPTOSIS_2024:introduction:1:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_FERROPTOSIS_2024"
       ],
       "confidence": 0.95,
-      "properties": {
-        "regulation_type": "downregulation"
-      },
-      "section": "mechanisms",
+      "properties": {},
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "TP53",
-      "predicate": "PROMOTES",
-      "object": "ferroptosis",
+      "subject": "ferroptosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "iron_metabolism",
       "evidence_ids": [
-        "paper_1:mechanisms:1:llm"
+        "PMC_FERROPTOSIS_2024:players:1:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_FERROPTOSIS_2024"
       ],
       "confidence": 0.95,
       "properties": {},
-      "section": "mechanisms",
+      "section": "players",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "fenton_reaction",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "reactive_oxygen_species",
+      "evidence_ids": [
+        "PMC_FERROPTOSIS_2024:players:1:llm"
+      ],
+      "source_papers": [
+        "PMC_FERROPTOSIS_2024"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "players",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "slc7a11",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "glutathione",
+      "evidence_ids": [
+        "PMC_FERROPTOSIS_2024:players:2:llm"
+      ],
+      "source_papers": [
+        "PMC_FERROPTOSIS_2024"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "players",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "tp53",
+      "predicate": "INCREASES_RISK",
+      "object": "ferroptosis",
+      "evidence_ids": [
+        "PMC_FERROPTOSIS_2024:suppression:1:llm"
+      ],
+      "source_papers": [
+        "PMC_FERROPTOSIS_2024"
+      ],
+      "confidence": 0.9,
+      "properties": {},
+      "section": "suppression",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "tp53",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "slc7a11",
+      "evidence_ids": [
+        "PMC_FERROPTOSIS_2024:suppression:1:llm"
+      ],
+      "source_papers": [
+        "PMC_FERROPTOSIS_2024"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "relationship_type": "downregulates"
+      },
+      "section": "suppression",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "erastin",
-      "predicate": "INHIBITS",
-      "object": "SLC7A11",
+      "predicate": "TREATS",
+      "object": "cancer",
       "evidence_ids": [
-        "paper_1:therapeutics:1:llm"
+        "PMC_FERROPTOSIS_2024:therapeutics:1:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_FERROPTOSIS_2024"
       ],
-      "confidence": 0.95,
+      "confidence": 0.85,
       "properties": {
-        "mechanism": "xCT antiporter inhibition"
+        "mechanism": "ferroptosis induction"
       },
       "section": "therapeutics",
       "asserted_by": "llm",
@@ -529,17 +1151,17 @@
     },
     {
       "subject": "erastin",
-      "predicate": "INDUCES",
-      "object": "ferroptosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "slc7a11",
       "evidence_ids": [
-        "paper_1:therapeutics:1:llm"
+        "PMC_FERROPTOSIS_2024:therapeutics:1:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_FERROPTOSIS_2024"
       ],
       "confidence": 0.95,
       "properties": {
-        "mechanism": "GSH depletion"
+        "relationship_type": "inhibits"
       },
       "section": "therapeutics",
       "asserted_by": "llm",
@@ -547,18 +1169,18 @@
       "note": null
     },
     {
-      "subject": "RSL3",
-      "predicate": "INHIBITS",
-      "object": "GPX4",
+      "subject": "rsl3",
+      "predicate": "TREATS",
+      "object": "cancer",
       "evidence_ids": [
-        "paper_1:therapeutics:2:llm"
+        "PMC_FERROPTOSIS_2024:therapeutics:2:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_FERROPTOSIS_2024"
       ],
-      "confidence": 0.95,
+      "confidence": 0.85,
       "properties": {
-        "mechanism": "direct inhibition"
+        "mechanism": "ferroptosis induction"
       },
       "section": "therapeutics",
       "asserted_by": "llm",
@@ -566,17 +1188,19 @@
       "note": null
     },
     {
-      "subject": "RSL3",
-      "predicate": "INDUCES",
-      "object": "ferroptosis",
+      "subject": "rsl3",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "glutathione_peroxidase_4",
       "evidence_ids": [
-        "paper_1:therapeutics:2:llm"
+        "PMC_FERROPTOSIS_2024:therapeutics:2:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_FERROPTOSIS_2024"
       ],
       "confidence": 0.95,
-      "properties": {},
+      "properties": {
+        "relationship_type": "inhibits"
+      },
       "section": "therapeutics",
       "asserted_by": "llm",
       "resolution": null,
@@ -587,10 +1211,10 @@
       "predicate": "TREATS",
       "object": "hepatocellular_carcinoma",
       "evidence_ids": [
-        "paper_1:therapeutics:3:llm"
+        "PMC_FERROPTOSIS_2024:therapeutics:3:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_FERROPTOSIS_2024"
       ],
       "confidence": 0.9,
       "properties": {
@@ -603,68 +1227,57 @@
     },
     {
       "subject": "sorafenib",
-      "predicate": "INHIBITS",
-      "object": "SLC7A11",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "slc7a11",
       "evidence_ids": [
-        "paper_1:therapeutics:3:llm"
+        "PMC_FERROPTOSIS_2024:therapeutics:3:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_FERROPTOSIS_2024"
       ],
       "confidence": 0.9,
-      "properties": {},
+      "properties": {
+        "relationship_type": "inhibits"
+      },
       "section": "therapeutics",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "iron",
-      "predicate": "REQUIRED_FOR",
-      "object": "ferroptosis",
+      "subject": "ferroptosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "dendritic_cells",
       "evidence_ids": [
-        "paper_1:introduction:1:llm"
+        "PMC_FERROPTOSIS_2024:immune:1:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_FERROPTOSIS_2024"
       ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "introduction",
+      "confidence": 0.85,
+      "properties": {
+        "relationship_type": "impairs function"
+      },
+      "section": "immune",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "ROS",
-      "predicate": "CAUSES",
-      "object": "lipid_peroxidation",
+      "subject": "ferroptosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "cd8_t_cells",
       "evidence_ids": [
-        "paper_1:introduction:1:llm"
+        "PMC_FERROPTOSIS_2024:immune:1:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_FERROPTOSIS_2024"
       ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "lipid_peroxidation",
-      "predicate": "LEADS_TO",
-      "object": "ferroptosis",
-      "evidence_ids": [
-        "paper_1:introduction:1:llm"
-      ],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "introduction",
+      "confidence": 0.85,
+      "properties": {
+        "relationship_type": "weakens response"
+      },
+      "section": "immune",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -672,7 +1285,7 @@
   ],
   "notes": [
     "This paper presents ferroptosis as having a dual role in cancer - both tumor suppressive and tumor promoting depending on context",
-    "Multiple therapeutic approaches are discussed including ferroptosis induction and inhibition strategies",
-    "The paper emphasizes the importance of understanding tumor microenvironment and immune system interactions with ferroptosis"
+    "Multiple therapeutic targets are discussed including GPX4, SLC7A11, and iron metabolism pathways",
+    "The paper emphasizes the need for precise targeting to avoid impairing immune function while treating cancer"
   ]
 }

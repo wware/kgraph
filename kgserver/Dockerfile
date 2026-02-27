@@ -28,7 +28,7 @@ COPY kgserver/index.md ./docs/index.md
 COPY docs/architecture.md ./docs/architecture.md
 COPY docs/index.md ./docs/reference/index.md
 COPY docs/api.md docs/bundle.md docs/canonical_ids.md docs/determinism.md docs/domains.md docs/pipeline.md docs/storage.md docs/graph_visualization.md docs/RELATIONSHIP_TRACING.md ./docs/reference/
-COPY README.md CLAUDE.md LAMBDA_LABS.md MEDLIT_SCHEMA_SPEC.md IMPLEMENTATION_PLAN.md STATUS_20260212.md NEXT_STEPS.md JATS_PARSER_NOTES.md jupyter.md summary.md VIBES.md holmes_example_plan.md snapshot_semantics_v1.md RETHINK_INGESTION.md ./docs/project/
+COPY README.md CLAUDE.md LAMBDA_LABS.md MEDLIT_SCHEMA_SPEC.md STATUS_20260212.md NEXT_STEPS.md JATS_PARSER_NOTES.md jupyter.md summary.md VIBES.md holmes_example_plan.md snapshot_semantics_v1.md RETHINK_INGESTION.md ./docs/project/
 COPY PLAN1.md PLAN2.md PLAN3.md PLAN4.md PLAN5.md PLAN6.md PLAN7.md ./docs/project/plans/
 COPY TODO1.md TODO2.md ./docs/project/todos/
 COPY kgserver/index.md kgserver/DOCKER_SETUP.md kgserver/DOCKER_COMPOSE_GUIDE.md kgserver/LOCAL_DEV.md kgserver/MCP_CLIENT_SETUP.md kgserver/GRAPHQL_VIBES.md kgserver/MCP_GQL_WRAPPER.md ./docs/kgserver/

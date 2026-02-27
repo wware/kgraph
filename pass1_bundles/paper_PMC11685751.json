@@ -1,21 +1,23 @@
 {
   "paper": {
     "doi": null,
-    "pmcid": "PMC11685751",
+    "pmcid": "PMC_UNKNOWN",
     "title": "Case report: Pheochromocytoma-induced pseudo-Cushing's syndrome",
-    "authors": [],
-    "journal": null,
+    "authors": [
+      "Unknown"
+    ],
+    "journal": "Unknown",
     "year": null,
-    "study_type": "case_report",
+    "study_type": "case report",
     "eco_type": null
   },
   "extraction_provenance": {
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "183c4f4a44bdf0f9c4ea77266c938d9a49d36e4b",
-      "git_commit_short": "183c4f4",
-      "git_branch": "endocrinology",
+      "git_commit": "777544707e2808fd01d9cb8fbe5dc1d74b29532b",
+      "git_commit_short": "7775447",
+      "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
     },
@@ -28,22 +30,22 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:f94cc0ab23940d18"
+      "checksum": "sha256:5bdf447f3cfe242d"
     },
     "execution": {
-      "timestamp": "2026-02-26T16:29:42.725413Z",
+      "timestamp": "2026-02-27T15:59:51.470026Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 39.6
+      "duration_seconds": 57.81
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "disease_1",
+      "id": "pheochromocytoma",
       "class": "Disease",
-      "name": "Pheochromocytoma",
+      "name": "pheochromocytoma",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -56,9 +58,9 @@
       "uniprot_id": null
     },
     {
-      "id": "disease_2",
+      "id": "pseudo_cushings_syndrome",
       "class": "Disease",
-      "name": "Pseudo-Cushing's syndrome",
+      "name": "pseudo-Cushing's syndrome",
       "synonyms": [
         "PCS",
         "non-neoplastic hypercortisolaemia",
@@ -68,125 +70,53 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0221406",
+      "umls_id": "C0342482",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "disease_3",
+      "id": "hypercortisolemia",
       "class": "Disease",
-      "name": "Cushing syndrome",
+      "name": "hypercortisolemia",
       "synonyms": [
-        "CS"
+        "hypercortisolaemia"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0010481",
+      "umls_id": "C0020626",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "disease_4",
-      "class": "Disease",
-      "name": "diabetes mellitus",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0011849",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_5",
-      "class": "Disease",
-      "name": "hypertension",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020538",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_6",
-      "class": "Disease",
-      "name": "hypokalemia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020621",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_7",
-      "class": "Disease",
-      "name": "metabolic alkalosis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0220981",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_8",
-      "class": "Disease",
-      "name": "hyperglycemia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020456",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_9",
-      "class": "Disease",
-      "name": "cachexia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0006625",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_10",
-      "class": "Disease",
-      "name": "ectopic ACTH secretion",
+      "id": "hypothalamic_pituitary_adrenal_axis",
+      "class": "BiologicalProcess",
+      "name": "hypothalamic-pituitary-adrenal axis",
       "synonyms": [
-        "EAS"
+        "HPA axis"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0597719",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ectopic_acth_syndrome",
+      "class": "Disease",
+      "name": "ectopic ACTH syndrome",
+      "synonyms": [
+        "EAS",
+        "ectopic ACTH secretion"
       ],
       "symbol": null,
       "brand_names": [],
@@ -199,22 +129,7 @@
       "uniprot_id": null
     },
     {
-      "id": "drug_1",
-      "class": "Drug",
-      "name": "doxazosin",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "3616",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "drug_2",
+      "id": "metyrapone",
       "class": "Drug",
       "name": "metyrapone",
       "synonyms": [],
@@ -229,86 +144,7 @@
       "uniprot_id": null
     },
     {
-      "id": "drug_3",
-      "class": "Drug",
-      "name": "insulin",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "5856",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "drug_4",
-      "class": "Drug",
-      "name": "bisoprolol",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "1808",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "drug_5",
-      "class": "Drug",
-      "name": "hydrocortisone",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "5492",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "gene_1",
-      "class": "Gene",
-      "name": "ACTH",
-      "synonyms": [
-        "adrenocorticotropic hormone"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:15537",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "gene_2",
-      "class": "Gene",
-      "name": "CRH",
-      "synonyms": [
-        "corticotropin-releasing hormone"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:2355",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "biomarker_1",
+      "id": "metanephrines",
       "class": "Biomarker",
       "name": "metanephrines",
       "synonyms": [],
@@ -323,22 +159,7 @@
       "uniprot_id": null
     },
     {
-      "id": "biomarker_2",
-      "class": "Biomarker",
-      "name": "cortisol",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020268",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "biomarker_3",
+      "id": "normetanephrine",
       "class": "Biomarker",
       "name": "normetanephrine",
       "synonyms": [],
@@ -353,15 +174,476 @@
       "uniprot_id": null
     },
     {
-      "id": "procedure_1",
-      "class": "Procedure",
-      "name": "adrenalectomy",
+      "id": "metanephrine",
+      "class": "Biomarker",
+      "name": "metanephrine",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0001632",
+      "umls_id": "C0025597",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "3_methoxytyramine",
+      "class": "Biomarker",
+      "name": "3-methoxytyramine",
+      "synonyms": [
+        "3-metoxythyramine"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0025598",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hypokalemia",
+      "class": "Disease",
+      "name": "hypokalemia",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0020621",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "metabolic_alkalosis",
+      "class": "Disease",
+      "name": "metabolic alkalosis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0220981",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hyperglycemia",
+      "class": "Disease",
+      "name": "hyperglycemia",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0020456",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hypermetabolism",
+      "class": "BiologicalProcess",
+      "name": "hypermetabolism",
+      "synonyms": [
+        "hypermetabolic state"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0020624",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "catecholamines",
+      "class": "Protein",
+      "name": "catecholamines",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0007412",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tyrosine_hydroxylase",
+      "class": "Protein",
+      "name": "tyrosine hydroxylase",
+      "synonyms": [
+        "TH"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:12400",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "phenylethanolamine_n_methyltransferase",
+      "class": "Protein",
+      "name": "phenylethanolamine N-methyltransferase",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:8912",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "crh",
+      "class": "Protein",
+      "name": "corticotropin-releasing hormone",
+      "synonyms": [
+        "CRH"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:2355",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pomc",
+      "class": "Gene",
+      "name": "POMC",
+      "synonyms": [
+        "pro-opiomelanocortin"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:9201",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "11beta_hydroxysteroid_dehydrogenase_type_2",
+      "class": "Protein",
+      "name": "11\u03b2-hydroxysteroid dehydrogenase type 2",
+      "synonyms": [
+        "11\u03b2-HSD type 2"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:5209",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "5_alpha_reductase",
+      "class": "Protein",
+      "name": "5-\u03b1-reductase",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0031119",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "corticosteroid_binding_globulin",
+      "class": "Protein",
+      "name": "corticosteroid-binding globulin",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:9212",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "11beta_hsd_type_1",
+      "class": "Protein",
+      "name": "11-\u03b2HSD type 1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:5208",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hydrocortisone",
+      "class": "Drug",
+      "name": "hydrocortisone",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "5492",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "testosterone",
+      "class": "Biomarker",
+      "name": "testosterone",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0039601",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ga68_dotatate_pet_ct",
+      "class": "Procedure",
+      "name": "[68Ga] DOTATATE PET-CT",
+      "synonyms": [
+        "[68Ga]Ga-DOTA-TATE PET/CT"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C4055114",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "somatostatin_receptor",
+      "class": "Protein",
+      "name": "somatostatin receptor",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0597357",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "immunohistochemistry",
+      "class": "Procedure",
+      "name": "immunohistochemistry",
+      "synonyms": [
+        "IHC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0021044",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "sdhb",
+      "class": "Gene",
+      "name": "SDHB",
+      "synonyms": [
+        "succinate dehydrogenase complex iron sulfur subunit B"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:10681",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pass_system",
+      "class": "StatisticalMethod",
+      "name": "PASS system",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gapp_system",
+      "class": "StatisticalMethod",
+      "name": "GAPP system",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "il1",
+      "class": "Protein",
+      "name": "IL-1",
+      "synonyms": [
+        "interleukin-1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:5991",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "il6",
+      "class": "Protein",
+      "name": "IL-6",
+      "synonyms": [
+        "interleukin-6"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:6018",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tnf_alpha",
+      "class": "Protein",
+      "name": "TNF-\u03b1",
+      "synonyms": [
+        "tumor necrosis factor alpha"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11892",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "resting_energy_expenditure",
+      "class": "Biomarker",
+      "name": "resting energy expenditure",
+      "synonyms": [
+        "REE"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0035253",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "indirect_calorimetry",
+      "class": "Procedure",
+      "name": "indirect calorimetry",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0006781",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "brown_adipose_tissue",
+      "class": "AnatomicalStructure",
+      "name": "brown adipose tissue",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0006298",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ajcc_8th_edition",
+      "class": "StatisticalMethod",
+      "name": "AJCC, 8th ed.",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -370,69 +652,81 @@
   ],
   "evidence_entities": [
     {
-      "id": "paper_1:case_report:1:llm",
+      "id": "PMC_UNKNOWN:case_report:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "case_report_1",
       "text": "A 66-year-old woman was referred to the hospital due to pronounced weakness, loss of appetite, apathy, weight loss, newly diagnosed diabetes mellitus, and poorly controlled hypertension. The biochemical evaluation suggested ACTH-dependent hypercortisolemia with severe hypokalemia, metabolic alkalosis, and hyperglycemia. Markedly elevated levels of metanephrines, along with imaging showing a heterogeneous adrenal lesion, provided evidence for pheochromocytoma.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "case_report",
+      "study_type": "case report",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_1:case_report:2:llm",
+      "id": "PMC_UNKNOWN:case_report:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "case_report_2",
       "text": "The patient underwent adrenalectomy following pre-treatment with doxazosin and metyrapone, enteral feeding, protein supplementation, and insulin administration. Post-surgery, the patient did not require further antidiabetic medication, experienced gradual weight gain, improved well-being, and did not need glucocorticoid supplementation.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "case_report",
+      "study_type": "case report",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_1:case_report:3:llm",
+      "id": "PMC_UNKNOWN:case_report:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "case_report_3",
       "text": "Histopathological examination confirmed a pheochromocytoma; however, both anti-ACTH and anti-CRH stainings were negative, leading to a diagnosis of PCS.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "case_report",
+      "study_type": "case report",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_1:case_report:4:llm",
+      "id": "PMC_UNKNOWN:discussion:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "case_report_4",
+      "paper_id": "PMC_UNKNOWN",
+      "text_span_id": "discussion_1",
+      "text": "In this case, we hypothesize that abundant and chronic secretion of catecholamines from the tumor led to a hypermetabolic and pro-inflammatory state that, in turn, overactivated the HPA axis.",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "case report",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_UNKNOWN:discussion:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_UNKNOWN",
+      "text_span_id": "discussion_2",
       "text": "A rapid decrease in the level of cortisol, ACTH, and metanephrines upon initiation of metyrapone treatment suggests the existence of a glucocorticoid-dependent positive feedback loop that potentiated ACTH release and created a destructive cycle with rapid exacerbation of both hypercortisolemia and hypercatecholaminemia.",
       "confidence": 0.9,
       "extraction_method": "llm",
-      "study_type": "case_report",
+      "study_type": "case report",
       "eco_type": null,
       "source": "extracted"
     }
   ],
   "relationships": [
     {
-      "subject": "disease_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_2",
+      "subject": "pheochromocytoma",
+      "predicate": "CAUSES",
+      "object": "pseudo_cushings_syndrome",
       "evidence_ids": [
-        "paper_1:case_report:1:llm",
-        "paper_1:case_report:3:llm"
+        "PMC_UNKNOWN:case_report:3:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.95,
       "properties": {},
@@ -442,99 +736,14 @@
       "note": null
     },
     {
-      "subject": "disease_1",
+      "subject": "pheochromocytoma",
       "predicate": "ASSOCIATED_WITH",
-      "object": "disease_4",
+      "object": "hypercortisolemia",
       "evidence_ids": [
-        "paper_1:case_report:1:llm"
+        "PMC_UNKNOWN:case_report:1:llm"
       ],
       "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "case_report",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "disease_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_5",
-      "evidence_ids": [
-        "paper_1:case_report:1:llm"
-      ],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "case_report",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "disease_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_6",
-      "evidence_ids": [
-        "paper_1:case_report:1:llm"
-      ],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "case_report",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "disease_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_7",
-      "evidence_ids": [
-        "paper_1:case_report:1:llm"
-      ],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "case_report",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "disease_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_8",
-      "evidence_ids": [
-        "paper_1:case_report:1:llm"
-      ],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "case_report",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "biomarker_1",
-      "predicate": "INDICATES",
-      "object": "disease_1",
-      "evidence_ids": [
-        "paper_1:case_report:1:llm"
-      ],
-      "source_papers": [
-        "paper_1"
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.95,
       "properties": {},
@@ -544,14 +753,14 @@
       "note": null
     },
     {
-      "subject": "procedure_1",
-      "predicate": "TREATS",
-      "object": "disease_1",
+      "subject": "pheochromocytoma",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "metanephrines",
       "evidence_ids": [
-        "paper_1:case_report:2:llm"
+        "PMC_UNKNOWN:case_report:1:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.95,
       "properties": {},
@@ -561,32 +770,15 @@
       "note": null
     },
     {
-      "subject": "drug_1",
+      "subject": "metyrapone",
       "predicate": "TREATS",
-      "object": "disease_1",
+      "object": "hypercortisolemia",
       "evidence_ids": [
-        "paper_1:case_report:2:llm"
+        "PMC_UNKNOWN:case_report:2:llm",
+        "PMC_UNKNOWN:discussion:2:llm"
       ],
       "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.85,
-      "properties": {},
-      "section": "case_report",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "drug_2",
-      "predicate": "TREATS",
-      "object": "disease_2",
-      "evidence_ids": [
-        "paper_1:case_report:2:llm",
-        "paper_1:case_report:4:llm"
-      ],
-      "source_papers": [
-        "paper_1"
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.9,
       "properties": {},
@@ -596,26 +788,96 @@
       "note": null
     },
     {
-      "subject": "drug_3",
+      "subject": "adrenalectomy",
       "predicate": "TREATS",
-      "object": "disease_4",
+      "object": "pheochromocytoma",
       "evidence_ids": [
-        "paper_1:case_report:2:llm"
+        "PMC_UNKNOWN:case_report:2:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "case_report",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "catecholamines",
+      "predicate": "CAUSES",
+      "object": "hypermetabolism",
+      "evidence_ids": [
+        "PMC_UNKNOWN:discussion:1:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
       ],
       "confidence": 0.9,
       "properties": {},
-      "section": "case_report",
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "hypermetabolism",
+      "predicate": "ACTIVATES",
+      "object": "hypothalamic_pituitary_adrenal_axis",
+      "evidence_ids": [
+        "PMC_UNKNOWN:discussion:1:llm"
+      ],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 0.9,
+      "properties": {},
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pseudo_cushings_syndrome",
+      "predicate": "SAME_AS",
+      "object": "non-neoplastic hypercortisolaemia",
+      "evidence_ids": [],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 1.0,
+      "properties": {
+        "resolution": null,
+        "note": "Synonymous terms used in the paper"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ectopic_acth_syndrome",
+      "predicate": "SAME_AS",
+      "object": "ectopic ACTH secretion",
+      "evidence_ids": [],
+      "source_papers": [
+        "PMC_UNKNOWN"
+      ],
+      "confidence": 1.0,
+      "properties": {
+        "resolution": null,
+        "note": "Synonymous terms used in the paper"
+      },
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
-    "This is the first reported case of pheochromocytoma-induced pseudo-Cushing's syndrome in the literature",
-    "The diagnosis was confirmed by negative ACTH and CRH immunostaining despite clinical presentation of hypercortisolemia",
-    "Metyrapone treatment showed effectiveness in breaking the glucocorticoid-dependent positive feedback loop"
+    "This case report describes the first documented case of pheochromocytoma-induced pseudo-Cushing's syndrome",
+    "The mechanism involves catecholamine-induced hypermetabolism leading to HPA axis activation",
+    "Negative ACTH and CRH immunostaining ruled out ectopic ACTH syndrome"
   ]
 }

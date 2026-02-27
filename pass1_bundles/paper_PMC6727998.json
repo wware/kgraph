@@ -1,20 +1,22 @@
 {
   "paper": {
     "doi": null,
-    "pmcid": "PMC6727998",
+    "pmcid": "PMC_PLACEHOLDER",
     "title": "Reversible tactile hypoesthesia associated with myofascial trigger points: a pilot study on prevalence and clinical implications",
-    "authors": [],
-    "journal": null,
+    "authors": [
+      "Not specified"
+    ],
+    "journal": "Not specified",
     "year": null,
     "study_type": "pilot study",
-    "eco_type": "observational study"
+    "eco_type": null
   },
   "extraction_provenance": {
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "aae65a6d22f7ecdec76c59f7bb35609496ac30d2",
-      "git_commit_short": "aae65a6",
+      "git_commit": "777544707e2808fd01d9cb8fbe5dc1d74b29532b",
+      "git_commit_short": "7775447",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -28,21 +30,21 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:f94cc0ab23940d18"
+      "checksum": "sha256:5bdf447f3cfe242d"
     },
     "execution": {
-      "timestamp": "2026-02-26T19:04:40.092796Z",
+      "timestamp": "2026-02-27T16:26:14.595761Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 31.03
+      "duration_seconds": 31.9
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "E1",
-      "class": "Disease",
+      "id": "tactile_hypoesthesia",
+      "class": "Symptom",
       "name": "tactile hypoesthesia",
       "synonyms": [
         "hypoesthesia",
@@ -52,14 +54,14 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0020580",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E2",
+      "id": "myofascial_pain_syndrome",
       "class": "Disease",
       "name": "myofascial pain syndrome",
       "synonyms": [
@@ -70,15 +72,15 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0027073",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E3",
-      "class": "Anatomical_Structure",
+      "id": "myofascial_trigger_points",
+      "class": "AnatomicalStructure",
       "name": "myofascial trigger points",
       "synonyms": [
         "MTrP",
@@ -88,15 +90,15 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0458343",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E4",
-      "class": "Treatment",
+      "id": "trigger_point_injections",
+      "class": "Procedure",
       "name": "trigger point injections",
       "synonyms": [
         "TPI",
@@ -106,29 +108,31 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0394648",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E5",
+      "id": "lidocaine",
       "class": "Drug",
       "name": "lidocaine",
-      "synonyms": [],
+      "synonyms": [
+        "1% lidocaine"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "6387",
+      "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E6",
+      "id": "triamcinolone",
       "class": "Drug",
       "name": "triamcinolone",
       "synonyms": [],
@@ -138,12 +142,12 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "10759",
+      "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E7",
+      "id": "nortriptyline",
       "class": "Drug",
       "name": "nortriptyline",
       "synonyms": [],
@@ -153,42 +157,63 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "7640",
+      "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E8",
-      "class": "Drug",
-      "name": "acetaminophen",
-      "synonyms": [],
+      "id": "numerical_rating_scale",
+      "class": "StatisticalMethod",
+      "name": "numerical rating scale",
+      "synonyms": [
+        "NRS"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "161",
+      "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E9",
-      "class": "Disease",
-      "name": "allodynia",
-      "synonyms": [],
+      "id": "cotton_swabs",
+      "class": "Procedure",
+      "name": "cotton swabs",
+      "synonyms": [
+        "tactile stimulation"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0458247",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E10",
+      "id": "primary_somatosensory_cortex",
+      "class": "AnatomicalStructure",
+      "name": "primary somatosensory cortex",
+      "synonyms": [
+        "somatosensory cortex"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "neuropathic_pain",
       "class": "Disease",
       "name": "neuropathic pain",
       "synonyms": [],
@@ -196,32 +221,19 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C3714625",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E11",
+      "id": "postmastectomy_pain",
       "class": "Disease",
       "name": "postmastectomy pain",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0030201",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E12",
-      "class": "Disease",
-      "name": "primary myofascial pain",
-      "synonyms": [],
+      "synonyms": [
+        "persistent postmastectomy pain"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -233,62 +245,62 @@
       "uniprot_id": null
     },
     {
-      "id": "E13",
-      "class": "Disease",
-      "name": "secondary myofascial pain",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E14",
-      "class": "Anatomical_Structure",
+      "id": "trapezius_muscle",
+      "class": "AnatomicalStructure",
       "name": "trapezius muscle",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0224361",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E15",
-      "class": "Anatomical_Structure",
+      "id": "external_oblique_muscles",
+      "class": "AnatomicalStructure",
       "name": "external oblique muscles",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0224378",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E16",
-      "class": "Anatomical_Structure",
-      "name": "somatosensory cortex",
+      "id": "chi_square_test",
+      "class": "StatisticalMethod",
+      "name": "chi-square test",
       "synonyms": [
-        "primary somatosensory cortex"
+        "\u03c72 test"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0037658",
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pilot_study",
+      "class": "StudyDesign",
+      "name": "pilot study",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -297,124 +309,101 @@
   ],
   "evidence_entities": [
     {
-      "id": "paper_id:abstract:1:llm",
+      "id": "PMC_PLACEHOLDER:abstract:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_PLACEHOLDER",
       "text_span_id": "abstract_1",
       "text": "A reduction in the size of hypoesthetic area with TPI was observed in 27 (58.7%) patients. All the 27 patients experienced a reduction in pain intensity by more than 50% in a numerical rating scale score through TPI therapy.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "pilot study",
-      "eco_type": "observational study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_id:results:1:llm",
+      "id": "PMC_PLACEHOLDER:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_PLACEHOLDER",
       "text_span_id": "results_1",
       "text": "Thirty-four (74%) of 46 patients with MTrP had tactile hypoesthesia",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "pilot study",
-      "eco_type": "observational study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_id:results:2:llm",
+      "id": "PMC_PLACEHOLDER:results:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_PLACEHOLDER",
       "text_span_id": "results_2",
-      "text": "Twenty-seven (90%) patients experienced a reduction in pain intensity by more than 50% in NRS after TPI therapy. In all these 27 patients, a reduction in the size of the hypoesthetic area was observed during the course of treatment",
+      "text": "Twenty-seven (90%) patients experienced a reduction in pain intensity by more than 50% in NRS after TPI therapy",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "pilot study",
-      "eco_type": "observational study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_id:results:3:llm",
+      "id": "PMC_PLACEHOLDER:results:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_PLACEHOLDER",
       "text_span_id": "results_3",
-      "text": "Myofascial trigger points were located in the muscles in the vicinity of ipsilateral cutaneous dermatomes to which the hypoesthetic areas belonged",
-      "confidence": 0.9,
+      "text": "In all these 27 patients, a reduction in the size of the hypoesthetic area was observed during the course of treatment, with a complete disappearance of the tactile hypoesthesia observed in 6 patients",
+      "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "pilot study",
-      "eco_type": "observational study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_id:discussion:1:llm",
+      "id": "PMC_PLACEHOLDER:discussion:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_PLACEHOLDER",
       "text_span_id": "discussion_1",
       "text": "Such inhibition of neuronal activity in the somatosensory cortex induced by ongoing afferent nociceptive input from MTrP may underlie the reversible tactile hypoesthesia in patients with MPS",
-      "confidence": 0.8,
+      "confidence": 0.85,
       "extraction_method": "llm",
       "study_type": "pilot study",
-      "eco_type": "observational study",
+      "eco_type": null,
       "source": "extracted"
     }
   ],
   "relationships": [
     {
-      "subject": "E4",
+      "subject": "trigger_point_injections",
       "predicate": "TREATS",
-      "object": "E1",
+      "object": "myofascial_pain_syndrome",
       "evidence_ids": [
-        "paper_id:abstract:1:llm",
-        "paper_id:results:2:llm"
+        "PMC_PLACEHOLDER:abstract:1:llm",
+        "PMC_PLACEHOLDER:results:2:llm"
       ],
       "source_papers": [
-        "paper_id"
+        "PMC_PLACEHOLDER"
       ],
       "confidence": 0.95,
-      "properties": {
-        "reduction_percentage": "58.7%"
-      },
+      "properties": {},
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "E4",
-      "predicate": "TREATS",
-      "object": "E2",
-      "evidence_ids": [
-        "paper_id:abstract:1:llm",
-        "paper_id:results:2:llm"
-      ],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "pain_reduction": ">50%"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E1",
+      "subject": "myofascial_pain_syndrome",
       "predicate": "ASSOCIATED_WITH",
-      "object": "E3",
+      "object": "tactile_hypoesthesia",
       "evidence_ids": [
-        "paper_id:results:1:llm",
-        "paper_id:results:3:llm"
+        "PMC_PLACEHOLDER:results:1:llm"
       ],
       "source_papers": [
-        "paper_id"
+        "PMC_PLACEHOLDER"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "properties": {
         "prevalence": "74%"
       },
@@ -424,35 +413,76 @@
       "note": null
     },
     {
-      "subject": "E1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "E2",
+      "subject": "trigger_point_injections",
+      "predicate": "TREATS",
+      "object": "tactile_hypoesthesia",
       "evidence_ids": [
-        "paper_id:results:1:llm"
+        "PMC_PLACEHOLDER:abstract:1:llm",
+        "PMC_PLACEHOLDER:results:3:llm"
       ],
       "source_papers": [
-        "paper_id"
+        "PMC_PLACEHOLDER"
       ],
       "confidence": 0.95,
-      "properties": {},
+      "properties": {
+        "response_rate": "58.7%"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "E3",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "E16",
+      "subject": "lidocaine",
+      "predicate": "TREATS",
+      "object": "myofascial_trigger_points",
       "evidence_ids": [
-        "paper_id:discussion:1:llm"
+        "PMC_PLACEHOLDER:results:2:llm"
       ],
       "source_papers": [
-        "paper_id"
+        "PMC_PLACEHOLDER"
       ],
-      "confidence": 0.8,
+      "confidence": 0.9,
       "properties": {
-        "mechanism": "nociceptive input"
+        "dose": "3-5 mL of 1%"
+      },
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "triamcinolone",
+      "predicate": "TREATS",
+      "object": "myofascial_trigger_points",
+      "evidence_ids": [
+        "PMC_PLACEHOLDER:results:2:llm"
+      ],
+      "source_papers": [
+        "PMC_PLACEHOLDER"
+      ],
+      "confidence": 0.9,
+      "properties": {
+        "dose": "20-30 mg"
+      },
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "myofascial_trigger_points",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "primary_somatosensory_cortex",
+      "evidence_ids": [
+        "PMC_PLACEHOLDER:discussion:1:llm"
+      ],
+      "source_papers": [
+        "PMC_PLACEHOLDER"
+      ],
+      "confidence": 0.85,
+      "properties": {
+        "mechanism": "inhibition of neuronal activity"
       },
       "section": "discussion",
       "asserted_by": "llm",
@@ -460,64 +490,38 @@
       "note": null
     },
     {
-      "subject": "E5",
+      "subject": "nortriptyline",
       "predicate": "TREATS",
-      "object": "E3",
-      "evidence_ids": [],
-      "source_papers": [
-        "paper_id"
+      "object": "myofascial_pain_syndrome",
+      "evidence_ids": [
+        "PMC_PLACEHOLDER:results:2:llm"
       ],
-      "confidence": 0.85,
+      "source_papers": [
+        "PMC_PLACEHOLDER"
+      ],
+      "confidence": 0.8,
       "properties": {
-        "dosage": "3-5ml of 1%"
+        "use": "concomitant oral medication"
       },
-      "section": "methods",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E6",
-      "predicate": "TREATS",
-      "object": "E3",
-      "evidence_ids": [],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.85,
-      "properties": {
-        "dosage": "20-30mg"
-      },
-      "section": "methods",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E12",
-      "predicate": "SUBTYPE_OF",
-      "object": "E2",
-      "evidence_ids": [],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.95,
-      "properties": {},
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "E13",
-      "predicate": "SUBTYPE_OF",
-      "object": "E2",
-      "evidence_ids": [],
-      "source_papers": [
-        "paper_id"
+      "subject": "acetaminophen",
+      "predicate": "TREATS",
+      "object": "myofascial_pain_syndrome",
+      "evidence_ids": [
+        "PMC_PLACEHOLDER:results:2:llm"
       ],
-      "confidence": 0.95,
-      "properties": {},
+      "source_papers": [
+        "PMC_PLACEHOLDER"
+      ],
+      "confidence": 0.8,
+      "properties": {
+        "use": "concomitant oral medication"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -525,8 +529,8 @@
     }
   ],
   "notes": [
-    "This pilot study investigated 46 consecutive patients with myofascial trigger points and found that 58.7% showed reversible tactile hypoesthesia with trigger point injection therapy",
-    "The study used cotton swabs for tactile stimulation and aqueous markers to delineate hypoesthetic areas",
-    "Complete disappearance of tactile hypoesthesia occurred more frequently in primary compared to secondary myofascial pain"
+    "This pilot study investigated the prevalence and clinical implications of reversible tactile hypoesthesia in patients with myofascial trigger points",
+    "The study found a 74% prevalence of tactile hypoesthesia in patients with myofascial trigger points",
+    "Trigger point injections showed effectiveness in treating both myofascial pain and associated tactile hypoesthesia"
   ]
 }

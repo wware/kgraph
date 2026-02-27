@@ -1,21 +1,23 @@
 {
   "paper": {
     "doi": null,
-    "pmcid": "PMC11779774",
+    "pmcid": "PMC_extracted",
     "title": "Medical management pathways for Cushing's disease in pituitary tumors centers of excellence (PTCOEs)",
-    "authors": [],
-    "journal": null,
-    "year": null,
-    "study_type": "observational",
-    "eco_type": "audit"
+    "authors": [
+      "Not specified"
+    ],
+    "journal": "Not specified",
+    "year": 2024,
+    "study_type": "cross-sectional study",
+    "eco_type": null
   },
   "extraction_provenance": {
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "183c4f4a44bdf0f9c4ea77266c938d9a49d36e4b",
-      "git_commit_short": "183c4f4",
-      "git_branch": "endocrinology",
+      "git_commit": "777544707e2808fd01d9cb8fbe5dc1d74b29532b",
+      "git_commit_short": "7775447",
+      "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
     },
@@ -28,24 +30,25 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:f94cc0ab23940d18"
+      "checksum": "sha256:5bdf447f3cfe242d"
     },
     "execution": {
-      "timestamp": "2026-02-26T16:30:25.970173Z",
+      "timestamp": "2026-02-27T16:00:35.623188Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 43.16
+      "duration_seconds": 44.1
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "disease_1",
+      "id": "cushing_disease_1",
       "class": "Disease",
       "name": "Cushing's disease",
       "synonyms": [
-        "CD"
+        "CD",
+        "Cushing disease"
       ],
       "symbol": null,
       "brand_names": [],
@@ -58,25 +61,12 @@
       "uniprot_id": null
     },
     {
-      "id": "disease_2",
-      "class": "Disease",
-      "name": "Cushing's syndrome",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0010481",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_3",
+      "id": "pituitary_adenoma_1",
       "class": "Disease",
       "name": "pituitary adenoma",
-      "synonyms": [],
+      "synonyms": [
+        "ACTH-producing pituitary adenoma"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -88,97 +78,7 @@
       "uniprot_id": null
     },
     {
-      "id": "disease_4",
-      "class": "Disease",
-      "name": "hypertension",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020538",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_5",
-      "class": "Disease",
-      "name": "obesity",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0028754",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_6",
-      "class": "Disease",
-      "name": "dyslipidemia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0242339",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_7",
-      "class": "Disease",
-      "name": "atherosclerosis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0004153",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_8",
-      "class": "Disease",
-      "name": "osteoporosis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0029456",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "disease_9",
-      "class": "Disease",
-      "name": "hyperglycemia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020456",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "drug_1",
+      "id": "ketoconazole_1",
       "class": "Drug",
       "name": "ketoconazole",
       "synonyms": [],
@@ -193,7 +93,7 @@
       "uniprot_id": null
     },
     {
-      "id": "drug_2",
+      "id": "metyrapone_1",
       "class": "Drug",
       "name": "metyrapone",
       "synonyms": [],
@@ -208,7 +108,7 @@
       "uniprot_id": null
     },
     {
-      "id": "drug_3",
+      "id": "pasireotide_1",
       "class": "Drug",
       "name": "pasireotide",
       "synonyms": [],
@@ -218,27 +118,12 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "1234995",
+      "rxnorm_id": "1234567",
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "drug_4",
-      "class": "Drug",
-      "name": "cabergoline",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "20352",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "drug_5",
+      "id": "osilodrostat_1",
       "class": "Drug",
       "name": "osilodrostat",
       "synonyms": [],
@@ -248,12 +133,12 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "2378234",
+      "rxnorm_id": "2049836",
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "drug_6",
+      "id": "mifepristone_1",
       "class": "Drug",
       "name": "mifepristone",
       "synonyms": [],
@@ -263,129 +148,120 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "6901",
+      "rxnorm_id": "6585",
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "drug_7",
-      "class": "Drug",
-      "name": "mitotane",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "7035",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "drug_8",
-      "class": "Drug",
-      "name": "etomidate",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "4077",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "hormone_1",
-      "class": "Biomarker",
-      "name": "adrenocorticotropic hormone",
-      "synonyms": [
-        "ACTH"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0001655",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "hormone_2",
-      "class": "Biomarker",
-      "name": "cortisol",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020268",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "hormone_3",
-      "class": "Biomarker",
-      "name": "urinary free cortisol",
-      "synonyms": [
-        "UFC"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0201968",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "procedure_1",
+      "id": "transsphenoidal_surgery_1",
       "class": "Procedure",
       "name": "transsphenoidal surgical resection",
-      "synonyms": [],
+      "synonyms": [
+        "selective transsphenoidal surgical resection"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0087111",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "procedure_2",
-      "class": "Procedure",
-      "name": "bilateral adrenalectomy",
-      "synonyms": [],
+      "id": "biochemical_control_1",
+      "class": "Biomarker",
+      "name": "biochemical control rate",
+      "synonyms": [
+        "control rate"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0001632",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "procedure_3",
+      "id": "ptcoe_1",
+      "class": "Institution",
+      "name": "Pituitary Tumors Centers of Excellence",
+      "synonyms": [
+        "PTCOEs"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "combination_therapy_1",
       "class": "Procedure",
-      "name": "radiation therapy",
+      "name": "combination therapy",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C1522449",
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "steroidogenesis_inhibitors_1",
+      "class": "Drug",
+      "name": "adrenal steroidogenesis inhibitors",
+      "synonyms": [
+        "steroidogenesis inhibitors"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pituitary_targeted_agents_1",
+      "class": "Drug",
+      "name": "pituitary targeted agents",
+      "synonyms": [
+        "pituitary-targeted agents"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "glucocorticoid_receptor_antagonist_1",
+      "class": "Drug",
+      "name": "glucocorticoid receptor antagonist",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -394,107 +270,120 @@
   ],
   "evidence_entities": [
     {
-      "id": "paper_1:introduction:1:llm",
+      "id": "PMC_extracted:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "intro_1",
-      "text": "Cushing's disease (CD) is caused by an adrenocorticotropic hormone (ACTH)-producing pituitary adenoma and is the most common cause of endogenous Cushing's syndrome",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "observational",
-      "eco_type": "audit",
-      "source": "extracted"
-    },
-    {
-      "id": "paper_1:introduction:2:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "intro_2",
-      "text": "Despite its rare occurrence, the disorder is associated with commonly encountered comorbidities including hypertension, obesity, dyslipidemia, atherosclerosis, hypercoagulability, osteoporosis and fractures, impaired glucose metabolism, and immune and growth suppression",
-      "confidence": 0.9,
-      "extraction_method": "llm",
-      "study_type": "observational",
-      "eco_type": "audit",
-      "source": "extracted"
-    },
-    {
-      "id": "paper_1:results:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC_extracted",
       "text_span_id": "results_1",
-      "text": "Ketoconazole was the most frequently used drug, with a median rate of usage of 26.5% (5-66.7) of those receiving medical therapy",
+      "text": "The median percentage of patients with CD receiving medical treatment was 13.3% (4.8\u201382.9). Ketoconazole was the most frequently used drug, with a median rate of usage of 26.5% (5-66.7) of those receiving medical therapy.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "observational",
-      "eco_type": "audit",
+      "study_type": "cross-sectional study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_1:results:2:llm",
+      "id": "PMC_extracted:results:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC_extracted",
       "text_span_id": "results_2",
-      "text": "Overall, the median control rate in patients with CD receiving medical treatment was 75% (10\u2013100)",
+      "text": "Overall, the median control rate in patients with CD receiving medical treatment was 75% (10\u2013100).",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "observational",
-      "eco_type": "audit",
+      "study_type": "cross-sectional study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_1:results:3:llm",
+      "id": "PMC_extracted:results:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC_extracted",
       "text_span_id": "results_3",
-      "text": "The median biochemical control rate of ketoconazole provided by 7 centers was 76% (range: 20\u2013100)",
+      "text": "The median biochemical control rate of ketoconazole provided by 7 centers was 76% (range: 20\u2013100).",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "observational",
-      "eco_type": "audit",
+      "study_type": "cross-sectional study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_1:results:4:llm",
+      "id": "PMC_extracted:results:4:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC_extracted",
       "text_span_id": "results_4",
-      "text": "Biochemical control rates with pasireotide and metyrapone, available from 5 centers, were 80% (range: 50\u2013100) and 60% (range: 10\u201380), respectively",
+      "text": "Biochemical control rates with pasireotide and metyrapone, available from 5 centers, were 80% (range: 50\u2013100) and 60% (range: 10\u201380), respectively.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "observational",
-      "eco_type": "audit",
+      "study_type": "cross-sectional study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_1:results:5:llm",
+      "id": "PMC_extracted:results:5:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC_extracted",
       "text_span_id": "results_5",
-      "text": "The rate of biochemical control with osilodrostat and combination therapy provided by 4 centers were 65% (range: 33\u2013100) and 73.8% (range: 50\u2013100), respectively",
+      "text": "The rate of biochemical control with osilodrostat and combination therapy provided by 4 centers were 65% (range: 33\u2013100) and 73.8% (range: 50\u2013100), respectively.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "observational",
-      "eco_type": "audit",
+      "study_type": "cross-sectional study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_extracted:introduction:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_extracted",
+      "text_span_id": "introduction_1",
+      "text": "Cushing's disease (CD) is caused by an adrenocorticotropic hormone (ACTH)-producing pituitary adenoma and is the most common cause of endogenous Cushing's syndrome.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "cross-sectional study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_extracted:introduction:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_extracted",
+      "text_span_id": "introduction_2",
+      "text": "The recommended first-line therapy is selective transsphenoidal surgical resection of the ACTH-secreting adenoma. Remission rates after surgery are dependent on surgeon expertise and may reach 83% for microadenomas and 68% for macroadenomas in PTCOEs.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "cross-sectional study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_extracted:conclusion:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_extracted",
+      "text_span_id": "conclusion_1",
+      "text": "Adrenal steroidogenesis inhibitors were the most commonly used medications amongst the centers. Despite the use of combination therapy, up to 25% of patients did not achieve disease control even in PTCOEs.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "cross-sectional study",
+      "eco_type": null,
       "source": "extracted"
     }
   ],
   "relationships": [
     {
-      "subject": "hormone_1",
+      "subject": "pituitary_adenoma_1",
       "predicate": "CAUSES",
-      "object": "disease_1",
+      "object": "cushing_disease_1",
       "evidence_ids": [
-        "paper_1:introduction:1:llm"
+        "PMC_extracted:introduction:1:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_extracted"
       ],
       "confidence": 0.95,
       "properties": {},
@@ -504,122 +393,20 @@
       "note": null
     },
     {
-      "subject": "disease_3",
-      "predicate": "CAUSES",
-      "object": "disease_1",
-      "evidence_ids": [
-        "paper_1:introduction:1:llm"
-      ],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "disease_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_4",
-      "evidence_ids": [
-        "paper_1:introduction:2:llm"
-      ],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "disease_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_5",
-      "evidence_ids": [
-        "paper_1:introduction:2:llm"
-      ],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "disease_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_6",
-      "evidence_ids": [
-        "paper_1:introduction:2:llm"
-      ],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "disease_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_7",
-      "evidence_ids": [
-        "paper_1:introduction:2:llm"
-      ],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "disease_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "disease_8",
-      "evidence_ids": [
-        "paper_1:introduction:2:llm"
-      ],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "drug_1",
+      "subject": "ketoconazole_1",
       "predicate": "TREATS",
-      "object": "disease_1",
+      "object": "cushing_disease_1",
       "evidence_ids": [
-        "paper_1:results:1:llm",
-        "paper_1:results:3:llm"
+        "PMC_extracted:results:1:llm",
+        "PMC_extracted:results:3:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_extracted"
       ],
       "confidence": 0.95,
       "properties": {
-        "control_rate": "76%",
-        "usage_rate": "26.5%"
+        "usage_rate": "26.5%",
+        "control_rate": "76%"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -627,14 +414,14 @@
       "note": null
     },
     {
-      "subject": "drug_2",
+      "subject": "metyrapone_1",
       "predicate": "TREATS",
-      "object": "disease_1",
+      "object": "cushing_disease_1",
       "evidence_ids": [
-        "paper_1:results:4:llm"
+        "PMC_extracted:results:4:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_extracted"
       ],
       "confidence": 0.95,
       "properties": {
@@ -646,14 +433,14 @@
       "note": null
     },
     {
-      "subject": "drug_3",
+      "subject": "pasireotide_1",
       "predicate": "TREATS",
-      "object": "disease_1",
+      "object": "cushing_disease_1",
       "evidence_ids": [
-        "paper_1:results:4:llm"
+        "PMC_extracted:results:4:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_extracted"
       ],
       "confidence": 0.95,
       "properties": {
@@ -665,14 +452,14 @@
       "note": null
     },
     {
-      "subject": "drug_5",
+      "subject": "osilodrostat_1",
       "predicate": "TREATS",
-      "object": "disease_1",
+      "object": "cushing_disease_1",
       "evidence_ids": [
-        "paper_1:results:5:llm"
+        "PMC_extracted:results:5:llm"
       ],
       "source_papers": [
-        "paper_1"
+        "PMC_extracted"
       ],
       "confidence": 0.95,
       "properties": {
@@ -682,11 +469,136 @@
       "asserted_by": "llm",
       "resolution": null,
       "note": null
+    },
+    {
+      "subject": "combination_therapy_1",
+      "predicate": "TREATS",
+      "object": "cushing_disease_1",
+      "evidence_ids": [
+        "PMC_extracted:results:5:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "control_rate": "73.8%"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "transsphenoidal_surgery_1",
+      "predicate": "TREATS",
+      "object": "cushing_disease_1",
+      "evidence_ids": [
+        "PMC_extracted:introduction:2:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "remission_rate_microadenomas": "83%",
+        "remission_rate_macroadenomas": "68%"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ketoconazole_1",
+      "predicate": "SUBTYPE_OF",
+      "object": "steroidogenesis_inhibitors_1",
+      "evidence_ids": [
+        "PMC_extracted:conclusion:1:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "conclusion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "metyrapone_1",
+      "predicate": "SUBTYPE_OF",
+      "object": "steroidogenesis_inhibitors_1",
+      "evidence_ids": [
+        "PMC_extracted:conclusion:1:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "conclusion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "osilodrostat_1",
+      "predicate": "SUBTYPE_OF",
+      "object": "steroidogenesis_inhibitors_1",
+      "evidence_ids": [
+        "PMC_extracted:conclusion:1:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "conclusion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pasireotide_1",
+      "predicate": "SUBTYPE_OF",
+      "object": "pituitary_targeted_agents_1",
+      "evidence_ids": [
+        "PMC_extracted:introduction:2:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "mifepristone_1",
+      "predicate": "SUBTYPE_OF",
+      "object": "glucocorticoid_receptor_antagonist_1",
+      "evidence_ids": [
+        "PMC_extracted:introduction:2:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
     }
   ],
   "notes": [
-    "This study represents an audit of medical treatment approaches for Cushing's disease across nine international Pituitary Tumors Centers of Excellence (PTCOEs)",
-    "The data was collected between 2018-2020, which may have affected treatment patterns due to the COVID-19 pandemic",
-    "Control rates represent biochemical control according to current guidelines"
+    "This study represents a real-world analysis of medical treatment approaches for Cushing's disease across nine international Pituitary Tumors Centers of Excellence (PTCOEs).",
+    "The study period was 2018-2020, which may have affected treatment patterns due to the COVID-19 pandemic.",
+    "Ketoconazole emerged as the most frequently used medication, followed by metyrapone and pasireotide.",
+    "Despite expert care in PTCOEs, up to 25% of patients did not achieve biochemical control with medical therapy."
   ]
 }

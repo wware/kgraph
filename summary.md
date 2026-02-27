@@ -2,50 +2,6 @@
 
 ## Contents
 
-- [.github/copilot-instructions.md](#user-content-githubcopilot-instructionsmd)
-- [CLAUDE.md](#user-content-claudemd)
-- [IMPLEMENTATION_PLAN.md](#user-content-implementationplanmd)
-- [JATS_PARSER_NOTES.md](#user-content-jatsparsernotesmd)
-- [LAMBDA_LABS.md](#user-content-lambdalabsmd)
-- [MCP_INGESTION.md](#user-content-mcpingestionmd)
-- [MEDLIT_SCHEMA_SPEC.md](#user-content-medlitschemaspecmd)
-- [NEXT_STEPS.md](#user-content-nextstepsmd)
-- [PLAN1.md](#user-content-plan1md)
-- [PLAN10.md](#user-content-plan10md)
-- [PLAN2.md](#user-content-plan2md)
-- [PLAN3.md](#user-content-plan3md)
-- [PLAN4.md](#user-content-plan4md)
-- [PLAN5.md](#user-content-plan5md)
-- [PLAN6.md](#user-content-plan6md)
-- [PLAN7.md](#user-content-plan7md)
-- [PLAN8.md](#user-content-plan8md)
-- [PLAN8a.md](#user-content-plan8amd)
-- [PLAN8b.md](#user-content-plan8bmd)
-- [PLAN9.md](#user-content-plan9md)
-- [README.md](#user-content-readmemd)
-- [RETHINK_INGESTION.md](#user-content-rethinkingestionmd)
-- [SIMPLIFY_PROMOTION.md](#user-content-simplifypromotionmd)
-- [STATUS_20260212.md](#user-content-status20260212md)
-- [TODO1.md](#user-content-todo1md)
-- [TODO2.md](#user-content-todo2md)
-- [VIBES.md](#user-content-vibesmd)
-- [docs/RELATIONSHIP_TRACING.md](#user-content-docsrelationshiptracingmd)
-- [docs/api.md](#user-content-docsapimd)
-- [docs/architecture.md](#user-content-docsarchitecturemd)
-- [docs/bundle.md](#user-content-docsbundlemd)
-- [docs/canonical_ids.md](#user-content-docscanonicalidsmd)
-- [docs/determinism.md](#user-content-docsdeterminismmd)
-- [docs/domains.md](#user-content-docsdomainsmd)
-- [docs/graph_visualization.md](#user-content-docsgraphvisualizationmd)
-- [docs/index.md](#user-content-docsindexmd)
-- [docs/pipeline.md](#user-content-docspipelinemd)
-- [docs/storage.md](#user-content-docsstoragemd)
-- [examples/medlit/CANONICAL_IDS.md](#user-content-examplesmedlitcanonicalidsmd)
-- [examples/medlit/INGESTION.md](#user-content-examplesmedlitingestionmd)
-- [examples/medlit/INGESTION_REFACTOR.md](#user-content-examplesmedlitingestionrefactormd)
-- [examples/medlit/LLM_SETUP.md](#user-content-examplesmedlitllmsetupmd)
-- [examples/medlit/README.md](#user-content-examplesmedlitreadmemd)
-- [examples/medlit/TODO.md](#user-content-examplesmedlittodomd)
 - [examples/medlit/__init__.py](#user-content-examplesmedlitinitpy)
 - [examples/medlit/bundle_models.py](#user-content-examplesmedlitbundlemodelspy)
 - [examples/medlit/documents.py](#user-content-examplesmedlitdocumentspy)
@@ -74,6 +30,7 @@
 - [examples/medlit/scripts/__init__.py](#user-content-examplesmedlitscriptsinitpy)
 - [examples/medlit/scripts/parse_pmc_xml.py](#user-content-examplesmedlitscriptsparsepmcxmlpy)
 - [examples/medlit/scripts/pass1_extract.py](#user-content-examplesmedlitscriptspass1extractpy)
+- [examples/medlit/scripts/pass1a_vocab.py](#user-content-examplesmedlitscriptspass1avocabpy)
 - [examples/medlit/scripts/pass2_dedup.py](#user-content-examplesmedlitscriptspass2deduppy)
 - [examples/medlit/scripts/pass3_build_bundle.py](#user-content-examplesmedlitscriptspass3buildbundlepy)
 - [examples/medlit/stage_models.py](#user-content-examplesmedlitstagemodelspy)
@@ -82,23 +39,18 @@
 - [examples/medlit/tests/test_authority_lookup.py](#user-content-examplesmedlitteststestauthoritylookuppy)
 - [examples/medlit/tests/test_entity_normalization.py](#user-content-examplesmedlitteststestentitynormalizationpy)
 - [examples/medlit/tests/test_ner_extractor.py](#user-content-examplesmedlitteststestnerextractorpy)
+- [examples/medlit/tests/test_pass1_extract.py](#user-content-examplesmedlitteststestpass1extractpy)
 - [examples/medlit/tests/test_pass3_bundle_builder.py](#user-content-examplesmedlitteststestpass3bundlebuilderpy)
 - [examples/medlit/tests/test_progress_tracker.py](#user-content-examplesmedlitteststestprogresstrackerpy)
 - [examples/medlit/tests/test_promotion_lookup.py](#user-content-examplesmedlitteststestpromotionlookuppy)
 - [examples/medlit/tests/test_two_pass_ingestion.py](#user-content-examplesmedlitteststesttwopassingestionpy)
 - [examples/medlit/vocab.py](#user-content-examplesmedlitvocabpy)
-- [examples/medlit_golden/README.md](#user-content-examplesmedlitgoldenreadmemd)
-- [examples/medlit_schema/DEPTH_OF_FIELDS.md](#user-content-examplesmedlitschemadepthoffieldsmd)
-- [examples/medlit_schema/ONTOLOGY_GUIDE.md](#user-content-examplesmedlitschemaontologyguidemd)
-- [examples/medlit_schema/PROGRESS.md](#user-content-examplesmedlitschemaprogressmd)
-- [examples/medlit_schema/README.md](#user-content-examplesmedlitschemareadmemd)
 - [examples/medlit_schema/__init__.py](#user-content-examplesmedlitschemainitpy)
 - [examples/medlit_schema/base.py](#user-content-examplesmedlitschemabasepy)
 - [examples/medlit_schema/document.py](#user-content-examplesmedlitschemadocumentpy)
 - [examples/medlit_schema/domain.py](#user-content-examplesmedlitschemadomainpy)
 - [examples/medlit_schema/entity.py](#user-content-examplesmedlitschemaentitypy)
 - [examples/medlit_schema/relationship.py](#user-content-examplesmedlitschemarelationshippy)
-- [examples/sherlock/README.md](#user-content-examplessherlockreadmemd)
 - [examples/sherlock/data.py](#user-content-examplessherlockdatapy)
 - [examples/sherlock/domain.py](#user-content-examplessherlockdomainpy)
 - [examples/sherlock/pipeline/embeddings.py](#user-content-examplessherlockpipelineembeddingspy)
@@ -108,8 +60,6 @@
 - [examples/sherlock/pipeline/resolve.py](#user-content-examplessherlockpipelineresolvepy)
 - [examples/sherlock/promotion.py](#user-content-examplessherlockpromotionpy)
 - [examples/sherlock/sources/gutenberg.py](#user-content-examplessherlocksourcesgutenbergpy)
-- [holmes_example_plan.md](#user-content-holmesexampleplanmd)
-- [jupyter.md](#user-content-jupytermd)
 - [kgbundle/kgbundle/__init__.py](#user-content-kgbundlekgbundleinitpy)
 - [kgbundle/kgbundle/models.py](#user-content-kgbundlekgbundlemodelspy)
 - [kgbundle/tests/test_models.py](#user-content-kgbundleteststestmodelspy)
@@ -143,21 +93,11 @@
 - [kgschema/promotion.py](#user-content-kgschemapromotionpy)
 - [kgschema/relationship.py](#user-content-kgschemarelationshippy)
 - [kgschema/storage.py](#user-content-kgschemastoragepy)
-- [kgserver/DOCKER_COMPOSE_GUIDE.md](#user-content-kgserverdockercomposeguidemd)
-- [kgserver/DOCKER_SETUP.md](#user-content-kgserverdockersetupmd)
-- [kgserver/GRAPHQL_VIBES.md](#user-content-kgservergraphqlvibesmd)
-- [kgserver/LOCAL_DEV.md](#user-content-kgserverlocaldevmd)
-- [kgserver/MCP_CLIENT_SETUP.md](#user-content-kgservermcpclientsetupmd)
-- [kgserver/MCP_GQL_WRAPPER.md](#user-content-kgservermcpgqlwrappermd)
 - [kgserver/chainlit/app.py](#user-content-kgserverchainlitapppy)
-- [kgserver/chainlit/notes.md](#user-content-kgserverchainlitnotesmd)
-- [kgserver/docs/architecture.md](#user-content-kgserverdocsarchitecturemd)
-- [kgserver/index.md](#user-content-kgserverindexmd)
 - [kgserver/mcp_main.py](#user-content-kgservermcpmainpy)
 - [kgserver/mcp_server/__init__.py](#user-content-kgservermcpserverinitpy)
 - [kgserver/mcp_server/ingest_worker.py](#user-content-kgservermcpserveringestworkerpy)
 - [kgserver/mcp_server/server.py](#user-content-kgservermcpserverserverpy)
-- [kgserver/query/.ipynb_checkpoints/README-checkpoint.md](#user-content-kgserverqueryipynbcheckpointsreadme-checkpointmd)
 - [kgserver/query/__init__.py](#user-content-kgserverqueryinitpy)
 - [kgserver/query/bundle_loader.py](#user-content-kgserverquerybundleloaderpy)
 - [kgserver/query/graph_traversal.py](#user-content-kgserverquerygraphtraversalpy)
@@ -168,15 +108,11 @@
 - [kgserver/query/routers/rest_api.py](#user-content-kgserverqueryroutersrestapipy)
 - [kgserver/query/server.py](#user-content-kgserverqueryserverpy)
 - [kgserver/query/storage_factory.py](#user-content-kgserverquerystoragefactorypy)
-- [kgserver/storage/NEO4J_COMPATIBILITY.md](#user-content-kgserverstorageneo4jcompatibilitymd)
-- [kgserver/storage/README.md](#user-content-kgserverstoragereadmemd)
 - [kgserver/storage/__init__.py](#user-content-kgserverstorageinitpy)
-- [kgserver/storage/backends/README.md](#user-content-kgserverstoragebackendsreadmemd)
 - [kgserver/storage/backends/__init__.py](#user-content-kgserverstoragebackendsinitpy)
 - [kgserver/storage/backends/postgres.py](#user-content-kgserverstoragebackendspostgrespy)
 - [kgserver/storage/backends/sqlite.py](#user-content-kgserverstoragebackendssqlitepy)
 - [kgserver/storage/interfaces.py](#user-content-kgserverstorageinterfacespy)
-- [kgserver/storage/models/README.md](#user-content-kgserverstoragemodelsreadmemd)
 - [kgserver/storage/models/__init__.py](#user-content-kgserverstoragemodelsinitpy)
 - [kgserver/storage/models/bundle.py](#user-content-kgserverstoragemodelsbundlepy)
 - [kgserver/storage/models/bundle_evidence.py](#user-content-kgserverstoragemodelsbundleevidencepy)
@@ -195,11 +131,7 @@
 - [kgserver/tests/test_storage_backends.py](#user-content-kgserverteststeststoragebackendspy)
 - [kgserver/tests/test_storage_factory.py](#user-content-kgserverteststeststoragefactorypy)
 - [kgserver/tests/test_storage_provenance.py](#user-content-kgserverteststeststorageprovenancepy)
-- [mcp_work.md](#user-content-mcpworkmd)
-- [medlit_bundle/docs/README.md](#user-content-medlitbundledocsreadmemd)
-- [snapshot_semantics_v1.md](#user-content-snapshotsemanticsv1md)
 - [summarize_codebase.py](#user-content-summarizecodebasepy)
-- [summary.md](#user-content-summarymd)
 - [tests/__init__.py](#user-content-testsinitpy)
 - [tests/conftest.py](#user-content-testsconftestpy)
 - [tests/test_caching.py](#user-content-teststestcachingpy)
@@ -226,733 +158,6 @@
 - [tests/test_streaming.py](#user-content-teststeststreamingpy)
 
 ---
-
-<span id="user-content-githubcopilot-instructionsmd"></span>
-
-# .github/copilot-instructions.md
-
-# GitHub Copilot Instructions for kgraph
-
-This file provides guidance to GitHub Copilot when working with code in this repository.
-
-## Project Overview
-
-**kgraph** is a domain-agnostic framework for building knowledge graphs from documents. The system extracts entities and relationships across multiple knowledge domains (medical literature, legal documents, academic CS papers, etc.).
-
-### Architecture
-
-    ...
-
-<span id="user-content-claudemd"></span>
-
-# CLAUDE.md
-
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Project Overview
-
-Knowledge graph system for extracting entities and relationships from documents across multiple knowledge domains (medical literature, legal documents, academic CS papers, etc.). The architecture uses a two-pass ingestion process:
-
-1. **Pass 1 (Entity Extraction)**: Extract entities from documents, assign canonical IDs where appropriate (UMLS for medical, DBPedia URIs cross-domain, etc.)
-2. **Pass 2 (Relationship Extraction)**: Identify edges/relationships between entities, produce per-document JSON with edges and provisional entities
-
-    ...
-
-<span id="user-content-implementationplanmd"></span>
-
-# IMPLEMENTATION_PLAN.md
-
-# Implementation Plan: Semantic Evidence Validation for Relationship Extraction
-
-**Created:** 2026-02-17  
-**Status:** Approved; updated per Claude review (caching, integration detail, CLI, trace fields)  
-**Goal:** Replace or augment strict string-based evidence validation with cosine-similarity (embedding-based) checks so that relationships are not rejected when the evidence uses abbreviations, related terms, or partial matches (e.g. "MBC" vs "Male breast cancer", "breast cancer" vs "Male breast cancer (MBC)").
-
----
-
-## 1. Problem statement
-
-    ...
-
-<span id="user-content-jatsparsernotesmd"></span>
-
-# JATS_PARSER_NOTES.md
-
-# Notes on JATS-XML Parsing for Medlit Schema Ingestion
-
-## Goal
-To develop a robust parser that can transform JATS-XML scientific articles into structured data conforming to the `medlit_schema` in the `kgraph` framework. This involves extracting:
-- `Paper` entities (bibliographic metadata)
-- `TextSpan` entities (granular text locations)
-- `BaseMedicalEntity` types (e.g., Disease, Gene, Drug, Protein, Mutation, Symptom, Biomarker, Pathway, Procedure, Author, ClinicalTrial, Institution, Hypothesis, StudyDesign, StatisticalMethod)
-- `Evidence` entities (canonical records of observations)
-- Relationships between entities, critically linked to `Evidence` entities.
-
-    ...
-
-<span id="user-content-lambdalabsmd"></span>
-
-# LAMBDA_LABS.md
-
-# GPU-Accelerated AI Tinkering
-
-Like me, you may get tired of paying subscription fees to use online LLMs.
-Especially when, later, you're told that you've reached the usage limit and you
-should "switch to another model" or some such nonsense. The tempation at that
-point is to run a model locally using Ollama, but your local machine probably
-doesn't have a GPU if you're not a gamer. Then you dream of picking up a cheap
-GPU box on eBay and running it locally, and that's not a bad idea but it takes
-time and money that you may not want to spend right now.
-
-    ...
-
-<span id="user-content-mcpingestionmd"></span>
-
-# MCP_INGESTION.md
-
-# MCP tools for paper ingestion
-
-There could be a MCP tool that ingests a paper given a URL. It would allow the graph to grow in new directions and pivot to meet changing needs. It is an async tool that kicks off a background job and returns a job ID, with a separate check_ingest_status(job_id) tool.
-
-
-**The two tools:**
-```python
-ingest_paper(url: str) -> {"job_id": str, "status": "queued"}
-check_ingest_status(job_id: str) -> {"job_id": str, "status": "queued|running|complete|failed", "paper_title": str, "entities_added": int, "relationships_added": int, "error": str | None}
-```
-
-    ...
-
-<span id="user-content-medlitschemaspecmd"></span>
-
-# MEDLIT_SCHEMA_SPEC.md
-
-# Work Order: MedLit as an Extension of kgschema/
-
-## Executive Summary
-
-**Goal:** Create `examples/medlit_schema/` as a definitions-only package demonstrating domain-specific extension of the kgraph framework for medical literature knowledge graphs.
-
-**Key Design Decisions:**
-1. ✅ **Evidence as first-class entity** (not relationship metadata) for database indexing, canonical IDs, and multi-hop traceability
-2. ✅ **Canonical ID format for Evidence:** `{paper_id}:{section}:{paragraph}:{method}` enables immediate promotion
-3. ✅ **Rich bibliographic model** from `med-lit-schema/`: Paper with authors, journal, study metadata, MeSH terms, extraction provenance
-
-    ...
-
-<span id="user-content-nextstepsmd"></span>
-
-# NEXT_STEPS.md
-
-# What are Next Steps for this thing?
-
-Following a bunch of work, I have this little review from ChatGPT.
-
-## Small suggestions / potential follow-ups ⚠️ (not blockers)
-
-1.  **`ValidationIssue.value` is typed as `str | None`**. [GitHub](https://github.com/wware/kgraph/commit/7c3d5778045027f79cda39110bd09819dc05253e)  
-    That’s fine for display, but you may eventually want either:
-    
-    -   `value: Any | None` (so callers can inspect programmatically), *or*
-
-    ...
-
-<span id="user-content-plan1md"></span>
-
-# PLAN1.md
-
-# Implementation Plan: Provenance in the Bundle (TODO1)
-
-This plan implements the design in **TODO1.md**: extend the V1 bundle contract to always include provenance (entity mentions and relationship evidence), persist it through export/load, and surface it in the graph visualization.
-
-**How to use this plan:** Work through phases in order (1 → 2 → 3 → 4 → 5 → 6). Phase 1 is the bundle contract (kgbundle); Phase 2 collects provenance during ingestion (kgraph); Phase 3 writes it in export; Phase 4 loads it in KGServer; Phase 5 exposes it in the graph API and UI; Phase 6 is tests and backward compatibility. **All file paths, line references, and source types you need are in the "Code reference" section** so you can implement without opening other files for discovery. **Success:** A bundle exported after ingestion includes `mentions.jsonl` and `evidence.jsonl`; loading it in KGServer and querying the graph returns provenance on nodes/edges; the graph UI shows mentions and evidence in tooltips/panels.
-
----
-
-## Summary of Goals
-
-    ...
-
-<span id="user-content-plan10md"></span>
-
-# PLAN10.md
-
-# PLAN10: Persistent ingest workspace + remove legacy ingest.py
-
-A detailed implementation plan for two related changes: (1) refactoring `kgserver/mcp_server/ingest_worker.py` so ingestion uses a persistent workspace instead of a temp directory, and (2) deleting the legacy `examples/medlit/scripts/ingest.py` entrypoint and cleaning up references to it.
-
----
-
-## Part 1: Persistent workspace refactor (`ingest_worker.py`)
-
-### Problem
-
-    ...
-
-<span id="user-content-plan2md"></span>
-
-# PLAN2.md
-
-# Implementation Plan: Embedding Cache Fix and Ollama Performance (TODO2)
-
-This plan addresses **TODO2.md**: embedding caching that was not working (causing expensive repeated API calls) and performance improvements for the Ollama client (thread pool, batch embeddings).
-
-**How to use this plan:** Work through Phase 1 and Phase 3 first (can be done in parallel). Phase 1 fixes the cache so lookups hit; Phase 3 verifies the ingest script and adds one comment. Phase 2 (Ollama batch + optional executor) is optional. Phase 4 tests go in `tests/test_caching.py`. **You do not need to open any other files** — all required names, line numbers, and code snippets are in the "Code reference" and "Exact edits" sections below. **Success:** After Phase 1 + 3, a second ingest run over the same corpus shows cache hits; no duplicate API calls for the same normalized text.
-
----
-
-## What was missing? (Why “caching was never used”)
-
-    ...
-
-<span id="user-content-plan3md"></span>
-
-# PLAN3.md
-
-# Implementation Plan: BioBERT / NER-Based Entity Extraction (PLAN3)
-
-This plan replaces (or offers as an alternative to) **LLM-based entity extraction** in stage 2 with a **local, inference-only NER model** (e.g. BioBERT/PubMedBERT fine-tuned for biomedical NER). The goal is to make stage 2 "Extracting entities" **much faster** and more predictable while keeping the LLM for **relationship extraction** (stage 4), which benefits from generative reasoning.
-
-**How to use this plan:** Work through phases in order. Phase 1 adds the NER extractor implementation and optional dependencies; Phase 2 wires it into the medlit ingest script and keeps the LLM path available; Phase 3 adds tests and documentation. **Success:** Running ingest with `--entity-extractor ner` (or equivalent) uses the NER model for entity extraction only; stage 2 completes in seconds per paper instead of minutes; relationship extraction still uses the LLM when `--use-ollama` is set.
-
----
-
-## Why NER instead of LLM for entity extraction?
-
-    ...
-
-<span id="user-content-plan4md"></span>
-
-# PLAN4.md
-
-# UNIMPLEMENTED — Plan: Split medlit ingest.py by stage
-
-**Superseded:** ingest.py has been removed (PLAN10). The pipeline is now split into pass1_extract, pass2_dedup, pass3_build_bundle. See run-ingest.sh and examples/medlit/INGESTION.md. The plan below is retained for historical reference.
-
----
-
-Split `examples/medlit/scripts/ingest.py` into separate source files by pipeline stage. The plan is written so it can be executed mechanically without ambiguity.
-
-**Reference file:** `examples/medlit/scripts/ingest.py` (current state; line numbers below refer to it).
-
-    ...
-
-<span id="user-content-plan5md"></span>
-
-# PLAN5.md
-
-# Plan: Gather all repo Markdown into MkDocs for droplet server
-
-Collect all Markdown files from the repository into a single organized tree under the MkDocs `docs/` directory so the droplet server serves them with working navigation and search. Execute the steps in order from the **repository root**. Build context for Docker is the repo root (`docker build -f kgserver/Dockerfile .`).
-
-**Exclusions (do not copy):**
-- `medlit_bundle/docs/README.md` (generated at export)
-- `kgserver/query/.ipynb_checkpoints/README-checkpoint.md` (checkpoint)
-- `PLAN5.md` (this plan; not part of the doc set)
-
-**Optional:** Include `.github/copilot-instructions.md` under `docs/development/`. If you omit it, remove its COPY and its nav entry.
-
-    ...
-
-<span id="user-content-plan6md"></span>
-
-# PLAN6.md
-
-# UNIMPLEMENTED — Plan: Mitigate relationship extraction performance issues (PLAN6)
-
-**Obsoleted by PLAN8.** This plan is retained for historical reference.
-
-Execute steps in order from the **repository root**. All edits are in `examples/medlit/pipeline/relationships.py` unless stated otherwise. Reference: **A.md** (Gemini observations).
-
-**Scope:** 6.1 Skip semantic when string says entity missing; 6.2 Shorten prompt (remove signature table); 6.3 Predicate hierarchy post-filter (Option B). 6.4 Batch semantic checks is specified so it can be implemented later without supervision.
-
----
-
-    ...
-
-<span id="user-content-plan7md"></span>
-
-# PLAN7.md
-
-# Plan: MCP server in separate container with SSE (PLAN7)
-
-Execute steps in order from the **repository root**. Reference: **mcp_work.md**.
-
-**Scope:** Move the MCP server from the FastAPI container into its own Docker service on port 8001, using SSE (not stdio). Ensure the MCP container receives the same configuration (e.g. `DATABASE_URL`) and add an nginx snippet for proxying MCP with SSE-friendly settings. Document how to use the MCP server from Cursor IDE or Claude Code on Linux (locally and in the cloud) and how to confirm it works by having a conversation with the graph.
-
----
-
-## Step 0. Pre-flight
-
-    ...
-
-<span id="user-content-plan8md"></span>
-
-# PLAN8.md
-
-# Plan: MedLit Ingestion Refactor (PLAN8)
-
-Execute steps in order from the **repository root**. Reference: **examples/medlit/INGESTION_REFACTOR.md**.
-
-**Scope:** Implement the two-pass ingestion process described in INGESTION_REFACTOR.md: (1) Pass 1 — LLM extraction producing immutable per-paper bundle JSON; (2) Pass 2 — deduplication and promotion with name/type index, SAME_AS resolution, canonical ID assignment, ontology lookup, and relationship ref updates. Add the SAME_AS predicate to the schema and ensure bundle format, provenance, and Evidence handling match the spec.
-
----
-
-## Step 0. Pre-flight
-
-    ...
-
-<span id="user-content-plan8amd"></span>
-
-# PLAN8a.md
-
-# Plan 8a: Authoritative Canonical IDs in Pass 2 (PLAN8a)
-
-Execute steps in order from the **repository root**. Reference: **examples/medlit/CANONICAL_IDS.md**.
-
-**Goal:** In Pass 2, reserve "canonical_id" for IDs from authoritative ontologies (MeSH/UMLS, HGNC, RxNorm, UniProt). Use a stable merge key (entity_id) for every entity; when we have an authoritative ID use it as the merge key and set canonical_id; when we do not, use a synthetic slug only as entity_id and set canonical_id to null. Integrate `CanonicalIdLookup` into Pass 2 so new entities are resolved via API when possible.
-
-**Terminology (fixed for this plan):**
-- **entity_id** (or **id**): Stable merge key used for dedup and for relationship subject/object. Always present. Either an authoritative ID string or a synthetic slug (e.g. `canon-<uuid>`).
-- **canonical_id**: Optional. Set only when the merge key is an authoritative ontology ID; null when the entity is identified only by a synthetic slug. Never output a synthetic slug as canonical_id.
-
-    ...
-
-<span id="user-content-plan8bmd"></span>
-
-# PLAN8b.md
-
-# Plan 8b: Pass 3 — Bundle builder (medlit_merged → kgbundle)
-
-Execute steps in order from the **repository root**. Reference: **kgbundle/kgbundle/models.py** (EntityRow, RelationshipRow, EvidenceRow, MentionRow, DocAssetRow, BundleManifestV1, BundleFile).
-
-**Goal:** The two-pass pipeline produces `medlit_merged/` (entities.json + relationships.json + synonym_cache.json) but never the **kgbundle** format that kgserver loads. Pass 3 reads merged output plus raw Pass 1 bundles and writes a loadable bundle (entities.jsonl, relationships.jsonl, evidence.jsonl, mentions.jsonl, manifest.json, etc.). Pass 2 currently drops evidence_entities; Pass 3 must re-read Pass 1 bundles for evidence and mentions and for usage/total_mentions.
-
-**Id map decision:** Pass 2 will write an **id_map** file so Pass 3 can resolve (paper_id, local_id) → merge_key without re-running merge logic. Schema: `{"<paper_id>": {"<local_id>": "<merge_key>", ...}, ...}` written as `merged_dir/id_map.json`.
-
----
-
-    ...
-
-<span id="user-content-plan9md"></span>
-
-# PLAN9.md
-
-# PLAN9: MCP tools for paper ingestion
-
-Implement two MCP tools: `ingest_paper(url)` (async, enqueues job, returns job_id) and `check_ingest_status(job_id)` (sync, returns status and counts). Background jobs run the medlit Pass 1 → Pass 2 → Pass 3 pipeline in a temp directory, then load the resulting bundle into storage. Job state is persisted in the same DB as the graph (Postgres or SQLite) so status survives restarts.
-
----
-
-## Prerequisites
-
-- Repo root on `sys.path` or install in editable mode so `examples.medlit` and `kgserver` are importable from the process that runs the worker.
-- Environment: `DATABASE_URL` (and optionally `PASS1_LLM_BACKEND`, `INGEST_MAX_WORKERS`, etc.) set where the MCP server runs.
-
-    ...
-
-<span id="user-content-readmemd"></span>
-
-# README.md
-
-# kgraph
-
-A domain-agnostic framework for building knowledge graphs from documents. Supports entity extraction, relationship mapping, and a two-pass ingestion pipeline that works across any knowledge domain (medical, legal, academic, etc.).
-
-## Features
-
-- **Domain-agnostic**: Define your own entity types, relationships, and validation rules
-- **Two-pass ingestion**: Extract entities first, then relationships between them
-- **Entity lifecycle**: Provisional entities promoted to canonical based on usage/confidence
-- **Canonical ID system**: Abstractions for working with authoritative identifiers (UMLS, MeSH, HGNC, etc.)
-
-    ...
-
-<span id="user-content-rethinkingestionmd"></span>
-
-# RETHINK_INGESTION.md
-
-# Rethinking ingestion: Q&A over entity-scoped context
-
-This document describes a proposed alternative to the current relationship-extraction stage. The goal is to get richer, more useful results by asking targeted questions about each entity with access to **all and only** the documents that mention that entity, rather than extracting fixed (subject, predicate, object) triples from isolated evidence windows.
-
-**Status:** Design discussion. No implementation yet.
-
----
-
-## Motivation
-
-    ...
-
-<span id="user-content-simplifypromotionmd"></span>
-
-# SIMPLIFY_PROMOTION.md
-
-# Feature request: Simplify / remove legacy promotion machinery
-
-**Status:** For later consideration. Not part of PLAN8a.
-
-**Context:** The new two-pass medlit pipeline (Pass 1 → Pass 2) does not use promotion. It does not call `run_promotion`, `PromotionPolicy`, or storage `promote()` / `find_provisional_for_promotion`. Canonical vs provisional is expressed only via Pass 2 output: `canonical_id` set when we have an authoritative ID, null otherwise. The legacy script `examples/medlit/scripts/ingest` has been removed; the canonical flow is the three-pass pipeline (pass1_extract, pass2_dedup, pass3_build_bundle). `run-ingest.sh` now uses that pipeline (usage/confidence thresholds, `MedLitPromotionPolicy`, `run_promotion`). This document describes a possible future change to remove or simplify that machinery. It is a larger refactor that touches kgschema and kgraph and should be decided with care.
-
----
-
-## Goal
-
-    ...
-
-<span id="user-content-status20260212md"></span>
-
-# STATUS_20260212.md
-
-# Session status — 2026-02-12
-
-Record of discussion and changes from this session (help.md follow-up, evidence/type enforcement, full-paper streaming extraction, Ollama/GPU).
-
----
-
-## 1. Help.md to-dos
-
-**Source:** `help.md` — next-step items from a prior review.
-
-    ...
-
-<span id="user-content-todo1md"></span>
-
-# TODO1.md
-
-# Provenance info in the bundle
-
-## Prompt:
-2/18/2026, 1:14:19 AM
-
-The bundle contract should include provenance information like mentions and document metadata and locations and all that. And it would be great if this stuff appeared somewhere in the graph visualization. For inspiration, look at kgschema/document.py, kgschema/entity.py (the EntityMention model), and kgschema/relationship.py (BaseRelationship.evidence). This is still very green-field work and backward compatibility is not a concern.
-
-
-
-## Response:
-
-    ...
-
-<span id="user-content-todo2md"></span>
-
-# TODO2.md
-
-# Embedding cacheing is not working
-
-## Prompt:
-2/17/2026, 8:47:42 PM
-
-We're going to need to do some performance work. I'm doing twenty papers on an expensive A100 instance and it's taken three hours. Can't have that.
-
-
-
-## Response:
-
-    ...
-
-<span id="user-content-vibesmd"></span>
-
-# VIBES.md
-
-# Generalizing literature graphs across knowledge domains
-
-## Prompt:
-1/18/2026, 10:16:42 AM
-
-I want to reframe the medical literature project a bit, allow it to be generalized to other domains of knowledge. We are still building a graph and a graph still consists of nodes (entities) and edges (relationships). We still have a collection of entities from previous ingestion processes. We add a new thing: entities may be "canonical", that is they have been assigned canonical IDs (UMLS numbers or whatever) or they may be "provisional", meaning that we don't know yet if they should be assigned canonical IDs, for instance an entity might be a mention of some trivial thing in just one paper.
-
-Given a batch of papers to ingest, we proceed in two passes. First pass we extract entities and assign canonical IDs where they make sense. Second pass we identify the edges (for medical, these edges are of the three types, extraction, claims, and evidence). The first pass produces a JSON serialization of the collection of entities including canonical IDs and synonyms. The second pass produces one JSON file per paper, including the paper's edges and any provisional entities unique to that paper.
-
-This framework allows each knowledge domain (legal documents, academic CS papers) to define its own source of canonical IDs, its own schema, its own list of edge types. Any interesting query optimizations (graph theory tricks, database quirks) can be shared across domains. Where possible, cross-domain canonical IDs are preferred (such as DBPedia URIs). Including a significant chunk of DBPedia is probably a very good idea, or at least being able to pull in DBPedia entities as the ingestion progresses.
-
-    ...
-
-<span id="user-content-docsrelationshiptracingmd"></span>
-
-# docs/RELATIONSHIP_TRACING.md
-
-# Relationship tracing works now
-
-The machinery for tracing relationship ingestion (and the decision to
-keep or discard a relationship) is now working.
-
-```bash
-# Three-pass pipeline (ingest.py removed). Pass 1 extracts entities and relationships per paper.
-$ cd /home/wware/kgraph && rm -f /tmp/kgraph-relationship-traces/*.json && uv run python -m examples.medlit.scripts.pass1_extract --input-dir examples/medlit/pmc_xmls --output-dir pass1_bundles --llm-backend ollama --papers "PMC10759991.xml" 2>&1 | tee /tmp/ingest_output.txt
-```
-
-    ...
-
-<span id="user-content-docsapimd"></span>
-
-# docs/api.md
-
-# API Reference
-
-## Core Classes
-
-### kgraph.entity
-
-#### EntityStatus
-
-```python
-class EntityStatus(str, Enum):
-
-    ...
-
-<span id="user-content-docsarchitecturemd"></span>
-
-# docs/architecture.md
-
-# Architecture Overview
-
-## Two-Pass Ingestion Pipeline
-
-The framework processes documents in two passes:
-
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────────┐
-│  Raw Docs   │────▶│   Parser    │────▶│  BaseDocument   │
-└─────────────┘     └─────────────┘     └────────┬────────┘
-
-    ...
-
-<span id="user-content-docsbundlemd"></span>
-
-# docs/bundle.md
-
-# Bundle format (kgraph → kgserver)
-
-A **bundle** is the finalized, validated artifact produced by domain-specific pipelines (kgraph) and consumed by the domain-neutral server (kgserver).
-
-**Bundles are a strict contract.**
-- Producer pipelines must export a bundle that already matches the server schema.
-- The server loads bundles as-is and should fail fast if a bundle is invalid.
-- Do not rely on the server to rename fields, interpret metadata, or infer structure.
-
-This document specifies the **bundle file layout**, **manifest schema**, and **row formats**.
-
-    ...
-
-<span id="user-content-docscanonicalidsmd"></span>
-
-# docs/canonical_ids.md
-
-# Canonical IDs
-
-Canonical IDs are stable identifiers from authoritative sources (UMLS, MeSH, HGNC, RxNorm, UniProt, DBPedia, etc.) that uniquely identify entities across different knowledge bases. The `kgraph` framework provides abstractions for working with canonical IDs throughout the ingestion pipeline.
-
-## Overview
-
-The canonical ID system consists of:
-
-1. **`CanonicalId`** - A Pydantic model representing a canonical identifier with ID, URL, and synonyms
-2. **`CanonicalIdCacheInterface`** - Abstract interface for caching canonical ID lookups
-
-    ...
-
-<span id="user-content-docsdeterminismmd"></span>
-
-# docs/determinism.md
-
-# Determinism and Reproducibility
-
-This document addresses concerns about non-deterministic behavior in the knowledge graph ingestion pipeline, particularly regarding LLM usage and provenance tracking.
-
-## Current State
-
-### LLM Temperature Settings
-
-- **Current temperature**: `0.1` (default in `OllamaLLMClient`)
-- **Impact**: Even at low temperature, LLMs can exhibit non-deterministic behavior due to:
-
-    ...
-
-<span id="user-content-docsdomainsmd"></span>
-
-# docs/domains.md
-
-# Implementing a Domain
-
-Each knowledge domain (medical, legal, CS papers, etc.) defines its own entity types, relationship types, and validation rules by implementing `DomainSchema`.
-
-## Step 1: Define Entity Types
-
-Create entity classes by extending `BaseEntity`:
-
-```python
-from datetime import datetime
-
-    ...
-
-<span id="user-content-docsgraphvisualizationmd"></span>
-
-# docs/graph_visualization.md
-
-# Force-Directed Graph Visualization
-
-Interactive graph visualization for kgserver using D3.js force simulation.
-
-## Overview
-
-This feature provides an interactive graph visualization accessible via a REST endpoint and static HTML page. The design separates data retrieval (API) from rendering (client-side JS) for flexibility and extensibility.
-
-## Architecture
-
-    ...
-
-<span id="user-content-docsindexmd"></span>
-
-# docs/index.md
-
-# Knowledge Graph Framework
-
-A domain-agnostic framework for building knowledge graphs from documents. Supports entity extraction, relationship mapping, and a two-pass ingestion pipeline that works across any knowledge domain (medical, legal, academic, etc.).
-
-## Quick Start
-
-```bash
-# Install
-uv venv && source .venv/bin/activate
-uv pip install -e ".[dev]"
-
-    ...
-
-<span id="user-content-docspipelinemd"></span>
-
-# docs/pipeline.md
-
-# Pipeline Components
-
-The knowledge graph ingestion pipeline uses a **two-pass architecture** to transform raw documents into structured knowledge:
-
-1. **Pass 1 (Entity Extraction)**: Parse documents, extract entity mentions, and resolve them to canonical or provisional entities.
-2. **Pass 2 (Relationship Extraction)**: Identify relationships (edges) between resolved entities within each document.
-
-This separation allows the system to build a consistent entity vocabulary before attempting relationship extraction, which improves accuracy and enables cross-document entity linking.
-
-The pipeline consists of pluggable components for parsing, extraction, resolution, and embedding generation. Each component is defined as an abstract interface, allowing domain-specific implementations.
-
-    ...
-
-<span id="user-content-docsstoragemd"></span>
-
-# docs/storage.md
-
-# Storage Backends
-
-The framework defines storage interfaces for entities, relationships, and documents. These interfaces decouple the knowledge graph core from specific persistence technologies, enabling you to:
-
-- Use **in-memory storage** for testing and development
-- Deploy with **relational databases** (PostgreSQL, MySQL) for ACID guarantees
-- Leverage **vector databases** (Pinecone, Weaviate, Qdrant) for embedding-based similarity search
-- Use **graph databases** (Neo4j, ArangoDB) for optimized relationship traversal
-
-All interfaces are async-first to support non-blocking I/O with modern database drivers.
-
-    ...
-
-<span id="user-content-examplesmedlitcanonicalidsmd"></span>
-
-# examples/medlit/CANONICAL_IDS.md
-
-# Canonical ID Lookup for Medical Entities
-
-This document describes how the medlit pipeline acquires canonical IDs from authoritative medical ontology sources for entities like diseases, genes, drugs, and proteins.
-
-## Overview
-
-Medical knowledge graphs require standardized identifiers to link entities across different papers and databases. The medlit pipeline uses a two-pronged approach:
-
-1. **During Extraction**: The LLM can call a lookup tool to find canonical IDs while extracting entities from text
-2. **During Promotion**: Provisional entities without canonical IDs can be enriched via API lookup before promotion
-
-    ...
-
-<span id="user-content-examplesmedlitingestionmd"></span>
-
-# examples/medlit/INGESTION.md
-
-# MedLit ingestion (three passes)
-
-Ingestion is split into three passes. **Pass 1** produces immutable per-paper bundle JSON files. **Pass 2** reads those bundles and writes a merged graph (entities, relationships, id_map, synonym cache) to a separate directory; it never modifies the Pass 1 files. **Pass 3** reads the merged output and Pass 1 bundles and writes a **kgbundle** directory (entities.jsonl, relationships.jsonl, evidence.jsonl, mentions.jsonl, manifest.json, etc.) loadable by kgserver.
-
-The two-pass flow does **not** use promotion (no usage/confidence thresholds, no `PromotionPolicy`). Canonical vs provisional is reflected only by whether an entity has an authoritative `canonical_id` in the Pass 2 output (present) or `canonical_id` null (provisional in that sense).
-
-## Pass 1: LLM extraction → per-paper bundle
-
-- **Input:** Directory of paper files (JATS XML or JSON).
-- **Output:** One JSON file per paper in an output directory (e.g. `paper_PMC12345.json`). Each file is a **per-paper bundle** (paper metadata, entities, evidence_entities, relationships, notes, extraction_provenance).
-
-    ...
-
-<span id="user-content-examplesmedlitingestionrefactormd"></span>
-
-# examples/medlit/INGESTION_REFACTOR.md
-
-# MedLit Knowledge Graph — Ingestion Process
-
-## Overview
-
-Ingestion transforms JATS-XML papers into a structured knowledge graph. The process has
-two distinct passes with very different computational profiles:
-
-1. **LLM extraction pass** — slow, expensive, requires judgment. One API call per paper
-   (or per section for long papers). Produces a per-paper JSON bundle where all entities
-   have `source="extracted"` (provisional).
-
-    ...
-
-<span id="user-content-examplesmedlitllmsetupmd"></span>
-
-# examples/medlit/LLM_SETUP.md
-
-# Pass 1 LLM backends and configuration
-
-Pass 1 (extraction) requires an LLM to produce per-paper bundle JSON. You can use any of the backends below. Do **not** commit API keys; use `.env` or environment variables and add `.env` to `.gitignore` if present.
-
-## Quick start: Claude with `.env`
-
-1. Put your key in a `.env` file at the **repo root** (e.g. `kgraph/.env`):
-   ```bash
-   ANTHROPIC_API_KEY=sk-ant-...
-   ```
-
-    ...
-
-<span id="user-content-examplesmedlitreadmemd"></span>
-
-# examples/medlit/README.md
-
-# Medical Literature Domain Extension
-
-This package provides a kgraph domain extension for extracting knowledge from biomedical journal articles. It rewrites the med-lit-schema project as a kgraph domain package, following the same pattern as the Sherlock example.
-
-## Architecture
-
-### Key Design Decisions
-
-1. **Papers are NOT doc_assets.jsonl**: Source papers are `JournalArticle(BaseDocument)` instances used for extraction, not documentation assets. The `doc_assets.jsonl` in bundles is for human-readable documentation only.
-
-    ...
-
-<span id="user-content-examplesmedlittodomd"></span>
-
-# examples/medlit/TODO.md
-
-# Medical Literature Domain - Enhancement TODO
-
-This document tracks enhancements to the med-lit domain extension for kgraph. The current implementation works with pre-extracted entities/relationships from Paper JSON format. These enhancements will enable extraction directly from raw text.
-
-## 1. Integrate NER Models for Entity Extraction
-
-**Status**: Not Started
-**Priority**: High
-**Component**: `MedLitEntityExtractor`
-
-    ...
 
 <span id="user-content-examplesmedlitinitpy"></span>
 
@@ -1313,6 +518,18 @@ sources: UMLS, HGNC, RxNorm, and UniProt.
 
 Features persistent caching to avoid repeated API calls across runs.
 
+
+### `def validate_umls_type(umls_id: str, assigned_type: str, _cache: dict[tuple[str, str], tuple[bool, str | None]] | None = None, _semantic_types_override: dict[str, list[str]] | None = None) -> tuple[bool, str | None]`
+
+Return (ok, correct_type_if_known).
+
+Looks up the UMLS semantic type(s) for the CUI and checks whether assigned_type
+is compatible. Returns (False, expected_type) when assigned_type is incompatible
+and the mapping is unambiguous; (True, None) when compatible; (False, None) when
+ambiguous (multiple allowed types). Uses in-memory cache keyed by (umls_id,
+assigned_type) so each CUI is looked up at most once per run when cache is passed.
+For tests, pass _semantic_types_override mapping CUI -> list of semantic type names
+to avoid live API calls.
 
 ## `class CanonicalIdLookup(CanonicalIdLookupInterface)`
 
@@ -2981,6 +2198,14 @@ Return git_commit, git_commit_short, git_branch, git_dirty, repo_url.
 
 Build extraction_provenance for Pass 1 output.
 
+### `def normalize_entity_type(raw_type: str) -> str`
+
+Map raw LLM type string to bundle entity_class (PascalCase). Unknown types -> 'Other'.
+
+### `def _build_system_prompt_with_vocab(base_prompt: str, vocab_entries: Optional[list[dict]] = None) -> str`
+
+Append vocabulary context to base prompt when vocab_entries is provided.
+
 ### `def _default_system_prompt() -> str`
 
 Minimal system prompt asking for per-paper bundle JSON.
@@ -2993,9 +2218,65 @@ Extract text and minimal PaperInfo from raw content using existing parser.
 
 Fallback: use raw text and filename for paper id.
 
-### `async def run_pass1(input_dir: Path, output_dir: Path, llm_backend: str, limit: Optional[int] = None, papers: Optional[list[str]] = None, system_prompt: Optional[str] = None) -> None`
+### `async def run_pass1(input_dir: Path, output_dir: Path, llm_backend: str, limit: Optional[int] = None, papers: Optional[list[str]] = None, system_prompt: Optional[str] = None, vocab_file: Optional[Path] = None) -> None`
 
 Run Pass 1: for each paper in input_dir, call LLM and write bundle JSON to output_dir.
+
+
+<span id="user-content-examplesmedlitscriptspass1avocabpy"></span>
+
+# examples/medlit/scripts/pass1a_vocab.py
+
+Pass 1a: Fast vocabulary extraction across papers → vocab.json + seeded synonym cache.
+
+Runs a cheap LLM prompt per paper (entities only, no relationships), merges results
+into a shared vocabulary, runs UMLS type validation on entities with umls_id, and
+writes vocab.json plus a Pass 2–compatible seeded_synonym_cache.json. Pass 1b and
+Pass 2 consume these for consistent names/types and dedup seeding.
+
+Usage:
+  python -m examples.medlit.scripts.pass1a_vocab --input-dir pmc_xmls/ --output-dir pass1_vocab --llm-backend anthropic
+  python -m examples.medlit.scripts.pass1a_vocab --input-dir pmc_xmls/ --output-dir pass1_vocab --llm-backend ollama --papers "PMC115*.xml"
+
+> Pass 1a: Fast vocabulary extraction across papers → vocab.json + seeded synonym cache.
+
+Runs a cheap LLM prompt per paper (entities only, no relationships), merges results
+into a shared vocabulary, runs UMLS type validation on entities with umls_id, and
+writes vocab.json plus a Pass 2–compatible seeded_synonym_cache.json. Pass 1b and
+Pass 2 consume these for consistent names/types and dedup seeding.
+
+Usage:
+  python -m examples.medlit.scripts.pass1a_vocab --input-dir pmc_xmls/ --output-dir pass1_vocab --llm-backend anthropic
+  python -m examples.medlit.scripts.pass1a_vocab --input-dir pmc_xmls/ --output-dir pass1_vocab --llm-backend ollama --papers "PMC115*.xml"
+
+
+### `def _vocab_key(entry: dict[str, Any]) -> tuple[str, str]`
+
+Key for merging: (normalized name, type).
+
+### `async def _paper_content(path: Path, input_dir: Path) -> tuple[str, str]`
+
+Return (content_text, paper_id) for a paper file.
+
+### `def _merge_vocab_into(existing: list[dict[str, Any]], new_entries: list[dict[str, Any]], source_paper: str) -> None`
+
+Merge new_entries into existing in place; same (name, type) adds source_paper to source_papers.
+
+### `def _run_umls_validation(vocab_entries: list[dict[str, Any]]) -> None`
+
+Run UMLS type validation on entries with umls_id; update type and set umls_type_validated/umls_type_conflict.
+
+### `def _vocab_to_seeded_cache(vocab_entries: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]`
+
+Build Pass 2 synonym cache format from vocab list so lookup_entity returns canonical_id.
+
+### `def _atomic_write_json(path: Path, data: Any) -> None`
+
+Write JSON to path via temp file then rename.
+
+### `async def run_pass1a(input_dir: Path, output_dir: Path, llm_backend: str, papers: Optional[list[str]] = None, limit: Optional[int] = None) -> None`
+
+Run Pass 1a: extract vocabulary from papers, merge, validate UMLS types, write vocab + seeded cache.
 
 
 <span id="user-content-examplesmedlitscriptspass2deduppy"></span>
@@ -3258,11 +2539,13 @@ Conftest for medlit tests - imports fixtures from main conftest.
 
 Tests for canonical ID authority lookup.
 
-Tests the matching logic for DBPedia and other ontology lookups.
+Tests the matching logic for DBPedia and other ontology lookups,
+and UMLS type validation (validate_umls_type).
 
 > Tests for canonical ID authority lookup.
 
-Tests the matching logic for DBPedia and other ontology lookups.
+Tests the matching logic for DBPedia and other ontology lookups,
+and UMLS type validation (validate_umls_type).
 
 
 ## `class TestDBPediaLabelMatching`
@@ -3355,6 +2638,30 @@ rather than "Breast Cancer Lymphedema" (D000072656).
 ### `def TestMeSHTermNormalization.test_mesh_id_extraction_exact_match_priority(self, lookup)`
 
 Test that exact matches get highest priority.
+
+## `class TestValidateUmlsType`
+
+Test validate_umls_type with injected semantic type mapping (no live API).
+
+### `def TestValidateUmlsType.test_cortisol_gene_misclassified_returns_correction(self)`
+
+Cortisol (C0020268) as hormone/drug; assigned type 'gene' should return (False, correct_type).
+
+### `def TestValidateUmlsType.test_pasireotide_drug_compatible_returns_ok(self)`
+
+Pasireotide (or any CUI) mapped to Pharmacologic Substance with type drug returns (True, None).
+
+### `def TestValidateUmlsType.test_unknown_cui_returns_ok_no_correction(self)`
+
+Unknown CUI (not in override, or empty override) returns (True, None).
+
+### `def TestValidateUmlsType.test_cache_reused(self)`
+
+Results are cached when _cache dict is passed; second call does not recompute.
+
+### `def TestValidateUmlsType.test_ambiguous_multiple_allowed_returns_false_none(self)`
+
+When UMLS maps to multiple allowed types (e.g. drug or biomarker), return (False, None).
 
 
 <span id="user-content-examplesmedlitteststestentitynormalizationpy"></span>
@@ -3542,6 +2849,53 @@ Test that NER extractor raises clear ImportError when transformers not installed
 ### `def TestMedLitNEREntityExtractorImportError.test_instantiation_without_pipeline_raises_import_error_when_no_transformers(self)`
 
 When transformers is not installed, constructing without pipeline= raises ImportError.
+
+
+<span id="user-content-examplesmedlitteststestpass1extractpy"></span>
+
+# examples/medlit/tests/test_pass1_extract.py
+
+Unit tests for Pass 1 extract helpers: vocab-in-prompt and type normalization.
+
+## `class TestNormalizeEntityType`
+
+Test raw LLM type string -> bundle class (PascalCase).
+
+### `def TestNormalizeEntityType.test_biological_process_to_biological_process(self)`
+
+'biological process' (with space) normalizes to BiologicalProcess.
+
+### `def TestNormalizeEntityType.test_gene_to_gene(self)`
+
+'gene' -> Gene.
+
+### `def TestNormalizeEntityType.test_disease_lowercase(self)`
+
+'disease' -> Disease.
+
+### `def TestNormalizeEntityType.test_biological_process_underscore(self)`
+
+'biological_process' -> BiologicalProcess.
+
+### `def TestNormalizeEntityType.test_unknown_maps_to_other(self)`
+
+Unknown type maps to Other.
+
+### `def TestNormalizeEntityType.test_whitespace_stripped(self)`
+
+Whitespace is stripped before mapping.
+
+## `class TestBuildSystemPromptWithVocab`
+
+Test that vocab section is appended when vocab_entries provided.
+
+### `def TestBuildSystemPromptWithVocab.test_empty_vocab_returns_base(self)`
+
+None or empty vocab returns base prompt unchanged.
+
+### `def TestBuildSystemPromptWithVocab.test_vocab_entries_included_in_prompt(self)`
+
+Short vocab list is included in the prompt with names and types.
 
 
 <span id="user-content-examplesmedlitteststestpass3bundlebuilderpy"></span>
@@ -3799,90 +3153,6 @@ Args:
 Returns:
     List of predicate names that are valid for this entity type pair.
 
-
-<span id="user-content-examplesmedlitgoldenreadmemd"></span>
-
-# examples/medlit_golden/README.md
-
-# MedLit Golden Example
-
-This directory provides a "golden" example of a two-pass ingestion pipeline using the MedLit schema. It demonstrates how a small piece of text is processed to extract canonical entities, evidence, and relationships.
-
-## Scenario
-
-The input is a mini-abstract about the drug Olaparib and its use in treating BRCA-mutated breast cancer.
-
--   **Input**: `input/PMC999_abstract.txt`
-
-    ...
-
-<span id="user-content-examplesmedlitschemadepthoffieldsmd"></span>
-
-# examples/medlit_schema/DEPTH_OF_FIELDS.md
-
-# DEPTH_OF_FIELDS: Enrich examples/medlit_schema to Production-Ready Depth
-
-## Executive Summary
-
-**Goal**: Transform `examples/medlit_schema/` from a minimal teaching example (~400 LOC) into a production-ready, reusable schema package (~2,500+ LOC) with the full richness of `med-lit-schema` while maintaining the clean separation of definitions vs. implementation.
-
-**Scope**: Schema definitions only (no functional infrastructure code like pipelines, storage backends, or servers).
-
-**Architectural Principle**:
-```
-
-    ...
-
-<span id="user-content-examplesmedlitschemaontologyguidemd"></span>
-
-# examples/medlit_schema/ONTOLOGY_GUIDE.md
-
-# MedLit Schema Ontology Integration Guide
-
-This document outlines how the MedLit schema integrates with standard biomedical ontologies to ensure data quality, interoperability, and semantic richness.
-
-## Core Principle: Canonicalization
-
-A central goal of the schema is to move from provisional, text-extracted entities to canonical entities linked to established ontology identifiers. This process is managed through the `source` field in `BaseMedicalEntity` and entity-specific identifier fields.
-
--   **Provisional Entities**: When an entity is first extracted from text, it is considered "provisional." Its `source` is set to `"extracted"`, and it may not have a canonical ID.
--   **Canonical Entities**: Once the entity is resolved to a specific ontology concept, its `source` is updated (e.g., to `"umls"`, `"hgnc"`), and the corresponding ID field is populated.
-
-    ...
-
-<span id="user-content-examplesmedlitschemaprogressmd"></span>
-
-# examples/medlit_schema/PROGRESS.md
-
-# DEPTH_OF_FIELDS Implementation Progress
-
-**Schema Version**: 1.0.0
-**Started**: 2026-02-03
-**Target**: ~3,175 LOC across 6 phases
-
----
-
-## Phase 1: Enhance Base Models & Types (base.py) ✅ COMPLETE
-**Target**: ~300 lines | **Actual**: +216 lines | **Time**: ~1 hour
-
-    ...
-
-<span id="user-content-examplesmedlitschemareadmemd"></span>
-
-# examples/medlit_schema/README.md
-
-# MedLit Schema
-
-**Version**: 1.0.0
-
-This directory contains the domain-specific schema for representing knowledge graphs of medical literature, serving as a `definitions-only` package. It extends the core `kgschema` with rich, domain-specific types for entities and relationships tailored to the biomedical field.
-
-## Core Design Principles
-
-1.  **Evidence as a First-Class Entity**: All medical claims (relationships) must be backed by evidence. The `Evidence` entity is a cornerstone of this schema, providing traceability from a claim back to its source in the literature.
-2.  **Rich, Composable Models**: Entities and relationships are modeled as Pydantic classes, enabling validation, type safety, and easy composition.
-
-    ...
 
 <span id="user-content-examplesmedlitschemainitpy"></span>
 
@@ -5429,23 +4699,6 @@ Example:
     True
 
 
-<span id="user-content-examplessherlockreadmemd"></span>
-
-# examples/sherlock/README.md
-
-# Sherlock Holmes Knowledge Graph Example
-
-This directory contains a **complete, working reference example** demonstrating
-how to build a domain-specific knowledge graph using **kgraph**, based on the
-Sherlock Holmes canon.
-
-It ingests *The Adventures of Sherlock Holmes* from Project Gutenberg and
-constructs a queryable knowledge graph of:
-
-* **Characters** (e.g. Sherlock Holmes, Irene Adler)
-
-    ...
-
 <span id="user-content-examplessherlockdatapy"></span>
 
 # examples/sherlock/data.py
@@ -5662,39 +4915,6 @@ Download and split The Adventures of Sherlock Holmes into stories.
 
 Remove Gutenberg license/header/footer so story splits are cleaner.
 
-
-<span id="user-content-holmesexampleplanmd"></span>
-
-# holmes_example_plan.md
-
-# Sherlock Holmes Knowledge Graph Example — Implementation Plan
-
-## Overview
-
-This example is a *reference implementation* showing how to build a domain-specific knowledge graph using **kgraph**. It ingests public-domain Sherlock Holmes stories (Project Gutenberg), extracts entities and relationships, and demonstrates basic querying.
-
-### Purpose
-
-Provide a complete, correct, and idiomatic example that extension authors can copy/adapt.
-
-    ...
-
-<span id="user-content-jupytermd"></span>
-
-# jupyter.md
-
-# Jupyter notebook
-
-This is a quick easy way to experiment with things. I want to deal
-with some quality issues in the ingestion step and this will help.
-
-- Miscategroized entities, like bacteria being classified as diseases.
-  You can have an infection of a particular bacterial strain but the
-  bacterium is not itself a disease.
-- Relationships need more work, too many are `associated_with` meaning
-  that we didn't figure out the nature of the relationship and we
-
-    ...
 
 <span id="user-content-kgbundlekgbundleinitpy"></span>
 
@@ -10279,106 +9499,6 @@ Returns:
     Integer count of all stored documents.
 
 
-<span id="user-content-kgserverdockercomposeguidemd"></span>
-
-# kgserver/DOCKER_COMPOSE_GUIDE.md
-
-# Docker Compose Setup - Quick Start Guide
-
-This docker-compose configuration brings up PostgreSQL (with pgvector) and Redis for local development and testing.
-
-## Quick Start
-
-```bash
-# Start both services
-docker compose up -d
-
-    ...
-
-<span id="user-content-kgserverdockersetupmd"></span>
-
-# kgserver/DOCKER_SETUP.md
-
-# Docker-Compose Setup Guide
-
-This guide walks through setting up the complete docker-compose stack with persistent data
-and running the ingestion pipeline.
-
-## Prerequisites
-
-- Docker and docker-compose installed
-- `uv` installed for running Python commands
-- PMC XML files in `ingest/pmc_xmls/` directory
-
-    ...
-
-<span id="user-content-kgservergraphqlvibesmd"></span>
-
-# kgserver/GRAPHQL_VIBES.md
-
-# Knowledge Graph GraphQL API
-
-This document describes the **GraphQL API** for querying the knowledge graph. The API is designed to be easy to use, hard to abuse, and domain-neutral - it doesn't force premature ontology decisions.
-
-## API Design Principles
-
-* **Read-only**: The API currently supports queries only (no mutations).
-* **Explicit pagination**: All list queries require pagination parameters to prevent unbounded result sets.
-* **Canonical fields**: Only standard server schema fields are first-class; domain-specific data stays in `properties: JSON`.
-* **Narrow filtering**: Filtering supports exact matches and a few safe pattern-matching helpers.
-
-    ...
-
-<span id="user-content-kgserverlocaldevmd"></span>
-
-# kgserver/LOCAL_DEV.md
-
-# Local Development Guide
-
-This guide covers running kgserver locally while using Docker for PostgreSQL.
-
-## Quick Start (Hybrid Setup)
-
-The most common development setup: PostgreSQL in Docker, Python server running directly.
-
-### 1. Start PostgreSQL
-
-    ...
-
-<span id="user-content-kgservermcpclientsetupmd"></span>
-
-# kgserver/MCP_CLIENT_SETUP.md
-
-# MCP client setup (Cursor IDE & Claude Code)
-
-This guide explains how to connect **Cursor IDE** or **Claude Code** (on Linux) to the Knowledge Graph MCP server so you can confirm it works and have a conversation with the graph.
-
-## Prerequisites
-
-- **API and MCP servers** must be running (e.g. `docker compose --profile api up -d`, or run API and MCP with uvicorn locally).
-- A **bundle must be loaded**: the API loads it at startup when `BUNDLE_PATH` is set. The MCP server only reads from the same database; it does not load bundles.
-
-**Slow startup on small droplets:** The MCP server can take **30–60 seconds** to become ready on low-CPU hosts (e.g. small DigitalOcean droplets). At startup it loads the full Python stack (FastMCP, Strawberry GraphQL, SQLAlchemy, storage backends) before binding to port 8001. The docker-compose healthcheck uses a 60s `start_period` and 5 retries so the container is not marked unhealthy while still loading. If clients connect too soon, wait and retry or increase the droplet size.
-
-    ...
-
-<span id="user-content-kgservermcpgqlwrappermd"></span>
-
-# kgserver/MCP_GQL_WRAPPER.md
-
-# Building an MCP Wrapper for the Knowledge Graph GraphQL API
-
-This document describes how to create a **Model Context Protocol (MCP) wrapper** that enables a Large Language Model (LLM) to query a Knowledge Graph GraphQL API. The goal is to make the knowledge graph easily accessible for LLM-based agents, providing entry points, schemas, and guidance for exploration—all exposed via a modern, asynchronous Python web service (FastAPI).
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Why Use an MCP Wrapper?](#why-use-an-mcp-wrapper)
-- [Architecture](#architecture)
-- [Implementation Skeleton](#implementation-skeleton)
-
-    ...
-
 <span id="user-content-kgserverchainlitapppy"></span>
 
 # kgserver/chainlit/app.py
@@ -10451,54 +9571,6 @@ Update msg with rotating spinner + 'Working…' until stop_event is set.
 
 Run each tool call against the MCP server.
 
-
-<span id="user-content-kgserverchainlitnotesmd"></span>
-
-# kgserver/chainlit/notes.md
-
-## Prompt:
-2/24/2026, 7:15:56 AM
-
-The next think I'd like to do is add a container to my docker container stack which offers a chat interface using the MCP server. Ideally the LLM backing the chat could be chosen by an environment breathable. I think I've read out heard that streamlit is good for this. Is that right? Any other recommendations?
-
-
-
-## Response:
-2/24/2026, 7:16:14 AM
-
-    ...
-
-<span id="user-content-kgserverdocsarchitecturemd"></span>
-
-# kgserver/docs/architecture.md
-
-# Architecture
-
-![Alt Text](GraphiQL_screenshot.png)
-
-## Producer artifacts vs server bundle
-
-This distinction is foundational to the design of the KG server and should be understood before modifying ingestion, storage, or bundle-loading code.
-
-### Summary
-
-    ...
-
-<span id="user-content-kgserverindexmd"></span>
-
-# kgserver/index.md
-
-# Flexible server for knowledge graphs
-
-This repository contains a **domain-neutral knowledge graph server**. While it has primarily
-been developed for medical literature, the same general architecture can serve other
-information-dense literatures (legal, financial, academic, etc).
-
-![subgraph](subgraph.jpg)
-
-Links:
-
-    ...
 
 <span id="user-content-kgservermcpmainpy"></span>
 
@@ -10574,12 +9646,12 @@ Return (storage, close_fn) for use in the worker. Caller must call close_fn when
 
 Persistent workspace root from env, defaulting to ./ingest_workspace.
 
-### `def _ensure_workspace_dirs(root: Path) -> tuple[Path, Path, Path]`
+### `def _ensure_workspace_dirs(root: Path) -> tuple[Path, Path, Path, Path]`
 
-Create and return (bundles_dir, merged_dir, output_dir). These persist across jobs.
+Create and return (bundles_dir, merged_dir, output_dir, vocab_dir). These persist across jobs.
 
 Note: output_dir (medlit_bundle/) is always fully rebuilt by Pass 3.
-The true incremental state is bundles_dir + merged_dir (especially synonym_cache.json).
+The true incremental state is bundles_dir + merged_dir + vocab_dir (especially synonym_cache.json).
 
 ### `def _workspace_lock(workspace_root: Path)`
 
@@ -10782,23 +9854,6 @@ Returns:
     (list of error dicts, or None if successful). Same shape as standard
     GraphQL JSON responses.
 
-
-<span id="user-content-kgserverqueryipynbcheckpointsreadme-checkpointmd"></span>
-
-# kgserver/query/.ipynb_checkpoints/README-checkpoint.md
-
-# Medical Knowledge Graph Query Interface
-
-This directory contains tools for querying the medical knowledge graph in a storage-agnostic way.
-
-## Overview
-
-Our storage system is agnostic across:
-
-* SQLite with sqlite-vec
-* PostgreSQL with pgvector
-
-    ...
 
 <span id="user-content-kgserverqueryinitpy"></span>
 
@@ -11249,39 +10304,6 @@ FastAPI dependency that provides a storage instance with a request-scoped sessio
 Closes the engine connection.
 
 
-<span id="user-content-kgserverstorageneo4jcompatibilitymd"></span>
-
-# kgserver/storage/NEO4J_COMPATIBILITY.md
-
-# Neo4j Compatibility
-
-> **Note**: This document describes the theoretical Neo4j compatibility of the storage interfaces. **Neo4j is not currently implemented or planned for this project.** The current implementations use PostgreSQL for production and SQLite for testing. This document is preserved for architectural reference only.
-
-## 1. Introduction
-
-The storage interfaces are designed to be **storage-agnostic**, enabling the knowledge graph server to be backed by various persistence technologies. While the current implementations target SQLite (for testing) and PostgreSQL (for production), the abstract interface design is suitable for graph database backends like **Neo4j**.
-
-The interfaces define operations in terms of entities and relationships rather than tables and SQL, making them naturally compatible with graph database concepts.
-
-    ...
-
-<span id="user-content-kgserverstoragereadmemd"></span>
-
-# kgserver/storage/README.md
-
-# Storage Layer
-
-The storage layer provides a clean abstraction for data persistence in the knowledge graph, separating infrastructure concerns (database operations) from domain logic (data processing).
-
-## Architecture
-
-The storage layer is organized into three main components:
-
-```
-storage/
-
-    ...
-
 <span id="user-content-kgserverstorageinitpy"></span>
 
 # kgserver/storage/__init__.py
@@ -11340,22 +10362,6 @@ Example:
 For more information, see the README.md in this directory.
 
 
-
-<span id="user-content-kgserverstoragebackendsreadmemd"></span>
-
-# kgserver/storage/backends/README.md
-
-# Storage Backends
-
-This directory contains concrete implementations of the storage interfaces for different database backends.
-
-## Available Backends
-
-### SQLite (`sqlite.py`)
-
-SQLite implementation for development, testing, and small-scale deployments.
-
-    ...
 
 <span id="user-content-kgserverstoragebackendsinitpy"></span>
 
@@ -11737,22 +10743,6 @@ Returns empty list if no evidence or provenance not loaded.
 
 Close connections and clean up resources.
 
-
-<span id="user-content-kgserverstoragemodelsreadmemd"></span>
-
-# kgserver/storage/models/README.md
-
-# Storage Models (SQLModel Schemas)
-
-This directory contains SQLModel persistence schemas that define the database structure for storing knowledge graphs.
-
-## Overview
-
-These are **Persistence Models** - flattened database representations optimized for storage and querying.
-
-## Available Models
-
-    ...
 
 <span id="user-content-kgserverstoragemodelsinitpy"></span>
 
@@ -12352,7 +11342,7 @@ _workspace_root uses INGEST_WORKSPACE_ROOT when set.
 
 ### `def TestWorkspaceHelpers.test_ensure_workspace_dirs(self, tmp_path)`
 
-_ensure_workspace_dirs creates pass1_bundles, medlit_merged, medlit_bundle.
+_ensure_workspace_dirs creates pass1_bundles, medlit_merged, medlit_bundle, pass1_vocab.
 
 ## `class TestWorkspaceLock`
 
@@ -12738,47 +11728,6 @@ Bundles without mentions/evidence files load successfully.
 Manifest has mentions but file is missing; load_bundle does not raise.
 
 
-<span id="user-content-mcpworkmd"></span>
-
-# mcp_work.md
-
-I want to do some work on the MCP server. You'll find the MCP server
-in the `kgserver/mcp_server` directory.
-
-As docker-compose.yml is currently written, the MCP server runs on the
-same docker container as the fastAPI endpoints. I'd like to move
-it to a separate docker container with a dependency on the fastAPI
-container. It should serve on port 8001 to avoid conflict with the
-fastAPI port 8000 stuff. Let's use SSE as the protocol, not stdio.
-
-The MCP server relies on storage abstractions shared with the fastAPI
-
-    ...
-
-<span id="user-content-medlitbundledocsreadmemd"></span>
-
-# medlit_bundle/docs/README.md
-
-Medlit bundle built from Pass 1 + Pass 2 output.
-
-    ...
-
-<span id="user-content-snapshotsemanticsv1md"></span>
-
-# snapshot_semantics_v1.md
-
-# Snapshot Semantics (v1 Draft)
-
-## Purpose
-
-This document defines the lifecycle boundaries for building a knowledge
-graph snapshot. It clarifies when different identifiers become frozen
-and what invariants a snapshot guarantees.
-
-------------------------------------------------------------------------
-
-    ...
-
 <span id="user-content-summarizecodebasepy"></span>
 
 # summarize_codebase.py
@@ -12809,14 +11758,6 @@ $ git ls-files | uv run python extract_summary.py > summary.md
 
 Extract module-level docstring and top-level standalone strings.
 
-
-<span id="user-content-summarymd"></span>
-
-# summary.md
-
-
-
-    ...
 
 <span id="user-content-testsinitpy"></span>
 
