@@ -4,8 +4,18 @@
 
 - [CLAUDE.md](#user-content-claudemd)
 - [README.md](#user-content-readmemd)
+- [docs/adapting-to-your-domain.md](#user-content-docsadapting-to-your-domainmd)
 - [docs/architecture.md](#user-content-docsarchitecturemd)
+- [docs/canonical-ids-and-entity-resolution.md](#user-content-docscanonical-ids-and-entity-resolutionmd)
+- [docs/contributing.md](#user-content-docscontributingmd)
+- [docs/deployment-and-operations.md](#user-content-docsdeployment-and-operationsmd)
+- [docs/examples/medlit.md](#user-content-docsexamplesmedlitmd)
+- [docs/examples/sherlock.md](#user-content-docsexamplessherlockmd)
+- [docs/index.md](#user-content-docsindexmd)
+- [docs/overview.md](#user-content-docsoverviewmd)
 - [docs/pipeline.md](#user-content-docspipelinemd)
+- [docs/schema-design-guide.md](#user-content-docsschema-design-guidemd)
+- [docs/storage-and-export.md](#user-content-docsstorage-and-exportmd)
 - [examples/medlit/__init__.py](#user-content-examplesmedlitinitpy)
 - [examples/medlit/bundle_models.py](#user-content-examplesmedlitbundlemodelspy)
 - [examples/medlit/documents.py](#user-content-examplesmedlitdocumentspy)
@@ -188,7 +198,24 @@ Knowledge graph system for extracting entities and relationships from documents 
 
 # kgraph
 
-Domain-agnostic knowledge graph framework for extracting entities and relationships from documents. See `docs/overview.md` and the rest of `docs/` for documentation.
+Domain-agnostic knowledge graph framework for extracting entities and relationships from documents. See `docs/overview.md` and the rest of `docs/` for documentation. For codebase structure and module overview, see `summary.md` in the repo root (generated; keep this file).
+
+    ...
+
+<span id="user-content-docsadapting-to-your-domainmd"></span>
+
+# docs/adapting-to-your-domain.md
+
+# Adapting to Your Domain
+
+Step-by-step guide to add a new domain to the framework: define your schema, write extraction prompts, configure your pipeline, and validate output.
+
+## 1. Define your schema
+
+- **Entity types** — What gets a node? Subclass `BaseEntity` for each type; register in your `DomainSchema.entity_types`.
+- **Relationship types** — Which predicates? Subclass `BaseRelationship`; register in `DomainSchema.relationship_types`.
+- **Document type** — Subclass `BaseDocument` for your input format (e.g. JATS for articles, plain sections for stories).
+- **Provenance** — Include source document, section, and confidence in your relationship and evidence models so the graph stays traceable.
 
     ...
 
@@ -209,6 +236,123 @@ The framework processes documents in two passes:
 
     ...
 
+<span id="user-content-docscanonical-ids-and-entity-resolutionmd"></span>
+
+# docs/canonical-ids-and-entity-resolution.md
+
+# Canonical IDs and Entity Resolution
+
+Canonical IDs are stable identifiers from authoritative sources (UMLS, MeSH, HGNC, RxNorm, UniProt, DBPedia, etc.) that uniquely identify entities across knowledge bases. This doc covers how identity works, authority lookups, and the synonym cache.
+
+## How identity works
+
+- **Canonical entities** have a stable `entity_id` from an authority (e.g. `UMLS:C0006142`). The same entity is the same node across documents.
+- **Provisional entities** have a temporary ID until they are promoted (usage/confidence thresholds) or linked by a later lookup.
+- Resolution maps each **mention** (text span from extraction) to either an existing entity or a new canonical/provisional entity.
+
+    ...
+
+<span id="user-content-docscontributingmd"></span>
+
+# docs/contributing.md
+
+# Contributing
+
+## Internals
+
+- **summary.md** — Generated codebase overview at repo root (e.g. `git ls-files | uv run python summarize_codebase.py > summary.md`). Keep this file; it is the reference for architecture and module layout (see also root `CLAUDE.md`).
+- **kgschema** — Data structures and ABCs only; no business logic. Changes here affect all domains; keep the surface small and stable.
+- **kgraph** — Orchestration, promotion, export, canonical_id, storage, pipeline interfaces. New pipeline stages should implement the existing ABCs where possible.
+- **kgbundle** — Bundle contract between producer and consumer. Changes to the bundle format require coordination with kgserver and any existing bundles.
+- **kgserver** — Query layer and storage backends. New backends implement the same interfaces; avoid server-specific assumptions in the bundle format.
+
+    ...
+
+<span id="user-content-docsdeployment-and-operationsmd"></span>
+
+# docs/deployment-and-operations.md
+
+# Deployment and Operations
+
+## kgserver
+
+The **kgserver** is a FastAPI application that loads a knowledge graph bundle (read-only) and exposes:
+
+- **Health** — `GET /health`
+- **REST** — `GET /api/v1/entities`, `GET /api/v1/relationships` (with limit, filters)
+- **GraphQL** — `POST /graphql`; GraphiQL UI at `/graphiql/`
+- **API docs** — OpenAPI at `/docs`
+
+    ...
+
+<span id="user-content-docsexamplesmedlitmd"></span>
+
+# docs/examples/medlit.md
+
+# The medlit Example
+
+Annotated walkthrough of the **medical literature** reference implementation. It ingests biomedical journal articles (e.g. PMC/JATS XML), extracts entities (diseases, genes, drugs, etc.) and relationships (treats, causes, associated_with, etc.), resolves to canonical IDs (UMLS, HGNC, RxNorm, UniProt), and produces a bundle for kgserver.
+
+## Schema (medlit_schema)
+
+- **Documents**: `JournalArticle` (BaseDocument) with paper_id, metadata, extraction provenance.
+- **Entities**: DiseaseEntity, GeneEntity, DrugEntity, ProteinEntity, and others; entity_id uses authority IDs (UMLS:C..., HGNC:..., RxNorm:..., UniProt:...).
+- **Relationships**: `MedicalClaimRelationship` with predicate (treats, causes, increases_risk, associated_with, interacts_with, etc.), evidence and source_documents in metadata.
+- **Domain**: MedLitDomainSchema defines entity/relationship types and promotion config (e.g. min_usage_count=2, min_confidence=0.75).
+
+    ...
+
+<span id="user-content-docsexamplessherlockmd"></span>
+
+# docs/examples/sherlock.md
+
+# The Sherlock Example
+
+A **simpler, literary contrast case** that shows the framework’s generality. It ingests Sherlock Holmes stories (e.g. from Project Gutenberg), extracts characters, locations, and stories, and builds relationships such as `appears_in` and `co_occurs_with`. No biomedical authorities — a good template for non-medical domains.
+
+## Schema
+
+- **Documents**: Plain text or structured story documents (BaseDocument).
+- **Entities**: Character, location, story; entity_id can be domain-minted (e.g. `holmes:char:SherlockHolmes`).
+- **Relationships**: `appears_in` (character → story), `co_occurs_with` (character ↔ character), etc.
+- **Domain**: DomainSchema defines the types and predicates; promotion config can be minimal (e.g. single use → canonical).
+
+    ...
+
+<span id="user-content-docsindexmd"></span>
+
+# docs/index.md
+
+# KGserver
+
+A **read-only server** for a loaded knowledge graph. It does not ingest raw documents; domain pipelines build a bundle (entities + relationships), and the server loads that bundle at startup.
+
+**Quick links:**
+
+- [Medical literature chat](/chat/)
+- [OpenAPI spec](/docs/)
+- [Graph visualization](/graph-viz/) — currently focused on medical literature
+- [GraphQL GUI](/graphiql/)
+
+    ...
+
+<span id="user-content-docsoverviewmd"></span>
+
+# docs/overview.md
+
+# Overview
+
+This codebase is a **domain-agnostic knowledge graph framework** for extracting entities and relationships from unstructured text. It addresses the core problem: turning documents (papers, legal text, reports) into a queryable graph with canonical identities and provenance.
+
+For the conceptual foundation — why knowledge graphs, why extraction from text, and why this approach — see the book **[*Knowledge Graphs from Unstructured Text*](https://github.com/wware/kg-book)** (kg-book). The technical docs here describe how the framework is built and how to use or extend it.
+
+## What this repo does
+
+- **Two-pass ingestion**: Pass 1 extracts entities and resolves them to canonical or provisional IDs; Pass 2 extracts relationships between those entities.
+- **Pluggable domains**: Each domain (medical literature, legal, literary, etc.) defines its own schema (entity types, relationship types, documents) and pipeline components.
+
+    ...
+
 <span id="user-content-docspipelinemd"></span>
 
 # docs/pipeline.md
@@ -223,6 +367,39 @@ The knowledge graph ingestion pipeline uses a **two-pass architecture** to trans
 
 1. **Pass 1 (Entity Extraction)**: Parse documents, extract entity mentions, and resolve them to canonical or provisional entities.
 2. **Pass 2 (Relationship Extraction)**: Identify relationships (edges) between resolved entities within each document.
+
+    ...
+
+<span id="user-content-docsschema-design-guidemd"></span>
+
+# docs/schema-design-guide.md
+
+# Schema Design Guide
+
+This guide describes how to define your domain's entities, relationships, and documents using **kgschema**. The schema is the contract between your pipeline and the framework.
+
+## Domain schema (ABC)
+
+Implement `DomainSchema` from `kgschema.domain` to declare entity types, relationship types, and document types:
+
+- **Entity types** — Map type names to `BaseEntity` subclasses (e.g. `"drug"` → `DrugEntity`).
+- **Relationship types** — Map predicate names to `BaseRelationship` subclasses.
+
+    ...
+
+<span id="user-content-docsstorage-and-exportmd"></span>
+
+# docs/storage-and-export.md
+
+# Storage and Export
+
+## In-memory storage
+
+The framework provides in-memory implementations of the kgschema storage interfaces (`EntityStorageInterface`, `RelationshipStorageInterface`, etc.) in `kgraph/storage/memory.py`. Use them for tests and single-process pipelines. They support the full entity lifecycle: add, resolve, promote, merge, and relationship CRUD.
+
+## Bundle format
+
+The **bundle** is the exchange format between producer (kgraph/pipeline) and consumer (kgserver). It is defined by the **kgbundle** package (Pydantic models: `BundleManifestV1`, `EntityRow`, `RelationshipRow`, `DocAssetRow`).
 
     ...
 
@@ -1159,10 +1336,26 @@ LLM client abstraction for entity and relationship extraction.
 
 Provides a unified interface for Ollama LLM integration with tool calling support.
 
+Rate limiting: OllamaLLMClient enforces a minimum interval between the start of any
+two contiguous requests (default 3s, configurable via LLM_MIN_REQUEST_INTERVAL_SECONDS
+or the min_request_interval_seconds constructor arg). The throttle is process-global
+(shared across all threads and all OllamaLLMClient instances) so the server-side rate
+limit is respected regardless of which code path or worker issues the request.
+
 > LLM client abstraction for entity and relationship extraction.
 
 Provides a unified interface for Ollama LLM integration with tool calling support.
 
+Rate limiting: OllamaLLMClient enforces a minimum interval between the start of any
+two contiguous requests (default 3s, configurable via LLM_MIN_REQUEST_INTERVAL_SECONDS
+or the min_request_interval_seconds constructor arg). The throttle is process-global
+(shared across all threads and all OllamaLLMClient instances) so the server-side rate
+limit is respected regardless of which code path or worker issues the request.
+
+
+### `def _ensure_global_interval_sync(interval_seconds: float) -> None`
+
+Ensure at least interval_seconds since the last request start (process-wide); sleep if needed.
 
 ## `class LLMTimeoutError(TimeoutError)`
 
@@ -1233,11 +1426,15 @@ Args:
 Returns:
     Parsed JSON object (dict or list).
 
+### `def _default_min_request_interval() -> float`
+
+Minimum seconds between the start of any two contiguous LLM requests (for rate limiting).
+
 ## `class OllamaLLMClient(LLMClientInterface)`
 
 Ollama LLM client implementation.
 
-### `def OllamaLLMClient.__init__(self, model: str = 'llama3.1:8b', host: str = 'http://localhost:11434', timeout: float = 300.0)`
+### `def OllamaLLMClient.__init__(self, model: str = 'llama3.1:8b', host: str = 'http://localhost:11434', timeout: float = 300.0, min_request_interval_seconds: Optional[float] = None)`
 
 Initialize Ollama client.
 
@@ -1245,6 +1442,12 @@ Args:
     model: Ollama model name (e.g., "llama3.1:8b", "llama3.1:8b")
     host: Ollama server URL
     timeout: Request timeout in seconds (default: 300)
+    min_request_interval_seconds: Minimum seconds between the start of any two
+        contiguous requests (rate limiting). Default from env LLM_MIN_REQUEST_INTERVAL_SECONDS (3.0).
+
+### `def OllamaLLMClient._ensure_interval_sync(self) -> None`
+
+Ensure at least min_request_interval seconds since the last request start (process-global); sleep if needed.
 
 ### `def OllamaLLMClient._parse_json_from_text(self, response_text: str) -> dict[str, Any] | list[Any]`
 
@@ -9581,16 +9784,20 @@ and lack of type stubs make static analysis unreliable here.
 Environment variables:
   MCP_SSE_URL       URL of the MCP SSE server (default: http://localhost/mcp/sse)
   LLM_PROVIDER      anthropic | openai | ollama  (default: anthropic)
-  ANTHROPIC_MODEL   (default: claude-sonnet-4-6)
-  ANTHROPIC_API_KEY
-  OPENAI_MODEL      (default: gpt-4o)
-  OPENAI_API_KEY
+  ANTHROPIC_MODEL   (default: claude-sonnet-4-6) — legacy single-tier
+  ANTHROPIC_API_KEY, ANTHROPIC_API_KEY_1, ANTHROPIC_API_KEY_2, …  (multi-key load balancing)
+  ORCHESTRATOR_MODEL  (default: claude-haiku-4-5 for anthropic, gpt-4o-mini for openai)
+  SYNTHESIS_MODEL     (default: claude-sonnet-4-6 for anthropic, gpt-4o for openai)
+  OPENAI_MODEL      (default: gpt-4o) — legacy single-tier
+  OPENAI_API_KEY, OPENAI_API_KEY_1, …
   OLLAMA_MODEL      (default: llama3.2)
   OLLAMA_BASE_URL   (default: http://ollama:11434)
   EXAMPLES_FILE     path to YAML file of example prompts (default: examples.yaml)
   MCP_CONNECT_TIMEOUT  seconds to wait for MCP connection (default: 25)
-  LLM_REQUEST_DELAY_SECONDS  delay after each LLM request to throttle rate (default: 1.0)
+  LLM_MIN_REQUEST_INTERVAL_SECONDS  minimum seconds between the *start* of any two LLM requests (default: 3.0)
+  LLM_REQUEST_DELAY_SECONDS  extra delay after each LLM response (default: 0)
   LLM_RATE_LIMIT_RETRY_DELAY_SECONDS  seconds to wait before retry after rate limit (default: 20)
+  LLM_SYNTHESIS_HISTORY_TURNS  last N turns to pass to synthesis for multi-turn context (default: 4)
 
 > 
 Medical Literature Knowledge Graph — Chainlit Chat UI
@@ -9604,21 +9811,57 @@ and lack of type stubs make static analysis unreliable here.
 Environment variables:
   MCP_SSE_URL       URL of the MCP SSE server (default: http://localhost/mcp/sse)
   LLM_PROVIDER      anthropic | openai | ollama  (default: anthropic)
-  ANTHROPIC_MODEL   (default: claude-sonnet-4-6)
-  ANTHROPIC_API_KEY
-  OPENAI_MODEL      (default: gpt-4o)
-  OPENAI_API_KEY
+  ANTHROPIC_MODEL   (default: claude-sonnet-4-6) — legacy single-tier
+  ANTHROPIC_API_KEY, ANTHROPIC_API_KEY_1, ANTHROPIC_API_KEY_2, …  (multi-key load balancing)
+  ORCHESTRATOR_MODEL  (default: claude-haiku-4-5 for anthropic, gpt-4o-mini for openai)
+  SYNTHESIS_MODEL     (default: claude-sonnet-4-6 for anthropic, gpt-4o for openai)
+  OPENAI_MODEL      (default: gpt-4o) — legacy single-tier
+  OPENAI_API_KEY, OPENAI_API_KEY_1, …
   OLLAMA_MODEL      (default: llama3.2)
   OLLAMA_BASE_URL   (default: http://ollama:11434)
   EXAMPLES_FILE     path to YAML file of example prompts (default: examples.yaml)
   MCP_CONNECT_TIMEOUT  seconds to wait for MCP connection (default: 25)
-  LLM_REQUEST_DELAY_SECONDS  delay after each LLM request to throttle rate (default: 1.0)
+  LLM_MIN_REQUEST_INTERVAL_SECONDS  minimum seconds between the *start* of any two LLM requests (default: 3.0)
+  LLM_REQUEST_DELAY_SECONDS  extra delay after each LLM response (default: 0)
   LLM_RATE_LIMIT_RETRY_DELAY_SECONDS  seconds to wait before retry after rate limit (default: 20)
+  LLM_SYNTHESIS_HISTORY_TURNS  last N turns to pass to synthesis for multi-turn context (default: 4)
 
+
+### `async def _throttle_llm_request() -> None`
+
+Wait if needed so the next LLM request start is at least LLM_MIN_REQUEST_INTERVAL_SECONDS after the last.
+
+### `def _collect_api_keys(prefix: str) -> list[str]`
+
+Collect API keys from env: PREFIX, PREFIX_1, PREFIX_2, …
+
+### `def _build_model_list(model_name: str, model_str: str, keys: list[str], extra: dict[str, Any] | None = None) -> list[dict[str, Any]]`
+
+Build model_list for Router: one deployment per key.
+
+### `def _get_orchestrator_model() -> str`
+
+Return orchestrator model string for current provider.
+
+### `def _get_synthesis_model() -> str`
+
+Return synthesis model string for current provider.
+
+### `def _create_router(model_name: str, model_str: str, routing_strategy: str = 'simple-shuffle') -> Router | None`
+
+Create a Router for the given model. Returns None for Ollama (no multi-key).
+
+### `def _get_orchestrator_router() -> Router | None`
+
+Return cached orchestrator Router, or None for Ollama. Lazy init at first call.
+
+### `def _get_synthesis_router() -> Router | None`
+
+Return cached synthesis Router, or None for Ollama. Lazy init at first call.
 
 ### `def get_litellm_model() -> dict[str, Any]`
 
-Return the model string and any extra kwargs for litellm.completion.
+Return the model string and any extra kwargs for litellm.completion (legacy fallback).
 
 ### `def load_examples() -> dict[str, str]`
 
@@ -9640,6 +9883,18 @@ True if the response suggests an API billing, credit, or rate-limit issue.
 
 Update msg with rotating spinner + 'Working…' until stop_event is set.
 
+### `def _truncated_history(history: list[dict], n_turns: int) -> list[dict]`
+
+Return last n_turns user+assistant pairs (excluding system).
+
+### `def _anthropic_cache_kwargs() -> dict[str, Any]`
+
+Extra kwargs for Anthropic prompt caching. Empty for other providers.
+
+### `async def _llm_completion(router_model_name: str, messages: list[dict], tools: list[dict] | None = None) -> Any`
+
+Call LLM via Router (if available) or litellm.completion. Handles retries.
+
 ### `async def execute_tool_calls(tool_calls, mcp_session: ClientSession | None) -> list[dict]`
 
 Run each tool call against the MCP server.
@@ -9653,12 +9908,12 @@ Run each tool call against the MCP server.
 
 A **read-only server** for a loaded knowledge graph. It does not ingest raw documents; domain pipelines build a bundle (entities + relationships), and the server loads that bundle at startup.
 
-## What it exposes
+**Quick links:**
 
-| Resource | Path |
-|----------|------|
-| Health | `GET /health` |
-| REST entities | `GET /api/v1/entities` |
+- [Medical literature chat](/chat/)
+- [OpenAPI spec](/docs/)
+- [Graph visualization](/graph-viz/) — currently focused on medical literature
+- [GraphQL GUI](/graphiql/)
 
     ...
 
@@ -10369,6 +10624,10 @@ Initializes storage on startup, loads bundle if configured, and closes on shutdo
 ### `async def health_check()`
 
 Health check endpoint to verify that the server is running.
+
+### `async def _root_redirect()`
+
+Send root to the docs site so / still lands somewhere useful.
 
 
 <span id="user-content-kgserverquerystoragefactorypy"></span>
@@ -11830,7 +12089,7 @@ formatted signatures for classes, methods, and functions.
 Includes a portion of each *.md, *.yml, Dockerfile, and shell script
 to add more context.
 
-$ git ls-files | uv run python extract_summary.py > summary.md
+$ git ls-files | uv run python summarize_codebase.py > summary.md
 
 > 
 Extract documentation from Python source files into Markdown.
@@ -11841,7 +12100,7 @@ formatted signatures for classes, methods, and functions.
 Includes a portion of each *.md, *.yml, Dockerfile, and shell script
 to add more context.
 
-$ git ls-files | uv run python extract_summary.py > summary.md
+$ git ls-files | uv run python summarize_codebase.py > summary.md
 
 
 ### `def DocExtractor.visit_Module(self, node: ast.Module) -> None`
