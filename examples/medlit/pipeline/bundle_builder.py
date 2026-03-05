@@ -27,6 +27,9 @@ from kgbundle import (
 from examples.medlit.bundle_models import PerPaperBundle
 from examples.medlit.pipeline.canonical_urls import build_canonical_url
 
+# Paper IDs to exclude from supporting_documents (synthetic/fallback provenance)
+PROVENANCE_DENYLIST = frozenset({"PMC_UNKNOWN", "PMC_extracted"})
+
 
 def load_merged_output(merged_dir: Path) -> tuple[list[dict], list[dict], dict, dict]:
     """Load merged Pass 2 output and id_map.
@@ -105,9 +108,9 @@ def _entity_usage_from_bundles(
                     )
                     rec = by_key[sub_merge]
                     rec["total_mentions"] += 1
-                    if paper_id not in rec["supporting_documents"]:
+                    if paper_id not in rec["supporting_documents"] and paper_id not in PROVENANCE_DENYLIST and not paper_id.startswith("PMC_UNKNOWN_"):
                         rec["supporting_documents"].append(paper_id)
-                    if rec["first_seen_document"] is None:
+                    if rec["first_seen_document"] is None and paper_id not in PROVENANCE_DENYLIST and not paper_id.startswith("PMC_UNKNOWN_"):
                         rec["first_seen_document"] = paper_id
                         rec["first_seen_section"] = None  # EvidenceEntityRow has no section
                 if obj_merge:
@@ -123,9 +126,9 @@ def _entity_usage_from_bundles(
                     )
                     rec = by_key[obj_merge]
                     rec["total_mentions"] += 1
-                    if paper_id not in rec["supporting_documents"]:
+                    if paper_id not in rec["supporting_documents"] and paper_id not in PROVENANCE_DENYLIST and not paper_id.startswith("PMC_UNKNOWN_"):
                         rec["supporting_documents"].append(paper_id)
-                    if rec["first_seen_document"] is None:
+                    if rec["first_seen_document"] is None and paper_id not in PROVENANCE_DENYLIST and not paper_id.startswith("PMC_UNKNOWN_"):
                         rec["first_seen_document"] = paper_id
                         rec["first_seen_section"] = None
 
@@ -355,6 +358,8 @@ def run_pass3(merged_dir: Path, bundles_dir: Path, output_dir: Path) -> dict[str
     usage = _entity_usage_from_bundles(bundles, id_map)
     evidence_stats = _relationship_evidence_stats(relationships_list, bundles, id_map)
 
+    # Drop zero-mention orphans (entities in relationships but never in evidence_ids)
+    entities_list = [e for e in entities_list if usage.get(e["entity_id"], {}).get("usage_count", 0) > 0]
     entity_rows = [_merged_entity_to_entity_row(ent, usage.get(ent["entity_id"], {}), created_at) for ent in entities_list]
     relationship_rows = [_merged_rel_to_relationship_row(rel, evidence_stats, created_at) for rel in relationships_list]
     evidence_rows = _build_evidence_rows(bundles, id_map, relationships_list)

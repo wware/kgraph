@@ -1310,6 +1310,67 @@ class CanonicalIdLookup(CanonicalIdLookupInterface):
             return f"HGNC:{hgnc_id_clean}"
         return None
 
+    def lookup_hgnc_by_cui_sync(self, cui: str) -> Optional[str]:
+        """Resolve UMLS CUI to HGNC ID for gene concepts.
+
+        Uses UMLS REST API to fetch preferred atom name, then HGNC lookup.
+        Results are cached under key 'cui:{cui}' with entity_type 'gene'.
+        Required for cross-paper gene dedup when one paper has UMLS-only, another has HGNC.
+
+        Args:
+            cui: UMLS CUI (e.g., C0079419 for TP53)
+
+        Returns:
+            HGNC ID string (e.g., HGNC:11998) or None if resolution fails
+        """
+        cui_clean = cui.strip().replace("CUI:", "").upper()
+        if not cui_clean.startswith("C") or len(cui_clean) < 2 or not cui_clean[1:].isdigit():
+            return None
+        cache_key = f"cui:{cui_clean}"
+        cached = self._cache.fetch(cache_key, "gene")
+        if cached is not None:
+            return cached.id
+        if self._cache.is_known_bad(cache_key, "gene"):
+            return None
+        api_key = self.umls_api_key
+        if not api_key:
+            self._cache.mark_known_bad(cache_key, "gene")
+            return None
+        import httpx as httpx_sync
+
+        with httpx_sync.Client(timeout=10.0) as client:
+            url = f"https://uts-ws.nlm.nih.gov/rest/content/current/CUI/{cui_clean}/atoms/preferred"
+            try:
+                resp = client.get(url, params={"apiKey": api_key})
+                if resp.status_code != 200:
+                    self._cache.mark_known_bad(cache_key, "gene")
+                    return None
+                data = resp.json()
+                # Preferred atom can be single object or in result list
+                atom = data if isinstance(data, dict) and "name" in data else None
+                if atom is None and isinstance(data, dict) and "result" in data:
+                    results = data["result"]
+                    atom = results[0] if results else None
+                if not atom or not atom.get("name"):
+                    self._cache.mark_known_bad(cache_key, "gene")
+                    return None
+                symbol = atom.get("name", "").strip()
+                if not symbol:
+                    self._cache.mark_known_bad(cache_key, "gene")
+                    return None
+                hgnc_id = self._lookup_hgnc_sync(client, symbol)
+                if hgnc_id:
+                    canonical_id = CanonicalId(id=hgnc_id, url=None, synonyms=(symbol,))
+                    self._cache.store(cache_key, "gene", canonical_id)
+                    return hgnc_id
+            except Exception as e:
+                logger.warning(
+                    {"message": f"UMLS CUI→HGNC lookup failed for {cui_clean}", "error": str(e)},
+                    pprint=True,
+                )
+        self._cache.mark_known_bad(cache_key, "gene")
+        return None
+
     def _lookup_rxnorm_by_id_sync(self, rxnorm_id: str) -> Optional[str]:
         """Sync version: Look up RxNorm ID by known ID."""
         rxnorm_id_clean = rxnorm_id.replace("RxNorm:", "").strip()

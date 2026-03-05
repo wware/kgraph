@@ -7,6 +7,7 @@ Original bundle files are never modified; output is written to a separate
 directory (overlay or merged graph).
 """
 
+import asyncio
 import json
 import uuid
 from pathlib import Path
@@ -54,8 +55,36 @@ def _is_authoritative_id(s: str) -> bool:
     return False
 
 
-def _authoritative_id_from_entity(e: ExtractedEntityRow) -> Optional[str]:
-    """Return the best authoritative ID from bundle entity row, or None."""
+def _format_hgnc_id(val: str) -> str:
+    """Ensure HGNC ID has HGNC: prefix if numeric."""
+    v = val.strip()
+    if v.isdigit():
+        return f"HGNC:{v}"
+    return v
+
+
+def _preferred_authoritative_id(
+    e: ExtractedEntityRow,
+    lookup: Any,
+) -> Optional[str]:
+    """Return the best authoritative ID for merge key, preferring HGNC for genes.
+
+    For Gene: if both umls_id and hgnc_id present, prefer hgnc_id. If only umls_id,
+    resolve via UMLS→HGNC cross-lookup when lookup is available.
+    For other classes: first match in canonical_id, umls_id, hgnc_id, rxnorm_id, uniprot_id.
+    """
+    if e.entity_class == "Gene":
+        if e.hgnc_id and e.hgnc_id.strip() and _is_authoritative_id(e.hgnc_id.strip()):
+            return _format_hgnc_id(e.hgnc_id)
+        if e.umls_id and e.umls_id.strip() and _is_authoritative_id(e.umls_id.strip()):
+            if lookup is not None and hasattr(lookup, "lookup_hgnc_by_cui_sync"):
+                resolved = lookup.lookup_hgnc_by_cui_sync(e.umls_id.strip())
+                if resolved:
+                    return resolved
+            return e.umls_id.strip()
+        if e.canonical_id and e.canonical_id.strip() and _is_authoritative_id(e.canonical_id.strip()):
+            return e.canonical_id.strip()
+        return None
     for val in (e.canonical_id, e.umls_id, e.hgnc_id, e.rxnorm_id, e.uniprot_id):
         if val and val.strip() and _is_authoritative_id(val):
             return val.strip()
@@ -84,11 +113,20 @@ def run_pass2(  # pylint: disable=too-many-statements
     output_dir: Path,
     synonym_cache_path: Optional[Path] = None,
     canonical_id_cache_path: Optional[Path] = None,
+    embedding_generator: Any = None,
+    similarity_threshold: float = 0.88,
+    cross_type_threshold: float = 0.90,
 ) -> dict[str, Any]:
     """Run Pass 2: dedup and promotion. Reads bundles from bundle_dir, writes to output_dir.
 
     Original bundle files in bundle_dir are never modified.
     Returns summary dict (entities_count, relationships_count, etc.).
+
+    Args:
+        embedding_generator: Optional; if set, used for embedding-based dedup of provisional
+            entities and cross-type candidate detection. Must have generate(text) -> vector.
+        similarity_threshold: Min cosine similarity for same-class provisional merge (default 0.88).
+        cross_type_threshold: Min similarity for cross-type candidate flagging (default 0.90).
     """
     synonym_cache_path = synonym_cache_path or output_dir / "synonym_cache.json"
     cache = load_synonym_cache(synonym_cache_path)
@@ -107,6 +145,9 @@ def run_pass2(  # pylint: disable=too-many-statements
             synonym_cache_path=synonym_cache_path,
             cache=cache,
             lookup=lookup,
+            embedding_generator=embedding_generator,
+            similarity_threshold=similarity_threshold,
+            cross_type_threshold=cross_type_threshold,
         )
     finally:
         if lookup is not None:
@@ -119,6 +160,9 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
     synonym_cache_path: Path,
     cache: dict,
     lookup: Any,
+    embedding_generator: Any = None,
+    similarity_threshold: float = 0.88,
+    cross_type_threshold: float = 0.90,
 ) -> dict[str, Any]:
     """Inner Pass 2 implementation (lookup created and saved by caller)."""
     # Load all bundles
@@ -139,6 +183,12 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
     # (paper_id, bundle_local_id) -> merge key
     local_to_canonical: dict[tuple[str, str], str] = {}
 
+    def _populate_name_index(cid: str, n: str, ec: str) -> None:
+        """Add (normalized_name, entity_class) -> cid for name and synonyms (synonym indexing)."""
+        key = (n.lower().strip(), ec)
+        if key[0]:
+            name_type_to_canonical[key] = cid
+
     def get_or_assign_canonical(
         paper_id: str,
         local_id: str,
@@ -150,33 +200,38 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
         key_local = (paper_id, local_id)
         if key_local in local_to_canonical:
             return local_to_canonical[key_local]
-        # Prefer authoritative ID from bundle entity
-        if entity_row is not None:
-            auth = _authoritative_id_from_entity(entity_row)
-            if auth:
-                name_type_to_canonical[key_nt] = auth
-                local_to_canonical[key_local] = auth
-                return auth
-        existing, _ = lookup_entity(cache, name, entity_class)
-        if existing:
-            name_type_to_canonical[key_nt] = existing
-            local_to_canonical[key_local] = existing
-            return existing
+        # Check index first: incoming name matches prior entity's name or synonym (name↔synonym only)
         if key_nt in name_type_to_canonical:
             cid = name_type_to_canonical[key_nt]
             local_to_canonical[key_local] = cid
             return cid
+        # Prefer authoritative ID from bundle entity (with UMLS→HGNC for genes)
+        if entity_row is not None:
+            auth = _preferred_authoritative_id(entity_row, lookup)
+            if auth:
+                for n in {name} | set(entity_row.synonyms or []):
+                    _populate_name_index(auth, n, entity_class)
+                local_to_canonical[key_local] = auth
+                return auth
+        existing, _ = lookup_entity(cache, name, entity_class)
+        if existing:
+            for n in {name} | set((entity_row.synonyms or []) if entity_row else []):
+                _populate_name_index(existing, n, entity_class)
+            local_to_canonical[key_local] = existing
+            return existing
         # Optional authority lookup
         if lookup is not None:
             lookup_type = _entity_class_to_lookup_type(entity_class)
             if lookup_type:
                 resolved = lookup.lookup_canonical_id_sync(name, lookup_type)
                 if resolved:
-                    name_type_to_canonical[key_nt] = resolved
+                    for n in {name} | set((entity_row.synonyms or []) if entity_row else []):
+                        _populate_name_index(resolved, n, entity_class)
                     local_to_canonical[key_local] = resolved
                     return resolved
         cid = _canonical_id_slug()
-        name_type_to_canonical[key_nt] = cid
+        for n in {name} | set((entity_row.synonyms or []) if entity_row else []):
+            _populate_name_index(cid, n, entity_class)
         local_to_canonical[key_local] = cid
         return cid
 
@@ -283,6 +338,99 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
             if rel.confidence > r["confidence"]:
                 r["confidence"] = rel.confidence
 
+    # 6b) Post-dedup reconciliation: group by (normalized_name, entity_class), merge duplicates
+    by_name_class: dict[tuple[str, str], list[str]] = {}
+    for ent in canonical_entities.values():
+        n = (ent.get("name") or "").lower().strip()
+        ec = ent.get("class") or "?"
+        if n:
+            by_name_class.setdefault((n, ec), []).append(ent["entity_id"])
+    for (_name_key, ec_key), ids in list(by_name_class.items()):
+        if len(ids) <= 1:
+            continue
+        # Pick winner: prefer authoritative ID, else first by deterministic sort
+        ids_sorted = sorted(ids)
+        winner_id: Optional[str] = None
+        for eid in ids_sorted:
+            if _is_authoritative_id(eid):
+                winner_id = eid
+                break
+        if winner_id is None:
+            winner_id = ids_sorted[0]
+        losers = [i for i in ids_sorted if i != winner_id]
+        for loser in losers:
+            # Merge loser into winner
+            if loser in canonical_entities and winner_id in canonical_entities:
+                w_ent = canonical_entities[winner_id]
+                l_ent = canonical_entities[loser]
+                w_ent["synonyms"] = list(set((w_ent.get("synonyms") or []) + (l_ent.get("synonyms") or [])))
+                for sp in l_ent.get("source_papers") or []:
+                    if sp not in (w_ent.get("source_papers") or []):
+                        w_ent.setdefault("source_papers", []).append(sp)
+            # Rewrite triple_to_rel: replace loser with winner, merge on collision
+            keys_to_del: list[tuple[str, str, str]] = []
+            new_triples: dict[tuple[str, str, str], dict[str, Any]] = {}
+            for (s, p, o), rel_data in list(triple_to_rel.items()):
+                if loser not in (s, o):
+                    continue
+                new_s = winner_id if s == loser else s
+                new_o = winner_id if o == loser else o
+                new_key = (new_s, p, new_o)
+                keys_to_del.append((s, p, o))
+                if new_key in triple_to_rel and new_key != (s, p, o):
+                    # Merge on collision
+                    existing = triple_to_rel[new_key]
+                    merged: dict[str, Any] = {
+                        "subject": new_s,
+                        "predicate": p,
+                        "object": new_o,
+                        "evidence_ids": list(set((existing.get("evidence_ids") or []) + (rel_data.get("evidence_ids") or []))),
+                        "source_papers": list(set((existing.get("source_papers") or []) + (rel_data.get("source_papers") or []))),
+                        "confidence": max(existing.get("confidence", 0), rel_data.get("confidence", 0)),
+                    }
+                    new_triples[new_key] = merged
+                elif new_key in new_triples:
+                    existing = new_triples[new_key]
+                    merged = {
+                        "subject": new_s,
+                        "predicate": p,
+                        "object": new_o,
+                        "evidence_ids": list(set((existing.get("evidence_ids") or []) + (rel_data.get("evidence_ids") or []))),
+                        "source_papers": list(set((existing.get("source_papers") or []) + (rel_data.get("source_papers") or []))),
+                        "confidence": max(existing.get("confidence", 0), rel_data.get("confidence", 0)),
+                    }
+                    new_triples[new_key] = merged
+                else:
+                    new_triples[new_key] = {
+                        **rel_data,
+                        "subject": new_s,
+                        "object": new_o,
+                    }
+            for k in keys_to_del:
+                del triple_to_rel[k]
+            for k, v in new_triples.items():
+                triple_to_rel[k] = v
+            # Update local_to_canonical and name_type_to_canonical
+            for (pid, bid), cid in list(local_to_canonical.items()):
+                if cid == loser:
+                    local_to_canonical[(pid, bid)] = winner_id
+            for nt_key, cid in list(name_type_to_canonical.items()):
+                if cid == loser:
+                    name_type_to_canonical[nt_key] = winner_id
+            loser_name = canonical_entities.get(loser, {}).get("name", loser)
+            winner_name = canonical_entities.get(winner_id, {}).get("name", winner_id)
+            del canonical_entities[loser]
+            # Add to synonym cache
+            add_same_as_to_cache(
+                cache,
+                {"name": winner_name, "class": ec_key, "canonical_id": winner_id},
+                {"name": loser_name, "class": ec_key, "canonical_id": winner_id},
+                0.9,
+                "automated",
+                "reconciled",
+                canonical_entities.get(winner_id, {}).get("source_papers", []),
+            )
+
     # 7) Add all SAME_AS to synonym cache for persistence
     for paper_id, bundle in bundles:
         for rel in bundle.relationships:
@@ -303,9 +451,136 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
                     list(rel.source_papers) if rel.source_papers else [paper_id],
                 )
 
+    # 7b) Embedding-based dedup for provisional entities (optional)
+    cross_type_candidates: list[dict[str, Any]] = []
+    if embedding_generator is not None:
+        prov_entities = [e for e in canonical_entities.values() if (e.get("entity_id") or "").startswith("canon-")]
+        if prov_entities:
+            from kgraph.storage.memory import _cosine_similarity
+
+            def _merge_entity_into(
+                loser: str,
+                winner: str,
+                ce: dict,
+                ttr: dict,
+                ltc: dict,
+                ntc: dict,
+            ) -> None:
+                if loser in ce and winner in ce:
+                    w_ent, l_ent = ce[winner], ce[loser]
+                    w_ent["synonyms"] = list(set((w_ent.get("synonyms") or []) + (l_ent.get("synonyms") or [])))
+                    for sp in l_ent.get("source_papers") or []:
+                        if sp not in (w_ent.get("source_papers") or []):
+                            w_ent.setdefault("source_papers", []).append(sp)
+                keys_to_del = []
+                to_add: dict[tuple[str, str, str], dict[str, Any]] = {}
+                for (s, p, o), rel in list(ttr.items()):
+                    if loser not in (s, o):
+                        continue
+                    ns, no = winner if s == loser else s, winner if o == loser else o
+                    nk = (ns, p, no)
+                    keys_to_del.append((s, p, o))
+                    if nk in to_add:
+                        ex = to_add[nk]
+                        to_add[nk] = {
+                            "subject": ns,
+                            "predicate": p,
+                            "object": no,
+                            "evidence_ids": list(set((ex.get("evidence_ids") or []) + (rel.get("evidence_ids") or []))),
+                            "source_papers": list(set((ex.get("source_papers") or []) + (rel.get("source_papers") or []))),
+                            "confidence": max(ex.get("confidence", 0), rel.get("confidence", 0)),
+                        }
+                    elif nk in ttr:
+                        ex = ttr[nk]
+                        to_add[nk] = {
+                            "subject": ns,
+                            "predicate": p,
+                            "object": no,
+                            "evidence_ids": list(set((ex.get("evidence_ids") or []) + (rel.get("evidence_ids") or []))),
+                            "source_papers": list(set((ex.get("source_papers") or []) + (rel.get("source_papers") or []))),
+                            "confidence": max(ex.get("confidence", 0), rel.get("confidence", 0)),
+                        }
+                    else:
+                        to_add[nk] = {**rel, "subject": ns, "object": no}
+                for k in keys_to_del:
+                    del ttr[k]
+                for k, v in to_add.items():
+                    ttr[k] = v
+                for (pid, bid), cid in list(ltc.items()):
+                    if cid == loser:
+                        ltc[(pid, bid)] = winner
+                for k, cid in list(ntc.items()):
+                    if cid == loser:
+                        ntc[k] = winner
+                del ce[loser]
+
+            async def _embedding_pass() -> None:
+                # Same-class merge
+                by_class: dict[str, list[dict[str, Any]]] = {}
+                for e in prov_entities:
+                    ec = e.get("class") or "?"
+                    by_class.setdefault(ec, []).append(e)
+                for ec, ents in by_class.items():
+                    if len(ents) < 2:
+                        continue
+                    texts = [x.get("name") or "" for x in ents]
+                    if hasattr(embedding_generator, "generate_batch"):
+                        embs = await embedding_generator.generate_batch(texts)
+                    else:
+                        embs = [await embedding_generator.generate(t) for t in texts]
+                    merged_ids: set[str] = set()
+                    for i, a in enumerate(ents):
+                        if a["entity_id"] in merged_ids:
+                            continue
+                        for j, b in enumerate(ents):
+                            if i >= j or b["entity_id"] in merged_ids:
+                                continue
+                            sim = _cosine_similarity(embs[i], embs[j])
+                            if sim >= similarity_threshold:
+                                winner, loser = a["entity_id"], b["entity_id"]
+                                if _is_authoritative_id(winner) or (not _is_authoritative_id(loser) and winner < loser):
+                                    winner, loser = loser, winner
+                                _merge_entity_into(loser, winner, canonical_entities, triple_to_rel, local_to_canonical, name_type_to_canonical)
+                                merged_ids.add(loser)
+                # Cross-type candidates (flag-only)
+                prov_remaining = [e for e in canonical_entities.values() if (e.get("entity_id") or "").startswith("canon-")]
+                for i, a in enumerate(prov_remaining):
+                    for j, b in enumerate(prov_remaining):
+                        if i >= j or (a.get("class") or "") == (b.get("class") or ""):
+                            continue
+                        texts = [a.get("name") or "", b.get("name") or ""]
+                        if hasattr(embedding_generator, "generate_batch"):
+                            embs = await embedding_generator.generate_batch(texts)
+                        else:
+                            embs = [await embedding_generator.generate(t) for t in texts]
+                        sim = _cosine_similarity(embs[0], embs[1])
+                        if sim >= cross_type_threshold:
+                            cross_type_candidates.append(
+                                {
+                                    "entity_id": a["entity_id"],
+                                    "name": a.get("name", ""),
+                                    "entity_class": a.get("class", ""),
+                                    "source_papers": list(a.get("source_papers") or []),
+                                    "similar_entity_id": b["entity_id"],
+                                    "similar_name": b.get("name", ""),
+                                    "similar_class": b.get("class", ""),
+                                    "similar_source_papers": list(b.get("source_papers") or []),
+                                    "similarity_score": round(sim, 4),
+                                }
+                            )
+
+            try:
+                asyncio.run(_embedding_pass())
+            except Exception:  # pylint: disable=broad-except
+                pass  # Embedding pass is best-effort
+
     # 8) Save synonym cache
     output_dir.mkdir(parents=True, exist_ok=True)
     save_synonym_cache(synonym_cache_path, cache)
+
+    if cross_type_candidates:
+        with open(output_dir / "cross_type_candidates.json", "w", encoding="utf-8") as f:
+            json.dump(cross_type_candidates, f, indent=2)
 
     # 9) Write merged output (do not touch original bundles)
     by_paper: dict[str, dict[str, str]] = {}

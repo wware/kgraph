@@ -127,6 +127,7 @@ CLAUDE_LOW_END = "claude-sonnet-4-5-20250929"
 # CLAUDE_HIGH_END = "claude-sonnet-4-6"
 CLAUDE_HIGH_END = "claude-opus-4-5-20251101"
 
+
 def _get_orchestrator_model() -> str:
     """Return orchestrator model string for current provider."""
     if LLM_PROVIDER == "anthropic":

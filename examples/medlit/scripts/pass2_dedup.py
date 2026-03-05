@@ -55,6 +55,12 @@ def main() -> None:
         action="store_true",
         help="Disable authority lookup even if --canonical-id-cache is set (e.g. for quick runs without network).",
     )
+    parser.add_argument(
+        "--similarity-threshold",
+        type=float,
+        default=0.88,
+        help="Min cosine similarity for embedding-based provisional merge (default 0.88).",
+    )
     args = parser.parse_args()
 
     if not args.bundle_dir.exists():
@@ -70,6 +76,7 @@ def main() -> None:
         output_dir=args.output_dir,
         synonym_cache_path=args.synonym_cache,
         canonical_id_cache_path=canonical_id_cache_path,
+        similarity_threshold=args.similarity_threshold,
     )
 
     if "error" in result:

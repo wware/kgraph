@@ -496,7 +496,7 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
         predicate_keys = sorted(self._domain.relationship_types.keys())
         # Put associated_with last, not first
         allowed_predicates = [k.lower() for k in predicate_keys if k != "associated_with"]
-        allowed_predicates.append("associated_with")   # associated_with goes last to reduce LLM anchor bias
+        allowed_predicates.append("associated_with")  # associated_with goes last to reduce LLM anchor bias
 
         # Optional: a tiny bit of extra guidance for a few high-frequency predicates
         extra_guidance = [
@@ -557,7 +557,7 @@ IMPORTANT:
 - Use entity names from the list; do not invent entities.
 - confidence is a float in [0, 1].
 - If confidence would be below 0.5, OMIT the relationship entirely.
-- If the only predicate that fits is "associated_with", OMIT the relationship unless 
+- If the only predicate that fits is "associated_with", OMIT the relationship unless
   the text explicitly says something like "is associated with" or "was associated with".
   Do NOT use it as a fallback for unclear relationships.
 - Return ONLY the JSON array, no prose, no markdown fences.
