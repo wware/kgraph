@@ -125,6 +125,62 @@ def test_synonym_indexing_does_not_merge_different_classes(tmp_path):
     assert len(brca1_entities) == 2, "Gene and Protein with same name should not merge"
 
 
+def test_spelling_normalization_merges_hyperglycaemia_hyperglycemia(tmp_path):
+    """British/American spelling variants (hyperglycaemia/hyperglycemia) merge to one canonical."""
+    bundles = [
+        (
+            "paper1",
+            PerPaperBundle(
+                paper={"pmcid": "paper1", "title": "P1", "authors": []},
+                entities=[
+                    ExtractedEntityRow(
+                        id="e1",
+                        entity_class="Biomarker",
+                        name="hyperglycaemia",
+                        synonyms=[],
+                        source="extracted",
+                    ),
+                ],
+                evidence_entities=[],
+                relationships=[],
+                notes=[],
+            ),
+        ),
+        (
+            "paper2",
+            PerPaperBundle(
+                paper={"pmcid": "paper2", "title": "P2", "authors": []},
+                entities=[
+                    ExtractedEntityRow(
+                        id="e2",
+                        entity_class="Biomarker",
+                        name="hyperglycemia",
+                        synonyms=[],
+                        source="extracted",
+                    ),
+                ],
+                evidence_entities=[],
+                relationships=[],
+                notes=[],
+            ),
+        ),
+    ]
+    bundle_dir = tmp_path / "bundles"
+    bundle_dir.mkdir()
+    for pid, b in bundles:
+        (bundle_dir / f"paper_{pid}.json").write_text(
+            json.dumps(b.to_bundle_dict(), indent=2),
+            encoding="utf-8",
+        )
+    output_dir = tmp_path / "merged"
+    result = run_pass2(bundle_dir=bundle_dir, output_dir=output_dir)
+    assert "error" not in result
+    with open(output_dir / "entities.json", encoding="utf-8") as f:
+        entities = json.load(f)
+    biomarker_entities = [e for e in entities if e.get("class") == "Biomarker" and "hyperglyc" in (e.get("name") or "").lower()]
+    assert len(biomarker_entities) == 1, "hyperglycaemia and hyperglycemia should merge via spelling normalization"
+
+
 def test_preferred_authoritative_id_prefers_hgnc_for_gene():
     """When Gene has both umls_id and hgnc_id, prefer hgnc_id."""
     e = ExtractedEntityRow(

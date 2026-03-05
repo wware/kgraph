@@ -154,6 +154,8 @@ NORMALIZED_TO_BUNDLE_CLASS: dict[str, str] = {
     "gene": "Gene",
     "drug": "Drug",
     "protein": "Protein",
+    "hormone": "Hormone",
+    "enzyme": "Enzyme",
     "biomarker": "Biomarker",
     "symptom": "Symptom",
     "procedure": "Procedure",
@@ -207,7 +209,16 @@ def _default_system_prompt() -> str:
 - "relationships": array of { "subject", "predicate", "object", "evidence_ids", "source_papers", "confidence", "properties", "section", "asserted_by": "llm" }. For SAME_AS use "resolution": null, "note".
 - "notes": array of strings (optional clarifications)
 
-Return ONLY valid JSON, no markdown or commentary. Use "class" for entity type (Disease, Gene, Drug, Evidence, etc.). Predicates: TREATS, INCREASES_RISK, INDICATES, ASSOCIATED_WITH, SAME_AS, SUBTYPE_OF, etc. Evidence id format: {paper_id}:{section}:{paragraph_idx}:llm."""
+Return ONLY valid JSON, no markdown or commentary.
+
+Entity type classification: Classify at the most specific functional role. If an entity is both a hormone and a protein, classify it as Hormone. Enzymes should be typed Enzyme, not Protein.
+- Protein: structural or signaling proteins that are NOT better classified as Enzyme, Hormone, Receptor, or Antibody.
+- Hormone: peptide or steroid hormones (e.g. ACTH, cortisol, catecholamines).
+- Enzyme: proteins with catalytic function (e.g. aldosterone synthase, kinases).
+- Biomarker: measurable clinical indicators. Do not use for microbial communities (e.g. gut microbiota) — use BiologicalProcess or AnatomicalStructure instead if applicable.
+Counterexamples: ACTH and cortisol are hormones; aldosterone synthase is an enzyme.
+
+Use "class" for entity type (Disease, Gene, Drug, Hormone, Enzyme, Evidence, etc.). Predicates: TREATS, INCREASES_RISK, INDICATES, ASSOCIATED_WITH, SAME_AS, SUBTYPE_OF, etc. Evidence id format: {paper_id}:{section}:{paragraph_idx}:llm."""
 
 
 async def _paper_content_from_parser(raw_content: bytes, content_type: str, source_uri: str) -> tuple[str, Optional[PaperInfo]]:

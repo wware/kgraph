@@ -22,6 +22,11 @@ class TestNormalizeEntityType:
         """'disease' -> Disease."""
         assert normalize_entity_type("disease") == "Disease"
 
+    def test_hormone_and_enzyme(self):
+        """PLAN3: hormone -> Hormone, enzyme -> Enzyme."""
+        assert normalize_entity_type("hormone") == "Hormone"
+        assert normalize_entity_type("enzyme") == "Enzyme"
+
     def test_biological_process_underscore(self):
         """'biological_process' -> BiologicalProcess."""
         assert normalize_entity_type("biological_process") == "BiologicalProcess"

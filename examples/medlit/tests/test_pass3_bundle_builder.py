@@ -141,6 +141,19 @@ def test_entity_row_has_usage_and_status(minimal_merged_dir, minimal_bundles_dir
     assert "total_mentions" in ent
 
 
+def test_first_seen_section_populated_from_evidence_id(minimal_merged_dir, minimal_bundles_dir, tmp_path):
+    """first_seen_section is parsed from evidence_id (format paper_id:section:paragraph_idx:method)."""
+    output_dir = tmp_path / "out"
+    run_pass3(minimal_merged_dir, minimal_bundles_dir, output_dir)
+
+    with open(output_dir / "entities.jsonl", encoding="utf-8") as f:
+        entities = [json.loads(line) for line in f if line.strip()]
+    # minimal_bundles has evidence_id PMC12756687:abstract:0:llm -> section "abstract"
+    entities_with_section = [e for e in entities if e.get("first_seen_section")]
+    assert len(entities_with_section) >= 1, "At least one entity should have first_seen_section"
+    assert any(e.get("first_seen_section") == "abstract" for e in entities_with_section)
+
+
 def test_evidence_row_relationship_key_uses_merge_keys(minimal_merged_dir, minimal_bundles_dir, tmp_path):
     """EvidenceRow relationship_key uses merge keys (from id_map), not local ids."""
     output_dir = tmp_path / "out"
@@ -194,6 +207,27 @@ def test_load_pass1_bundles(minimal_bundles_dir):
     assert isinstance(bundle, PerPaperBundle)
     assert len(bundle.relationships) == 1
     assert len(bundle.evidence_entities) == 1
+
+
+def test_provenance_denylist_excludes_pmc_placeholder(tmp_path):
+    """Entities with only PMC_PLACEHOLDER in relationships get usage_count 0, first_seen_document None."""
+    id_map = {"PMC_PLACEHOLDER": {"e1": "canon-abc123"}}
+    bundle_data = {
+        "paper": {"pmcid": "PMC_PLACEHOLDER", "title": "Placeholder", "authors": []},
+        "entities": [{"id": "e1", "class": "Disease", "name": "pleural mesothelioma", "synonyms": [], "source": "extracted"}],
+        "evidence_entities": [{"id": "PMC_PLACEHOLDER:results:0:llm", "class": "Evidence", "paper_id": "PMC_PLACEHOLDER", "text": "x", "confidence": 0.5, "source": "extracted"}],
+        "relationships": [
+            {"subject": "e1", "predicate": "ASSOCIATED_WITH", "object": "e1", "evidence_ids": ["PMC_PLACEHOLDER:results:0:llm"], "source_papers": ["PMC_PLACEHOLDER"]},
+        ],
+    }
+    bundles_dir = tmp_path / "bundles"
+    bundles_dir.mkdir()
+    (bundles_dir / "paper_PMC_PLACEHOLDER.json").write_text(json.dumps(bundle_data, indent=2), encoding="utf-8")
+    bundles = load_pass1_bundles(bundles_dir)
+    usage = _entity_usage_from_bundles(bundles, id_map)
+    rec = usage.get("canon-abc123", {})
+    assert rec.get("usage_count", 0) == 0
+    assert rec.get("first_seen_document") is None
 
 
 def test_provenance_denylist_excludes_pmc_unknown(tmp_path):

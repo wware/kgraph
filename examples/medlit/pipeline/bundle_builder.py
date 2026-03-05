@@ -28,7 +28,7 @@ from examples.medlit.bundle_models import PerPaperBundle
 from examples.medlit.pipeline.canonical_urls import build_canonical_url
 
 # Paper IDs to exclude from supporting_documents (synthetic/fallback provenance)
-PROVENANCE_DENYLIST = frozenset({"PMC_UNKNOWN", "PMC_extracted"})
+PROVENANCE_DENYLIST = frozenset({"PMC_UNKNOWN", "PMC_extracted", "PMC_PLACEHOLDER"})
 
 
 def load_merged_output(merged_dir: Path) -> tuple[list[dict], list[dict], dict, dict]:
@@ -80,11 +80,23 @@ def load_pass1_bundles(bundles_dir: Path) -> list[tuple[str, PerPaperBundle]]:
     return result
 
 
+def _section_from_evidence_id(evidence_id: str) -> str | None:
+    """Extract section from evidence_id. Format: {paper_id}:{section}:{paragraph_idx}:{method}."""
+    parts = evidence_id.split(":")
+    return parts[1] if len(parts) >= 2 else None
+
+
 def _entity_usage_from_bundles(
     bundles: list[tuple[str, PerPaperBundle]],
     id_map: dict[str, dict[str, str]],
 ) -> dict[str, dict[str, Any]]:
-    """Compute usage_count, total_mentions, supporting_documents, first_seen_* per merge_key."""
+    """Compute usage_count, total_mentions, supporting_documents, first_seen_* per merge_key.
+
+    Semantics:
+    - usage_count: number of unique papers in supporting_documents (each paper counted once per entity).
+    - total_mentions: sum of evidence_ids across all relationships where the entity appears (subject or object).
+    Large gaps (e.g. usage_count=7, total_mentions=65) are expected when an entity appears many times within a few papers.
+    """
     # merge_key -> usage_count, total_mentions, supporting_documents, first_seen_document, first_seen_section
     by_key: dict[str, dict[str, Any]] = {}
 
@@ -94,7 +106,7 @@ def _entity_usage_from_bundles(
             sub_merge = paper_map.get(rel.subject)
             obj_merge = paper_map.get(rel.object_id)
             evidence_ids = rel.evidence_ids or []
-            for _ in evidence_ids:
+            for evidence_id in evidence_ids:
                 if sub_merge:
                     by_key.setdefault(
                         sub_merge,
@@ -112,7 +124,7 @@ def _entity_usage_from_bundles(
                         rec["supporting_documents"].append(paper_id)
                     if rec["first_seen_document"] is None and paper_id not in PROVENANCE_DENYLIST and not paper_id.startswith("PMC_UNKNOWN_"):
                         rec["first_seen_document"] = paper_id
-                        rec["first_seen_section"] = None  # EvidenceEntityRow has no section
+                        rec["first_seen_section"] = _section_from_evidence_id(evidence_id)
                 if obj_merge:
                     by_key.setdefault(
                         obj_merge,
@@ -130,7 +142,7 @@ def _entity_usage_from_bundles(
                         rec["supporting_documents"].append(paper_id)
                     if rec["first_seen_document"] is None and paper_id not in PROVENANCE_DENYLIST and not paper_id.startswith("PMC_UNKNOWN_"):
                         rec["first_seen_document"] = paper_id
-                        rec["first_seen_section"] = None
+                        rec["first_seen_section"] = _section_from_evidence_id(evidence_id)
 
     for rec in by_key.values():
         rec["usage_count"] = len(rec["supporting_documents"])

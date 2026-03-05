@@ -21,6 +21,21 @@ from examples.medlit.pipeline.synonym_cache import (
     save_synonym_cache,
 )
 
+# British → American spelling for dedup (hyperglycaemia/hyperglycemia, etc.)
+SPELLING_NORMALIZATIONS: dict[str, str] = {
+    "hyperglycaemia": "hyperglycemia",
+    "haemoglobin": "hemoglobin",
+    "tumour": "tumor",
+    "oesophagus": "esophagus",
+    "leukaemia": "leukemia",
+}
+
+
+def _normalize_for_dedup(name: str) -> str:
+    """Lowercase, strip, and apply British→American spelling map for dedup lookups."""
+    n = name.lower().strip()
+    return SPELLING_NORMALIZATIONS.get(n, n)
+
 
 def _is_authoritative_id(s: str) -> bool:
     """Return True if s looks like an authoritative ontology ID, not a synthetic slug."""
@@ -98,6 +113,8 @@ def _entity_class_to_lookup_type(entity_class: str) -> Optional[str]:
         "Gene": "gene",
         "Drug": "drug",
         "Protein": "protein",
+        "Hormone": "drug",
+        "Enzyme": "protein",
         "Biomarker": "disease",
     }
     return m.get(entity_class)
@@ -184,10 +201,13 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
     local_to_canonical: dict[tuple[str, str], str] = {}
 
     def _populate_name_index(cid: str, n: str, ec: str) -> None:
-        """Add (normalized_name, entity_class) -> cid for name and synonyms (synonym indexing)."""
+        """Add (normalized_name, entity_class) -> cid for name, synonyms, and spelling-normalized forms."""
         key = (n.lower().strip(), ec)
         if key[0]:
             name_type_to_canonical[key] = cid
+        norm = _normalize_for_dedup(n)
+        if norm and (norm, ec) != key:
+            name_type_to_canonical[(norm, ec)] = cid
 
     def get_or_assign_canonical(
         paper_id: str,
@@ -203,6 +223,11 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
         # Check index first: incoming name matches prior entity's name or synonym (name↔synonym only)
         if key_nt in name_type_to_canonical:
             cid = name_type_to_canonical[key_nt]
+            local_to_canonical[key_local] = cid
+            return cid
+        key_norm = (_normalize_for_dedup(name), entity_class)
+        if key_norm in name_type_to_canonical:
+            cid = name_type_to_canonical[key_norm]
             local_to_canonical[key_local] = cid
             return cid
         # Prefer authoritative ID from bundle entity (with UMLS→HGNC for genes)
