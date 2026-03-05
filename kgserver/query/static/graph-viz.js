@@ -517,12 +517,13 @@ function dragended(event, d) {
     d.fy = null;
 }
 
-// Tooltip
+// Tooltip (position: fixed so it follows cursor in viewport)
 function showTooltip(event, text) {
     tooltip.textContent = text;
     tooltip.classList.remove('hidden');
-    tooltip.style.left = (event.pageX + 10) + 'px';
-    tooltip.style.top = (event.pageY + 10) + 'px';
+    const offset = 12;
+    tooltip.style.left = (event.clientX + offset) + 'px';
+    tooltip.style.top = (event.clientY + offset) + 'px';
 }
 
 function showNodeTooltip(event, d) {
