@@ -343,8 +343,7 @@ async def run_pass1(  # pylint: disable=too-many-statements
         for pid in _phantom_ids:
             if pid in raw_str:
                 raise ValueError(
-                    f"Phantom document ID {pid} detected in LLM response for {path.name} (hallucination). "
-                    "Refusing to write bundle. Remove from _phantom_ids when ingesting that domain."
+                    f"Phantom document ID {pid} detected in LLM response for {path.name} (hallucination). " "Refusing to write bundle. Remove from _phantom_ids when ingesting that domain."
                 )
 
         # Normalize entity types to bundle PascalCase, then parse rows

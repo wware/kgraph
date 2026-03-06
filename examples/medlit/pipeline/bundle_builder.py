@@ -28,12 +28,14 @@ from examples.medlit.bundle_models import PerPaperBundle
 from examples.medlit.pipeline.canonical_urls import build_canonical_url
 
 # Paper IDs to exclude from supporting_documents (synthetic/fallback provenance)
-PROVENANCE_DENYLIST = frozenset({
-    "PMC_UNKNOWN",
-    "PMC_extracted",
-    "PMC_PLACEHOLDER",
-    "PMC_ID_NOT_PROVIDED",
-})
+PROVENANCE_DENYLIST = frozenset(
+    {
+        "PMC_UNKNOWN",
+        "PMC_extracted",
+        "PMC_PLACEHOLDER",
+        "PMC_ID_NOT_PROVIDED",
+    }
+)
 
 
 def load_merged_output(merged_dir: Path) -> tuple[list[dict], list[dict], dict, dict]:
@@ -360,8 +362,17 @@ def _build_mention_rows(
     return rows
 
 
-def run_pass3(merged_dir: Path, bundles_dir: Path, output_dir: Path) -> dict[str, Any]:
-    """Build kgbundle from merged Pass 2 output and Pass 1 bundles. Writes all bundle files."""
+def run_pass3(
+    merged_dir: Path,
+    bundles_dir: Path,
+    output_dir: Path,
+    pmc_xmls_dir: Path | None = None,
+) -> dict[str, Any]:
+    """Build kgbundle from merged Pass 2 output and Pass 1 bundles. Writes all bundle files.
+
+    If pmc_xmls_dir is provided, copies JATS-XML source files for each paper into
+    output_dir/sources/ (for get_paper_source diagnostic tool).
+    """
     entities_list, relationships_list, id_map, _ = load_merged_output(merged_dir)
 
     # get rid of orphan entities
@@ -379,11 +390,7 @@ def run_pass3(merged_dir: Path, bundles_dir: Path, output_dir: Path) -> dict[str
     surviving_entity_ids = {e["entity_id"] for e in entities_list}
 
     # Drop relationships referencing entities that were dropped (orphan relationship guard)
-    relationships_list = [
-        r
-        for r in relationships_list
-        if r["subject"] in surviving_entity_ids and r["object"] in surviving_entity_ids
-    ]
+    relationships_list = [r for r in relationships_list if r["subject"] in surviving_entity_ids and r["object"] in surviving_entity_ids]
 
     entity_rows = [_merged_entity_to_entity_row(ent, usage.get(ent["entity_id"], {}), created_at) for ent in entities_list]
     evidence_stats = _relationship_evidence_stats(relationships_list, bundles, id_map)
@@ -396,6 +403,15 @@ def run_pass3(merged_dir: Path, bundles_dir: Path, output_dir: Path) -> dict[str
 
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "docs").mkdir(exist_ok=True)
+
+    # Copy source XML into sources/ when pmc_xmls_dir provided (for get_paper_source diagnostic)
+    if pmc_xmls_dir is not None and pmc_xmls_dir.is_dir():
+        sources_dir = output_dir / "sources"
+        sources_dir.mkdir(exist_ok=True)
+        for paper_id, _ in bundles:
+            src = pmc_xmls_dir / f"{paper_id}.xml"
+            if src.exists():
+                shutil.copy2(src, sources_dir / f"{paper_id}.xml")
 
     with open(output_dir / "entities.jsonl", "w", encoding="utf-8") as f:
         for entity_row in entity_rows:

@@ -95,7 +95,8 @@ uv run python -m examples.medlit.scripts.pass2_dedup \
 uv run python -m examples.medlit.scripts.pass3_build_bundle \
   --merged-dir medlit_merged \
   --bundles-dir pass1_bundles \
-  --output-dir medlit_bundle
+  --output-dir medlit_bundle \
+  --pmc-xmls-dir examples/medlit/pmc_xmls
 
 git add medlit_bundle/* medlit_merged/* pass1_bundles/* pass1_vocab/*
 git commit -m "Ingestion results: $PAPER"

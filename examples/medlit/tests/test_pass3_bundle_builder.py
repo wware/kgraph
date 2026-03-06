@@ -324,3 +324,37 @@ def test_zero_mention_orphan_dropped(tmp_path):
         rel_lines = [json.loads(line) for line in f if line.strip()]
     rel_subjects = {r["subject_id"] for r in rel_lines}
     assert "canon-abc" not in rel_subjects, "Relationship referencing dropped entity should be filtered"
+
+
+def test_run_pass3_copies_sources_when_pmc_xmls_dir_provided(tmp_path):
+    """When --pmc-xmls-dir is provided, copy XML files into output_dir/sources/."""
+    from examples.medlit.pipeline.bundle_builder import run_pass3
+
+    merged_dir = tmp_path / "merged"
+    merged_dir.mkdir()
+    (merged_dir / "entities.json").write_text("[]", encoding="utf-8")
+    (merged_dir / "relationships.json").write_text("[]", encoding="utf-8")
+    (merged_dir / "id_map.json").write_text('{"PMC123": {"HGNC:1100": "HGNC:1100"}}', encoding="utf-8")
+    (merged_dir / "synonym_cache.json").write_text("{}", encoding="utf-8")
+
+    bundles_dir = tmp_path / "bundles"
+    bundles_dir.mkdir()
+    bundle_data = {
+        "paper": {"pmcid": "PMC123", "title": "Test"},
+        "entities": [],
+        "relationships": [],
+        "notes": [],
+    }
+    (bundles_dir / "paper_PMC123.json").write_text(json.dumps(bundle_data, indent=2), encoding="utf-8")
+
+    pmc_xmls_dir = tmp_path / "pmc_xmls"
+    pmc_xmls_dir.mkdir()
+    (pmc_xmls_dir / "PMC123.xml").write_text("<article><title>Test Paper</title></article>", encoding="utf-8")
+
+    output_dir = tmp_path / "out"
+    run_pass3(merged_dir, bundles_dir, output_dir, pmc_xmls_dir=pmc_xmls_dir)
+
+    sources_dir = output_dir / "sources"
+    assert sources_dir.is_dir()
+    assert (sources_dir / "PMC123.xml").exists()
+    assert (sources_dir / "PMC123.xml").read_text() == "<article><title>Test Paper</title></article>"

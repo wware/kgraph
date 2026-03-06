@@ -1,11 +1,9 @@
 {
   "paper": {
     "doi": null,
-    "pmcid": "extracted_paper_1",
+    "pmcid": "PMC12055610",
     "title": "Osilodrostat for Cushing syndrome",
-    "authors": [
-      "Australian Prescriber Editorial Team"
-    ],
+    "authors": [],
     "journal": "Australian Prescriber",
     "year": 2025,
     "study_type": "drug_review",
@@ -15,8 +13,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "09b354088c18282f3bcdeb3e32e4c2060b496bc9",
-      "git_commit_short": "09b3540",
+      "git_commit": "b4ddd4fee7e6056c93308dfd6af694cb89c55d54",
+      "git_commit_short": "b4ddd4f",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -30,13 +28,13 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:b8ebee1e680fecdb"
+      "checksum": "sha256:636cfb5225c19b3d"
     },
     "execution": {
-      "timestamp": "2026-03-05T18:48:28.421044Z",
+      "timestamp": "2026-03-06T16:13:07.038147Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 50.28
+      "duration_seconds": 53.53
     },
     "entity_resolution": null,
     "model_info": null
@@ -60,43 +58,9 @@
       "uniprot_id": null
     },
     {
-      "id": "cushing_syndrome",
-      "class": "Disease",
-      "name": "Cushing syndrome",
-      "synonyms": [
-        "endogenous Cushing syndrome"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cushing_disease",
-      "class": "Disease",
-      "name": "Cushing disease",
-      "synonyms": [
-        "Cushing's disease"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cortisol",
-      "class": "Hormone",
-      "name": "cortisol",
+      "id": "recordati_rare_diseases",
+      "class": "Institution",
+      "name": "Recordati Rare Diseases",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -109,27 +73,9 @@
       "uniprot_id": null
     },
     {
-      "id": "acth",
-      "class": "Hormone",
-      "name": "ACTH",
-      "synonyms": [
-        "adrenocorticotrophic hormone",
-        "adrenocorticotropic hormone"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "11_beta_hydroxylase",
-      "class": "Enzyme",
-      "name": "11-beta-hydroxylase",
+      "id": "endogenous_cushing_syndrome",
+      "class": "Disease",
+      "name": "endogenous Cushing syndrome",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -142,12 +88,100 @@
       "uniprot_id": null
     },
     {
-      "id": "pituitary_tumor",
+      "id": "acth_dependent_cushing_syndrome",
       "class": "Disease",
-      "name": "pituitary tumor",
-      "synonyms": [
-        "pituitary tumour"
-      ],
+      "name": "ACTH-dependent Cushing syndrome",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "acth_independent_cushing_syndrome",
+      "class": "Disease",
+      "name": "ACTH-independent Cushing syndrome",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pituitary_tumour",
+      "class": "Disease",
+      "name": "pituitary tumour",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tumour_removal_surgery",
+      "class": "Procedure",
+      "name": "tumour removal surgery",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "irradiation",
+      "class": "Procedure",
+      "name": "irradiation",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pituitary_surgery",
+      "class": "Procedure",
+      "name": "pituitary surgery",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pituitary_irradiation",
+      "class": "Procedure",
+      "name": "pituitary irradiation",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -174,12 +208,25 @@
       "uniprot_id": null
     },
     {
-      "id": "adrenal_insufficiency",
-      "class": "Disease",
-      "name": "adrenal insufficiency",
-      "synonyms": [
-        "glucocorticoid deficiency"
-      ],
+      "id": "serum_cortisol",
+      "class": "Biomarker",
+      "name": "serum cortisol",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "plasma_cortisol",
+      "class": "Biomarker",
+      "name": "plasma cortisol",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -206,9 +253,9 @@
       "uniprot_id": null
     },
     {
-      "id": "nausea",
-      "class": "Symptom",
-      "name": "nausea",
+      "id": "glucocorticoid_deficiency",
+      "class": "Disease",
+      "name": "glucocorticoid deficiency",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -221,9 +268,9 @@
       "uniprot_id": null
     },
     {
-      "id": "arthralgia",
+      "id": "nausea",
       "class": "Symptom",
-      "name": "arthralgia",
+      "name": "nausea",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -266,21 +313,6 @@
       "uniprot_id": null
     },
     {
-      "id": "acne",
-      "class": "Symptom",
-      "name": "acne",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "testosterone",
       "class": "Hormone",
       "name": "testosterone",
@@ -296,12 +328,25 @@
       "uniprot_id": null
     },
     {
+      "id": "serum_potassium",
+      "class": "Biomarker",
+      "name": "serum potassium",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "hypokalaemia",
       "class": "Disease",
       "name": "hypokalaemia",
-      "synonyms": [
-        "severe hypokalaemia"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -313,43 +358,9 @@
       "uniprot_id": null
     },
     {
-      "id": "qt_prolongation",
-      "class": "Disease",
+      "id": "qt_interval_prolongation",
+      "class": "AdverseEvent",
       "name": "QT interval prolongation",
-      "synonyms": [
-        "QT prolongation"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cytochrome_p450",
-      "class": "Enzyme",
-      "name": "cytochrome P450",
-      "synonyms": [
-        "CYP"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cyp2d6",
-      "class": "Enzyme",
-      "name": "CYP2D6",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -362,26 +373,9 @@
       "uniprot_id": null
     },
     {
-      "id": "cyp3a4",
-      "class": "Enzyme",
-      "name": "CYP3A4",
-      "synonyms": [
-        "CYP3A4/5"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cyp2c19",
-      "class": "Enzyme",
-      "name": "CYP2C19",
+      "id": "vomiting",
+      "class": "Symptom",
+      "name": "vomiting",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -394,9 +388,9 @@
       "uniprot_id": null
     },
     {
-      "id": "cyp1a2",
-      "class": "Enzyme",
-      "name": "CYP1A2",
+      "id": "fatigue",
+      "class": "Symptom",
+      "name": "fatigue",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -409,12 +403,72 @@
       "uniprot_id": null
     },
     {
-      "id": "glucocorticoids",
-      "class": "Drug",
-      "name": "glucocorticoids",
+      "id": "loss_of_appetite",
+      "class": "Symptom",
+      "name": "loss of appetite",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "electrocardiogram",
+      "class": "Procedure",
+      "name": "electrocardiogram",
       "synonyms": [
-        "glucocorticoid replacement"
+        "ECG"
       ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "congestive_heart_failure",
+      "class": "Disease",
+      "name": "congestive heart failure",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "myocardial_infarction",
+      "class": "Disease",
+      "name": "myocardial infarction",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "unstable_angina",
+      "class": "Disease",
+      "name": "unstable angina",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -456,9 +510,9 @@
       "uniprot_id": null
     },
     {
-      "id": "adrenal_gland",
-      "class": "AnatomicalStructure",
-      "name": "adrenal gland",
+      "id": "cyp2d6",
+      "class": "Enzyme",
+      "name": "CYP2D6",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -471,45 +525,72 @@
       "uniprot_id": null
     },
     {
-      "id": "pituitary_surgery",
-      "class": "Procedure",
-      "name": "pituitary surgery",
-      "synonyms": [
-        "tumor removal surgery",
-        "tumour removal surgery"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pituitary_irradiation",
-      "class": "Procedure",
-      "name": "pituitary irradiation",
-      "synonyms": [
-        "irradiation"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "electrocardiogram",
-      "class": "Procedure",
-      "name": "electrocardiogram",
+      "id": "cyp3a4_5",
+      "class": "Enzyme",
+      "name": "CYP3A4/5",
       "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cyp2c19",
+      "class": "Enzyme",
+      "name": "CYP2C19",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cyp1a2",
+      "class": "Enzyme",
+      "name": "CYP1A2",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "glucocorticoid_replacement",
+      "class": "Procedure",
+      "name": "glucocorticoid replacement",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "therapeutic_goods_administration",
+      "class": "Institution",
+      "name": "Therapeutic Goods Administration",
+      "synonyms": [
+        "TGA"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -523,10 +604,23 @@
   ],
   "evidence_entities": [
     {
-      "id": "extracted_paper_1:mechanism:1:llm",
+      "id": "paper_1:background:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "extracted_paper_1",
+      "paper_id": "paper_1",
+      "text_span_id": "background_1",
+      "text": "Endogenous Cushing syndrome denotes a group of rare diseases resulting from the body's over-excretion of cortisol. It can be characterised as adrenocorticotrophic hormone (ACTH)\u2013dependent or independent. The most common form of ACTH-dependent Cushing syndrome is Cushing disease, where there is a pituitary tumour that secretes ACTH, leading to an overproduction of cortisol.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "drug_review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "paper_1:mechanism:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper_1",
       "text_span_id": "mechanism_1",
       "text": "Osilodrostat is a potent inhibitor of 11-beta-hydroxylase, an enzyme that catalyses cortisol biosynthesis in the adrenal gland.",
       "confidence": 0.95,
@@ -536,12 +630,12 @@
       "source": "extracted"
     },
     {
-      "id": "extracted_paper_1:indication:1:llm",
+      "id": "paper_1:clinical_trials:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "extracted_paper_1",
-      "text_span_id": "indication_1",
-      "text": "Approved indication: treatment of endogenous Cushing syndrome in adults",
+      "paper_id": "paper_1",
+      "text_span_id": "clinical_trials_1",
+      "text": "Osilodrostat was evaluated in a phase 3 trial with 137 participants who had persistent or recurrent Cushing disease (median age 40 years, majority female). Most participants had previous pituitary surgery (88%) and/or previous drug therapies for Cushing disease (74%), and 16% had previous pituitary irradiation.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "drug_review",
@@ -549,67 +643,54 @@
       "source": "extracted"
     },
     {
-      "id": "extracted_paper_1:efficacy:1:llm",
+      "id": "paper_1:clinical_trials:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "extracted_paper_1",
-      "text_span_id": "efficacy_1",
+      "paper_id": "paper_1",
+      "text_span_id": "clinical_trials_2",
       "text": "More patients who continued osilodrostat maintained a complete response without any dose increases during this period compared with those on placebo (86.1% versus 29.4%).",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "randomized_controlled_trial",
+      "study_type": "drug_review",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "extracted_paper_1:adverse_effects:1:llm",
+      "id": "paper_1:adverse_effects:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "extracted_paper_1",
+      "paper_id": "paper_1",
       "text_span_id": "adverse_effects_1",
       "text": "Hypocortisolism-related adverse events (mostly reported as adrenal insufficiency or glucocorticoid deficiency) occurred in 70/138 (51%) of patients across the entire study.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "clinical_trial",
+      "study_type": "drug_review",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "extracted_paper_1:adverse_effects:2:llm",
+      "id": "paper_1:adverse_effects:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "extracted_paper_1",
+      "paper_id": "paper_1",
       "text_span_id": "adverse_effects_2",
       "text": "The most common adverse effects reported in the osilodrostat continuation group during the randomised withdrawal period of the trial were nausea (11%), arthralgia (8%) and headache (8%).",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "randomized_controlled_trial",
+      "study_type": "drug_review",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "extracted_paper_1:adverse_effects:3:llm",
+      "id": "paper_1:adverse_effects:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "extracted_paper_1",
+      "paper_id": "paper_1",
       "text_span_id": "adverse_effects_3",
-      "text": "in female participants, hirsutism and acne were reported in 11% and 12%, respectively.",
+      "text": "Inhibition of 11-beta-hydroxylase is associated with the accumulation of adrenal steroid precursors and increased testosterone; in female participants, hirsutism and acne were reported in 11% and 12%, respectively.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "clinical_trial",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "extracted_paper_1:drug_interactions:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "extracted_paper_1",
-      "text_span_id": "drug_interactions_1",
-      "text": "In clinical studies, osilodrostat demonstrated mild to moderate inhibition of some cytochrome P450 (CYP) enzymes, such as CYP2D6, CYP3A4/5, CYP2C19 and CYP1A2.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "clinical_trial",
+      "study_type": "drug_review",
       "eco_type": null,
       "source": "extracted"
     }
@@ -618,16 +699,16 @@
     {
       "subject": "osilodrostat",
       "predicate": "TREATS",
-      "object": "cushing_syndrome",
+      "object": "endogenous_cushing_syndrome",
       "evidence_ids": [
-        "extracted_paper_1:indication:1:llm"
+        "paper_1:background:1:llm"
       ],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
       "confidence": 0.95,
       "properties": {},
-      "section": "indication",
+      "section": "background",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -635,12 +716,12 @@
     {
       "subject": "osilodrostat",
       "predicate": "INHIBITS",
-      "object": "11_beta_hydroxylase",
+      "object": "11-beta-hydroxylase",
       "evidence_ids": [
-        "extracted_paper_1:mechanism:1:llm"
+        "paper_1:mechanism:1:llm"
       ],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
       "confidence": 0.95,
       "properties": {},
@@ -650,20 +731,52 @@
       "note": null
     },
     {
-      "subject": "11_beta_hydroxylase",
+      "subject": "11-beta-hydroxylase",
       "predicate": "CATALYZES",
       "object": "cortisol",
       "evidence_ids": [
-        "extracted_paper_1:mechanism:1:llm"
+        "paper_1:mechanism:1:llm"
       ],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
       "confidence": 0.95,
-      "properties": {
-        "location": "adrenal gland"
-      },
+      "properties": {},
       "section": "mechanism",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pituitary_tumour",
+      "predicate": "SECRETES",
+      "object": "adrenocorticotrophic hormone",
+      "evidence_ids": [
+        "paper_1:background:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "adrenocorticotrophic hormone",
+      "predicate": "INCREASES",
+      "object": "cortisol",
+      "evidence_ids": [
+        "paper_1:background:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -673,15 +786,13 @@
       "predicate": "CAUSES",
       "object": "hypocortisolism",
       "evidence_ids": [
-        "extracted_paper_1:adverse_effects:1:llm"
+        "paper_1:adverse_effects:1:llm"
       ],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
       "confidence": 0.95,
-      "properties": {
-        "frequency": "51%"
-      },
+      "properties": {},
       "section": "adverse_effects",
       "asserted_by": "llm",
       "resolution": null,
@@ -690,17 +801,15 @@
     {
       "subject": "osilodrostat",
       "predicate": "CAUSES",
-      "object": "adrenal_insufficiency",
+      "object": "adrenal insufficiency",
       "evidence_ids": [
-        "extracted_paper_1:adverse_effects:1:llm"
+        "paper_1:adverse_effects:1:llm"
       ],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
       "confidence": 0.95,
-      "properties": {
-        "frequency": "51%"
-      },
+      "properties": {},
       "section": "adverse_effects",
       "asserted_by": "llm",
       "resolution": null,
@@ -711,15 +820,13 @@
       "predicate": "CAUSES",
       "object": "nausea",
       "evidence_ids": [
-        "extracted_paper_1:adverse_effects:2:llm"
+        "paper_1:adverse_effects:2:llm"
       ],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
       "confidence": 0.95,
-      "properties": {
-        "frequency": "11%"
-      },
+      "properties": {},
       "section": "adverse_effects",
       "asserted_by": "llm",
       "resolution": null,
@@ -730,15 +837,13 @@
       "predicate": "CAUSES",
       "object": "arthralgia",
       "evidence_ids": [
-        "extracted_paper_1:adverse_effects:2:llm"
+        "paper_1:adverse_effects:2:llm"
       ],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
       "confidence": 0.95,
-      "properties": {
-        "frequency": "8%"
-      },
+      "properties": {},
       "section": "adverse_effects",
       "asserted_by": "llm",
       "resolution": null,
@@ -749,15 +854,30 @@
       "predicate": "CAUSES",
       "object": "headache",
       "evidence_ids": [
-        "extracted_paper_1:adverse_effects:2:llm"
+        "paper_1:adverse_effects:2:llm"
       ],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
       "confidence": 0.95,
-      "properties": {
-        "frequency": "8%"
-      },
+      "properties": {},
+      "section": "adverse_effects",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "osilodrostat",
+      "predicate": "INCREASES",
+      "object": "testosterone",
+      "evidence_ids": [
+        "paper_1:adverse_effects:3:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.95,
+      "properties": {},
       "section": "adverse_effects",
       "asserted_by": "llm",
       "resolution": null,
@@ -768,16 +888,13 @@
       "predicate": "CAUSES",
       "object": "hirsutism",
       "evidence_ids": [
-        "extracted_paper_1:adverse_effects:3:llm"
+        "paper_1:adverse_effects:3:llm"
       ],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
       "confidence": 0.95,
-      "properties": {
-        "frequency": "11%",
-        "population": "female participants"
-      },
+      "properties": {},
       "section": "adverse_effects",
       "asserted_by": "llm",
       "resolution": null,
@@ -788,17 +905,65 @@
       "predicate": "CAUSES",
       "object": "acne",
       "evidence_ids": [
-        "extracted_paper_1:adverse_effects:3:llm"
+        "paper_1:adverse_effects:3:llm"
       ],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
       "confidence": 0.95,
-      "properties": {
-        "frequency": "12%",
-        "population": "female participants"
-      },
+      "properties": {},
       "section": "adverse_effects",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Cushing disease",
+      "predicate": "SUBTYPE_OF",
+      "object": "acth_dependent_cushing_syndrome",
+      "evidence_ids": [
+        "paper_1:background:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "acth_dependent_cushing_syndrome",
+      "predicate": "SUBTYPE_OF",
+      "object": "endogenous_cushing_syndrome",
+      "evidence_ids": [
+        "paper_1:background:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "acth_independent_cushing_syndrome",
+      "predicate": "SUBTYPE_OF",
+      "object": "endogenous_cushing_syndrome",
+      "evidence_ids": [
+        "paper_1:background:1:llm"
+      ],
+      "source_papers": [
+        "paper_1"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -807,17 +972,13 @@
       "subject": "osilodrostat",
       "predicate": "INHIBITS",
       "object": "cyp2d6",
-      "evidence_ids": [
-        "extracted_paper_1:drug_interactions:1:llm"
-      ],
+      "evidence_ids": [],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
-      "confidence": 0.95,
-      "properties": {
-        "severity": "mild to moderate"
-      },
-      "section": "drug_interactions",
+      "confidence": 0.85,
+      "properties": {},
+      "section": "precautions",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -825,18 +986,14 @@
     {
       "subject": "osilodrostat",
       "predicate": "INHIBITS",
-      "object": "cyp3a4",
-      "evidence_ids": [
-        "extracted_paper_1:drug_interactions:1:llm"
-      ],
+      "object": "cyp3a4_5",
+      "evidence_ids": [],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
-      "confidence": 0.95,
-      "properties": {
-        "severity": "mild to moderate"
-      },
-      "section": "drug_interactions",
+      "confidence": 0.85,
+      "properties": {},
+      "section": "precautions",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -845,17 +1002,13 @@
       "subject": "osilodrostat",
       "predicate": "INHIBITS",
       "object": "cyp2c19",
-      "evidence_ids": [
-        "extracted_paper_1:drug_interactions:1:llm"
-      ],
+      "evidence_ids": [],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
-      "confidence": 0.95,
-      "properties": {
-        "severity": "mild to moderate"
-      },
-      "section": "drug_interactions",
+      "confidence": 0.85,
+      "properties": {},
+      "section": "precautions",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -864,59 +1017,21 @@
       "subject": "osilodrostat",
       "predicate": "INHIBITS",
       "object": "cyp1a2",
-      "evidence_ids": [
-        "extracted_paper_1:drug_interactions:1:llm"
-      ],
+      "evidence_ids": [],
       "source_papers": [
-        "extracted_paper_1"
+        "paper_1"
       ],
-      "confidence": 0.95,
-      "properties": {
-        "severity": "mild to moderate"
-      },
-      "section": "drug_interactions",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cushing_disease",
-      "predicate": "SUBTYPE_OF",
-      "object": "cushing_syndrome",
-      "evidence_ids": [
-        "extracted_paper_1:indication:1:llm"
-      ],
-      "source_papers": [
-        "extracted_paper_1"
-      ],
-      "confidence": 0.95,
+      "confidence": 0.85,
       "properties": {},
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "pituitary_tumor",
-      "predicate": "CAUSES",
-      "object": "cushing_disease",
-      "evidence_ids": [
-        "extracted_paper_1:indication:1:llm"
-      ],
-      "source_papers": [
-        "extracted_paper_1"
-      ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "background",
+      "section": "precautions",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
-    "This paper is a drug review of osilodrostat for Cushing syndrome, providing comprehensive information about mechanism of action, clinical trials, adverse effects, and clinical use.",
-    "The paper describes a phase 3 clinical trial with 137 participants showing efficacy of osilodrostat in maintaining cortisol control.",
-    "Key safety concerns include hypocortisolism, QT prolongation, and drug interactions through CYP enzyme inhibition."
+    "This is a drug review paper describing osilodrostat, a new treatment for Cushing syndrome that works by inhibiting 11-beta-hydroxylase enzyme.",
+    "The paper includes clinical trial data showing efficacy and safety profile of osilodrostat.",
+    "Multiple adverse effects are documented including hypocortisolism-related events and hormonal effects due to enzyme inhibition."
   ]
 }

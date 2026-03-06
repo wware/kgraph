@@ -1,14 +1,13 @@
 {
   "paper": {
     "doi": null,
-    "pmcid": "PMC11000000",
+    "pmcid": "PMC_extracted",
     "title": "ST3Gal1 modulates intestinal barrier function and impacts human ulcerative colitis",
     "authors": [
-      "Author1",
-      "Author2"
+      "Not specified"
     ],
-    "journal": "Unknown",
-    "year": 2024,
+    "journal": "Not specified",
+    "year": null,
     "study_type": "experimental",
     "eco_type": "in_vitro"
   },
@@ -16,8 +15,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "09b354088c18282f3bcdeb3e32e4c2060b496bc9",
-      "git_commit_short": "09b3540",
+      "git_commit": "b4ddd4fee7e6056c93308dfd6af694cb89c55d54",
+      "git_commit_short": "b4ddd4f",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -31,13 +30,13 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:b8ebee1e680fecdb"
+      "checksum": "sha256:636cfb5225c19b3d"
     },
     "execution": {
-      "timestamp": "2026-03-05T18:50:12.286858Z",
+      "timestamp": "2026-03-06T16:14:49.837190Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 50.06
+      "duration_seconds": 51.56
     },
     "entity_resolution": null,
     "model_info": null
@@ -78,12 +77,11 @@
       "uniprot_id": null
     },
     {
-      "id": "alpha_2_3_sialylation",
+      "id": "intestinal_barrier_function",
       "class": "BiologicalProcess",
-      "name": "alpha-2,3-sialylation",
+      "name": "intestinal barrier function",
       "synonyms": [
-        "\u03b12,3-sialylation",
-        "\u03b12,3-linked sialylation"
+        "intestinal mucosal barrier function"
       ],
       "symbol": null,
       "brand_names": [],
@@ -96,11 +94,12 @@
       "uniprot_id": null
     },
     {
-      "id": "intestinal_barrier_function",
+      "id": "alpha_2_3_sialylation",
       "class": "BiologicalProcess",
-      "name": "intestinal barrier function",
+      "name": "\u03b12,3-sialylation",
       "synonyms": [
-        "intestinal mucosal barrier function"
+        "alpha-2,3-sialylation",
+        "\u03b12,3-linkage formation"
       ],
       "symbol": null,
       "brand_names": [],
@@ -181,29 +180,12 @@
       "uniprot_id": null
     },
     {
-      "id": "p_STAT3",
-      "class": "Protein",
-      "name": "phosphorylated STAT3",
-      "synonyms": [
-        "p-STAT3"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "IL_1_beta",
       "class": "Protein",
-      "name": "interleukin-1 beta",
+      "name": "interleukin 1 beta",
       "synonyms": [
         "IL-1\u03b2",
-        "IL-1beta"
+        "IL1B"
       ],
       "symbol": null,
       "brand_names": [],
@@ -218,7 +200,7 @@
     {
       "id": "IL_6",
       "class": "Protein",
-      "name": "interleukin-6",
+      "name": "interleukin 6",
       "synonyms": [
         "IL-6"
       ],
@@ -235,9 +217,10 @@
     {
       "id": "IL_8",
       "class": "Protein",
-      "name": "interleukin-8",
+      "name": "interleukin 8",
       "synonyms": [
-        "IL-8"
+        "IL-8",
+        "CXCL8"
       ],
       "symbol": null,
       "brand_names": [],
@@ -245,6 +228,68 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": "HGNC:6025",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Caco_2_cells",
+      "class": "AnatomicalStructure",
+      "name": "Caco-2 cells",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "HT29_MTX_E12_cells",
+      "class": "AnatomicalStructure",
+      "name": "HT29-MTX-E12 cells",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "THP_1_cells",
+      "class": "AnatomicalStructure",
+      "name": "THP-1 cells",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "intestinal_epithelial_cells",
+      "class": "AnatomicalStructure",
+      "name": "intestinal epithelial cells",
+      "synonyms": [
+        "IECs"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -299,56 +344,11 @@
       "uniprot_id": null
     },
     {
-      "id": "Caco_2_cells",
-      "class": "AnatomicalStructure",
-      "name": "Caco-2 cells",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "HT29_MTX_E12_cells",
-      "class": "AnatomicalStructure",
-      "name": "HT29-MTX-E12 cells",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "THP_1_cells",
-      "class": "AnatomicalStructure",
-      "name": "THP-1 cells",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "triple_culture_model",
-      "class": "StudyDesign",
-      "name": "triple-culture model",
+      "id": "protein_sialylation",
+      "class": "BiologicalProcess",
+      "name": "protein sialylation",
       "synonyms": [
-        "in vitro triple-culture model"
+        "sialylation"
       ],
       "symbol": null,
       "brand_names": [],
@@ -376,10 +376,59 @@
       "uniprot_id": null
     },
     {
-      "id": "modified_Mayo_score",
-      "class": "Biomarker",
-      "name": "modified Mayo score",
+      "id": "adenoviral_particles",
+      "class": "Procedure",
+      "name": "adenoviral particles",
       "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "lentiviral_vectors",
+      "class": "Procedure",
+      "name": "lentiviral vectors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "dextran_sulfate_sodium",
+      "class": "Drug",
+      "name": "dextran sulfate sodium",
+      "synonyms": [
+        "DSS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "phosphorylated_STAT3",
+      "class": "Protein",
+      "name": "phosphorylated STAT3",
+      "synonyms": [
+        "p-STAT3"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -393,10 +442,10 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC11000000:results:1:llm",
+      "id": "PMC_extracted:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11000000",
+      "paper_id": "PMC_extracted",
       "text_span_id": "results_1",
       "text": "The mRNA expression levels of ST3Gal1 in the mucosal tissue of individuals diagnosed with UC were significantly higher than those in healthy colon mucosa",
       "confidence": 0.95,
@@ -406,10 +455,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC11000000:results:2:llm",
+      "id": "PMC_extracted:results:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11000000",
+      "paper_id": "PMC_extracted",
       "text_span_id": "results_2",
       "text": "suppressed expression of ST3Gal1 in the intestinal epithelial cell (IEC) monolayer enhanced the functionality of the intestinal barrier, whereas its overexpression caused intestinal barrier function deterioration",
       "confidence": 0.95,
@@ -419,10 +468,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC11000000:results:3:llm",
+      "id": "PMC_extracted:results:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11000000",
+      "paper_id": "PMC_extracted",
       "text_span_id": "results_3",
       "text": "ST3Gal1 expression in the IEC monolayer altered the expression of intestinal mucus barrier-associated mucin 2 (MUC2) and trefoil factor 3 (TFF3), goblet cell differentiation-associated homeobox protein CDX-2 (CDX2), inflammation-associated phosphorylated (p)-STAT3, and the inflammatory mediators IL-1\u03b2, IL-6 and IL-8",
       "confidence": 0.95,
@@ -432,10 +481,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC11000000:results:4:llm",
+      "id": "PMC_extracted:results:4:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11000000",
+      "paper_id": "PMC_extracted",
       "text_span_id": "results_4",
       "text": "MUC2, TFF3 and CDX2 were positively associated with enhanced barrier integrity, whereas p-STAT3, IL-1\u03b2, IL-6 and IL-8 were negatively correlated with barrier function",
       "confidence": 0.95,
@@ -445,10 +494,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC11000000:results:5:llm",
+      "id": "PMC_extracted:results:5:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11000000",
+      "paper_id": "PMC_extracted",
       "text_span_id": "results_5",
       "text": "The TEER levels in the ST3Gal1-sh3/IEC group were significantly higher than those in the IEC and sh-Ctr/IEC groups after stimulation with 2% DSS",
       "confidence": 0.95,
@@ -458,10 +507,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC11000000:results:6:llm",
+      "id": "PMC_extracted:results:6:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11000000",
+      "paper_id": "PMC_extracted",
       "text_span_id": "results_6",
       "text": "The TEER levels of the inflamed ST3Gal1-OE/IEC group were significantly lower compared with those in the IEC or Ctr/IEC groups",
       "confidence": 0.95,
@@ -477,10 +526,10 @@
       "predicate": "ASSOCIATED_WITH",
       "object": "ulcerative_colitis",
       "evidence_ids": [
-        "PMC11000000:results:1:llm"
+        "PMC_extracted:results:1:llm"
       ],
       "source_papers": [
-        "PMC11000000"
+        "PMC_extracted"
       ],
       "confidence": 0.95,
       "properties": {
@@ -496,276 +545,10 @@
       "predicate": "REGULATES",
       "object": "intestinal_barrier_function",
       "evidence_ids": [
-        "PMC11000000:results:2:llm"
+        "PMC_extracted:results:2:llm"
       ],
       "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "negative"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ST3Gal1",
-      "predicate": "REGULATES",
-      "object": "MUC2",
-      "evidence_ids": [
-        "PMC11000000:results:3:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "negative"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ST3Gal1",
-      "predicate": "REGULATES",
-      "object": "TFF3",
-      "evidence_ids": [
-        "PMC11000000:results:3:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "negative"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ST3Gal1",
-      "predicate": "REGULATES",
-      "object": "CDX2",
-      "evidence_ids": [
-        "PMC11000000:results:3:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "negative"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ST3Gal1",
-      "predicate": "REGULATES",
-      "object": "p_STAT3",
-      "evidence_ids": [
-        "PMC11000000:results:3:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "positive"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ST3Gal1",
-      "predicate": "REGULATES",
-      "object": "IL_1_beta",
-      "evidence_ids": [
-        "PMC11000000:results:3:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "positive"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ST3Gal1",
-      "predicate": "REGULATES",
-      "object": "IL_6",
-      "evidence_ids": [
-        "PMC11000000:results:3:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "positive"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ST3Gal1",
-      "predicate": "REGULATES",
-      "object": "IL_8",
-      "evidence_ids": [
-        "PMC11000000:results:3:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "positive"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "MUC2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "intestinal_barrier_function",
-      "evidence_ids": [
-        "PMC11000000:results:4:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "positive"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "TFF3",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "intestinal_barrier_function",
-      "evidence_ids": [
-        "PMC11000000:results:4:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "positive"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "CDX2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "intestinal_barrier_function",
-      "evidence_ids": [
-        "PMC11000000:results:4:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "positive"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "p_STAT3",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "intestinal_barrier_function",
-      "evidence_ids": [
-        "PMC11000000:results:4:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "negative"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "IL_1_beta",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "intestinal_barrier_function",
-      "evidence_ids": [
-        "PMC11000000:results:4:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "negative"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "IL_6",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "intestinal_barrier_function",
-      "evidence_ids": [
-        "PMC11000000:results:4:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "direction": "negative"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "IL_8",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "intestinal_barrier_function",
-      "evidence_ids": [
-        "PMC11000000:results:4:llm"
-      ],
-      "source_papers": [
-        "PMC11000000"
+        "PMC_extracted"
       ],
       "confidence": 0.95,
       "properties": {
@@ -781,10 +564,10 @@
       "predicate": "CATALYZES",
       "object": "alpha_2_3_sialylation",
       "evidence_ids": [
-        "PMC11000000:results:3:llm"
+        "PMC_extracted:results:3:llm"
       ],
       "source_papers": [
-        "PMC11000000"
+        "PMC_extracted"
       ],
       "confidence": 0.95,
       "properties": {},
@@ -792,11 +575,276 @@
       "asserted_by": "llm",
       "resolution": null,
       "note": null
+    },
+    {
+      "subject": "ST3Gal1",
+      "predicate": "REGULATES",
+      "object": "MUC2",
+      "evidence_ids": [
+        "PMC_extracted:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "negative"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ST3Gal1",
+      "predicate": "REGULATES",
+      "object": "TFF3",
+      "evidence_ids": [
+        "PMC_extracted:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "negative"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ST3Gal1",
+      "predicate": "REGULATES",
+      "object": "CDX2",
+      "evidence_ids": [
+        "PMC_extracted:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "negative"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ST3Gal1",
+      "predicate": "REGULATES",
+      "object": "phosphorylated_STAT3",
+      "evidence_ids": [
+        "PMC_extracted:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ST3Gal1",
+      "predicate": "REGULATES",
+      "object": "IL_1_beta",
+      "evidence_ids": [
+        "PMC_extracted:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ST3Gal1",
+      "predicate": "REGULATES",
+      "object": "IL_6",
+      "evidence_ids": [
+        "PMC_extracted:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ST3Gal1",
+      "predicate": "REGULATES",
+      "object": "IL_8",
+      "evidence_ids": [
+        "PMC_extracted:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "MUC2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "intestinal_barrier_function",
+      "evidence_ids": [
+        "PMC_extracted:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "TFF3",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "intestinal_barrier_function",
+      "evidence_ids": [
+        "PMC_extracted:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "CDX2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "intestinal_barrier_function",
+      "evidence_ids": [
+        "PMC_extracted:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "phosphorylated_STAT3",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "intestinal_barrier_function",
+      "evidence_ids": [
+        "PMC_extracted:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "negative"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "IL_1_beta",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "intestinal_barrier_function",
+      "evidence_ids": [
+        "PMC_extracted:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "negative"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "IL_6",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "intestinal_barrier_function",
+      "evidence_ids": [
+        "PMC_extracted:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "negative"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "IL_8",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "intestinal_barrier_function",
+      "evidence_ids": [
+        "PMC_extracted:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC_extracted"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "direction": "negative"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
     }
   ],
   "notes": [
-    "This study demonstrates that ST3Gal1-mediated \u03b12,3-sialylation plays a crucial role in regulating intestinal barrier function and inflammation in ulcerative colitis",
-    "The triple-culture model using Caco-2, HT29-MTX-E12, and THP-1 cells provides a valuable in vitro system for studying intestinal barrier function",
-    "ST3Gal1 appears to have opposite effects on barrier-protective proteins (MUC2, TFF3, CDX2) versus inflammatory mediators (IL-1\u03b2, IL-6, IL-8, p-STAT3)"
+    "This study used an in vitro triple-culture model with Caco-2, HT29-MTX-E12, and THP-1 cells to investigate ST3Gal1's role in intestinal barrier function and ulcerative colitis",
+    "ST3Gal1 knockdown improved barrier function while overexpression impaired it, suggesting ST3Gal1 as a potential therapeutic target for IBD"
   ]
 }

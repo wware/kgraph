@@ -37,11 +37,18 @@ def main() -> int:
         default=Path("medlit_bundle"),
         help="Output kgbundle directory (default: medlit_bundle)",
     )
+    parser.add_argument(
+        "--pmc-xmls-dir",
+        type=Path,
+        default=None,
+        help="If provided, copy JATS-XML source files for each paper into output_dir/sources/",
+    )
     args = parser.parse_args()
 
     merged_dir = args.merged_dir.resolve()
     bundles_dir = args.bundles_dir.resolve()
     output_dir = args.output_dir.resolve()
+    pmc_xmls_dir = args.pmc_xmls_dir.resolve() if args.pmc_xmls_dir else None
 
     if not merged_dir.is_dir():
         print(f"Error: merged-dir is not a directory: {merged_dir}", file=sys.stderr)
@@ -57,7 +64,7 @@ def main() -> int:
         return 1
 
     try:
-        summary = run_pass3(merged_dir, bundles_dir, output_dir)
+        summary = run_pass3(merged_dir, bundles_dir, output_dir, pmc_xmls_dir=pmc_xmls_dir)
     except FileNotFoundError as e:
         print(f"Error: {e}", file=sys.stderr)
         return 1

@@ -4,8 +4,11 @@ MCP Server implementation using FastMCP.
 Provides tools for querying the knowledge graph via the Model Context Protocol.
 """
 
+import os
+import zipfile
 from collections import deque
 from contextlib import contextmanager, closing
+from pathlib import Path
 from typing import Optional, Any
 from fastmcp import FastMCP
 import strawberry
@@ -428,6 +431,107 @@ def check_ingest_status(job_id: str) -> dict:
         "started_at": job.started_at.isoformat() if job.started_at else None,
         "completed_at": job.completed_at.isoformat() if job.completed_at else None,
     }
+
+
+def _get_bundle_path() -> Path:
+    """Resolve BUNDLE_PATH; raise ValueError if unset or invalid."""
+    path_str = os.getenv("BUNDLE_PATH")
+    if not path_str:
+        raise ValueError("BUNDLE_PATH is not set")
+    path = Path(path_str)
+    if not path.exists():
+        raise ValueError(f"BUNDLE_PATH '{path_str}' does not exist")
+    return path
+
+
+def _read_from_bundle(relative_path: str) -> str:
+    """Read file from bundle (directory or ZIP). Returns file contents as string."""
+    bundle_path = _get_bundle_path()
+    if bundle_path.suffix == ".zip":
+        with zipfile.ZipFile(bundle_path, "r") as zf:
+            with zf.open(relative_path) as f:
+                return f.read().decode("utf-8", errors="replace")
+    file_path = Path(bundle_path) / relative_path
+    if not file_path.exists():
+        raise FileNotFoundError(f"File not found in bundle: {relative_path}")
+    return file_path.read_text(encoding="utf-8", errors="replace")
+
+
+@mcp_server.tool()
+def get_paper_source(paper_id: str, max_chars: Optional[int] = None) -> str:
+    """
+    Retrieve the raw JATS-XML source of a paper for mention-inspection diagnostics.
+
+    Reads from bundle sources/ directory (or inside a ZIP bundle). Use with
+    get_mentions to verify that extracted mentions match the source text.
+
+    Args:
+        paper_id: Paper identifier (e.g. PMC12345). Accepts with or without .xml suffix.
+        max_chars: If set, truncate the returned string to this length. Note: blind
+            truncation may cut mid-sentence for full JATS papers.
+            # TODO: consider lxml/ElementTree snippet to extract just <abstract> and <body>
+            instead of blind truncation.
+
+    Returns:
+        Raw XML string. Raises ValueError if BUNDLE_PATH unset or paper not found.
+    """
+    # Normalize: strip .xml if present, then always append
+    base_id = paper_id.removesuffix(".xml") if paper_id.endswith(".xml") else paper_id
+    filename = f"{base_id}.xml"
+    relative_path = f"sources/{filename}"
+    try:
+        content = _read_from_bundle(relative_path)
+    except FileNotFoundError:
+        raise ValueError(f"Paper {paper_id} not found in sources/") from None
+    if max_chars is not None:
+        content = content[:max_chars]
+    return content
+
+
+@mcp_server.tool()
+def get_mentions(paper_id: Optional[str] = None) -> list[dict]:
+    """
+    Retrieve entity mentions from the bundle for mention-inspection diagnostics.
+
+    Reads mentions.jsonl (MentionRow schema). Filter by document_id when paper_id
+    is provided. Use with get_paper_source to verify extracted mentions against
+    the source text.
+
+    Note: When filtering by paper_id, reads and parses the entire file then
+    filters in memory. Fine for a diagnostic tool; not efficient for large corpora.
+
+    Args:
+        paper_id: If provided, filter to mentions where document_id matches.
+            For medlit, values are like PMC12345. If None, return all mentions.
+
+    Returns:
+        List of mention dicts (entity_id, document_id, text_span, etc.).
+        Empty list if mentions.jsonl missing or no matches.
+    """
+    try:
+        content = _read_from_bundle("mentions.jsonl")
+    except FileNotFoundError:
+        return []
+    from kgbundle import MentionRow
+
+    # Normalize paper_id for filter (strip .xml if present)
+    filter_doc_id = None
+    if paper_id is not None:
+        filter_doc_id = paper_id.removesuffix(".xml") if paper_id.endswith(".xml") else paper_id
+
+    rows: list[dict] = []
+    for line in content.strip().splitlines():
+        if not line.strip():
+            continue
+        try:
+            row = MentionRow.model_validate_json(line)
+            d = row.model_dump()
+            if filter_doc_id is not None and d.get("document_id") != filter_doc_id:
+                continue
+            rows.append(d)
+        except Exception:
+            continue
+    return rows
 
 
 @mcp_server.tool()
