@@ -1,63 +1,110 @@
-#!/bin/bash -xe
+#!/bin/bash -e
 # Three-pass medlit ingestion: Pass 1 (LLM extract) → Pass 2 (dedup) → Pass 3 (build kgbundle).
 # To ADD more papers to an existing bundle: keep pass1_bundles/ and medlit_merged/ from the first run.
 # Then run Pass 1 with --output-dir pass1_bundles and --papers "NEW_PAPER1.xml,NEW_PAPER2.xml" (skips existing),
 # then re-run Pass 2 (same --output-dir medlit_merged, same --synonym-cache), then re-run Pass 3.
 # See examples/medlit/INGESTION.md § "Adding more papers to an existing bundle".
+#
+# Usage:
+#   ./run-ingest.sh --list              Show available paper lists and descriptions
+#   ./run-ingest.sh --list <name>       Ingest using the named list
 
-# a nice short paper
-# PAPER="PMC12771675.xml"
+# -----------------------------------------------------------------------------
+# Paper lists: name -> "description|PMC1.xml,PMC2.xml,..."
+# -----------------------------------------------------------------------------
+_get_list() {
+    case "$1" in
+        short)     echo "Single short paper (quick smoke test)|PMC12771675.xml" ;;
+        medium)    echo "Single medium-length paper|PMC12756687.xml" ;;
+        five)      echo "Five papers|PMC12757875.xml,PMC12784210.xml,PMC12784773.xml,PMC12788344.xml,PMC12780394.xml" ;;
+        ten)       echo "Ten papers|PMC12757875.xml,PMC12784210.xml,PMC12784773.xml,PMC12788344.xml,PMC12780394.xml,PMC12757429.xml,PMC12784249.xml,PMC12764803.xml,PMC12783088.xml,PMC12775561.xml" ;;
+        ten-hpylori) echo "Ten papers including H. pylori/gastric cancer|PMC12766194.xml,PMC12750049.xml,PMC12758042.xml,PMC12780067.xml,PMC12785246.xml,PMC12785631.xml,PMC12753587.xml,PMC12754092.xml,PMC12764813.xml,PMC5487382.xml" ;;
+        twenty)    echo "Twenty papers|PMC12757875.xml,PMC12784210.xml,PMC12784773.xml,PMC12788344.xml,PMC12780394.xml,PMC12757429.xml,PMC12784249.xml,PMC12764803.xml,PMC12783088.xml,PMC12775561.xml,PMC12766194.xml,PMC12750049.xml,PMC12758042.xml,PMC12780067.xml,PMC12785246.xml,PMC12785631.xml,PMC12753587.xml,PMC12754092.xml,PMC12764813.xml,PMC5487382.xml" ;;
+        cushing)   echo "Endocrinology/Cushing's syndrome (10 papers)|PMC11560769.xml,PMC11779774.xml,PMC11548364.xml,PMC2386281.xml,PMC12187266.xml,PMC4374115.xml,PMC11128938.xml,PMC11685751.xml,PMC12035109.xml,PMC12055610.xml" ;;
+        cushing-6) echo "Cushing's subset (6 papers)|PMC11560769.xml,PMC11779774.xml,PMC11548364.xml,PMC2386281.xml,PMC12187266.xml,PMC4374115.xml" ;;
+        adrenal)   echo "Adrenal topics|PMC10667925.xml,PMC4880116.xml,PMC11795198.xml" ;;
+        misc)      echo "Misc oncology/other|PMC6727998.xml,PMC4192497.xml,PMC4480270.xml,PMC3607291.xml,PMC4398279.xml,PMC5579818.xml" ;;
+        smorgasbord) echo "39 papers across oncology and endocrinology|PMC10667925.xml,PMC11128938.xml,PMC11548364.xml,PMC11560769.xml,PMC11685751.xml,PMC11779774.xml,PMC11795198.xml,PMC12035109.xml,PMC12055610.xml,PMC12187266.xml,PMC12750049.xml,PMC12753587.xml,PMC12754092.xml,PMC12757429.xml,PMC12757875.xml,PMC12758042.xml,PMC12764803.xml,PMC12764813.xml,PMC12766194.xml,PMC12775561.xml,PMC12780067.xml,PMC12780394.xml,PMC12783088.xml,PMC12784210.xml,PMC12784249.xml,PMC12784773.xml,PMC12785246.xml,PMC12785631.xml,PMC12788344.xml,PMC2386281.xml,PMC3607291.xml,PMC4192497.xml,PMC4374115.xml,PMC4398279.xml,PMC4480270.xml,PMC4880116.xml,PMC5487382.xml,PMC5579818.xml,PMC6727998.xml" ;;
+        *)         echo "" ;;
+    esac
+}
 
-# a bit longer
-# PAPER="PMC12756687.xml"
+_show_help() {
+    echo "run-ingest.sh — Three-pass medlit ingestion (Pass 1 → Pass 2 → Pass 3)"
+    echo ""
+    echo "Usage:"
+    echo "  ./run-ingest.sh --list              Show available paper lists"
+    echo "  ./run-ingest.sh --list <name>       Ingest using the named list"
+    echo ""
+    echo "Options:"
+    echo "  --list [name]   List paper sets or select one for ingestion"
+    echo "  --help, -h      Show this help"
+    echo ""
+    echo "To add more papers to an existing bundle, see examples/medlit/INGESTION.md"
+}
 
-# five papers
-# PAPER="PMC12757875.xml,PMC12784210.xml,PMC12784773.xml,PMC12788344.xml,PMC12780394.xml"
+_show_lists() {
+    echo "Available paper lists:"
+    echo ""
+    for name in short medium five ten ten-hpylori twenty cushing cushing-6 adrenal misc smorgasbord; do
+        raw=$(_get_list "$name")
+        [ -z "$raw" ] && continue
+        desc="${raw%%|*}"
+        rest="${raw#*|}"
+        count=$(echo "$rest" | tr ',' '\n' | wc -l)
+        echo "  $name  ($count papers)  $desc"
+    done
+    echo ""
+    echo "Usage: ./run-ingest.sh --list <name>"
+}
 
-# ten papers
-# PAPER="PMC12757875.xml,PMC12784210.xml,PMC12784773.xml,PMC12788344.xml,PMC12780394.xml,PMC12757429.xml,PMC12784249.xml,PMC12764803.xml,PMC12783088.xml,PMC12775561.xml"
+# -----------------------------------------------------------------------------
+# Parse args
+# -----------------------------------------------------------------------------
+LIST_NAME=""
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --help|-h)
+            _show_help
+            exit 0
+            ;;
+        --list)
+            if [[ -n "${2:-}" && "$2" != --* ]]; then
+                LIST_NAME="$2"
+                shift 2
+            else
+                _show_lists
+                exit 0
+            fi
+            ;;
+        *) shift ;;
+    esac
+done
 
-# twenty papers
-# PAPER="PMC12757875.xml,PMC12784210.xml,PMC12784773.xml,PMC12788344.xml,PMC12780394.xml,PMC12757429.xml,PMC12784249.xml,PMC12764803.xml,PMC12783088.xml,PMC12775561.xml,PMC12766194.xml,PMC12750049.xml,PMC12758042.xml,PMC12780067.xml,PMC12785246.xml,PMC12785631.xml,PMC12753587.xml,PMC12754092.xml,PMC12764813.xml,PMC5487382.xml"
+if [[ -z "$LIST_NAME" ]]; then
+  echo "Error: must specify --list <name> to choose a paper list." >&2
+  echo "Run './run-ingest.sh --help' or './run-ingest.sh --list' for usage." >&2
+  exit 1
+fi
 
-# Endocrinology/Cushing's papers
-# PAPER="PMC11560769.xml,PMC11779774.xml,PMC11548364.xml,PMC2386281.xml,PMC12187266.xml,PMC4374115.xml,PMC11128938.xml,PMC11685751.xml,PMC12035109.xml,PMC12055610.xml"
+raw=$(_get_list "$LIST_NAME")
+if [[ -z "$raw" ]]; then
+  echo "Error: unknown list '$LIST_NAME'." >&2
+  echo "Run './run-ingest.sh --list' to see available lists." >&2
+  exit 1
+fi
 
-# For reference, here's what each one is:
-
-# | PMC ID | Title / Topic | Year |
-# |---|---|---|
-# | PMC11560769 | Editorial: Insights in Cushing's Syndrome and Disease, Vol. II | 2024 |
-# | PMC11779774 | Medical management pathways for Cushing's disease in pituitary tumor centers | 2025 |
-# | PMC11548364 | New Trends in Treating Cushing's Disease (novel therapeutics review) | 2024 |
-# | PMC2386281 | Diagnosis of Cushing's Syndrome — Endocrine Society Clinical Practice Guideline | 2008 |
-# | PMC12187266 | Diagnosis of Cushing's syndrome with generalized linear model + mobile app | 2025 |
-# | PMC4374115 | Comorbidities in Cushing's disease (cardiovascular, metabolic, QoL) | 2015 |
-# | PMC11128938 | ACTH-dependent Cushing syndrome: desmopressin / petrosal sinus case report | 2024 |
-# | PMC11685751 | Pheochromocytoma-induced pseudo-Cushing's syndrome (differential diagnosis) | 2024 |
-# | PMC12035109 | Cognitive function and risk factors from prolonged cortisol exposure in CD | 2025 |
-# | PMC12055610 | Osilodrostat for Cushing syndrome (new steroidogenesis inhibitor) | 2025 |
-# PAPER="PMC11560769.xml,PMC11779774.xml,PMC11548364.xml,PMC2386281.xml,PMC12187266.xml,PMC4374115.xml,PMC11128938.xml,PMC11685751.xml,PMC12035109.xml,PMC12055610.xml"
-# PAPER="PMC11560769.xml,PMC11779774.xml,PMC11548364.xml,PMC2386281.xml,PMC12187266.xml"
-
-# Good topical spread — covers diagnosis, medical management, novel drugs, comorbidities, cognitive effects, edge cases (pregnancy, pseudo-Cushing's), and the classic guideline paper. All are open-access CC-licensed, so XML should be available via the PMC OA FTP or API.
-
-# adrenal stuff
-# PAPER="PMC10667925.xml,PMC4880116.xml,PMC11795198.xml"
-# other stuff
-# PAPER="PMC6727998.xml,PMC4192497.xml,PMC4480270.xml,PMC3607291.xml,PMC4398279.xml,PMC5579818.xml"
-
-# smorgasbord, 40 papers across oncology and endocrinology
-PAPER="PMC10667925.xml,PMC11128938.xml,PMC11548364.xml,PMC11560769.xml,PMC11685751.xml,PMC11779774.xml,PMC11795198.xml,PMC12035109.xml,PMC12055610.xml,PMC12187266.xml,PMC12750049.xml,PMC12753587.xml,PMC12754092.xml,PMC12757429.xml,PMC12757875.xml,PMC12758042.xml,PMC12764803.xml,PMC12764813.xml,PMC12766194.xml,PMC12775561.xml,PMC12780067.xml,PMC12780394.xml,PMC12783088.xml,PMC12784210.xml,PMC12784249.xml,PMC12784773.xml,PMC12785246.xml,PMC12785631.xml,PMC12788344.xml,PMC2386281.xml,PMC3607291.xml,PMC4192497.xml,PMC4374115.xml,PMC4398279.xml,PMC4480270.xml,PMC4880116.xml,PMC5487382.xml,PMC5579818.xml,PMC6727998.xml"
+PAPER="${raw#*|}"
+echo "Using list: $LIST_NAME (${raw%%|*})"
 
 (
-cd examples/medlit/pmc_xmls
-for PMC in $(echo $PAPER | tr ',' '\n' | sed 's/\.xml//'); do
-    [ -f "${PMC}.xml" ] && continue
-    curl -o "${PMC}.xml" \
-      "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=${PMC}&rettype=xml&retmode=xml"
-    sleep 0.5
-done
+    cd examples/medlit/pmc_xmls
+    for PMC in $(echo $PAPER | tr ',' '\n' | sed 's/\.xml//'); do
+        [ -f "${PMC}.xml" ] && continue
+        curl -o "${PMC}.xml" \
+            "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=${PMC}&rettype=xml&retmode=xml"
+        sleep 0.5
+    done
 )
 
 # DEBUG=
