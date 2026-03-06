@@ -1,7 +1,7 @@
 {
   "paper": {
     "doi": null,
-    "pmcid": "PMC_ID_NOT_PROVIDED",
+    "pmcid": "PMC12775561",
     "title": "Comparative Analysis of a Dual DNA\u2013RNA Panel and a DNA\u2010Only Panel for Sarcoma: Real\u2010World Data From a Nationwide Genomic Database",
     "authors": [
       "Eiji Nakata",
@@ -18,16 +18,22 @@
     ],
     "journal": "Not specified",
     "year": 2024,
-    "study_type": "Retrospective cohort study",
-    "eco_type": "Real-world evidence study"
+    "study_type": "Comparative study",
+    "eco_type": "Real-world data analysis",
+    "study_design": {
+      "study_type": "observational",
+      "sample_size": 1046,
+      "multicenter": true,
+      "held_out_validation": false
+    }
   },
   "extraction_provenance": {
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "b4ddd4fee7e6056c93308dfd6af694cb89c55d54",
-      "git_commit_short": "b4ddd4f",
-      "git_branch": "main",
+      "git_commit": "cc7296cfb7ac0b8c46521b1025d09f48ee58a932",
+      "git_commit_short": "cc7296c",
+      "git_branch": "J",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
     },
@@ -40,40 +46,26 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:636cfb5225c19b3d"
+      "checksum": "sha256:68a17ebae6a9d50c",
+      "schema_version": "a71e3d07"
     },
     "execution": {
-      "timestamp": "2026-03-06T16:23:00.830535Z",
+      "timestamp": "2026-03-09T14:49:18.032346Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 85.44
+      "duration_seconds": 75.53
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "sarcoma",
-      "class": "Disease",
-      "name": "sarcoma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "genmine_top",
+      "id": "E1",
       "class": "Procedure",
       "name": "GenMine TOP Cancer Genome Profiling System",
       "synonyms": [
         "GenMineTOP",
-        "GenMine TOP"
+        "dual DNA-RNA panel"
       ],
       "symbol": null,
       "brand_names": [],
@@ -86,11 +78,12 @@
       "uniprot_id": null
     },
     {
-      "id": "foundationone_cdx",
+      "id": "E2",
       "class": "Procedure",
       "name": "FoundationOne CDx",
       "synonyms": [
-        "F1CDx"
+        "F1CDx",
+        "DNA-only panel"
       ],
       "symbol": null,
       "brand_names": [],
@@ -103,45 +96,11 @@
       "uniprot_id": null
     },
     {
-      "id": "fusion_genes",
-      "class": "Biomarker",
-      "name": "fusion genes",
-      "synonyms": [
-        "gene fusions"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "kinase_fusions",
-      "class": "Biomarker",
-      "name": "therapeutically targetable kinase fusions",
-      "synonyms": [
-        "kinase fusions"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "translocation_related_sarcomas",
+      "id": "E3",
       "class": "Disease",
-      "name": "translocation-related sarcomas",
+      "name": "sarcoma",
       "synonyms": [
-        "TRS"
+        "sarcomas"
       ],
       "symbol": null,
       "brand_names": [],
@@ -154,9 +113,54 @@
       "uniprot_id": null
     },
     {
-      "id": "histology_specific_fusion_genes",
-      "class": "Biomarker",
-      "name": "histology-specific fusion genes",
+      "id": "E4",
+      "class": "Gene",
+      "name": "EWSR1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:3508",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E5",
+      "class": "Gene",
+      "name": "FLI1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:3749",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E6",
+      "class": "Gene",
+      "name": "SYT",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11541",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E7",
+      "class": "Gene",
+      "name": "SSX",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -169,101 +173,22 @@
       "uniprot_id": null
     },
     {
-      "id": "germline_pathogenic_variants",
-      "class": "Biomarker",
-      "name": "germline pathogenic variants",
-      "synonyms": [
-        "GPVs"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "genotype_matched_therapy",
-      "class": "Procedure",
-      "name": "genotype-matched therapy",
-      "synonyms": [
-        "genomically matched therapy"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "molecular_targeted_therapy",
-      "class": "Procedure",
-      "name": "molecular targeted therapy",
+      "id": "E8",
+      "class": "Gene",
+      "name": "MDM2",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": null,
+      "hgnc_id": "HGNC:6973",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "ewsr1_fli1",
-      "class": "Biomarker",
-      "name": "EWSR1::FLI1 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "syt_ssx",
-      "class": "Biomarker",
-      "name": "SYT::SSX fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "mdm2_amplification",
-      "class": "Biomarker",
-      "name": "MDM2 amplification",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ewing_sarcoma",
+      "id": "E9",
       "class": "Disease",
       "name": "Ewing sarcoma",
       "synonyms": [
@@ -280,7 +205,7 @@
       "uniprot_id": null
     },
     {
-      "id": "synovial_sarcoma",
+      "id": "E10",
       "class": "Disease",
       "name": "synovial sarcoma",
       "synonyms": [
@@ -297,7 +222,7 @@
       "uniprot_id": null
     },
     {
-      "id": "dedifferentiated_liposarcoma",
+      "id": "E11",
       "class": "Disease",
       "name": "dedifferentiated liposarcoma",
       "synonyms": [
@@ -314,11 +239,11 @@
       "uniprot_id": null
     },
     {
-      "id": "uterine_leiomyosarcoma",
-      "class": "Disease",
-      "name": "uterine leiomyosarcoma",
+      "id": "E12",
+      "class": "Biomarker",
+      "name": "fusion genes",
       "synonyms": [
-        "ULMS"
+        "gene fusions"
       ],
       "symbol": null,
       "brand_names": [],
@@ -331,11 +256,11 @@
       "uniprot_id": null
     },
     {
-      "id": "leiomyosarcoma",
-      "class": "Disease",
-      "name": "leiomyosarcoma",
+      "id": "E13",
+      "class": "Biomarker",
+      "name": "kinase fusions",
       "synonyms": [
-        "LMS"
+        "therapeutically targetable kinase fusions"
       ],
       "symbol": null,
       "brand_names": [],
@@ -348,11 +273,11 @@
       "uniprot_id": null
     },
     {
-      "id": "osteosarcoma",
-      "class": "Disease",
-      "name": "osteosarcoma",
+      "id": "E14",
+      "class": "Biomarker",
+      "name": "germline pathogenic variants",
       "synonyms": [
-        "OS"
+        "GPVs"
       ],
       "symbol": null,
       "brand_names": [],
@@ -365,26 +290,11 @@
       "uniprot_id": null
     },
     {
-      "id": "chondrosarcoma",
-      "class": "Disease",
-      "name": "chondrosarcoma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "soft_tissue_sarcoma",
-      "class": "Disease",
-      "name": "soft tissue sarcoma",
+      "id": "E15",
+      "class": "Institution",
+      "name": "Center for Cancer Genomics and Advanced Therapeutics",
       "synonyms": [
-        "STS"
+        "C-CAT"
       ],
       "symbol": null,
       "brand_names": [],
@@ -397,10 +307,12 @@
       "uniprot_id": null
     },
     {
-      "id": "bone_sarcoma",
-      "class": "Disease",
-      "name": "bone sarcoma",
-      "synonyms": [],
+      "id": "E16",
+      "class": "Procedure",
+      "name": "next-generation sequencing",
+      "synonyms": [
+        "NGS"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -412,7 +324,24 @@
       "uniprot_id": null
     },
     {
-      "id": "tp53",
+      "id": "E17",
+      "class": "Procedure",
+      "name": "cancer genomic profiling",
+      "synonyms": [
+        "CGP"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E18",
       "class": "Gene",
       "name": "TP53",
       "synonyms": [],
@@ -427,7 +356,7 @@
       "uniprot_id": null
     },
     {
-      "id": "kit",
+      "id": "E19",
       "class": "Gene",
       "name": "KIT",
       "synonyms": [],
@@ -442,7 +371,7 @@
       "uniprot_id": null
     },
     {
-      "id": "rb1",
+      "id": "E20",
       "class": "Gene",
       "name": "RB1",
       "synonyms": [],
@@ -457,129 +386,9 @@
       "uniprot_id": null
     },
     {
-      "id": "tert",
+      "id": "E21",
       "class": "Gene",
-      "name": "TERT",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:11730",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "nf1",
-      "class": "Gene",
-      "name": "NF1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:7765",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pik3ca",
-      "class": "Gene",
-      "name": "PIK3CA",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:8975",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cdk4",
-      "class": "Gene",
-      "name": "CDK4",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1773",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "mdm2",
-      "class": "Gene",
-      "name": "MDM2",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:6973",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ccnd3",
-      "class": "Gene",
-      "name": "CCND3",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1585",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cdkn2a",
-      "class": "Gene",
-      "name": "CDKN2A",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1787",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cdkn2b",
-      "class": "Gene",
-      "name": "CDKN2B",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1788",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ntrk_fusions",
-      "class": "Biomarker",
-      "name": "NTRK fusions",
+      "name": "NTRK",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -592,9 +401,9 @@
       "uniprot_id": null
     },
     {
-      "id": "fgfr_fusions",
-      "class": "Biomarker",
-      "name": "FGFR fusions",
+      "id": "E22",
+      "class": "Gene",
+      "name": "FGFR",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -607,9 +416,39 @@
       "uniprot_id": null
     },
     {
-      "id": "braf_fusions",
-      "class": "Biomarker",
-      "name": "BRAF fusions",
+      "id": "E23",
+      "class": "Gene",
+      "name": "ALK",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:427",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E24",
+      "class": "Gene",
+      "name": "BRAF",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1097",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E25",
+      "class": "Drug",
+      "name": "larotrectinib",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -617,14 +456,14 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": null,
+      "rxnorm_id": "2058257",
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "raf1_fusions",
-      "class": "Biomarker",
-      "name": "RAF1 fusions",
+      "id": "E26",
+      "class": "Drug",
+      "name": "crizotinib",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -632,72 +471,12 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": null,
+      "rxnorm_id": "1148618",
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "alk_fusions",
-      "class": "Biomarker",
-      "name": "ALK fusions",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ret_fusions",
-      "class": "Biomarker",
-      "name": "RET fusions",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ros1_fusions",
-      "class": "Biomarker",
-      "name": "ROS1 fusions",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "egfr_fusions",
-      "class": "Biomarker",
-      "name": "EGFR fusions",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pazopanib",
+      "id": "E27",
       "class": "Drug",
       "name": "pazopanib",
       "synonyms": [],
@@ -712,22 +491,7 @@
       "uniprot_id": null
     },
     {
-      "id": "larotrectinib",
-      "class": "Drug",
-      "name": "larotrectinib",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "2103189",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pembrolizumab",
+      "id": "E28",
       "class": "Drug",
       "name": "pembrolizumab",
       "synonyms": [],
@@ -742,364 +506,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entrectinib",
-      "class": "Drug",
-      "name": "entrectinib",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "2378234",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "imatinib",
-      "class": "Drug",
-      "name": "imatinib",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "282388",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "doxorubicin",
-      "class": "Drug",
-      "name": "doxorubicin",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "3639",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "brca1",
-      "class": "Gene",
-      "name": "BRCA1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1100",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "brca2",
-      "class": "Gene",
-      "name": "BRCA2",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1101",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pms2",
-      "class": "Gene",
-      "name": "PMS2",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:9122",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "col1a1_pdgfb",
-      "class": "Biomarker",
-      "name": "COL1A1::PDGFB fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cic_dux4",
-      "class": "Biomarker",
-      "name": "CIC::DUX4 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "nr4a3_ewsr1",
-      "class": "Biomarker",
-      "name": "NR4A3::EWSR1 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "eml4_ntrk3",
-      "class": "Biomarker",
-      "name": "EML4::NTRK3 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "bcor_ccnb3",
-      "class": "Biomarker",
-      "name": "BCOR::CCNB3 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ewsr1_ssx1",
-      "class": "Biomarker",
-      "name": "EWSR1::SSX1 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pax3_foxo1",
-      "class": "Biomarker",
-      "name": "PAX3::FOXO1 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "aspscr1_tfe3",
-      "class": "Biomarker",
-      "name": "ASPSCR1::TFE3 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "fibrosarcoma",
-      "class": "Disease",
-      "name": "fibrosarcoma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "dermatofibrosarcoma_protuberans",
-      "class": "Disease",
-      "name": "dermatofibrosarcoma protuberans",
-      "synonyms": [
-        "DFSP"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cic_rearranged_sarcoma",
-      "class": "Disease",
-      "name": "CIC-rearranged sarcoma",
-      "synonyms": [
-        "CIC"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "extraskeletal_myxoid_chondrosarcoma",
-      "class": "Disease",
-      "name": "extraskeletal myxoid chondrosarcoma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ntrk_rearranged_spindle_cell_neoplasm",
-      "class": "Disease",
-      "name": "NTRK-rearranged spindle cell neoplasm",
-      "synonyms": [
-        "NTRK"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "sarcoma_with_bcor_genetic_alterations",
-      "class": "Disease",
-      "name": "sarcoma with BCOR genetic alterations",
-      "synonyms": [
-        "BCOR"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "alveolar_rhabdomyosarcoma",
-      "class": "Disease",
-      "name": "alveolar rhabdomyosarcoma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "gastrointestinal_stromal_tumor",
-      "class": "Disease",
-      "name": "gastrointestinal stromal tumor",
-      "synonyms": [
-        "GIST"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "overall_survival",
-      "class": "Biomarker",
-      "name": "overall survival",
-      "synonyms": [
-        "OS"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "tumor_mutation_burden",
+      "id": "E29",
       "class": "Biomarker",
       "name": "tumor mutation burden",
       "synonyms": [
@@ -1116,7 +523,7 @@
       "uniprot_id": null
     },
     {
-      "id": "microsatellite_instability",
+      "id": "E30",
       "class": "Biomarker",
       "name": "microsatellite instability",
       "synonyms": [
@@ -1133,11 +540,11 @@
       "uniprot_id": null
     },
     {
-      "id": "single_nucleotide_variants",
-      "class": "Biomarker",
-      "name": "single nucleotide variants",
+      "id": "E31",
+      "class": "Disease",
+      "name": "translocation-related sarcomas",
       "synonyms": [
-        "SNV"
+        "TRS"
       ],
       "symbol": null,
       "brand_names": [],
@@ -1150,11 +557,11 @@
       "uniprot_id": null
     },
     {
-      "id": "copy_number_variations",
-      "class": "Biomarker",
-      "name": "copy number variations",
+      "id": "E32",
+      "class": "Disease",
+      "name": "uterine leiomyosarcoma",
       "synonyms": [
-        "CNV"
+        "ULMS"
       ],
       "symbol": null,
       "brand_names": [],
@@ -1167,11 +574,259 @@
       "uniprot_id": null
     },
     {
-      "id": "insertions_deletions",
-      "class": "Biomarker",
-      "name": "insertions/deletions",
+      "id": "E33",
+      "class": "Disease",
+      "name": "leiomyosarcoma",
       "synonyms": [
-        "indels"
+        "LMS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E34",
+      "class": "Disease",
+      "name": "osteosarcoma",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E35",
+      "class": "Disease",
+      "name": "chondrosarcoma",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E36",
+      "class": "Gene",
+      "name": "COL1A1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:2197",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E37",
+      "class": "Gene",
+      "name": "PDGFB",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:8800",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E38",
+      "class": "Disease",
+      "name": "dermatofibrosarcoma protuberans",
+      "synonyms": [
+        "DFSP"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E39",
+      "class": "Gene",
+      "name": "CIC",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:14214",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E40",
+      "class": "Gene",
+      "name": "DUX4",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:50800",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E41",
+      "class": "Disease",
+      "name": "CIC-rearranged sarcoma",
+      "synonyms": [
+        "CIC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E42",
+      "class": "Gene",
+      "name": "BRCA1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1100",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E43",
+      "class": "Gene",
+      "name": "BRCA2",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1101",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E44",
+      "class": "Gene",
+      "name": "NF1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:7765",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E45",
+      "class": "Disease",
+      "name": "Li-Fraumeni syndrome",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E46",
+      "class": "Disease",
+      "name": "neurofibromatosis type 1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E47",
+      "class": "Drug",
+      "name": "PARP inhibitors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E48",
+      "class": "Procedure",
+      "name": "genotype-matched therapy",
+      "synonyms": [
+        "genomically matched therapy"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E49",
+      "class": "Biomarker",
+      "name": "overall survival",
+      "synonyms": [
+        "OS"
       ],
       "symbol": null,
       "brand_names": [],
@@ -1186,154 +841,110 @@
   ],
   "evidence_entities": [
     {
-      "id": "paper_id:results:1:llm",
+      "id": "PMC_ID_NOT_PROVIDED:abstract:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "results_1",
+      "paper_id": "PMC_ID_NOT_PROVIDED",
+      "text_span_id": "abstract_1",
       "text": "The dual DNA\u2013RNA test identified significantly more fusion genes (20.3% vs. 7.4%, p < 0.001) and therapeutically targetable kinase fusions (3.5% vs. 1.2%, p = 0.019) than the DNA\u2010only test.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "Retrospective cohort study",
-      "eco_type": "Real-world evidence study",
+      "study_type": "Comparative study",
+      "eco_type": "Real-world data analysis",
       "source": "extracted"
     },
     {
-      "id": "paper_id:results:2:llm",
+      "id": "PMC_ID_NOT_PROVIDED:abstract:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "results_2",
+      "paper_id": "PMC_ID_NOT_PROVIDED",
+      "text_span_id": "abstract_2",
       "text": "Among patients with translocation\u2010related sarcomas, histology\u2010specific fusion genes were identified in 77.5% using the dual panel, compared to 40.0% with the DNA\u2010only panel (p < 0.001).",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "Retrospective cohort study",
-      "eco_type": "Real-world evidence study",
+      "study_type": "Comparative study",
+      "eco_type": "Real-world data analysis",
       "source": "extracted"
     },
     {
-      "id": "paper_id:results:3:llm",
+      "id": "PMC_ID_NOT_PROVIDED:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_ID_NOT_PROVIDED",
+      "text_span_id": "results_1",
+      "text": "Potentially therapeutically targetable kinase fusions were found in 21 patients (2.0%). These included six cases each of NTRK and FGFR fusions, two cases each of BRAF, RAF1, and ALK fusions, and one case each of RET, ROS1, and EGFR fusions.",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "Comparative study",
+      "eco_type": "Real-world data analysis",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_ID_NOT_PROVIDED:results:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_ID_NOT_PROVIDED",
+      "text_span_id": "results_2",
+      "text": "GPVs were detected in 21 patients (5.7%) using the tumor\u2013normal matched GenMineTOP panel. The affected genes included TP53, NF1, BRCA2, and PMS2.",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "Comparative study",
+      "eco_type": "Real-world data analysis",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_ID_NOT_PROVIDED:results:3:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_ID_NOT_PROVIDED",
       "text_span_id": "results_3",
-      "text": "In non\u2010gastrointestinal stromal tumor sarcomas, the dual test showed a trend toward higher rates of genotype\u2010matched therapy (4.3% vs. 2.6%, p = 0.25) and a significantly higher rate of molecular targeted therapy (4.3% vs. 1.5%, p = 0.03).",
+      "text": "Molecular targeted therapy was administered more frequently in the GenMineTOP group (10 of 231 patients, 4.3%) than in the F1CDx group (7 of 464 patients, 1.5%) (p = 0.03).",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "Retrospective cohort study",
-      "eco_type": "Real-world evidence study",
-      "source": "extracted"
-    },
-    {
-      "id": "paper_id:results:4:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "results_4",
-      "text": "Additionally, 5.7% of patients had pathogenic germline variants identified through tumor\u2013normal matched analysis.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "Retrospective cohort study",
-      "eco_type": "Real-world evidence study",
-      "source": "extracted"
-    },
-    {
-      "id": "paper_id:results:5:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "results_5",
-      "text": "Genotype\u2010matched therapy was administered to 22 patients (3.2%), including 12 of 464 patients (2.6%) in the F1CDx group and 10 of 231 patients (4.3%) in the GenMineTOP group (p = 0.25).",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "Retrospective cohort study",
-      "eco_type": "Real-world evidence study",
+      "study_type": "Comparative study",
+      "eco_type": "Real-world data analysis",
       "source": "extracted"
     }
   ],
   "relationships": [
     {
-      "subject": "genmine_top",
-      "predicate": "DETECTS_MORE_THAN",
-      "object": "foundationone_cdx",
+      "subject": "E1",
+      "predicate": "SUPERIOR_TO",
+      "object": "E2",
       "evidence_ids": [
-        "paper_id:results:1:llm"
+        "PMC_ID_NOT_PROVIDED:abstract:1:llm",
+        "PMC_ID_NOT_PROVIDED:abstract:2:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
       ],
       "confidence": 0.95,
+      "linguistic_trust": "asserted",
       "properties": {
-        "comparison_metric": "fusion gene detection rate",
-        "genmine_rate": "20.3%",
-        "f1cdx_rate": "7.4%",
-        "p_value": "< 0.001"
+        "detection_rate_fusion_genes": "20.3% vs 7.4%",
+        "detection_rate_kinase_fusions": "3.5% vs 1.2%"
       },
-      "section": "results",
+      "section": "abstract",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "genmine_top",
-      "predicate": "DETECTS_MORE_THAN",
-      "object": "foundationone_cdx",
+      "subject": "E4",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "E5",
       "evidence_ids": [
-        "paper_id:results:1:llm"
+        "PMC_ID_NOT_PROVIDED:results:1:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "comparison_metric": "therapeutically targetable kinase fusions",
-        "genmine_rate": "3.5%",
-        "f1cdx_rate": "1.2%",
-        "p_value": "0.019"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "genmine_top",
-      "predicate": "DETECTS_MORE_THAN",
-      "object": "foundationone_cdx",
-      "evidence_ids": [
-        "paper_id:results:2:llm"
-      ],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.95,
-      "properties": {
-        "comparison_metric": "histology-specific fusion genes in TRS",
-        "genmine_rate": "77.5%",
-        "f1cdx_rate": "40.0%",
-        "p_value": "< 0.001"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "genmine_top",
-      "predicate": "ENABLES_MORE_THAN",
-      "object": "foundationone_cdx",
-      "evidence_ids": [
-        "paper_id:results:3:llm"
-      ],
-      "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
       ],
       "confidence": 0.9,
+      "linguistic_trust": "asserted",
       "properties": {
-        "comparison_metric": "molecular targeted therapy rate",
-        "genmine_rate": "4.3%",
-        "f1cdx_rate": "1.5%",
-        "p_value": "0.03"
+        "fusion_type": "EWSR1::FLI1"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -1341,16 +952,144 @@
       "note": null
     },
     {
-      "subject": "genmine_top",
-      "predicate": "IDENTIFIES",
-      "object": "germline_pathogenic_variants",
+      "subject": "E6",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "E7",
       "evidence_ids": [
-        "paper_id:results:4:llm"
+        "PMC_ID_NOT_PROVIDED:results:1:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "fusion_type": "SYT::SSX"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "E4",
+      "predicate": "INDICATES",
+      "object": "E9",
+      "evidence_ids": [
+        "PMC_ID_NOT_PROVIDED:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC_ID_NOT_PROVIDED"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "diagnostic_marker": "EWSR1::FLI1 fusion"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "E6",
+      "predicate": "INDICATES",
+      "object": "E10",
+      "evidence_ids": [
+        "PMC_ID_NOT_PROVIDED:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC_ID_NOT_PROVIDED"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "diagnostic_marker": "SYT::SSX fusion"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "E8",
+      "predicate": "INDICATES",
+      "object": "E11",
+      "evidence_ids": [
+        "PMC_ID_NOT_PROVIDED:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC_ID_NOT_PROVIDED"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "diagnostic_marker": "MDM2 amplification"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "E1",
+      "predicate": "INCREASES",
+      "object": "E12",
+      "evidence_ids": [
+        "PMC_ID_NOT_PROVIDED:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC_ID_NOT_PROVIDED"
       ],
       "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "detection_improvement": "20.3% vs 7.4%"
+      },
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "E1",
+      "predicate": "INCREASES",
+      "object": "E13",
+      "evidence_ids": [
+        "PMC_ID_NOT_PROVIDED:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC_ID_NOT_PROVIDED"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "detection_improvement": "3.5% vs 1.2%"
+      },
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "E1",
+      "predicate": "INCREASES",
+      "object": "E14",
+      "evidence_ids": [
+        "PMC_ID_NOT_PROVIDED:results:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC_ID_NOT_PROVIDED"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
       "properties": {
         "detection_rate": "5.7%"
       },
@@ -1360,86 +1099,20 @@
       "note": null
     },
     {
-      "subject": "ewsr1_fli1",
-      "predicate": "INDICATES",
-      "object": "ewing_sarcoma",
-      "evidence_ids": [
-        "paper_id:results:1:llm"
-      ],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "syt_ssx",
-      "predicate": "INDICATES",
-      "object": "synovial_sarcoma",
-      "evidence_ids": [
-        "paper_id:results:1:llm"
-      ],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "mdm2_amplification",
-      "predicate": "INDICATES",
-      "object": "dedifferentiated_liposarcoma",
-      "evidence_ids": [
-        "paper_id:results:1:llm"
-      ],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "col1a1_pdgfb",
-      "predicate": "INDICATES",
-      "object": "dermatofibrosarcoma_protuberans",
-      "evidence_ids": [
-        "paper_id:results:2:llm"
-      ],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.95,
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "imatinib",
+      "subject": "E25",
       "predicate": "TREATS",
-      "object": "dermatofibrosarcoma_protuberans",
+      "object": "E21",
       "evidence_ids": [
-        "paper_id:results:3:llm"
+        "PMC_ID_NOT_PROVIDED:results:3:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
       ],
       "confidence": 0.9,
+      "linguistic_trust": "asserted",
       "properties": {
-        "treatment_line": "first-line"
+        "target": "NTRK fusions"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -1447,153 +1120,210 @@
       "note": null
     },
     {
-      "subject": "doxorubicin",
+      "subject": "E26",
       "predicate": "TREATS",
-      "object": "fibrosarcoma",
+      "object": "E23",
       "evidence_ids": [
-        "paper_id:results:3:llm"
+        "PMC_ID_NOT_PROVIDED:results:3:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
       ],
       "confidence": 0.9,
-      "properties": {},
+      "linguistic_trust": "asserted",
+      "properties": {
+        "target": "ALK fusions"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "larotrectinib",
+      "subject": "E47",
       "predicate": "TREATS",
-      "object": "ntrk_fusions",
+      "object": "E42",
       "evidence_ids": [
-        "paper_id:results:5:llm"
+        "PMC_ID_NOT_PROVIDED:results:2:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
       ],
       "confidence": 0.9,
-      "properties": {},
+      "linguistic_trust": "asserted",
+      "properties": {
+        "mechanism": "homologous recombination deficiency"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entrectinib",
+      "subject": "E47",
       "predicate": "TREATS",
-      "object": "ntrk_fusions",
+      "object": "E43",
       "evidence_ids": [
-        "paper_id:results:5:llm"
+        "PMC_ID_NOT_PROVIDED:results:2:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
       ],
       "confidence": 0.9,
-      "properties": {},
+      "linguistic_trust": "asserted",
+      "properties": {
+        "mechanism": "homologous recombination deficiency"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "crizotinib",
-      "predicate": "TREATS",
-      "object": "alk_fusions",
+      "subject": "E18",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "E45",
       "evidence_ids": [
-        "paper_id:results:5:llm"
+        "PMC_ID_NOT_PROVIDED:results:2:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
       ],
       "confidence": 0.9,
-      "properties": {},
+      "linguistic_trust": "asserted",
+      "properties": {
+        "syndrome_association": "germline TP53 mutations"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "alectinib",
-      "predicate": "TREATS",
-      "object": "alk_fusions",
+      "subject": "E44",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "E46",
       "evidence_ids": [
-        "paper_id:results:5:llm"
+        "PMC_ID_NOT_PROVIDED:results:2:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
       ],
       "confidence": 0.9,
-      "properties": {},
+      "linguistic_trust": "asserted",
+      "properties": {
+        "syndrome_association": "germline NF1 mutations"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "translocation_related_sarcomas",
-      "predicate": "SUBTYPE_OF",
-      "object": "sarcoma",
+      "subject": "E1",
+      "predicate": "INCREASES",
+      "object": "E48",
       "evidence_ids": [
-        "paper_id:results:2:llm"
+        "PMC_ID_NOT_PROVIDED:results:3:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
       ],
       "confidence": 0.95,
-      "properties": {},
+      "linguistic_trust": "asserted",
+      "properties": {
+        "therapy_rate": "4.3% vs 1.5%"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "ewing_sarcoma",
-      "predicate": "SUBTYPE_OF",
-      "object": "translocation_related_sarcomas",
+      "subject": "E36",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "E37",
       "evidence_ids": [
-        "paper_id:results:1:llm"
+        "PMC_ID_NOT_PROVIDED:results:1:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
       ],
-      "confidence": 0.95,
-      "properties": {},
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "fusion_type": "COL1A1::PDGFB"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "synovial_sarcoma",
-      "predicate": "SUBTYPE_OF",
-      "object": "translocation_related_sarcomas",
+      "subject": "E36",
+      "predicate": "INDICATES",
+      "object": "E38",
       "evidence_ids": [
-        "paper_id:results:1:llm"
+        "PMC_ID_NOT_PROVIDED:results:1:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
       ],
-      "confidence": 0.95,
-      "properties": {},
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "diagnostic_marker": "COL1A1::PDGFB fusion"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "dedifferentiated_liposarcoma",
-      "predicate": "SUBTYPE_OF",
-      "object": "sarcoma",
+      "subject": "E39",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "E40",
       "evidence_ids": [
-        "paper_id:results:1:llm"
+        "PMC_ID_NOT_PROVIDED:results:1:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC_ID_NOT_PROVIDED"
       ],
-      "confidence": 0.95,
-      "properties": {},
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "fusion_type": "CIC::DUX4"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "E39",
+      "predicate": "INDICATES",
+      "object": "E41",
+      "evidence_ids": [
+        "PMC_ID_NOT_PROVIDED:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC_ID_NOT_PROVIDED"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "diagnostic_marker": "CIC::DUX4 fusion"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1601,9 +1331,8 @@
     }
   ],
   "notes": [
-    "This study compares GenMine TOP (dual DNA-RNA panel) with FoundationOne CDx (DNA-only panel) for sarcoma genomic profiling",
-    "GenMine TOP showed superior performance in detecting fusion genes, particularly important for translocation-related sarcomas",
-    "The tumor-normal matched design of GenMine TOP enables identification of germline pathogenic variants",
-    "Study used real-world data from Japan's nationwide C-CAT database with 1046 patients"
+    "This study compares GenMine TOP (dual DNA-RNA panel) with FoundationOne CDx (DNA-only panel) for sarcoma genomic profiling using real-world data from Japan's nationwide C-CAT database.",
+    "The dual DNA-RNA panel showed superior performance in detecting fusion genes, particularly histology-specific fusions in translocation-related sarcomas.",
+    "Germline pathogenic variants were only detectable with the tumor-normal matched GenMine TOP panel, not with the tumor-only FoundationOne CDx panel."
   ]
 }

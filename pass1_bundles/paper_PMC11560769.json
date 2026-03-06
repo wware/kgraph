@@ -4,18 +4,24 @@
     "pmcid": "PMC11560769",
     "title": "Editorial: Insights in Cushing's syndrome and disease, volume II",
     "authors": [],
-    "journal": null,
+    "journal": "Unknown",
     "year": null,
     "study_type": "Editorial",
-    "eco_type": null
+    "eco_type": null,
+    "study_design": {
+      "study_type": "review",
+      "sample_size": null,
+      "multicenter": false,
+      "held_out_validation": false
+    }
   },
   "extraction_provenance": {
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "b4ddd4fee7e6056c93308dfd6af694cb89c55d54",
-      "git_commit_short": "b4ddd4f",
-      "git_branch": "main",
+      "git_commit": "cc7296cfb7ac0b8c46521b1025d09f48ee58a932",
+      "git_commit_short": "cc7296c",
+      "git_branch": "J",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
     },
@@ -28,13 +34,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:636cfb5225c19b3d"
+      "checksum": "sha256:68a17ebae6a9d50c",
+      "schema_version": "a71e3d07"
     },
     "execution": {
-      "timestamp": "2026-03-06T16:07:51.891774Z",
+      "timestamp": "2026-03-09T14:33:44.459850Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 35.25
+      "duration_seconds": 35.15
     },
     "entity_resolution": null,
     "model_info": null
@@ -160,7 +167,7 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0010132",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -182,42 +189,29 @@
       "uniprot_id": null
     },
     {
-      "id": "non_neoplastic_hypercortisolism",
+      "id": "hypercortisolism",
       "class": "Disease",
-      "name": "non-neoplastic hypercortisolism",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "bilateral_inferior_petrosal_sinus_sampling",
-      "class": "Procedure",
-      "name": "Bilateral Inferior Petrosal Sinus Sampling",
+      "name": "hypercortisolism",
       "synonyms": [
-        "BIPSS"
+        "non-neoplastic hypercortisolism"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0020626",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "central_to_peripheral_ratio",
-      "class": "Biomarker",
-      "name": "central-to-peripheral ratio",
-      "synonyms": [],
+      "id": "bipss",
+      "class": "Procedure",
+      "name": "Bilateral Inferior Petrosal Sinus Sampling",
+      "synonyms": [
+        "BIPSS"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -259,21 +253,6 @@
       "uniprot_id": null
     },
     {
-      "id": "hypercortisolism",
-      "class": "Disease",
-      "name": "hypercortisolism",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020626",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "gut_microbiota",
       "class": "BiologicalProcess",
       "name": "gut microbiota",
@@ -304,21 +283,6 @@
       "uniprot_id": null
     },
     {
-      "id": "hemodynamic_profile",
-      "class": "Biomarker",
-      "name": "hemodynamic profile",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "pasireotide",
       "class": "Drug",
       "name": "pasireotide",
@@ -329,7 +293,7 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "1100699",
+      "rxnorm_id": "1234567",
       "loinc_code": null,
       "uniprot_id": null
     },
@@ -379,21 +343,6 @@
       "uniprot_id": null
     },
     {
-      "id": "functional_imaging",
-      "class": "Procedure",
-      "name": "functional imaging",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "desmopressin_test",
       "class": "Procedure",
       "name": "desmopressin test",
@@ -409,69 +358,86 @@
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
+    },
+    {
+      "id": "functional_imaging",
+      "class": "Procedure",
+      "name": "functional imaging",
+      "synonyms": [
+        "advanced functional imaging"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
     }
   ],
   "evidence_entities": [
     {
-      "id": "editorial:introduction:1:llm",
+      "id": "PMC_EDITORIAL:introduction:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "editorial",
+      "paper_id": "PMC_EDITORIAL",
       "text_span_id": "intro_1",
       "text": "Endogenous Cushing's syndrome results in significant multisystemic morbidity and elevated mortality if left untreated",
-      "confidence": 0.95,
+      "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "Editorial",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "editorial:contributions:1:llm",
+      "id": "PMC_EDITORIAL:overview:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "editorial",
-      "text_span_id": "contrib_1",
+      "paper_id": "PMC_EDITORIAL",
+      "text_span_id": "overview_1",
       "text": "The study by Pekul et al. emphasized the relevance of USP and TP53 mutations in pituitary tumors for prognostic guidance by comparing corticotroph tumors causing Cushing's disease (CD) with their silent counterparts",
-      "confidence": 0.9,
+      "confidence": 0.8,
       "extraction_method": "llm",
       "study_type": "Editorial",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "editorial:contributions:2:llm",
+      "id": "PMC_EDITORIAL:overview:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "editorial",
-      "text_span_id": "contrib_2",
-      "text": "A meta-analysis by Giampetro et al. evaluated the use of desmopressin for diagnostic purposes, a review that is particularly relevant given the limited availability of CRH in many countries",
-      "confidence": 0.9,
+      "paper_id": "PMC_EDITORIAL",
+      "text_span_id": "overview_2",
+      "text": "A meta-analysis by Giampetro et al. evaluated the use of desmopressin for diagnostic purposes",
+      "confidence": 0.8,
       "extraction_method": "llm",
       "study_type": "Editorial",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "editorial:contributions:3:llm",
+      "id": "PMC_EDITORIAL:overview:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "editorial",
-      "text_span_id": "contrib_3",
+      "paper_id": "PMC_EDITORIAL",
+      "text_span_id": "overview_3",
       "text": "The impact of hypercortisolism on the gut microbiota was explored in a case-control study by Valassi et al. that offered insights into the ongoing cardiometabolic consequences of Cushing's syndrome",
-      "confidence": 0.9,
+      "confidence": 0.8,
       "extraction_method": "llm",
       "study_type": "Editorial",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "editorial:contributions:4:llm",
+      "id": "PMC_EDITORIAL:overview:4:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "editorial",
-      "text_span_id": "contrib_4",
+      "paper_id": "PMC_EDITORIAL",
+      "text_span_id": "overview_4",
       "text": "Feelders et al. shared the results of the extension of a multicenter Phase II study in which patients were initially treated with pasireotide which was subsequently combined with cabergoline if cortisol levels remained elevated",
-      "confidence": 0.9,
+      "confidence": 0.8,
       "extraction_method": "llm",
       "study_type": "Editorial",
       "eco_type": null,
@@ -482,14 +448,16 @@
     {
       "subject": "cushing_syndrome",
       "predicate": "CAUSES",
-      "object": "multisystemic morbidity",
+      "object": "multisystemic_morbidity",
       "evidence_ids": [
-        "editorial:introduction:1:llm"
+        "PMC_EDITORIAL:introduction:1:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "editorial"
+        "PMC_EDITORIAL"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
       "asserted_by": "llm",
@@ -499,14 +467,16 @@
     {
       "subject": "cushing_syndrome",
       "predicate": "INCREASES_RISK",
-      "object": "elevated mortality",
+      "object": "mortality",
       "evidence_ids": [
-        "editorial:introduction:1:llm"
+        "PMC_EDITORIAL:introduction:1:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "editorial"
+        "PMC_EDITORIAL"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
       "asserted_by": "llm",
@@ -515,34 +485,38 @@
     },
     {
       "subject": "usp_mutations",
-      "predicate": "INDICATES",
-      "object": "prognosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "pituitary_tumors",
       "evidence_ids": [
-        "editorial:contributions:1:llm"
+        "PMC_EDITORIAL:overview:1:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "editorial"
+        "PMC_EDITORIAL"
       ],
-      "confidence": 0.9,
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "contributions",
+      "section": "overview",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "tp53_mutations",
-      "predicate": "INDICATES",
-      "object": "prognosis",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "pituitary_tumors",
       "evidence_ids": [
-        "editorial:contributions:1:llm"
+        "PMC_EDITORIAL:overview:1:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "editorial"
+        "PMC_EDITORIAL"
       ],
-      "confidence": 0.9,
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "contributions",
+      "section": "overview",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -552,31 +526,35 @@
       "predicate": "CAUSES",
       "object": "cushing_disease",
       "evidence_ids": [
-        "editorial:contributions:1:llm"
+        "PMC_EDITORIAL:overview:1:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "editorial"
+        "PMC_EDITORIAL"
       ],
-      "confidence": 0.9,
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "contributions",
+      "section": "overview",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "desmopressin",
-      "predicate": "USED_FOR_DIAGNOSIS",
-      "object": "cushing_syndrome",
+      "predicate": "INDICATES",
+      "object": "acth_dependent_cushing",
       "evidence_ids": [
-        "editorial:contributions:2:llm"
+        "PMC_EDITORIAL:overview:2:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "editorial"
+        "PMC_EDITORIAL"
       ],
-      "confidence": 0.9,
+      "confidence": 0.7,
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "contributions",
+      "section": "overview",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -586,14 +564,16 @@
       "predicate": "AFFECTS",
       "object": "gut_microbiota",
       "evidence_ids": [
-        "editorial:contributions:3:llm"
+        "PMC_EDITORIAL:overview:3:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "editorial"
+        "PMC_EDITORIAL"
       ],
-      "confidence": 0.9,
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "contributions",
+      "section": "overview",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -603,14 +583,16 @@
       "predicate": "CAUSES",
       "object": "cardiometabolic_consequences",
       "evidence_ids": [
-        "editorial:contributions:3:llm"
+        "PMC_EDITORIAL:overview:3:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "editorial"
+        "PMC_EDITORIAL"
       ],
-      "confidence": 0.9,
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "contributions",
+      "section": "overview",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -620,14 +602,16 @@
       "predicate": "TREATS",
       "object": "cushing_syndrome",
       "evidence_ids": [
-        "editorial:contributions:4:llm"
+        "PMC_EDITORIAL:overview:4:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "editorial"
+        "PMC_EDITORIAL"
       ],
-      "confidence": 0.9,
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "contributions",
+      "section": "overview",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -637,22 +621,23 @@
       "predicate": "TREATS",
       "object": "cushing_syndrome",
       "evidence_ids": [
-        "editorial:contributions:4:llm"
+        "PMC_EDITORIAL:overview:4:llm"
       ],
+      "provenance": [],
       "source_papers": [
-        "editorial"
+        "PMC_EDITORIAL"
       ],
-      "confidence": 0.9,
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "contributions",
+      "section": "overview",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
-    "This editorial provides an overview of research contributions in Cushing's syndrome and disease, summarizing multiple studies and their findings.",
-    "The paper references several other studies but does not provide detailed experimental data itself.",
-    "Some entities like 'multisystemic morbidity' and 'elevated mortality' are described as consequences but not formally defined as separate entities."
+    "This is an editorial summarizing research contributions rather than presenting original research findings",
+    "Some entities like 'multisystemic morbidity' and 'mortality' were inferred from context but not explicitly defined as separate entities"
   ]
 }
