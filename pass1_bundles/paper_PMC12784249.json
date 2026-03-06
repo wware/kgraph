@@ -1,0 +1,722 @@
+{
+  "paper": {
+    "doi": null,
+    "pmcid": "PMC12784249",
+    "title": "Beyond synthetic lethality in large-scale metabolic and regulatory network models via genetic minimal intervention set",
+    "authors": [
+      "Barrena",
+      "Rodriguez-Flores",
+      "Olaverri-Mendizabal",
+      "Planes"
+    ],
+    "journal": "Bioinformatics Advances",
+    "year": 2024,
+    "study_type": "computational_study",
+    "eco_type": "computational_modeling"
+  },
+  "extraction_provenance": {
+    "extraction_pipeline": {
+      "name": "medlit_pass1_extract",
+      "version": "0.1.0",
+      "git_commit": "31365eb5934bbe6536faf50f0dc8b5a3aa6c9ea0",
+      "git_commit_short": "31365eb",
+      "git_branch": "main",
+      "git_dirty": true,
+      "repo_url": "https://github.com/org/medlit"
+    },
+    "models": {
+      "llm": {
+        "name": "claude-sonnet-4-20250514",
+        "version": ""
+      }
+    },
+    "prompt": {
+      "version": "v1",
+      "template": "medlit_extraction_v1",
+      "checksum": "sha256:044d6be2aac617eb"
+    },
+    "execution": {
+      "timestamp": "2026-03-06T22:09:23.827845Z",
+      "hostname": "unknown",
+      "python_version": "3.13.3",
+      "duration_seconds": 47.98
+    },
+    "entity_resolution": null,
+    "model_info": null
+  },
+  "entities": [
+    {
+      "id": "synthetic_lethality",
+      "class": "BiologicalProcess",
+      "name": "synthetic lethality",
+      "synonyms": [
+        "SL"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "synthetic_dosage_lethality",
+      "class": "BiologicalProcess",
+      "name": "synthetic dosage lethality",
+      "synonyms": [
+        "SDL"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "genetic_minimal_cut_set",
+      "class": "BiologicalProcess",
+      "name": "genetic Minimal Cut Set",
+      "synonyms": [
+        "gMCS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "genetic_minimal_intervention_set",
+      "class": "BiologicalProcess",
+      "name": "genetic Minimal Intervention Set",
+      "synonyms": [
+        "gMIS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "BRCA1",
+      "class": "Gene",
+      "name": "BRCA1",
+      "synonyms": [
+        "breast cancer 1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1100",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "BRCA2",
+      "class": "Gene",
+      "name": "BRCA2",
+      "synonyms": [
+        "breast cancer 2"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1101",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "PARP_inhibitors",
+      "class": "Drug",
+      "name": "PARP inhibitors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "EZH2",
+      "class": "Gene",
+      "name": "EZH2",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:3527",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "JUN",
+      "class": "Gene",
+      "name": "JUN",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:6204",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "RELA",
+      "class": "Gene",
+      "name": "RELA",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:9955",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "DUSP4",
+      "class": "Gene",
+      "name": "DUSP4",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:3071",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "GADD45B",
+      "class": "Gene",
+      "name": "GADD45B",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:4096",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "CDK5RAP3",
+      "class": "Gene",
+      "name": "CDK5RAP3",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1775",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "SHC1",
+      "class": "Gene",
+      "name": "SHC1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:10840",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "breast_cancer",
+      "class": "Disease",
+      "name": "breast cancer",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hematological_malignancies",
+      "class": "Disease",
+      "name": "hematological malignancies",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cellular_proliferation",
+      "class": "BiologicalProcess",
+      "name": "cellular proliferation",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gene_knockout",
+      "class": "Procedure",
+      "name": "gene knockout",
+      "synonyms": [
+        "gene knock-out"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gene_knockin",
+      "class": "Procedure",
+      "name": "gene knock-in",
+      "synonyms": [
+        "gene knockin"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "CRISPR_Cas9",
+      "class": "Procedure",
+      "name": "CRISPR-Cas9",
+      "synonyms": [
+        "CRISPR/Cas9"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tumor_suppressor_genes",
+      "class": "Gene",
+      "name": "tumor suppressor genes",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "essential_genes",
+      "class": "Gene",
+      "name": "essential genes",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "biomass_reaction",
+      "class": "BiologicalProcess",
+      "name": "biomass reaction",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "DepMap",
+      "class": "Institution",
+      "name": "The Cancer Dependency Map",
+      "synonyms": [
+        "DepMap"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "CCLE",
+      "class": "Institution",
+      "name": "Cancer Cell Line Encyclopedia",
+      "synonyms": [
+        "CCLE"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    }
+  ],
+  "evidence_entities": [
+    {
+      "id": "PMC11729044:abstract:0:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11729044",
+      "text_span_id": "abstract_0",
+      "text": "Synthetic lethality (SL) defines a type of genetic interaction where the co-occurrence of two (or more) genetic events results in cellular death, while the occurrence of either event on its own is compatible with cell viability",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "computational_study",
+      "eco_type": "computational_modeling",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11729044:introduction:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11729044",
+      "text_span_id": "introduction_1",
+      "text": "This strategy has driven the development of sophisticated targeted therapies in cancer, such as PARP inhibitors for patients with BRCA1- or BRCA2-mutated breast cancer",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "computational_study",
+      "eco_type": "computational_modeling",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11729044:introduction:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11729044",
+      "text_span_id": "introduction_2",
+      "text": "A promising related concept is synthetic dosage lethality (SDL), which defines a genetic interaction where the overexpression of a gene combined with the under-expression of a second gene leads to cellular death",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "computational_study",
+      "eco_type": "computational_modeling",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11729044:results:3:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11729044",
+      "text_span_id": "results_3",
+      "text": "Among different candidates, we identified the essentiality of EZH2 specifically in hematological cancer cell lines in all iMR models build on TRRUST. Interestingly, this gene has been previously identified as a drug target of different hematological tumors",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "computational_study",
+      "eco_type": "computational_modeling",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11729044:results:4:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11729044",
+      "text_span_id": "results_4",
+      "text": "Here, the lethality of EZH2 inhibition is mediated by the following gMIS: {EZH2\u2212, JUN\u2212, RELA+}, hypothesizing a higher impact in cellular proliferation when the expression of JUN is down-regulated and RELA is up-regulated",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "computational_study",
+      "eco_type": "computational_modeling",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11729044:results:5:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11729044",
+      "text_span_id": "results_5",
+      "text": "For illustration, consider the SDL interaction formed by the following two genes: {DUSP4+; GADD45B\u2212}, where the high expression of DUSP4 and the low expression of GADD45B inhibit cellular proliferation",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "computational_study",
+      "eco_type": "computational_modeling",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11729044:results:6:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11729044",
+      "text_span_id": "results_6",
+      "text": "We also examined the following tumor suppressor gene complex comprising two genes: {CDK5RAP3+; SHC1+}, where the high expression of both genes is required to block cellular proliferation",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "computational_study",
+      "eco_type": "computational_modeling",
+      "source": "extracted"
+    }
+  ],
+  "relationships": [
+    {
+      "subject": "PARP_inhibitors",
+      "predicate": "TREATS",
+      "object": "breast_cancer",
+      "evidence_ids": [
+        "PMC11729044:introduction:1:llm"
+      ],
+      "source_papers": [
+        "PMC11729044"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "context": "BRCA1- or BRCA2-mutated breast cancer"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "synthetic_lethality",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "cellular_proliferation",
+      "evidence_ids": [
+        "PMC11729044:abstract:0:llm"
+      ],
+      "source_papers": [
+        "PMC11729044"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "mechanism": "co-occurrence of genetic events results in cellular death"
+      },
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "synthetic_dosage_lethality",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "cellular_proliferation",
+      "evidence_ids": [
+        "PMC11729044:introduction:2:llm"
+      ],
+      "source_papers": [
+        "PMC11729044"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "mechanism": "overexpression of one gene combined with under-expression of second gene leads to cellular death"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "EZH2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "hematological_malignancies",
+      "evidence_ids": [
+        "PMC11729044:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC11729044"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "role": "drug target",
+        "context": "essential gene in hematological cancer cell lines"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "EZH2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "JUN",
+      "evidence_ids": [
+        "PMC11729044:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC11729044"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "interaction_type": "synthetic lethal interaction",
+        "mechanism": "gMIS: {EZH2\u2212, JUN\u2212, RELA+}"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "EZH2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "RELA",
+      "evidence_ids": [
+        "PMC11729044:results:4:llm"
+      ],
+      "source_papers": [
+        "PMC11729044"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "interaction_type": "synthetic lethal interaction",
+        "mechanism": "gMIS: {EZH2\u2212, JUN\u2212, RELA+}"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "DUSP4",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "GADD45B",
+      "evidence_ids": [
+        "PMC11729044:results:5:llm"
+      ],
+      "source_papers": [
+        "PMC11729044"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "interaction_type": "synthetic dosage lethality",
+        "mechanism": "high expression of DUSP4 and low expression of GADD45B inhibit cellular proliferation"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "CDK5RAP3",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "SHC1",
+      "evidence_ids": [
+        "PMC11729044:results:6:llm"
+      ],
+      "source_papers": [
+        "PMC11729044"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "interaction_type": "tumor suppressor gene complex",
+        "mechanism": "high expression of both genes required to block cellular proliferation"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "genetic_minimal_intervention_set",
+      "predicate": "SUBTYPE_OF",
+      "object": "genetic_minimal_cut_set",
+      "evidence_ids": [
+        "PMC11729044:abstract:0:llm"
+      ],
+      "source_papers": [
+        "PMC11729044"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "extension": "incorporates both gene knockouts and knock-ins"
+      },
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    }
+  ],
+  "notes": [
+    "This paper presents a computational method for identifying genetic interactions in cancer, extending beyond traditional synthetic lethality to include synthetic dosage lethality and tumor suppressor gene complexes.",
+    "The gMIS approach integrates metabolic and regulatory networks to predict lethal genetic interventions involving both gene knockouts and knock-ins.",
+    "Validation was performed using DepMap data and various cancer cell line databases."
+  ]
+}

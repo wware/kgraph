@@ -1,0 +1,924 @@
+{
+  "paper": {
+    "doi": null,
+    "pmcid": "PMC12187266",
+    "title": "Diagnosis of Cushing's syndrome with generalized linear model and development of mobile application",
+    "authors": [
+      "Mustafa Aydemir",
+      "Mustafa \u00c7akir",
+      "Okan Oral",
+      "Mesut Yilmaz"
+    ],
+    "journal": null,
+    "year": null,
+    "study_type": "retrospective cohort study",
+    "eco_type": null
+  },
+  "extraction_provenance": {
+    "extraction_pipeline": {
+      "name": "medlit_pass1_extract",
+      "version": "0.1.0",
+      "git_commit": "31365eb5934bbe6536faf50f0dc8b5a3aa6c9ea0",
+      "git_commit_short": "31365eb",
+      "git_branch": "main",
+      "git_dirty": true,
+      "repo_url": "https://github.com/org/medlit"
+    },
+    "models": {
+      "llm": {
+        "name": "claude-sonnet-4-20250514",
+        "version": ""
+      }
+    },
+    "prompt": {
+      "version": "v1",
+      "template": "medlit_extraction_v1",
+      "checksum": "sha256:044d6be2aac617eb"
+    },
+    "execution": {
+      "timestamp": "2026-03-06T21:56:20.769207Z",
+      "hostname": "unknown",
+      "python_version": "3.13.3",
+      "duration_seconds": 51.53
+    },
+    "entity_resolution": null,
+    "model_info": null
+  },
+  "entities": [
+    {
+      "id": "cushing_syndrome",
+      "class": "Disease",
+      "name": "Cushing syndrome",
+      "synonyms": [
+        "CS",
+        "Cushing's syndrome"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "glucocorticoids",
+      "class": "Hormone",
+      "name": "glucocorticoids",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cortisol",
+      "class": "Hormone",
+      "name": "cortisol",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "urinary_free_cortisol",
+      "class": "Biomarker",
+      "name": "urinary free cortisol",
+      "synonyms": [
+        "24-hour urine cortisol",
+        "ufc"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "dexamethasone_suppression_test",
+      "class": "Procedure",
+      "name": "dexamethasone suppression test",
+      "synonyms": [
+        "DST"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "nocturnal_salivary_cortisol",
+      "class": "Biomarker",
+      "name": "nocturnal salivary cortisol",
+      "synonyms": [
+        "night salivary cortisol",
+        "salivary cortisol"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "acth",
+      "class": "Hormone",
+      "name": "adrenocorticotropic hormone",
+      "synonyms": [
+        "ACTH",
+        "adrenocorticotrophic hormone",
+        "corticotropin"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pituitary_cushing",
+      "class": "Disease",
+      "name": "pituitary-induced Cushing",
+      "synonyms": [
+        "PC",
+        "Cushing disease",
+        "Cushing's disease"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "adrenal_cushing",
+      "class": "Disease",
+      "name": "adrenal Cushing",
+      "synonyms": [
+        "AC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ectopic_cushing",
+      "class": "Disease",
+      "name": "ectopic Cushing syndrome",
+      "synonyms": [
+        "EC",
+        "ectopic CS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "subclinical_cushing",
+      "class": "Disease",
+      "name": "subclinical Cushing syndrome",
+      "synonyms": [
+        "SC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "corticotropinoma",
+      "class": "Disease",
+      "name": "corticotropinoma",
+      "synonyms": [
+        "corticotroph pituitary adenoma"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "adrenal_adenoma",
+      "class": "Disease",
+      "name": "adrenal adenoma",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "nonfunctional_adrenal_adenoma",
+      "class": "Disease",
+      "name": "nonfunctional adrenal adenoma",
+      "synonyms": [
+        "NF"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "basal_cortisol",
+      "class": "Biomarker",
+      "name": "basal cortisol",
+      "synonyms": [
+        "bc"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "basal_acth",
+      "class": "Biomarker",
+      "name": "basal ACTH",
+      "synonyms": [
+        "bacth"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "midnight_cortisol",
+      "class": "Biomarker",
+      "name": "midnight cortisol",
+      "synonyms": [
+        "mc"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "1mg_dst",
+      "class": "Procedure",
+      "name": "1 mg dexamethasone suppression test",
+      "synonyms": [
+        "1 mg DST",
+        "mg1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "2mg_dst",
+      "class": "Procedure",
+      "name": "2 mg dexamethasone suppression test",
+      "synonyms": [
+        "2 mg DST",
+        "mg2"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "8mg_dst",
+      "class": "Procedure",
+      "name": "8 mg dexamethasone suppression test",
+      "synonyms": [
+        "8 mg DST",
+        "mg8"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "generalized_linear_model",
+      "class": "StatisticalMethod",
+      "name": "generalized linear model",
+      "synonyms": [
+        "GLM"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "machine_learning",
+      "class": "StatisticalMethod",
+      "name": "machine learning",
+      "synonyms": [
+        "ML"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mobile_application",
+      "class": "Procedure",
+      "name": "mobile application",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mit_app_inventor",
+      "class": "Procedure",
+      "name": "MIT App Inventor",
+      "synonyms": [
+        "App Inventor"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hypercortisolism",
+      "class": "Disease",
+      "name": "hypercortisolism",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "metabolic_syndrome",
+      "class": "Disease",
+      "name": "metabolic syndrome",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "high_blood_pressure",
+      "class": "Symptom",
+      "name": "high blood pressure",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "elevated_blood_sugar",
+      "class": "Symptom",
+      "name": "elevated blood sugar",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "excess_abdominal_fat",
+      "class": "Symptom",
+      "name": "excess abdominal fat",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "abnormal_cholesterol",
+      "class": "Symptom",
+      "name": "abnormal cholesterol",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "abnormal_triglyceride_levels",
+      "class": "Symptom",
+      "name": "abnormal triglyceride levels",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "bilateral_inferior_petrosal_sinus_sampling",
+      "class": "Procedure",
+      "name": "bilateral inferior petrosal sinus sampling",
+      "synonyms": [
+        "BIPSS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cyclical_cushing",
+      "class": "Disease",
+      "name": "cyclical Cushing syndrome",
+      "synonyms": [
+        "cyclical CS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    }
+  ],
+  "evidence_entities": [
+    {
+      "id": "paper:background:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": null,
+      "text": "Cushing syndrome (CS) is a rare endocrine disorder characterized by excessive secretion of glucocorticoids, leading to a variety of clinical manifestations, comorbidities, and increased mortality despite treatment.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "paper:results:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": null,
+      "text": "We developed a linear mathematical model with high predictive ability, achieving a classification accuracy of 97.03% and a Kappa value of 94.05%.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "paper:results:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": null,
+      "text": "The correlation graph shows that CS has strong positive relationships with 2 mg (78.8%), 1 mg (76.9%), and mc (72.1%), and moderate positive correlations with 8 mg (45%) and saliva (45.4%).",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "paper:methods:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": null,
+      "text": "Retrospective medical records of 498 patients (319 women and 179 men, with a mean age of 52.02 \u00b1 13.33 years) were used.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "paper:discussion:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper",
+      "text_span_id": null,
+      "text": "Features with more than 70% positive correlation with CS include 2 mg DST (78.8%), 1 mg DST (76.9%), and mc (72.1%), respectively. The most valuable biochemical test was found to be the 2 mg DST.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
+      "source": "extracted"
+    }
+  ],
+  "relationships": [
+    {
+      "subject": "cushing_syndrome",
+      "predicate": "CHARACTERIZED_BY",
+      "object": "glucocorticoids",
+      "evidence_ids": [
+        "paper:background:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "relationship_type": "excessive_secretion"
+      },
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "2mg_dst",
+      "predicate": "INDICATES",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "paper:results:2:llm",
+        "paper:discussion:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "correlation": "78.8%",
+        "strength": "strong_positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "1mg_dst",
+      "predicate": "INDICATES",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "paper:results:2:llm",
+        "paper:discussion:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "correlation": "76.9%",
+        "strength": "strong_positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "midnight_cortisol",
+      "predicate": "INDICATES",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "paper:results:2:llm",
+        "paper:discussion:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "correlation": "72.1%",
+        "strength": "strong_positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "8mg_dst",
+      "predicate": "INDICATES",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "paper:results:2:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.85,
+      "properties": {
+        "correlation": "45%",
+        "strength": "moderate_positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "nocturnal_salivary_cortisol",
+      "predicate": "INDICATES",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "paper:results:2:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.85,
+      "properties": {
+        "correlation": "45.4%",
+        "strength": "moderate_positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "generalized_linear_model",
+      "predicate": "PREDICTS",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "paper:results:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "accuracy": "97.03%",
+        "kappa": "94.05%"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pituitary_cushing",
+      "predicate": "SUBTYPE_OF",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "paper:background:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "frequency": "most_common"
+      },
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "adrenal_cushing",
+      "predicate": "SUBTYPE_OF",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "paper:background:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ectopic_cushing",
+      "predicate": "SUBTYPE_OF",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "paper:background:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "subclinical_cushing",
+      "predicate": "SUBTYPE_OF",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "paper:background:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "acth",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "pituitary_cushing",
+      "evidence_ids": [
+        "paper:background:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "relationship_type": "excessive_secretion"
+      },
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cushing_syndrome",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "metabolic_syndrome",
+      "evidence_ids": [
+        "paper:background:1:llm"
+      ],
+      "source_papers": [
+        "paper"
+      ],
+      "confidence": 0.85,
+      "properties": {
+        "relationship_type": "symptom_overlap"
+      },
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    }
+  ],
+  "notes": [
+    "This study developed a machine learning model using generalized linear models to diagnose Cushing syndrome with 97.03% accuracy",
+    "The 2 mg dexamethasone suppression test showed the strongest correlation (78.8%) with Cushing syndrome diagnosis",
+    "The model was implemented as a mobile application using MIT App Inventor for clinical decision support",
+    "Study included 498 patients from a single medical center with retrospective data from 2014-2023"
+  ]
+}

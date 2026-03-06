@@ -1,0 +1,787 @@
+{
+  "paper": {
+    "doi": null,
+    "pmcid": "PMC4480270",
+    "title": "Estimation of the cost-effectiveness of apixaban versus vitamin K antagonists in the management of atrial fibrillation in Argentina",
+    "authors": [
+      "Augustovski F",
+      "Irazola V",
+      "Gutierrez L",
+      "Rubinstein A"
+    ],
+    "journal": "Cost Effectiveness and Resource Allocation",
+    "year": 2015,
+    "study_type": "cost-effectiveness analysis",
+    "eco_type": null
+  },
+  "extraction_provenance": {
+    "extraction_pipeline": {
+      "name": "medlit_pass1_extract",
+      "version": "0.1.0",
+      "git_commit": "31365eb5934bbe6536faf50f0dc8b5a3aa6c9ea0",
+      "git_commit_short": "31365eb",
+      "git_branch": "main",
+      "git_dirty": true,
+      "repo_url": "https://github.com/org/medlit"
+    },
+    "models": {
+      "llm": {
+        "name": "claude-sonnet-4-20250514",
+        "version": ""
+      }
+    },
+    "prompt": {
+      "version": "v1",
+      "template": "medlit_extraction_v1",
+      "checksum": "sha256:044d6be2aac617eb"
+    },
+    "execution": {
+      "timestamp": "2026-03-06T22:17:39.745669Z",
+      "hostname": "unknown",
+      "python_version": "3.13.3",
+      "duration_seconds": 47.16
+    },
+    "entity_resolution": null,
+    "model_info": null
+  },
+  "entities": [
+    {
+      "id": "apixaban",
+      "class": "Drug",
+      "name": "apixaban",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1364430",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "warfarin",
+      "class": "Drug",
+      "name": "warfarin",
+      "synonyms": [
+        "vitamin K antagonist"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "11289",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "atrial_fibrillation",
+      "class": "Disease",
+      "name": "atrial fibrillation",
+      "synonyms": [
+        "AF",
+        "non-valvular atrial fibrillation",
+        "NVAF"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0004238",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "stroke",
+      "class": "Disease",
+      "name": "stroke",
+      "synonyms": [
+        "ischemic stroke",
+        "hemorrhagic stroke"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0038454",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "systemic_embolism",
+      "class": "Disease",
+      "name": "systemic embolism",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0013922",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "bleeding",
+      "class": "Symptom",
+      "name": "bleeding",
+      "synonyms": [
+        "major bleeding",
+        "intracranial bleeding",
+        "clinically relevant non-major bleeding"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0019080",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "markov_model",
+      "class": "StatisticalMethod",
+      "name": "Markov model",
+      "synonyms": [
+        "Markov-based model"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "qaly",
+      "class": "Biomarker",
+      "name": "quality-adjusted life years",
+      "synonyms": [
+        "QALY",
+        "QALYs"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "icer",
+      "class": "Biomarker",
+      "name": "incremental cost-effectiveness ratio",
+      "synonyms": [
+        "ICER"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "chads2_score",
+      "class": "Biomarker",
+      "name": "CHADS2 score",
+      "synonyms": [
+        "CHADS2"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cha2ds2_vasc_score",
+      "class": "Biomarker",
+      "name": "CHA2DS2-VASC score",
+      "synonyms": [
+        "CHA2DS2-VASC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "time_in_therapeutic_range",
+      "class": "Biomarker",
+      "name": "time in therapeutic range",
+      "synonyms": [
+        "TTR"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "international_normalized_ratio",
+      "class": "Biomarker",
+      "name": "International Normalized Ratio",
+      "synonyms": [
+        "INR"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "dabigatran",
+      "class": "Drug",
+      "name": "dabigatran",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1037042",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "rivaroxaban",
+      "class": "Drug",
+      "name": "rivaroxaban",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1114195",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "edoxaban",
+      "class": "Drug",
+      "name": "edoxaban",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1599538",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "factor_xa_inhibitor",
+      "class": "Drug",
+      "name": "factor Xa inhibitor",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "myocardial_infarction",
+      "class": "Disease",
+      "name": "myocardial infarction",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0027051",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pulmonary_embolism",
+      "class": "Disease",
+      "name": "pulmonary embolism",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0034065",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "transient_ischemic_attack",
+      "class": "Disease",
+      "name": "transient ischemic attack",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0007787",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "vascular_disease",
+      "class": "Disease",
+      "name": "vascular disease",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0042373",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cardiac_failure",
+      "class": "Disease",
+      "name": "cardiac failure",
+      "synonyms": [
+        "heart failure"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0018801",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hypertension",
+      "class": "Disease",
+      "name": "hypertension",
+      "synonyms": [
+        "high blood pressure"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0020538",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "diabetes",
+      "class": "Disease",
+      "name": "diabetes",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0011847",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "eq_5d",
+      "class": "Biomarker",
+      "name": "EQ-5D",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gdp",
+      "class": "Biomarker",
+      "name": "Gross Domestic Product",
+      "synonyms": [
+        "GDP"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "willingness_to_pay",
+      "class": "Biomarker",
+      "name": "willingness to pay",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "number_needed_to_treat",
+      "class": "Biomarker",
+      "name": "number needed to treat",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "number_needed_to_harm",
+      "class": "Biomarker",
+      "name": "number needed to harm",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    }
+  ],
+  "evidence_entities": [
+    {
+      "id": "PMC4687093:abstract:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC4687093",
+      "text_span_id": "abstract_1",
+      "text": "Apixaban, a novel oral anticoagulant which has been approved for the prevention of stroke and systemic embolism in non-valvular atrial fibrillation, reduces both ischemic and haemorrhagic stroke and produces fewer bleedings than vitamin K antagonist warfarin.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "cost-effectiveness analysis",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC4687093:abstract:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC4687093",
+      "text_span_id": "abstract_2",
+      "text": "The study revealed that apixaban is cost-effective compared with warfarin using a willingness to pay threshold ranging from 1 to 3 per capita Gross Domestic Product (11558 \u2013 34664 USD) with an incremental cost-effectiveness ratio of 786.08 USD per QALY gained.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "cost-effectiveness analysis",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC4687093:results:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC4687093",
+      "text_span_id": "results_1",
+      "text": "In a VKA suitable cohort of 1000 patients with NVAF, compared with warfarin, the use of apixaban resulted in 24 fewer strokes (including first and recurrent ischemic and hemorrhagic) or systemic embolism, 41 fewer major bleeding events (including first and recurrent hemorrhagic stroke, other intracranial hemorrhage and other major bleeds), and 26 fewer cardiovascular-related deaths.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "cost-effectiveness analysis",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC4687093:results:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC4687093",
+      "text_span_id": "results_2",
+      "text": "It is therefore estimated that 56 patients (number needed to treat) should be treated with apixaban over a lifetime in order to avoid one stroke (ischemic and hemorrhagic) compared with warfarin.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "cost-effectiveness analysis",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC4687093:results:3:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC4687093",
+      "text_span_id": "results_3",
+      "text": "Considering a willingness to pay threshold of 11,558 USD per QALY gained, apixaban is a cost-effective alternative in 90 % of the cases. Using the upper threshold of 34,664 USD apixaban has a 95 % probability of being a cost-effective alternative compared to warfarin.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "cost-effectiveness analysis",
+      "eco_type": null,
+      "source": "extracted"
+    }
+  ],
+  "relationships": [
+    {
+      "subject": "apixaban",
+      "predicate": "TREATS",
+      "object": "atrial_fibrillation",
+      "evidence_ids": [
+        "PMC4687093:abstract:1:llm"
+      ],
+      "source_papers": [
+        "PMC4687093"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "apixaban",
+      "predicate": "REDUCES_RISK",
+      "object": "stroke",
+      "evidence_ids": [
+        "PMC4687093:abstract:1:llm",
+        "PMC4687093:results:1:llm"
+      ],
+      "source_papers": [
+        "PMC4687093"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "apixaban",
+      "predicate": "REDUCES_RISK",
+      "object": "systemic_embolism",
+      "evidence_ids": [
+        "PMC4687093:abstract:1:llm",
+        "PMC4687093:results:1:llm"
+      ],
+      "source_papers": [
+        "PMC4687093"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "apixaban",
+      "predicate": "REDUCES_RISK",
+      "object": "bleeding",
+      "evidence_ids": [
+        "PMC4687093:abstract:1:llm",
+        "PMC4687093:results:1:llm"
+      ],
+      "source_papers": [
+        "PMC4687093"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "apixaban",
+      "predicate": "SUBTYPE_OF",
+      "object": "factor_xa_inhibitor",
+      "evidence_ids": [
+        "PMC4687093:abstract:1:llm"
+      ],
+      "source_papers": [
+        "PMC4687093"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "apixaban",
+      "predicate": "MORE_COST_EFFECTIVE_THAN",
+      "object": "warfarin",
+      "evidence_ids": [
+        "PMC4687093:abstract:2:llm",
+        "PMC4687093:results:3:llm"
+      ],
+      "source_papers": [
+        "PMC4687093"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "icer": "786.08 USD per QALY"
+      },
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "warfarin",
+      "predicate": "SUBTYPE_OF",
+      "object": "vitamin K antagonist",
+      "evidence_ids": [
+        "PMC4687093:abstract:1:llm"
+      ],
+      "source_papers": [
+        "PMC4687093"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "atrial_fibrillation",
+      "predicate": "INCREASES_RISK",
+      "object": "stroke",
+      "evidence_ids": [
+        "PMC4687093:abstract:1:llm"
+      ],
+      "source_papers": [
+        "PMC4687093"
+      ],
+      "confidence": 0.95,
+      "properties": {
+        "risk_increase": "5-fold"
+      },
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "atrial_fibrillation",
+      "predicate": "INCREASES_RISK",
+      "object": "systemic_embolism",
+      "evidence_ids": [
+        "PMC4687093:abstract:1:llm"
+      ],
+      "source_papers": [
+        "PMC4687093"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "chads2_score",
+      "predicate": "INDICATES",
+      "object": "stroke",
+      "evidence_ids": [
+        "PMC4687093:abstract:1:llm"
+      ],
+      "source_papers": [
+        "PMC4687093"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cha2ds2_vasc_score",
+      "predicate": "INDICATES",
+      "object": "stroke",
+      "evidence_ids": [
+        "PMC4687093:abstract:1:llm"
+      ],
+      "source_papers": [
+        "PMC4687093"
+      ],
+      "confidence": 0.95,
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    }
+  ],
+  "notes": [
+    "This is a cost-effectiveness analysis comparing apixaban to warfarin for atrial fibrillation treatment in Argentina",
+    "The study used a Markov model with lifetime horizon and 6-week cycles",
+    "Results show apixaban is cost-effective with ICER of 786.08 USD per QALY gained"
+  ]
+}
