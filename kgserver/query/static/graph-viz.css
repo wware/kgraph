@@ -225,11 +225,7 @@ body {
 .node circle {
     stroke: #fff;
     stroke-width: 1.5px;
-    transition: r 0.2s;
-}
-
-.node:hover circle {
-    stroke-width: 3px;
+    transition: r 0.2s, opacity 0.2s;
 }
 
 .node text {
@@ -238,11 +234,17 @@ body {
     pointer-events: none;
     text-anchor: middle;
     dominant-baseline: middle;
+    transition: opacity 0.2s;
+}
+
+.node:hover circle {
+    stroke-width: 3px;
 }
 
 .link {
     stroke-opacity: 0.6;
     cursor: pointer;
+    transition: stroke-opacity 0.2s;
 }
 
 .link:hover {
@@ -355,6 +357,26 @@ marker path {
 
 /* Node colors applied via JS from ENTITY_TYPE_COLORS (single source of truth) */
 
+/* Legend click: dim non-matching nodes and links */
+.node.node-dimmed circle,
+.node.node-dimmed text {
+    opacity: 0.2;
+}
+
+.node.node-dimmed {
+    pointer-events: none;
+}
+
+.node.node-highlighted circle {
+    stroke-width: 2.5px;
+    stroke: #fff;
+}
+
+.link.link-dimmed {
+    stroke-opacity: 0.1;
+    pointer-events: none;
+}
+
 /* Graph legend (overlaid on graph canvas, positioned relative to #graph-container) */
 .graph-legend {
     position: absolute;
@@ -389,6 +411,24 @@ marker path {
 
 .legend-item:last-child {
     margin-bottom: 0;
+}
+
+.legend-item-clickable {
+    cursor: pointer;
+    pointer-events: auto;
+    padding: 2px 6px;
+    margin: 0 -6px 2px -6px;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+}
+
+.legend-item-clickable:hover {
+    background-color: rgba(15, 52, 96, 0.6);
+}
+
+.legend-item-clickable.legend-item-active {
+    background-color: rgba(233, 69, 96, 0.25);
+    outline: 1px solid rgba(233, 69, 96, 0.5);
 }
 
 .legend-dot {

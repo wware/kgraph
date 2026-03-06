@@ -32,6 +32,9 @@ const closePanel = document.getElementById('close-panel');
 let searchTimeout = null;
 let selectedSearchIndex = -1;
 
+// Legend highlight: which entity type is selected (null = none)
+let highlightedEntityType = null;
+
 // Stats elements
 const nodeCountEl = document.getElementById('node-count');
 const edgeCountEl = document.getElementById('edge-count');
@@ -350,7 +353,9 @@ function renderGraph(data) {
     const width = container.clientWidth;
     const height = container.clientHeight;
     
-    // Clear existing content
+    // Clear existing content and any type highlight from previous graph
+    highlightedEntityType = null;
+    updateLegendActiveState();
     g.selectAll('*').remove();
     
     if (data.nodes.length === 0) {
@@ -529,9 +534,54 @@ function initLegend() {
         types
             .map(
                 ([key, { color, label }]) =>
-                    `<div class="legend-item"><span class="legend-dot" style="background-color:${color}"></span>${escapeHtml(label)}</div>`
+                    `<div class="legend-item legend-item-clickable" data-entity-type="${escapeHtml(key)}"><span class="legend-dot" style="background-color:${color}"></span>${escapeHtml(label)}</div>`
             )
             .join('');
+
+    // Click to highlight nodes of this type; click again to clear
+    container.addEventListener('click', (e) => {
+        const item = e.target.closest('.legend-item-clickable');
+        if (!item) return;
+        const typeKey = item.dataset.entityType;
+        const newHighlight = highlightedEntityType === typeKey ? null : typeKey;
+        highlightedEntityType = newHighlight;
+        applyTypeHighlight(highlightedEntityType);
+        updateLegendActiveState();
+    });
+}
+
+function applyTypeHighlight(typeKey) {
+    if (!g) return;
+    const nodes = g.select('.nodes').selectAll('.node');
+    const links = g.select('.links').selectAll('.link');
+
+    if (!typeKey) {
+        nodes.classed('node-dimmed', false).classed('node-highlighted', false);
+        links.classed('link-dimmed', false);
+        return;
+    }
+
+    nodes.each(function (d) {
+        const typeClass = getNodeTypeClass(d.entity_type);
+        const isMatch = typeClass === typeKey;
+        d3.select(this).classed('node-dimmed', !isMatch).classed('node-highlighted', isMatch);
+    });
+
+    links.each(function (d) {
+        const srcType = getNodeTypeClass(d.source?.entity_type);
+        const tgtType = getNodeTypeClass(d.target?.entity_type);
+        const srcMatch = srcType === typeKey;
+        const tgtMatch = tgtType === typeKey;
+        d3.select(this).classed('link-dimmed', !srcMatch && !tgtMatch);
+    });
+}
+
+function updateLegendActiveState() {
+    const container = document.getElementById('graph-legend');
+    if (!container) return;
+    container.querySelectorAll('.legend-item-clickable').forEach((item) => {
+        item.classList.toggle('legend-item-active', item.dataset.entityType === highlightedEntityType);
+    });
 }
 
 function truncateLabel(label, maxLength) {
