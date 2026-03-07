@@ -37,6 +37,10 @@ try:
 except ImportError:
     pass
 
+from examples.medlit.pipeline.config_loader import (  # noqa: E402  # pylint: disable=wrong-import-position
+    get_schema_version,
+    load_entity_types,
+)
 from examples.medlit.bundle_models import (  # noqa: E402  # pylint: disable=wrong-import-position
     EvidenceEntityRow,
     ExtractedEntityRow,
@@ -117,6 +121,7 @@ def build_provenance(
     prompt_template: str = "medlit_extraction_v1",
     prompt_checksum: Optional[str] = None,
     duration_seconds: Optional[float] = None,
+    schema_version: Optional[str] = None,
 ) -> ExtractionProvenance:
     """Build extraction_provenance for Pass 1 output."""
     git = _git_info()
@@ -136,6 +141,7 @@ def build_provenance(
             version=prompt_version,
             template=prompt_template,
             checksum=prompt_checksum,
+            schema_version=schema_version,
         ),
         execution=ExecutionInfo(
             timestamp=now,
@@ -147,9 +153,8 @@ def build_provenance(
     )
 
 
-# Normalized (lowercase, no spaces) -> bundle "class" (PascalCase) for dedup/synonym_cache compatibility.
-# Must match _entity_class_to_lookup_type and lookup_entity in dedup/synonym_cache.
-NORMALIZED_TO_BUNDLE_CLASS: dict[str, str] = {
+# Fallback when config is missing (e.g. tests). Must match entity_types.yaml.
+_FALLBACK_NORMALIZED_TO_BUNDLE: dict[str, str] = {
     "disease": "Disease",
     "gene": "Gene",
     "drug": "Drug",
@@ -173,54 +178,28 @@ NORMALIZED_TO_BUNDLE_CLASS: dict[str, str] = {
 }
 
 
-def normalize_entity_type(raw_type: str) -> str:
+def _normalized_to_bundle_class(entity_types: dict) -> dict[str, str]:
+    """Build normalized (lowercase, no spaces) -> bundle_class from entity_types config."""
+    out: dict[str, str] = {}
+    for key, val in entity_types.items():
+        if isinstance(val, dict) and "bundle_class" in val:
+            out[str(key).lower().replace(" ", "").replace("_", "")] = val["bundle_class"]
+    return out if out else _FALLBACK_NORMALIZED_TO_BUNDLE
+
+
+def normalize_entity_type(raw_type: str, normalized_to_bundle: dict[str, str]) -> str:
     """Map raw LLM type string to bundle entity_class (PascalCase). Unknown types -> 'Other'."""
     if not raw_type or not str(raw_type).strip():
         return "Other"
     normalized = str(raw_type).strip().lower().replace(" ", "").replace("_", "")
-    return NORMALIZED_TO_BUNDLE_CLASS.get(normalized, "Other")
+    return normalized_to_bundle.get(normalized, "Other")
 
 
-def _build_system_prompt_with_vocab(
-    base_prompt: str,
-    vocab_entries: Optional[list[dict]] = None,
-) -> str:
-    """Append vocabulary context to base prompt when vocab_entries is provided."""
-    if not vocab_entries:
-        return base_prompt
-    # Cap size: include up to 500 entries (or 300 by name) to avoid token overflow
-    subset = sorted(vocab_entries, key=lambda e: (e.get("name") or "").lower())[:500]
-    lines = [f"- {e.get('name', '')} ({e.get('type', '')})" for e in subset if e.get("name")]
-    vocab_section = "\n".join(lines) if lines else "(none)"
-    return (
-        base_prompt
-        + "\n\n---\n\nThe following entities have already been identified across the corpus. Use these exact names and types where applicable rather than creating new variants:\n\n"
-        + vocab_section
-    )
+def _default_system_prompt(config_dir: Path, vocab_entries: Optional[list[dict]] = None) -> str:
+    """Build system prompt from config via Jinja2 template."""
+    from kgraph.templates import render_extraction_prompt
 
-
-def _default_system_prompt() -> str:
-    """Minimal system prompt asking for per-paper bundle JSON."""
-    return """You are a biomedical knowledge extraction expert. Extract entities and relationships from the given paper and return a single JSON object with this structure (use the exact keys):
-
-- "paper": { "pmcid", "title", "authors", "journal", "year", "study_type", "eco_type" (optional) }
-- "entities": array of { "id", "class", "name", "synonyms" (array), "source": "extracted", "canonical_id": null, "umls_id"/"hgnc_id"/"rxnorm_id" as needed }
-- "evidence_entities": array of { "id" (format paper_id:section:paragraph_idx:method), "class": "Evidence", "paper_id", "text_span_id", "text", "confidence", "extraction_method", "study_type", "eco_type", "source": "extracted" }
-- "relationships": array of { "subject", "predicate", "object", "evidence_ids", "source_papers", "confidence", "properties", "section", "asserted_by": "llm" }. For SAME_AS use "resolution": null, "note".
-- "notes": array of strings (optional clarifications)
-
-Return ONLY valid JSON, no markdown or commentary.
-
-Entity type classification: Classify at the most specific functional role. If an entity is both a hormone and a protein, classify it as Hormone. Enzymes should be typed Enzyme, not Protein.
-- Protein: structural or signaling proteins that are NOT better classified as Enzyme, Hormone, Receptor, or Antibody.
-- Hormone: peptide or steroid hormones (e.g. ACTH, cortisol, catecholamines).
-- Enzyme: proteins with catalytic function (e.g. aldosterone synthase, kinases).
-- Biomarker: measurable indicators of biological state (e.g. tumor mutational burden, aneuploidy score, hormone levels). Do NOT use for: pathways (→ Pathway), drugs (→ Drug), cell types (→ AnatomicalStructure), biological processes (→ BiologicalProcess), microbial communities (→ BiologicalProcess), or clinical outcomes like survival (→ StudyDesign).
-- Pathway: biological pathways (e.g. STING pathway).
-- BiologicalProcess: biological processes or phenomena (e.g. homologous recombination, genomic instability, chromosomal instability, whole-genome doubling).
-Counterexamples: ACTH and cortisol are hormones; aldosterone synthase is an enzyme. Homologous recombination is BiologicalProcess; PARP inhibitors is Drug; STING pathway is Pathway; disease-free survival is StudyDesign; CD8+ T cells is AnatomicalStructure.
-
-Use "class" for entity type (Disease, Gene, Drug, Hormone, Enzyme, Evidence, etc.). Predicates: TREATS, INCREASES_RISK, INDICATES, ASSOCIATED_WITH, SAME_AS, SUBTYPE_OF, etc. Evidence id format: {paper_id}:{section}:{paragraph_idx}:llm."""
+    return render_extraction_prompt(config_dir, vocab_entries)
 
 
 async def _paper_content_from_parser(raw_content: bytes, content_type: str, source_uri: str) -> tuple[str, Optional[PaperInfo]]:
@@ -258,12 +237,17 @@ async def run_pass1(  # pylint: disable=too-many-statements
     papers: Optional[list[str]] = None,
     system_prompt: Optional[str] = None,
     vocab_file: Optional[Path] = None,
+    config_dir: Optional[Path] = None,
 ) -> None:
     """Run Pass 1: for each paper in input_dir, call LLM and write bundle JSON to output_dir."""
     from examples.medlit.pipeline.pass1_llm import get_pass1_llm
 
-    llm = get_pass1_llm(llm_backend)
-    base_prompt = system_prompt or _default_system_prompt()
+    default_config = REPO_ROOT / "examples" / "medlit" / "config"
+    cfg_dir = config_dir if config_dir is not None else default_config
+    entity_types = load_entity_types(cfg_dir)
+    normalized_to_bundle = _normalized_to_bundle_class(entity_types)
+    schema_version = get_schema_version(cfg_dir) if cfg_dir.exists() else None
+
     vocab_entries: Optional[list[dict]] = None
     if vocab_file is not None and vocab_file.exists():
         try:
@@ -274,7 +258,9 @@ async def run_pass1(  # pylint: disable=too-many-statements
             vocab_entries = data if isinstance(data, list) else None
         except Exception:
             vocab_entries = None
-    prompt = _build_system_prompt_with_vocab(base_prompt, vocab_entries)
+
+    llm = get_pass1_llm(llm_backend)
+    prompt = system_prompt or _default_system_prompt(cfg_dir, vocab_entries)
     prompt_checksum = hashlib.sha256(prompt.encode()).hexdigest()[:16]
 
     # Discover input files: by glob patterns or all *.xml/*.json
@@ -334,7 +320,7 @@ async def run_pass1(  # pylint: disable=too-many-statements
         raw_entities = raw_bundle.get("entities", [])
         for en in raw_entities:
             if isinstance(en, dict) and "class" in en:
-                en["class"] = normalize_entity_type(en.get("class") or "")
+                en["class"] = normalize_entity_type(en.get("class") or "", normalized_to_bundle)
         entities = [ExtractedEntityRow.model_validate(en) for en in raw_entities]
         evidence_entities = [EvidenceEntityRow.model_validate(ev) for ev in raw_bundle.get("evidence_entities", [])]
         relationships = [RelationshipRow.model_validate(r) for r in raw_bundle.get("relationships", [])]
@@ -366,6 +352,7 @@ async def run_pass1(  # pylint: disable=too-many-statements
             llm_version="",
             prompt_checksum=f"sha256:{prompt_checksum}",
             duration_seconds=round(duration, 2),
+            schema_version=schema_version,
         )
         bundle = PerPaperBundle(
             paper=paper,
@@ -411,6 +398,12 @@ def main() -> None:
         default=None,
         help="Path to vocab.json (Pass 1a output). If present, entity list is included in the extraction prompt and types are normalized.",
     )
+    parser.add_argument(
+        "--config-dir",
+        type=Path,
+        default=None,
+        help="Directory containing entity_types.yaml, predicates.yaml, domain_instructions.md (default: examples/medlit/config/).",
+    )
     args = parser.parse_args()
     import asyncio
 
@@ -426,6 +419,7 @@ def main() -> None:
             args.limit,
             papers_list,
             vocab_file=args.vocab_file,
+            config_dir=args.config_dir,
         )
     )
 

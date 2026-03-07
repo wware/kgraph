@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from examples.medlit.bundle_models import ExtractedEntityRow, PerPaperBundle
+from examples.medlit.pipeline.config_loader import load_entity_types
 from examples.medlit.pipeline.synonym_cache import (
     add_same_as_to_cache,
     load_synonym_cache,
@@ -106,18 +107,48 @@ def _preferred_authoritative_id(
     return None
 
 
-def _entity_class_to_lookup_type(entity_class: str) -> Optional[str]:
+# Authority lookup type overrides: bundle_class -> lookup_type when authority APIs
+# use a different type (e.g. Hormone->drug, Enzyme->protein). Base mapping from config.
+_AUTHORITY_LOOKUP_OVERRIDES: dict[str, str] = {
+    "Hormone": "drug",
+    "Enzyme": "protein",
+    "Biomarker": "disease",
+}
+
+# Fallback when config is missing. Must match entity_types.yaml bundle_class -> lookup.
+_FALLBACK_ENTITY_CLASS_TO_LOOKUP: dict[str, str] = {
+    "Disease": "disease",
+    "Gene": "gene",
+    "Drug": "drug",
+    "Protein": "protein",
+    "Hormone": "drug",
+    "Enzyme": "protein",
+    "Biomarker": "disease",
+}
+
+
+def _entity_class_to_lookup_type(entity_class: str, entity_class_to_lookup: dict[str, str]) -> Optional[str]:
     """Map bundle entity_class to CanonicalIdLookup entity_type (lowercase)."""
-    m = {
-        "Disease": "disease",
-        "Gene": "gene",
-        "Drug": "drug",
-        "Protein": "protein",
-        "Hormone": "drug",
-        "Enzyme": "protein",
-        "Biomarker": "disease",
-    }
+    m = entity_class_to_lookup if entity_class_to_lookup else _FALLBACK_ENTITY_CLASS_TO_LOOKUP
+    if entity_class in _AUTHORITY_LOOKUP_OVERRIDES:
+        return _AUTHORITY_LOOKUP_OVERRIDES[entity_class]
     return m.get(entity_class)
+
+
+def _build_entity_class_to_lookup_type(config_dir: Path) -> dict[str, str]:
+    """Derive bundle_class -> lookup_type from entity_types.yaml."""
+    entity_types = load_entity_types(config_dir)
+    out: dict[str, str] = {}
+    for config_key, val in entity_types.items():
+        if isinstance(val, dict) and "bundle_class" in val:
+            bc = val["bundle_class"]
+            out[bc] = str(config_key).lower()
+    out.update(_AUTHORITY_LOOKUP_OVERRIDES)
+    return out
+
+
+# SAME_AS predicate; defined in predicates.yaml. Used for merge resolution.
+SAME_AS_PREDICATE = "SAME_AS"
 
 
 def _canonical_id_slug() -> str:
@@ -133,6 +164,7 @@ def run_pass2(  # pylint: disable=too-many-statements
     embedding_generator: Any = None,
     similarity_threshold: float = 0.88,
     cross_type_threshold: float = 0.90,
+    config_dir: Optional[Path] = None,
 ) -> dict[str, Any]:
     """Run Pass 2: dedup and promotion. Reads bundles from bundle_dir, writes to output_dir.
 
@@ -155,6 +187,10 @@ def run_pass2(  # pylint: disable=too-many-statements
 
         lookup = CanonicalIdLookup(cache_file=canonical_id_cache_path)
 
+    if config_dir is None:
+        config_dir = Path(__file__).resolve().parents[2] / "config"
+    entity_class_to_lookup = _build_entity_class_to_lookup_type(config_dir) if config_dir.exists() else {}
+
     try:
         return _run_pass2_impl(
             bundle_dir=bundle_dir,
@@ -165,6 +201,7 @@ def run_pass2(  # pylint: disable=too-many-statements
             embedding_generator=embedding_generator,
             similarity_threshold=similarity_threshold,
             cross_type_threshold=cross_type_threshold,
+            entity_class_to_lookup=entity_class_to_lookup,
         )
     finally:
         if lookup is not None:
@@ -180,8 +217,11 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
     embedding_generator: Any = None,
     similarity_threshold: float = 0.88,
     cross_type_threshold: float = 0.90,
+    entity_class_to_lookup: Optional[dict[str, str]] = None,
 ) -> dict[str, Any]:
     """Inner Pass 2 implementation (lookup created and saved by caller)."""
+    if entity_class_to_lookup is None:
+        entity_class_to_lookup = {}
     # Load all bundles
     bundle_files = sorted(bundle_dir.glob("paper_*.json"))
     if not bundle_files:
@@ -240,15 +280,9 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
                     _populate_name_index(auth, n, entity_class)
                 local_to_canonical[key_local] = auth
                 return auth
-        existing, _ = lookup_entity(cache, name, entity_class)
-        if existing:
-            for n in {name} | set((entity_row.synonyms or []) if entity_row else []):
-                _populate_name_index(existing, n, entity_class)
-            local_to_canonical[key_local] = existing
-            return existing
-        # Optional authority lookup
+        # Authority lookup before synonym cache (prefer ontology IDs over fuzzy matches)
         if lookup is not None:
-            lookup_type = _entity_class_to_lookup_type(entity_class)
+            lookup_type = _entity_class_to_lookup_type(entity_class, entity_class_to_lookup)
             if lookup_type:
                 resolved = lookup.lookup_canonical_id_sync(name, lookup_type)
                 if resolved:
@@ -256,6 +290,12 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
                         _populate_name_index(resolved, n, entity_class)
                     local_to_canonical[key_local] = resolved
                     return resolved
+        existing, _ = lookup_entity(cache, name, entity_class)
+        if existing:
+            for n in {name} | set((entity_row.synonyms or []) if entity_row else []):
+                _populate_name_index(existing, n, entity_class)
+            local_to_canonical[key_local] = existing
+            return existing
         cid = _canonical_id_slug()
         for n in {name} | set((entity_row.synonyms or []) if entity_row else []):
             _populate_name_index(cid, n, entity_class)
@@ -279,7 +319,7 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
 
     for paper_id, bundle in bundles:
         for rel in bundle.relationships:
-            if rel.predicate != "SAME_AS" or rel.confidence < 0.85:
+            if rel.predicate != SAME_AS_PREDICATE or rel.confidence < 0.85:
                 continue
             sub_id = local_to_canonical.get((paper_id, rel.subject))
             obj_id = local_to_canonical.get((paper_id, rel.object_id))
@@ -339,7 +379,7 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
     triple_to_rel: dict[tuple[str, str, str], dict[str, Any]] = {}
     for paper_id, bundle in bundles:
         for rel in bundle.relationships:
-            if rel.predicate == "SAME_AS" and rel.confidence >= 0.85:
+            if rel.predicate == SAME_AS_PREDICATE and rel.confidence >= 0.85:
                 continue  # already merged
             sub_c = local_to_canonical.get((paper_id, rel.subject))
             obj_c = local_to_canonical.get((paper_id, rel.object_id))
@@ -354,6 +394,7 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
                     "evidence_ids": [],
                     "source_papers": [],
                     "confidence": rel.confidence,
+                    "linguistic_trust": getattr(rel, "linguistic_trust", None),
                 }
             r = triple_to_rel[key]
             for eid in rel.evidence_ids or []:
@@ -364,6 +405,8 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
                     r["source_papers"].append(sp)
             if rel.confidence > r["confidence"]:
                 r["confidence"] = rel.confidence
+                if getattr(rel, "linguistic_trust", None):
+                    r["linguistic_trust"] = rel.linguistic_trust
 
     # 6b) Post-dedup reconciliation: group by (normalized_name, entity_class), merge duplicates
     by_name_class: dict[tuple[str, str], list[str]] = {}
@@ -404,27 +447,38 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
                 new_o = winner_id if o == loser else o
                 new_key = (new_s, p, new_o)
                 keys_to_del.append((s, p, o))
+
+                def _pick_linguistic_trust(a: dict, b: dict) -> Any:
+                    ca, cb = a.get("confidence", 0), b.get("confidence", 0)
+                    if cb > ca and b.get("linguistic_trust"):
+                        return b.get("linguistic_trust")
+                    return a.get("linguistic_trust")
+
                 if new_key in triple_to_rel and new_key != (s, p, o):
                     # Merge on collision
                     existing = triple_to_rel[new_key]
+                    conf = max(existing.get("confidence", 0), rel_data.get("confidence", 0))
                     merged: dict[str, Any] = {
                         "subject": new_s,
                         "predicate": p,
                         "object": new_o,
                         "evidence_ids": list(set((existing.get("evidence_ids") or []) + (rel_data.get("evidence_ids") or []))),
                         "source_papers": list(set((existing.get("source_papers") or []) + (rel_data.get("source_papers") or []))),
-                        "confidence": max(existing.get("confidence", 0), rel_data.get("confidence", 0)),
+                        "confidence": conf,
+                        "linguistic_trust": _pick_linguistic_trust(existing, rel_data),
                     }
                     new_triples[new_key] = merged
                 elif new_key in new_triples:
                     existing = new_triples[new_key]
+                    conf = max(existing.get("confidence", 0), rel_data.get("confidence", 0))
                     merged = {
                         "subject": new_s,
                         "predicate": p,
                         "object": new_o,
                         "evidence_ids": list(set((existing.get("evidence_ids") or []) + (rel_data.get("evidence_ids") or []))),
                         "source_papers": list(set((existing.get("source_papers") or []) + (rel_data.get("source_papers") or []))),
-                        "confidence": max(existing.get("confidence", 0), rel_data.get("confidence", 0)),
+                        "confidence": conf,
+                        "linguistic_trust": _pick_linguistic_trust(existing, rel_data),
                     }
                     new_triples[new_key] = merged
                 else:
@@ -461,7 +515,7 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
     # 7) Add all SAME_AS to synonym cache for persistence
     for paper_id, bundle in bundles:
         for rel in bundle.relationships:
-            if rel.predicate != "SAME_AS":
+            if rel.predicate != SAME_AS_PREDICATE:
                 continue
             sub_c = local_to_canonical.get((paper_id, rel.subject))
             obj_c = local_to_canonical.get((paper_id, rel.object_id))

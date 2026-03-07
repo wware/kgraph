@@ -253,6 +253,9 @@ def _merged_rel_to_relationship_row(
     """Convert merged relationship dict to RelationshipRow."""
     key = (rel["subject"], rel["predicate"], rel["object"])
     s = stats.get(key, {})
+    props = dict(rel.get("properties", {}))
+    if rel.get("linguistic_trust"):
+        props["linguistic_trust"] = rel["linguistic_trust"]
     return RelationshipRow(
         subject_id=rel["subject"],
         object_id=rel["object"],
@@ -260,7 +263,7 @@ def _merged_rel_to_relationship_row(
         confidence=rel.get("confidence"),
         source_documents=rel.get("source_papers", []),
         created_at=created_at,
-        properties=rel.get("properties", {}),
+        properties=props,
         evidence_count=s.get("evidence_count", 0),
         strongest_evidence_quote=s.get("strongest_evidence_quote"),
         evidence_confidence_avg=s.get("evidence_confidence_avg"),

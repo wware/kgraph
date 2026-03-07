@@ -92,6 +92,9 @@ class EvidenceEntityRow(BaseModel):
     source: Literal["extracted"] = "extracted"
 
 
+LinguisticTrust = Literal["asserted", "suggested", "speculative"]
+
+
 class RelationshipRow(BaseModel):
     """One relationship in the bundle. evidence_ids optional for SAME_AS."""
 
@@ -103,6 +106,7 @@ class RelationshipRow(BaseModel):
     evidence_ids: list[str] = Field(default_factory=list)
     source_papers: list[str] = Field(default_factory=list)
     confidence: float = 0.5
+    linguistic_trust: Optional[LinguisticTrust] = None  # asserted | suggested | speculative
     properties: dict[str, Any] = Field(default_factory=dict)
     section: Optional[str] = None
     asserted_by: str = "llm"

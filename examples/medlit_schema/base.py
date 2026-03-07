@@ -380,11 +380,13 @@ class PromptInfo(BaseModel):
         version: Prompt version identifier
         template: Prompt template name
         checksum: SHA256 of actual prompt text for exact reproduction
+        schema_version: 8-char hex hash of config (entity_types, predicates, domain_instructions)
     """
 
     version: str
     template: str
     checksum: Optional[str] = None
+    schema_version: Optional[str] = None
 
 
 class ExecutionInfo(BaseModel):

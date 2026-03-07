@@ -31,66 +31,49 @@ try:
 except ImportError:
     pass
 
-# Fixed type enum for Pass 1a (lowercase); matches PLAN11 mapping to bundle PascalCase.
-PASS1A_TYPE_ENUM = [
-    "disease",
-    "gene",
-    "drug",
-    "protein",
-    "hormone",
-    "enzyme",
-    "mutation",
-    "symptom",
-    "biomarker",
-    "pathway",
-    "procedure",
-    "biologicalprocess",
-    "anatomicalstructure",
-    "clinicaltrial",
-    "institution",
-    "author",
-    "studydesign",
-    "statisticalmethod",
-    "adverseevent",
-    "hypothesis",
-]
+from examples.medlit.pipeline.config_loader import load_entity_types
+from examples.medlit.scripts.pass1_extract import _normalized_to_bundle_class
 
-# Normalized (lowercase) -> bundle "class" (PascalCase) for synonym cache and dedup.
-NORMALIZED_TO_BUNDLE_CLASS: dict[str, str] = {
-    "disease": "Disease",
-    "gene": "Gene",
-    "drug": "Drug",
-    "protein": "Protein",
-    "hormone": "Hormone",
-    "enzyme": "Enzyme",
-    "biomarker": "Biomarker",
-    "symptom": "Symptom",
-    "procedure": "Procedure",
-    "mutation": "Mutation",
-    "pathway": "Pathway",
-    "biologicalprocess": "BiologicalProcess",
-    "anatomicalstructure": "AnatomicalStructure",
-    "clinicaltrial": "ClinicalTrial",
-    "institution": "Institution",
-    "author": "Author",
-    "studydesign": "StudyDesign",
-    "statisticalmethod": "StatisticalMethod",
-    "adverseevent": "AdverseEvent",
-    "hypothesis": "Hypothesis",
-}
 
-PASS1A_SYSTEM_PROMPT = (
-    """Extract all named biomedical entities from this paper.
+def _pass1a_system_prompt(config_dir: Path) -> str:
+    """Build Pass 1a system prompt from entity_types config."""
+    entity_types = load_entity_types(config_dir)
+    type_enum = sorted(entity_types.keys()) if entity_types else []
+    if not type_enum:
+        type_enum = [
+            "disease",
+            "gene",
+            "drug",
+            "protein",
+            "hormone",
+            "enzyme",
+            "mutation",
+            "symptom",
+            "biomarker",
+            "pathway",
+            "procedure",
+            "biologicalprocess",
+            "anatomicalstructure",
+            "clinicaltrial",
+            "institution",
+            "author",
+            "studydesign",
+            "statisticalmethod",
+            "adverseevent",
+            "hypothesis",
+        ]
+    return (
+        """Extract all named biomedical entities from this paper.
 For each entity return:
   - name: canonical form (not an abbreviation)
   - type: one of ["""
-    + ", ".join(PASS1A_TYPE_ENUM)
-    + """]
+        + ", ".join(type_enum)
+        + """]
   - abbreviations: list of abbreviations or alternate names used in this paper
   - umls_id: UMLS CUI if you are confident, else null
 
 Return a single JSON object with key "entities" containing an array of these objects. No other keys. Valid JSON only."""
-)
+    )
 
 
 def _normalize_name(name: str) -> str:
@@ -185,7 +168,10 @@ def _run_umls_validation(vocab_entries: list[dict[str, Any]]) -> None:
             # Leave type as-is for human review
 
 
-def _vocab_to_seeded_cache(vocab_entries: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+def _vocab_to_seeded_cache(
+    vocab_entries: list[dict[str, Any]],
+    normalized_to_bundle: dict[str, str],
+) -> dict[str, list[dict[str, Any]]]:
     """Build Pass 2 synonym cache format from vocab list so lookup_entity returns canonical_id."""
     from examples.medlit.pipeline.synonym_cache import _normalize
 
@@ -195,7 +181,7 @@ def _vocab_to_seeded_cache(vocab_entries: list[dict[str, Any]]) -> dict[str, lis
         if not name:
             continue
         etype_normalized = (e.get("type") or "").strip().lower()
-        bundle_class = NORMALIZED_TO_BUNDLE_CLASS.get(etype_normalized) or etype_normalized or "Other"
+        bundle_class = normalized_to_bundle.get(etype_normalized) or etype_normalized or "Other"
         canonical_id = e.get("umls_id") or None
         source_papers = e.get("source_papers") or []
         entity_snapshot = {
@@ -240,9 +226,15 @@ async def run_pass1a(
     llm_backend: str,
     papers: Optional[list[str]] = None,
     limit: Optional[int] = None,
+    config_dir: Optional[Path] = None,
 ) -> None:
     """Run Pass 1a: extract vocabulary from papers, merge, validate UMLS types, write vocab + seeded cache."""
     from examples.medlit.pipeline.pass1_llm import get_pass1_llm
+
+    default_config = REPO_ROOT / "examples" / "medlit" / "config"
+    cfg_dir = config_dir if config_dir is not None else default_config
+    entity_types = load_entity_types(cfg_dir)
+    normalized_to_bundle = _normalized_to_bundle_class(entity_types)
 
     llm = get_pass1_llm(llm_backend)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -283,7 +275,7 @@ async def run_pass1a(
         content, paper_id = await _paper_content(path, input_dir)
         try:
             raw = await llm.generate_json(
-                system_prompt=PASS1A_SYSTEM_PROMPT,
+                system_prompt=_pass1a_system_prompt(cfg_dir),
                 user_message=content[:500000],
                 temperature=0.1,
                 max_tokens=8192,
@@ -302,7 +294,7 @@ async def run_pass1a(
         print(f"  {path.name} -> paper_id={paper_id}, entities={len(entities)}", file=sys.stderr)
 
     _run_umls_validation(vocab_entries)
-    seeded_cache = _vocab_to_seeded_cache(vocab_entries)
+    seeded_cache = _vocab_to_seeded_cache(vocab_entries, normalized_to_bundle)
     _atomic_write_json(vocab_path, vocab_entries)
     _atomic_write_json(seed_cache_path, seeded_cache)
     print(f"Wrote {vocab_path} ({len(vocab_entries)} entries), {seed_cache_path}", file=sys.stderr)
@@ -317,11 +309,26 @@ def main() -> None:
     parser.add_argument("--llm-backend", type=str, choices=("anthropic", "openai", "ollama"), default=os.environ.get("LLM_BACKEND", "anthropic"))
     parser.add_argument("--papers", type=str, default=None, metavar="GLOB[,GLOB,...]", help="Comma-separated glob patterns for input files")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of papers to process")
+    parser.add_argument(
+        "--config-dir",
+        type=Path,
+        default=None,
+        help="Directory containing entity_types.yaml (default: examples/medlit/config/).",
+    )
     args = parser.parse_args()
     papers_list: Optional[list[str]] = None
     if args.papers is not None:
         papers_list = [p.strip() for p in args.papers.split(",") if p.strip()]
-    asyncio.run(run_pass1a(args.input_dir, args.output_dir, args.llm_backend, papers_list, args.limit))
+    asyncio.run(
+        run_pass1a(
+            args.input_dir,
+            args.output_dir,
+            args.llm_backend,
+            papers_list,
+            args.limit,
+            config_dir=args.config_dir,
+        )
+    )
 
 
 if __name__ == "__main__":

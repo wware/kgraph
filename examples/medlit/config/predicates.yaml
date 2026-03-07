@@ -1,0 +1,120 @@
+# Predicate definitions for medlit extraction.
+# Key: predicate name (UPPER_SNAKE). Used in extraction prompt and dedup.
+# Pipeline loads at runtime. Domain experts edit this file.
+predicates:
+  TREATS:
+    description: "Drug or procedure used therapeutically to address a disease."
+    subject_types: [Drug, Procedure]
+    object_types: [Disease]
+  INCREASES_RISK:
+    description: "Gene, mutation, or factor that raises risk of a disease."
+    subject_types: [Gene, Mutation]
+    object_types: [Disease]
+  INDICATES:
+    description: "Biomarker or test that indicates presence or status of a condition."
+    subject_types: [Biomarker, Evidence]
+    object_types: [Disease]
+  ASSOCIATED_WITH:
+    description: "General association; use when more specific predicate does not apply."
+    subject_types: [Any]
+    object_types: [Any]
+  SAME_AS:
+    description: "Entity A is the same as entity B (for coreference/merge)."
+    subject_types: [Any]
+    object_types: [Any]
+  SUBTYPE_OF:
+    description: "Entity A is a subtype of entity B (e.g. Cushing's disease subtype_of Cushing's syndrome)."
+    subject_types: [Disease]
+    object_types: [Disease]
+  CAUSES:
+    description: "Entity causes or contributes to a disease or condition."
+    subject_types: [Gene, Mutation]
+    object_types: [Disease]
+  INHIBITS:
+    description: "Entity inhibits a protein or pathway."
+    subject_types: [Drug, Protein]
+    object_types: [Protein, Pathway]
+  REGULATES:
+    description: "Entity regulates a gene, pathway, or process."
+    subject_types: [Drug, Gene]
+    object_types: [Gene, Pathway]
+  PREVENTS:
+    description: "Drug prevents a disease."
+    subject_types: [Drug]
+    object_types: [Disease]
+  INTERACTS_WITH:
+    description: "Drug interacts with another drug."
+    subject_types: [Drug]
+    object_types: [Drug]
+  ENCODES:
+    description: "Gene encodes a protein."
+    subject_types: [Gene]
+    object_types: [Protein]
+  INCREASES:
+    description: "Entity increases level or activity of another."
+    subject_types: [Any]
+    object_types: [Any]
+  REDUCES:
+    description: "Entity reduces level or activity of another."
+    subject_types: [Any]
+    object_types: [Any]
+  REDUCES_RISK:
+    description: "Entity reduces risk of a disease."
+    subject_types: [Drug, Procedure]
+    object_types: [Disease]
+  AFFECTS:
+    description: "Entity affects another entity."
+    subject_types: [Any]
+    object_types: [Any]
+  ACTIVATES:
+    description: "Entity activates another."
+    subject_types: [Any]
+    object_types: [Any]
+  PROMOTES:
+    description: "Entity promotes another."
+    subject_types: [Any]
+    object_types: [Any]
+  DOWNREGULATES:
+    description: "Entity downregulates another."
+    subject_types: [Drug, Gene]
+    object_types: [Gene, Pathway]
+  UPREGULATES:
+    description: "Entity upregulates another."
+    subject_types: [Drug, Gene]
+    object_types: [Gene, Pathway]
+  INDUCES:
+    description: "Entity induces another."
+    subject_types: [Any]
+    object_types: [Any]
+  PROTECTS_AGAINST:
+    description: "Entity protects against a disease or condition."
+    subject_types: [Drug]
+    object_types: [Disease]
+  REQUIRED_FOR:
+    description: "Entity is required for a process or outcome."
+    subject_types: [Any]
+    object_types: [Any]
+  DEGRADED_BY:
+    description: "Entity is degraded by another."
+    subject_types: [Any]
+    object_types: [Any]
+  SUPERIOR_TO:
+    description: "Entity is superior to another (e.g. in efficacy)."
+    subject_types: [Any]
+    object_types: [Any]
+  IMPROVES:
+    description: "Entity improves an outcome."
+    subject_types: [Any]
+    object_types: [Any]
+  SECRETES:
+    description: "Entity secretes another."
+    subject_types: [Any]
+    object_types: [Any]
+  TRIGGERS:
+    description: "Entity triggers another."
+    subject_types: [Any]
+    object_types: [Any]
+  PHOSPHORYLATES:
+    description: "Entity phosphorylates another."
+    subject_types: [Any]
+    object_types: [Any]
