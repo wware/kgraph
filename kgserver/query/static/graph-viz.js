@@ -57,8 +57,12 @@ const ENTITY_TYPE_COLORS = {
     default: { color: '#78909c', label: 'Other' },
 };
 
-// Initialize
-document.addEventListener('DOMContentLoaded', init);
+// Initialize (script is at end of body; DOMContentLoaded may have already fired)
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
 
 function init() {
     setupSVG();
@@ -97,7 +101,7 @@ function setupSVG() {
         .attr('markerHeight', 6)
         .append('path')
         .attr('d', 'M 0,-5 L 10,0 L 0,5')
-        .attr('fill', '#999');
+        .attr('class', 'arrowhead-path');
     
     // Create main group for zoom/pan
     g = svg.append('g');
@@ -417,7 +421,6 @@ function renderGraph(data) {
         .data(links)
         .join('path')
         .attr('class', 'link')
-        .attr('stroke', '#999')
         .attr('stroke-width', 1.5)
         .attr('fill', 'none')
         .attr('marker-end', 'url(#arrowhead)')
@@ -838,7 +841,6 @@ function showLoading() {
         .attr('x', '50%')
         .attr('y', '50%')
         .attr('text-anchor', 'middle')
-        .attr('fill', '#888')
         .text('Loading...');
 }
 
@@ -850,6 +852,5 @@ function showError(message) {
         .attr('x', '50%')
         .attr('y', '50%')
         .attr('text-anchor', 'middle')
-        .attr('fill', '#e94560')
         .text(message);
 }

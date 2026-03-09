@@ -4,8 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Knowledge Graph Visualization</title>
+    <script>
+        (function() {
+            try {
+                var saved = localStorage.getItem('vite-ui-theme') || 'system';
+                var isLight = saved === 'system'
+                    ? !window.matchMedia('(prefers-color-scheme: dark)').matches
+                    : saved === 'light';
+                var root = document.documentElement;
+                root.classList.remove('theme-dark', 'theme-light');
+                root.classList.add(isLight ? 'theme-light' : 'theme-dark');
+            } catch (e) {}
+        })();
+    </script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <link rel="stylesheet" href="graph-viz.css">
+    <link rel="stylesheet" href="graph-viz.css?v=theme-toggle">
 </head>
 <body>
     <div id="app">
@@ -46,6 +59,48 @@
                 <button id="load-graph" class="btn-primary">Load Graph</button>
                 <button id="reset-view" class="btn-secondary">Reset View</button>
             </div>
+            <div class="control-group">
+                <label for="theme-select">Theme</label>
+                <select id="theme-select">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="system">System</option>
+                </select>
+            </div>
+            <script>
+                (function() {
+                    var sel = document.getElementById('theme-select');
+                    if (!sel) return;
+                    var STORAGE_KEY = 'vite-ui-theme';
+                    function resolveTheme(val) {
+                        if (val === 'system') {
+                            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                        }
+                        return val || 'dark';
+                    }
+                    function applyTheme(val) {
+                        var isLight = resolveTheme(val) === 'light';
+                        var root = document.documentElement;
+                        root.classList.remove('theme-dark', 'theme-light');
+                        root.classList.add(isLight ? 'theme-light' : 'theme-dark');
+                    }
+                    function saveTheme(val) {
+                        try { localStorage.setItem(STORAGE_KEY, val); } catch(e) {}
+                    }
+                    sel.addEventListener('change', function() {
+                        var val = sel.value;
+                        applyTheme(val);
+                        saveTheme(val);
+                    });
+                    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+                        if (sel.value === 'system') applyTheme('system');
+                    });
+                    var saved = null;
+                    try { saved = localStorage.getItem(STORAGE_KEY) || 'system'; } catch(e) { saved = 'system'; }
+                    sel.value = saved;
+                    applyTheme(saved);
+                })();
+            </script>
             <p class="zoom-hint">Zoom in and out with your mouse wheel.</p>
             
             <div id="graph-stats" class="stats">
@@ -70,6 +125,6 @@
     </div>
     <div id="tooltip" class="hidden"></div>
     
-    <script src="graph-viz.js?v=legend-highlight"></script>
+    <script src="graph-viz.js?v=theme-toggle"></script>
 </body>
 </html>

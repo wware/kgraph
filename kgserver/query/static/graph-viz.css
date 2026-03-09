@@ -6,10 +6,59 @@
     box-sizing: border-box;
 }
 
+/* Theme variables - dark (default on :root for fallback) */
+:root,
+.theme-dark {
+    --bg-body: #1a1a2e;
+    --bg-controls: #16213e;
+    --bg-input: #1a1a2e;
+    --bg-search-results: #1a1a2e;
+    --bg-detail-panel: #16213e;
+    --bg-tooltip: rgba(22, 33, 62, 0.95);
+    --bg-legend: rgba(22, 33, 62, 0.9);
+    --bg-btn-secondary: #0f3460;
+    --bg-btn-secondary-hover: #1a4a7a;
+    --bg-search-hover: #0f3460;
+    --bg-legend-hover: rgba(15, 52, 96, 0.6);
+    --color-text: #eee;
+    --color-text-muted: #ccc;
+    --color-text-dim: #888;
+    --color-text-dimmer: #666;
+    --border-color: #0f3460;
+    --accent: #e94560;
+    --node-stroke: #fff;
+    --link-stroke: #999;
+    --link-label-fill: #888;
+}
+
+/* Theme variables - light (overrides dark when .theme-light on html) */
+.theme-light {
+    --bg-body: #f5f5f5;
+    --bg-controls: #ffffff;
+    --bg-input: #ffffff;
+    --bg-search-results: #ffffff;
+    --bg-detail-panel: #ffffff;
+    --bg-tooltip: rgba(255, 255, 255, 0.98);
+    --bg-legend: rgba(255, 255, 255, 0.95);
+    --bg-btn-secondary: #e0e0e0;
+    --bg-btn-secondary-hover: #d0d0d0;
+    --bg-search-hover: #e8e8e8;
+    --bg-legend-hover: rgba(0, 0, 0, 0.06);
+    --color-text: #222;
+    --color-text-muted: #444;
+    --color-text-dim: #666;
+    --color-text-dimmer: #888;
+    --border-color: #ccc;
+    --accent: #c62828;
+    --node-stroke: #333;
+    --link-stroke: #666;
+    --link-label-fill: #666;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-    background-color: #1a1a2e;
-    color: #eee;
+    background-color: var(--bg-body);
+    color: var(--color-text);
     overflow: hidden;
 }
 
@@ -23,15 +72,15 @@ body {
 #controls {
     width: 280px;
     min-width: 280px;
-    background-color: #16213e;
+    background-color: var(--bg-controls);
     padding: 20px;
     overflow-y: auto;
-    border-right: 1px solid #0f3460;
+    border-right: 1px solid var(--border-color);
 }
 
 #controls h2 {
     margin-bottom: 20px;
-    color: #e94560;
+    color: var(--accent);
     font-size: 1.2rem;
 }
 
@@ -43,22 +92,38 @@ body {
     display: block;
     margin-bottom: 5px;
     font-size: 0.9rem;
-    color: #ccc;
+    color: var(--color-text-muted);
 }
 
 .control-group input[type="text"] {
     width: 100%;
     padding: 8px 12px;
-    border: 1px solid #0f3460;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
-    background-color: #1a1a2e;
-    color: #eee;
+    background-color: var(--bg-input);
+    color: var(--color-text);
     font-size: 0.9rem;
 }
 
 .control-group input[type="text"]:focus {
     outline: none;
-    border-color: #e94560;
+    border-color: var(--accent);
+}
+
+.control-group select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-input);
+    color: var(--color-text);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.control-group select:focus {
+    outline: none;
+    border-color: var(--accent);
 }
 
 /* Search container with dropdown */
@@ -71,8 +136,8 @@ body {
     top: 100%;
     left: 0;
     right: 0;
-    background-color: #1a1a2e;
-    border: 1px solid #0f3460;
+    background-color: var(--bg-search-results);
+    border: 1px solid var(--border-color);
     border-top: none;
     border-radius: 0 0 4px 4px;
     max-height: 300px;
@@ -87,7 +152,7 @@ body {
 .search-result-item {
     padding: 10px 12px;
     cursor: pointer;
-    border-bottom: 1px solid #0f3460;
+    border-bottom: 1px solid var(--border-color);
     transition: background-color 0.15s;
 }
 
@@ -96,27 +161,27 @@ body {
 }
 
 .search-result-item:hover {
-    background-color: #0f3460;
+    background-color: var(--bg-search-hover);
 }
 
 .search-result-item.selected {
-    background-color: #0f3460;
+    background-color: var(--bg-search-hover);
 }
 
 .search-result-name {
-    color: #eee;
+    color: var(--color-text);
     font-size: 0.9rem;
     margin-bottom: 3px;
 }
 
 .search-result-type {
-    color: #888;
+    color: var(--color-text-dim);
     font-size: 0.75rem;
     text-transform: uppercase;
 }
 
 .search-result-id {
-    color: #666;
+    color: var(--color-text-dimmer);
     font-size: 0.7rem;
     font-family: monospace;
     margin-top: 2px;
@@ -124,14 +189,14 @@ body {
 
 .search-no-results {
     padding: 12px;
-    color: #888;
+    color: var(--color-text-dim);
     font-style: italic;
     text-align: center;
 }
 
 .search-loading {
     padding: 12px;
-    color: #888;
+    color: var(--color-text-dim);
     text-align: center;
 }
 
@@ -166,17 +231,17 @@ body {
 }
 
 .btn-secondary {
-    background-color: #0f3460;
-    color: #eee;
+    background-color: var(--bg-btn-secondary);
+    color: var(--color-text);
 }
 
 .btn-secondary:hover {
-    background-color: #1a4a7a;
+    background-color: var(--bg-btn-secondary-hover);
 }
 
 .zoom-hint {
     font-size: 0.8rem;
-    color: #888;
+    color: var(--color-text-dim);
     margin-top: 8px;
     margin-bottom: 0;
 }
@@ -185,17 +250,17 @@ body {
 .stats {
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 1px solid #0f3460;
+    border-top: 1px solid var(--border-color);
 }
 
 .stats p {
     margin-bottom: 8px;
     font-size: 0.85rem;
-    color: #aaa;
+    color: var(--color-text-dim);
 }
 
 .stats span {
-    color: #eee;
+    color: var(--color-text);
     font-weight: 600;
 }
 
@@ -214,7 +279,7 @@ body {
 #graph-svg {
     width: 100%;
     height: 100%;
-    background-color: #1a1a2e;
+    background-color: var(--bg-body);
 }
 
 /* Graph Elements */
@@ -223,14 +288,14 @@ body {
 }
 
 .node circle {
-    stroke: #fff;
+    stroke: var(--node-stroke);
     stroke-width: 1.5px;
     transition: r 0.2s, opacity 0.2s;
 }
 
 .node text {
     font-size: 10px;
-    fill: #eee;
+    fill: var(--color-text);
     pointer-events: none;
     text-anchor: middle;
     dominant-baseline: middle;
@@ -242,6 +307,7 @@ body {
 }
 
 .link {
+    stroke: var(--link-stroke);
     stroke-opacity: 0.6;
     cursor: pointer;
     transition: stroke-opacity 0.2s;
@@ -254,22 +320,23 @@ body {
 
 .link-label {
     font-size: 9px;
-    fill: #888;
+    fill: var(--link-label-fill);
     pointer-events: none;
     text-anchor: middle;
 }
 
 /* Arrow markers */
-marker path {
-    fill: #999;
+marker path,
+.arrowhead-path {
+    fill: var(--link-stroke);
 }
 
 /* Tooltip */
 #tooltip {
     position: fixed;
     padding: 10px 14px;
-    background-color: rgba(22, 33, 62, 0.95);
-    border: 1px solid #0f3460;
+    background-color: var(--bg-tooltip);
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 0.85rem;
     pointer-events: none;
@@ -288,8 +355,8 @@ marker path {
     top: 0;
     width: 350px;
     height: 100%;
-    background-color: #16213e;
-    border-left: 1px solid #0f3460;
+    background-color: var(--bg-detail-panel);
+    border-left: 1px solid var(--border-color);
     padding: 20px;
     overflow-y: auto;
     z-index: 50;
@@ -306,18 +373,18 @@ marker path {
     top: 15px;
     background: none;
     border: none;
-    color: #aaa;
+    color: var(--color-text-dim);
     font-size: 1.5rem;
     cursor: pointer;
     padding: 5px 10px;
 }
 
 .close-btn:hover {
-    color: #e94560;
+    color: var(--accent);
 }
 
 #panel-title {
-    color: #e94560;
+    color: var(--accent);
     margin-bottom: 15px;
     padding-right: 30px;
 }
@@ -331,13 +398,13 @@ marker path {
 }
 
 #panel-content .property-label {
-    color: #888;
+    color: var(--color-text-dim);
     font-size: 0.8rem;
     margin-bottom: 2px;
 }
 
 #panel-content .property-value {
-    color: #eee;
+    color: var(--color-text);
     word-break: break-word;
 }
 
@@ -369,7 +436,7 @@ marker path {
 
 .node.node-highlighted circle {
     stroke-width: 2.5px;
-    stroke: #fff;
+    stroke: var(--node-stroke);
 }
 
 .link.link-dimmed {
@@ -383,19 +450,19 @@ marker path {
     bottom: 16px;
     left: 16px;
     z-index: 10;
-    background-color: rgba(22, 33, 62, 0.9);
-    border: 1px solid #0f3460;
+    background-color: var(--bg-legend);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     padding: 10px 14px;
     font-size: 0.8rem;
-    color: #ccc;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    color: var(--color-text-muted);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     pointer-events: none;
 }
 
 .legend-title {
     font-weight: 600;
-    color: #eee;
+    color: var(--color-text);
     margin-bottom: 8px;
     font-size: 0.75rem;
     text-transform: uppercase;
@@ -423,7 +490,7 @@ marker path {
 }
 
 .legend-item-clickable:hover {
-    background-color: rgba(15, 52, 96, 0.6);
+    background-color: var(--bg-legend-hover);
 }
 
 .legend-item-clickable.legend-item-active {
@@ -436,7 +503,7 @@ marker path {
     height: 10px;
     border-radius: 50%;
     flex-shrink: 0;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(128, 128, 128, 0.4);
 }
 
 /* Loading state */
@@ -445,8 +512,12 @@ marker path {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #888;
+    color: var(--color-text-dim);
     font-size: 1.2rem;
+}
+
+text.loading {
+    fill: var(--color-text-dim);
 }
 
 /* Error message */
@@ -455,7 +526,8 @@ marker path {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #e94560;
+    color: var(--accent);
+    fill: var(--accent);
     text-align: center;
     padding: 20px;
 }
