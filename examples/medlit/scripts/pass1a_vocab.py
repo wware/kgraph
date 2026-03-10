@@ -31,37 +31,12 @@ try:
 except ImportError:
     pass
 
-from examples.medlit.pipeline.config_loader import load_entity_types  # noqa: E402  # pylint: disable=wrong-import-position
-from examples.medlit.scripts.pass1_extract import _normalized_to_bundle_class  # noqa: E402  # pylint: disable=wrong-import-position
+import examples.medlit.domain_spec as _ds  # noqa: E402  # pylint: disable=wrong-import-position
 
 
-def _pass1a_system_prompt(config_dir: Path) -> str:
-    """Build Pass 1a system prompt from entity_types config."""
-    entity_types = load_entity_types(config_dir)
-    type_enum = sorted(entity_types.keys()) if entity_types else []
-    if not type_enum:
-        type_enum = [
-            "disease",
-            "gene",
-            "drug",
-            "protein",
-            "hormone",
-            "enzyme",
-            "mutation",
-            "symptom",
-            "biomarker",
-            "pathway",
-            "procedure",
-            "biologicalprocess",
-            "anatomicalstructure",
-            "clinicaltrial",
-            "institution",
-            "author",
-            "studydesign",
-            "statisticalmethod",
-            "adverseevent",
-            "hypothesis",
-        ]
+def _pass1a_system_prompt() -> str:
+    """Build Pass 1a system prompt from domain_spec."""
+    type_enum = sorted(_ds.NORMALIZED_TO_BUNDLE.keys())
     return (
         """Extract all named biomedical entities from this paper.
 For each entity return:
@@ -226,15 +201,11 @@ async def run_pass1a(
     llm_backend: str,
     papers: Optional[list[str]] = None,
     limit: Optional[int] = None,
-    config_dir: Optional[Path] = None,
 ) -> None:
     """Run Pass 1a: extract vocabulary from papers, merge, validate UMLS types, write vocab + seeded cache."""
     from kgraph.pipeline.pass1_llm import get_pass1_llm
 
-    default_config = REPO_ROOT / "examples" / "medlit" / "config"
-    cfg_dir = config_dir if config_dir is not None else default_config
-    entity_types = load_entity_types(cfg_dir)
-    normalized_to_bundle = _normalized_to_bundle_class(entity_types)
+    normalized_to_bundle = _ds.NORMALIZED_TO_BUNDLE
 
     llm = get_pass1_llm(llm_backend)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -275,7 +246,7 @@ async def run_pass1a(
         content, paper_id = await _paper_content(path, input_dir)
         try:
             raw = await llm.generate_json(
-                system_prompt=_pass1a_system_prompt(cfg_dir),
+                system_prompt=_pass1a_system_prompt(),
                 user_message=content[:500000],
                 temperature=0.1,
                 max_tokens=8192,
@@ -309,12 +280,6 @@ def main() -> None:
     parser.add_argument("--llm-backend", type=str, choices=("anthropic", "openai", "ollama"), default=os.environ.get("LLM_BACKEND", "anthropic"))
     parser.add_argument("--papers", type=str, default=None, metavar="GLOB[,GLOB,...]", help="Comma-separated glob patterns for input files")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of papers to process")
-    parser.add_argument(
-        "--config-dir",
-        type=Path,
-        default=None,
-        help="Directory containing entity_types.yaml (default: examples/medlit/config/).",
-    )
     args = parser.parse_args()
     papers_list: Optional[list[str]] = None
     if args.papers is not None:
@@ -326,7 +291,6 @@ def main() -> None:
             args.llm_backend,
             papers_list,
             args.limit,
-            config_dir=args.config_dir,
         )
     )
 

@@ -42,29 +42,34 @@ const totalEntitiesEl = document.getElementById('total-entities');
 const totalRelationshipsEl = document.getElementById('total-relationships');
 const truncatedWarning = document.getElementById('truncated-warning');
 
-/** Single source of truth for entity type colors. Used for node fill and legend. */
-const ENTITY_TYPE_COLORS = {
-    disease: { color: '#e94560', label: 'Disease' },
-    drug: { color: '#4fc3f7', label: 'Drug' },
-    gene: { color: '#66bb6a', label: 'Gene' },
-    protein: { color: '#ab47bc', label: 'Protein' },
-    procedure: { color: '#ffa726', label: 'Procedure' },
-    symptom: { color: '#ef5350', label: 'Symptom' },
-    anatomy: { color: '#8d6e63', label: 'Anatomy' },
-    biomarker: { color: '#26a69a', label: 'Biomarker' },
-    pathway: { color: '#7e57c2', label: 'Pathway' },
-    biologicalprocess: { color: '#5c6bc0', label: 'Biological process' },
+/** Entity type colors and labels from API (domain_spec). Populated on init. */
+let ENTITY_TYPE_COLORS = {
     default: { color: '#78909c', label: 'Other' },
 };
 
 // Initialize (script is at end of body; DOMContentLoaded may have already fired)
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', () => init());
 } else {
     init();
 }
 
-function init() {
+async function fetchEntityTypes() {
+    try {
+        const response = await fetch('/api/v1/graph/entity-types');
+        if (response.ok) {
+            const data = await response.json();
+            if (data.entity_types && typeof data.entity_types === 'object') {
+                ENTITY_TYPE_COLORS = data.entity_types;
+            }
+        }
+    } catch (err) {
+        console.warn('Could not fetch entity types, using default:', err);
+    }
+}
+
+async function init() {
+    await fetchEntityTypes();
     setupSVG();
     setupEventListeners();
     initLegend();
@@ -516,16 +521,9 @@ function renderGraph(data) {
     });
 }
 
-/** Map API entity_type (lowercase) to ENTITY_TYPE_COLORS key. Extend when adding new backend types. */
-const TYPE_TO_LEGEND_KEY = {
-    anatomicalstructure: 'anatomy',
-    hormone: 'default',
-    enzyme: 'default',
-};
-
 function getNodeTypeClass(entityType) {
     const type = (entityType || '').toLowerCase().replace(/\s+/g, '');
-    return TYPE_TO_LEGEND_KEY[type] || (ENTITY_TYPE_COLORS.hasOwnProperty(type) ? type : 'default');
+    return Object.prototype.hasOwnProperty.call(ENTITY_TYPE_COLORS, type) ? type : 'default';
 }
 
 function initLegend() {

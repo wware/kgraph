@@ -91,10 +91,13 @@ def render_extraction_prompt(
     )
     template = env.get_template("entity_relationship_extraction.j2")
 
+    if domain_spec is None and config_dir is None:
+        raise ValueError("Either domain_spec or config_dir must be provided")
+
     if domain_spec is not None:
         entity_types_str, predicates_str, domain_instructions = _format_from_domain_spec(domain_spec)
     else:
-        config_dir = config_dir or Path(".")
+        assert config_dir is not None  # validated above
         entity_types, predicates, domain = _load_config(config_dir)
         entity_types_str = _format_entity_types_for_prompt(entity_types)
         predicates_str = _format_predicates_for_prompt(predicates)

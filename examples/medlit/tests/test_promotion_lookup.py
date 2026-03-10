@@ -9,7 +9,9 @@ from datetime import datetime, timezone
 from unittest.mock import AsyncMock, MagicMock
 
 from kgschema.entity import EntityStatus
+
 from kgraph.ingest import IngestionOrchestrator
+from kgraph.pipeline.ollama_embedding import OllamaEmbeddingGenerator
 from kgraph.storage.memory import (
     InMemoryEntityStorage,
     InMemoryRelationshipStorage,
@@ -23,7 +25,6 @@ from examples.medlit.pipeline.parser import JournalArticleParser
 from examples.medlit.pipeline.mentions import MedLitEntityExtractor
 from examples.medlit.pipeline.resolve import MedLitEntityResolver
 from examples.medlit.pipeline.relationships import MedLitRelationshipExtractor
-from kgraph.pipeline.ollama_embedding import OllamaEmbeddingGenerator
 
 
 @pytest.fixture

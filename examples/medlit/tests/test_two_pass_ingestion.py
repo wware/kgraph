@@ -174,6 +174,48 @@ def test_pass2_output_has_entity_id_and_canonical_id_null_when_synthetic(fixture
             assert e.get("canonical_id") is None, "synthetic entity_id must have canonical_id null"
 
 
+def test_pass2_swaps_backwards_treats_relationship(tmp_path):
+    """Backwards (disease, treats, drug) from Pass 1 LLM is corrected to (drug, treats, disease)."""
+    bundle_data = {
+        "paper": {"pmcid": "PMCtest", "title": "Test", "authors": []},
+        "entities": [
+            {"id": "d1", "class": "Disease", "name": "lung cancer", "synonyms": [], "source": "extracted", "umls_id": "C0149925"},
+            {"id": "drug1", "class": "Drug", "name": "immune checkpoint blockers", "synonyms": ["ICB"], "source": "extracted", "umls_id": "C4048328"},
+        ],
+        "evidence_entities": [
+            {"id": "paper_id:results:1:llm", "class": "Evidence", "paper_id": "paper_id", "text": "PARP-ICB combinations showed superior response.", "confidence": 0.9},
+        ],
+        "relationships": [
+            {
+                "subject": "d1",
+                "predicate": "TREATS",
+                "object": "drug1",
+                "evidence_ids": ["paper_id:results:1:llm"],
+                "source_papers": ["paper_id"],
+                "confidence": 0.9,
+            },
+        ],
+        "notes": [],
+    }
+    bundle_dir = tmp_path / "bundles"
+    bundle_dir.mkdir()
+    with open(bundle_dir / "paper_PMCtest.json", "w", encoding="utf-8") as f:
+        json.dump(bundle_data, f, indent=2)
+    output_dir = tmp_path / "merged"
+    run_pass2(
+        bundle_dir=bundle_dir,
+        output_dir=output_dir,
+        synonym_cache_path=output_dir / "synonym_cache.json",
+    )
+    with open(output_dir / "relationships.json", encoding="utf-8") as f:
+        rels = json.load(f)
+    treats_rels = [r for r in rels if r.get("predicate", "").upper() == "TREATS"]
+    assert len(treats_rels) == 1
+    # Should be (drug, treats, disease) after swap, not (disease, treats, drug)
+    assert treats_rels[0]["subject"] == "C4048328", "subject should be drug (immune checkpoint blockers)"
+    assert treats_rels[0]["object"] == "C0149925", "object should be disease (lung cancer)"
+
+
 def test_pass2_authoritative_id_from_bundle_preserved(tmp_path):
     """When a bundle entity has umls_id (or other authoritative ID), Pass 2 uses it as entity_id and canonical_id."""
     bundle_data = {

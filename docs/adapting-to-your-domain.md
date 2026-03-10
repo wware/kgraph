@@ -16,6 +16,7 @@ See [Schema Design Guide](schema-design-guide.md). Use **medlit_schema** or **sh
 If you use an LLM for extraction:
 
 - Bind your **entity types** and **relationship types** in natural language so the model knows the allowed vocabulary.
+- Prefer a **single source of truth**: one module (e.g. `domain_spec.py`) that defines entity types, predicates, and prompt instructions. The extraction prompt, validation, and dedup all consume it; one edit, no drift.
 - Handle hedging and negation explicitly (e.g. "did not inhibit" → no relationship or low confidence).
 - Ask for provenance (source span, confidence) in the same pass.
 - Iterate on the prompt; test on a small corpus before scaling.

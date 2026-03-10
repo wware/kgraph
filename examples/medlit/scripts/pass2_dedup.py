@@ -61,12 +61,6 @@ def main() -> None:
         default=0.88,
         help="Min cosine similarity for embedding-based provisional merge (default 0.88).",
     )
-    parser.add_argument(
-        "--config-dir",
-        type=Path,
-        default=None,
-        help="Directory containing entity_types.yaml (default: examples/medlit/config/).",
-    )
     args = parser.parse_args()
 
     if not args.bundle_dir.exists():
@@ -83,7 +77,6 @@ def main() -> None:
         synonym_cache_path=args.synonym_cache,
         canonical_id_cache_path=canonical_id_cache_path,
         similarity_threshold=args.similarity_threshold,
-        config_dir=args.config_dir,
     )
 
     if "error" in result:

@@ -44,15 +44,14 @@ except ImportError:
 
 
 DEFAULT_JSON_SYSTEM_PROMPT = (
-    "You are an entity extraction expert. Extract entities and return ONLY valid JSON "
-    "in the exact format requested. Never return the original text, only the extracted entities."
+    "You are an entity extraction expert. Extract entities and return ONLY valid JSON " + "in the exact format requested. Never return the original text, only the extracted entities."
 )
 
 DEFAULT_TOOL_SYSTEM_PROMPT = (
     "You are an entity extraction expert. Extract entities and return ONLY valid JSON.\n\n"
     "You have access to a lookup_canonical_id tool that can find canonical IDs for entities. "
     "For each entity you find, call the tool to get its canonical ID.\n\n"
-    "Return format: [{\"entity\": \"name\", \"type\": \"<entity_type>\", \"confidence\": 0.95, \"canonical_id\": \"ID or null\"}]"
+    'Return format: [{"entity": "name", "type": "<entity_type>", "confidence": 0.95, "canonical_id": "ID or null"}]'
 )
 
 
@@ -136,11 +135,7 @@ class OllamaLLMClient(LLMClientInterface):
         self.model = model
         self.host = host
         self.timeout = timeout
-        self._min_request_interval = (
-            min_request_interval_seconds
-            if min_request_interval_seconds is not None
-            else _default_min_request_interval()
-        )
+        self._min_request_interval = min_request_interval_seconds if min_request_interval_seconds is not None else _default_min_request_interval()
         self._json_system_prompt = json_system_prompt or DEFAULT_JSON_SYSTEM_PROMPT
         self._tool_system_prompt = tool_system_prompt or DEFAULT_TOOL_SYSTEM_PROMPT
         self._client = ollama.Client(host=host, timeout=timeout)
@@ -237,9 +232,7 @@ class OllamaLLMClient(LLMClientInterface):
         response_text = await self._call_llm_for_json(prompt, temperature)
         return self._parse_json_from_text(response_text)
 
-    async def generate_json_with_raw(
-        self, prompt: str, temperature: float = 0.1
-    ) -> tuple[dict[str, Any] | list[Any], str]:
+    async def generate_json_with_raw(self, prompt: str, temperature: float = 0.1) -> tuple[dict[str, Any] | list[Any], str]:
         """Generate structured JSON response AND return the raw model text."""
         raw_text = await self._call_llm_for_json(prompt, temperature)
         parsed = self._parse_json_from_text(raw_text)
@@ -285,9 +278,7 @@ class OllamaLLMClient(LLMClientInterface):
                             except Exception as e:
                                 result = f"Error: {e}"
                             break
-                    messages.append(
-                        {"role": "tool", "content": json.dumps(result) if result is not None else "null"}
-                    )
+                    messages.append({"role": "tool", "content": json.dumps(result) if result is not None else "null"})
 
                 self._ensure_interval_sync()
                 response = self._client.chat(

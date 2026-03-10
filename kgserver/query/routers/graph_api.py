@@ -43,6 +43,60 @@ class SearchResponse(BaseModel):
 router = APIRouter(prefix="/api/v1/graph", tags=["Graph Visualization"])
 
 
+def _get_entity_types_from_domain_spec() -> dict[str, dict[str, str]]:
+    """
+    Load entity type metadata (color, label) from domain_spec.
+    Returns {entity_type: {color, label}}. Includes 'default' for unknown types.
+    """
+    try:
+        from examples.medlit.domain_spec import ENTITY_CLASSES
+
+        result: dict[str, dict[str, str]] = {}
+        for cls in ENTITY_CLASSES:
+            entity_type = cls.__name__.replace("Entity", "").lower()
+            spec = getattr(cls, "spec", None)
+            if spec is not None:
+                color = getattr(spec, "color", "#78909c") or "#78909c"
+                label = getattr(spec, "label", entity_type) or entity_type
+            else:
+                color = "#78909c"
+                label = entity_type
+            result[entity_type] = {"color": color, "label": label}
+        result["default"] = {"color": "#78909c", "label": "Other"}
+        return result
+    except ImportError:
+        return {
+            "default": {"color": "#78909c", "label": "Other"},
+        }
+
+
+class EntityTypeSpec(BaseModel):
+    """Color and label for an entity type."""
+
+    color: str = Field(description="Hex color for visualization")
+    label: str = Field(description="Display label")
+
+
+class EntityTypesResponse(BaseModel):
+    """Entity type metadata for graph visualization."""
+
+    entity_types: dict[str, EntityTypeSpec] = Field(description="Map of entity_type to {color, label} from domain_spec")
+
+
+@router.get(
+    "/entity-types",
+    response_model=EntityTypesResponse,
+    summary="Get entity type metadata",
+    description="""
+Return entity type metadata (color, label) from domain_spec for graph visualization.
+Used by the graph-viz UI to render node colors and legend.
+""",
+)
+async def get_entity_types() -> EntityTypesResponse:
+    """Get entity type colors and labels from domain_spec."""
+    return EntityTypesResponse(entity_types=_get_entity_types_from_domain_spec())  # type: ignore[arg-type]
+
+
 @router.get(
     "/search",
     response_model=SearchResponse,

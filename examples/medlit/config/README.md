@@ -1,9 +1,7 @@
-# Medlit Schema Config
+# Medlit Domain Configuration
 
-Schema configuration for the medlit ingestion pipeline. Domain experts edit these files; the pipeline loads them at runtime and injects content into extraction prompts.
+Domain configuration for the medlit ingestion pipeline lives in **`domain_spec.py`** (one level up, at `examples/medlit/domain_spec.py`), not in this directory.
 
-- **entity_types.yaml** — Entity type taxonomy with descriptions
-- **predicates.yaml** — Predicate definitions with type signatures
-- **domain_instructions.md** — Domain-specific guidance (classification rules, counterexamples)
+That module is the single source of truth for entity types, predicates, prompt instructions, and evidence/mentions specs. The extraction prompt, validation logic, and dedup rules all consume it. Edit `domain_spec.py` to change the schema; no separate YAML or markdown files.
 
-Do not edit Python or Jinja2 templates. Changes here enable collaborative iteration: edit config → re-run extraction → compare output.
+This `config/` directory is retained for any future config that does not belong in the domain spec (e.g. paths, feature flags). For schema changes, edit `domain_spec.py`.

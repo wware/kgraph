@@ -319,6 +319,23 @@ class TestGraphAPI:
         for result in data["results"]:
             assert result["entity_type"] == "character"
 
+    def test_get_entity_types(self, client):
+        """Test GET /api/v1/graph/entity-types returns colors and labels from domain_spec."""
+        response = client.get("/api/v1/graph/entity-types")
+
+        assert response.status_code == 200
+        data = response.json()
+        assert "entity_types" in data
+        types = data["entity_types"]
+        assert "default" in types
+        assert types["default"]["color"] == "#78909c"
+        assert types["default"]["label"] == "Other"
+        for _, val in types.items():
+            assert "color" in val
+            assert "label" in val
+            assert isinstance(val["color"], str)
+            assert isinstance(val["label"], str)
+
     def test_get_entity_mentions_empty_without_provenance(self, client):
         """GET /entity/{id}/mentions returns 200 and empty list when no mentions stored."""
         response = client.get("/api/v1/graph/entity/test:entity:1/mentions")

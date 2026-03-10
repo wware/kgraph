@@ -26,9 +26,7 @@ class OllamaEmbeddingGenerator(EmbeddingGeneratorInterface):
         timeout: float = 30.0,
     ):
         self.model = model
-        self.ollama_host: str = (
-            ollama_host or os.getenv("OLLAMA_HOST", "http://localhost:11434") or "http://localhost:11434"
-        )
+        self.ollama_host: str = ollama_host or os.getenv("OLLAMA_HOST", "http://localhost:11434") or "http://localhost:11434"
         self.timeout = timeout
         self._dimension: Optional[int] = None
 

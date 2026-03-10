@@ -13,8 +13,10 @@ import uuid
 from pathlib import Path
 from typing import Any, Optional
 
+import examples.medlit.domain_spec as _ds
+
 from examples.medlit.bundle_models import ExtractedEntityRow, PerPaperBundle, ProvenanceEntry
-from examples.medlit.pipeline.config_loader import load_entity_types
+from examples.medlit.domain import MedLitDomainSchema
 from kgraph.pipeline.synonym_cache import (
     add_same_as_to_cache,
     load_synonym_cache,
@@ -135,20 +137,44 @@ def _entity_class_to_lookup_type(entity_class: str, entity_class_to_lookup: dict
     return m.get(entity_class)
 
 
-def _build_entity_class_to_lookup_type(config_dir: Path) -> dict[str, str]:
-    """Derive bundle_class -> lookup_type from entity_types.yaml."""
-    entity_types = load_entity_types(config_dir)
-    out: dict[str, str] = {}
-    for config_key, val in entity_types.items():
-        if isinstance(val, dict) and "bundle_class" in val:
-            bc = val["bundle_class"]
-            out[bc] = str(config_key).lower()
+def _build_entity_class_to_lookup_type() -> dict[str, str]:
+    """Derive bundle_class -> lookup_type from domain_spec.NORMALIZED_TO_BUNDLE."""
+    out = {v: k for k, v in _ds.NORMALIZED_TO_BUNDLE.items()}
     out.update(_AUTHORITY_LOOKUP_OVERRIDES)
     return out
 
 
 # SAME_AS predicate; defined in predicates.yaml. Used for merge resolution.
 SAME_AS_PREDICATE = "SAME_AS"
+
+
+def _should_swap_relationship(
+    predicate: str,
+    subject_class: str,
+    object_class: str,
+    predicate_constraints: dict[str, Any],
+    entity_class_to_lookup: dict[str, str],
+) -> bool:
+    """Return True if subject and object should be swapped to satisfy predicate constraints.
+
+    Fixes backwards relationships from Pass 1 LLM (e.g. disease treats drug -> drug treats disease).
+    """
+    pred_norm = predicate.strip().upper()
+    if pred_norm == SAME_AS_PREDICATE:
+        return False
+    pred_lower = pred_norm.lower()
+    if pred_lower not in predicate_constraints:
+        return False
+    constraints = predicate_constraints[pred_lower]
+    sub_type = _entity_class_to_lookup_type(subject_class, entity_class_to_lookup) or (subject_class.lower() if subject_class else "?")
+    obj_type = _entity_class_to_lookup_type(object_class, entity_class_to_lookup) or (object_class.lower() if object_class else "?")
+    subject_valid = sub_type in constraints.subject_types
+    object_valid = obj_type in constraints.object_types
+    if subject_valid and object_valid:
+        return False
+    swapped_subject_valid = obj_type in constraints.subject_types
+    swapped_object_valid = sub_type in constraints.object_types
+    return swapped_subject_valid and swapped_object_valid
 
 
 def _canonical_id_slug() -> str:
@@ -164,7 +190,6 @@ def run_pass2(  # pylint: disable=too-many-statements
     embedding_generator: Any = None,
     similarity_threshold: float = 0.88,
     cross_type_threshold: float = 0.90,
-    config_dir: Optional[Path] = None,
 ) -> dict[str, Any]:
     """Run Pass 2: dedup and promotion. Reads bundles from bundle_dir, writes to output_dir.
 
@@ -187,9 +212,7 @@ def run_pass2(  # pylint: disable=too-many-statements
 
         lookup = CanonicalIdLookup(cache_file=canonical_id_cache_path)
 
-    if config_dir is None:
-        config_dir = Path(__file__).resolve().parents[2] / "config"
-    entity_class_to_lookup = _build_entity_class_to_lookup_type(config_dir) if config_dir.exists() else {}
+    entity_class_to_lookup = _build_entity_class_to_lookup_type()
 
     try:
         return _run_pass2_impl(
@@ -376,6 +399,9 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
                 canonical_entities[merge_key]["source_papers"].append(paper_id)
 
     # 6) Accumulate relationships: (sub_canonical, predicate, obj_canonical) -> union source_papers, evidence_ids, max confidence
+    # Fix backwards relationships from Pass 1 LLM (e.g. disease treats drug -> drug treats disease)
+    domain = MedLitDomainSchema()
+    predicate_constraints = domain.predicate_constraints
     triple_to_rel: dict[tuple[str, str, str], dict[str, Any]] = {}
     for paper_id, bundle in bundles:
         for rel in bundle.relationships:
@@ -385,6 +411,10 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
             obj_c = local_to_canonical.get((paper_id, rel.object_id))
             if not sub_c or not obj_c:
                 continue
+            _, sub_class = _entity_name_class(bundle, rel.subject)
+            _, obj_class = _entity_name_class(bundle, rel.object_id)
+            if _should_swap_relationship(rel.predicate, sub_class, obj_class, predicate_constraints, entity_class_to_lookup):
+                sub_c, obj_c = obj_c, sub_c
             key = (sub_c, rel.predicate, obj_c)
             if key not in triple_to_rel:
                 triple_to_rel[key] = {

@@ -18,7 +18,7 @@ import pytest
 # Skip entire module if playwright not installed
 pytest.importorskip("playwright")
 
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page, expect  # noqa: E402  # pylint: disable=wrong-import-position
 
 
 def _find_free_port() -> int:
@@ -36,27 +36,24 @@ def graph_viz_server():
         pytest.skip(f"graph-viz static dir not found: {static_dir}")
 
     port = _find_free_port()
-    proc = subprocess.Popen(
+    with subprocess.Popen(
         [sys.executable, "-m", "http.server", str(port)],
         cwd=str(static_dir),
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
-    )
-    try:
+    ):
         for _ in range(50):
             try:
                 import urllib.request
 
-                urllib.request.urlopen(f"http://127.0.0.1:{port}/", timeout=1)
+                with urllib.request.urlopen(f"http://127.0.0.1:{port}/", timeout=1):
+                    pass
                 break
             except OSError:
                 time.sleep(0.1)
         else:
             pytest.fail("Server did not start in time")
         yield f"http://127.0.0.1:{port}/"
-    finally:
-        proc.terminate()
-        proc.wait(timeout=5)
 
 
 @pytest.fixture

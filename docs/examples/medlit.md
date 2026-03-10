@@ -4,6 +4,8 @@ Annotated walkthrough of the **medical literature** reference implementation. It
 
 ## Schema (medlit_schema)
 
+Entity types, predicates, and prompt instructions are defined in **`domain_spec.py`** (single source of truth). The extraction prompt, validation, and dedup all consume it.
+
 - **Documents**: `JournalArticle` (BaseDocument) with paper_id, metadata, extraction provenance.
 - **Entities**: DiseaseEntity, GeneEntity, DrugEntity, ProteinEntity, and others; entity_id uses authority IDs (UMLS:C..., HGNC:..., RxNorm:..., UniProt:...).
 - **Relationships**: `MedicalClaimRelationship` with predicate (treats, causes, increases_risk, associated_with, interacts_with, etc.), evidence and source_documents in metadata.

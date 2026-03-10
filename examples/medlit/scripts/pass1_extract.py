@@ -16,6 +16,7 @@ Usage:
 
 import argparse
 import hashlib
+import inspect
 import os
 import subprocess
 import sys
@@ -37,10 +38,6 @@ try:
 except ImportError:
     pass
 
-from examples.medlit.pipeline.config_loader import (  # noqa: E402  # pylint: disable=wrong-import-position
-    get_schema_version,
-    load_entity_types,
-)
 from examples.medlit.bundle_models import (  # noqa: E402  # pylint: disable=wrong-import-position
     EvidenceEntityRow,
     ExtractedEntityRow,
@@ -154,40 +151,6 @@ def build_provenance(
     )
 
 
-# Fallback when config is missing (e.g. tests). Must match entity_types.yaml.
-_FALLBACK_NORMALIZED_TO_BUNDLE: dict[str, str] = {
-    "disease": "Disease",
-    "gene": "Gene",
-    "drug": "Drug",
-    "protein": "Protein",
-    "hormone": "Hormone",
-    "enzyme": "Enzyme",
-    "biomarker": "Biomarker",
-    "symptom": "Symptom",
-    "procedure": "Procedure",
-    "mutation": "Mutation",
-    "pathway": "Pathway",
-    "biologicalprocess": "BiologicalProcess",
-    "anatomicalstructure": "AnatomicalStructure",
-    "clinicaltrial": "ClinicalTrial",
-    "institution": "Institution",
-    "author": "Author",
-    "studydesign": "StudyDesign",
-    "statisticalmethod": "StatisticalMethod",
-    "adverseevent": "AdverseEvent",
-    "hypothesis": "Hypothesis",
-}
-
-
-def _normalized_to_bundle_class(entity_types: dict) -> dict[str, str]:
-    """Build normalized (lowercase, no spaces) -> bundle_class from entity_types config."""
-    out: dict[str, str] = {}
-    for key, val in entity_types.items():
-        if isinstance(val, dict) and "bundle_class" in val:
-            out[str(key).lower().replace(" ", "").replace("_", "")] = val["bundle_class"]
-    return out if out else _FALLBACK_NORMALIZED_TO_BUNDLE
-
-
 def normalize_entity_type(raw_type: str, normalized_to_bundle: dict[str, str]) -> str:
     """Map raw LLM type string to bundle entity_class (PascalCase). Unknown types -> 'Other'."""
     if not raw_type or not str(raw_type).strip():
@@ -197,15 +160,14 @@ def normalize_entity_type(raw_type: str, normalized_to_bundle: dict[str, str]) -
 
 
 def _default_system_prompt(
-    config_dir: Path,
     vocab_entries: Optional[list[dict]] = None,
     domain_spec: Optional[Any] = None,
 ) -> str:
-    """Build system prompt from config or domain_spec via Jinja2 template."""
+    """Build system prompt from domain_spec via Jinja2 template."""
     from kgraph.templates import render_extraction_prompt
 
     return render_extraction_prompt(
-        config_dir=config_dir,
+        config_dir=None,
         vocab_entries=vocab_entries,
         domain_spec=domain_spec,
     )
@@ -278,19 +240,14 @@ async def run_pass1(  # pylint: disable=too-many-statements
     papers: Optional[list[str]] = None,
     system_prompt: Optional[str] = None,
     vocab_file: Optional[Path] = None,
-    config_dir: Optional[Path] = None,
 ) -> None:
     """Run Pass 1: for each paper in input_dir, call LLM and write bundle JSON to output_dir."""
     from kgraph.pipeline.pass1_llm import get_pass1_llm
 
     import examples.medlit.domain_spec as _ds
 
-    default_config = REPO_ROOT / "examples" / "medlit" / "config"
-    cfg_dir = config_dir if config_dir is not None else default_config
-    normalized_to_bundle = getattr(_ds, "NORMALIZED_TO_BUNDLE", None) or _normalized_to_bundle_class(
-        load_entity_types(cfg_dir)
-    )
-    schema_version = get_schema_version(cfg_dir) if cfg_dir.exists() else None
+    normalized_to_bundle = _ds.NORMALIZED_TO_BUNDLE
+    schema_version = hashlib.sha256(inspect.getsource(_ds).encode()).hexdigest()[:8]
 
     vocab_entries: Optional[list[dict]] = None
     if vocab_file is not None and vocab_file.exists():
@@ -304,7 +261,7 @@ async def run_pass1(  # pylint: disable=too-many-statements
             vocab_entries = None
 
     llm = get_pass1_llm(llm_backend)
-    prompt = system_prompt or _default_system_prompt(cfg_dir, vocab_entries, domain_spec=_ds)
+    prompt = system_prompt or _default_system_prompt(vocab_entries, domain_spec=_ds)
     prompt_checksum = hashlib.sha256(prompt.encode()).hexdigest()[:16]
 
     # Discover input files: by glob patterns or all *.xml/*.json
@@ -444,12 +401,6 @@ def main() -> None:
         default=None,
         help="Path to vocab.json (Pass 1a output). If present, entity list is included in the extraction prompt and types are normalized.",
     )
-    parser.add_argument(
-        "--config-dir",
-        type=Path,
-        default=None,
-        help="Directory containing entity_types.yaml, predicates.yaml, domain_instructions.md (default: examples/medlit/config/).",
-    )
     args = parser.parse_args()
     import asyncio
 
@@ -465,7 +416,6 @@ def main() -> None:
             args.limit,
             papers_list,
             vocab_file=args.vocab_file,
-            config_dir=args.config_dir,
         )
     )
 

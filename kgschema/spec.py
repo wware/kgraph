@@ -3,7 +3,7 @@
 Used by domain_spec.py modules to define schema in Python as single source of truth.
 """
 
-from typing import Any, Optional
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 

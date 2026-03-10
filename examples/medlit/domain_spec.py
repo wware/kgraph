@@ -258,12 +258,10 @@ BUNDLE_CLASS_TO_ENTITY: dict[str, type[BaseEntity]] = {}
 for cls in ENTITY_CLASSES:
     # PascalCase bundle_class: Disease, Gene, Drug, etc.
     name = cls.__name__.replace("Entity", "")
-    BUNDLE_CLASS_TO_ENTITY[name] = cls
+    BUNDLE_CLASS_TO_ENTITY[name] = cls  # type: ignore[type-abstract]
 
 # Normalized (lowercase, no spaces) -> bundle_class for raw LLM type mapping
-NORMALIZED_TO_BUNDLE: dict[str, str] = {
-    k.lower().replace(" ", "").replace("_", ""): k for k in BUNDLE_CLASS_TO_ENTITY
-}
+NORMALIZED_TO_BUNDLE: dict[str, str] = {k.lower().replace(" ", "").replace("_", ""): k for k in BUNDLE_CLASS_TO_ENTITY}
 
 
 # -----------------------------------------------------------------------------

@@ -168,7 +168,7 @@ class MedLitNEREntityExtractor(EntityExtractorInterface):
             except ImportError:
                 pipeline_device = -1
 
-        self._pipeline = hf_pipeline(
+        self._pipeline = hf_pipeline(  # type: ignore[call-overload]
             "ner",
             model=model_name_or_path,
             aggregation_strategy="simple",

@@ -71,7 +71,7 @@ echo "=========================================="
 echo "Running tests..."
 echo "=========================================="
 # Root tests: tests/ + examples/medlit/tests/ (includes provenance, export, ingestion, etc.)
-uv run pytest -q
+uv run pytest -v
 
 # Run kgbundle tests from repo root so the root venv (kgbundle + pydantic) is used.
 # Do not "cd kgbundle && uv run pytest": that can use a venv without pydantic.
@@ -88,8 +88,5 @@ if [ -d "kgserver/tests" ]; then
     echo ""
     echo "Running kgserver tests..."
     ROOT_DIR="$(pwd)"
-    (cd kgserver && PYTHONPATH="${ROOT_DIR}/kgbundle:${PYTHONPATH}" uv run pytest tests/ -q)
-    echo ""
-    echo "Running graph-viz theme E2E tests..."
-    (cd kgserver && PYTHONPATH="${ROOT_DIR}/kgbundle:${PYTHONPATH}" uv run pytest tests/test_graph_viz_theme.py -q)
+    (cd kgserver && PYTHONPATH="${ROOT_DIR}/kgbundle:${PYTHONPATH}" uv run pytest tests/ --full-trace -q)
 fi

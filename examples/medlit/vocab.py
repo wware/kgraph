@@ -121,6 +121,14 @@ def get_valid_predicates(subject_type: str, object_type: str) -> list[str]:
             predicate_contraindicated_for,
         ]
 
+    # Procedure → Disease relationships (procedure treats disease)
+    if subject_type == "procedure" and object_type == "disease":
+        return [predicate_treats, predicate_manages]
+
+    # Biomarker → Disease (marker indicates disease)
+    if subject_type == "biomarker" and object_type == "disease":
+        return [predicate_indicates]
+
     # Disease → Symptom relationships
     if subject_type == "disease" and object_type == "symptom":
         return [predicate_causes]
