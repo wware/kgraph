@@ -7,7 +7,7 @@
     "journal": "",
     "year": null,
     "study_type": "experimental",
-    "eco_type": "molecular_interaction",
+    "eco_type": "in_vitro",
     "study_design": {
       "study_type": null,
       "sample_size": null,
@@ -19,9 +19,9 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "cc7296cfb7ac0b8c46521b1025d09f48ee58a932",
-      "git_commit_short": "cc7296c",
-      "git_branch": "J",
+      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
+      "git_commit_short": "932f234",
+      "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
     },
@@ -34,14 +34,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:68a17ebae6a9d50c",
-      "schema_version": "a71e3d07"
+      "checksum": "sha256:4df759b74bea15d3",
+      "schema_version": "23a154ab"
     },
     "execution": {
-      "timestamp": "2026-03-09T14:59:26.099267Z",
+      "timestamp": "2026-03-11T17:53:00.993462Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 30.68
+      "duration_seconds": 30.3
     },
     "entity_resolution": null,
     "model_info": null
@@ -52,8 +52,7 @@
       "class": "Protein",
       "name": "cellular prion protein",
       "synonyms": [
-        "PrPC",
-        "brain cellular prion protein"
+        "PrPC"
       ],
       "symbol": null,
       "brand_names": [],
@@ -119,9 +118,9 @@
     {
       "id": "prpc_region_91_153",
       "class": "Protein",
-      "name": "PrPC region 91\u2013153",
+      "name": "PrPC region 91-153",
       "synonyms": [
-        "PrPC region 91-153"
+        "PrPC region 91\u2013153"
       ],
       "symbol": null,
       "brand_names": [],
@@ -136,9 +135,9 @@
     {
       "id": "antibodies_against_prpc_region_91_153",
       "class": "Protein",
-      "name": "antibodies against PrPC region 91\u2013153",
+      "name": "antibodies against PrPC region 91-153",
       "synonyms": [
-        "antibodies against PrPC region 91-153"
+        "Antibodies against PrPC region 91\u2013153"
       ],
       "symbol": null,
       "brand_names": [],
@@ -181,6 +180,21 @@
       "uniprot_id": null
     },
     {
+      "id": "brain",
+      "class": "AnatomicalStructure",
+      "name": "brain",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "therapeutic_molecules",
       "class": "Drug",
       "name": "therapeutic molecules",
@@ -209,53 +223,6 @@
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
-    },
-    {
-      "id": "prpc_mglur5_interaction",
-      "class": "BiologicalProcess",
-      "name": "PrPC-mGluR5 interaction",
-      "synonyms": [
-        "cellular prion protein-metabotropic glutamate receptor 5 interaction"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "alzheimer_disease_pathophysiology",
-      "class": "BiologicalProcess",
-      "name": "Alzheimer disease pathophysiology",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "activated_conformation_mglur5",
-      "class": "BiologicalProcess",
-      "name": "activated conformation of mGluR5",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
     }
   ],
   "evidence_entities": [
@@ -269,7 +236,7 @@
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "molecular_interaction",
+      "eco_type": "in_vitro",
       "source": "extracted"
     },
     {
@@ -282,7 +249,7 @@
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "molecular_interaction",
+      "eco_type": "in_vitro",
       "source": "extracted"
     },
     {
@@ -295,7 +262,7 @@
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "molecular_interaction",
+      "eco_type": "in_vitro",
       "source": "extracted"
     },
     {
@@ -305,18 +272,18 @@
       "paper_id": "extracted_from_title",
       "text_span_id": "significance_1",
       "text": "These findings have therapeutic implications for Alzheimer disease by identifying compounds that modulate the PrPC-mGluR5 interaction",
-      "confidence": 0.9,
+      "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "molecular_interaction",
+      "eco_type": "in_vitro",
       "source": "extracted"
     }
   ],
   "relationships": [
     {
       "subject": "amyloid_beta_oligomers",
-      "predicate": "TRIGGERS",
-      "object": "alzheimer_disease_pathophysiology",
+      "predicate": "CAUSES",
+      "object": "alzheimer_disease",
       "evidence_ids": [
         "extracted_from_title:background:1:llm"
       ],
@@ -354,7 +321,7 @@
     {
       "subject": "prpc_region_91_153",
       "predicate": "INTERACTS_WITH",
-      "object": "activated_conformation_mglur5",
+      "object": "metabotropic_glutamate_receptor_5",
       "evidence_ids": [
         "extracted_from_title:results:1:llm"
       ],
@@ -364,9 +331,7 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {
-        "interaction_type": "preferential"
-      },
+      "properties": {},
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -375,7 +340,7 @@
     {
       "subject": "antibodies_against_prpc_region_91_153",
       "predicate": "REGULATES",
-      "object": "prpc_mglur5_interaction",
+      "object": "cellular_prion_protein",
       "evidence_ids": [
         "extracted_from_title:conclusion:1:llm"
       ],
@@ -394,7 +359,7 @@
     {
       "subject": "agonist",
       "predicate": "REGULATES",
-      "object": "prpc_mglur5_interaction",
+      "object": "metabotropic_glutamate_receptor_5",
       "evidence_ids": [
         "extracted_from_title:conclusion:1:llm"
       ],
@@ -404,9 +369,7 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {
-        "mechanism": "mGluR5 conformation modulation"
-      },
+      "properties": {},
       "section": "conclusion",
       "asserted_by": "llm",
       "resolution": null,
@@ -415,7 +378,7 @@
     {
       "subject": "antagonist",
       "predicate": "REGULATES",
-      "object": "prpc_mglur5_interaction",
+      "object": "metabotropic_glutamate_receptor_5",
       "evidence_ids": [
         "extracted_from_title:conclusion:1:llm"
       ],
@@ -425,9 +388,7 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {
-        "mechanism": "mGluR5 conformation modulation"
-      },
+      "properties": {},
       "section": "conclusion",
       "asserted_by": "llm",
       "resolution": null,
@@ -435,47 +396,7 @@
     },
     {
       "subject": "therapeutic_molecules",
-      "predicate": "REGULATES",
-      "object": "prpc_mglur5_interaction",
-      "evidence_ids": [
-        "extracted_from_title:significance:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "extracted_from_title"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "therapeutic_relevance": "Alzheimer disease"
-      },
-      "section": "significance",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "endogenous_ligands",
-      "predicate": "REGULATES",
-      "object": "prpc_mglur5_interaction",
-      "evidence_ids": [
-        "extracted_from_title:significance:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "extracted_from_title"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "significance",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "prpc_mglur5_interaction",
-      "predicate": "ASSOCIATED_WITH",
+      "predicate": "TREATS",
       "object": "alzheimer_disease",
       "evidence_ids": [
         "extracted_from_title:significance:1:llm"
@@ -485,19 +406,36 @@
         "extracted_from_title"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "therapeutic_implications": true
-      },
+      "linguistic_trust": "suggested",
+      "properties": {},
       "section": "significance",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cellular_prion_protein",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "brain",
+      "evidence_ids": [
+        "extracted_from_title:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "extracted_from_title"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
-    "This paper focuses on the molecular interaction between cellular prion protein and metabotropic glutamate receptor 5, with implications for Alzheimer disease therapy",
-    "The study identifies specific protein regions and conformational states involved in the interaction",
-    "Both therapeutic molecules and endogenous ligands are shown to modulate this interaction"
+    "This paper focuses on the molecular interaction between cellular prion protein and metabotropic glutamate receptor 5 in the context of Alzheimer disease pathophysiology",
+    "The study identifies specific protein regions and conformational states that regulate this interaction",
+    "Therapeutic implications are suggested through the identification of compounds that can modulate the PrPC-mGluR5 interaction"
   ]
 }

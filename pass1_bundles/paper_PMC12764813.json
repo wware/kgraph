@@ -3,8 +3,10 @@
     "doi": null,
     "pmcid": "PMC12764813",
     "title": "Knowledge attitude and practice regarding cancer screening among Chinese medical students",
-    "authors": [],
-    "journal": null,
+    "authors": [
+      "Not specified"
+    ],
+    "journal": "Not specified",
     "year": 2023,
     "study_type": "cross-sectional study",
     "eco_type": null,
@@ -19,9 +21,9 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "cc7296cfb7ac0b8c46521b1025d09f48ee58a932",
-      "git_commit_short": "cc7296c",
-      "git_branch": "J",
+      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
+      "git_commit_short": "932f234",
+      "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
     },
@@ -34,14 +36,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:68a17ebae6a9d50c",
-      "schema_version": "a71e3d07"
+      "checksum": "sha256:4df759b74bea15d3",
+      "schema_version": "23a154ab"
     },
     "execution": {
-      "timestamp": "2026-03-09T14:47:06.629380Z",
+      "timestamp": "2026-03-11T17:40:45.924221Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 62.03
+      "duration_seconds": 62.42
     },
     "entity_resolution": null,
     "model_info": null
@@ -67,10 +69,28 @@
     },
     {
       "id": "medical_students",
-      "class": "AnatomicalStructure",
+      "class": "Ethnicity",
       "name": "medical students",
       "synonyms": [
         "medical students"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "china",
+      "class": "Location",
+      "name": "China",
+      "synonyms": [
+        "China",
+        "Chinese"
       ],
       "symbol": null,
       "brand_names": [],
@@ -88,7 +108,8 @@
       "name": "cancer",
       "synonyms": [
         "cancer",
-        "malignant tumors"
+        "malignant tumors",
+        "malignancy"
       ],
       "symbol": null,
       "brand_names": [],
@@ -326,11 +347,11 @@
       "uniprot_id": null
     },
     {
-      "id": "breast_ultrasound",
+      "id": "mammography",
       "class": "Procedure",
-      "name": "breast ultrasound",
+      "name": "mammography",
       "synonyms": [
-        "breast ultrasound"
+        "mammography"
       ],
       "symbol": null,
       "brand_names": [],
@@ -343,11 +364,11 @@
       "uniprot_id": null
     },
     {
-      "id": "mammography",
+      "id": "breast_ultrasound",
       "class": "Procedure",
-      "name": "mammography",
+      "name": "breast ultrasound",
       "synonyms": [
-        "mammography"
+        "breast ultrasound"
       ],
       "symbol": null,
       "brand_names": [],
@@ -382,7 +403,8 @@
       "class": "Procedure",
       "name": "colposcopy",
       "synonyms": [
-        "colposcopy"
+        "colposcopy",
+        "colposcope examination"
       ],
       "symbol": null,
       "brand_names": [],
@@ -416,7 +438,8 @@
       "class": "Biomarker",
       "name": "pepsinogen",
       "synonyms": [
-        "pepsinogen"
+        "pepsinogen",
+        "pepsinogen I/II"
       ],
       "symbol": null,
       "brand_names": [],
@@ -447,7 +470,7 @@
     },
     {
       "id": "helicobacter_pylori",
-      "class": "BiologicalProcess",
+      "class": "Gene",
       "name": "Helicobacter pylori",
       "synonyms": [
         "Helicobacter pylori",
@@ -543,7 +566,7 @@
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": null,
+      "hgnc_id": "HGNC:1100",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -560,18 +583,51 @@
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
+      "hgnc_id": "HGNC:1101",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "atypical_hyperplasia",
+      "class": "Disease",
+      "name": "atypical hyperplasia",
+      "synonyms": [
+        "atypical hyperplasia"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "knowledge_attitude_practice",
-      "class": "StudyDesign",
-      "name": "Knowledge, Attitude, and Practice",
+      "id": "zhejiang_chinese_medical_university",
+      "class": "Institution",
+      "name": "Zhejiang Chinese Medical University",
       "synonyms": [
-        "Knowledge, Attitude, and Practice",
-        "KAP"
+        "Zhejiang Chinese Medical University"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "zunyi_medical_college",
+      "class": "Institution",
+      "name": "Zunyi Medical College",
+      "synonyms": [
+        "Zunyi Medical College"
       ],
       "symbol": null,
       "brand_names": [],
@@ -585,7 +641,7 @@
     },
     {
       "id": "structural_equation_modeling",
-      "class": "StatisticalMethod",
+      "class": "Procedure",
       "name": "structural equation modeling",
       "synonyms": [
         "structural equation modeling",
@@ -603,7 +659,7 @@
     },
     {
       "id": "confirmatory_factor_analysis",
-      "class": "StatisticalMethod",
+      "class": "Procedure",
       "name": "confirmatory factor analysis",
       "synonyms": [
         "confirmatory factor analysis",
@@ -621,7 +677,7 @@
     },
     {
       "id": "spearman_correlation",
-      "class": "StatisticalMethod",
+      "class": "Procedure",
       "name": "Spearman's rank correlation",
       "synonyms": [
         "Spearman's rank correlation",
@@ -638,47 +694,11 @@
       "uniprot_id": null
     },
     {
-      "id": "cox_proportional_hazards",
-      "class": "StatisticalMethod",
-      "name": "Cox proportional hazards model",
+      "id": "anxiety",
+      "class": "Symptom",
+      "name": "anxiety",
       "synonyms": [
-        "Cox proportional hazards model",
-        "Cox model"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "anova",
-      "class": "StatisticalMethod",
-      "name": "analysis of variance",
-      "synonyms": [
-        "analysis of variance",
-        "ANOVA"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "chi_square_test",
-      "class": "StatisticalMethod",
-      "name": "chi-square test",
-      "synonyms": [
-        "chi-square test"
+        "anxiety"
       ],
       "symbol": null,
       "brand_names": [],
@@ -709,29 +729,13 @@
       "uniprot_id": null
     },
     {
-      "id": "high_risk_populations",
-      "class": "StudyDesign",
-      "name": "high-risk populations",
+      "id": "knowledge_attitude_practice",
+      "class": "Procedure",
+      "name": "Knowledge, Attitude, and Practice survey",
       "synonyms": [
-        "high-risk populations",
-        "high-risk individuals"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "medical_education",
-      "class": "StudyDesign",
-      "name": "medical education",
-      "synonyms": [
-        "medical education"
+        "Knowledge, Attitude, and Practice survey",
+        "KAP survey",
+        "KAP"
       ],
       "symbol": null,
       "brand_names": [],
@@ -746,12 +750,12 @@
   ],
   "evidence_entities": [
     {
-      "id": "paper_1:introduction:1:llm",
+      "id": "PMC_unknown:methods:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "intro_1",
-      "text": "Cancer represents a significant global health challenge, with a staggering 19.3 million new cases and 10.0 million fatalities reported in 2020.",
+      "paper_id": "PMC_unknown",
+      "text_span_id": "methods_1",
+      "text": "This cross-sectional study was conducted between June and July 2023 at Zhejiang Chinese Medical University and Zunyi Medical College, and included medical students from both institutions.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "cross-sectional study",
@@ -759,24 +763,24 @@
       "source": "extracted"
     },
     {
-      "id": "paper_1:introduction:2:llm",
+      "id": "PMC_unknown:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "intro_2",
-      "text": "As a critical component of cancer control, cancer screening assumes a pivotal role in early detection, potentially saving lives by identifying cancers in their early stages or preventing their development altogether.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "cross-sectional study",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "paper_1:results:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC_unknown",
       "text_span_id": "results_1",
+      "text": "A total of 520 valid questionnaires were collected, with 304 (58.46%) females and a mean age of 21.07 \u00b1 2.25 years.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "cross-sectional study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_unknown:results:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_unknown",
+      "text_span_id": "results_2",
       "text": "The mean knowledge, attitude, and practice scores were 9.39 \u00b1 3.82 (possible range: 0\u201320), 31.4 \u00b1 4.06 (possible range: 8\u201340), and 25.2 \u00b1 7.04 (possible range: 8\u201340), respectively.",
       "confidence": 0.95,
       "extraction_method": "llm",
@@ -785,38 +789,12 @@
       "source": "extracted"
     },
     {
-      "id": "paper_1:results:2:llm",
+      "id": "PMC_unknown:results:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "results_2",
-      "text": "Structural equation modeling (SEM) indicated that knowledge directly influenced attitude (\u03b2 = 0.140, P = 0.003), attitude directly affected practice (\u03b2 = 0.145, P = 0.002), and knowledge had a substantial and direct impact on practice (\u03b2 = 0.219, P < 0.001).",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "cross-sectional study",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "paper_1:results:3:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC_unknown",
       "text_span_id": "results_3",
-      "text": "Correlation analysis demonstrated significant positive correlations between knowledge and practice (r = 0.230, P < 0.001), as well as between attitude and practice (r = 0.136, P = 0.002).",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "cross-sectional study",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "paper_1:discussion:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "discussion_1",
-      "text": "Medical students demonstrated insufficient knowledge, suboptimal attitudes, and moderate practices concerning cancer screening.",
+      "text": "Structural equation modeling (SEM) indicated that knowledge directly influenced attitude (\u03b2 = 0.140, P = 0.003), attitude directly affected practice (\u03b2 = 0.145, P = 0.002), and knowledge had a substantial and direct impact on practice (\u03b2 = 0.219, P < 0.001).",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "cross-sectional study",
@@ -827,152 +805,122 @@
   "relationships": [
     {
       "subject": "cancer_screening",
-      "predicate": "PROMOTES",
-      "object": "early_detection",
-      "evidence_ids": [
-        "paper_1:introduction:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "early_detection",
-      "predicate": "REDUCES",
+      "predicate": "PREVENTS",
       "object": "cancer",
       "evidence_ids": [
-        "paper_1:introduction:2:llm"
+        "PMC_unknown:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "knowledge_attitude_practice",
-      "predicate": "AFFECTS",
-      "object": "cancer_screening",
-      "evidence_ids": [
-        "paper_1:results:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "medical_students",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "cancer_screening",
-      "evidence_ids": [
-        "paper_1:discussion:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "discussion",
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cancer_screening",
+      "predicate": "INDICATES",
+      "object": "early_detection",
+      "evidence_ids": [
+        "PMC_unknown:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC_unknown"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "low_dose_spiral_ct",
-      "predicate": "INDICATES",
+      "predicate": "TREATS",
       "object": "lung_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "screening_method": true
+      },
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "colonoscopy",
-      "predicate": "INDICATES",
+      "predicate": "TREATS",
       "object": "colorectal_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "screening_method": true
+      },
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "fecal_immunochemical_testing",
-      "predicate": "INDICATES",
+      "predicate": "TREATS",
       "object": "colorectal_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "screening_method": true
+      },
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "abdominal_ultrasound",
-      "predicate": "INDICATES",
+      "predicate": "TREATS",
       "object": "liver_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "screening_method": true
+      },
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -982,92 +930,123 @@
       "predicate": "INDICATES",
       "object": "liver_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "biomarker": true
+      },
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "mammography",
-      "predicate": "INDICATES",
+      "predicate": "TREATS",
       "object": "breast_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "screening_method": true
+      },
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "breast_ultrasound",
-      "predicate": "INDICATES",
+      "predicate": "TREATS",
       "object": "breast_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "screening_method": true
+      },
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "hpv_testing",
-      "predicate": "INDICATES",
+      "predicate": "TREATS",
       "object": "cervical_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "screening_method": true
+      },
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "colposcopy",
+      "predicate": "TREATS",
+      "object": "cervical_cancer",
+      "evidence_ids": [
+        "PMC_unknown:methods:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC_unknown"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "screening_method": true
+      },
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "gastroscopy",
-      "predicate": "INDICATES",
+      "predicate": "TREATS",
       "object": "stomach_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "screening_method": true
+      },
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1077,16 +1056,18 @@
       "predicate": "INDICATES",
       "object": "stomach_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.8,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "biomarker": true
+      },
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1096,16 +1077,18 @@
       "predicate": "INDICATES",
       "object": "stomach_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.8,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "biomarker": true
+      },
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1115,16 +1098,16 @@
       "predicate": "INCREASES_RISK",
       "object": "stomach_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1134,16 +1117,16 @@
       "predicate": "INCREASES_RISK",
       "object": "stomach_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1153,16 +1136,16 @@
       "predicate": "INCREASES_RISK",
       "object": "liver_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1172,16 +1155,16 @@
       "predicate": "INCREASES_RISK",
       "object": "liver_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1191,16 +1174,16 @@
       "predicate": "INCREASES_RISK",
       "object": "liver_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1210,16 +1193,16 @@
       "predicate": "INCREASES_RISK",
       "object": "breast_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1229,11 +1212,70 @@
       "predicate": "INCREASES_RISK",
       "object": "breast_cancer",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "PMC_unknown:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC_unknown"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "atypical_hyperplasia",
+      "predicate": "INCREASES_RISK",
+      "object": "breast_cancer",
+      "evidence_ids": [
+        "PMC_unknown:methods:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC_unknown"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cancer_screening",
+      "predicate": "CAUSES",
+      "object": "anxiety",
+      "evidence_ids": [
+        "PMC_unknown:results:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC_unknown"
+      ],
+      "confidence": 0.7,
+      "linguistic_trust": "suggested",
+      "properties": {
+        "potential_side_effect": true
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "knowledge_attitude_practice",
+      "predicate": "REGULATES",
+      "object": "cancer_screening",
+      "evidence_ids": [
+        "PMC_unknown:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC_unknown"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
@@ -1242,31 +1284,12 @@
       "asserted_by": "llm",
       "resolution": null,
       "note": null
-    },
-    {
-      "subject": "medical_education",
-      "predicate": "AFFECTS",
-      "object": "knowledge_attitude_practice",
-      "evidence_ids": [
-        "paper_1:discussion:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "discussion",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
     }
   ],
   "notes": [
-    "This study focuses on Knowledge, Attitude, and Practice (KAP) regarding cancer screening among Chinese medical students",
+    "This study focuses on medical students' knowledge, attitudes, and practices regarding cancer screening in China",
     "The study used structural equation modeling to analyze relationships between knowledge, attitude, and practice components",
-    "Multiple cancer screening procedures and biomarkers were discussed in the context of different cancer types",
-    "The study identified knowledge gaps in cancer screening guidelines among medical students"
+    "Multiple cancer types and their screening methods were discussed, including lung, colorectal, liver, breast, cervical, stomach, esophageal, and nasopharyngeal cancers",
+    "The research was conducted at two Chinese medical universities with 520 participants"
   ]
 }
