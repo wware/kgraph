@@ -86,6 +86,19 @@ def _entity_to_node(entity) -> GraphNode:
     )
 
 
+# Placeholder values the LLM may output when it lacks the real paper ID
+_SOURCE_DOC_PLACEHOLDERS = frozenset(
+    {"paper_id", "PMC_PLACEHOLDER", "PMC_ID_NOT_PROVIDED", "PMC_UNKNOWN"}
+)
+
+
+def _sanitize_source_documents(docs: list[str]) -> list[str]:
+    """Filter out placeholder values from source_documents."""
+    if not docs:
+        return []
+    return [d for d in docs if d and d not in _SOURCE_DOC_PLACEHOLDERS]
+
+
 def _relationship_to_edge(rel) -> GraphEdge:
     """Convert a storage Relationship to a GraphEdge."""
     # Create human-readable label from predicate
@@ -96,7 +109,7 @@ def _relationship_to_edge(rel) -> GraphEdge:
         "predicate": rel.predicate,
         "object_id": rel.object_id,
         "confidence": rel.confidence,
-        "source_documents": rel.source_documents or [],
+        "source_documents": _sanitize_source_documents(rel.source_documents or []),
     }
     # Include evidence summary from properties (set during bundle load)
     if rel.properties:

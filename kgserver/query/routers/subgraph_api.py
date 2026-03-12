@@ -17,7 +17,7 @@ from storage.models.relationship import Relationship
 
 from ..storage_factory import get_storage
 from ..subgraph import resolve_seeds, extract_subgraph_rest
-from ..graph_traversal import MAX_HOPS, MAX_NODES_LIMIT, DEFAULT_MAX_NODES
+from ..graph_traversal import MAX_HOPS, MAX_NODES_LIMIT, DEFAULT_MAX_NODES, _sanitize_source_documents
 
 
 class SubgraphQueryEcho(BaseModel):
@@ -130,6 +130,14 @@ async def get_subgraph(
         min_confidence=min_confidence,
         predicates=predicate_list,
     )
+
+    # Filter placeholder values (e.g. "paper_id") from source_documents
+    relationships = [
+        rel.model_copy(
+            update={"source_documents": _sanitize_source_documents(rel.source_documents or [])}
+        )
+        for rel in relationships
+    ]
 
     return SubgraphResponse(
         entities=entities,

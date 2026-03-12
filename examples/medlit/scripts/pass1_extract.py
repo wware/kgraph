@@ -325,6 +325,9 @@ async def run_pass1(  # pylint: disable=too-many-statements
         entities = [ExtractedEntityRow.model_validate(en) for en in raw_entities]
         evidence_entities = [EvidenceEntityRow.model_validate(ev) for ev in raw_bundle.get("evidence_entities", [])]
         relationships = [RelationshipRow.model_validate(r) for r in raw_bundle.get("relationships", [])]
+        # Override source_papers with actual paper_id — LLM often outputs "paper_id" literally
+        for rel in relationships:
+            rel.source_papers = [paper_id]
 
         # Use paper from LLM if present and valid, else parser
         raw_paper = raw_bundle.get("paper") or {}

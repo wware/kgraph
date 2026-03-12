@@ -21,6 +21,7 @@ from ..graph_traversal import (
     MAX_HOPS,
     MAX_NODES_LIMIT,
     DEFAULT_MAX_NODES,
+    _sanitize_source_documents,
 )
 
 
@@ -301,7 +302,7 @@ async def get_edge_details(
         "predicate": rel.predicate,
         "object_id": rel.object_id,
         "confidence": rel.confidence,
-        "source_documents": rel.source_documents or [],
+        "source_documents": _sanitize_source_documents(rel.source_documents or []),
     }
     if rel.properties:
         for key in ("evidence_count", "strongest_evidence_quote", "evidence_confidence_avg"):
