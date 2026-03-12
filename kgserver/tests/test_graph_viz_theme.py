@@ -4,6 +4,7 @@ E2E tests for graph-viz (theme, controls, validation).
 Requires: pip install -e ".[e2e]" && playwright install chromium
 
 Run with: uv run pytest kgserver/tests/test_graph_viz_theme.py -v
+Run with: uv run pytest -m playwright -v  # run playwright tests only
 """
 
 import re
@@ -14,6 +15,9 @@ import time
 from pathlib import Path
 
 import pytest
+
+# Excluded from lint.sh; run with: pytest -m playwright
+pytestmark = pytest.mark.playwright
 
 # Skip entire module if playwright not installed
 pytest.importorskip("playwright")

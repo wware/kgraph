@@ -65,6 +65,9 @@ disable_error_code = ["call-arg", "import-untyped"]
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+markers = [
+    "playwright: tests requiring Playwright browser (excluded from lint.sh; run with: pytest -m playwright)",
+]
 
 [tool.setuptools]
 packages = ["storage", "query", "mcp_server"]
