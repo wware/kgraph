@@ -3,11 +3,14 @@ E2E tests for graph-viz (theme, controls, validation).
 
 Requires: pip install -e ".[e2e]" && playwright install chromium
 
-Run with: uv run pytest kgserver/tests/test_graph_viz_theme.py -v
-Run with: uv run pytest -m playwright -v  # run playwright tests only
+Run with: uv run pytest kgserver/tests/test_graph_viz_theme.py -v -p no:playwright
+Run with: uv run pytest -m playwright -v -p no:playwright  # run playwright tests only
+
+Use -p no:playwright to disable the pytest-playwright plugin and avoid teardown hang.
 """
 
 import re
+import signal
 import socket
 import subprocess
 import sys
@@ -22,7 +25,7 @@ pytestmark = pytest.mark.playwright
 # Skip entire module if playwright not installed
 pytest.importorskip("playwright")
 
-from playwright.sync_api import Page, expect  # noqa: E402  # pylint: disable=wrong-import-position
+from playwright.sync_api import Page, expect, sync_playwright  # noqa: E402  # pylint: disable=wrong-import-position
 
 
 def _find_free_port() -> int:
@@ -45,7 +48,7 @@ def graph_viz_server():
         cwd=str(static_dir),
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
-    ):
+    ) as proc:
         for _ in range(50):
             try:
                 import urllib.request
@@ -56,20 +59,42 @@ def graph_viz_server():
             except OSError:
                 time.sleep(0.1)
         else:
+            proc.kill()
+            proc.wait()
             pytest.fail("Server did not start in time")
         yield f"http://127.0.0.1:{port}/"
 
 
-@pytest.fixture
-def graph_viz_page(graph_viz_server, browser):
-    """Page navigated to graph-viz (uses pytest-playwright's browser fixture)."""
-    context = browser.new_context()
-    page = context.new_page()
-    page.goto(graph_viz_server, wait_until="networkidle")
+def _close_browser_with_timeout(context, browser, timeout_sec: int = 15) -> None:
+    """Close context and browser with a timeout to avoid indefinite hang on teardown.
+    If close hangs, exit the process (known pytest-playwright + server fixture issue)."""
+
+    def _on_timeout(signum: int, frame: object) -> None:
+        sys.exit(1)  # browser.close() hung; exit rather than block forever
+
+    old = signal.signal(signal.SIGALRM, _on_timeout)
+    signal.alarm(timeout_sec)
     try:
-        yield page
-    finally:
         context.close()
+        browser.close()
+    finally:
+        signal.alarm(0)
+        signal.signal(signal.SIGALRM, old)
+
+
+@pytest.fixture
+def graph_viz_page(graph_viz_server):
+    """Page navigated to graph-viz. Uses sync_playwright directly to avoid pytest-playwright
+    session-scoped browser teardown hang when used with custom server fixtures."""
+    with sync_playwright() as p:
+        browser = p.chromium.launch()
+        try:
+            context = browser.new_context()
+            page = context.new_page()
+            page.goto(graph_viz_server, wait_until="networkidle")
+            yield page
+        finally:
+            _close_browser_with_timeout(context, browser)
 
 
 THEME_STORAGE_KEY = "vite-ui-theme"

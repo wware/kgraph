@@ -132,12 +132,7 @@ async def get_subgraph(
     )
 
     # Filter placeholder values (e.g. "paper_id") from source_documents
-    relationships = [
-        rel.model_copy(
-            update={"source_documents": _sanitize_source_documents(rel.source_documents or [])}
-        )
-        for rel in relationships
-    ]
+    relationships = [rel.model_copy(update={"source_documents": _sanitize_source_documents(rel.source_documents or [])}) for rel in relationships]
 
     return SubgraphResponse(
         entities=entities,

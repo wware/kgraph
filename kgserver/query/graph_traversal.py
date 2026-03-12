@@ -87,9 +87,7 @@ def _entity_to_node(entity) -> GraphNode:
 
 
 # Placeholder values the LLM may output when it lacks the real paper ID
-_SOURCE_DOC_PLACEHOLDERS = frozenset(
-    {"paper_id", "PMC_PLACEHOLDER", "PMC_ID_NOT_PROVIDED", "PMC_UNKNOWN"}
-)
+_SOURCE_DOC_PLACEHOLDERS = frozenset({"paper_id", "PMC_PLACEHOLDER", "PMC_ID_NOT_PROVIDED", "PMC_UNKNOWN"})
 
 
 def _sanitize_source_documents(docs: list[str]) -> list[str]:
