@@ -4,9 +4,46 @@
     "pmcid": "PMC12754092",
     "title": "Yin Yang 1 activates JAK-STAT3-mediated epithelial-mesenchymal transition in Helicobacter pylori-induced gastric cancer progression",
     "authors": [
-      "Not specified"
+      "Gang Yu",
+      "Meng-Di Ma",
+      "Hui-Zhen Wang"
     ],
-    "journal": "Not specified",
+    "author_details": [
+      {
+        "name": "Jing-Wan Chen",
+        "affiliations": []
+      },
+      {
+        "name": "Jie-Ji Ouyang",
+        "affiliations": []
+      },
+      {
+        "name": "Zhen-Hui Wang",
+        "affiliations": []
+      },
+      {
+        "name": "Di-Meng Ma",
+        "affiliations": []
+      },
+      {
+        "name": "Zhi Zhang",
+        "affiliations": []
+      },
+      {
+        "name": "Qiong Teng",
+        "affiliations": []
+      },
+      {
+        "name": "Gang Yu",
+        "affiliations": []
+      },
+      {
+        "name": "Xiang-Yong Li",
+        "affiliations": []
+      }
+    ],
+    "document_id": "PMC12754092",
+    "journal": "World Journal of Gastroenterology",
     "year": 2024,
     "study_type": "experimental",
     "eco_type": "in_vitro_in_vivo",
@@ -21,8 +58,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
-      "git_commit_short": "932f234",
+      "git_commit": "48e3c74be35a9bdaabe3f69f35049054df3588a9",
+      "git_commit_short": "48e3c74",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -36,14 +73,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4df759b74bea15d3",
-      "schema_version": "23a154ab"
+      "checksum": "sha256:4069173fe4ab327c",
+      "schema_version": "0399967c"
     },
     "execution": {
-      "timestamp": "2026-03-11T17:35:58.723688Z",
+      "timestamp": "2026-03-13T16:55:34.057650Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 42.58
+      "duration_seconds": 47.57
     },
     "entity_resolution": null,
     "model_info": null
@@ -68,7 +105,7 @@
     },
     {
       "id": "JAK2",
-      "class": "Enzyme",
+      "class": "Protein",
       "name": "Janus kinase 2",
       "synonyms": [
         "JAK2"
@@ -102,7 +139,7 @@
     },
     {
       "id": "H_pylori",
-      "class": "Gene",
+      "class": "Protein",
       "name": "Helicobacter pylori",
       "synonyms": [
         "H. pylori"
@@ -129,7 +166,7 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0024623",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -153,15 +190,32 @@
       "uniprot_id": null
     },
     {
-      "id": "gastritis",
-      "class": "Disease",
-      "name": "gastritis",
+      "id": "Correa_cascade",
+      "class": "Pathway",
+      "name": "Correa cascade",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0017152",
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "JAK2_STAT3_pathway",
+      "class": "Pathway",
+      "name": "JAK2/STAT3 signaling pathway",
+      "synonyms": [
+        "JAK2/STAT3 pathway"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -243,6 +297,66 @@
       "uniprot_id": null
     },
     {
+      "id": "gastritis",
+      "class": "Disease",
+      "name": "gastritis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "atrophic_gastritis",
+      "class": "Disease",
+      "name": "atrophic gastritis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "intestinal_metaplasia",
+      "class": "Disease",
+      "name": "intestinal metaplasia",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "dysplasia",
+      "class": "Disease",
+      "name": "dysplasia",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "AG490",
       "class": "Drug",
       "name": "AG490",
@@ -274,7 +388,7 @@
     },
     {
       "id": "TFF1",
-      "class": "Gene",
+      "class": "Protein",
       "name": "trefoil factor 1",
       "synonyms": [
         "TFF1"
@@ -352,39 +466,9 @@
       "uniprot_id": null
     },
     {
-      "id": "atrophic_gastritis",
-      "class": "Disease",
-      "name": "atrophic gastritis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0017154",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "intestinal_metaplasia",
-      "class": "Disease",
-      "name": "intestinal metaplasia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0021828",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "Correa_cascade",
+      "id": "tumor_growth",
       "class": "BiologicalProcess",
-      "name": "Correa cascade",
+      "name": "tumor growth",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -397,12 +481,205 @@
       "uniprot_id": null
     },
     {
-      "id": "JAK_STAT3_pathway",
-      "class": "Pathway",
-      "name": "JAK2/STAT3 pathway",
-      "synonyms": [
-        "JAK2-STAT3 pathway"
-      ],
+      "id": "metastasis",
+      "class": "BiologicalProcess",
+      "name": "metastasis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "phosphorylation",
+      "class": "BiologicalProcess",
+      "name": "phosphorylation",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "transcriptional_regulation",
+      "class": "BiologicalProcess",
+      "name": "transcriptional regulation",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "chronic_inflammation",
+      "class": "Disease",
+      "name": "chronic inflammation",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "poor_prognosis",
+      "class": "Symptom",
+      "name": "poor prognosis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:chenj",
+      "class": "Author",
+      "name": "Jing-Wan Chen",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:ouyangj",
+      "class": "Author",
+      "name": "Jie-Ji Ouyang",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:wangz",
+      "class": "Author",
+      "name": "Zhen-Hui Wang",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:mad",
+      "class": "Author",
+      "name": "Di-Meng Ma",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:zhangz",
+      "class": "Author",
+      "name": "Zhi Zhang",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:tengq",
+      "class": "Author",
+      "name": "Qiong Teng",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:yug",
+      "class": "Author",
+      "name": "Gang Yu",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:lix",
+      "class": "Author",
+      "name": "Xiang-Yong Li",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Paper:PMC12754092",
+      "class": "Paper",
+      "name": "Yin Yang 1 activates JAK-STAT3-mediated epithelial-mesenchymal transition in Helicobacter pylori-induced gastric cancer progression",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -416,25 +693,12 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC11362215:RESULTS:1:llm",
+      "id": "PMC11000000:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11362215",
+      "paper_id": "PMC11000000",
       "text_span_id": "results_1",
       "text": "YY1 was highly expressed in gastric cancer tissues and cells. Kaplan-Meier survival curves indicated that high YY1 expression correlated with a poor prognosis.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "experimental",
-      "eco_type": "clinical_analysis",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC11362215:RESULTS:2:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC11362215",
-      "text_span_id": "results_2",
-      "text": "In vivo and in vitro experiments demonstrated that H. pylori infection promoted phosphorylation of JAK2 and STAT3, thereby activating the EMT pathway, in which YY1 played a key role.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -442,24 +706,50 @@
       "source": "extracted"
     },
     {
-      "id": "PMC11362215:RESULTS:3:llm",
+      "id": "PMC11000000:results:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11362215",
+      "paper_id": "PMC11000000",
+      "text_span_id": "results_2",
+      "text": "YY1 expression showed a gradually increasing trend in H. pylori-induced gastritis and gastric tumors.",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "in_vitro_in_vivo",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11000000:results:3:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11000000",
       "text_span_id": "results_3",
+      "text": "H. pylori infection promoted phosphorylation of JAK2 and STAT3, thereby activating the EMT pathway, in which YY1 played a key role.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "in_vitro_in_vivo",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11000000:results:4:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11000000",
+      "text_span_id": "results_4",
       "text": "YY1 and JAK2 interaction was validated by chromatin immunoprecipitation.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "in_vitro",
+      "eco_type": "in_vitro_in_vivo",
       "source": "extracted"
     },
     {
-      "id": "PMC11362215:RESULTS:4:llm",
+      "id": "PMC11000000:results:5:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC11362215",
-      "text_span_id": "results_4",
+      "paper_id": "PMC11000000",
+      "text_span_id": "results_5",
       "text": "YY1 knockdown or pharmacological inhibition reversed EMT and suppressed gastric cancer cell proliferation and metastasis.",
       "confidence": 0.95,
       "extraction_method": "llm",
@@ -474,18 +764,39 @@
       "predicate": "REGULATES",
       "object": "JAK2",
       "evidence_ids": [
-        "PMC11362215:RESULTS:3:llm"
+        "PMC11000000:results:4:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC11362215"
+        "PMC12754092"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
         "mechanism": "transcriptional_activation"
       },
-      "section": "RESULTS",
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "YY1",
+      "predicate": "REGULATES",
+      "object": "JAK2_STAT3_pathway",
+      "evidence_ids": [
+        "PMC11000000:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "mechanism": "activation"
+      },
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -495,19 +806,19 @@
       "predicate": "REGULATES",
       "object": "EMT",
       "evidence_ids": [
-        "PMC11362215:RESULTS:2:llm",
-        "PMC11362215:RESULTS:4:llm"
+        "PMC11000000:results:3:llm",
+        "PMC11000000:results:5:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC11362215"
+        "PMC12754092"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
         "mechanism": "activation"
       },
-      "section": "RESULTS",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -517,18 +828,18 @@
       "predicate": "REGULATES",
       "object": "YY1",
       "evidence_ids": [
-        "PMC11362215:RESULTS:2:llm"
+        "PMC11000000:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC11362215"
+        "PMC12754092"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {
         "mechanism": "upregulation"
       },
-      "section": "RESULTS",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -538,18 +849,39 @@
       "predicate": "CAUSES",
       "object": "gastric_cancer",
       "evidence_ids": [
-        "PMC11362215:RESULTS:1:llm"
+        "PMC11000000:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC11362215"
+        "PMC12754092"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {
-        "mechanism": "inflammation_cascade"
+        "pathway": "Correa_cascade"
       },
-      "section": "RESULTS",
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "YY1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "poor_prognosis",
+      "evidence_ids": [
+        "PMC11000000:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "correlation": "positive"
+      },
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -559,18 +891,18 @@
       "predicate": "REGULATES",
       "object": "cell_proliferation",
       "evidence_ids": [
-        "PMC11362215:RESULTS:4:llm"
+        "PMC11000000:results:5:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC11362215"
+        "PMC12754092"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
         "mechanism": "promotion"
       },
-      "section": "RESULTS",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -578,83 +910,62 @@
     {
       "subject": "YY1",
       "predicate": "REGULATES",
-      "object": "cell_migration",
+      "object": "metastasis",
       "evidence_ids": [
-        "PMC11362215:RESULTS:4:llm"
+        "PMC11000000:results:5:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC11362215"
+        "PMC12754092"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
         "mechanism": "promotion"
       },
-      "section": "RESULTS",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "YY1",
-      "predicate": "REGULATES",
-      "object": "cell_invasion",
-      "evidence_ids": [
-        "PMC11362215:RESULTS:4:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11362215"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "mechanism": "promotion"
-      },
-      "section": "RESULTS",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "JAK2",
-      "predicate": "REGULATES",
-      "object": "STAT3",
-      "evidence_ids": [
-        "PMC11362215:RESULTS:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11362215"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "mechanism": "phosphorylation"
-      },
-      "section": "RESULTS",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "JAK_STAT3_pathway",
+      "subject": "JAK2_STAT3_pathway",
       "predicate": "REGULATES",
       "object": "EMT",
       "evidence_ids": [
-        "PMC11362215:RESULTS:2:llm"
+        "PMC11000000:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC11362215"
+        "PMC12754092"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
         "mechanism": "activation"
       },
-      "section": "RESULTS",
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "H_pylori",
+      "predicate": "REGULATES",
+      "object": "phosphorylation",
+      "evidence_ids": [
+        "PMC11000000:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "targets": "JAK2_STAT3"
+      },
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -664,18 +975,18 @@
       "predicate": "INHIBITS",
       "object": "JAK2",
       "evidence_ids": [
-        "PMC11362215:RESULTS:4:llm"
+        "PMC11000000:results:5:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC11362215"
+        "PMC12754092"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {
-        "mechanism": "pharmacological_inhibition"
+        "mechanism": "pharmacological"
       },
-      "section": "RESULTS",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -685,40 +996,1162 @@
       "predicate": "REGULATES",
       "object": "JAK2",
       "evidence_ids": [
-        "PMC11362215:RESULTS:2:llm"
+        "PMC11000000:results:5:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC11362215"
+        "PMC12754092"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {
         "mechanism": "activation"
       },
-      "section": "RESULTS",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "YY1",
+      "subject": "EMT",
       "predicate": "ASSOCIATED_WITH",
       "object": "gastric_cancer",
       "evidence_ids": [
-        "PMC11362215:RESULTS:1:llm"
+        "PMC11000000:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC11362215"
+        "PMC12754092"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {
-        "correlation": "poor_prognosis"
+        "role": "progression"
       },
-      "section": "RESULTS",
+      "section": "results",
       "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenj",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12754092",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ouyangj",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12754092",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangz",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12754092",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:mad",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12754092",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangz",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12754092",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:tengq",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12754092",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:yug",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12754092",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lix",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12754092",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "YY1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "JAK2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "STAT3",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "H_pylori",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "gastric_cancer",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "EMT",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "Correa_cascade",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "JAK2_STAT3_pathway",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "E_cadherin",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "N_cadherin",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "Snail",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "Vimentin",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "CagA",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "gastritis",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "atrophic_gastritis",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "intestinal_metaplasia",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "dysplasia",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "AG490",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "coumermycin_A1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "TFF1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "Ki67",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "cell_proliferation",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "cell_migration",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "cell_invasion",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "tumor_growth",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "metastasis",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "phosphorylation",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "transcriptional_regulation",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "chronic_inflammation",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12754092",
+      "predicate": "DESCRIBED",
+      "object": "poor_prognosis",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:ouyangj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:mad",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tengq",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:yug",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:lix",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ouyangj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:mad",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:ouyangj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ouyangj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ouyangj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tengq",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ouyangj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:yug",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lix",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:ouyangj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:mad",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangz",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:tengq",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangz",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:yug",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lix",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:mad",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:mad",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tengq",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:mad",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:yug",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lix",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:mad",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:tengq",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:yug",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lix",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:tengq",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:yug",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lix",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tengq",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lix",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:yug",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12754092"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
       "resolution": null,
       "note": null
     }
@@ -726,6 +2159,6 @@
   "notes": [
     "This study demonstrates YY1 as a key transcription factor in H. pylori-induced gastric carcinogenesis through JAK2/STAT3-mediated EMT activation",
     "The research provides both in vitro and in vivo evidence for YY1's role in gastric cancer progression",
-    "Chromatin immunoprecipitation confirmed direct YY1-JAK2 interaction"
+    "Pharmacological inhibition of JAK2 reversed YY1-mediated oncogenic effects, suggesting therapeutic potential"
   ]
 }

@@ -3,9 +3,71 @@
     "doi": null,
     "pmcid": "PMC4480270",
     "title": "Estimation of the cost-effectiveness of apixaban versus vitamin K antagonists in the management of atrial fibrillation in Argentina",
-    "authors": [],
-    "journal": null,
-    "year": null,
+    "authors": [
+      "Augustovski F",
+      "Irazola V",
+      "Gutierrez L",
+      "Rubinstein A"
+    ],
+    "author_details": [
+      {
+        "name": "Mariano Anibal Giorgi",
+        "affiliations": [
+          "1Department of Pharmacology, Instituto Universitario CEMIC School of Medicine, Buenos Aires, Argentina"
+        ]
+      },
+      {
+        "name": "Christian Caroli",
+        "affiliations": [
+          "2Department of Cardiology. FLENI, Buenos Aires, Argentina"
+        ]
+      },
+      {
+        "name": "Norberto Damian Giglio",
+        "affiliations": [
+          "3Department of Epidemiology, Hospital \u201cRicardo Gutierrez\u201d, Buenos Aires, Argentina"
+        ]
+      },
+      {
+        "name": "Paula Micone",
+        "affiliations": [
+          "4Department of Pharmacology, Universidad Austral School of Medicine, Pilar, Argentina"
+        ]
+      },
+      {
+        "name": "Eleonora Aiello",
+        "affiliations": [
+          "5Bristol-Myers Squibb Argentina, Buenos Aires, Argentina"
+        ]
+      },
+      {
+        "name": "Cristina Vulcano",
+        "affiliations": [
+          "5Bristol-Myers Squibb Argentina, Buenos Aires, Argentina"
+        ]
+      },
+      {
+        "name": "Julia Blanco",
+        "affiliations": [
+          "5Bristol-Myers Squibb Argentina, Buenos Aires, Argentina"
+        ]
+      },
+      {
+        "name": "Bonnie Donato",
+        "affiliations": [
+          "6Bristol-Myers Squibb US, Wallingford, CT USA"
+        ]
+      },
+      {
+        "name": "Joaquin Mould Quevedo",
+        "affiliations": [
+          "7Pfizer US, New York, NY USA"
+        ]
+      }
+    ],
+    "document_id": "PMC4480270",
+    "journal": "BMC Health Services Research",
+    "year": 2015,
     "study_type": "cost-effectiveness analysis",
     "eco_type": "Markov model",
     "study_design": {
@@ -19,8 +81,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
-      "git_commit_short": "932f234",
+      "git_commit": "48e3c74be35a9bdaabe3f69f35049054df3588a9",
+      "git_commit_short": "48e3c74",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -34,14 +96,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4df759b74bea15d3",
-      "schema_version": "23a154ab"
+      "checksum": "sha256:4069173fe4ab327c",
+      "schema_version": "0399967c"
     },
     "execution": {
-      "timestamp": "2026-03-11T17:55:47.148342Z",
+      "timestamp": "2026-03-13T17:16:12.774837Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 48.54
+      "duration_seconds": 50.3
     },
     "entity_resolution": null,
     "model_info": null
@@ -58,24 +120,7 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "vitamin_k_antagonists_1",
-      "class": "Drug",
-      "name": "vitamin K antagonists",
-      "synonyms": [
-        "VKAs"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
+      "rxnorm_id": "1364430",
       "loinc_code": null,
       "uniprot_id": null
     },
@@ -83,14 +128,16 @@
       "id": "warfarin_1",
       "class": "Drug",
       "name": "warfarin",
-      "synonyms": [],
+      "synonyms": [
+        "vitamin K antagonist"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": null,
+      "rxnorm_id": "11289",
       "loinc_code": null,
       "uniprot_id": null
     },
@@ -107,7 +154,7 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0004238",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -125,7 +172,7 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0038454",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -140,7 +187,7 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0013922",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -152,13 +199,13 @@
       "name": "bleeding",
       "synonyms": [
         "major bleeding",
-        "intracranial hemorrhage"
+        "intracranial bleeding"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0019080",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -180,9 +227,9 @@
       "uniprot_id": null
     },
     {
-      "id": "cost_effectiveness_analysis_1",
-      "class": "Procedure",
-      "name": "cost-effectiveness analysis",
+      "id": "chads2_1",
+      "class": "Biomarker",
+      "name": "CHADS2",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -195,12 +242,10 @@
       "uniprot_id": null
     },
     {
-      "id": "markov_model_1",
-      "class": "Procedure",
-      "name": "Markov-based model",
-      "synonyms": [
-        "Markov model"
-      ],
+      "id": "cha2ds2vasc_1",
+      "class": "Biomarker",
+      "name": "CHA2DS2-VASC",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -212,34 +257,135 @@
       "uniprot_id": null
     },
     {
-      "id": "chads2_score_1",
-      "class": "Biomarker",
-      "name": "CHADS2 score",
-      "synonyms": [
-        "CHADS2"
-      ],
+      "id": "acenocoumarol_1",
+      "class": "Drug",
+      "name": "acenocoumarol",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": null,
+      "rxnorm_id": "703",
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "cha2ds2_vasc_score_1",
-      "class": "Biomarker",
-      "name": "CHA2DS2-VASc score",
-      "synonyms": [
-        "CHA2DS2-VASC"
-      ],
+      "id": "aspirin_1",
+      "class": "Drug",
+      "name": "aspirin",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1191",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "clopidogrel_1",
+      "class": "Drug",
+      "name": "clopidogrel",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "32968",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "dabigatran_1",
+      "class": "Drug",
+      "name": "dabigatran",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1037042",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "rivaroxaban_1",
+      "class": "Drug",
+      "name": "rivaroxaban",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1114195",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "edoxaban_1",
+      "class": "Drug",
+      "name": "edoxaban",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1599538",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "myocardial_infarction_1",
+      "class": "Disease",
+      "name": "myocardial infarction",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0027051",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pulmonary_embolism_1",
+      "class": "Disease",
+      "name": "pulmonary embolism",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0034065",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "factor_xa_1",
+      "class": "Protein",
+      "name": "factor Xa",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0015519",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -256,7 +402,7 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0525032",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -280,9 +426,9 @@
       "uniprot_id": null
     },
     {
-      "id": "factor_xa_inhibitor_1",
-      "class": "Drug",
-      "name": "factor Xa inhibitor",
+      "id": "aristotle_1",
+      "class": "Evidence",
+      "name": "ARISTOTLE",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -295,9 +441,9 @@
       "uniprot_id": null
     },
     {
-      "id": "dabigatran_1",
-      "class": "Drug",
-      "name": "dabigatran",
+      "id": "averroes_1",
+      "class": "Evidence",
+      "name": "AVERROES",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -310,106 +456,11 @@
       "uniprot_id": null
     },
     {
-      "id": "rivaroxaban_1",
-      "class": "Drug",
-      "name": "rivaroxaban",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "edoxaban_1",
-      "class": "Drug",
-      "name": "edoxaban",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "myocardial_infarction_1",
-      "class": "Disease",
-      "name": "myocardial infarction",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pulmonary_embolism_1",
-      "class": "Disease",
-      "name": "pulmonary embolism",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "quality_adjusted_life_years_1",
-      "class": "Biomarker",
-      "name": "quality-adjusted life years",
+      "id": "nice_1",
+      "class": "Institution",
+      "name": "National Institute of Health Care and Excellence",
       "synonyms": [
-        "QALY",
-        "QALYs"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "incremental_cost_effectiveness_ratio_1",
-      "class": "Biomarker",
-      "name": "incremental cost-effectiveness ratio",
-      "synonyms": [
-        "ICER"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "gross_domestic_product_1",
-      "class": "Biomarker",
-      "name": "Gross Domestic Product",
-      "synonyms": [
-        "GDP"
+        "NICE"
       ],
       "symbol": null,
       "brand_names": [],
@@ -452,23 +503,6 @@
       "uniprot_id": null
     },
     {
-      "id": "nice_1",
-      "class": "Institution",
-      "name": "National Institute of Health Care and Excellence",
-      "synonyms": [
-        "NICE"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "world_health_organization_1",
       "class": "Institution",
       "name": "World Health Organization",
@@ -486,11 +520,11 @@
       "uniprot_id": null
     },
     {
-      "id": "aristotle_trial_1",
-      "class": "Evidence",
-      "name": "ARISTOTLE trial",
+      "id": "markov_model_1",
+      "class": "Procedure",
+      "name": "Markov model",
       "synonyms": [
-        "ARISTOTLE"
+        "Markov-based model"
       ],
       "symbol": null,
       "brand_names": [],
@@ -503,12 +537,348 @@
       "uniprot_id": null
     },
     {
-      "id": "averroes_trial_1",
-      "class": "Evidence",
-      "name": "AVERROES trial",
+      "id": "cost_effectiveness_analysis_1",
+      "class": "Procedure",
+      "name": "cost-effectiveness analysis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "delphi_panel_1",
+      "class": "Procedure",
+      "name": "Delphi Panel",
       "synonyms": [
-        "AVERROES"
+        "Delphi method"
       ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "eq5d_1",
+      "class": "Biomarker",
+      "name": "EQ-5D",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "qaly_1",
+      "class": "Biomarker",
+      "name": "QALY",
+      "synonyms": [
+        "quality-adjusted life years"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "icer_1",
+      "class": "Biomarker",
+      "name": "incremental cost-effectiveness ratio",
+      "synonyms": [
+        "ICER"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gdp_1",
+      "class": "Biomarker",
+      "name": "Gross Domestic Product",
+      "synonyms": [
+        "GDP"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:giorgim",
+      "class": "Author",
+      "name": "Mariano Anibal Giorgi",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:1department_of_pharmacology_instituto_universitar",
+      "class": "Institution",
+      "name": "1Department of Pharmacology, Instituto Universitario CEMIC School of Medicine, Buenos Aires, Argentina",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:carolic",
+      "class": "Author",
+      "name": "Christian Caroli",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:2department_of_cardiology_fleni_buenos_aires_ar",
+      "class": "Institution",
+      "name": "2Department of Cardiology. FLENI, Buenos Aires, Argentina",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:giglion",
+      "class": "Author",
+      "name": "Norberto Damian Giglio",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:3department_of_epidemiology_hospital_ricardo_gut",
+      "class": "Institution",
+      "name": "3Department of Epidemiology, Hospital \u201cRicardo Gutierrez\u201d, Buenos Aires, Argentina",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:miconep",
+      "class": "Author",
+      "name": "Paula Micone",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:4department_of_pharmacology_universidad_austral_s",
+      "class": "Institution",
+      "name": "4Department of Pharmacology, Universidad Austral School of Medicine, Pilar, Argentina",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:aielloe",
+      "class": "Author",
+      "name": "Eleonora Aiello",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:5bristol_myers_squibb_argentina_buenos_aires_arg",
+      "class": "Institution",
+      "name": "5Bristol-Myers Squibb Argentina, Buenos Aires, Argentina",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:vulcanoc",
+      "class": "Author",
+      "name": "Cristina Vulcano",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:blancoj",
+      "class": "Author",
+      "name": "Julia Blanco",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:donatob",
+      "class": "Author",
+      "name": "Bonnie Donato",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:6bristol_myers_squibb_us_wallingford_ct_usa",
+      "class": "Institution",
+      "name": "6Bristol-Myers Squibb US, Wallingford, CT USA",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:quevedoj",
+      "class": "Author",
+      "name": "Joaquin Mould Quevedo",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:7pfizer_us_new_york_ny_usa",
+      "class": "Institution",
+      "name": "7Pfizer US, New York, NY USA",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Paper:PMC4480270",
+      "class": "Paper",
+      "name": "Estimation of the cost-effectiveness of apixaban versus vitamin K antagonists in the management of atrial fibrillation in Argentina",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -522,10 +892,10 @@
   ],
   "evidence_entities": [
     {
-      "id": "paper_1:abstract:1:llm",
+      "id": "PMC4618177:abstract:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC4618177",
       "text_span_id": "abstract_1",
       "text": "Apixaban, a novel oral anticoagulant which has been approved for the prevention of stroke and systemic embolism in non-valvular atrial fibrillation, reduces both ischemic and haemorrhagic stroke and produces fewer bleedings than vitamin K antagonist warfarin.",
       "confidence": 0.95,
@@ -535,10 +905,10 @@
       "source": "extracted"
     },
     {
-      "id": "paper_1:methods:1:llm",
+      "id": "PMC4618177:methods:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC4618177",
       "text_span_id": "methods_1",
       "text": "We performed a cost-effectiveness analysis of apixaban versus warfarin in non-valvular atrial fibrillation (NVAF) in patients suitable for oral anticoagulation in Argentina.",
       "confidence": 0.95,
@@ -548,10 +918,10 @@
       "source": "extracted"
     },
     {
-      "id": "paper_1:results:1:llm",
+      "id": "PMC4618177:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC4618177",
       "text_span_id": "results_1",
       "text": "The study revealed that apixaban is cost-effective compared with warfarin using a willingness to pay threshold ranging from 1 to 3 per capita Gross Domestic Product (11558 \u2013 34664 USD) with an incremental cost-effectiveness ratio of 786.08 USD per QALY gained.",
       "confidence": 0.95,
@@ -561,25 +931,12 @@
       "source": "extracted"
     },
     {
-      "id": "paper_1:background:1:llm",
+      "id": "PMC4618177:background:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_1",
+      "paper_id": "PMC4618177",
       "text_span_id": "background_1",
-      "text": "ARISTOTLE revealed a 21 % relative risk reduction in the primary efficacy endpoint (stroke or systemic embolism) and a 31 % relative risk reduction in the safety endpoint (major bleeding).",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "clinical trial",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "paper_1:results:2:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "paper_1",
-      "text_span_id": "results_2",
-      "text": "In a VKA suitable cohort of 1000 patients with NVAF, compared with warfarin, the use of apixaban resulted in 24 fewer strokes (including first and recurrent ischemic and hemorrhagic) or systemic embolism, 41 fewer major bleeding events, and 26 fewer cardiovascular-related deaths.",
+      "text": "Apixaban demonstrated that it is superior to dose-adjusted warfarin in patients suitable for oral anticoagulants. ARISTOTLE revealed a 21 % relative risk reduction in the primary efficacy endpoint (stroke or systemic embolism) and a 31 % relative risk reduction in the safety endpoint (major bleeding).",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "cost-effectiveness analysis",
@@ -593,12 +950,11 @@
       "predicate": "TREATS",
       "object": "atrial_fibrillation_1",
       "evidence_ids": [
-        "paper_1:abstract:1:llm",
-        "paper_1:methods:1:llm"
+        "PMC4618177:abstract:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC4480270"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -613,12 +969,11 @@
       "predicate": "PREVENTS",
       "object": "stroke_1",
       "evidence_ids": [
-        "paper_1:abstract:1:llm",
-        "paper_1:background:1:llm"
+        "PMC4618177:abstract:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC4480270"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -633,37 +988,15 @@
       "predicate": "PREVENTS",
       "object": "systemic_embolism_1",
       "evidence_ids": [
-        "paper_1:abstract:1:llm",
-        "paper_1:background:1:llm"
+        "PMC4618177:abstract:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC4480270"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "apixaban_1",
-      "predicate": "CAUSES",
-      "object": "bleeding_1",
-      "evidence_ids": [
-        "paper_1:abstract:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "comparison": "fewer than warfarin"
-      },
       "section": "abstract",
       "asserted_by": "llm",
       "resolution": null,
@@ -671,119 +1004,73 @@
     },
     {
       "subject": "warfarin_1",
-      "predicate": "SUBTYPE_OF",
-      "object": "vitamin_k_antagonists_1",
+      "predicate": "TREATS",
+      "object": "atrial_fibrillation_1",
       "evidence_ids": [
-        "paper_1:abstract:1:llm"
+        "PMC4618177:methods:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC4480270"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "atrial_fibrillation_1",
-      "predicate": "INCREASES_RISK",
-      "object": "stroke_1",
-      "evidence_ids": [
-        "paper_1:background:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "risk_factor": "5-fold increase"
-      },
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "atrial_fibrillation_1",
-      "predicate": "INCREASES_RISK",
-      "object": "systemic_embolism_1",
-      "evidence_ids": [
-        "paper_1:background:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "risk_factor": "5-fold increase"
-      },
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "chads2_score_1",
-      "predicate": "INDICATES",
-      "object": "stroke_1",
-      "evidence_ids": [
-        "paper_1:background:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "purpose": "risk assessment"
-      },
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cha2ds2_vasc_score_1",
-      "predicate": "INDICATES",
-      "object": "stroke_1",
-      "evidence_ids": [
-        "paper_1:background:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "purpose": "risk assessment"
-      },
-      "section": "background",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "apixaban_1",
-      "predicate": "SUBTYPE_OF",
-      "object": "factor_xa_inhibitor_1",
+      "predicate": "INHIBITS",
+      "object": "factor_xa_1",
       "evidence_ids": [
-        "paper_1:background:1:llm"
+        "PMC4618177:background:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC4480270"
       ],
       "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "chads2_1",
+      "predicate": "INDICATES",
+      "object": "stroke_1",
+      "evidence_ids": [
+        "PMC4618177:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cha2ds2vasc_1",
+      "predicate": "INDICATES",
+      "object": "stroke_1",
+      "evidence_ids": [
+        "PMC4618177:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "background",
@@ -796,17 +1083,15 @@
       "predicate": "ASSOCIATED_WITH",
       "object": "apixaban_1",
       "evidence_ids": [
-        "paper_1:methods:1:llm"
+        "PMC4618177:methods:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC4480270"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {
-        "relationship": "manufacturer"
-      },
+      "properties": {},
       "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
@@ -817,26 +1102,1461 @@
       "predicate": "ASSOCIATED_WITH",
       "object": "apixaban_1",
       "evidence_ids": [
-        "paper_1:methods:1:llm"
+        "PMC4618177:methods:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC4480270"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {
-        "relationship": "manufacturer"
-      },
+      "properties": {},
       "section": "methods",
       "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "atrial_fibrillation_1",
+      "predicate": "INCREASES_RISK",
+      "object": "stroke_1",
+      "evidence_ids": [
+        "PMC4618177:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "atrial_fibrillation_1",
+      "predicate": "INCREASES_RISK",
+      "object": "systemic_embolism_1",
+      "evidence_ids": [
+        "PMC4618177:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "acenocoumarol_1",
+      "predicate": "SAME_AS",
+      "object": "warfarin_1",
+      "evidence_ids": [
+        "PMC4618177:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "resolution": null,
+        "note": "Both are vitamin K antagonists used for similar therapeutic purposes"
+      },
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:giorgim",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:1department_of_pharmacology_instituto_universitar",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:carolic",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2department_of_cardiology_fleni_buenos_aires_ar",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:giglion",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:3department_of_epidemiology_hospital_ricardo_gut",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:miconep",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:4department_of_pharmacology_universidad_austral_s",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:aielloe",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:5bristol_myers_squibb_argentina_buenos_aires_arg",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:vulcanoc",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:5bristol_myers_squibb_argentina_buenos_aires_arg",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:blancoj",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:5bristol_myers_squibb_argentina_buenos_aires_arg",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:donatob",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:6bristol_myers_squibb_us_wallingford_ct_usa",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:quevedoj",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:7pfizer_us_new_york_ny_usa",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:giorgim",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC4480270",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:carolic",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC4480270",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:giglion",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC4480270",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:miconep",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC4480270",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:aielloe",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC4480270",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:vulcanoc",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC4480270",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:blancoj",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC4480270",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:donatob",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC4480270",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:quevedoj",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC4480270",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "apixaban_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "warfarin_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "atrial_fibrillation_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "stroke_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "systemic_embolism_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "bleeding_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "argentina_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "chads2_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "cha2ds2vasc_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "acenocoumarol_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "aspirin_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "clopidogrel_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "dabigatran_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "rivaroxaban_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "edoxaban_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "myocardial_infarction_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "pulmonary_embolism_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "factor_xa_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "international_normalized_ratio_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "time_in_treatment_range_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "markov_model_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "cost_effectiveness_analysis_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "delphi_panel_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "eq5d_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "qaly_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "icer_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC4480270",
+      "predicate": "DESCRIBED",
+      "object": "gdp_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:carolic",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:giorgim",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:giglion",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:giorgim",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:giorgim",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:miconep",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:aielloe",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:giorgim",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:giorgim",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:vulcanoc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:blancoj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:giorgim",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:donatob",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:giorgim",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:giorgim",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:quevedoj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:carolic",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:giglion",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:carolic",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:miconep",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:aielloe",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:carolic",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:carolic",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:vulcanoc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:blancoj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:carolic",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:carolic",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:donatob",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:carolic",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:quevedoj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:giglion",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:miconep",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:aielloe",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:giglion",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:giglion",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:vulcanoc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:blancoj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:giglion",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:donatob",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:giglion",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:giglion",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:quevedoj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:aielloe",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:miconep",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:miconep",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:vulcanoc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:blancoj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:miconep",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:donatob",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:miconep",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:miconep",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:quevedoj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:aielloe",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:vulcanoc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:aielloe",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:blancoj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:aielloe",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:donatob",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:aielloe",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:quevedoj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:blancoj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:vulcanoc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:donatob",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:vulcanoc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:quevedoj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:vulcanoc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:blancoj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:donatob",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:blancoj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:quevedoj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:donatob",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:quevedoj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC4480270"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
-    "This is a cost-effectiveness analysis conducted in Argentina comparing apixaban to warfarin for atrial fibrillation treatment",
-    "The study uses a Markov-based model with local epidemiological data",
-    "Results show apixaban is cost-effective with an ICER of 786.08 USD per QALY gained"
+    "This study is a cost-effectiveness analysis conducted in Argentina comparing apixaban to warfarin for atrial fibrillation treatment",
+    "The analysis used a Markov model with local epidemiological data and expert validation through Delphi panels",
+    "Results showed apixaban to be cost-effective with an ICER of 786.08 USD per QALY gained"
   ]
 }

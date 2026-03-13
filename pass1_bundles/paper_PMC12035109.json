@@ -4,6 +4,64 @@
     "pmcid": "PMC12035109",
     "title": "The impact of prolonged high-concentration cortisol exposure on cognitive function and risk factors: Evidence from Cushing's disease patients",
     "authors": [],
+    "author_details": [
+      {
+        "name": "Yuxiang Sun",
+        "affiliations": [
+          "1Department of Neurosurgery, Affiliated Hospital of Hebei University, Baoding, China",
+          "2Department of Neurosurgery, the First Medical Center of Chinese PLA General Hospital, Beijing, China"
+        ]
+      },
+      {
+        "name": "Junpeng Xu",
+        "affiliations": [
+          "2Department of Neurosurgery, the First Medical Center of Chinese PLA General Hospital, Beijing, China"
+        ]
+      },
+      {
+        "name": "Xiaoque Zheng",
+        "affiliations": [
+          "2Department of Neurosurgery, the First Medical Center of Chinese PLA General Hospital, Beijing, China"
+        ]
+      },
+      {
+        "name": "Chunhui Li",
+        "affiliations": [
+          "1Department of Neurosurgery, Affiliated Hospital of Hebei University, Baoding, China"
+        ]
+      },
+      {
+        "name": "Dongsheng Kong",
+        "affiliations": [
+          "2Department of Neurosurgery, the First Medical Center of Chinese PLA General Hospital, Beijing, China"
+        ]
+      },
+      {
+        "name": "Qijia Wu",
+        "affiliations": [
+          "2Department of Neurosurgery, the First Medical Center of Chinese PLA General Hospital, Beijing, China"
+        ]
+      },
+      {
+        "name": "Zihao Zhu",
+        "affiliations": [
+          "1Department of Neurosurgery, Affiliated Hospital of Hebei University, Baoding, China"
+        ]
+      },
+      {
+        "name": "Shiyu Feng",
+        "affiliations": [
+          "2Department of Neurosurgery, the First Medical Center of Chinese PLA General Hospital, Beijing, China"
+        ]
+      },
+      {
+        "name": "Yanyang Zhang",
+        "affiliations": [
+          "2Department of Neurosurgery, the First Medical Center of Chinese PLA General Hospital, Beijing, China"
+        ]
+      }
+    ],
+    "document_id": "PMC12035109",
     "journal": null,
     "year": null,
     "study_type": "retrospective cohort study",
@@ -19,8 +77,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
-      "git_commit_short": "932f234",
+      "git_commit": "48e3c74be35a9bdaabe3f69f35049054df3588a9",
+      "git_commit_short": "48e3c74",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -34,39 +92,39 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4df759b74bea15d3",
-      "schema_version": "23a154ab"
+      "checksum": "sha256:4069173fe4ab327c",
+      "schema_version": "0399967c"
     },
     "execution": {
-      "timestamp": "2026-03-11T17:31:28.622301Z",
+      "timestamp": "2026-03-13T16:51:12.905272Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 53.36
+      "duration_seconds": 57.62
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "cortisol_1",
-      "class": "Hormone",
-      "name": "cortisol",
+      "id": "cortisol_exposure",
+      "class": "BiologicalProcess",
+      "name": "prolonged high-concentration cortisol exposure",
       "synonyms": [
-        "COR",
-        "CORT"
+        "prolonged high cortisol exposure",
+        "long-term elevated cortisol exposure"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0020268",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "cognitive_function_1",
+      "id": "cognitive_function",
       "class": "BiologicalProcess",
       "name": "cognitive function",
       "synonyms": [],
@@ -81,7 +139,7 @@
       "uniprot_id": null
     },
     {
-      "id": "cognitive_impairment_1",
+      "id": "cognitive_impairment",
       "class": "Symptom",
       "name": "cognitive impairment",
       "synonyms": [],
@@ -89,14 +147,14 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0338656",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "cushing_disease_1",
+      "id": "cushing_disease",
       "class": "Disease",
       "name": "Cushing's disease",
       "synonyms": [
@@ -106,14 +164,14 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0010481",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "montreal_cognitive_assessment_1",
+      "id": "montreal_cognitive_assessment",
       "class": "Procedure",
       "name": "Montreal Cognitive Assessment",
       "synonyms": [
@@ -130,41 +188,22 @@
       "uniprot_id": null
     },
     {
-      "id": "body_mass_index_1",
-      "class": "Biomarker",
-      "name": "body mass index",
-      "synonyms": [
-        "BMI"
-      ],
+      "id": "cortisol",
+      "class": "Hormone",
+      "name": "cortisol",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C1305855",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "fasting_plasma_glucose_1",
-      "class": "Biomarker",
-      "name": "fasting plasma glucose",
-      "synonyms": [
-        "FPG"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0583513",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cortisol_am_pm_ratio_1",
+      "id": "cortisol_am_pm_ratio",
       "class": "Biomarker",
       "name": "cortisol AM/PM ratio",
       "synonyms": [
@@ -181,7 +220,7 @@
       "uniprot_id": null
     },
     {
-      "id": "8am_cortisol_1",
+      "id": "8am_cortisol",
       "class": "Biomarker",
       "name": "8 a.m. cortisol concentration",
       "synonyms": [
@@ -198,7 +237,41 @@
       "uniprot_id": null
     },
     {
-      "id": "nomogram_1",
+      "id": "body_mass_index",
+      "class": "Biomarker",
+      "name": "body mass index",
+      "synonyms": [
+        "BMI"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "fasting_plasma_glucose",
+      "class": "Biomarker",
+      "name": "fasting plasma glucose",
+      "synonyms": [
+        "FPG"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "nomogram",
       "class": "Procedure",
       "name": "nomogram",
       "synonyms": [],
@@ -213,208 +286,7 @@
       "uniprot_id": null
     },
     {
-      "id": "hippocampus_1",
-      "class": "AnatomicalStructure",
-      "name": "hippocampus",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0019564",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "prefrontal_cortex_1",
-      "class": "AnatomicalStructure",
-      "name": "prefrontal cortex",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0162783",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "amygdala_1",
-      "class": "AnatomicalStructure",
-      "name": "amygdala",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0002708",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "adrenocorticotropic_hormone_1",
-      "class": "Hormone",
-      "name": "adrenocorticotropic hormone",
-      "synonyms": [
-        "ACTH"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0001655",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "anterior_pituitary_adenomas_1",
-      "class": "Disease",
-      "name": "anterior pituitary adenomas",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0032000",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "depression_1",
-      "class": "Disease",
-      "name": "depression",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0011570",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "anxiety_1",
-      "class": "Symptom",
-      "name": "anxiety",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0003467",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "memory_decline_1",
-      "class": "Symptom",
-      "name": "memory decline",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "attention_deficits_1",
-      "class": "Symptom",
-      "name": "attention deficits",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C1263846",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "executive_function_1",
-      "class": "BiologicalProcess",
-      "name": "executive function",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pla_general_hospital_1",
-      "class": "Institution",
-      "name": "First Medical Center of the PLA General Hospital",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "world_health_organization_1",
-      "class": "Institution",
-      "name": "World Health Organization",
-      "synonyms": [
-        "WHO"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "lasso_regression_1",
-      "class": "Procedure",
-      "name": "least absolute shrinkage and selection operator regression",
-      "synonyms": [
-        "LASSO regression"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "roc_curve_1",
+      "id": "roc_curve",
       "class": "Procedure",
       "name": "receiver operating characteristic curve",
       "synonyms": [
@@ -431,7 +303,7 @@
       "uniprot_id": null
     },
     {
-      "id": "decision_curve_analysis_1",
+      "id": "decision_curve_analysis",
       "class": "Procedure",
       "name": "decision curve analysis",
       "synonyms": [
@@ -448,39 +320,9 @@
       "uniprot_id": null
     },
     {
-      "id": "glucocorticoid_receptors_1",
-      "class": "Protein",
-      "name": "glucocorticoid receptors",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0034809",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "mineralocorticoid_receptors_1",
-      "class": "Protein",
-      "name": "mineralocorticoid receptors",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0066563",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "neuroinflammation_1",
-      "class": "BiologicalProcess",
-      "name": "neuroinflammation",
+      "id": "chronic_stress",
+      "class": "Disease",
+      "name": "chronic stress",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -493,22 +335,472 @@
       "uniprot_id": null
     },
     {
-      "id": "oxidative_stress_1",
-      "class": "BiologicalProcess",
-      "name": "oxidative stress",
+      "id": "depression",
+      "class": "Disease",
+      "name": "depression",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0242606",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "hpa_axis_1",
+      "id": "anxiety",
+      "class": "Symptom",
+      "name": "anxiety",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hippocampus",
+      "class": "AnatomicalStructure",
+      "name": "hippocampus",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "prefrontal_cortex",
+      "class": "AnatomicalStructure",
+      "name": "prefrontal cortex",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "amygdala",
+      "class": "AnatomicalStructure",
+      "name": "amygdala",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "glucocorticoid_receptors",
+      "class": "Protein",
+      "name": "glucocorticoid receptors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mineralocorticoid_receptors",
+      "class": "Protein",
+      "name": "mineralocorticoid receptors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "adrenocorticotropic_hormone",
+      "class": "Hormone",
+      "name": "adrenocorticotropic hormone",
+      "synonyms": [
+        "ACTH"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pituitary_adenoma",
+      "class": "Disease",
+      "name": "anterior pituitary adenomas",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "memory_decline",
+      "class": "Symptom",
+      "name": "memory decline",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "attention_deficits",
+      "class": "Symptom",
+      "name": "attention deficits",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "executive_function_impairment",
+      "class": "Symptom",
+      "name": "impaired executive function",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pla_general_hospital",
+      "class": "Institution",
+      "name": "First Medical Center of the PLA General Hospital",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "who",
+      "class": "Institution",
+      "name": "World Health Organization",
+      "synonyms": [
+        "WHO"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "lasso_regression",
+      "class": "Procedure",
+      "name": "least absolute shrinkage and selection operator regression",
+      "synonyms": [
+        "LASSO regression"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "24h_urinary_cortisol",
+      "class": "Biomarker",
+      "name": "24-h urinary free cortisol",
+      "synonyms": [
+        "UFC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "dexamethasone_suppression_test",
+      "class": "Procedure",
+      "name": "dexamethasone suppression test",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "low_dose_dexamethasone_test",
+      "class": "Procedure",
+      "name": "low-dose dexamethasone suppression tests",
+      "synonyms": [
+        "LDDST"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "high_dose_dexamethasone_test",
+      "class": "Procedure",
+      "name": "high-dose dexamethasone suppression tests",
+      "synonyms": [
+        "HDDST"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "systolic_blood_pressure",
+      "class": "Biomarker",
+      "name": "systolic blood pressure",
+      "synonyms": [
+        "SBP"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "diastolic_blood_pressure",
+      "class": "Biomarker",
+      "name": "diastolic blood pressure",
+      "synonyms": [
+        "DBP"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "total_cholesterol",
+      "class": "Biomarker",
+      "name": "total cholesterol",
+      "synonyms": [
+        "TC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "triglycerides",
+      "class": "Biomarker",
+      "name": "triglycerides",
+      "synonyms": [
+        "TG"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "alanine_aminotransferase",
+      "class": "Enzyme",
+      "name": "alanine aminotransferase",
+      "synonyms": [
+        "ALT"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "aspartate_aminotransferase",
+      "class": "Enzyme",
+      "name": "aspartate aminotransferase",
+      "synonyms": [
+        "AST"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gamma_glutamyl_transferase",
+      "class": "Enzyme",
+      "name": "gamma-glutamyl transferase",
+      "synonyms": [
+        "GGT"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "concordance_index",
+      "class": "Biomarker",
+      "name": "concordance index",
+      "synonyms": [
+        "C-index"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "area_under_curve",
+      "class": "Biomarker",
+      "name": "area under curve",
+      "synonyms": [
+        "AUC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "calibration_curves",
+      "class": "Procedure",
+      "name": "calibration curves",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hpa_axis",
       "class": "BiologicalProcess",
       "name": "hypothalamic-pituitary-adrenal axis",
       "synonyms": [
@@ -525,9 +817,9 @@
       "uniprot_id": null
     },
     {
-      "id": "chronic_stress_1",
-      "class": "Disease",
-      "name": "chronic stress",
+      "id": "neuroinflammation",
+      "class": "BiologicalProcess",
+      "name": "neuroinflammation",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -540,27 +832,280 @@
       "uniprot_id": null
     },
     {
-      "id": "dexamethasone_suppression_test_1",
-      "class": "Procedure",
-      "name": "dexamethasone suppression test",
+      "id": "oxidative_stress",
+      "class": "BiologicalProcess",
+      "name": "oxidative stress",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0011777",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "24h_urinary_free_cortisol_1",
-      "class": "Biomarker",
-      "name": "24-h urinary free cortisol",
-      "synonyms": [
-        "UFC"
-      ],
+      "id": "hippocampal_atrophy",
+      "class": "Symptom",
+      "name": "hippocampal atrophy",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "neuronal_damage",
+      "class": "BiologicalProcess",
+      "name": "neuronal damage",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "insulin_resistance",
+      "class": "Disease",
+      "name": "insulin resistance",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "central_obesity",
+      "class": "Disease",
+      "name": "central obesity",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "immunosuppression",
+      "class": "BiologicalProcess",
+      "name": "immunosuppression",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "osteoporosis",
+      "class": "Disease",
+      "name": "osteoporosis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:suny",
+      "class": "Author",
+      "name": "Yuxiang Sun",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:1department_of_neurosurgery_affiliated_hospital_o",
+      "class": "Institution",
+      "name": "1Department of Neurosurgery, Affiliated Hospital of Hebei University, Baoding, China",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:2department_of_neurosurgery_the_first_medical_cen",
+      "class": "Institution",
+      "name": "2Department of Neurosurgery, the First Medical Center of Chinese PLA General Hospital, Beijing, China",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:xuj",
+      "class": "Author",
+      "name": "Junpeng Xu",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:zhengx",
+      "class": "Author",
+      "name": "Xiaoque Zheng",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:lic",
+      "class": "Author",
+      "name": "Chunhui Li",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:kongd",
+      "class": "Author",
+      "name": "Dongsheng Kong",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:wuq",
+      "class": "Author",
+      "name": "Qijia Wu",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:zhuz",
+      "class": "Author",
+      "name": "Zihao Zhu",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:fengs",
+      "class": "Author",
+      "name": "Shiyu Feng",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:zhangy",
+      "class": "Author",
+      "name": "Yanyang Zhang",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Paper:PMC12035109",
+      "class": "Paper",
+      "name": "The impact of prolonged high-concentration cortisol exposure on cognitive function and risk factors: Evidence from Cushing's disease patients",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -641,16 +1186,16 @@
   ],
   "relationships": [
     {
-      "subject": "cortisol_1",
+      "subject": "cortisol_exposure",
       "predicate": "CAUSES",
-      "object": "cognitive_impairment_1",
+      "object": "cognitive_impairment",
       "evidence_ids": [
         "paper_1:background:1:llm",
         "paper_1:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12035109"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
@@ -661,17 +1206,17 @@
       "note": null
     },
     {
-      "subject": "cushing_disease_1",
-      "predicate": "CAUSES",
-      "object": "cognitive_impairment_1",
+      "subject": "cushing_disease",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "cognitive_impairment",
       "evidence_ids": [
         "paper_1:introduction:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12035109"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -680,132 +1225,56 @@
       "note": null
     },
     {
-      "subject": "anterior_pituitary_adenomas_1",
-      "predicate": "CAUSES",
-      "object": "cushing_disease_1",
+      "subject": "cortisol_am_pm_ratio",
+      "predicate": "INDICATES",
+      "object": "cognitive_impairment",
       "evidence_ids": [
-        "paper_1:introduction:3:llm"
+        "paper_1:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12035109"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "adrenocorticotropic_hormone_1",
-      "predicate": "INCREASES_RISK",
-      "object": "cushing_disease_1",
+      "subject": "8am_cortisol",
+      "predicate": "INDICATES",
+      "object": "cognitive_impairment",
       "evidence_ids": [
-        "paper_1:introduction:3:llm"
+        "paper_1:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12035109"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "cortisol_1",
-      "predicate": "INTERACTS_WITH",
-      "object": "glucocorticoid_receptors_1",
-      "evidence_ids": [
-        "paper_1:introduction:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cortisol_1",
-      "predicate": "INTERACTS_WITH",
-      "object": "mineralocorticoid_receptors_1",
-      "evidence_ids": [
-        "paper_1:introduction:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "glucocorticoid_receptors_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "hippocampus_1",
-      "evidence_ids": [
-        "paper_1:introduction:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "mineralocorticoid_receptors_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "hippocampus_1",
-      "evidence_ids": [
-        "paper_1:introduction:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "body_mass_index_1",
+      "subject": "body_mass_index",
       "predicate": "INCREASES_RISK",
-      "object": "cognitive_impairment_1",
+      "object": "cognitive_impairment",
       "evidence_ids": [
         "paper_1:results:1:llm",
         "paper_1:discussion:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12035109"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
@@ -814,17 +1283,17 @@
       "note": null
     },
     {
-      "subject": "fasting_plasma_glucose_1",
+      "subject": "fasting_plasma_glucose",
       "predicate": "INCREASES_RISK",
-      "object": "cognitive_impairment_1",
+      "object": "cognitive_impairment",
       "evidence_ids": [
         "paper_1:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12035109"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
@@ -833,55 +1302,93 @@
       "note": null
     },
     {
-      "subject": "cortisol_am_pm_ratio_1",
-      "predicate": "INCREASES_RISK",
-      "object": "cognitive_impairment_1",
+      "subject": "cortisol",
+      "predicate": "INTERACTS_WITH",
+      "object": "glucocorticoid_receptors",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "paper_1:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12035109"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "8am_cortisol_1",
-      "predicate": "INCREASES_RISK",
-      "object": "cognitive_impairment_1",
+      "subject": "cortisol",
+      "predicate": "INTERACTS_WITH",
+      "object": "mineralocorticoid_receptors",
       "evidence_ids": [
-        "paper_1:results:1:llm"
+        "paper_1:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12035109"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "body_mass_index_1",
+      "subject": "pituitary_adenoma",
       "predicate": "CAUSES",
-      "object": "oxidative_stress_1",
+      "object": "cushing_disease",
+      "evidence_ids": [
+        "paper_1:introduction:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "adrenocorticotropic_hormone",
+      "predicate": "REGULATES",
+      "object": "cortisol",
+      "evidence_ids": [
+        "paper_1:introduction:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "CAUSES",
+      "object": "hippocampal_atrophy",
       "evidence_ids": [
         "paper_1:discussion:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12035109"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "suggested",
       "properties": {},
       "section": "discussion",
@@ -890,17 +1397,17 @@
       "note": null
     },
     {
-      "subject": "oxidative_stress_1",
+      "subject": "cortisol",
       "predicate": "CAUSES",
-      "object": "cognitive_impairment_1",
+      "object": "neuronal_damage",
       "evidence_ids": [
         "paper_1:discussion:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12035109"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "suggested",
       "properties": {},
       "section": "discussion",
@@ -909,17 +1416,17 @@
       "note": null
     },
     {
-      "subject": "cortisol_1",
+      "subject": "chronic_stress",
       "predicate": "CAUSES",
-      "object": "neuroinflammation_1",
+      "object": "cortisol_exposure",
       "evidence_ids": [
-        "paper_1:introduction:2:llm"
+        "paper_1:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12035109"
       ],
-      "confidence": 0.85,
+      "confidence": 0.8,
       "linguistic_trust": "suggested",
       "properties": {},
       "section": "introduction",
@@ -928,28 +1435,1813 @@
       "note": null
     },
     {
-      "subject": "neuroinflammation_1",
-      "predicate": "CAUSES",
-      "object": "cognitive_impairment_1",
+      "subject": "montreal_cognitive_assessment",
+      "predicate": "INDICATES",
+      "object": "cognitive_impairment",
       "evidence_ids": [
-        "paper_1:introduction:2:llm"
+        "paper_1:methods:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12035109"
       ],
-      "confidence": 0.85,
-      "linguistic_trust": "suggested",
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "methods",
       "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:suny",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:1department_of_neurosurgery_affiliated_hospital_o",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:suny",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2department_of_neurosurgery_the_first_medical_cen",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:xuj",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2department_of_neurosurgery_the_first_medical_cen",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhengx",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2department_of_neurosurgery_the_first_medical_cen",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lic",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:1department_of_neurosurgery_affiliated_hospital_o",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kongd",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2department_of_neurosurgery_the_first_medical_cen",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wuq",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2department_of_neurosurgery_the_first_medical_cen",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhuz",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:1department_of_neurosurgery_affiliated_hospital_o",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fengs",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2department_of_neurosurgery_the_first_medical_cen",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangy",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2department_of_neurosurgery_the_first_medical_cen",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:suny",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12035109",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:xuj",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12035109",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhengx",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12035109",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lic",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12035109",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kongd",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12035109",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wuq",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12035109",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhuz",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12035109",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fengs",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12035109",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangy",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12035109",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "cortisol_exposure",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "cognitive_function",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "cognitive_impairment",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "cushing_disease",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "montreal_cognitive_assessment",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "cortisol",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "cortisol_am_pm_ratio",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "8am_cortisol",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "body_mass_index",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "fasting_plasma_glucose",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "nomogram",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "roc_curve",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "decision_curve_analysis",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "chronic_stress",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "depression",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "anxiety",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "hippocampus",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "prefrontal_cortex",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "amygdala",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "glucocorticoid_receptors",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "mineralocorticoid_receptors",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "adrenocorticotropic_hormone",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "pituitary_adenoma",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "memory_decline",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "attention_deficits",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "executive_function_impairment",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "lasso_regression",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "24h_urinary_cortisol",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "dexamethasone_suppression_test",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "low_dose_dexamethasone_test",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "high_dose_dexamethasone_test",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "systolic_blood_pressure",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "diastolic_blood_pressure",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "total_cholesterol",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "triglycerides",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "alanine_aminotransferase",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "aspartate_aminotransferase",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "gamma_glutamyl_transferase",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "concordance_index",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "area_under_curve",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "calibration_curves",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "hpa_axis",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "neuroinflammation",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "oxidative_stress",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "hippocampal_atrophy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "neuronal_damage",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "insulin_resistance",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "central_obesity",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "immunosuppression",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12035109",
+      "predicate": "DESCRIBED",
+      "object": "osteoporosis",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:suny",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:xuj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:suny",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhengx",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lic",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:suny",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kongd",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:suny",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:suny",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wuq",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:suny",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhuz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fengs",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:suny",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:suny",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:xuj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhengx",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lic",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:xuj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kongd",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:xuj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wuq",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:xuj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:xuj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhuz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fengs",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:xuj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:xuj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lic",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhengx",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kongd",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhengx",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wuq",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhengx",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhengx",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhuz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fengs",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhengx",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhengx",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kongd",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:lic",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lic",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wuq",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lic",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhuz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fengs",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:lic",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lic",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kongd",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wuq",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kongd",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhuz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fengs",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:kongd",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kongd",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wuq",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhuz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fengs",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wuq",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wuq",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fengs",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhuz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhuz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fengs",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12035109"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
-    "This study used Cushing's disease patients as a model to investigate prolonged high cortisol exposure effects on cognitive function",
-    "The nomogram model showed strong predictive performance with AUC values of 0.80 (training) and 0.91 (validation)",
+    "This study used Cushing's disease patients as a natural model to study the effects of prolonged high cortisol exposure on cognitive function",
+    "The nomogram model showed excellent predictive performance with AUC values of 0.80 in training and 0.91 in validation cohorts",
     "Four key risk factors were identified: cortisol AM/PM ratio, 8 a.m. cortisol concentration, BMI, and fasting plasma glucose"
   ]
 }

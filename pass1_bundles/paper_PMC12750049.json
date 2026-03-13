@@ -4,6 +4,51 @@
     "pmcid": "PMC12750049",
     "title": "ST3Gal1 modulates intestinal barrier function and impacts human ulcerative colitis",
     "authors": [],
+    "author_details": [
+      {
+        "name": "Yin Tian",
+        "affiliations": [
+          "1Department of Gastroenterology, The People's Hospital of Yubei District of Chongqing City, Chongqing 401120, P.R. China"
+        ]
+      },
+      {
+        "name": "Yun Liu",
+        "affiliations": [
+          "2Institute of Gastroenterology of People's Liberation Army, Southwest Hospital, Army Medical University, Chongqing 400038, P.R. China"
+        ]
+      },
+      {
+        "name": "Yangyang Shang",
+        "affiliations": [
+          "2Institute of Gastroenterology of People's Liberation Army, Southwest Hospital, Army Medical University, Chongqing 400038, P.R. China"
+        ]
+      },
+      {
+        "name": "Lijian Ran",
+        "affiliations": [
+          "2Institute of Gastroenterology of People's Liberation Army, Southwest Hospital, Army Medical University, Chongqing 400038, P.R. China"
+        ]
+      },
+      {
+        "name": "Li Liu",
+        "affiliations": [
+          "2Institute of Gastroenterology of People's Liberation Army, Southwest Hospital, Army Medical University, Chongqing 400038, P.R. China"
+        ]
+      },
+      {
+        "name": "Rongquan Wang",
+        "affiliations": [
+          "2Institute of Gastroenterology of People's Liberation Army, Southwest Hospital, Army Medical University, Chongqing 400038, P.R. China"
+        ]
+      },
+      {
+        "name": "Jun Ye",
+        "affiliations": [
+          "2Institute of Gastroenterology of People's Liberation Army, Southwest Hospital, Army Medical University, Chongqing 400038, P.R. China"
+        ]
+      }
+    ],
+    "document_id": "PMC12750049",
     "journal": null,
     "year": null,
     "study_type": "experimental",
@@ -19,8 +64,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
-      "git_commit_short": "932f234",
+      "git_commit": "48e3c74be35a9bdaabe3f69f35049054df3588a9",
+      "git_commit_short": "48e3c74",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -34,14 +79,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4df759b74bea15d3",
-      "schema_version": "23a154ab"
+      "checksum": "sha256:4069173fe4ab327c",
+      "schema_version": "0399967c"
     },
     "execution": {
-      "timestamp": "2026-03-11T17:34:20.831729Z",
+      "timestamp": "2026-03-13T16:54:00.045756Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 52.31
+      "duration_seconds": 52.58
     },
     "entity_resolution": null,
     "model_info": null
@@ -104,8 +149,7 @@
       "class": "BiologicalProcess",
       "name": "intestinal barrier function",
       "synonyms": [
-        "intestinal mucosal barrier function",
-        "barrier function"
+        "intestinal mucosal barrier function"
       ],
       "symbol": null,
       "brand_names": [],
@@ -119,11 +163,9 @@
     },
     {
       "id": "Caco-2",
-      "class": "Evidence",
+      "class": "Protein",
       "name": "Caco-2",
-      "synonyms": [
-        "Caco-2 cells"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -136,11 +178,9 @@
     },
     {
       "id": "HT29-MTX-E12",
-      "class": "Evidence",
+      "class": "Protein",
       "name": "HT29-MTX-E12",
-      "synonyms": [
-        "HT29-MTX-E12 cells"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -153,11 +193,9 @@
     },
     {
       "id": "THP-1",
-      "class": "Evidence",
+      "class": "Protein",
       "name": "THP-1",
-      "synonyms": [
-        "THP-1 cells"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -240,10 +278,9 @@
     {
       "id": "IL-1\u03b2",
       "class": "Protein",
-      "name": "interleukin-1 beta",
+      "name": "IL-1\u03b2",
       "synonyms": [
-        "IL-1\u03b2",
-        "IL-1beta"
+        "interleukin-1 beta"
       ],
       "symbol": null,
       "brand_names": [],
@@ -258,9 +295,9 @@
     {
       "id": "IL-6",
       "class": "Protein",
-      "name": "interleukin-6",
+      "name": "IL-6",
       "synonyms": [
-        "IL-6"
+        "interleukin-6"
       ],
       "symbol": null,
       "brand_names": [],
@@ -275,9 +312,9 @@
     {
       "id": "IL-8",
       "class": "Protein",
-      "name": "interleukin-8",
+      "name": "IL-8",
       "synonyms": [
-        "IL-8"
+        "interleukin-8"
       ],
       "symbol": null,
       "brand_names": [],
@@ -303,6 +340,40 @@
       "umls_id": "C0021390",
       "hgnc_id": null,
       "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Crohn_disease",
+      "class": "Disease",
+      "name": "Crohn's disease",
+      "synonyms": [
+        "CD"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0010346",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "dextran_sulfate_sodium",
+      "class": "Drug",
+      "name": "dextran sulfate sodium",
+      "synonyms": [
+        "DSS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1190737",
       "loinc_code": null,
       "uniprot_id": null
     },
@@ -371,23 +442,6 @@
       "uniprot_id": null
     },
     {
-      "id": "dextran_sulfate_sodium",
-      "class": "Drug",
-      "name": "dextran sulfate sodium",
-      "synonyms": [
-        "DSS"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "puromycin",
       "class": "Drug",
       "name": "puromycin",
@@ -399,6 +453,36 @@
       "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": "8987",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "adenoviral_vectors",
+      "class": "Drug",
+      "name": "adenoviral vectors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "lentiviral_vectors",
+      "class": "Drug",
+      "name": "lentiviral vectors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
@@ -415,14 +499,31 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
+      "rxnorm_id": "8249",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "RT-qPCR",
+      "class": "Procedure",
+      "name": "reverse transcription-quantitative PCR",
+      "synonyms": [
+        "RT-qPCR"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "polybrene",
-      "class": "Drug",
-      "name": "polybrene",
+      "id": "western_blot",
+      "class": "Procedure",
+      "name": "western blot",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -435,9 +536,9 @@
       "uniprot_id": null
     },
     {
-      "id": "intestinal_mucosa",
-      "class": "AnatomicalStructure",
-      "name": "intestinal mucosa",
+      "id": "ELISA",
+      "class": "Procedure",
+      "name": "ELISA",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -453,26 +554,7 @@
       "id": "inflammation",
       "class": "BiologicalProcess",
       "name": "inflammation",
-      "synonyms": [
-        "inflammatory response"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "sialylation",
-      "class": "BiologicalProcess",
-      "name": "sialylation",
-      "synonyms": [
-        "protein sialylation"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -487,6 +569,21 @@
       "id": "glycosylation",
       "class": "BiologicalProcess",
       "name": "glycosylation",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "sialylation",
+      "class": "BiologicalProcess",
+      "name": "sialylation",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -514,9 +611,24 @@
       "uniprot_id": null
     },
     {
+      "id": "intestinal_mucosa",
+      "class": "AnatomicalStructure",
+      "name": "intestinal mucosa",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "mucus_barrier",
-      "class": "BiologicalProcess",
-      "name": "mucus barrier function",
+      "class": "AnatomicalStructure",
+      "name": "mucus barrier",
       "synonyms": [
         "intestinal mucus barrier"
       ],
@@ -531,12 +643,145 @@
       "uniprot_id": null
     },
     {
-      "id": "cell_differentiation",
-      "class": "BiologicalProcess",
-      "name": "cell differentiation",
-      "synonyms": [
-        "goblet cell differentiation"
-      ],
+      "id": "Author:tiany",
+      "class": "Author",
+      "name": "Yin Tian",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:1department_of_gastroenterology_the_people_s_hosp",
+      "class": "Institution",
+      "name": "1Department of Gastroenterology, The People's Hospital of Yubei District of Chongqing City, Chongqing 401120, P.R. China",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:liuy",
+      "class": "Author",
+      "name": "Yun Liu",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:2institute_of_gastroenterology_of_people_s_liberat",
+      "class": "Institution",
+      "name": "2Institute of Gastroenterology of People's Liberation Army, Southwest Hospital, Army Medical University, Chongqing 400038, P.R. China",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:shangy",
+      "class": "Author",
+      "name": "Yangyang Shang",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:ranl",
+      "class": "Author",
+      "name": "Lijian Ran",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:liul",
+      "class": "Author",
+      "name": "Li Liu",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:wangr",
+      "class": "Author",
+      "name": "Rongquan Wang",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:yej",
+      "class": "Author",
+      "name": "Jun Ye",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Paper:PMC12750049",
+      "class": "Paper",
+      "name": "ST3Gal1 modulates intestinal barrier function and impacts human ulcerative colitis",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -550,38 +795,12 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC_unknown:introduction:1:llm",
+      "id": "paper_id:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_unknown",
-      "text_span_id": "intro_1",
-      "text": "The pathogenesis of inflammatory bowel disease is associated with dysfunction of the intestinal mucosal barrier. Protein sialylation serves an important role in maintaining the integrity of this barrier.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "experimental",
-      "eco_type": "in_vitro",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC_unknown:results:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC_unknown",
+      "paper_id": "paper_id",
       "text_span_id": "results_1",
-      "text": "ST3Gal1 expression was found to be associated with inflammation of the intestinal mucosa in patients with UC and a mouse model of dextran sulfate sodium-induced colitis.",
-      "confidence": 0.9,
-      "extraction_method": "llm",
-      "study_type": "experimental",
-      "eco_type": "in_vitro",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC_unknown:results:2:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC_unknown",
-      "text_span_id": "results_2",
-      "text": "suppressed expression of ST3Gal1 in the intestinal epithelial cell (IEC) monolayer enhanced the functionality of the intestinal barrier, whereas its overexpression caused intestinal barrier function deterioration.",
+      "text": "ST3Gal1 expression was found to be associated with inflammation of the intestinal mucosa in patients with UC and a mouse model of dextran sulfate sodium-induced colitis",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -589,13 +808,26 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_unknown:results:3:llm",
+      "id": "paper_id:results:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_unknown",
+      "paper_id": "paper_id",
+      "text_span_id": "results_2",
+      "text": "suppressed expression of ST3Gal1 in the intestinal epithelial cell (IEC) monolayer enhanced the functionality of the intestinal barrier, whereas its overexpression caused intestinal barrier function deterioration",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "in_vitro",
+      "source": "extracted"
+    },
+    {
+      "id": "paper_id:results:3:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper_id",
       "text_span_id": "results_3",
-      "text": "ST3Gal1 expression in the IEC monolayer altered the expression of intestinal mucus barrier-associated mucin 2 (MUC2) and trefoil factor 3 (TFF3), goblet cell differentiation-associated homeobox protein CDX-2 (CDX2), inflammation-associated phosphorylated (p)-STAT3, and the inflammatory mediators IL-1\u03b2, IL-6 and IL-8.",
-      "confidence": 0.9,
+      "text": "ST3Gal1 expression in the IEC monolayer altered the expression of intestinal mucus barrier-associated mucin 2 (MUC2) and trefoil factor 3 (TFF3), goblet cell differentiation-associated homeobox protein CDX-2 (CDX2), inflammation-associated phosphorylated (p)-STAT3, and the inflammatory mediators IL-1\u03b2, IL-6 and IL-8",
+      "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
       "eco_type": "in_vitro",
@@ -608,32 +840,13 @@
       "predicate": "REGULATES",
       "object": "alpha-2,3-sialylation",
       "evidence_ids": [
-        "PMC_unknown:introduction:1:llm"
+        "paper_id:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_unknown"
+        "PMC12750049"
       ],
       "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ST3Gal1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "ulcerative_colitis",
-      "evidence_ids": [
-        "PMC_unknown:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_unknown"
-      ],
-      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
@@ -646,11 +859,30 @@
       "predicate": "REGULATES",
       "object": "intestinal_barrier_function",
       "evidence_ids": [
-        "PMC_unknown:results:2:llm"
+        "paper_id:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_unknown"
+        "PMC12750049"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ST3Gal1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "ulcerative_colitis",
+      "evidence_ids": [
+        "paper_id:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -665,13 +897,13 @@
       "predicate": "REGULATES",
       "object": "MUC2",
       "evidence_ids": [
-        "PMC_unknown:results:3:llm"
+        "paper_id:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_unknown"
+        "PMC12750049"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
@@ -684,13 +916,13 @@
       "predicate": "REGULATES",
       "object": "TFF3",
       "evidence_ids": [
-        "PMC_unknown:results:3:llm"
+        "paper_id:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_unknown"
+        "PMC12750049"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
@@ -703,13 +935,13 @@
       "predicate": "REGULATES",
       "object": "CDX2",
       "evidence_ids": [
-        "PMC_unknown:results:3:llm"
+        "paper_id:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_unknown"
+        "PMC12750049"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
@@ -722,13 +954,13 @@
       "predicate": "REGULATES",
       "object": "STAT3",
       "evidence_ids": [
-        "PMC_unknown:results:3:llm"
+        "paper_id:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_unknown"
+        "PMC12750049"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
@@ -741,13 +973,13 @@
       "predicate": "REGULATES",
       "object": "IL-1\u03b2",
       "evidence_ids": [
-        "PMC_unknown:results:3:llm"
+        "paper_id:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_unknown"
+        "PMC12750049"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
@@ -760,13 +992,13 @@
       "predicate": "REGULATES",
       "object": "IL-6",
       "evidence_ids": [
-        "PMC_unknown:results:3:llm"
+        "paper_id:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_unknown"
+        "PMC12750049"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
@@ -779,13 +1011,13 @@
       "predicate": "REGULATES",
       "object": "IL-8",
       "evidence_ids": [
-        "PMC_unknown:results:3:llm"
+        "paper_id:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_unknown"
+        "PMC12750049"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
@@ -798,109 +1030,14 @@
       "predicate": "REGULATES",
       "object": "intestinal_barrier_function",
       "evidence_ids": [
-        "PMC_unknown:introduction:1:llm"
+        "paper_id:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_unknown"
+        "PMC12750049"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "inflammatory_bowel_disease",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "intestinal_barrier_function",
-      "evidence_ids": [
-        "PMC_unknown:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_unknown"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "MUC2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "mucus_barrier",
-      "evidence_ids": [
-        "PMC_unknown:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_unknown"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "TFF3",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "mucus_barrier",
-      "evidence_ids": [
-        "PMC_unknown:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_unknown"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "CDX2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "cell_differentiation",
-      "evidence_ids": [
-        "PMC_unknown:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_unknown"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "STAT3",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "inflammation",
-      "evidence_ids": [
-        "PMC_unknown:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_unknown"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
+      "linguistic_trust": "suggested",
       "properties": {},
       "section": "results",
       "asserted_by": "llm",
@@ -910,19 +1047,1287 @@
     {
       "subject": "dextran_sulfate_sodium",
       "predicate": "CAUSES",
-      "object": "ulcerative_colitis",
+      "object": "colitis",
       "evidence_ids": [
-        "PMC_unknown:results:1:llm"
+        "paper_id:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_unknown"
+        "PMC12750049"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
       "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "MUC2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "intestinal_barrier_function",
+      "evidence_ids": [
+        "paper_id:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "TFF3",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "intestinal_barrier_function",
+      "evidence_ids": [
+        "paper_id:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "CDX2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "goblet_cells",
+      "evidence_ids": [
+        "paper_id:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "inflammatory_bowel_disease",
+      "predicate": "SUBTYPE_OF",
+      "object": "ulcerative_colitis",
+      "evidence_ids": [
+        "paper_id:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "inflammatory_bowel_disease",
+      "predicate": "SUBTYPE_OF",
+      "object": "Crohn_disease",
+      "evidence_ids": [
+        "paper_id:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:tiany",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:1department_of_gastroenterology_the_people_s_hosp",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liuy",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2institute_of_gastroenterology_of_people_s_liberat",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:shangy",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2institute_of_gastroenterology_of_people_s_liberat",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ranl",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2institute_of_gastroenterology_of_people_s_liberat",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liul",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2institute_of_gastroenterology_of_people_s_liberat",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangr",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2institute_of_gastroenterology_of_people_s_liberat",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:yej",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2institute_of_gastroenterology_of_people_s_liberat",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:tiany",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12750049",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liuy",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12750049",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:shangy",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12750049",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ranl",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12750049",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liul",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12750049",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangr",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12750049",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:yej",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12750049",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "ST3Gal1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "alpha-2,3-sialylation",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "ulcerative_colitis",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "intestinal_barrier_function",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "Caco-2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "HT29-MTX-E12",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "THP-1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "MUC2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "TFF3",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "CDX2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "STAT3",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "IL-1\u03b2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "IL-6",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "IL-8",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "inflammatory_bowel_disease",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "Crohn_disease",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "dextran_sulfate_sodium",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "intestinal_epithelial_cells",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "goblet_cells",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "trans-epithelial_electrical_resistance",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "FITC-dextran_permeability_assay",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "puromycin",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "adenoviral_vectors",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "lentiviral_vectors",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "phorbol_12-myristate_13-acetate",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "RT-qPCR",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "western_blot",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "ELISA",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "inflammation",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "glycosylation",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "sialylation",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "sialyltransferases",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "intestinal_mucosa",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12750049",
+      "predicate": "DESCRIBED",
+      "object": "mucus_barrier",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liuy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tiany",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:shangy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tiany",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ranl",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tiany",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liul",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tiany",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:tiany",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangr",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:tiany",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:yej",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liuy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:shangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liuy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:ranl",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liul",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:liuy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liuy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangr",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liuy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:yej",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ranl",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:shangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liul",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:shangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:shangy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangr",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:shangy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:yej",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liul",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:ranl",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ranl",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangr",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ranl",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:yej",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liul",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangr",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liul",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:yej",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangr",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:yej",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12750049"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
       "resolution": null,
       "note": null
     }

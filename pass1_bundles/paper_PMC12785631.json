@@ -4,10 +4,49 @@
     "pmcid": "PMC12785631",
     "title": "The Role of Aurora Kinase A in HBV-Associated Hepatocellular Carcinomas: A Molecular and Immunohistochemical Study",
     "authors": [],
+    "author_details": [
+      {
+        "name": "Mustafa Huz",
+        "affiliations": [
+          "1Department of Medical Pathology, Faculty of Medicine, Inonu University, Malatya 44050, T\u00fcrkiye"
+        ]
+      },
+      {
+        "name": "Nese Karadag Soylu",
+        "affiliations": [
+          "1Department of Medical Pathology, Faculty of Medicine, Inonu University, Malatya 44050, T\u00fcrkiye"
+        ]
+      },
+      {
+        "name": "Ahmet Koc",
+        "affiliations": [
+          "2Department of Medical Genetics, Faculty of Medicine, Inonu University, Malatya 44050, T\u00fcrkiye"
+        ]
+      },
+      {
+        "name": "Zeynep Kucukakcali",
+        "affiliations": [
+          "3Biostatistics and Medical Informatics A.D., Faculty of Medicine, Inonu University, Malatya 44050, T\u00fcrkiye"
+        ]
+      },
+      {
+        "name": "Nefsun Danis",
+        "affiliations": [
+          "2Department of Medical Genetics, Faculty of Medicine, Inonu University, Malatya 44050, T\u00fcrkiye"
+        ]
+      },
+      {
+        "name": "Onural Ozhan",
+        "affiliations": [
+          "4Department of Medical Pharmacology, Faculty of Medicine, Inonu University, Malatya 44050, T\u00fcrkiye"
+        ]
+      }
+    ],
+    "document_id": "PMC12785631",
     "journal": null,
     "year": null,
-    "study_type": "case-control",
-    "eco_type": "molecular",
+    "study_type": "molecular and immunohistochemical study",
+    "eco_type": null,
     "study_design": {
       "study_type": "observational",
       "sample_size": 51,
@@ -19,8 +58,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
-      "git_commit_short": "932f234",
+      "git_commit": "48e3c74be35a9bdaabe3f69f35049054df3588a9",
+      "git_commit_short": "48e3c74",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -34,21 +73,21 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4df759b74bea15d3",
-      "schema_version": "23a154ab"
+      "checksum": "sha256:4069173fe4ab327c",
+      "schema_version": "0399967c"
     },
     "execution": {
-      "timestamp": "2026-03-11T17:49:59.845030Z",
+      "timestamp": "2026-03-13T17:10:51.037300Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 50.09
+      "duration_seconds": 53.79
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "AURKA_enzyme",
+      "id": "AURKA",
       "class": "Enzyme",
       "name": "Aurora kinase A",
       "synonyms": [
@@ -65,7 +104,7 @@
       "uniprot_id": null
     },
     {
-      "id": "PLK1_enzyme",
+      "id": "PLK1",
       "class": "Enzyme",
       "name": "Polo-like kinase 1",
       "synonyms": [
@@ -82,7 +121,7 @@
       "uniprot_id": null
     },
     {
-      "id": "P53_protein",
+      "id": "P53",
       "class": "Protein",
       "name": "p53",
       "synonyms": [
@@ -99,9 +138,9 @@
       "uniprot_id": null
     },
     {
-      "id": "BRCA1_protein",
+      "id": "BRCA1",
       "class": "Protein",
-      "name": "BRCA1 protein",
+      "name": "breast cancer type 1 susceptibility protein",
       "synonyms": [
         "BRCA1"
       ],
@@ -116,7 +155,7 @@
       "uniprot_id": null
     },
     {
-      "id": "HBV_HCC_disease",
+      "id": "HBV_HCC",
       "class": "Disease",
       "name": "hepatitis B virus-associated hepatocellular carcinoma",
       "synonyms": [
@@ -134,7 +173,7 @@
       "uniprot_id": null
     },
     {
-      "id": "Cr_HCC_disease",
+      "id": "Cr_HCC",
       "class": "Disease",
       "name": "cryptogenic hepatocellular carcinoma",
       "synonyms": [
@@ -151,7 +190,7 @@
       "uniprot_id": null
     },
     {
-      "id": "hepatocellular_carcinoma_disease",
+      "id": "HCC",
       "class": "Disease",
       "name": "hepatocellular carcinoma",
       "synonyms": [
@@ -161,18 +200,18 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C2239176",
+      "umls_id": "C0019204",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "P53Ser315_biomarker",
+      "id": "P53Ser315",
       "class": "Biomarker",
-      "name": "Phospho-P53Ser315",
+      "name": "phospho-P53Ser315",
       "synonyms": [
-        "P53Ser315"
+        "Phospho-p53Ser315"
       ],
       "symbol": null,
       "brand_names": [],
@@ -185,11 +224,11 @@
       "uniprot_id": null
     },
     {
-      "id": "PLK1Thr210_biomarker",
+      "id": "PLK1Thr210",
       "class": "Biomarker",
-      "name": "Phospho-PLK1Thr210",
+      "name": "phospho-PLK1Thr210",
       "synonyms": [
-        "PLK1Thr210"
+        "Phospho-PLK1Thr210"
       ],
       "symbol": null,
       "brand_names": [],
@@ -202,7 +241,7 @@
       "uniprot_id": null
     },
     {
-      "id": "copy_number_variation_mutation",
+      "id": "CNV",
       "class": "Mutation",
       "name": "copy number variation",
       "synonyms": [
@@ -219,11 +258,12 @@
       "uniprot_id": null
     },
     {
-      "id": "immunohistochemistry_procedure",
+      "id": "IHC",
       "class": "Procedure",
       "name": "immunohistochemistry",
       "synonyms": [
-        "IHC"
+        "IHC",
+        "immunohistochemical"
       ],
       "symbol": null,
       "brand_names": [],
@@ -236,176 +276,7 @@
       "uniprot_id": null
     },
     {
-      "id": "liver_tissue_anatomical",
-      "class": "AnatomicalStructure",
-      "name": "liver tissue",
-      "synonyms": [
-        "liver"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0023884",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cell_cycle_progression_process",
-      "class": "BiologicalProcess",
-      "name": "cell cycle progression",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "centrosome_regulation_process",
-      "class": "BiologicalProcess",
-      "name": "centrosome regulation",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "chromosome_segregation_process",
-      "class": "BiologicalProcess",
-      "name": "chromosome segregation",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "genomic_instability_process",
-      "class": "BiologicalProcess",
-      "name": "genomic instability",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "mitotic_entry_process",
-      "class": "BiologicalProcess",
-      "name": "mitotic entry",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "oncogenic_transformation_process",
-      "class": "BiologicalProcess",
-      "name": "oncogenic transformation",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "atezolizumab_drug",
-      "class": "Drug",
-      "name": "atezolizumab",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "1792776",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "bevacizumab_drug",
-      "class": "Drug",
-      "name": "bevacizumab",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "351181",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "MLN8237_drug",
-      "class": "Drug",
-      "name": "MLN8237",
-      "synonyms": [
-        "Alisertib"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "1298331",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "sorafenib_drug",
-      "class": "Drug",
-      "name": "Sorafenib",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "608406",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "HBx_protein",
+      "id": "HBx",
       "class": "Protein",
       "name": "hepatitis B viral protein HBx",
       "synonyms": [
@@ -422,7 +293,22 @@
       "uniprot_id": null
     },
     {
-      "id": "MDM2_protein",
+      "id": "CDC2",
+      "class": "Enzyme",
+      "name": "CDC2",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1722",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "MDM2",
       "class": "Protein",
       "name": "MDM2",
       "synonyms": [],
@@ -437,22 +323,24 @@
       "uniprot_id": null
     },
     {
-      "id": "CDC2_protein",
-      "class": "Protein",
-      "name": "CDC2",
-      "synonyms": [],
+      "id": "liver_tissue",
+      "class": "AnatomicalStructure",
+      "name": "liver tissue",
+      "synonyms": [
+        "liver"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:1722",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "centrosome_anatomical",
+      "id": "centrosome",
       "class": "AnatomicalStructure",
       "name": "centrosome",
       "synonyms": [],
@@ -460,37 +348,441 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0242608",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "nucleus_anatomical",
-      "class": "AnatomicalStructure",
-      "name": "nucleus",
-      "synonyms": [],
+      "id": "mitosis",
+      "class": "BiologicalProcess",
+      "name": "mitosis",
+      "synonyms": [
+        "cell division"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0007610",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "cytoplasm_anatomical",
-      "class": "AnatomicalStructure",
-      "name": "cytoplasm",
+      "id": "cell_cycle_progression",
+      "class": "BiologicalProcess",
+      "name": "cell cycle progression",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0010834",
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "genomic_instability",
+      "class": "BiologicalProcess",
+      "name": "genomic instability",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "oncogenic_transformation",
+      "class": "BiologicalProcess",
+      "name": "oncogenic transformation",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "G2_M_checkpoint",
+      "class": "BiologicalProcess",
+      "name": "G2/M checkpoint",
+      "synonyms": [
+        "G2/M cell cycle arrest"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "DNA_damage_response",
+      "class": "BiologicalProcess",
+      "name": "DNA damage response",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "centrosome_amplification",
+      "class": "BiologicalProcess",
+      "name": "centrosome amplification",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "chromosomal_instability",
+      "class": "BiologicalProcess",
+      "name": "chromosomal instability",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "MLN8237",
+      "class": "Drug",
+      "name": "MLN8237",
+      "synonyms": [
+        "Alisertib"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1298334",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "sorafenib",
+      "class": "Drug",
+      "name": "Sorafenib",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "608406",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "atezolizumab",
+      "class": "Drug",
+      "name": "atezolizumab",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1792776",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "bevacizumab",
+      "class": "Drug",
+      "name": "bevacizumab",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "582492",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "TACE",
+      "class": "Procedure",
+      "name": "transarterial chemoembolization",
+      "synonyms": [
+        "TACE"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "TMA",
+      "class": "Procedure",
+      "name": "tissue microarray",
+      "synonyms": [
+        "TMA"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "qPCR",
+      "class": "Procedure",
+      "name": "quantitative PCR",
+      "synonyms": [
+        "real-time PCR"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "FFPE",
+      "class": "Procedure",
+      "name": "formalin-fixed paraffin-embedded",
+      "synonyms": [
+        "FFPE"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "36B4",
+      "class": "Gene",
+      "name": "36B4",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:9045",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:huzm",
+      "class": "Author",
+      "name": "Mustafa Huz",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:1department_of_medical_pathology_faculty_of_medic",
+      "class": "Institution",
+      "name": "1Department of Medical Pathology, Faculty of Medicine, Inonu University, Malatya 44050, T\u00fcrkiye",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:soylun",
+      "class": "Author",
+      "name": "Nese Karadag Soylu",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:koca",
+      "class": "Author",
+      "name": "Ahmet Koc",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:2department_of_medical_genetics_faculty_of_medici",
+      "class": "Institution",
+      "name": "2Department of Medical Genetics, Faculty of Medicine, Inonu University, Malatya 44050, T\u00fcrkiye",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:kucukakcaliz",
+      "class": "Author",
+      "name": "Zeynep Kucukakcali",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:3biostatistics_and_medical_informatics_a_d_facul",
+      "class": "Institution",
+      "name": "3Biostatistics and Medical Informatics A.D., Faculty of Medicine, Inonu University, Malatya 44050, T\u00fcrkiye",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:danisn",
+      "class": "Author",
+      "name": "Nefsun Danis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:ozhano",
+      "class": "Author",
+      "name": "Onural Ozhan",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:4department_of_medical_pharmacology_faculty_of_me",
+      "class": "Institution",
+      "name": "4Department of Medical Pharmacology, Faculty of Medicine, Inonu University, Malatya 44050, T\u00fcrkiye",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Paper:PMC12785631",
+      "class": "Paper",
+      "name": "The Role of Aurora Kinase A in HBV-Associated Hepatocellular Carcinomas: A Molecular and Immunohistochemical Study",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -507,8 +799,8 @@
       "text": "AURKA level was significantly increased in both test groups (p < 0.001)",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "case-control",
-      "eco_type": "molecular",
+      "study_type": "molecular and immunohistochemical study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
@@ -520,8 +812,8 @@
       "text": "Phospho-P53Ser315 levels were significantly higher in both HBV-HCC and Cr-HCC groups compared to the control group",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "case-control",
-      "eco_type": "molecular",
+      "study_type": "molecular and immunohistochemical study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
@@ -533,8 +825,8 @@
       "text": "For phospho-PLK1Thr210, Cr-HCC cases showed statistically higher expression compared to both the control group and HBV-HCC cases",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "case-control",
-      "eco_type": "molecular",
+      "study_type": "molecular and immunohistochemical study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
@@ -546,8 +838,8 @@
       "text": "AURKA directly phosphorylates the Thr210 residue within the PLK1 kinase domain, initiating mitotic progression",
       "confidence": 0.9,
       "extraction_method": "llm",
-      "study_type": "case-control",
-      "eco_type": "molecular",
+      "study_type": "molecular and immunohistochemical study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
@@ -559,8 +851,8 @@
       "text": "Overexpression of AURKA has been shown to destabilize p53 through Ser315 phosphorylation",
       "confidence": 0.9,
       "extraction_method": "llm",
-      "study_type": "case-control",
-      "eco_type": "molecular",
+      "study_type": "molecular and immunohistochemical study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
@@ -569,63 +861,25 @@
       "entity_id": null,
       "paper_id": "paper_1",
       "text_span_id": "introduction_3",
-      "text": "BRCA1 has been reported to regulate centrosome homeostasis by binding to and phosphorylating AURKA",
-      "confidence": 0.85,
+      "text": "HBx interacts with and binds to p53, thereby suppressing key tumor-suppressive mechanisms",
+      "confidence": 0.9,
       "extraction_method": "llm",
-      "study_type": "case-control",
-      "eco_type": "molecular",
+      "study_type": "molecular and immunohistochemical study",
+      "eco_type": null,
       "source": "extracted"
     }
   ],
   "relationships": [
     {
-      "subject": "AURKA_enzyme",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "HBV_HCC_disease",
-      "evidence_ids": [
-        "paper_1:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "AURKA_enzyme",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "Cr_HCC_disease",
-      "evidence_ids": [
-        "paper_1:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "AURKA_enzyme",
+      "subject": "AURKA",
       "predicate": "REGULATES",
-      "object": "PLK1_enzyme",
+      "object": "PLK1",
       "evidence_ids": [
         "paper_1:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12785631"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
@@ -638,20 +892,21 @@
       "note": null
     },
     {
-      "subject": "AURKA_enzyme",
+      "subject": "AURKA",
       "predicate": "REGULATES",
-      "object": "P53_protein",
+      "object": "P53",
       "evidence_ids": [
         "paper_1:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12785631"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {
-        "mechanism": "phosphorylation at Ser315"
+        "mechanism": "phosphorylation at Ser315",
+        "effect": "destabilization"
       },
       "section": "introduction",
       "asserted_by": "llm",
@@ -659,20 +914,20 @@
       "note": null
     },
     {
-      "subject": "BRCA1_protein",
-      "predicate": "REGULATES",
-      "object": "AURKA_enzyme",
+      "subject": "HBx",
+      "predicate": "INTERACTS_WITH",
+      "object": "P53",
       "evidence_ids": [
         "paper_1:introduction:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12785631"
       ],
-      "confidence": 0.85,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {
-        "mechanism": "binding and phosphorylation"
+        "effect": "suppression of tumor-suppressive mechanisms"
       },
       "section": "introduction",
       "asserted_by": "llm",
@@ -680,180 +935,1236 @@
       "note": null
     },
     {
-      "subject": "P53Ser315_biomarker",
+      "subject": "AURKA",
       "predicate": "ASSOCIATED_WITH",
-      "object": "HBV_HCC_disease",
+      "object": "HBV_HCC",
       "evidence_ids": [
-        "paper_1:results:2:llm"
+        "paper_1:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12785631"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "expression_level": "significantly increased"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "P53Ser315_biomarker",
+      "subject": "AURKA",
       "predicate": "ASSOCIATED_WITH",
-      "object": "Cr_HCC_disease",
+      "object": "Cr_HCC",
       "evidence_ids": [
-        "paper_1:results:2:llm"
+        "paper_1:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12785631"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "expression_level": "significantly increased"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "PLK1Thr210_biomarker",
+      "subject": "P53Ser315",
       "predicate": "ASSOCIATED_WITH",
-      "object": "Cr_HCC_disease",
+      "object": "HBV_HCC",
+      "evidence_ids": [
+        "paper_1:results:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "expression_level": "significantly higher"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "P53Ser315",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "Cr_HCC",
+      "evidence_ids": [
+        "paper_1:results:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "expression_level": "significantly higher"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PLK1Thr210",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "Cr_HCC",
       "evidence_ids": [
         "paper_1:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12785631"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "expression_level": "statistically higher"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "AURKA_enzyme",
+      "subject": "AURKA",
       "predicate": "REGULATES",
-      "object": "cell_cycle_progression_process",
+      "object": "mitosis",
       "evidence_ids": [
         "paper_1:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12785631"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "process": "mitotic progression"
+      },
       "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "AURKA_enzyme",
-      "predicate": "REGULATES",
-      "object": "centrosome_regulation_process",
-      "evidence_ids": [
-        "paper_1:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "AURKA_enzyme",
-      "predicate": "REGULATES",
-      "object": "chromosome_segregation_process",
-      "evidence_ids": [
-        "paper_1:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "paper_1"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "AURKA_enzyme",
+      "subject": "AURKA",
       "predicate": "CAUSES",
-      "object": "genomic_instability_process",
+      "object": "genomic_instability",
       "evidence_ids": [
         "paper_1:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12785631"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {
+        "mechanism": "overexpression"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "AURKA",
+      "predicate": "CAUSES",
+      "object": "centrosome_amplification",
+      "evidence_ids": [
+        "paper_1:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {
+        "mechanism": "overexpression"
+      },
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "MLN8237",
+      "predicate": "INHIBITS",
+      "object": "AURKA",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "drug_type": "AURKA inhibitor"
+      },
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "MLN8237",
+      "predicate": "INTERACTS_WITH",
+      "object": "sorafenib",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
       ],
       "confidence": 0.85,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
+      "properties": {
+        "interaction_type": "synergistic effect"
+      },
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "PLK1_enzyme",
-      "predicate": "REGULATES",
-      "object": "mitotic_entry_process",
-      "evidence_ids": [
-        "paper_1:introduction:1:llm"
-      ],
+      "subject": "Author:huzm",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:1department_of_medical_pathology_faculty_of_medic",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12785631"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "asserted",
+      "linguistic_trust": null,
       "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
+      "section": null,
+      "asserted_by": "derived",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "MLN8237_drug",
-      "predicate": "INHIBITS",
-      "object": "AURKA_enzyme",
-      "evidence_ids": [
-        "paper_1:introduction:1:llm"
-      ],
+      "subject": "Author:soylun",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:1department_of_medical_pathology_faculty_of_medic",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
-        "paper_1"
+        "PMC12785631"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "asserted",
+      "linguistic_trust": null,
       "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:koca",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2department_of_medical_genetics_faculty_of_medici",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kucukakcaliz",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:3biostatistics_and_medical_informatics_a_d_facul",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:danisn",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:2department_of_medical_genetics_faculty_of_medici",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ozhano",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:4department_of_medical_pharmacology_faculty_of_me",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:huzm",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12785631",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:soylun",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12785631",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:koca",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12785631",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kucukakcaliz",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12785631",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:danisn",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12785631",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ozhano",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12785631",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "AURKA",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "PLK1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "P53",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "BRCA1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "HBV_HCC",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "Cr_HCC",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "HCC",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "P53Ser315",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "PLK1Thr210",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "CNV",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "IHC",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "HBx",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "CDC2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "MDM2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "liver_tissue",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "centrosome",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "mitosis",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "cell_cycle_progression",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "genomic_instability",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "oncogenic_transformation",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "G2_M_checkpoint",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "DNA_damage_response",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "centrosome_amplification",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "chromosomal_instability",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "MLN8237",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "sorafenib",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "atezolizumab",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "bevacizumab",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "TACE",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "TMA",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "qPCR",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "FFPE",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12785631",
+      "predicate": "DESCRIBED",
+      "object": "36B4",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:huzm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:soylun",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:huzm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:koca",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:huzm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:kucukakcaliz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:danisn",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:huzm",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:huzm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:ozhano",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:koca",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:soylun",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kucukakcaliz",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:soylun",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:danisn",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:soylun",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:ozhano",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:soylun",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:koca",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:kucukakcaliz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:danisn",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:koca",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:koca",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:ozhano",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:danisn",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:kucukakcaliz",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:kucukakcaliz",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:ozhano",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:danisn",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:ozhano",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
-    "This study focuses on Aurora kinase A (AURKA) and its substrates in hepatocellular carcinoma, specifically comparing HBV-associated and cryptogenic subtypes",
-    "The study used immunohistochemistry due to RNA degradation in FFPE samples, which limited gene expression analysis",
-    "No significant copy number variations were found for AURKA in either HCC subtype"
+    "This study focuses on Aurora kinase A (AURKA) and its substrates in hepatocellular carcinoma with different etiologies",
+    "The study found distinct patterns of AURKA substrate activation between HBV-associated and cryptogenic HCC",
+    "RNA quality issues prevented gene expression analysis, requiring reliance on immunohistochemical methods",
+    "No significant copy number variations were detected for AURKA in either HCC subtype"
   ]
 }

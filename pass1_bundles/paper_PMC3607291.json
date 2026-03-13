@@ -4,10 +4,53 @@
     "pmcid": "PMC3607291",
     "title": "Differential effects of intravesical resiniferatoxin on excitability of bladder spinal neurons upon colon\u2013bladder cross-sensitization",
     "authors": [
-      "Author names not provided"
+      "Anna P. Malykhina",
+      "Chuanyong Lei",
+      "Bin Qin"
     ],
-    "journal": "Journal not specified",
-    "year": null,
+    "author_details": [
+      {
+        "name": "Anna P. Malykhina",
+        "affiliations": [
+          "aDivision of Urology, Department of Surgery, University of Pennsylvania School of Medicine, 500 S. Ridgeway Ave, #158, Glenolden, PA, USA"
+        ]
+      },
+      {
+        "name": "Chao Qin",
+        "affiliations": [
+          "bDepartment of Physiology, University of Oklahoma Health Sciences Center, Oklahoma City, OK, USA"
+        ]
+      },
+      {
+        "name": "Qi Lei",
+        "affiliations": [
+          "aDivision of Urology, Department of Surgery, University of Pennsylvania School of Medicine, 500 S. Ridgeway Ave, #158, Glenolden, PA, USA"
+        ]
+      },
+      {
+        "name": "Xiao-Qing Pan",
+        "affiliations": [
+          "aDivision of Urology, Department of Surgery, University of Pennsylvania School of Medicine, 500 S. Ridgeway Ave, #158, Glenolden, PA, USA"
+        ]
+      },
+      {
+        "name": "Beverley Greenwood-Van Meerveld",
+        "affiliations": [
+          "bDepartment of Physiology, University of Oklahoma Health Sciences Center, Oklahoma City, OK, USA",
+          "cOklahoma Center for Neuroscience, University of Oklahoma Health Sciences Center, Oklahoma City, OK, USA",
+          "dVeterans Affairs Medical Center, Oklahoma City, OK, USA"
+        ]
+      },
+      {
+        "name": "Robert D. Foreman",
+        "affiliations": [
+          "bDepartment of Physiology, University of Oklahoma Health Sciences Center, Oklahoma City, OK, USA"
+        ]
+      }
+    ],
+    "document_id": "PMC3607291",
+    "journal": "Neuroscience",
+    "year": 2012,
     "study_type": "experimental",
     "eco_type": "animal_model",
     "study_design": {
@@ -21,8 +64,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
-      "git_commit_short": "932f234",
+      "git_commit": "48e3c74be35a9bdaabe3f69f35049054df3588a9",
+      "git_commit_short": "48e3c74",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -36,21 +79,21 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4df759b74bea15d3",
-      "schema_version": "23a154ab"
+      "checksum": "sha256:4069173fe4ab327c",
+      "schema_version": "0399967c"
     },
     "execution": {
-      "timestamp": "2026-03-11T17:52:29.349375Z",
+      "timestamp": "2026-03-13T17:12:56.960124Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 45.49
+      "duration_seconds": 43.35
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "E1",
+      "id": "e1",
       "class": "Disease",
       "name": "interstitial cystitis/bladder pain syndrome",
       "synonyms": [
@@ -60,14 +103,14 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0282488",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E2",
+      "id": "e2",
       "class": "Protein",
       "name": "transient receptor potential vanilloid 1",
       "synonyms": [
@@ -77,14 +120,14 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C1506791",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E3",
+      "id": "e3",
       "class": "Drug",
       "name": "resiniferatoxin",
       "synonyms": [
@@ -96,12 +139,12 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": null,
+      "rxnorm_id": "9314",
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E4",
+      "id": "e4",
       "class": "AnatomicalStructure",
       "name": "urinary bladder",
       "synonyms": [
@@ -111,48 +154,29 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0005682",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E5",
-      "class": "Drug",
-      "name": "2,4,6-trinitrobenzene sulfonic acid",
-      "synonyms": [
-        "TNBS"
-      ],
+      "id": "e5",
+      "class": "AnatomicalStructure",
+      "name": "colon",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0009368",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E6",
-      "class": "Disease",
-      "name": "colonic inflammation",
-      "synonyms": [
-        "colitis"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E7",
+      "id": "e6",
       "class": "BiologicalProcess",
       "name": "cross-sensitization",
       "synonyms": [
@@ -162,14 +186,14 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0237638",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E8",
+      "id": "e7",
       "class": "BiologicalProcess",
       "name": "neurogenic inflammation",
       "synonyms": [],
@@ -177,14 +201,14 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0021368",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E9",
+      "id": "e8",
       "class": "AnatomicalStructure",
       "name": "spinal neurons",
       "synonyms": [
@@ -194,14 +218,31 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0027882",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E10",
+      "id": "e9",
+      "class": "Disease",
+      "name": "colitis",
+      "synonyms": [
+        "colonic inflammation"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0009319",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e10",
       "class": "Procedure",
       "name": "urinary bladder distension",
       "synonyms": [
@@ -211,44 +252,14 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0005682",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E11",
-      "class": "BiologicalProcess",
-      "name": "central sensitization",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E12",
-      "class": "BiologicalProcess",
-      "name": "peripheral sensitization",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E13",
+      "id": "e11",
       "class": "AnatomicalStructure",
       "name": "dorsal root ganglia",
       "synonyms": [
@@ -258,76 +269,44 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0017070",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E14",
-      "class": "AnatomicalStructure",
-      "name": "lumbosacral spinal cord",
+      "id": "e12",
+      "class": "BiologicalProcess",
+      "name": "central sensitization",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C3178870",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E15",
+      "id": "e13",
       "class": "AnatomicalStructure",
-      "name": "urothelium",
+      "name": "spinal cord",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0037925",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E16",
-      "class": "AnatomicalStructure",
-      "name": "detrusor muscle",
-      "synonyms": [
-        "DSM"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E17",
-      "class": "AnatomicalStructure",
-      "name": "distal colon",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E18",
+      "id": "e14",
       "class": "Protein",
       "name": "alpha tubulin",
       "synonyms": [],
@@ -335,14 +314,14 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0041348",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E19",
+      "id": "e15",
       "class": "Biomarker",
       "name": "myeloperoxidase",
       "synonyms": [
@@ -352,46 +331,46 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0027021",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E20",
-      "class": "Biomarker",
-      "name": "adenosine triphosphate",
-      "synonyms": [
-        "ATP"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "E21",
-      "class": "Gene",
-      "name": "c-fos",
+      "id": "e16",
+      "class": "AnatomicalStructure",
+      "name": "urothelium",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0227692",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E22",
+      "id": "e17",
+      "class": "AnatomicalStructure",
+      "name": "detrusor smooth muscle",
+      "synonyms": [
+        "DSM"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0227692",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e18",
       "class": "Symptom",
       "name": "bladder pain",
       "synonyms": [],
@@ -399,16 +378,46 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0232830",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E23",
-      "class": "Symptom",
-      "name": "urgency",
+      "id": "e19",
+      "class": "Disease",
+      "name": "functional pelvic pain disorders",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0030794",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e20",
+      "class": "BiologicalProcess",
+      "name": "desensitization",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0011984",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e21",
+      "class": "Author",
+      "name": "Anna P. Malykhina",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -421,9 +430,9 @@
       "uniprot_id": null
     },
     {
-      "id": "E24",
-      "class": "BiologicalProcess",
-      "name": "viscerosomatic convergence",
+      "id": "e22",
+      "class": "Author",
+      "name": "Chuanyong Lei",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -436,9 +445,204 @@
       "uniprot_id": null
     },
     {
-      "id": "E25",
-      "class": "BiologicalProcess",
-      "name": "nocigenic inhibition",
+      "id": "e23",
+      "class": "Author",
+      "name": "Bin Qin",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e24",
+      "class": "Institution",
+      "name": "University of Pennsylvania",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e25",
+      "class": "Institution",
+      "name": "University of Oklahoma",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:malykhinaa",
+      "class": "Author",
+      "name": "Anna P. Malykhina",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:adivision_of_urology_department_of_surgery_unive",
+      "class": "Institution",
+      "name": "aDivision of Urology, Department of Surgery, University of Pennsylvania School of Medicine, 500 S. Ridgeway Ave, #158, Glenolden, PA, USA",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:qinc",
+      "class": "Author",
+      "name": "Chao Qin",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:bdepartment_of_physiology_university_of_oklahoma",
+      "class": "Institution",
+      "name": "bDepartment of Physiology, University of Oklahoma Health Sciences Center, Oklahoma City, OK, USA",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:leiq",
+      "class": "Author",
+      "name": "Qi Lei",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:panx",
+      "class": "Author",
+      "name": "Xiao-Qing Pan",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:meerveldb",
+      "class": "Author",
+      "name": "Beverley Greenwood-Van Meerveld",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:coklahoma_center_for_neuroscience_university_of_o",
+      "class": "Institution",
+      "name": "cOklahoma Center for Neuroscience, University of Oklahoma Health Sciences Center, Oklahoma City, OK, USA",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:dveterans_affairs_medical_center_oklahoma_city_o",
+      "class": "Institution",
+      "name": "dVeterans Affairs Medical Center, Oklahoma City, OK, USA",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:foremanr",
+      "class": "Author",
+      "name": "Robert D. Foreman",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Paper:PMC3607291",
+      "class": "Paper",
+      "name": "Differential effects of intravesical resiniferatoxin on excitability of bladder spinal neurons upon colon\u2013bladder cross-sensitization",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -453,11 +657,11 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC_ID_NOT_PROVIDED:introduction:1:llm",
+      "id": "PMC3462456:abstract:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_ID_NOT_PROVIDED",
-      "text_span_id": "intro_1",
+      "paper_id": "PMC3462456",
+      "text_span_id": "abstract_1",
       "text": "Cross-sensitization in the pelvis may contribute to etiology of functional pelvic pain disorders such as interstitial cystitis/bladder pain syndrome (IC/BPS).",
       "confidence": 0.9,
       "extraction_method": "llm",
@@ -466,11 +670,11 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_ID_NOT_PROVIDED:introduction:2:llm",
+      "id": "PMC3462456:abstract:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_ID_NOT_PROVIDED",
-      "text_span_id": "intro_2",
+      "paper_id": "PMC3462456",
+      "text_span_id": "abstract_2",
       "text": "Increasing evidence suggests the involvement of transient receptor potential vanilloid 1 (TRPV1) receptors in the development of neurogenic inflammation in the pelvis and pelvic organ cross-sensitization.",
       "confidence": 0.9,
       "extraction_method": "llm",
@@ -479,11 +683,11 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_ID_NOT_PROVIDED:results:1:llm",
+      "id": "PMC3462456:abstract:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_ID_NOT_PROVIDED",
-      "text_span_id": "results_1",
+      "paper_id": "PMC3462456",
+      "text_span_id": "abstract_3",
       "text": "The duration of excitatory responses to noxious UBD during acute colonic inflammation (3 days post-TNBS) was significantly shortened in the group with RTX pretreatment (25.37\u00b1.5 s, n=49) when compared to the control group (35.1\u00b14.2 s, n=43, p\u22640.05).",
       "confidence": 0.95,
       "extraction_method": "llm",
@@ -492,25 +696,12 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_ID_NOT_PROVIDED:results:2:llm",
+      "id": "PMC3462456:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_ID_NOT_PROVIDED",
-      "text_span_id": "results_2",
-      "text": "However, activation of TRPV1 receptors in the urinary bladder prior to acute colitis increased the number of bladder neurons receiving input from large somatic fields from 22.7% to 58.2% (p\u22640.01).",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "experimental",
-      "eco_type": "animal_model",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC_ID_NOT_PROVIDED:discussion:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC_ID_NOT_PROVIDED",
-      "text_span_id": "discussion_1",
-      "text": "desensitization of TRPV1 receptors in the urinary bladder prior to the onset of colonic inflammatory insult significantly reduced the duration and enhanced the latency period of excitatory responses in bladder neurons.",
+      "paper_id": "PMC3462456",
+      "text_span_id": "results_1",
+      "text": "A significant decrease in TRPV1 expression after intravesical treatment with RTX in the urothelium and DSM without changes in the distal colon.",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -520,111 +711,91 @@
   ],
   "relationships": [
     {
-      "subject": "E7",
+      "subject": "e6",
       "predicate": "CAUSES",
-      "object": "E1",
+      "object": "e1",
       "evidence_ids": [
-        "PMC_ID_NOT_PROVIDED:introduction:1:llm"
+        "PMC3462456:abstract:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_ID_NOT_PROVIDED"
+        "PMC3607291"
       ],
       "confidence": 0.8,
       "linguistic_trust": "suggested",
       "properties": {},
-      "section": "introduction",
+      "section": "abstract",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "E2",
-      "predicate": "REGULATES",
-      "object": "E8",
+      "subject": "e2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "e7",
       "evidence_ids": [
-        "PMC_ID_NOT_PROVIDED:introduction:2:llm"
+        "PMC3462456:abstract:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_ID_NOT_PROVIDED"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E2",
-      "predicate": "REGULATES",
-      "object": "E7",
-      "evidence_ids": [
-        "PMC_ID_NOT_PROVIDED:introduction:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_ID_NOT_PROVIDED"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E3",
-      "predicate": "INHIBITS",
-      "object": "E2",
-      "evidence_ids": [
-        "PMC_ID_NOT_PROVIDED:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_ID_NOT_PROVIDED"
+        "PMC3607291"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "abstract",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "E5",
-      "predicate": "CAUSES",
-      "object": "E6",
+      "subject": "e2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "e6",
       "evidence_ids": [
-        "PMC_ID_NOT_PROVIDED:results:1:llm"
+        "PMC3462456:abstract:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_ID_NOT_PROVIDED"
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e3",
+      "predicate": "INHIBITS",
+      "object": "e8",
+      "evidence_ids": [
+        "PMC3462456:abstract:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "abstract",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "E3",
+      "subject": "e3",
       "predicate": "REGULATES",
-      "object": "E9",
+      "object": "e2",
       "evidence_ids": [
-        "PMC_ID_NOT_PROVIDED:results:1:llm",
-        "PMC_ID_NOT_PROVIDED:discussion:1:llm"
+        "PMC3462456:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_ID_NOT_PROVIDED"
+        "PMC3607291"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
@@ -635,123 +806,946 @@
       "note": null
     },
     {
-      "subject": "E6",
+      "subject": "e9",
       "predicate": "CAUSES",
-      "object": "E7",
+      "object": "e6",
       "evidence_ids": [
-        "PMC_ID_NOT_PROVIDED:results:1:llm"
+        "PMC3462456:abstract:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_ID_NOT_PROVIDED"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "E7",
-      "predicate": "REGULATES",
-      "object": "E9",
-      "evidence_ids": [
-        "PMC_ID_NOT_PROVIDED:results:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_ID_NOT_PROVIDED"
+        "PMC3607291"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "abstract",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "E11",
-      "predicate": "REGULATES",
-      "object": "E7",
-      "evidence_ids": [
-        "PMC_ID_NOT_PROVIDED:discussion:1:llm"
-      ],
+      "subject": "e21",
+      "predicate": "AUTHORED",
+      "object": "PMC3462456",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
-        "PMC_ID_NOT_PROVIDED"
+        "PMC3607291"
       ],
-      "confidence": 0.8,
+      "confidence": 1.0,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "discussion",
+      "section": "metadata",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "E12",
-      "predicate": "REGULATES",
-      "object": "E7",
-      "evidence_ids": [
-        "PMC_ID_NOT_PROVIDED:discussion:1:llm"
-      ],
+      "subject": "e22",
+      "predicate": "AUTHORED",
+      "object": "PMC3462456",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
-        "PMC_ID_NOT_PROVIDED"
+        "PMC3607291"
       ],
-      "confidence": 0.8,
+      "confidence": 1.0,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "discussion",
+      "section": "metadata",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "E2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "E22",
-      "evidence_ids": [
-        "PMC_ID_NOT_PROVIDED:introduction:2:llm"
-      ],
+      "subject": "e23",
+      "predicate": "AUTHORED",
+      "object": "PMC3462456",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
-        "PMC_ID_NOT_PROVIDED"
+        "PMC3607291"
       ],
-      "confidence": 0.8,
-      "linguistic_trust": "suggested",
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "metadata",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "E2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "E23",
-      "evidence_ids": [
-        "PMC_ID_NOT_PROVIDED:introduction:2:llm"
-      ],
+      "subject": "e21",
+      "predicate": "AFFILIATED_WITH",
+      "object": "e24",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
-        "PMC_ID_NOT_PROVIDED"
+        "PMC3607291"
       ],
-      "confidence": 0.8,
-      "linguistic_trust": "suggested",
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "metadata",
       "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e21",
+      "predicate": "AFFILIATED_WITH",
+      "object": "e25",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "metadata",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:malykhinaa",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:adivision_of_urology_department_of_surgery_unive",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:qinc",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:bdepartment_of_physiology_university_of_oklahoma",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:leiq",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:adivision_of_urology_department_of_surgery_unive",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:panx",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:adivision_of_urology_department_of_surgery_unive",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:meerveldb",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:bdepartment_of_physiology_university_of_oklahoma",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:meerveldb",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:coklahoma_center_for_neuroscience_university_of_o",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:meerveldb",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:dveterans_affairs_medical_center_oklahoma_city_o",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:foremanr",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:bdepartment_of_physiology_university_of_oklahoma",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:malykhinaa",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC3607291",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:qinc",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC3607291",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:leiq",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC3607291",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:panx",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC3607291",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:meerveldb",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC3607291",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:foremanr",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC3607291",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e3",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e4",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e5",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e6",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e7",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e8",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e9",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e10",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e11",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e12",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e13",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e14",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e15",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e16",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e17",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e18",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e19",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC3607291",
+      "predicate": "DESCRIBED",
+      "object": "e20",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:malykhinaa",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:qinc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:leiq",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:malykhinaa",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:malykhinaa",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:panx",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:malykhinaa",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:meerveldb",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:foremanr",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:malykhinaa",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:leiq",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:qinc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:panx",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:qinc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:meerveldb",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:qinc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:foremanr",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:qinc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:leiq",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:panx",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:leiq",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:meerveldb",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:foremanr",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:leiq",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:meerveldb",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:panx",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:foremanr",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:panx",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:foremanr",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:meerveldb",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
     "This study investigates the role of TRPV1 receptors in bladder-colon cross-sensitization using an animal model",
-    "The paper demonstrates that resiniferatoxin (RTX) can modulate neuronal excitability but has complex effects on somatic field responses",
-    "The research provides insights into potential therapeutic approaches for pelvic pain disorders"
+    "RTX (resiniferatoxin) is used as a TRPV1 agonist to desensitize receptors",
+    "The study shows differential effects of RTX on visceral vs somatic responses"
   ]
 }

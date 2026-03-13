@@ -3,11 +3,58 @@
     "doi": null,
     "pmcid": "PMC12757875",
     "title": "The DDR-immune fitness score: a biomarker for guiding parp and immunotherapy synergy in extensive-stage small cell lung cancer",
-    "authors": [],
-    "journal": null,
-    "year": null,
+    "authors": [
+      "Unknown"
+    ],
+    "author_details": [
+      {
+        "name": "Yinxu Zhang",
+        "affiliations": [
+          "Department of Surgery, The First Affiliated Hospital of Jinzhou Medical University"
+        ]
+      },
+      {
+        "name": "Xiaoyang Chen",
+        "affiliations": [
+          "Department of Oncology, The First Affiliated Hospital of Jinzhou Medical University"
+        ]
+      },
+      {
+        "name": "Dai Wang",
+        "affiliations": [
+          "Department of Oncology, The First Affiliated Hospital of Jinzhou Medical University"
+        ]
+      },
+      {
+        "name": "Xuan Zhou",
+        "affiliations": [
+          "Department of Surgery, The First Affiliated Hospital of Jinzhou Medical University"
+        ]
+      },
+      {
+        "name": "Yuxi Wang",
+        "affiliations": [
+          "Department of Oncology, The First Affiliated Hospital of Jinzhou Medical University"
+        ]
+      },
+      {
+        "name": "Guangyu Zhang",
+        "affiliations": [
+          "Department of Anesthesiology, Medical College of Jinzhou Medical University"
+        ]
+      },
+      {
+        "name": "Xiaomei Liu",
+        "affiliations": [
+          "Department of Oncology, The First Affiliated Hospital of Jinzhou Medical University"
+        ]
+      }
+    ],
+    "document_id": "PMC12757875",
+    "journal": "Unknown",
+    "year": 2024,
     "study_type": "systematic review and biomarker development",
-    "eco_type": "meta-analysis",
+    "eco_type": "clinical trial analysis",
     "study_design": {
       "study_type": "observational",
       "sample_size": 82,
@@ -19,8 +66,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
-      "git_commit_short": "932f234",
+      "git_commit": "48e3c74be35a9bdaabe3f69f35049054df3588a9",
+      "git_commit_short": "48e3c74",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -34,14 +81,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4df759b74bea15d3",
-      "schema_version": "23a154ab"
+      "checksum": "sha256:4069173fe4ab327c",
+      "schema_version": "0399967c"
     },
     "execution": {
-      "timestamp": "2026-03-11T17:37:35.811139Z",
+      "timestamp": "2026-03-13T16:57:34.608026Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 49.69
+      "duration_seconds": 47.57
     },
     "entity_resolution": null,
     "model_info": null
@@ -65,7 +112,7 @@
       "uniprot_id": null
     },
     {
-      "id": "ddr-if_score",
+      "id": "ddr-immune_fitness_score",
       "class": "Biomarker",
       "name": "DDR-Immune Fitness score",
       "synonyms": [
@@ -185,9 +232,7 @@
       "id": "cd8_t_cells",
       "class": "AnatomicalStructure",
       "name": "CD8+ T cells",
-      "synonyms": [
-        "CD8+ cytotoxic T cells"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -208,7 +253,7 @@
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": null,
+      "hgnc_id": "HGNC:795",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -223,7 +268,7 @@
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": null,
+      "hgnc_id": "HGNC:1100",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -232,6 +277,21 @@
       "id": "brca2",
       "class": "Gene",
       "name": "BRCA2",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1101",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "parp1",
+      "class": "Protein",
+      "name": "PARP1",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -247,21 +307,6 @@
       "id": "rad51",
       "class": "Protein",
       "name": "RAD51",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "parp1",
-      "class": "Enzyme",
-      "name": "PARP1",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -337,11 +382,9 @@
     },
     {
       "id": "cgas",
-      "class": "Enzyme",
+      "class": "Protein",
       "name": "cGAS",
-      "synonyms": [
-        "cyclic GMP-AMP synthase"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -368,26 +411,9 @@
       "uniprot_id": null
     },
     {
-      "id": "interferon_beta",
-      "class": "Protein",
-      "name": "interferon-beta",
-      "synonyms": [
-        "IFN-\u03b2"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cxcl10",
-      "class": "Protein",
-      "name": "CXCL10",
+      "id": "olaparib",
+      "class": "Drug",
+      "name": "olaparib",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -395,7 +421,97 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": null,
+      "rxnorm_id": "1597582",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "durvalumab",
+      "class": "Drug",
+      "name": "durvalumab",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1946503",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "talazoparib",
+      "class": "Drug",
+      "name": "talazoparib",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "2058257",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "niraparib",
+      "class": "Drug",
+      "name": "niraparib",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1946678",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "atezolizumab",
+      "class": "Drug",
+      "name": "atezolizumab",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "1946503",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cisplatin",
+      "class": "Drug",
+      "name": "cisplatin",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "2555",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "etoposide",
+      "class": "Drug",
+      "name": "etoposide",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "4492",
       "loinc_code": null,
       "uniprot_id": null
     },
@@ -406,21 +522,6 @@
       "synonyms": [
         "TME"
       ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "msk-impact_study",
-      "class": "Evidence",
-      "name": "MSK-IMPACT study",
-      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -449,9 +550,26 @@
       "uniprot_id": null
     },
     {
-      "id": "olaparib",
-      "class": "Drug",
-      "name": "olaparib",
+      "id": "progression_free_survival",
+      "class": "Biomarker",
+      "name": "progression-free survival",
+      "synonyms": [
+        "PFS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:zhangy",
+      "class": "Author",
+      "name": "Yinxu Zhang",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -464,9 +582,9 @@
       "uniprot_id": null
     },
     {
-      "id": "durvalumab",
-      "class": "Drug",
-      "name": "durvalumab",
+      "id": "Institution:department_of_surgery_the_first_affiliated_hospit",
+      "class": "Institution",
+      "name": "Department of Surgery, The First Affiliated Hospital of Jinzhou Medical University",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -479,9 +597,9 @@
       "uniprot_id": null
     },
     {
-      "id": "talazoparib",
-      "class": "Drug",
-      "name": "talazoparib",
+      "id": "Author:chenx",
+      "class": "Author",
+      "name": "Xiaoyang Chen",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -494,9 +612,9 @@
       "uniprot_id": null
     },
     {
-      "id": "niraparib",
-      "class": "Drug",
-      "name": "niraparib",
+      "id": "Institution:department_of_oncology_the_first_affiliated_hospi",
+      "class": "Institution",
+      "name": "Department of Oncology, The First Affiliated Hospital of Jinzhou Medical University",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -509,9 +627,9 @@
       "uniprot_id": null
     },
     {
-      "id": "atezolizumab",
-      "class": "Drug",
-      "name": "atezolizumab",
+      "id": "Author:wangd",
+      "class": "Author",
+      "name": "Dai Wang",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -524,9 +642,9 @@
       "uniprot_id": null
     },
     {
-      "id": "cisplatin",
-      "class": "Drug",
-      "name": "cisplatin",
+      "id": "Author:zhoux",
+      "class": "Author",
+      "name": "Xuan Zhou",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -539,9 +657,9 @@
       "uniprot_id": null
     },
     {
-      "id": "etoposide",
-      "class": "Drug",
-      "name": "etoposide",
+      "id": "Author:wangy",
+      "class": "Author",
+      "name": "Yuxi Wang",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -554,9 +672,9 @@
       "uniprot_id": null
     },
     {
-      "id": "lurbinectedin",
-      "class": "Drug",
-      "name": "lurbinectedin",
+      "id": "Author:zhangg",
+      "class": "Author",
+      "name": "Guangyu Zhang",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -569,9 +687,9 @@
       "uniprot_id": null
     },
     {
-      "id": "cyt-0851",
-      "class": "Drug",
-      "name": "CYT-0851",
+      "id": "Institution:department_of_anesthesiology_medical_college_of_j",
+      "class": "Institution",
+      "name": "Department of Anesthesiology, Medical College of Jinzhou Medical University",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -584,9 +702,24 @@
       "uniprot_id": null
     },
     {
-      "id": "azd6738",
-      "class": "Drug",
-      "name": "AZD6738",
+      "id": "Author:liux",
+      "class": "Author",
+      "name": "Xiaomei Liu",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Paper:PMC12757875",
+      "class": "Paper",
+      "name": "The DDR-immune fitness score: a biomarker for guiding parp and immunotherapy synergy in extensive-stage small cell lung cancer",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -601,69 +734,56 @@
   ],
   "evidence_entities": [
     {
-      "id": "paper_id:background:1:llm",
+      "id": "PMC_UNKNOWN:background:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "background_1",
       "text": "Despite the integration of PD-L1 inhibitors with chemotherapy, extensive-stage small-cell lung cancer (ES-SCLC) continues to portend a dismal prognosis, with a 5-year survival rate below 10%",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "systematic review and biomarker development",
-      "eco_type": "meta-analysis",
+      "eco_type": "clinical trial analysis",
       "source": "extracted"
     },
     {
-      "id": "paper_id:results:1:llm",
+      "id": "PMC_UNKNOWN:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "results_1",
       "text": "DDR-IF-high tumors were characterized by significantly reduced CD8+ T cell infiltration (2.3-fold fewer, p = 0.004)",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "systematic review and biomarker development",
-      "eco_type": "meta-analysis",
+      "eco_type": "clinical trial analysis",
       "source": "extracted"
     },
     {
-      "id": "paper_id:results:2:llm",
+      "id": "PMC_UNKNOWN:results:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "results_2",
       "text": "superior pooled objective response rate to PARP-ICB combinations (42% vs 18%; risk ratio 2.3, 95% CI 1.3-4.2; p = 0.003)",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "systematic review and biomarker development",
-      "eco_type": "meta-analysis",
-      "source": "extracted"
-    },
-    {
-      "id": "paper_id:methods:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "methods_1",
-      "text": "The score, constructed using elastic-net regression, incorporates homologous recombination deficiency (HRD), tumor mutational burden (TMB), and STING pathway activity",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "systematic review and biomarker development",
-      "eco_type": "meta-analysis",
+      "eco_type": "clinical trial analysis",
       "source": "extracted"
     }
   ],
   "relationships": [
     {
-      "subject": "ddr-if_score",
+      "subject": "ddr-immune_fitness_score",
       "predicate": "INDICATES",
       "object": "extensive-stage_small_cell_lung_cancer",
       "evidence_ids": [
-        "paper_id:background:1:llm"
+        "PMC_UNKNOWN:background:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
@@ -674,58 +794,58 @@
       "note": null
     },
     {
-      "subject": "ddr-if_score",
+      "subject": "ddr-immune_fitness_score",
       "predicate": "ASSOCIATED_WITH",
       "object": "homologous_recombination_deficiency",
       "evidence_ids": [
-        "paper_id:methods:1:llm"
+        "PMC_UNKNOWN:background:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "methods",
+      "section": "background",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "ddr-if_score",
+      "subject": "ddr-immune_fitness_score",
       "predicate": "ASSOCIATED_WITH",
       "object": "tumor_mutational_burden",
       "evidence_ids": [
-        "paper_id:methods:1:llm"
+        "PMC_UNKNOWN:background:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "methods",
+      "section": "background",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "ddr-if_score",
+      "subject": "ddr-immune_fitness_score",
       "predicate": "ASSOCIATED_WITH",
       "object": "sting_pathway",
       "evidence_ids": [
-        "paper_id:methods:1:llm"
+        "PMC_UNKNOWN:background:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "methods",
+      "section": "background",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -735,11 +855,11 @@
       "predicate": "ASSOCIATED_WITH",
       "object": "dna_damage_repair",
       "evidence_ids": [
-        "paper_id:background:1:llm"
+        "PMC_UNKNOWN:background:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
@@ -750,36 +870,34 @@
       "note": null
     },
     {
-      "subject": "ddr-if_score",
+      "subject": "ddr-immune_fitness_score",
       "predicate": "ASSOCIATED_WITH",
       "object": "cd8_t_cells",
       "evidence_ids": [
-        "paper_id:results:1:llm"
+        "PMC_UNKNOWN:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
-      "properties": {
-        "relationship_type": "negative_correlation"
-      },
+      "properties": {},
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "ddr-if_score",
-      "predicate": "INDICATES",
+      "subject": "ddr-immune_fitness_score",
+      "predicate": "ASSOCIATED_WITH",
       "object": "objective_response_rate",
       "evidence_ids": [
-        "paper_id:results:2:llm"
+        "PMC_UNKNOWN:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
@@ -791,35 +909,109 @@
     },
     {
       "subject": "parp_inhibitors",
-      "predicate": "INTERACTS_WITH",
-      "object": "immune_checkpoint_blockers",
+      "predicate": "TREATS",
+      "object": "extensive-stage_small_cell_lung_cancer",
       "evidence_ids": [
-        "paper_id:results:2:llm"
+        "PMC_UNKNOWN:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
       ],
       "confidence": 0.85,
       "linguistic_trust": "asserted",
-      "properties": {
-        "interaction_type": "synergistic"
-      },
+      "properties": {},
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "dna_damage_repair",
-      "predicate": "CAUSES",
-      "object": "genomic_instability",
+      "subject": "immune_checkpoint_blockers",
+      "predicate": "TREATS",
+      "object": "extensive-stage_small_cell_lung_cancer",
       "evidence_ids": [
-        "paper_id:background:1:llm"
+        "PMC_UNKNOWN:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "atm",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "extensive-stage_small_cell_lung_cancer",
+      "evidence_ids": [
+        "PMC_UNKNOWN:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "brca1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "extensive-stage_small_cell_lung_cancer",
+      "evidence_ids": [
+        "PMC_UNKNOWN:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "brca2",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "extensive-stage_small_cell_lung_cancer",
+      "evidence_ids": [
+        "PMC_UNKNOWN:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "dna_damage_repair",
+      "predicate": "REGULATES",
+      "object": "genomic_instability",
+      "evidence_ids": [
+        "PMC_UNKNOWN:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
@@ -830,18 +1022,18 @@
       "note": null
     },
     {
-      "subject": "genomic_instability",
-      "predicate": "CAUSES",
+      "subject": "sting_pathway",
+      "predicate": "REGULATES",
       "object": "immune_evasion",
       "evidence_ids": [
-        "paper_id:background:1:llm"
+        "PMC_UNKNOWN:background:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
       ],
       "confidence": 0.85,
-      "linguistic_trust": "suggested",
+      "linguistic_trust": "asserted",
       "properties": {},
       "section": "background",
       "asserted_by": "llm",
@@ -852,58 +1044,17 @@
       "subject": "olaparib",
       "predicate": "SUBTYPE_OF",
       "object": "parp_inhibitors",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "PMC_UNKNOWN:background:1:llm"
+      ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {
-        "resolution": null,
-        "note": "olaparib is a specific PARP inhibitor"
-      },
-      "section": "methods",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "talazoparib",
-      "predicate": "SUBTYPE_OF",
-      "object": "parp_inhibitors",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "resolution": null,
-        "note": "talazoparib is a specific PARP inhibitor"
-      },
-      "section": "methods",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "niraparib",
-      "predicate": "SUBTYPE_OF",
-      "object": "parp_inhibitors",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "paper_id"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "resolution": null,
-        "note": "niraparib is a specific PARP inhibitor"
-      },
-      "section": "methods",
+      "properties": {},
+      "section": "background",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -912,46 +1063,1130 @@
       "subject": "durvalumab",
       "predicate": "SUBTYPE_OF",
       "object": "immune_checkpoint_blockers",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "PMC_UNKNOWN:background:1:llm"
+      ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {
-        "resolution": null,
-        "note": "durvalumab is a PD-L1 inhibitor"
-      },
-      "section": "methods",
+      "properties": {},
+      "section": "background",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "atezolizumab",
-      "predicate": "SUBTYPE_OF",
+      "subject": "Author:zhangy",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_surgery_the_first_affiliated_hospit",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenx",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_oncology_the_first_affiliated_hospi",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangd",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_oncology_the_first_affiliated_hospi",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhoux",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_surgery_the_first_affiliated_hospit",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangy",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_oncology_the_first_affiliated_hospi",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangg",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_anesthesiology_medical_college_of_j",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liux",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_oncology_the_first_affiliated_hospi",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangy",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenx",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangd",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhoux",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangy",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangg",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liux",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "extensive-stage_small_cell_lung_cancer",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "ddr-immune_fitness_score",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "homologous_recombination_deficiency",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "tumor_mutational_burden",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "sting_pathway",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "parp_inhibitors",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
       "object": "immune_checkpoint_blockers",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757875"
       ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "resolution": null,
-        "note": "atezolizumab is a PD-L1 inhibitor"
-      },
-      "section": "methods",
-      "asserted_by": "llm",
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "pd-l1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "cd8_t_cells",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "atm",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "brca1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "brca2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "parp1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "rad51",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "slfn11",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "dna_damage_repair",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "genomic_instability",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "immune_evasion",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "cgas",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "sting",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "olaparib",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "durvalumab",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "talazoparib",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "niraparib",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "atezolizumab",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "cisplatin",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "etoposide",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "tumor_microenvironment",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "objective_response_rate",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "progression_free_survival",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenx",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangd",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhoux",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangg",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liux",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenx",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangd",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenx",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhoux",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenx",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenx",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangg",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenx",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:liux",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangd",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhoux",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangd",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangd",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangg",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liux",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangd",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhoux",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangg",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhoux",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liux",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhoux",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangy",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangg",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liux",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liux",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:zhangg",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
     "The DDR-IF score is described as an exploratory biomarker requiring prospective validation",
-    "The study integrates data from multiple phase II trials and single-cell transcriptomic analysis",
-    "The biomarker aims to identify patients who would benefit from PARP inhibitor and immune checkpoint blocker combination therapy"
+    "The study integrates data from 82 SCLC tumors and six phase II trials",
+    "Statistical significance reported for CD8+ T cell infiltration (p=0.004) and objective response rate (p=0.003)"
   ]
 }

@@ -6,10 +6,31 @@
     "authors": [
       "Not specified"
     ],
+    "author_details": [
+      {
+        "name": "Rui Chen",
+        "affiliations": [
+          "Department of Respiratory and Critical Care Medicine, The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University"
+        ]
+      },
+      {
+        "name": "Shijing Wang",
+        "affiliations": [
+          "Department of Respiratory and Critical Care Medicine, The First People\u2019s Hospital of Jiujiang"
+        ]
+      },
+      {
+        "name": "Junping Xie",
+        "affiliations": [
+          "Department of Respiratory and Critical Care Medicine, The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University"
+        ]
+      }
+    ],
+    "document_id": "PMC12757429",
     "journal": "Not specified",
     "year": null,
     "study_type": "experimental",
-    "eco_type": "in vitro and in vivo",
+    "eco_type": "in vitro and in vivo studies",
     "study_design": {
       "study_type": "observational",
       "sample_size": null,
@@ -21,8 +42,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
-      "git_commit_short": "932f234",
+      "git_commit": "48e3c74be35a9bdaabe3f69f35049054df3588a9",
+      "git_commit_short": "48e3c74",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -36,14 +57,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4df759b74bea15d3",
-      "schema_version": "23a154ab"
+      "checksum": "sha256:4069173fe4ab327c",
+      "schema_version": "0399967c"
     },
     "execution": {
-      "timestamp": "2026-03-11T17:36:43.325161Z",
+      "timestamp": "2026-03-13T16:56:44.890688Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 42.79
+      "duration_seconds": 68.16
     },
     "entity_resolution": null,
     "model_info": null
@@ -51,12 +72,12 @@
   "entities": [
     {
       "id": "PSMD14",
-      "class": "Enzyme",
+      "class": "Protein",
       "name": "PSMD14",
       "synonyms": [
-        "Proteasome 26S Subunit, Non-ATPase 14",
         "POH1",
-        "RPN11"
+        "RPN11",
+        "Proteasome 26S Subunit, Non-ATPase 14"
       ],
       "symbol": null,
       "brand_names": [],
@@ -107,7 +128,7 @@
       "class": "Pathway",
       "name": "TGF-\u03b2/Smad pathway",
       "synonyms": [
-        "TGF-\u03b2/Smad signaling"
+        "TGF-beta/Smad signaling"
       ],
       "symbol": null,
       "brand_names": [],
@@ -167,6 +188,23 @@
       "uniprot_id": null
     },
     {
+      "id": "deubiquitination",
+      "class": "BiologicalProcess",
+      "name": "deubiquitination",
+      "synonyms": [
+        "deubiquitinating"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "K63_linked_ubiquitination",
       "class": "BiologicalProcess",
       "name": "K63-linked ubiquitination",
@@ -184,25 +222,12 @@
       "uniprot_id": null
     },
     {
-      "id": "deubiquitination",
-      "class": "BiologicalProcess",
-      "name": "deubiquitination",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "protein_stability",
       "class": "BiologicalProcess",
       "name": "protein stability",
-      "synonyms": [],
+      "synonyms": [
+        "protein stabilization"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -265,6 +290,23 @@
       "uniprot_id": null
     },
     {
+      "id": "apoptosis",
+      "class": "BiologicalProcess",
+      "name": "apoptosis",
+      "synonyms": [
+        "programmed cell death"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "epithelial_mesenchymal_transition",
       "class": "BiologicalProcess",
       "name": "epithelial-mesenchymal transition",
@@ -288,66 +330,6 @@
       "synonyms": [
         "immunosuppressive tumor microenvironment"
       ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "H1299",
-      "class": "Evidence",
-      "name": "H1299",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "PC9",
-      "class": "Evidence",
-      "name": "PC9",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "H1975",
-      "class": "Evidence",
-      "name": "H1975",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "A549",
-      "class": "Evidence",
-      "name": "A549",
-      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -425,6 +407,318 @@
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
+    },
+    {
+      "id": "area_under_curve",
+      "class": "Biomarker",
+      "name": "area under curve",
+      "synonyms": [
+        "AUC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "H1299",
+      "class": "Protein",
+      "name": "H1299",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "PC9",
+      "class": "Protein",
+      "name": "PC9",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "H1975",
+      "class": "Protein",
+      "name": "H1975",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "A549",
+      "class": "Protein",
+      "name": "A549",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "HCC827",
+      "class": "Protein",
+      "name": "HCC827",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "H1650",
+      "class": "Protein",
+      "name": "H1650",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "HBE135_E6E7",
+      "class": "Protein",
+      "name": "HBE135-E6E7",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cycloheximide",
+      "class": "Drug",
+      "name": "cycloheximide",
+      "synonyms": [
+        "CHX"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "MG132",
+      "class": "Drug",
+      "name": "MG132",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "TCGA",
+      "class": "Evidence",
+      "name": "TCGA",
+      "synonyms": [
+        "The Cancer Genome Atlas"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "GEO",
+      "class": "Evidence",
+      "name": "GEO",
+      "synonyms": [
+        "Gene Expression Omnibus"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "CPTAC",
+      "class": "Evidence",
+      "name": "CPTAC",
+      "synonyms": [
+        "Clinical Proteomic Tumor Analysis Consortium"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "CTRP",
+      "class": "Evidence",
+      "name": "CTRP",
+      "synonyms": [
+        "Cancer Therapeutics Response Portal"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "PRISM",
+      "class": "Evidence",
+      "name": "PRISM",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:chenr",
+      "class": "Author",
+      "name": "Rui Chen",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:department_of_respiratory_and_critical_care_medici",
+      "class": "Institution",
+      "name": "Department of Respiratory and Critical Care Medicine, The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:wangs",
+      "class": "Author",
+      "name": "Shijing Wang",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:xiej",
+      "class": "Author",
+      "name": "Junping Xie",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Paper:PMC12757429",
+      "class": "Paper",
+      "name": "PSMD14 drives lung adenocarcinoma progression through HMMR stabilization and dual activation of TGF-\u03b2/Smad and PI3K/AKT/mTOR signaling",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
     }
   ],
   "evidence_entities": [
@@ -438,7 +732,7 @@
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "in vitro",
+      "eco_type": "expression analysis",
       "source": "extracted"
     },
     {
@@ -447,11 +741,11 @@
       "entity_id": null,
       "paper_id": "paper_id",
       "text_span_id": "results_2",
-      "text": "Mechanistically, PSMD14 directly interacted with HMMR, removing K63-linked ubiquitin chains to enhance its protein stability.",
-      "confidence": 0.98,
+      "text": "Receiver operating characteristic (ROC) curve analysis yielded an area under the curve (AUC) of 0.898 (95% CI: 0.877\u20130.918), suggesting excellent diagnostic performance.",
+      "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "in vitro",
+      "eco_type": "diagnostic analysis",
       "source": "extracted"
     },
     {
@@ -460,11 +754,11 @@
       "entity_id": null,
       "paper_id": "paper_id",
       "text_span_id": "results_3",
-      "text": "PSMD14 high expression correlated with immunosuppressive features and coordinated activation of TGF-\u03b2/Smad and PI3K/AKT/mTOR signaling pathways.",
+      "text": "Using co-immunoprecipitation (Co-IP) assays, we confirmed a specific interaction between PSMD14 and HMMR. Subsequent knockdown and overexpression of PSMD14 in LUAD cell lines demonstrated that HMMR expression is positively regulated by PSMD14 at both the mRNA and protein levels.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "in vitro",
+      "eco_type": "protein interaction",
       "source": "extracted"
     },
     {
@@ -473,11 +767,76 @@
       "entity_id": null,
       "paper_id": "paper_id",
       "text_span_id": "results_4",
-      "text": "The PSMD14 inhibitor Capzimin exhibited potent anti-tumor effects in vitro and in vivo, and combination therapy with the TGF-\u03b2 inhibitor galunisertib demonstrated enhanced efficacy.",
+      "text": "PSMD14 knockdown markedly enhanced HMMR ubiquitination, whereas its overexpression reduced it. PSMD14 preferentially removes K63-linked ubiquitin chains from HMMR.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "in vitro and in vivo",
+      "eco_type": "biochemical assay",
+      "source": "extracted"
+    },
+    {
+      "id": "paper_id:results:5:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper_id",
+      "text_span_id": "results_5",
+      "text": "CCK-8 assays revealed that PSMD14 knockdown significantly suppressed proliferation in H1299 and PC9 cells, while its overexpression markedly enhanced proliferation in H1975 cells.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "cell proliferation assay",
+      "source": "extracted"
+    },
+    {
+      "id": "paper_id:results:6:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper_id",
+      "text_span_id": "results_6",
+      "text": "HMMR overexpression substantially rescued the impaired proliferation, migration, and invasion capabilities resulting from PSMD14 knockdown.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "rescue experiment",
+      "source": "extracted"
+    },
+    {
+      "id": "paper_id:results:7:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper_id",
+      "text_span_id": "results_7",
+      "text": "Capzimin treatment effectively suppressed the proliferative and metastatic capacities of LUAD cells. Capzimin notably induced apoptosis and loss of mitochondrial membrane potential.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "drug treatment",
+      "source": "extracted"
+    },
+    {
+      "id": "paper_id:results:8:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper_id",
+      "text_span_id": "results_8",
+      "text": "PSMD14 knockdown reduced TGF-\u03b2, p-Smad2/3 phosphorylation, and CD44 expression, whereas PSMD14 overexpression increased these markers. Similarly, PSMD14 knockdown decreased phosphorylation of mTOR, PI3K, and AKT, while its overexpression enhanced their activation.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "pathway analysis",
+      "source": "extracted"
+    },
+    {
+      "id": "paper_id:results:9:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "paper_id",
+      "text_span_id": "results_9",
+      "text": "The combination of Capzimin and galunisertib demonstrated synergistic suppression of tumor growth, yielding superior antitumor efficacy compared to either agent alone.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "combination therapy",
       "source": "extracted"
     }
   ],
@@ -487,13 +846,13 @@
       "predicate": "INTERACTS_WITH",
       "object": "HMMR",
       "evidence_ids": [
-        "paper_id:results:2:llm"
+        "paper_id:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
       ],
-      "confidence": 0.98,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
@@ -504,18 +863,124 @@
     {
       "subject": "PSMD14",
       "predicate": "REGULATES",
-      "object": "protein_stability",
+      "object": "HMMR",
       "evidence_ids": [
-        "paper_id:results:2:llm"
+        "paper_id:results:3:llm",
+        "paper_id:results:4:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "mechanism": "K63-linked deubiquitination"
+        "regulation_type": "positive"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PSMD14",
+      "predicate": "REGULATES",
+      "object": "protein_stability",
+      "evidence_ids": [
+        "paper_id:results:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "mechanism": "deubiquitination"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PSMD14",
+      "predicate": "REGULATES",
+      "object": "K63_linked_ubiquitination",
+      "evidence_ids": [
+        "paper_id:results:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "regulation_type": "removes"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PSMD14",
+      "predicate": "REGULATES",
+      "object": "cell_proliferation",
+      "evidence_ids": [
+        "paper_id:results:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "regulation_type": "promotes"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PSMD14",
+      "predicate": "REGULATES",
+      "object": "cell_migration",
+      "evidence_ids": [
+        "paper_id:results:6:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "regulation_type": "promotes"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PSMD14",
+      "predicate": "REGULATES",
+      "object": "cell_invasion",
+      "evidence_ids": [
+        "paper_id:results:6:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "regulation_type": "promotes"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -527,16 +992,16 @@
       "predicate": "REGULATES",
       "object": "TGF_beta_Smad_pathway",
       "evidence_ids": [
-        "paper_id:results:3:llm"
+        "paper_id:results:8:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "effect": "activation"
+        "regulation_type": "activates"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -548,16 +1013,16 @@
       "predicate": "REGULATES",
       "object": "PI3K_AKT_mTOR_pathway",
       "evidence_ids": [
-        "paper_id:results:3:llm"
+        "paper_id:results:8:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "effect": "activation"
+        "regulation_type": "activates"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -573,12 +1038,12 @@
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "expression": "upregulated"
+        "association_type": "overexpressed"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -587,38 +1052,40 @@
     },
     {
       "subject": "PSMD14",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "immunosuppressive_microenvironment",
+      "predicate": "INDICATES",
+      "object": "overall_survival",
       "evidence_ids": [
-        "paper_id:results:3:llm"
+        "paper_id:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "indication_type": "poor prognosis"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "PSMD14",
+      "subject": "HMMR",
       "predicate": "REGULATES",
       "object": "cell_proliferation",
       "evidence_ids": [
-        "paper_id:results:2:llm"
+        "paper_id:results:6:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "effect": "promotes"
+        "regulation_type": "promotes"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -626,20 +1093,20 @@
       "note": null
     },
     {
-      "subject": "PSMD14",
+      "subject": "HMMR",
       "predicate": "REGULATES",
       "object": "cell_migration",
       "evidence_ids": [
-        "paper_id:results:2:llm"
+        "paper_id:results:6:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "effect": "promotes"
+        "regulation_type": "promotes"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -647,20 +1114,20 @@
       "note": null
     },
     {
-      "subject": "PSMD14",
+      "subject": "HMMR",
       "predicate": "REGULATES",
       "object": "cell_invasion",
       "evidence_ids": [
-        "paper_id:results:2:llm"
+        "paper_id:results:6:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "effect": "promotes"
+        "regulation_type": "promotes"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -672,11 +1139,49 @@
       "predicate": "INHIBITS",
       "object": "PSMD14",
       "evidence_ids": [
-        "paper_id:results:4:llm"
+        "paper_id:results:7:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Capzimin",
+      "predicate": "INHIBITS",
+      "object": "cell_proliferation",
+      "evidence_ids": [
+        "paper_id:results:7:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Capzimin",
+      "predicate": "CAUSES",
+      "object": "apoptosis",
+      "evidence_ids": [
+        "paper_id:results:7:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -691,17 +1196,16 @@
       "predicate": "TREATS",
       "object": "lung_adenocarcinoma",
       "evidence_ids": [
-        "paper_id:results:4:llm"
+        "paper_id:results:7:llm",
+        "paper_id:results:9:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "efficacy": "anti-tumor effects"
-      },
+      "linguistic_trust": "suggested",
+      "properties": {},
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -712,14 +1216,14 @@
       "predicate": "INHIBITS",
       "object": "TGF_beta_Smad_pathway",
       "evidence_ids": [
-        "paper_id:results:4:llm"
+        "paper_id:results:9:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "asserted",
+      "linguistic_trust": "suggested",
       "properties": {},
       "section": "results",
       "asserted_by": "llm",
@@ -727,15 +1231,15 @@
       "note": null
     },
     {
-      "subject": "HMMR",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "lung_adenocarcinoma",
+      "subject": "TGF_beta_Smad_pathway",
+      "predicate": "REGULATES",
+      "object": "epithelial_mesenchymal_transition",
       "evidence_ids": [
-        "paper_id:results:2:llm"
+        "paper_id:results:8:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12757429"
       ],
       "confidence": 0.85,
       "linguistic_trust": "suggested",
@@ -744,11 +1248,693 @@
       "asserted_by": "llm",
       "resolution": null,
       "note": null
+    },
+    {
+      "subject": "PI3K_AKT_mTOR_pathway",
+      "predicate": "REGULATES",
+      "object": "cell_proliferation",
+      "evidence_ids": [
+        "paper_id:results:8:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenr",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_respiratory_and_critical_care_medici",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangs",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_respiratory_and_critical_care_medici",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:xiej",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_respiratory_and_critical_care_medici",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenr",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757429",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangs",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757429",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:xiej",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757429",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "PSMD14",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "HMMR",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "lung_adenocarcinoma",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "TGF_beta_Smad_pathway",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "PI3K_AKT_mTOR_pathway",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "Capzimin",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "galunisertib",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "deubiquitination",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "K63_linked_ubiquitination",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "protein_stability",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "cell_proliferation",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "cell_migration",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "cell_invasion",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "apoptosis",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "epithelial_mesenchymal_transition",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "immunosuppressive_microenvironment",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "overall_survival",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "disease_specific_survival",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "progression_free_interval",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "disease_free_interval",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "area_under_curve",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "H1299",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "PC9",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "H1975",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "A549",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "HCC827",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "H1650",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "HBE135_E6E7",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "cycloheximide",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757429",
+      "predicate": "DESCRIBED",
+      "object": "MG132",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenr",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:wangs",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenr",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:xiej",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangs",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:xiej",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757429"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
     }
   ],
   "notes": [
-    "This study demonstrates a novel mechanism where PSMD14 acts as a deubiquitinating enzyme that stabilizes HMMR protein through K63-linked deubiquitination",
-    "The dual activation of both TGF-\u03b2/Smad and PI3K/AKT/mTOR pathways by PSMD14 represents a unique finding in lung adenocarcinoma",
-    "Combination therapy with PSMD14 inhibitor Capzimin and TGF-\u03b2 inhibitor galunisertib shows enhanced therapeutic efficacy"
+    "This study demonstrates a novel mechanism where PSMD14 acts as a deubiquitinating enzyme that stabilizes HMMR through K63-linked deubiquitination, leading to dual activation of TGF-\u03b2/Smad and PI3K/AKT/mTOR pathways in lung adenocarcinoma.",
+    "The combination therapy of Capzimin (PSMD14 inhibitor) with galunisertib (TGF-\u03b2 inhibitor) shows synergistic anti-tumor effects, suggesting a promising therapeutic strategy.",
+    "PSMD14 expression serves as both a diagnostic biomarker (AUC = 0.898) and prognostic indicator across multiple survival metrics in LUAD patients."
   ]
 }

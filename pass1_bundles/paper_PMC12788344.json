@@ -7,7 +7,72 @@
       "Kara L. Leonard",
       "Mary Anne Fenton"
     ],
-    "journal": "Unknown",
+    "author_details": [
+      {
+        "name": "Hetal D. Mistry",
+        "affiliations": [
+          "Brown University Health Cancer Institute",
+          "Warren Alpert School of Medicine"
+        ]
+      },
+      {
+        "name": "MacKenzie R. Adams",
+        "affiliations": [
+          "Warren Alpert School of Medicine",
+          "Brown University Health"
+        ]
+      },
+      {
+        "name": "Charu Taneja",
+        "affiliations": [
+          "Warren Alpert School of Medicine",
+          "Brown University Health"
+        ]
+      },
+      {
+        "name": "Lauren J. Massingham",
+        "affiliations": [
+          "Brown University Health Cancer Institute",
+          "Warren Alpert School of Medicine",
+          "Department of Pediatrics, Harvard Medical School"
+        ]
+      },
+      {
+        "name": "Elizabeth H. Dibble",
+        "affiliations": [
+          "Warren Alpert School of Medicine",
+          "Brown University Health"
+        ]
+      },
+      {
+        "name": "Kara L. Leonard",
+        "affiliations": [
+          "Brown University Health"
+        ]
+      },
+      {
+        "name": "Jesse Hart",
+        "affiliations": [
+          "Brown University Health"
+        ]
+      },
+      {
+        "name": "Galina G. Lagos",
+        "affiliations": [
+          "Brown University Health Cancer Institute",
+          "Warren Alpert School of Medicine"
+        ]
+      },
+      {
+        "name": "Mary Anne Fenton",
+        "affiliations": [
+          "Brown University Health Cancer Institute",
+          "Warren Alpert School of Medicine"
+        ]
+      }
+    ],
+    "document_id": "PMC12788344",
+    "journal": "Case Report",
     "year": 2024,
     "study_type": "case_report",
     "eco_type": null,
@@ -22,8 +87,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
-      "git_commit_short": "932f234",
+      "git_commit": "48e3c74be35a9bdaabe3f69f35049054df3588a9",
+      "git_commit_short": "48e3c74",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -37,14 +102,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4df759b74bea15d3",
-      "schema_version": "23a154ab"
+      "checksum": "sha256:4069173fe4ab327c",
+      "schema_version": "0399967c"
     },
     "execution": {
-      "timestamp": "2026-03-11T17:51:11.774091Z",
+      "timestamp": "2026-03-13T17:11:37.216876Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 69.51
+      "duration_seconds": 43.85
     },
     "entity_resolution": null,
     "model_info": null
@@ -85,17 +150,18 @@
       "uniprot_id": null
     },
     {
-      "id": "ductal_carcinoma_in_situ",
-      "class": "Disease",
-      "name": "ductal carcinoma in situ",
+      "id": "mosaic_TP53_variant",
+      "class": "Mutation",
+      "name": "mosaic TP53 variant",
       "synonyms": [
-        "DCIS"
+        "c.716A>G",
+        "p.N239S"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0007124",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -119,109 +185,6 @@
       "uniprot_id": null
     },
     {
-      "id": "mosaicism",
-      "class": "Mutation",
-      "name": "mosaicism",
-      "synonyms": [
-        "constitutional mosaicism"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "c.716A>G",
-      "class": "Mutation",
-      "name": "c.716A>G",
-      "synonyms": [
-        "p.N239S"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "estrogen_receptor",
-      "class": "Protein",
-      "name": "estrogen receptor",
-      "synonyms": [
-        "ER"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0034804",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "progesterone_receptor",
-      "class": "Protein",
-      "name": "progesterone receptor",
-      "synonyms": [
-        "PR"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0034833",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "HER2",
-      "class": "Protein",
-      "name": "human epidermal growth factor receptor 2",
-      "synonyms": [
-        "HER-2",
-        "HER2"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0069515",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "Ki-67",
-      "class": "Biomarker",
-      "name": "Ki-67",
-      "synonyms": [
-        "Ki-67 index"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0208804",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "bilateral_mastectomy",
       "class": "Procedure",
       "name": "bilateral mastectomy",
@@ -239,141 +202,17 @@
       "uniprot_id": null
     },
     {
-      "id": "sentinel_lymph_node_biopsy",
-      "class": "Procedure",
-      "name": "sentinel lymph node biopsy",
+      "id": "mosaicism",
+      "class": "Mutation",
+      "name": "mosaicism",
       "synonyms": [
-        "SLNB"
+        "constitutional mosaicism"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C1519247",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "magnetic_resonance_imaging",
-      "class": "Procedure",
-      "name": "magnetic resonance imaging",
-      "synonyms": [
-        "MRI"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0024485",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "mammography",
-      "class": "Procedure",
-      "name": "mammography",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0024671",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "stereotactic_needle_biopsy",
-      "class": "Procedure",
-      "name": "stereotactic needle biopsy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0729296",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "genetic_testing",
-      "class": "Procedure",
-      "name": "genetic testing",
-      "synonyms": [
-        "germline genetic testing"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0679560",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "whole-body_MRI",
-      "class": "Procedure",
-      "name": "whole-body MRI",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0024485",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "skin_biopsy",
-      "class": "Procedure",
-      "name": "skin biopsy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0150866",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "preimplantation_genetic_diagnosis",
-      "class": "Procedure",
-      "name": "preimplantation genetic diagnosis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0206058",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "in_vitro_fertilization",
-      "class": "Procedure",
-      "name": "in vitro fertilization",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0015915",
+      "umls_id": "C0026046",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -397,34 +236,36 @@
       "uniprot_id": null
     },
     {
-      "id": "radiation_therapy",
+      "id": "whole-body_MRI",
       "class": "Procedure",
-      "name": "radiation therapy",
+      "name": "whole-body MRI",
       "synonyms": [
-        "radiotherapy"
+        "whole-body magnetic resonance imaging"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C1522449",
+      "umls_id": "C0024485",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "tamoxifen",
-      "class": "Drug",
-      "name": "tamoxifen",
-      "synonyms": [],
+      "id": "preimplantation_genetic_diagnosis",
+      "class": "Procedure",
+      "name": "preimplantation genetic diagnosis",
+      "synonyms": [
+        "PGD"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0206058",
       "hgnc_id": null,
-      "rxnorm_id": "10324",
+      "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
@@ -432,217 +273,129 @@
       "id": "neurotization",
       "class": "Procedure",
       "name": "neurotization",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "eosinophilic_esophagitis",
-      "class": "Disease",
-      "name": "eosinophilic esophagitis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0341106",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "fibrocystic_breasts",
-      "class": "Disease",
-      "name": "fibrocystic breasts",
       "synonyms": [
-        "dense fibrocystic breasts"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0016037",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "fatigue",
-      "class": "Symptom",
-      "name": "fatigue",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0015672",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "uterine_cancer",
-      "class": "Disease",
-      "name": "uterine cancer",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0042138",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "renal_cancer",
-      "class": "Disease",
-      "name": "renal cancer",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0740457",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "BRCA1",
-      "class": "Gene",
-      "name": "BRCA1",
-      "synonyms": [
-        "breast cancer 1"
+        "nerve grafting"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:1100",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "BRCA2",
-      "class": "Gene",
-      "name": "BRCA2",
+      "id": "intercostal_nerves",
+      "class": "AnatomicalStructure",
+      "name": "intercostal nerves",
       "synonyms": [
-        "breast cancer 2"
+        "fourth intercostal nerve",
+        "fifth intercostal nerve"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1101",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "CD34",
-      "class": "Protein",
-      "name": "CD34",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0054953",
+      "umls_id": "C0021139",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "smooth_muscle_actin",
-      "class": "Protein",
-      "name": "smooth muscle actin",
-      "synonyms": [
-        "SMA"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0001271",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "p63",
-      "class": "Protein",
-      "name": "p63",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C1336641",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "MDM2",
-      "class": "Gene",
-      "name": "mouse double minute 2 homolog",
-      "synonyms": [
-        "MDNW"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:6973",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "dedifferentiated_liposarcoma",
-      "class": "Disease",
-      "name": "dedifferentiated liposarcoma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C1266042",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "fluorescence_in_situ_hybridization",
+      "id": "delayed_SLNB",
       "class": "Procedure",
-      "name": "fluorescence in situ hybridization",
+      "name": "delayed sentinel lymph node biopsy",
+      "synonyms": [
+        "delayed SLNB"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "superparamagnetic_iron_oxide",
+      "class": "Drug",
+      "name": "superparamagnetic iron oxide",
+      "synonyms": [
+        "SPIO",
+        "Magtrace"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cascade_testing",
+      "class": "Procedure",
+      "name": "cascade testing",
+      "synonyms": [
+        "family testing"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "skin_biopsy",
+      "class": "Procedure",
+      "name": "skin biopsy",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0162789",
+      "umls_id": "C0150866",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Kara_L_Leonard",
+      "class": "Author",
+      "name": "Kara L. Leonard",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Mary_Anne_Fenton",
+      "class": "Author",
+      "name": "Mary Anne Fenton",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -681,26 +434,24 @@
       "uniprot_id": null
     },
     {
-      "id": "Endomag",
+      "id": "Author:mistryh",
+      "class": "Author",
+      "name": "Hetal D. Mistry",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:brown_university_health_cancer_institute",
       "class": "Institution",
-      "name": "Endomag",
-      "synonyms": [
-        "A Hologic Company"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "Magtrace",
-      "class": "Drug",
-      "name": "Magtrace",
+      "name": "Brown University Health Cancer Institute",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -713,12 +464,10 @@
       "uniprot_id": null
     },
     {
-      "id": "superparamagnetic_iron_oxide",
-      "class": "Drug",
-      "name": "superparamagnetic iron oxide",
-      "synonyms": [
-        "SPIO"
-      ],
+      "id": "Institution:warren_alpert_school_of_medicine",
+      "class": "Institution",
+      "name": "Warren Alpert School of Medicine",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -730,26 +479,9 @@
       "uniprot_id": null
     },
     {
-      "id": "technetium-99m",
-      "class": "Drug",
-      "name": "technetium-99m",
-      "synonyms": [
-        "99mTc"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "10324",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "aromatase_inhibitors",
-      "class": "Drug",
-      "name": "aromatase inhibitors",
+      "id": "Author:adamsm",
+      "class": "Author",
+      "name": "MacKenzie R. Adams",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -757,14 +489,149 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "1000048",
+      "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "selective_ER_modulators",
-      "class": "Drug",
-      "name": "selective ER modulators",
+      "id": "Institution:brown_university_health",
+      "class": "Institution",
+      "name": "Brown University Health",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:tanejac",
+      "class": "Author",
+      "name": "Charu Taneja",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:massinghaml",
+      "class": "Author",
+      "name": "Lauren J. Massingham",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:department_of_pediatrics_harvard_medical_school",
+      "class": "Institution",
+      "name": "Department of Pediatrics, Harvard Medical School",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:dibblee",
+      "class": "Author",
+      "name": "Elizabeth H. Dibble",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:leonardk",
+      "class": "Author",
+      "name": "Kara L. Leonard",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:hartj",
+      "class": "Author",
+      "name": "Jesse Hart",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:lagosg",
+      "class": "Author",
+      "name": "Galina G. Lagos",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:fentonm",
+      "class": "Author",
+      "name": "Mary Anne Fenton",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Paper:PMC12788344",
+      "class": "Paper",
+      "name": "A patient with newly diagnosed breast cancer found to have mosaic TP53 likely pathogenic variant",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -779,10 +646,10 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC_UNKNOWN:case_overview:1:llm",
+      "id": "PMC_CASE_REPORT:case_overview:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
+      "paper_id": "PMC_CASE_REPORT",
       "text_span_id": "case_overview_1",
       "text": "A 36\u2010year\u2010old, nulligravid woman with a history of controlled eosinophilic esophagitis, asthma, and dense fibrocystic breasts was referred to the Breast Health Center after abnormal screening mammography.",
       "confidence": 0.95,
@@ -792,10 +659,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_UNKNOWN:case_overview:2:llm",
+      "id": "PMC_CASE_REPORT:case_overview:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
+      "paper_id": "PMC_CASE_REPORT",
       "text_span_id": "case_overview_2",
       "text": "She completed a comprehensive 76\u2010gene germline genetic test, which revealed tumor protein p53 (TP53) likely pathogenic variant (LPV; c.716A>G; p.N239S).",
       "confidence": 0.98,
@@ -805,37 +672,11 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_UNKNOWN:case_overview:3:llm",
+      "id": "PMC_CASE_REPORT:genetics:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
-      "text_span_id": "case_overview_3",
-      "text": "When TP53 PVs/LPVs are identified in a comprehensive germline panel, this raises concern for Li\u2013Fraumeni syndrome (LFS).",
-      "confidence": 0.98,
-      "extraction_method": "llm",
-      "study_type": "case_report",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC_UNKNOWN:pathology:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
-      "text_span_id": "pathology_1",
-      "text": "Initial biopsies demonstrated bilateral high\u2010grade DCIS, both of which were ER\u2010positive (90%\u201395%; strong).",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "case_report",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC_UNKNOWN:genetics:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
-      "text_span_id": "genetics_1",
+      "paper_id": "PMC_CASE_REPORT",
+      "text_span_id": "genetics_3",
       "text": "The same specific TP53 LPV (c.716A>G [p.N239S]) was detected in all three tumors.",
       "confidence": 0.98,
       "extraction_method": "llm",
@@ -844,38 +685,12 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_UNKNOWN:genetics:2:llm",
+      "id": "PMC_CASE_REPORT:genetics:4:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
-      "text_span_id": "genetics_2",
-      "text": "The evidence of the somatic molecular testing and the embryos is consistent with mosaicism in our patient and is diagnostic for LFS.",
-      "confidence": 0.98,
-      "extraction_method": "llm",
-      "study_type": "case_report",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC_UNKNOWN:surgery:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
-      "text_span_id": "surgery_1",
-      "text": "The breast cancer risk for women with LFS/germline TP53 LPVs/PVs is 80%\u201390%, with most breast cancers occurring at a younger age.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "case_report",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC_UNKNOWN:radiation_oncology:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
-      "text_span_id": "radiation_oncology_1",
-      "text": "It has been demonstrated that patients with LFS who receive radiation therapy have an increased risk of radiation\u2010related malignancies within irradiated areas.",
+      "paper_id": "PMC_CASE_REPORT",
+      "text_span_id": "genetics_4",
+      "text": "In our patient, the VAF for the TP53 c.716A>G in each lesion was as follows: left breast DCIS, 2.4%; right breast DCIS, 33.9%; and left phyllodes tumor, 60.8%.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "case_report",
@@ -885,77 +700,20 @@
   ],
   "relationships": [
     {
-      "subject": "c.716A>G",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "TP53",
-      "evidence_ids": [
-        "PMC_UNKNOWN:case_overview:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_UNKNOWN"
-      ],
-      "confidence": 0.98,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "case_overview",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "TP53",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "Li-Fraumeni_syndrome",
-      "evidence_ids": [
-        "PMC_UNKNOWN:case_overview:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_UNKNOWN"
-      ],
-      "confidence": 0.98,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "case_overview",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "c.716A>G",
+      "subject": "mosaic_TP53_variant",
       "predicate": "CAUSES",
       "object": "Li-Fraumeni_syndrome",
       "evidence_ids": [
-        "PMC_UNKNOWN:genetics:2:llm"
+        "PMC_CASE_REPORT:case_overview:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_UNKNOWN"
-      ],
-      "confidence": 0.98,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "genetics",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ductal_carcinoma_in_situ",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "estrogen_receptor",
-      "evidence_ids": [
-        "PMC_UNKNOWN:pathology:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_UNKNOWN"
+        "PMC12788344"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "pathology",
+      "section": "case_overview",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -965,16 +723,16 @@
       "predicate": "INCREASES_RISK",
       "object": "breast cancer",
       "evidence_ids": [
-        "PMC_UNKNOWN:surgery:1:llm"
+        "PMC_CASE_REPORT:genetics:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_UNKNOWN"
+        "PMC12788344"
       ],
-      "confidence": 0.95,
+      "confidence": 0.92,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "surgery",
+      "section": "genetics",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -982,56 +740,18 @@
     {
       "subject": "Li-Fraumeni_syndrome",
       "predicate": "INCREASES_RISK",
-      "object": "adrenocortical carcinoma",
+      "object": "malignant_phyllodes_tumor",
       "evidence_ids": [
-        "PMC_UNKNOWN:case_overview:3:llm"
+        "PMC_CASE_REPORT:genetics:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_UNKNOWN"
+        "PMC12788344"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "case_overview",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Li-Fraumeni_syndrome",
-      "predicate": "INCREASES_RISK",
-      "object": "central nervous system tumors",
-      "evidence_ids": [
-        "PMC_UNKNOWN:case_overview:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_UNKNOWN"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "case_overview",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "radiation_therapy",
-      "predicate": "INCREASES_RISK",
-      "object": "cancer",
-      "evidence_ids": [
-        "PMC_UNKNOWN:radiation_oncology:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_UNKNOWN"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "radiation_oncology",
+      "section": "genetics",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1039,13 +759,13 @@
     {
       "subject": "bilateral_mastectomy",
       "predicate": "TREATS",
-      "object": "ductal_carcinoma_in_situ",
+      "object": "ductal carcinoma in situ",
       "evidence_ids": [
-        "PMC_UNKNOWN:case_overview:1:llm"
+        "PMC_CASE_REPORT:case_overview:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_UNKNOWN"
+        "PMC12788344"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -1060,11 +780,11 @@
       "predicate": "TREATS",
       "object": "malignant_phyllodes_tumor",
       "evidence_ids": [
-        "PMC_UNKNOWN:case_overview:1:llm"
+        "PMC_CASE_REPORT:case_overview:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_UNKNOWN"
+        "PMC12788344"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -1075,36 +795,36 @@
       "note": null
     },
     {
-      "subject": "genetic_testing",
+      "subject": "variant_allele_frequency",
       "predicate": "INDICATES",
-      "object": "c.716A>G",
+      "object": "mosaicism",
       "evidence_ids": [
-        "PMC_UNKNOWN:case_overview:2:llm"
+        "PMC_CASE_REPORT:genetics:4:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_UNKNOWN"
+        "PMC12788344"
       ],
-      "confidence": 0.98,
-      "linguistic_trust": "asserted",
+      "confidence": 0.88,
+      "linguistic_trust": "suggested",
       "properties": {},
-      "section": "case_overview",
+      "section": "genetics",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "mosaicism",
-      "predicate": "CAUSES",
+      "subject": "whole-body_MRI",
+      "predicate": "DESCRIBED",
       "object": "Li-Fraumeni_syndrome",
       "evidence_ids": [
-        "PMC_UNKNOWN:genetics:2:llm"
+        "PMC_CASE_REPORT:genetics:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_UNKNOWN"
+        "PMC12788344"
       ],
-      "confidence": 0.98,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "genetics",
@@ -1113,28 +833,1432 @@
       "note": null
     },
     {
-      "subject": "tamoxifen",
-      "predicate": "TREATS",
-      "object": "ductal_carcinoma_in_situ",
+      "subject": "preimplantation_genetic_diagnosis",
+      "predicate": "PREVENTS",
+      "object": "Li-Fraumeni_syndrome",
       "evidence_ids": [
-        "PMC_UNKNOWN:case_overview:1:llm"
+        "PMC_CASE_REPORT:genetics:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_UNKNOWN"
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "genetics",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "neurotization",
+      "predicate": "TREATS",
+      "object": "chronic pain",
+      "evidence_ids": [
+        "PMC_CASE_REPORT:case_overview:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
       ],
       "confidence": 0.85,
-      "linguistic_trust": "suggested",
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "medical_oncology",
+      "section": "case_overview",
       "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cascade_testing",
+      "predicate": "DESCRIBED",
+      "object": "Li-Fraumeni_syndrome",
+      "evidence_ids": [
+        "PMC_CASE_REPORT:genetics:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.88,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "genetics",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Kara_L_Leonard",
+      "predicate": "AUTHORED",
+      "object": "PMC_CASE_REPORT",
+      "evidence_ids": [
+        "PMC_CASE_REPORT:case_overview:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "case_overview",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Mary_Anne_Fenton",
+      "predicate": "AUTHORED",
+      "object": "PMC_CASE_REPORT",
+      "evidence_ids": [
+        "PMC_CASE_REPORT:case_overview:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "case_overview",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Kara_L_Leonard",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Mary_Anne_Fenton",
+      "evidence_ids": [
+        "PMC_CASE_REPORT:case_overview:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "case_overview",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:mistryh",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:brown_university_health_cancer_institute",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:mistryh",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:warren_alpert_school_of_medicine",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:adamsm",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:warren_alpert_school_of_medicine",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:adamsm",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:brown_university_health",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:tanejac",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:warren_alpert_school_of_medicine",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:tanejac",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:brown_university_health",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:massinghaml",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:brown_university_health_cancer_institute",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:massinghaml",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:warren_alpert_school_of_medicine",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:massinghaml",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_pediatrics_harvard_medical_school",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:dibblee",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:warren_alpert_school_of_medicine",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:dibblee",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:brown_university_health",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:leonardk",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:brown_university_health",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:hartj",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:brown_university_health",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lagosg",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:brown_university_health_cancer_institute",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lagosg",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:warren_alpert_school_of_medicine",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fentonm",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:brown_university_health_cancer_institute",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fentonm",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:warren_alpert_school_of_medicine",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:mistryh",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12788344",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:adamsm",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12788344",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:tanejac",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12788344",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:massinghaml",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12788344",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:dibblee",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12788344",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:leonardk",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12788344",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:hartj",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12788344",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lagosg",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12788344",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fentonm",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12788344",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "TP53",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "Li-Fraumeni_syndrome",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "mosaic_TP53_variant",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "malignant_phyllodes_tumor",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "bilateral_mastectomy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "mosaicism",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "variant_allele_frequency",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "whole-body_MRI",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "preimplantation_genetic_diagnosis",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "neurotization",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "intercostal_nerves",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "delayed_SLNB",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "superparamagnetic_iron_oxide",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "cascade_testing",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12788344",
+      "predicate": "DESCRIBED",
+      "object": "skin_biopsy",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:adamsm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:mistryh",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:mistryh",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tanejac",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:massinghaml",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:mistryh",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:dibblee",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:mistryh",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:leonardk",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:mistryh",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:hartj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:mistryh",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lagosg",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:mistryh",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fentonm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:mistryh",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:adamsm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tanejac",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:adamsm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:massinghaml",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:adamsm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:dibblee",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:adamsm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:leonardk",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:adamsm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:hartj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:adamsm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:lagosg",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:adamsm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:fentonm",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:massinghaml",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tanejac",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:dibblee",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tanejac",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:leonardk",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tanejac",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:hartj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tanejac",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lagosg",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tanejac",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fentonm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:tanejac",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:dibblee",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:massinghaml",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:leonardk",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:massinghaml",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:hartj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:massinghaml",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lagosg",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:massinghaml",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fentonm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:massinghaml",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:dibblee",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:leonardk",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:dibblee",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:hartj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:dibblee",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:lagosg",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:dibblee",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:fentonm",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:hartj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:leonardk",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lagosg",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:leonardk",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fentonm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:leonardk",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:hartj",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:lagosg",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fentonm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:hartj",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:fentonm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:lagosg",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
-    "This case report describes a complex genetic evaluation involving mosaic TP53 mutation leading to Li-Fraumeni syndrome diagnosis",
-    "The patient had multiple primary breast tumors all harboring the same TP53 variant, supporting mosaicism diagnosis",
-    "Management was significantly altered by genetic findings, avoiding radiation therapy due to LFS-associated radiation sensitivity"
+    "This case report describes a complex genetic diagnosis involving mosaic TP53 variant leading to Li-Fraumeni syndrome diagnosis",
+    "The variant allele frequency data provided strong evidence for mosaicism rather than germline mutation",
+    "Multiple diagnostic procedures were required to confirm the mosaic nature of the TP53 variant"
   ]
 }

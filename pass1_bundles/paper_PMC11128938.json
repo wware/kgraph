@@ -4,9 +4,28 @@
     "pmcid": "PMC11128938",
     "title": "ACTH-dependent Cushing Syndrome with No Peripheral Response But a Marked Petrosal Sinus ACTH Response to Desmopressin",
     "authors": [
-      "Not specified"
+      "Unknown"
     ],
-    "journal": "Not specified",
+    "author_details": [
+      {
+        "name": "Martin Guay-Gagnon",
+        "affiliations": []
+      },
+      {
+        "name": "Ran Cheng",
+        "affiliations": []
+      },
+      {
+        "name": "Catherine Beauregard",
+        "affiliations": []
+      },
+      {
+        "name": "Andr\u00e9 Lacroix",
+        "affiliations": []
+      }
+    ],
+    "document_id": "PMC11128938",
+    "journal": "Unknown",
     "year": null,
     "study_type": "case_report",
     "eco_type": null,
@@ -21,8 +40,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
-      "git_commit_short": "932f234",
+      "git_commit": "1342d43704049a4a42f75d439539933e16c05e5c",
+      "git_commit_short": "1342d43",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -36,21 +55,21 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4df759b74bea15d3",
-      "schema_version": "23a154ab"
+      "checksum": "sha256:4069173fe4ab327c",
+      "schema_version": "0399967c"
     },
     "execution": {
-      "timestamp": "2026-03-11T17:25:31.353362Z",
+      "timestamp": "2026-03-13T16:43:38.016193Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 64.3
+      "duration_seconds": 62.7
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "e1",
+      "id": "entity_1",
       "class": "Disease",
       "name": "ACTH-dependent Cushing syndrome",
       "synonyms": [
@@ -67,7 +86,24 @@
       "uniprot_id": null
     },
     {
-      "id": "e2",
+      "id": "entity_2",
+      "class": "Procedure",
+      "name": "inferior petrosal sinus sampling",
+      "synonyms": [
+        "IPSS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_3",
       "class": "Drug",
       "name": "desmopressin",
       "synonyms": [],
@@ -82,73 +118,7 @@
       "uniprot_id": null
     },
     {
-      "id": "e3",
-      "class": "Disease",
-      "name": "Cushing disease",
-      "synonyms": [
-        "CD"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e4",
-      "class": "Hormone",
-      "name": "corticotropin-releasing hormone",
-      "synonyms": [
-        "CRH"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e5",
-      "class": "Disease",
-      "name": "Cushing syndrome",
-      "synonyms": [
-        "CS"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e6",
-      "class": "Hormone",
-      "name": "cortisol",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e7",
+      "id": "entity_4",
       "class": "Hormone",
       "name": "adrenocorticotropic hormone",
       "synonyms": [
@@ -165,7 +135,73 @@
       "uniprot_id": null
     },
     {
-      "id": "e8",
+      "id": "entity_5",
+      "class": "Hormone",
+      "name": "cortisol",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_6",
+      "class": "Disease",
+      "name": "Cushing disease",
+      "synonyms": [
+        "CD"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_7",
+      "class": "Hormone",
+      "name": "corticotropin-releasing hormone",
+      "synonyms": [
+        "CRH"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_8",
+      "class": "Disease",
+      "name": "Cushing syndrome",
+      "synonyms": [
+        "CS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_9",
       "class": "Procedure",
       "name": "dexamethasone suppression test",
       "synonyms": [
@@ -182,10 +218,12 @@
       "uniprot_id": null
     },
     {
-      "id": "e9",
+      "id": "entity_10",
       "class": "Biomarker",
       "name": "24-hour urinary free cortisol",
-      "synonyms": [],
+      "synonyms": [
+        "24-hour UFC"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -197,7 +235,7 @@
       "uniprot_id": null
     },
     {
-      "id": "e10",
+      "id": "entity_11",
       "class": "Biomarker",
       "name": "bedtime salivary cortisol",
       "synonyms": [],
@@ -212,27 +250,9 @@
       "uniprot_id": null
     },
     {
-      "id": "e11",
+      "id": "entity_12",
       "class": "Procedure",
-      "name": "Bilateral Inferior Petrosal Sinus Sampling",
-      "synonyms": [
-        "IPSS",
-        "inferior petrosal sinus sampling"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e12",
-      "class": "Hormone",
-      "name": "prolactin",
+      "name": "pituitary magnetic resonance imaging",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -245,7 +265,37 @@
       "uniprot_id": null
     },
     {
-      "id": "e13",
+      "id": "entity_13",
+      "class": "Procedure",
+      "name": "thoracic computed tomography",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_14",
+      "class": "Procedure",
+      "name": "DOTATATE positron emission tomography",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_15",
       "class": "Disease",
       "name": "corticotroph tumor",
       "synonyms": [],
@@ -260,7 +310,22 @@
       "uniprot_id": null
     },
     {
-      "id": "e14",
+      "id": "entity_16",
+      "class": "Procedure",
+      "name": "pituitary surgery",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_17",
       "class": "Disease",
       "name": "hypercortisolism",
       "synonyms": [],
@@ -275,7 +340,7 @@
       "uniprot_id": null
     },
     {
-      "id": "e15",
+      "id": "entity_18",
       "class": "Drug",
       "name": "cabergoline",
       "synonyms": [],
@@ -290,7 +355,7 @@
       "uniprot_id": null
     },
     {
-      "id": "e16",
+      "id": "entity_19",
       "class": "Disease",
       "name": "adrenal insufficiency",
       "synonyms": [
@@ -307,7 +372,7 @@
       "uniprot_id": null
     },
     {
-      "id": "e17",
+      "id": "entity_20",
       "class": "Procedure",
       "name": "bilateral adrenalectomy",
       "synonyms": [],
@@ -322,7 +387,7 @@
       "uniprot_id": null
     },
     {
-      "id": "e18",
+      "id": "entity_21",
       "class": "Disease",
       "name": "cyclic hypercortisolism",
       "synonyms": [],
@@ -337,7 +402,7 @@
       "uniprot_id": null
     },
     {
-      "id": "e19",
+      "id": "entity_22",
       "class": "Protein",
       "name": "AVPR1B receptor",
       "synonyms": [],
@@ -352,7 +417,7 @@
       "uniprot_id": null
     },
     {
-      "id": "e20",
+      "id": "entity_23",
       "class": "Protein",
       "name": "AVPR2 receptor",
       "synonyms": [],
@@ -367,9 +432,9 @@
       "uniprot_id": null
     },
     {
-      "id": "e21",
+      "id": "entity_24",
       "class": "Disease",
-      "name": "corticotroph adenomas",
+      "name": "corticotroph adenoma",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -382,7 +447,7 @@
       "uniprot_id": null
     },
     {
-      "id": "e22",
+      "id": "entity_25",
       "class": "Gene",
       "name": "USP8",
       "synonyms": [],
@@ -397,279 +462,9 @@
       "uniprot_id": null
     },
     {
-      "id": "e23",
+      "id": "entity_26",
       "class": "Disease",
-      "name": "diabetes",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e24",
-      "class": "Disease",
-      "name": "hypertension",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e25",
-      "class": "Symptom",
-      "name": "hypokalemia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e26",
-      "class": "Disease",
-      "name": "osteoporosis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e27",
-      "class": "Disease",
-      "name": "obesity",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e28",
-      "class": "Drug",
-      "name": "dexamethasone",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e29",
-      "class": "Procedure",
-      "name": "pituitary magnetic resonance imaging",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e30",
-      "class": "Procedure",
-      "name": "thoracic computed tomography",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e31",
-      "class": "Procedure",
-      "name": "DOTATATE positron emission tomography scan",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e32",
-      "class": "Disease",
-      "name": "bilateral adrenal hyperplasia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e33",
-      "class": "AnatomicalStructure",
-      "name": "Crooke's cells",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e34",
-      "class": "Disease",
-      "name": "diabetes insipidus",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e35",
-      "class": "Symptom",
-      "name": "nausea",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e36",
-      "class": "Symptom",
-      "name": "vomiting",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e37",
-      "class": "Symptom",
-      "name": "lethargy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e38",
-      "class": "Drug",
-      "name": "hydrocortisone",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e39",
-      "class": "Symptom",
-      "name": "diplopia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e40",
-      "class": "Disease",
-      "name": "cerebellar stroke",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e41",
-      "class": "Disease",
-      "name": "ectopic ACTH secretion",
+      "name": "ectopic ACTH syndrome",
       "synonyms": [
         "EAS"
       ],
@@ -684,7 +479,247 @@
       "uniprot_id": null
     },
     {
-      "id": "e42",
+      "id": "entity_27",
+      "class": "Disease",
+      "name": "diabetes",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_28",
+      "class": "Disease",
+      "name": "hypertension",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_29",
+      "class": "Symptom",
+      "name": "hypokalemia",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_30",
+      "class": "Disease",
+      "name": "osteoporosis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_31",
+      "class": "Disease",
+      "name": "obesity",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_32",
+      "class": "Drug",
+      "name": "dexamethasone",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_33",
+      "class": "AnatomicalStructure",
+      "name": "adrenal glands",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_34",
+      "class": "Hormone",
+      "name": "prolactin",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_35",
+      "class": "AnatomicalStructure",
+      "name": "Crooke's cells",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_36",
+      "class": "Disease",
+      "name": "diabetes insipidus",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_37",
+      "class": "Symptom",
+      "name": "nausea",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_38",
+      "class": "Symptom",
+      "name": "vomiting",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_39",
+      "class": "Symptom",
+      "name": "lethargy",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_40",
+      "class": "Drug",
+      "name": "hydrocortisone",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_41",
+      "class": "Symptom",
+      "name": "diplopia",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_42",
+      "class": "Disease",
+      "name": "cerebellar stroke",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_43",
       "class": "Protein",
       "name": "D2 receptor",
       "synonyms": [],
@@ -699,26 +734,9 @@
       "uniprot_id": null
     },
     {
-      "id": "e43",
+      "id": "entity_44",
       "class": "Hormone",
       "name": "beta-endorphin",
-      "synonyms": [
-        "beta-endorphins"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "e44",
-      "class": "AnatomicalStructure",
-      "name": "lactotroph cells",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -731,9 +749,69 @@
       "uniprot_id": null
     },
     {
-      "id": "e45",
-      "class": "AnatomicalStructure",
-      "name": "corticotroph cells",
+      "id": "Author:guaygagnonm",
+      "class": "Author",
+      "name": "Martin Guay-Gagnon",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:chengr",
+      "class": "Author",
+      "name": "Ran Cheng",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:beauregardc",
+      "class": "Author",
+      "name": "Catherine Beauregard",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:lacroixa",
+      "class": "Author",
+      "name": "Andr\u00e9 Lacroix",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Paper:PMC11128938",
+      "class": "Paper",
+      "name": "ACTH-dependent Cushing Syndrome with No Peripheral Response But a Marked Petrosal Sinus ACTH Response to Desmopressin",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -748,10 +826,10 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC_extracted:abstract:1:llm",
+      "id": "PMC_UNKNOWN:abstract:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_extracted",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "abstract_1",
       "text": "Desmopressin is increasingly used for the diagnosis of Cushing disease (CD) since corticotropin-releasing hormone became unavailable.",
       "confidence": 0.95,
@@ -761,10 +839,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_extracted:abstract:2:llm",
+      "id": "PMC_UNKNOWN:abstract:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_extracted",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "abstract_2",
       "text": "Intravenous desmopressin administration produced no ACTH or cortisol increase.",
       "confidence": 0.95,
@@ -774,10 +852,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_extracted:abstract:3:llm",
+      "id": "PMC_UNKNOWN:abstract:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_extracted",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "abstract_3",
       "text": "Inferior petrosal sinus sampling (IPSS) with desmopressin stimulation resulted in elevated central-to-peripheral ACTH ratio and prolactin co-secretion, while peripheral ACTH remained stable.",
       "confidence": 0.95,
@@ -787,10 +865,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_extracted:introduction:1:llm",
+      "id": "PMC_UNKNOWN:introduction:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_extracted",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "introduction_1",
       "text": "The mechanism by which desmopressin stimulates ACTH secretion in CD may result from overexpression of AVPR1B receptors as well as ectopic AVPR2 receptors in corticotroph adenomas, which is more prevalent in tumors harboring USP8 mutations.",
       "confidence": 0.9,
@@ -800,10 +878,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_extracted:case:1:llm",
+      "id": "PMC_UNKNOWN:case:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_extracted",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "case_1",
       "text": "Over the previous 2 years he had developed diabetes, hypertension, hypokalemia, osteoporosis, obesity, and overt Cushingoid appearance.",
       "confidence": 0.95,
@@ -813,12 +891,25 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_extracted:treatment:1:llm",
+      "id": "PMC_UNKNOWN:treatment:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_extracted",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "treatment_1",
-      "text": "Oral desmopressin and cabergoline 0.5 mg twice weekly were initiated.",
+      "text": "However, pathology showed normal pituitary tissue with rare Crooke's cells, suggesting cortisol excess.",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "case_report",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC_UNKNOWN:outcome:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC_UNKNOWN",
+      "text_span_id": "outcome_1",
+      "text": "Two weeks later, the patient was admitted to the emergency unit with nausea, vomiting, and lethargy.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "case_report",
@@ -826,11 +917,11 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_extracted:outcome:1:llm",
+      "id": "PMC_UNKNOWN:outcome:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_extracted",
-      "text_span_id": "outcome_1",
+      "paper_id": "PMC_UNKNOWN",
+      "text_span_id": "outcome_2",
       "text": "AI was diagnosed, and the patient's condition promptly resolved with IV hydrocortisone and fluid resuscitation.",
       "confidence": 0.95,
       "extraction_method": "llm",
@@ -839,10 +930,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_extracted:discussion:1:llm",
+      "id": "PMC_UNKNOWN:discussion:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_extracted",
+      "paper_id": "PMC_UNKNOWN",
       "text_span_id": "discussion_1",
       "text": "According to a recent meta-analysis, the desmopressin stimulation test has a sensitivity of 88% for discriminating CD from normal patients with clinical or biochemical features suggestive of CS.",
       "confidence": 0.9,
@@ -854,15 +945,15 @@
   ],
   "relationships": [
     {
-      "subject": "e2",
+      "subject": "entity_3",
       "predicate": "TREATS",
-      "object": "e3",
+      "object": "entity_6",
       "evidence_ids": [
-        "PMC_extracted:abstract:1:llm"
+        "PMC_UNKNOWN:abstract:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_extracted"
+        "PMC11128938"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -873,15 +964,15 @@
       "note": null
     },
     {
-      "subject": "e2",
+      "subject": "entity_3",
       "predicate": "INHIBITS",
-      "object": "e7",
+      "object": "entity_4",
       "evidence_ids": [
-        "PMC_extracted:abstract:2:llm"
+        "PMC_UNKNOWN:abstract:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_extracted"
+        "PMC11128938"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -892,15 +983,15 @@
       "note": null
     },
     {
-      "subject": "e2",
+      "subject": "entity_3",
       "predicate": "INHIBITS",
-      "object": "e6",
+      "object": "entity_5",
       "evidence_ids": [
-        "PMC_extracted:abstract:2:llm"
+        "PMC_UNKNOWN:abstract:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_extracted"
+        "PMC11128938"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -911,15 +1002,15 @@
       "note": null
     },
     {
-      "subject": "e11",
-      "predicate": "INDICATES",
-      "object": "e7",
+      "subject": "entity_2",
+      "predicate": "DESCRIBED",
+      "object": "entity_3",
       "evidence_ids": [
-        "PMC_extracted:abstract:3:llm"
+        "PMC_UNKNOWN:abstract:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_extracted"
+        "PMC11128938"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -930,72 +1021,53 @@
       "note": null
     },
     {
-      "subject": "e11",
-      "predicate": "INDICATES",
-      "object": "e12",
-      "evidence_ids": [
-        "PMC_extracted:abstract:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_extracted"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "e19",
-      "predicate": "REGULATES",
-      "object": "e7",
-      "evidence_ids": [
-        "PMC_extracted:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_extracted"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "e20",
-      "predicate": "REGULATES",
-      "object": "e7",
-      "evidence_ids": [
-        "PMC_extracted:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_extracted"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "e22",
+      "subject": "entity_22",
       "predicate": "ASSOCIATED_WITH",
-      "object": "e21",
+      "object": "entity_24",
       "evidence_ids": [
-        "PMC_extracted:introduction:1:llm"
+        "PMC_UNKNOWN:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_extracted"
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_23",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "entity_24",
+      "evidence_ids": [
+        "PMC_UNKNOWN:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_25",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "entity_24",
+      "evidence_ids": [
+        "PMC_UNKNOWN:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
@@ -1006,15 +1078,15 @@
       "note": null
     },
     {
-      "subject": "e5",
+      "subject": "entity_8",
       "predicate": "CAUSES",
-      "object": "e23",
+      "object": "entity_27",
       "evidence_ids": [
-        "PMC_extracted:case:1:llm"
+        "PMC_UNKNOWN:case:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_extracted"
+        "PMC11128938"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -1025,15 +1097,15 @@
       "note": null
     },
     {
-      "subject": "e5",
+      "subject": "entity_8",
       "predicate": "CAUSES",
-      "object": "e24",
+      "object": "entity_28",
       "evidence_ids": [
-        "PMC_extracted:case:1:llm"
+        "PMC_UNKNOWN:case:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_extracted"
+        "PMC11128938"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -1044,15 +1116,15 @@
       "note": null
     },
     {
-      "subject": "e5",
+      "subject": "entity_8",
       "predicate": "CAUSES",
-      "object": "e25",
+      "object": "entity_29",
       "evidence_ids": [
-        "PMC_extracted:case:1:llm"
+        "PMC_UNKNOWN:case:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_extracted"
+        "PMC11128938"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -1063,15 +1135,15 @@
       "note": null
     },
     {
-      "subject": "e5",
+      "subject": "entity_8",
       "predicate": "CAUSES",
-      "object": "e26",
+      "object": "entity_30",
       "evidence_ids": [
-        "PMC_extracted:case:1:llm"
+        "PMC_UNKNOWN:case:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_extracted"
+        "PMC11128938"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -1082,15 +1154,15 @@
       "note": null
     },
     {
-      "subject": "e5",
+      "subject": "entity_8",
       "predicate": "CAUSES",
-      "object": "e27",
+      "object": "entity_31",
       "evidence_ids": [
-        "PMC_extracted:case:1:llm"
+        "PMC_UNKNOWN:case:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_extracted"
+        "PMC11128938"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -1101,18 +1173,18 @@
       "note": null
     },
     {
-      "subject": "e15",
-      "predicate": "TREATS",
-      "object": "e14",
+      "subject": "entity_35",
+      "predicate": "INDICATES",
+      "object": "entity_5",
       "evidence_ids": [
-        "PMC_extracted:treatment:1:llm"
+        "PMC_UNKNOWN:treatment:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_extracted"
+        "PMC11128938"
       ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
+      "confidence": 0.9,
+      "linguistic_trust": "suggested",
       "properties": {},
       "section": "treatment",
       "asserted_by": "llm",
@@ -1120,34 +1192,16 @@
       "note": null
     },
     {
-      "subject": "e38",
-      "predicate": "TREATS",
-      "object": "e16",
-      "evidence_ids": [
-        "PMC_extracted:outcome:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC_extracted"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "outcome",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "e15",
+      "subject": "entity_18",
       "predicate": "CAUSES",
-      "object": "e16",
+      "object": "entity_19",
       "evidence_ids": [
-        "PMC_extracted:outcome:1:llm"
+        "PMC_UNKNOWN:outcome:1:llm",
+        "PMC_UNKNOWN:outcome:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "PMC_extracted"
+        "PMC11128938"
       ],
       "confidence": 0.9,
       "linguistic_trust": "suggested",
@@ -1158,42 +1212,965 @@
       "note": null
     },
     {
-      "subject": "e3",
-      "predicate": "SAME_AS",
-      "object": "e5",
-      "evidence_ids": [],
+      "subject": "entity_40",
+      "predicate": "TREATS",
+      "object": "entity_19",
+      "evidence_ids": [
+        "PMC_UNKNOWN:outcome:2:llm"
+      ],
       "provenance": [],
-      "source_papers": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {
-        "resolution": null,
-        "note": "Cushing disease is a subtype of Cushing syndrome"
-      },
-      "section": null,
+      "properties": {},
+      "section": "outcome",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "e1",
-      "predicate": "SUBTYPE_OF",
-      "object": "e5",
-      "evidence_ids": [],
+      "subject": "entity_3",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "entity_6",
+      "evidence_ids": [
+        "PMC_UNKNOWN:discussion:1:llm"
+      ],
       "provenance": [],
-      "source_papers": [],
-      "confidence": 0.95,
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": null,
+      "section": "discussion",
       "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:guaygagnonm",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC11128938",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chengr",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC11128938",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:beauregardc",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC11128938",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:lacroixa",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC11128938",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_3",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_4",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_5",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_6",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_7",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_8",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_9",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_10",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_11",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_12",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_13",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_14",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_15",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_16",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_17",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_18",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_19",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_20",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_21",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_22",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_23",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_24",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_25",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_26",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_27",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_28",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_29",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_30",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_31",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_32",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_33",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_34",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_35",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_36",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_37",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_38",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_39",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_40",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_41",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_42",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_43",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC11128938",
+      "predicate": "DESCRIBED",
+      "object": "entity_44",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chengr",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:guaygagnonm",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:beauregardc",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:guaygagnonm",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:guaygagnonm",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:lacroixa",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:beauregardc",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:chengr",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chengr",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:lacroixa",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:beauregardc",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:lacroixa",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11128938"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
-    "This case report describes a complex diagnostic challenge involving cyclic ACTH-dependent Cushing syndrome with unusual response patterns to desmopressin testing.",
-    "The patient showed no peripheral ACTH response to desmopressin but had a marked central response during IPSS, which is an unusual finding.",
-    "The case highlights the importance of using desmopressin during IPSS even when peripheral testing shows no response."
+    "This case report describes an unusual presentation of ACTH-dependent Cushing syndrome with discordant peripheral and central responses to desmopressin stimulation.",
+    "The patient showed no peripheral ACTH response to desmopressin but had a marked central response during inferior petrosal sinus sampling.",
+    "The case highlights the complexity of diagnosing and treating cyclic Cushing syndrome."
   ]
 }

@@ -4,15 +4,45 @@
     "pmcid": "PMC12784249",
     "title": "Beyond synthetic lethality in large-scale metabolic and regulatory network models via genetic minimal intervention set",
     "authors": [
-      "Barrena",
-      "Rodriguez-Flores",
-      "Olaverri-Mendizabal",
-      "Planes"
+      "I\u00f1igo Apaolaza",
+      "Luis V. Valc\u00e1rcel",
+      "Francisco J. Planes"
     ],
+    "author_details": [
+      {
+        "name": "Naroa Barrena",
+        "affiliations": []
+      },
+      {
+        "name": "Carlos Rodriguez-Flores",
+        "affiliations": []
+      },
+      {
+        "name": "Luis V Valc\u00e1rcel",
+        "affiliations": []
+      },
+      {
+        "name": "Danel Olaverri-Mendizabal",
+        "affiliations": []
+      },
+      {
+        "name": "Xabier Agirre",
+        "affiliations": []
+      },
+      {
+        "name": "Felipe Pr\u00f3sper",
+        "affiliations": []
+      },
+      {
+        "name": "Francisco J Planes",
+        "affiliations": []
+      }
+    ],
+    "document_id": "PMC12784249",
     "journal": "Bioinformatics Advances",
     "year": 2024,
-    "study_type": "computational",
-    "eco_type": "computational modeling",
+    "study_type": "computational_study",
+    "eco_type": null,
     "study_design": {
       "study_type": "observational",
       "sample_size": 1021,
@@ -24,8 +54,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "932f234c147458ae4c19514f913fa5ee02c1a0ff",
-      "git_commit_short": "932f234",
+      "git_commit": "48e3c74be35a9bdaabe3f69f35049054df3588a9",
+      "git_commit_short": "48e3c74",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -39,14 +69,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4df759b74bea15d3",
-      "schema_version": "23a154ab"
+      "checksum": "sha256:4069173fe4ab327c",
+      "schema_version": "0399967c"
     },
     "execution": {
-      "timestamp": "2026-03-11T17:47:08.833437Z",
+      "timestamp": "2026-03-13T17:07:16.499568Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 41.32
+      "duration_seconds": 51.64
     },
     "entity_resolution": null,
     "model_info": null
@@ -124,9 +154,7 @@
       "id": "BRCA1",
       "class": "Gene",
       "name": "BRCA1",
-      "synonyms": [
-        "breast cancer 1"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -141,9 +169,7 @@
       "id": "BRCA2",
       "class": "Gene",
       "name": "BRCA2",
-      "synonyms": [
-        "breast cancer 2"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -343,21 +369,6 @@
       "uniprot_id": null
     },
     {
-      "id": "hematological_malignancies",
-      "class": "Disease",
-      "name": "hematological malignancies",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "tumor_suppressor_genes",
       "class": "Gene",
       "name": "tumor suppressor genes",
@@ -388,9 +399,9 @@
       "uniprot_id": null
     },
     {
-      "id": "University_of_Navarra",
-      "class": "Institution",
-      "name": "University of Navarra",
+      "id": "hematological_malignancies",
+      "class": "Disease",
+      "name": "hematological malignancies",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -403,12 +414,28 @@
       "uniprot_id": null
     },
     {
-      "id": "DIPC",
-      "class": "Institution",
-      "name": "Donostia International Physics Center",
+      "id": "metabolic_networks",
+      "class": "Pathway",
+      "name": "metabolic networks",
       "synonyms": [
-        "DIPC"
+        "genome-scale metabolic networks",
+        "GEMs"
       ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "regulatory_networks",
+      "class": "Pathway",
+      "name": "regulatory networks",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -437,26 +464,9 @@
       "uniprot_id": null
     },
     {
-      "id": "CCLE",
-      "class": "Evidence",
-      "name": "Cancer Cell Line Encyclopedia",
-      "synonyms": [
-        "CCLE"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "TSGene2_0",
-      "class": "Evidence",
-      "name": "TSGene2.0",
+      "id": "Inigo_Apaolaza",
+      "class": "Author",
+      "name": "I\u00f1igo Apaolaza",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -469,9 +479,159 @@
       "uniprot_id": null
     },
     {
-      "id": "SLKB",
-      "class": "Evidence",
-      "name": "SLKB database",
+      "id": "Luis_Valcarcel",
+      "class": "Author",
+      "name": "Luis V. Valc\u00e1rcel",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Francisco_Planes",
+      "class": "Author",
+      "name": "Francisco J. Planes",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "University_of_Navarra",
+      "class": "Institution",
+      "name": "University of Navarra",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:barrenan",
+      "class": "Author",
+      "name": "Naroa Barrena",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:rodriguezfloresc",
+      "class": "Author",
+      "name": "Carlos Rodriguez-Flores",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:valcrcell",
+      "class": "Author",
+      "name": "Luis V Valc\u00e1rcel",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:olaverrimendizabald",
+      "class": "Author",
+      "name": "Danel Olaverri-Mendizabal",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:agirrex",
+      "class": "Author",
+      "name": "Xabier Agirre",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:prsperf",
+      "class": "Author",
+      "name": "Felipe Pr\u00f3sper",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:planesf",
+      "class": "Author",
+      "name": "Francisco J Planes",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Paper:PMC12784249",
+      "class": "Paper",
+      "name": "Beyond synthetic lethality in large-scale metabolic and regulatory network models via genetic minimal intervention set",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -486,69 +646,183 @@
   ],
   "evidence_entities": [
     {
-      "id": "paper_id:abstract:1:llm",
+      "id": "PMC11729066:abstract:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC11729066",
       "text_span_id": "abstract_1",
       "text": "The integration of genome-scale metabolic and regulatory networks has received significant interest in cancer systems biology. However, the identification of lethal genetic interventions in these integrated models remains challenging due to the combinatorial explosion of potential solutions.",
-      "confidence": 0.9,
-      "extraction_method": "llm",
-      "study_type": "computational",
-      "eco_type": "computational modeling",
-      "source": "extracted"
-    },
-    {
-      "id": "paper_id:introduction:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "introduction_1",
-      "text": "Synthetic lethality (SL) defines a type of genetic interaction where the co-occurrence of two (or more) genetic events results in cellular death, while the occurrence of either event on its own is compatible with cell viability",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "computational",
-      "eco_type": "computational modeling",
+      "study_type": "computational_study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_id:introduction:2:llm",
+      "id": "PMC11729066:introduction:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
+      "paper_id": "PMC11729066",
       "text_span_id": "introduction_2",
       "text": "This strategy has driven the development of sophisticated targeted therapies in cancer, such as PARP inhibitors for patients with BRCA1- or BRCA2-mutated breast cancer",
-      "confidence": 0.9,
+      "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "computational",
-      "eco_type": "computational modeling",
+      "study_type": "computational_study",
+      "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "paper_id:results:1:llm",
+      "id": "PMC11729066:results:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "results_1",
-      "text": "Among different candidates, we identified the essentiality of EZH2 specifically in hematological cancer cell lines in all iMR models build on TRRUST. Interestingly, this gene has been previously identified as a drug target of different hematological tumors",
-      "confidence": 0.85,
+      "paper_id": "PMC11729066",
+      "text_span_id": "results_3",
+      "text": "Among different candidates, we identified the essentiality of EZH2 specifically in hematological cancer cell lines in all iMR models build on TRRUST. Interestingly, this gene has been previously identified as a drug target of different hematological tumors.",
+      "confidence": 0.9,
       "extraction_method": "llm",
-      "study_type": "computational",
-      "eco_type": "computational modeling",
+      "study_type": "computational_study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11729066:results:4:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11729066",
+      "text_span_id": "results_4",
+      "text": "Here, the lethality of EZH2 inhibition is mediated by the following gMIS: {EZH2\u2212, JUN\u2212, RELA+}, hypothesizing a higher impact in cellular proliferation when the expression of JUN is down-regulated and RELA is up-regulated.",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "computational_study",
+      "eco_type": null,
       "source": "extracted"
     }
   ],
   "relationships": [
     {
+      "subject": "Inigo_Apaolaza",
+      "predicate": "AUTHORED",
+      "object": "PMC11729066",
+      "evidence_ids": [
+        "PMC11729066:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Luis_Valcarcel",
+      "predicate": "AUTHORED",
+      "object": "PMC11729066",
+      "evidence_ids": [
+        "PMC11729066:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Francisco_Planes",
+      "predicate": "AUTHORED",
+      "object": "PMC11729066",
+      "evidence_ids": [
+        "PMC11729066:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Inigo_Apaolaza",
+      "predicate": "AFFILIATED_WITH",
+      "object": "University_of_Navarra",
+      "evidence_ids": [
+        "PMC11729066:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "genetic_minimal_intervention_set",
+      "predicate": "SUBTYPE_OF",
+      "object": "genetic_minimal_cut_set",
+      "evidence_ids": [
+        "PMC11729066:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
       "subject": "synthetic_lethality",
       "predicate": "CAUSES",
       "object": "cellular_death",
       "evidence_ids": [
-        "paper_id:introduction:1:llm"
+        "PMC11729066:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12784249"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "synthetic_dosage_lethality",
+      "predicate": "CAUSES",
+      "object": "cellular_death",
+      "evidence_ids": [
+        "PMC11729066:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
@@ -563,13 +837,13 @@
       "predicate": "TREATS",
       "object": "breast_cancer",
       "evidence_ids": [
-        "paper_id:introduction:2:llm"
+        "PMC11729066:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12784249"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -582,13 +856,13 @@
       "predicate": "ASSOCIATED_WITH",
       "object": "breast_cancer",
       "evidence_ids": [
-        "paper_id:introduction:2:llm"
+        "PMC11729066:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12784249"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -601,13 +875,13 @@
       "predicate": "ASSOCIATED_WITH",
       "object": "breast_cancer",
       "evidence_ids": [
-        "paper_id:introduction:2:llm"
+        "PMC11729066:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12784249"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -620,13 +894,13 @@
       "predicate": "ASSOCIATED_WITH",
       "object": "hematological_malignancies",
       "evidence_ids": [
-        "paper_id:results:1:llm"
+        "PMC11729066:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12784249"
       ],
-      "confidence": 0.85,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
@@ -635,18 +909,132 @@
       "note": null
     },
     {
-      "subject": "genetic_minimal_intervention_set",
-      "predicate": "REGULATES",
-      "object": "cellular_proliferation",
+      "subject": "EZH2",
+      "predicate": "INTERACTS_WITH",
+      "object": "JUN",
       "evidence_ids": [
-        "paper_id:abstract:1:llm"
+        "PMC11729066:results:4:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12784249"
       ],
-      "confidence": 0.8,
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "EZH2",
+      "predicate": "INTERACTS_WITH",
+      "object": "RELA",
+      "evidence_ids": [
+        "PMC11729066:results:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "JUN",
+      "predicate": "REGULATES",
+      "object": "cellular_proliferation",
+      "evidence_ids": [
+        "PMC11729066:results:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.85,
       "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "RELA",
+      "predicate": "REGULATES",
+      "object": "cellular_proliferation",
+      "evidence_ids": [
+        "PMC11729066:results:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "DUSP4",
+      "predicate": "INTERACTS_WITH",
+      "object": "GADD45B",
+      "evidence_ids": [
+        "PMC11729066:results:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "CDK5RAP3",
+      "predicate": "INTERACTS_WITH",
+      "object": "SHC1",
+      "evidence_ids": [
+        "PMC11729066:results:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "genetic_minimal_intervention_set",
+      "predicate": "DESCRIBED",
+      "object": "synthetic_lethality",
+      "evidence_ids": [
+        "PMC11729066:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
       "properties": {},
       "section": "abstract",
       "asserted_by": "llm",
@@ -654,47 +1042,895 @@
       "note": null
     },
     {
-      "subject": "synthetic_dosage_lethality",
-      "predicate": "INVOLVES",
-      "object": "gene_knockout",
+      "subject": "genetic_minimal_intervention_set",
+      "predicate": "DESCRIBED",
+      "object": "synthetic_dosage_lethality",
       "evidence_ids": [
-        "paper_id:introduction:1:llm"
+        "PMC11729066:abstract:1:llm"
       ],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12784249"
       ],
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "abstract",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "synthetic_dosage_lethality",
-      "predicate": "INVOLVES",
-      "object": "gene_knockin",
-      "evidence_ids": [
-        "paper_id:introduction:1:llm"
-      ],
+      "subject": "Author:barrenan",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12784249",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
-        "paper_id"
+        "PMC12784249"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "asserted",
+      "linguistic_trust": null,
       "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:rodriguezfloresc",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12784249",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:valcrcell",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12784249",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:olaverrimendizabald",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12784249",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:agirrex",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12784249",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:prsperf",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12784249",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:planesf",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12784249",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "synthetic_lethality",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "synthetic_dosage_lethality",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "genetic_minimal_cut_set",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "genetic_minimal_intervention_set",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "BRCA1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "BRCA2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "PARP_inhibitors",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "EZH2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "JUN",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "RELA",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "DUSP4",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "GADD45B",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "CDK5RAP3",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "SHC1",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "cellular_proliferation",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "gene_knockout",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "gene_knockin",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "CRISPR_Cas9",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "tumor_suppressor_genes",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "essential_genes",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "hematological_malignancies",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "metabolic_networks",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12784249",
+      "predicate": "DESCRIBED",
+      "object": "regulatory_networks",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:barrenan",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:rodriguezfloresc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:barrenan",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:valcrcell",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:barrenan",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:olaverrimendizabald",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:agirrex",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:barrenan",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:barrenan",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:prsperf",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:barrenan",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:planesf",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:rodriguezfloresc",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:valcrcell",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:olaverrimendizabald",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:rodriguezfloresc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:agirrex",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:rodriguezfloresc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:prsperf",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:rodriguezfloresc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:planesf",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:rodriguezfloresc",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:olaverrimendizabald",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:valcrcell",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:agirrex",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:valcrcell",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:prsperf",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:valcrcell",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:planesf",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:valcrcell",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:agirrex",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:olaverrimendizabald",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:olaverrimendizabald",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:prsperf",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:olaverrimendizabald",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:planesf",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:agirrex",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:prsperf",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:agirrex",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:planesf",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:planesf",
+      "predicate": "COAUTHORED_WITH",
+      "object": "Author:prsperf",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784249"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
       "resolution": null,
       "note": null
     }
   ],
   "notes": [
-    "This paper presents a computational method for identifying genetic interventions in cancer cells using integrated metabolic and regulatory networks",
-    "The gMIS approach extends beyond traditional synthetic lethality to include synthetic dosage lethality and tumor suppressor gene complexes",
-    "Validation was performed using DepMap data and other established databases"
+    "This paper introduces a computational method called genetic Minimal Intervention Sets (gMIS) that extends beyond synthetic lethality to include synthetic dosage lethality and tumor suppressor gene complexes.",
+    "The method integrates genome-scale metabolic networks with regulatory pathways to identify lethal genetic interventions in cancer cells.",
+    "Key findings include the identification of EZH2 as essential in hematological malignancies through interactions with JUN and RELA genes."
   ]
 }
