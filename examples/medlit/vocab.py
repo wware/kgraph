@@ -143,6 +143,14 @@ def get_valid_predicates(subject_type: str, object_type: str) -> list[str]:
     if subject_type == "disease" and object_type == "symptom":
         return [predicate_causes]
 
+    # Hormone → Symptom relationships (physiological causation, e.g. ACTH causes hyperplasia)
+    if subject_type == "hormone" and object_type == "symptom":
+        return [predicate_causes]
+
+    # Symptom/Disease → AnatomicalStructure (pathology located in structure, e.g. hyperplasia of adrenal cortex)
+    if subject_type in ("symptom", "disease") and object_type == "anatomicalstructure":
+        return [predicate_located_in]
+
     # Drug → Symptom relationships
     if subject_type == "drug" and object_type == "symptom":
         return [predicate_side_effect]

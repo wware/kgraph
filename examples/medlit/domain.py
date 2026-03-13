@@ -9,6 +9,7 @@ from kgschema.relationship import BaseRelationship
 from kgschema.storage import EntityStorageInterface
 
 from .documents import JournalArticle
+from .domain_spec import AnatomicalStructureEntity, HormoneEntity
 from .entities import (
     BiomarkerEntity,
     DiseaseEntity,
@@ -55,6 +56,8 @@ class MedLitDomainSchema(DomainSchema):
             "pathway": PathwayEntity,
             "location": LocationEntity,
             "ethnicity": EthnicityEntity,
+            "hormone": HormoneEntity,
+            "anatomicalstructure": AnatomicalStructureEntity,
         }
 
     @property

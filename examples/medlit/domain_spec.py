@@ -99,7 +99,7 @@ class BiomarkerEntity(BaseEntity):
 
 class SymptomEntity(BaseEntity):
     spec: ClassVar[EntitySpec] = EntitySpec(
-        description="Symptoms, signs, clinical manifestations.",
+        description="Symptoms, signs, clinical manifestations, pathological processes (e.g. hyperplasia, hypertrophy, atrophy).",
         color="#ef5350",
         label="Symptom",
     )
@@ -323,9 +323,9 @@ PREDICATES: dict[str, PredicateSpec] = {
         specificity=2,
     ),
     "CAUSES": PredicateSpec(
-        description="Entity causes or contributes to a disease or condition.",
-        subject_types=[GeneEntity, MutationEntity],
-        object_types=[DiseaseEntity],
+        description="Entity causes or contributes to a disease, condition, or symptom (e.g. hormone causes hyperplasia).",
+        subject_types=[GeneEntity, MutationEntity, HormoneEntity],
+        object_types=[DiseaseEntity, SymptomEntity],
         specificity=2,
     ),
     "INHIBITS": PredicateSpec(
@@ -384,6 +384,12 @@ PREDICATES: dict[str, PredicateSpec] = {
         specificity=2,
         symmetric=True,
     ),
+    "LOCATED_IN": PredicateSpec(
+        description="Symptom or pathology located in an anatomical structure (e.g. hyperplasia of adrenal cortex).",
+        subject_types=[SymptomEntity, DiseaseEntity],
+        object_types=[AnatomicalStructureEntity],
+        specificity=2,
+    ),
 }
 
 # -----------------------------------------------------------------------------
@@ -397,9 +403,11 @@ Connect Author and Institution to the graph via relationships; do not leave them
 ## Entity type classification
 Classify at the most specific functional role. If an entity is both a hormone and a protein, classify it as Hormone.
 Enzymes should be typed Enzyme, not Protein.
+Extract pathological processes (hyperplasia, hypertrophy, atrophy, etc.) as Symptom entities when they appear in text.
 
 ## Predicates
 Use the predicate list from the config. For SAME_AS relationships, use "resolution": null and "note" in the output.
+When text describes a hormone/agent "determining" or "causing" a pathological change "of" an anatomical structure (e.g. "ACTH determines hyperplasia of the adrenal cortex"), extract: (1) AGENT CAUSES SYMPTOM, (2) SYMPTOM LOCATED_IN ANATOMICAL_STRUCTURE.
 
 ## Linguistic trust
 For each relationship, classify linguistic trust: asserted (direct statement), suggested (soft language), speculative (hedged).
@@ -432,6 +440,8 @@ MENTIONS = MentionsSpec(
         SymptomEntity,
         ProcedureEntity,
         PathwayEntity,
+        HormoneEntity,
+        AnatomicalStructureEntity,
     ],
     skip_name_equals_type=True,
 )

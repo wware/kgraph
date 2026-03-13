@@ -71,6 +71,9 @@ def _is_authoritative_id(s: str) -> bool:
     # DBPedia
     if s.startswith("DBPedia:"):
         return True
+    # PMC (PubMed Central) paper IDs
+    if s.startswith("PMC") and len(s) > 3 and s[3:].isdigit():
+        return True
     return False
 
 
@@ -145,6 +148,15 @@ def _build_entity_class_to_lookup_type() -> dict[str, str]:
     return out
 
 
+def _build_entity_class_to_predicate_type() -> dict[str, str]:
+    """Bundle_class -> entity type for predicate constraint checks (no authority overrides).
+
+    Authority overrides (e.g. Hormone->drug) are for UMLS/RxNorm lookup, not for
+    predicate semantics. CAUSES(hormone, symptom) requires Hormone->hormone.
+    """
+    return {v: k for k, v in _ds.NORMALIZED_TO_BUNDLE.items()}
+
+
 # SAME_AS predicate; defined in predicates.yaml. Used for merge resolution.
 SAME_AS_PREDICATE = "SAME_AS"
 
@@ -155,10 +167,12 @@ def _should_swap_relationship(
     object_class: str,
     predicate_constraints: dict[str, Any],
     entity_class_to_lookup: dict[str, str],
+    entity_class_to_predicate_type: dict[str, str],
 ) -> bool:
     """Return True if subject and object should be swapped to satisfy predicate constraints.
 
     Fixes backwards relationships from Pass 1 LLM (e.g. disease treats drug -> drug treats disease).
+    Uses entity_class_to_predicate_type (no authority overrides) for semantic type checks.
     """
     pred_norm = predicate.strip().upper()
     if pred_norm == SAME_AS_PREDICATE:
@@ -167,8 +181,8 @@ def _should_swap_relationship(
     if pred_lower not in predicate_constraints:
         return False
     constraints = predicate_constraints[pred_lower]
-    sub_type = _entity_class_to_lookup_type(subject_class, entity_class_to_lookup) or (subject_class.lower() if subject_class else "?")
-    obj_type = _entity_class_to_lookup_type(object_class, entity_class_to_lookup) or (object_class.lower() if object_class else "?")
+    sub_type = entity_class_to_predicate_type.get(subject_class) or (subject_class.lower() if subject_class else "?")
+    obj_type = entity_class_to_predicate_type.get(object_class) or (object_class.lower() if object_class else "?")
     subject_valid = sub_type in constraints.subject_types
     object_valid = obj_type in constraints.object_types
     if subject_valid and object_valid:
@@ -214,6 +228,7 @@ def run_pass2(  # pylint: disable=too-many-statements
         lookup = CanonicalIdLookup(cache_file=canonical_id_cache_path)
 
     entity_class_to_lookup = _build_entity_class_to_lookup_type()
+    entity_class_to_predicate_type = _build_entity_class_to_predicate_type()
 
     try:
         return _run_pass2_impl(
@@ -226,6 +241,7 @@ def run_pass2(  # pylint: disable=too-many-statements
             similarity_threshold=similarity_threshold,
             cross_type_threshold=cross_type_threshold,
             entity_class_to_lookup=entity_class_to_lookup,
+            entity_class_to_predicate_type=entity_class_to_predicate_type,
         )
     finally:
         if lookup is not None:
@@ -242,10 +258,13 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
     similarity_threshold: float = 0.88,
     cross_type_threshold: float = 0.90,
     entity_class_to_lookup: Optional[dict[str, str]] = None,
+    entity_class_to_predicate_type: Optional[dict[str, str]] = None,
 ) -> dict[str, Any]:
     """Inner Pass 2 implementation (lookup created and saved by caller)."""
     if entity_class_to_lookup is None:
         entity_class_to_lookup = {}
+    if entity_class_to_predicate_type is None:
+        entity_class_to_predicate_type = _build_entity_class_to_predicate_type()
     # Load all bundles
     bundle_files = sorted(bundle_dir.glob("paper_*.json"))
     if not bundle_files:
@@ -414,7 +433,7 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
                 continue
             _, sub_class = _entity_name_class(bundle, rel.subject)
             _, obj_class = _entity_name_class(bundle, rel.object_id)
-            if _should_swap_relationship(rel.predicate, sub_class, obj_class, predicate_constraints, entity_class_to_lookup):
+            if _should_swap_relationship(rel.predicate, sub_class, obj_class, predicate_constraints, entity_class_to_lookup, entity_class_to_predicate_type):
                 sub_c, obj_c = obj_c, sub_c
             # Canonical ordering for symmetric predicates (e.g. ASSOCIATED_WITH, IS_COLLEAGUE)
             pred_spec = _ds.PREDICATES.get(rel.predicate.upper()) or _ds.PREDICATES.get(rel.predicate)
