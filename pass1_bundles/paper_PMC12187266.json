@@ -36,8 +36,8 @@
       }
     ],
     "document_id": "PMC12187266",
-    "journal": null,
-    "year": null,
+    "journal": "Medicine",
+    "year": 2024,
     "study_type": "retrospective cohort study",
     "eco_type": null,
     "study_design": {
@@ -51,8 +51,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "48e3c74be35a9bdaabe3f69f35049054df3588a9",
-      "git_commit_short": "48e3c74",
+      "git_commit": "007e0030b14c6e2be45ae2b6549b62ca3a77e89f",
+      "git_commit_short": "007e003",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -66,21 +66,21 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4069173fe4ab327c",
-      "schema_version": "0399967c"
+      "checksum": "sha256:3a8f7296edc8e063",
+      "schema_version": "fc3a7835"
     },
     "execution": {
-      "timestamp": "2026-03-13T16:53:04.601088Z",
+      "timestamp": "2026-03-13T19:49:50.771914Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 63.22
+      "duration_seconds": 79.21
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "cushing_syndrome",
+      "id": "entity_1",
       "class": "Disease",
       "name": "Cushing syndrome",
       "synonyms": [
@@ -98,7 +98,7 @@
       "uniprot_id": null
     },
     {
-      "id": "glucocorticoids",
+      "id": "entity_2",
       "class": "Hormone",
       "name": "glucocorticoids",
       "synonyms": [
@@ -115,27 +115,48 @@
       "uniprot_id": null
     },
     {
-      "id": "cortisol",
-      "class": "Hormone",
-      "name": "cortisol",
-      "synonyms": [],
+      "id": "entity_3",
+      "class": "Procedure",
+      "name": "generalized linear model",
+      "synonyms": [
+        "GLM",
+        "Generalized Linear Models"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0020268",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "urinary_free_cortisol",
+      "id": "entity_4",
+      "class": "Procedure",
+      "name": "mobile application",
+      "synonyms": [
+        "mobile app",
+        "APK file"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_5",
       "class": "Biomarker",
       "name": "urinary free cortisol",
       "synonyms": [
         "24-hour urine cortisol",
-        "ufc"
+        "urine cortisol"
       ],
       "symbol": null,
       "brand_names": [],
@@ -148,7 +169,7 @@
       "uniprot_id": null
     },
     {
-      "id": "dexamethasone_suppression_test",
+      "id": "entity_6",
       "class": "Procedure",
       "name": "dexamethasone suppression test",
       "synonyms": [
@@ -168,12 +189,12 @@
       "uniprot_id": null
     },
     {
-      "id": "salivary_cortisol",
+      "id": "entity_7",
       "class": "Biomarker",
       "name": "salivary cortisol",
       "synonyms": [
-        "night salivary cortisol",
-        "nocturnal salivary cortisol"
+        "nocturnal salivary cortisol",
+        "night salivary cortisol"
       ],
       "symbol": null,
       "brand_names": [],
@@ -186,14 +207,10 @@
       "uniprot_id": null
     },
     {
-      "id": "machine_learning",
-      "class": "Procedure",
-      "name": "machine learning",
-      "synonyms": [
-        "ML",
-        "artificial intelligence",
-        "AI"
-      ],
+      "id": "entity_8",
+      "class": "Author",
+      "name": "Harvey Cushing",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -205,61 +222,9 @@
       "uniprot_id": null
     },
     {
-      "id": "generalized_linear_model",
-      "class": "Procedure",
-      "name": "generalized linear model",
-      "synonyms": [
-        "GLM"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "mobile_application",
-      "class": "Procedure",
-      "name": "mobile application",
-      "synonyms": [
-        "mobile app"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "acth",
-      "class": "Hormone",
-      "name": "adrenocorticotropic hormone",
-      "synonyms": [
-        "ACTH",
-        "basal ACTH"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0001655",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pituitary_cushing",
+      "id": "entity_9",
       "class": "Disease",
-      "name": "pituitary Cushing",
+      "name": "pituitary-induced Cushing",
       "synonyms": [
         "PC",
         "Cushing disease",
@@ -277,7 +242,7 @@
       "uniprot_id": null
     },
     {
-      "id": "adrenal_cushing",
+      "id": "entity_10",
       "class": "Disease",
       "name": "adrenal Cushing",
       "synonyms": [
@@ -287,19 +252,19 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0221406",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "ectopic_cushing_syndrome",
+      "id": "entity_11",
       "class": "Disease",
       "name": "ectopic Cushing syndrome",
       "synonyms": [
         "EC",
-        "ectopic ACTH syndrome"
+        "ectopic ACTH secretion"
       ],
       "symbol": null,
       "brand_names": [],
@@ -312,58 +277,308 @@
       "uniprot_id": null
     },
     {
-      "id": "subclinical_cushing_syndrome",
-      "class": "Disease",
-      "name": "subclinical Cushing syndrome",
+      "id": "entity_12",
+      "class": "Hormone",
+      "name": "adrenocorticotropic hormone",
       "synonyms": [
-        "SC"
+        "ACTH"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0221406",
+      "umls_id": "C0001655",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "nonfunctional_adrenal_adenoma",
-      "class": "Disease",
-      "name": "nonfunctional adrenal adenoma",
-      "synonyms": [
-        "NF"
-      ],
+      "id": "entity_13",
+      "class": "AnatomicalStructure",
+      "name": "adrenal glands",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0001430",
+      "umls_id": "C0001625",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "basal_cortisol",
+      "id": "entity_14",
+      "class": "AnatomicalStructure",
+      "name": "pituitary gland",
+      "synonyms": [
+        "pituitary"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0032005",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_15",
+      "class": "AnatomicalStructure",
+      "name": "pancreas",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0030274",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_16",
+      "class": "AnatomicalStructure",
+      "name": "lungs",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0024109",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_17",
+      "class": "AnatomicalStructure",
+      "name": "thyroid",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0040132",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_18",
+      "class": "Disease",
+      "name": "adrenal adenoma",
+      "synonyms": [
+        "unilateral adrenal adenomas"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0001624",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_19",
+      "class": "Disease",
+      "name": "adrenal carcinoma",
+      "synonyms": [
+        "adrenal carcinomas"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0001623",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_20",
+      "class": "Disease",
+      "name": "bilateral macronodular adrenocortical disease",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C1720859",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_21",
+      "class": "Disease",
+      "name": "bilateral micronodular adrenal hyperplasia",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C1720859",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_22",
+      "class": "Disease",
+      "name": "Carney complex",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0406810",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_23",
+      "class": "Disease",
+      "name": "McCune-Albright syndrome",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0016045",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_24",
+      "class": "Disease",
+      "name": "metabolic syndrome",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0524620",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_25",
+      "class": "Disease",
+      "name": "hypertension",
+      "synonyms": [
+        "high blood pressure"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0020538",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_26",
+      "class": "Symptom",
+      "name": "hyperglycemia",
+      "synonyms": [
+        "elevated blood sugar"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0020456",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_27",
+      "class": "Symptom",
+      "name": "abdominal obesity",
+      "synonyms": [
+        "excess abdominal fat"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0311277",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_28",
       "class": "Biomarker",
-      "name": "basal cortisol",
-      "synonyms": [
-        "bc"
-      ],
+      "name": "cholesterol",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0201968",
+      "umls_id": "C0008377",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "midnight_cortisol",
+      "id": "entity_29",
+      "class": "Biomarker",
+      "name": "triglycerides",
+      "synonyms": [
+        "triglyceride levels"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0041004",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_30",
+      "class": "Disease",
+      "name": "hypercortisolism",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0020626",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_31",
       "class": "Biomarker",
       "name": "midnight cortisol",
       "synonyms": [
@@ -380,97 +595,75 @@
       "uniprot_id": null
     },
     {
-      "id": "dexamethasone",
-      "class": "Drug",
-      "name": "dexamethasone",
-      "synonyms": [],
+      "id": "entity_32",
+      "class": "Biomarker",
+      "name": "basal cortisol",
+      "synonyms": [
+        "bc"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "3264",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "harvey_cushing",
-      "class": "Author",
-      "name": "Harvey Cushing",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0201968",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "mustafa_aydemir",
-      "class": "Author",
-      "name": "Mustafa Aydemir",
-      "synonyms": [],
+      "id": "entity_33",
+      "class": "Biomarker",
+      "name": "basal ACTH",
+      "synonyms": [
+        "bacth"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0201662",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "mustafa_cakir",
-      "class": "Author",
-      "name": "Mustafa \u00c7akir",
-      "synonyms": [],
+      "id": "entity_34",
+      "class": "Disease",
+      "name": "subclinical Cushing syndrome",
+      "synonyms": [
+        "SC"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0221406",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "okan_oral",
-      "class": "Author",
-      "name": "Okan Oral",
-      "synonyms": [],
+      "id": "entity_35",
+      "class": "Disease",
+      "name": "nonfunctional adrenal adenoma",
+      "synonyms": [
+        "NF"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0001624",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "mesut_yilmaz",
-      "class": "Author",
-      "name": "Mesut Yilmaz",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "akdeniz_university",
+      "id": "entity_36",
       "class": "Institution",
       "name": "Akdeniz University Faculty of Medicine",
       "synonyms": [],
@@ -485,11 +678,28 @@
       "uniprot_id": null
     },
     {
-      "id": "mit",
+      "id": "entity_37",
+      "class": "Procedure",
+      "name": "MIT App Inventor",
+      "synonyms": [
+        "App Inventor"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_38",
       "class": "Institution",
-      "name": "MIT",
+      "name": "Massachusetts Institute of Technology",
       "synonyms": [
-        "Massachusetts Institute of Technology"
+        "MIT"
       ],
       "symbol": null,
       "brand_names": [],
@@ -502,11 +712,118 @@
       "uniprot_id": null
     },
     {
-      "id": "app_inventor",
-      "class": "Procedure",
-      "name": "App Inventor",
+      "id": "entity_39",
+      "class": "Disease",
+      "name": "neuroendocrine tumors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0206754",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_40",
+      "class": "Disease",
+      "name": "asthma",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0004096",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_41",
+      "class": "Disease",
+      "name": "rheumatoid arthritis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0003873",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_42",
+      "class": "Disease",
+      "name": "lupus",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0024141",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_43",
+      "class": "Disease",
+      "name": "COVID-19",
       "synonyms": [
-        "MIT App Inventor"
+        "coronavirus pandemic"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C5203670",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_44",
+      "class": "Disease",
+      "name": "schizophrenia",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0036341",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_45",
+      "class": "Disease",
+      "name": "attention deficit hyperactivity disorder",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C1263846",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_46",
+      "class": "Procedure",
+      "name": "convolutional autoencoders",
+      "synonyms": [
+        "two-dimensional Convolutional Autoencoders"
       ],
       "symbol": null,
       "brand_names": [],
@@ -519,114 +836,41 @@
       "uniprot_id": null
     },
     {
-      "id": "hypercortisolism",
-      "class": "Disease",
-      "name": "hypercortisolism",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020626",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "metabolic_syndrome",
-      "class": "Disease",
-      "name": "metabolic syndrome",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0524620",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "high_blood_pressure",
-      "class": "Symptom",
-      "name": "high blood pressure",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020538",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "elevated_blood_sugar",
-      "class": "Symptom",
-      "name": "elevated blood sugar",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020456",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "abdominal_fat",
-      "class": "Symptom",
-      "name": "excess abdominal fat",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0311277",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "abnormal_cholesterol",
-      "class": "Symptom",
-      "name": "abnormal cholesterol",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020443",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "triglyceride_levels",
-      "class": "Biomarker",
-      "name": "triglyceride levels",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0542495",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "bilateral_inferior_petrosal_sinus_sampling",
+      "id": "entity_47",
       "class": "Procedure",
-      "name": "bilateral inferior petrosal sinus sampling",
+      "name": "fuzzy regression",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_48",
+      "class": "Procedure",
+      "name": "Takagi-Sugeno-Kang models",
+      "synonyms": [
+        "TSK models"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_49",
+      "class": "Procedure",
+      "name": "Bilateral Inferior Petrosal Sinus Sampling",
       "synonyms": [
         "BIPSS"
       ],
@@ -634,7 +878,67 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0430022",
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_50",
+      "class": "Author",
+      "name": "Mustafa Aydemir",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_51",
+      "class": "Author",
+      "name": "Mustafa \u00c7akir",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_52",
+      "class": "Author",
+      "name": "Okan Oral",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_53",
+      "class": "Author",
+      "name": "Mesut Yilmaz",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -768,7 +1072,7 @@
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
-      "canonical_id": null,
+      "canonical_id": "PMC12187266",
       "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
@@ -778,11 +1082,37 @@
   ],
   "evidence_entities": [
     {
-      "id": "paper_id:introduction:1:llm",
+      "id": "PMC12187266:background:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "intro_1",
+      "paper_id": "PMC12187266",
+      "text_span_id": "background_1",
+      "text": "Cushing syndrome (CS) is a rare endocrine disorder characterized by excessive secretion of glucocorticoids, leading to a variety of clinical manifestations, comorbidities, and increased mortality despite treatment.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12187266:methods:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12187266",
+      "text_span_id": "methods_1",
+      "text": "We developed a linear mathematical model with high predictive ability, achieving a classification accuracy of 97.03% and a Kappa value of 94.05%.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12187266:introduction:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12187266",
+      "text_span_id": "introduction_1",
       "text": "Cushing syndrome (CS) is a potentially fatal disease caused by abnormally high levels of the cortisol hormone, first described by Harvey Cushing in 1912.",
       "confidence": 0.95,
       "extraction_method": "llm",
@@ -791,25 +1121,12 @@
       "source": "extracted"
     },
     {
-      "id": "paper_id:methods:1:llm",
+      "id": "PMC12187266:introduction:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "methods_1",
-      "text": "We developed a linear mathematical model with high predictive ability, achieving a classification accuracy of 97.03% and a Kappa value of 94.05%.",
-      "confidence": 0.98,
-      "extraction_method": "llm",
-      "study_type": "retrospective cohort study",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "paper_id:results:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "results_1",
-      "text": "Features exhibiting a positive correlation of over 70% with CS include 2 mg (78.8%), 1 mg (76.9%), and mc (72.1%).",
+      "paper_id": "PMC12187266",
+      "text_span_id": "introduction_2",
+      "text": "In pituitary-induced Cushing (PC), excessive secretion of ACTH stimulates the adrenal glands to produce cortisol.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "retrospective cohort study",
@@ -817,13 +1134,39 @@
       "source": "extracted"
     },
     {
-      "id": "paper_id:discussion:1:llm",
+      "id": "PMC12187266:introduction:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "paper_id",
-      "text_span_id": "discussion_1",
-      "text": "The most valuable biochemical test was found to be the 2 mg DST.",
-      "confidence": 0.92,
+      "paper_id": "PMC12187266",
+      "text_span_id": "introduction_3",
+      "text": "Ectopic CS (EC) occurs when tumors located outside the pituitary gland, such as those in the pancreas, lungs or thyroid produce ACTH.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12187266:methods:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12187266",
+      "text_span_id": "methods_2",
+      "text": "Retrospective medical records of 498 patients (319 women and 179 men, with a mean age of 52.02 \u00b1 13.33 years) were used. These patients were admitted to the Akdeniz University Faculty of Medicine Endocrinology outpatient clinic between 2014 and 2023.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "retrospective cohort study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12187266:results:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12187266",
+      "text_span_id": "results_1",
+      "text": "The mobile application for the obtained linear model was developed using App Inventor, an online design platform created by MIT.",
+      "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "retrospective cohort study",
       "eco_type": null,
@@ -832,11 +1175,30 @@
   ],
   "relationships": [
     {
-      "subject": "harvey_cushing",
+      "subject": "entity_1",
+      "predicate": "CAUSES",
+      "object": "entity_2",
+      "evidence_ids": [
+        "PMC12187266:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12187266"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_8",
       "predicate": "DESCRIBED",
-      "object": "cushing_syndrome",
+      "object": "entity_1",
       "evidence_ids": [
-        "paper_id:introduction:1:llm"
+        "PMC12187266:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -851,87 +1213,11 @@
       "note": null
     },
     {
-      "subject": "cushing_syndrome",
-      "predicate": "CAUSES",
-      "object": "high_blood_pressure",
+      "subject": "entity_12",
+      "predicate": "REGULATES",
+      "object": "entity_13",
       "evidence_ids": [
-        "paper_id:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.88,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cushing_syndrome",
-      "predicate": "CAUSES",
-      "object": "elevated_blood_sugar",
-      "evidence_ids": [
-        "paper_id:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.88,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cushing_syndrome",
-      "predicate": "CAUSES",
-      "object": "abdominal_fat",
-      "evidence_ids": [
-        "paper_id:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.88,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cushing_syndrome",
-      "predicate": "CAUSES",
-      "object": "abnormal_cholesterol",
-      "evidence_ids": [
-        "paper_id:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.88,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cortisol",
-      "predicate": "CAUSES",
-      "object": "cushing_syndrome",
-      "evidence_ids": [
-        "paper_id:introduction:1:llm"
+        "PMC12187266:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -946,31 +1232,11 @@
       "note": null
     },
     {
-      "subject": "dexamethasone_suppression_test",
-      "predicate": "INDICATES",
-      "object": "cushing_syndrome",
+      "subject": "entity_13",
+      "predicate": "ENCODES",
+      "object": "entity_1",
       "evidence_ids": [
-        "paper_id:results:1:llm",
-        "paper_id:discussion:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "urinary_free_cortisol",
-      "predicate": "INDICATES",
-      "object": "cushing_syndrome",
-      "evidence_ids": [
-        "paper_id:methods:1:llm"
+        "PMC12187266:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -979,99 +1245,23 @@
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "methods",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "salivary_cortisol",
-      "predicate": "INDICATES",
-      "object": "cushing_syndrome",
+      "subject": "entity_15",
+      "predicate": "LOCATED_IN",
+      "object": "entity_11",
       "evidence_ids": [
-        "paper_id:results:1:llm"
+        "PMC12187266:introduction:3:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC12187266"
       ],
-      "confidence": 0.88,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "midnight_cortisol",
-      "predicate": "INDICATES",
-      "object": "cushing_syndrome",
-      "evidence_ids": [
-        "paper_id:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.92,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "generalized_linear_model",
-      "predicate": "TREATS",
-      "object": "cushing_syndrome",
-      "evidence_ids": [
-        "paper_id:methods:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "methods",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "machine_learning",
-      "predicate": "TREATS",
-      "object": "cushing_syndrome",
-      "evidence_ids": [
-        "paper_id:methods:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.88,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "methods",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "pituitary_cushing",
-      "predicate": "SUBTYPE_OF",
-      "object": "cushing_syndrome",
-      "evidence_ids": [
-        "paper_id:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1080,17 +1270,17 @@
       "note": null
     },
     {
-      "subject": "adrenal_cushing",
-      "predicate": "SUBTYPE_OF",
-      "object": "cushing_syndrome",
+      "subject": "entity_16",
+      "predicate": "LOCATED_IN",
+      "object": "entity_11",
       "evidence_ids": [
-        "paper_id:introduction:1:llm"
+        "PMC12187266:introduction:3:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC12187266"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1099,17 +1289,17 @@
       "note": null
     },
     {
-      "subject": "ectopic_cushing_syndrome",
-      "predicate": "SUBTYPE_OF",
-      "object": "cushing_syndrome",
+      "subject": "entity_17",
+      "predicate": "LOCATED_IN",
+      "object": "entity_11",
       "evidence_ids": [
-        "paper_id:introduction:1:llm"
+        "PMC12187266:introduction:3:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC12187266"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1118,11 +1308,11 @@
       "note": null
     },
     {
-      "subject": "subclinical_cushing_syndrome",
-      "predicate": "SUBTYPE_OF",
-      "object": "cushing_syndrome",
+      "subject": "entity_50",
+      "predicate": "AFFILIATED_WITH",
+      "object": "entity_36",
       "evidence_ids": [
-        "paper_id:methods:1:llm"
+        "PMC12187266:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1137,79 +1327,11 @@
       "note": null
     },
     {
-      "subject": "mustafa_aydemir",
-      "predicate": "AUTHORED",
-      "object": "paper_id",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 1.0,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "metadata",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "mustafa_cakir",
-      "predicate": "AUTHORED",
-      "object": "paper_id",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 1.0,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "metadata",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "okan_oral",
-      "predicate": "AUTHORED",
-      "object": "paper_id",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 1.0,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "metadata",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "mesut_yilmaz",
-      "predicate": "AUTHORED",
-      "object": "paper_id",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 1.0,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "metadata",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "mustafa_aydemir",
+      "subject": "entity_51",
       "predicate": "AFFILIATED_WITH",
-      "object": "akdeniz_university",
+      "object": "entity_36",
       "evidence_ids": [
-        "paper_id:methods:1:llm"
+        "PMC12187266:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1224,11 +1346,11 @@
       "note": null
     },
     {
-      "subject": "mustafa_cakir",
+      "subject": "entity_52",
       "predicate": "AFFILIATED_WITH",
-      "object": "akdeniz_university",
+      "object": "entity_36",
       "evidence_ids": [
-        "paper_id:methods:1:llm"
+        "PMC12187266:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1243,11 +1365,11 @@
       "note": null
     },
     {
-      "subject": "okan_oral",
+      "subject": "entity_53",
       "predicate": "AFFILIATED_WITH",
-      "object": "akdeniz_university",
+      "object": "entity_36",
       "evidence_ids": [
-        "paper_id:methods:1:llm"
+        "PMC12187266:methods:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1262,30 +1384,11 @@
       "note": null
     },
     {
-      "subject": "mesut_yilmaz",
+      "subject": "entity_37",
       "predicate": "AFFILIATED_WITH",
-      "object": "akdeniz_university",
+      "object": "entity_38",
       "evidence_ids": [
-        "paper_id:methods:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "methods",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "app_inventor",
-      "predicate": "AFFILIATED_WITH",
-      "object": "mit",
-      "evidence_ids": [
-        "paper_id:results:1:llm"
+        "PMC12187266:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1300,17 +1403,36 @@
       "note": null
     },
     {
-      "subject": "acth",
-      "predicate": "REGULATES",
-      "object": "cortisol",
+      "subject": "entity_3",
+      "predicate": "INDICATES",
+      "object": "entity_1",
       "evidence_ids": [
-        "paper_id:introduction:1:llm"
+        "PMC12187266:methods:1:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC12187266"
       ],
-      "confidence": 0.92,
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_9",
+      "predicate": "SUBTYPE_OF",
+      "object": "entity_1",
+      "evidence_ids": [
+        "PMC12187266:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12187266"
+      ],
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1319,20 +1441,153 @@
       "note": null
     },
     {
-      "subject": "bilateral_inferior_petrosal_sinus_sampling",
-      "predicate": "INDICATES",
-      "object": "pituitary_cushing",
+      "subject": "entity_10",
+      "predicate": "SUBTYPE_OF",
+      "object": "entity_1",
       "evidence_ids": [
-        "paper_id:discussion:1:llm"
+        "PMC12187266:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC12187266"
       ],
-      "confidence": 0.88,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "discussion",
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_11",
+      "predicate": "SUBTYPE_OF",
+      "object": "entity_1",
+      "evidence_ids": [
+        "PMC12187266:introduction:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12187266"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_34",
+      "predicate": "SUBTYPE_OF",
+      "object": "entity_1",
+      "evidence_ids": [
+        "PMC12187266:methods:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12187266"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_18",
+      "predicate": "CAUSES",
+      "object": "entity_10",
+      "evidence_ids": [
+        "PMC12187266:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12187266"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_19",
+      "predicate": "CAUSES",
+      "object": "entity_10",
+      "evidence_ids": [
+        "PMC12187266:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12187266"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_5",
+      "predicate": "INDICATES",
+      "object": "entity_1",
+      "evidence_ids": [
+        "PMC12187266:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12187266"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_6",
+      "predicate": "INDICATES",
+      "object": "entity_1",
+      "evidence_ids": [
+        "PMC12187266:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12187266"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_7",
+      "predicate": "INDICATES",
+      "object": "entity_1",
+      "evidence_ids": [
+        "PMC12187266:background:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12187266"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1476,7 +1731,7 @@
     {
       "subject": "Paper:PMC12187266",
       "predicate": "DESCRIBED",
-      "object": "cushing_syndrome",
+      "object": "entity_1",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
@@ -1493,534 +1748,7 @@
     {
       "subject": "Paper:PMC12187266",
       "predicate": "DESCRIBED",
-      "object": "glucocorticoids",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "cortisol",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "urinary_free_cortisol",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "dexamethasone_suppression_test",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "salivary_cortisol",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "machine_learning",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "generalized_linear_model",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "mobile_application",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "acth",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "pituitary_cushing",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "adrenal_cushing",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "ectopic_cushing_syndrome",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "subclinical_cushing_syndrome",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "nonfunctional_adrenal_adenoma",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "basal_cortisol",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "midnight_cortisol",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "dexamethasone",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "app_inventor",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "hypercortisolism",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "metabolic_syndrome",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "high_blood_pressure",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "elevated_blood_sugar",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "abdominal_fat",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "abnormal_cholesterol",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "triglyceride_levels",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC12187266",
-      "predicate": "DESCRIBED",
-      "object": "bilateral_inferior_petrosal_sinus_sampling",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:akirm",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:aydemirm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:aydemirm",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:oralo",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:aydemirm",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:yilmazm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:akirm",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:oralo",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:akirm",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:yilmazm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12187266"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:oralo",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:yilmazm",
+      "object": "entity_11",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
@@ -2036,8 +1764,8 @@
     }
   ],
   "notes": [
-    "This paper presents a machine learning approach for diagnosing Cushing's syndrome using biochemical tests and developing a mobile application for clinical decision support.",
-    "The study achieved 97.03% accuracy using a generalized linear model with various cortisol-related biomarkers.",
-    "The 2 mg dexamethasone suppression test was identified as the most valuable biochemical test for CS diagnosis."
+    "This paper presents a machine learning approach using generalized linear models to diagnose Cushing's syndrome with 97.03% accuracy.",
+    "The study developed a mobile application using MIT App Inventor to make the diagnostic model accessible to clinicians.",
+    "The research was conducted at Akdeniz University Faculty of Medicine using retrospective data from 498 patients between 2014-2023."
   ]
 }

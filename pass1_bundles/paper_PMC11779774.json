@@ -4,7 +4,15 @@
     "pmcid": "PMC11779774",
     "title": "Medical management pathways for Cushing's disease in pituitary tumors centers of excellence (PTCOEs)",
     "authors": [
-      "Unknown"
+      "Feelders",
+      "Giampetro",
+      "Ioachimescu",
+      "Jurek",
+      "Pekul",
+      "Skrebsky De Almeida",
+      "Valassi",
+      "Wright",
+      "Zhang"
     ],
     "author_details": [
       {
@@ -139,8 +147,8 @@
     "extraction_pipeline": {
       "name": "medlit_pass1_extract",
       "version": "0.1.0",
-      "git_commit": "48e3c74be35a9bdaabe3f69f35049054df3588a9",
-      "git_commit_short": "48e3c74",
+      "git_commit": "007e0030b14c6e2be45ae2b6549b62ca3a77e89f",
+      "git_commit_short": "007e003",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -154,21 +162,21 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:4069173fe4ab327c",
-      "schema_version": "0399967c"
+      "checksum": "sha256:3a8f7296edc8e063",
+      "schema_version": "fc3a7835"
     },
     "execution": {
-      "timestamp": "2026-03-13T16:48:42.584109Z",
+      "timestamp": "2026-03-13T19:48:29.314611Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 86.48
+      "duration_seconds": 93.44
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "cushing_disease",
+      "id": "e1",
       "class": "Disease",
       "name": "Cushing's disease",
       "synonyms": [
@@ -186,11 +194,12 @@
       "uniprot_id": null
     },
     {
-      "id": "pituitary_tumors_centers_excellence",
+      "id": "e2",
       "class": "Institution",
       "name": "Pituitary Tumors Centers of Excellence",
       "synonyms": [
-        "PTCOEs"
+        "PTCOEs",
+        "PTCOE"
       ],
       "symbol": null,
       "brand_names": [],
@@ -203,7 +212,56 @@
       "uniprot_id": null
     },
     {
-      "id": "ketoconazole",
+      "id": "e3",
+      "class": "Hormone",
+      "name": "adrenocorticotropic hormone",
+      "synonyms": [
+        "ACTH"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0001655",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e4",
+      "class": "Disease",
+      "name": "pituitary adenoma",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0032000",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e5",
+      "class": "Disease",
+      "name": "Cushing's syndrome",
+      "synonyms": [
+        "Cushing syndrome"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0010481",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e6",
       "class": "Drug",
       "name": "ketoconazole",
       "synonyms": [],
@@ -218,7 +276,7 @@
       "uniprot_id": null
     },
     {
-      "id": "metyrapone",
+      "id": "e7",
       "class": "Drug",
       "name": "metyrapone",
       "synonyms": [],
@@ -233,7 +291,7 @@
       "uniprot_id": null
     },
     {
-      "id": "pasireotide",
+      "id": "e8",
       "class": "Drug",
       "name": "pasireotide",
       "synonyms": [],
@@ -248,7 +306,7 @@
       "uniprot_id": null
     },
     {
-      "id": "cabergoline",
+      "id": "e9",
       "class": "Drug",
       "name": "cabergoline",
       "synonyms": [],
@@ -263,7 +321,7 @@
       "uniprot_id": null
     },
     {
-      "id": "osilodrostat",
+      "id": "e10",
       "class": "Drug",
       "name": "osilodrostat",
       "synonyms": [],
@@ -273,12 +331,12 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "2167492",
+      "rxnorm_id": "2168077",
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "mifepristone",
+      "id": "e11",
       "class": "Drug",
       "name": "mifepristone",
       "synonyms": [],
@@ -288,192 +346,12 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "6723",
+      "rxnorm_id": "6901",
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "mitotane",
-      "class": "Drug",
-      "name": "mitotane",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "7035",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "etomidate",
-      "class": "Drug",
-      "name": "etomidate",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "4077",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pituitary_adenoma",
-      "class": "Disease",
-      "name": "pituitary adenoma",
-      "synonyms": [
-        "ACTH-producing pituitary adenoma"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0032000",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cushing_syndrome",
-      "class": "Disease",
-      "name": "Cushing's syndrome",
-      "synonyms": [
-        "Cushing syndrome",
-        "endogenous Cushing's syndrome"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0010481",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "transsphenoidal_surgery",
-      "class": "Procedure",
-      "name": "transsphenoidal surgical resection",
-      "synonyms": [
-        "selective transsphenoidal surgical resection"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "bilateral_inferior_petrosal_sinus_sampling",
-      "class": "Procedure",
-      "name": "bilateral inferior petrosal sinus sampling",
-      "synonyms": [
-        "Bilateral Inferior Petrosal Sinus Sampling"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "dexamethasone_suppression_test",
-      "class": "Procedure",
-      "name": "dexamethasone suppression test",
-      "synonyms": [
-        "high-dose dexamethasone suppression test"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "corticotropin_releasing_hormone_test",
-      "class": "Procedure",
-      "name": "corticotropin-releasing hormone test",
-      "synonyms": [
-        "CRH test"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "urinary_free_cortisol",
-      "class": "Biomarker",
-      "name": "urinary free cortisol",
-      "synonyms": [
-        "UFC"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "biochemical_control",
-      "class": "Biomarker",
-      "name": "biochemical control",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "combination_therapy",
-      "class": "Procedure",
-      "name": "combination therapy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "adrenal_steroidogenesis_inhibitors",
+      "id": "e12",
       "class": "Drug",
       "name": "adrenal steroidogenesis inhibitors",
       "synonyms": [
@@ -490,7 +368,22 @@
       "uniprot_id": null
     },
     {
-      "id": "glucocorticoid_receptor_antagonist",
+      "id": "e13",
+      "class": "Drug",
+      "name": "pituitary targeted agents",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e14",
       "class": "Drug",
       "name": "glucocorticoid receptor antagonist",
       "synonyms": [],
@@ -505,11 +398,11 @@
       "uniprot_id": null
     },
     {
-      "id": "pituitary_targeted_agents",
-      "class": "Drug",
-      "name": "pituitary targeted agents",
+      "id": "e15",
+      "class": "Procedure",
+      "name": "transsphenoidal surgical resection",
       "synonyms": [
-        "pituitary-targeted"
+        "transsphenoidal surgery"
       ],
       "symbol": null,
       "brand_names": [],
@@ -522,243 +415,7 @@
       "uniprot_id": null
     },
     {
-      "id": "11_beta_hydroxylase",
-      "class": "Enzyme",
-      "name": "11\u03b2-hydroxylase",
-      "synonyms": [
-        "11\u00df-hydroxylase"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:2593",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "aldosterone_synthase",
-      "class": "Enzyme",
-      "name": "aldosterone synthase",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:2592",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "dopamine_type_2_receptors",
-      "class": "Protein",
-      "name": "dopamine type 2 receptors",
-      "synonyms": [
-        "D2",
-        "dopamine agonist"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:3023",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "somatostatin_receptor",
-      "class": "Protein",
-      "name": "somatostatin receptor",
-      "synonyms": [
-        "SSTR"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "hyperglycemia",
-      "class": "Symptom",
-      "name": "hyperglycemia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020456",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "hypocortisolism",
-      "class": "Disease",
-      "name": "hypocortisolism",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "adrenal_insufficiency",
-      "class": "Disease",
-      "name": "adrenal insufficiency",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0001623",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "hypertension",
-      "class": "Disease",
-      "name": "hypertension",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020538",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "obesity",
-      "class": "Disease",
-      "name": "obesity",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0028754",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "dyslipidemia",
-      "class": "Disease",
-      "name": "dyslipidemia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0242339",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "atherosclerosis",
-      "class": "Disease",
-      "name": "atherosclerosis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0004153",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "osteoporosis",
-      "class": "Disease",
-      "name": "osteoporosis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0029456",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "diabetes_mellitus",
-      "class": "Disease",
-      "name": "diabetes mellitus",
-      "synonyms": [
-        "impaired glucose metabolism"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0011849",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cardiovascular_disease",
-      "class": "Disease",
-      "name": "cardiovascular disease",
-      "synonyms": [
-        "cardiovascular causes"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0007222",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "hypopituitarism",
-      "class": "Disease",
-      "name": "hypopituitarism",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0020635",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "microadenomas",
+      "id": "e16",
       "class": "Disease",
       "name": "microadenomas",
       "synonyms": [],
@@ -766,17 +423,34 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C0334583",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "macroadenomas",
+      "id": "e17",
       "class": "Disease",
       "name": "macroadenomas",
       "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0334584",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e18",
+      "class": "Procedure",
+      "name": "Bilateral Inferior Petrosal Sinus Sampling",
+      "synonyms": [
+        "bilateral inferior petrosal sinus sampling"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -788,7 +462,56 @@
       "uniprot_id": null
     },
     {
-      "id": "bilateral_adrenalectomy",
+      "id": "e19",
+      "class": "Hormone",
+      "name": "corticotropin-releasing hormone",
+      "synonyms": [
+        "CRH"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0010132",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e20",
+      "class": "Procedure",
+      "name": "dexamethasone suppression test",
+      "synonyms": [
+        "high-dose dexamethasone suppression test"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e21",
+      "class": "Drug",
+      "name": "dexamethasone",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "3264",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e22",
       "class": "Procedure",
       "name": "bilateral adrenalectomy",
       "synonyms": [],
@@ -803,7 +526,7 @@
       "uniprot_id": null
     },
     {
-      "id": "radiation_therapy",
+      "id": "e23",
       "class": "Procedure",
       "name": "radiation therapy",
       "synonyms": [],
@@ -818,7 +541,212 @@
       "uniprot_id": null
     },
     {
-      "id": "covid_19",
+      "id": "e24",
+      "class": "Drug",
+      "name": "mitotane",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "7035",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e25",
+      "class": "Drug",
+      "name": "etomidate",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": "4077",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e26",
+      "class": "Hormone",
+      "name": "cortisol",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0020268",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e27",
+      "class": "Enzyme",
+      "name": "11\u03b2-hydroxylase",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:2594",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e28",
+      "class": "Enzyme",
+      "name": "aldosterone synthase",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:2595",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e29",
+      "class": "Protein",
+      "name": "dopamine type 2 receptors",
+      "synonyms": [
+        "D2"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:3023",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e30",
+      "class": "Protein",
+      "name": "somatostatin receptor",
+      "synonyms": [
+        "SSTR"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11330",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e31",
+      "class": "Protein",
+      "name": "somatostatin receptor 5",
+      "synonyms": [
+        "SSTR5"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11334",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e32",
+      "class": "Drug",
+      "name": "somatostatin receptor ligands",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e33",
+      "class": "Protein",
+      "name": "glucocorticoid receptor",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:7978",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e34",
+      "class": "Biomarker",
+      "name": "urinary free cortisol",
+      "synonyms": [
+        "UFC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e35",
+      "class": "Disease",
+      "name": "hyperglycemia",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0020456",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e36",
+      "class": "Hormone",
+      "name": "glucagon-like peptide-1",
+      "synonyms": [
+        "GLP-1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0061355",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e37",
       "class": "Disease",
       "name": "COVID-19",
       "synonyms": [
@@ -829,6 +757,203 @@
       "source": "extracted",
       "canonical_id": null,
       "umls_id": "C5203670",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e38",
+      "class": "Disease",
+      "name": "adrenal insufficiency",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0001623",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e39",
+      "class": "Institution",
+      "name": "Food and Drug Administration",
+      "synonyms": [
+        "FDA"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e40",
+      "class": "Disease",
+      "name": "hypopituitarism",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0020635",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e41",
+      "class": "Disease",
+      "name": "hypertension",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0020538",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e42",
+      "class": "Disease",
+      "name": "obesity",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0028754",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e43",
+      "class": "Disease",
+      "name": "dyslipidemia",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0242339",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e44",
+      "class": "Disease",
+      "name": "atherosclerosis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0004153",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e45",
+      "class": "Disease",
+      "name": "hypercoagulability",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0398623",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e46",
+      "class": "Disease",
+      "name": "osteoporosis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0029456",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e47",
+      "class": "Disease",
+      "name": "fractures",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0016658",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e48",
+      "class": "BiologicalProcess",
+      "name": "glucose metabolism",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0596620",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e49",
+      "class": "Disease",
+      "name": "cardiovascular disease",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0007222",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e50",
+      "class": "Disease",
+      "name": "hypercortisolism",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0020626",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -1397,7 +1522,7 @@
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
-      "canonical_id": null,
+      "canonical_id": "PMC11779774",
       "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
@@ -1407,10 +1532,10 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC_UNKNOWN:introduction:1:llm",
+      "id": "PMC11779774:introduction:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
+      "paper_id": "PMC11779774",
       "text_span_id": "intro_1",
       "text": "Cushing's disease (CD) is caused by an adrenocorticotropic hormone (ACTH)-producing pituitary adenoma and is the most common cause of endogenous Cushing's syndrome",
       "confidence": 0.95,
@@ -1420,25 +1545,12 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_UNKNOWN:introduction:2:llm",
+      "id": "PMC11779774:introduction:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
+      "paper_id": "PMC11779774",
       "text_span_id": "intro_2",
-      "text": "The recommended first-line therapy is selective transsphenoidal surgical resection of the ACTH-secreting adenoma",
-      "confidence": 0.9,
-      "extraction_method": "llm",
-      "study_type": "observational",
-      "eco_type": "audit",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC_UNKNOWN:introduction:3:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
-      "text_span_id": "intro_3",
-      "text": "Medical treatment options include steroidogenesis inhibitors (ketoconazole, metyrapone, osilodrostat, mitotane, etomidate), which block one or more steps in adrenal cortisol synthesis",
+      "text": "Despite its rare occurrence, the disorder is associated with commonly encountered comorbidities including hypertension, obesity, dyslipidemia, atherosclerosis, hypercoagulability, osteoporosis and fractures, impaired glucose metabolism",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "observational",
@@ -1446,10 +1558,49 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_UNKNOWN:results:1:llm",
+      "id": "PMC11779774:introduction:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
+      "paper_id": "PMC11779774",
+      "text_span_id": "intro_3",
+      "text": "Higher mortality rates reported in CD, mainly due to cardiovascular causes, were associated with persistent disease",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "observational",
+      "eco_type": "audit",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11779774:introduction:4:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11779774",
+      "text_span_id": "intro_4",
+      "text": "The recommended first-line therapy is selective transsphenoidal surgical resection of the ACTH-secreting adenoma",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "observational",
+      "eco_type": "audit",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11779774:introduction:5:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11779774",
+      "text_span_id": "intro_5",
+      "text": "Medical treatment options include steroidogenesis inhibitors (ketoconazole, metyrapone, osilodrostat, mitotane, etomidate), which block one or more steps in adrenal cortisol synthesis, pituitary targeted agents (cabergoline, pasireotide), which suppress ACTH secretion, and a glucocorticoid receptor antagonist, mifepristone",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "observational",
+      "eco_type": "audit",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11779774:results:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11779774",
       "text_span_id": "results_1",
       "text": "Ketoconazole was the most frequently used drug, with a median rate of usage of 26.5% (5-66.7) of those receiving medical therapy",
       "confidence": 0.95,
@@ -1459,10 +1610,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_UNKNOWN:results:2:llm",
+      "id": "PMC11779774:results:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
+      "paper_id": "PMC11779774",
       "text_span_id": "results_2",
       "text": "The median rates of metyrapone and pasireotide use were 17.2% (0\u201350) and 9.3% (0-51.7), respectively",
       "confidence": 0.95,
@@ -1472,10 +1623,10 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_UNKNOWN:results:3:llm",
+      "id": "PMC11779774:results:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
+      "paper_id": "PMC11779774",
       "text_span_id": "results_3",
       "text": "Overall, the median control rate in patients with CD receiving medical treatment was 75% (10\u2013100)",
       "confidence": 0.95,
@@ -1485,12 +1636,12 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_UNKNOWN:discussion:1:llm",
+      "id": "PMC11779774:discussion:1:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
+      "paper_id": "PMC11779774",
       "text_span_id": "discussion_1",
-      "text": "Ketoconazole blocks multiple steroid biosynthesis pathways and has been reported to normalize urinary free cortisol (UFC) levels in 64.7% of patients with CD",
+      "text": "This medication blocks multiple steroid biosynthesis pathways and has been reported to normalize urinary free cortisol (UFC) levels in 64.7% of patients with CD",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "observational",
@@ -1498,12 +1649,12 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_UNKNOWN:discussion:2:llm",
+      "id": "PMC11779774:discussion:2:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
+      "paper_id": "PMC11779774",
       "text_span_id": "discussion_2",
-      "text": "Metyrapone, an 11\u00df-hydroxylase inhibitor, utilized in 17.2% of patients under medical treatment",
+      "text": "The second most frequently used drug in excellent pituitary centers was metyrapone, an 11\u00df-hydroxylase inhibitor",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "observational",
@@ -1511,12 +1662,12 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_UNKNOWN:discussion:3:llm",
+      "id": "PMC11779774:discussion:3:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
+      "paper_id": "PMC11779774",
       "text_span_id": "discussion_3",
-      "text": "Osilodrostat, oral 11\u00df-hydroxylase and aldosterone synthase inhibitor has a higher potency and a longer half-life than metyrapone and ketoconazole",
+      "text": "This recently approved, oral 11\u00df-hydroxylase and aldosterone synthase inhibitor has a higher potency and a longer half-life than metyrapone and ketoconazole",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "observational",
@@ -1524,25 +1675,25 @@
       "source": "extracted"
     },
     {
-      "id": "PMC_UNKNOWN:discussion:4:llm",
+      "id": "PMC11779774:discussion:4:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
+      "paper_id": "PMC11779774",
       "text_span_id": "discussion_4",
-      "text": "Cabergoline, a potent dopamine agonist with high affinity for dopamine type 2 receptors (D2), is currently used as an off-label therapy",
-      "confidence": 0.9,
+      "text": "Pasireotide is a multitargeted somatostatin receptor ligand with a higher affinity to somatostatin receptor (SSTR) 5 than SSTR1, SSTR2 and SSTR3",
+      "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "observational",
       "eco_type": "audit",
       "source": "extracted"
     },
     {
-      "id": "PMC_UNKNOWN:discussion:5:llm",
+      "id": "PMC11779774:discussion:5:llm",
       "class": "Evidence",
       "entity_id": null,
-      "paper_id": "PMC_UNKNOWN",
+      "paper_id": "PMC11779774",
       "text_span_id": "discussion_5",
-      "text": "Pasireotide is a multitargeted somatostatin receptor ligand with a higher affinity to somatostatin receptor (SSTR) 5 than SSTR1, SSTR2 and SSTR3",
+      "text": "Mifepristone, the glucocorticoid receptor antagonist, improves signs and symptoms of CD rapidly",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "observational",
@@ -1552,11 +1703,11 @@
   ],
   "relationships": [
     {
-      "subject": "cushing_disease",
+      "subject": "e3",
       "predicate": "CAUSES",
-      "object": "pituitary_adenoma",
+      "object": "e1",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:1:llm"
+        "PMC11779774:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1571,11 +1722,11 @@
       "note": null
     },
     {
-      "subject": "cushing_disease",
-      "predicate": "SUBTYPE_OF",
-      "object": "cushing_syndrome",
+      "subject": "e4",
+      "predicate": "CAUSES",
+      "object": "e1",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:1:llm"
+        "PMC11779774:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1590,17 +1741,17 @@
       "note": null
     },
     {
-      "subject": "transsphenoidal_surgery",
-      "predicate": "TREATS",
-      "object": "cushing_disease",
+      "subject": "e1",
+      "predicate": "CAUSES",
+      "object": "e5",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:2:llm"
+        "PMC11779774:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11779774"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1609,248 +1760,17 @@
       "note": null
     },
     {
-      "subject": "ketoconazole",
-      "predicate": "TREATS",
-      "object": "cushing_disease",
-      "evidence_ids": [
-        "PMC_UNKNOWN:introduction:3:llm",
-        "PMC_UNKNOWN:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "metyrapone",
-      "predicate": "TREATS",
-      "object": "cushing_disease",
-      "evidence_ids": [
-        "PMC_UNKNOWN:introduction:3:llm",
-        "PMC_UNKNOWN:results:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "pasireotide",
-      "predicate": "TREATS",
-      "object": "cushing_disease",
-      "evidence_ids": [
-        "PMC_UNKNOWN:results:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cabergoline",
-      "predicate": "TREATS",
-      "object": "cushing_disease",
-      "evidence_ids": [
-        "PMC_UNKNOWN:discussion:4:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "discussion",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "osilodrostat",
-      "predicate": "TREATS",
-      "object": "cushing_disease",
-      "evidence_ids": [
-        "PMC_UNKNOWN:discussion:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "discussion",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "mifepristone",
-      "predicate": "TREATS",
-      "object": "cushing_disease",
-      "evidence_ids": [
-        "PMC_UNKNOWN:introduction:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ketoconazole",
-      "predicate": "INHIBITS",
-      "object": "adrenal_steroidogenesis",
-      "evidence_ids": [
-        "PMC_UNKNOWN:introduction:3:llm",
-        "PMC_UNKNOWN:discussion:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "discussion",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "metyrapone",
-      "predicate": "INHIBITS",
-      "object": "11_beta_hydroxylase",
-      "evidence_ids": [
-        "PMC_UNKNOWN:discussion:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "discussion",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "osilodrostat",
-      "predicate": "INHIBITS",
-      "object": "11_beta_hydroxylase",
-      "evidence_ids": [
-        "PMC_UNKNOWN:discussion:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "discussion",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "osilodrostat",
-      "predicate": "INHIBITS",
-      "object": "aldosterone_synthase",
-      "evidence_ids": [
-        "PMC_UNKNOWN:discussion:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "discussion",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cabergoline",
-      "predicate": "INTERACTS_WITH",
-      "object": "dopamine_type_2_receptors",
-      "evidence_ids": [
-        "PMC_UNKNOWN:discussion:4:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "discussion",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "pasireotide",
-      "predicate": "INTERACTS_WITH",
-      "object": "somatostatin_receptor",
-      "evidence_ids": [
-        "PMC_UNKNOWN:discussion:5:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "discussion",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cushing_disease",
+      "subject": "e1",
       "predicate": "ASSOCIATED_WITH",
-      "object": "hypertension",
+      "object": "e41",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:1:llm"
+        "PMC11779774:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11779774"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1859,17 +1779,17 @@
       "note": null
     },
     {
-      "subject": "cushing_disease",
+      "subject": "e1",
       "predicate": "ASSOCIATED_WITH",
-      "object": "obesity",
+      "object": "e42",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:1:llm"
+        "PMC11779774:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11779774"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1878,17 +1798,17 @@
       "note": null
     },
     {
-      "subject": "cushing_disease",
+      "subject": "e1",
       "predicate": "ASSOCIATED_WITH",
-      "object": "dyslipidemia",
+      "object": "e43",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:1:llm"
+        "PMC11779774:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11779774"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1897,17 +1817,17 @@
       "note": null
     },
     {
-      "subject": "cushing_disease",
+      "subject": "e1",
       "predicate": "ASSOCIATED_WITH",
-      "object": "atherosclerosis",
+      "object": "e44",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:1:llm"
+        "PMC11779774:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11779774"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1916,17 +1836,17 @@
       "note": null
     },
     {
-      "subject": "cushing_disease",
+      "subject": "e1",
       "predicate": "ASSOCIATED_WITH",
-      "object": "osteoporosis",
+      "object": "e45",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:1:llm"
+        "PMC11779774:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11779774"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1935,17 +1855,17 @@
       "note": null
     },
     {
-      "subject": "cushing_disease",
+      "subject": "e1",
       "predicate": "ASSOCIATED_WITH",
-      "object": "diabetes_mellitus",
+      "object": "e46",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:1:llm"
+        "PMC11779774:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11779774"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1954,11 +1874,49 @@
       "note": null
     },
     {
-      "subject": "cushing_disease",
+      "subject": "e1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "e47",
+      "evidence_ids": [
+        "PMC11779774:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11779774"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "e48",
+      "evidence_ids": [
+        "PMC11779774:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11779774"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e1",
       "predicate": "INCREASES_RISK",
-      "object": "cardiovascular_disease",
+      "object": "e49",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:1:llm"
+        "PMC11779774:introduction:3:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1973,11 +1931,11 @@
       "note": null
     },
     {
-      "subject": "ketoconazole",
-      "predicate": "SUBTYPE_OF",
-      "object": "adrenal_steroidogenesis_inhibitors",
+      "subject": "e15",
+      "predicate": "TREATS",
+      "object": "e1",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:3:llm"
+        "PMC11779774:introduction:4:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1992,11 +1950,11 @@
       "note": null
     },
     {
-      "subject": "metyrapone",
-      "predicate": "SUBTYPE_OF",
-      "object": "adrenal_steroidogenesis_inhibitors",
+      "subject": "e6",
+      "predicate": "TREATS",
+      "object": "e1",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:3:llm"
+        "PMC11779774:introduction:5:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2011,11 +1969,11 @@
       "note": null
     },
     {
-      "subject": "osilodrostat",
-      "predicate": "SUBTYPE_OF",
-      "object": "adrenal_steroidogenesis_inhibitors",
+      "subject": "e7",
+      "predicate": "TREATS",
+      "object": "e1",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:3:llm"
+        "PMC11779774:introduction:5:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2030,11 +1988,11 @@
       "note": null
     },
     {
-      "subject": "mitotane",
-      "predicate": "SUBTYPE_OF",
-      "object": "adrenal_steroidogenesis_inhibitors",
+      "subject": "e10",
+      "predicate": "TREATS",
+      "object": "e1",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:3:llm"
+        "PMC11779774:introduction:5:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2049,11 +2007,11 @@
       "note": null
     },
     {
-      "subject": "etomidate",
-      "predicate": "SUBTYPE_OF",
-      "object": "adrenal_steroidogenesis_inhibitors",
+      "subject": "e24",
+      "predicate": "TREATS",
+      "object": "e1",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:3:llm"
+        "PMC11779774:introduction:5:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2068,11 +2026,125 @@
       "note": null
     },
     {
-      "subject": "cabergoline",
-      "predicate": "SUBTYPE_OF",
-      "object": "pituitary_targeted_agents",
+      "subject": "e25",
+      "predicate": "TREATS",
+      "object": "e1",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:3:llm"
+        "PMC11779774:introduction:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11779774"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e9",
+      "predicate": "TREATS",
+      "object": "e1",
+      "evidence_ids": [
+        "PMC11779774:introduction:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11779774"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e8",
+      "predicate": "TREATS",
+      "object": "e1",
+      "evidence_ids": [
+        "PMC11779774:introduction:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11779774"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e11",
+      "predicate": "TREATS",
+      "object": "e1",
+      "evidence_ids": [
+        "PMC11779774:introduction:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11779774"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e12",
+      "predicate": "INHIBITS",
+      "object": "e26",
+      "evidence_ids": [
+        "PMC11779774:introduction:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11779774"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e13",
+      "predicate": "INHIBITS",
+      "object": "e3",
+      "evidence_ids": [
+        "PMC11779774:introduction:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11779774"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e6",
+      "predicate": "REGULATES",
+      "object": "e34",
+      "evidence_ids": [
+        "PMC11779774:discussion:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2081,17 +2153,36 @@
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "pasireotide",
-      "predicate": "SUBTYPE_OF",
-      "object": "pituitary_targeted_agents",
+      "subject": "e7",
+      "predicate": "INHIBITS",
+      "object": "e27",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:3:llm"
+        "PMC11779774:discussion:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11779774"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e10",
+      "predicate": "INHIBITS",
+      "object": "e27",
+      "evidence_ids": [
+        "PMC11779774:discussion:3:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2100,17 +2191,17 @@
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "mifepristone",
-      "predicate": "SUBTYPE_OF",
-      "object": "glucocorticoid_receptor_antagonist",
+      "subject": "e10",
+      "predicate": "INHIBITS",
+      "object": "e28",
       "evidence_ids": [
-        "PMC_UNKNOWN:introduction:3:llm"
+        "PMC11779774:discussion:3:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2119,7 +2210,64 @@
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e8",
+      "predicate": "INTERACTS_WITH",
+      "object": "e31",
+      "evidence_ids": [
+        "PMC11779774:discussion:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11779774"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e11",
+      "predicate": "INTERACTS_WITH",
+      "object": "e33",
+      "evidence_ids": [
+        "PMC11779774:discussion:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11779774"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e11",
+      "predicate": "TREATS",
+      "object": "e1",
+      "evidence_ids": [
+        "PMC11779774:discussion:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11779774"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -2790,7 +2938,7 @@
     {
       "subject": "Paper:PMC11779774",
       "predicate": "DESCRIBED",
-      "object": "cushing_disease",
+      "object": "e1",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
@@ -2807,3577 +2955,7 @@
     {
       "subject": "Paper:PMC11779774",
       "predicate": "DESCRIBED",
-      "object": "ketoconazole",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "metyrapone",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "pasireotide",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "cabergoline",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "osilodrostat",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "mifepristone",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "mitotane",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "etomidate",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "pituitary_adenoma",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "cushing_syndrome",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "transsphenoidal_surgery",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "bilateral_inferior_petrosal_sinus_sampling",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "dexamethasone_suppression_test",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "corticotropin_releasing_hormone_test",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "urinary_free_cortisol",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "biochemical_control",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "combination_therapy",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "adrenal_steroidogenesis_inhibitors",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "glucocorticoid_receptor_antagonist",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "pituitary_targeted_agents",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "11_beta_hydroxylase",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "aldosterone_synthase",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "dopamine_type_2_receptors",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "somatostatin_receptor",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "hyperglycemia",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "hypocortisolism",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "adrenal_insufficiency",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "hypertension",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "obesity",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "dyslipidemia",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "atherosclerosis",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "osteoporosis",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "diabetes_mellitus",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "cardiovascular_disease",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "hypopituitarism",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "microadenomas",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "macroadenomas",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "bilateral_adrenalectomy",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "radiation_therapy",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Paper:PMC11779774",
-      "predicate": "DESCRIBED",
-      "object": "covid_19",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:giustinaa",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:giustinaa",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:giustinaa",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:giustinaa",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:giustinaa",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:giustinaa",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:gadelham",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:giustinaa",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:giustinaa",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:haberboschl",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:giustinaa",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:kaiseru",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:giustinaa",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lambertss",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:giustinaa",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lawse",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:giustinaa",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:giustinaa",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:giustinaa",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:giustinaa",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lelya",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:giustinaa",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:giustinaa",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:giustinaa",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:gadelham",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:haberboschl",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:kaiseru",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lambertss",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lawse",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:nachtigalll",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:popovicv",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:schilbachk",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lelya",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:uygurm",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:melmeds",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:uygurm",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:fraras",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:fraras",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:fraras",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:fredap",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:gadelham",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:haberboschl",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:kaiseru",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lambertss",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lawse",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lelya",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fraras",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:fraras",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:biermaszn",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:chansonp",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:fredap",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:gadelham",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:haberboschl",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:kaiseru",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lambertss",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lawse",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lelya",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:barkana",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:casanuevaf",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:chansonp",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:fredap",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:gadelham",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:haberboschl",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:kaiseru",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lambertss",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lawse",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lelya",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:biermaszn",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:casanuevaf",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:fredap",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:gadelham",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:haberboschl",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:kaiseru",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lambertss",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lawse",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lelya",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:chansonp",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:chansonp",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:gadelham",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:haberboschl",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:kaiseru",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lambertss",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lawse",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lelya",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:fredap",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:fredap",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:gadelham",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:haberboschl",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:gadelham",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:kaiseru",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:gadelham",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lambertss",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:gadelham",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lawse",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:gadelham",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:gadelham",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:gadelham",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:gadelham",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lelya",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:gadelham",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:gadelham",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:gadelham",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:haberboschl",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:kaiseru",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:haberboschl",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lambertss",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:haberboschl",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lawse",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:haberboschl",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:haberboschl",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:haberboschl",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:haberboschl",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lelya",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:haberboschl",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:haberboschl",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:haberboschl",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:kaiseru",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lambertss",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:kaiseru",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lawse",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:kaiseru",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:kaiseru",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:kaiseru",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:kaiseru",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lelya",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:kaiseru",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:kaiseru",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:kaiseru",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lambertss",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lawse",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lambertss",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lambertss",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lambertss",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lambertss",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lelya",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lambertss",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lambertss",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lambertss",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lawse",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lawse",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lawse",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lawse",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lelya",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lawse",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lawse",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lawse",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:nachtigalll",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:nachtigalll",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lelya",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:nachtigalll",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:melmeds",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:nachtigalll",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:popovicv",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lelya",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:popovicv",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:melmeds",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:popovicv",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lelya",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:schilbachk",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:melmeds",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:schilbachk",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lelya",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:lelya",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:lelya",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:melmeds",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:wassj",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC11779774"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": null,
-      "properties": {},
-      "section": null,
-      "asserted_by": "derived",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Author:casanuevaf",
-      "predicate": "COAUTHORED_WITH",
-      "object": "Author:melmeds",
+      "object": "e10",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
@@ -6394,8 +2972,7 @@
   ],
   "notes": [
     "This paper presents an audit of medical management approaches for Cushing's disease across nine international Pituitary Tumors Centers of Excellence (PTCOEs).",
-    "The study evaluates real-world usage patterns and efficacy of various medical therapies for Cushing's disease between 2018-2020.",
-    "Key findings include ketoconazole being the most frequently used medication (26.5% of medically treated patients) with a 75% overall median control rate.",
-    "The paper highlights the need for more effective combination therapies as up to 25% of patients did not achieve disease control even in expert centers."
+    "The study evaluates real-world usage patterns and efficacy of various medical treatments for Cushing's disease between 2018-2020.",
+    "Key findings include ketoconazole being the most frequently used medication (26.5% of medically treated patients) with a 75% overall control rate across centers."
   ]
 }
