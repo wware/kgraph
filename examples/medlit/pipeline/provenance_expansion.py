@@ -3,7 +3,6 @@
 import re
 
 from examples.medlit.bundle_models import AuthorInfo, ExtractedEntityRow, PerPaperBundle, RelationshipRow
-from examples.medlit.pipeline.utils import canonicalize_symmetric
 
 
 def normalize_author_id(name: str, paper_id: str) -> str:
@@ -29,7 +28,11 @@ def normalize_institution_id(affiliation: str) -> str:
 
 
 def expand_provenance(bundle: PerPaperBundle) -> tuple[list[ExtractedEntityRow], list[RelationshipRow]]:
-    """Derive Author, Institution, Paper entities and AUTHORED, AFFILIATED_WITH, DESCRIBED, COAUTHORED_WITH from metadata."""
+    """Derive Author, Institution, Paper entities and AUTHORED, AFFILIATED_WITH, DESCRIBED from metadata.
+
+    DESCRIBED is limited to the top 2 domain entities by relationship count (central to the paper).
+    COAUTHORED_WITH is omitted; derive via AUTHORED hops (Author -> Paper <- Author).
+    """
     new_entities: list[ExtractedEntityRow] = []
     new_relationships: list[RelationshipRow] = []
     seen_entity_ids: set[str] = set()
@@ -86,37 +89,27 @@ def expand_provenance(bundle: PerPaperBundle) -> tuple[list[ExtractedEntityRow],
             )
         )
 
-    # DESCRIBED(Paper, entity) for domain entities only
-    for entity in bundle.entities:
-        if entity.entity_class in ("Author", "Institution", "Evidence"):
-            continue
+    # DESCRIBED(Paper, entity) for top 2 domain entities by relationship count (Option A)
+    entity_rel_count: dict[str, int] = {}
+    for rel in bundle.relationships:
+        for eid in (rel.subject, rel.object_id):
+            entity_rel_count[eid] = entity_rel_count.get(eid, 0) + 1
+    domain_entity_ids = [e.id for e in bundle.entities if e.entity_class not in ("Author", "Institution", "Evidence")]
+    top_entities = sorted(
+        domain_entity_ids,
+        key=lambda x: entity_rel_count.get(x, 0),
+        reverse=True,
+    )[:2]
+    for entity_id in top_entities:
         new_relationships.append(
             RelationshipRow(
                 subject=paper_entity_id,
                 predicate="DESCRIBED",
-                object_id=entity.id,
+                object_id=entity_id,
                 source_papers=[document_id],
                 confidence=0.9,
                 asserted_by="derived",
             )
         )
-
-    # COAUTHORED_WITH with canonical ordering
-    seen_pairs: set[tuple[str, str]] = set()
-    for i, a1 in enumerate(author_ids):
-        for a2 in author_ids[i + 1 :]:
-            sub, obj = canonicalize_symmetric(a1, a2)
-            if (sub, obj) not in seen_pairs:
-                seen_pairs.add((sub, obj))
-                new_relationships.append(
-                    RelationshipRow(
-                        subject=sub,
-                        predicate="COAUTHORED_WITH",
-                        object_id=obj,
-                        source_papers=[document_id],
-                        confidence=0.9,
-                        asserted_by="derived",
-                    )
-                )
 
     return new_entities, new_relationships

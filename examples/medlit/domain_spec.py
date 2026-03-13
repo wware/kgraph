@@ -372,20 +372,13 @@ PREDICATES: dict[str, PredicateSpec] = {
         specificity=2,
     ),
     "DESCRIBED": PredicateSpec(
-        description="Paper describes this entity (disease, drug, etc.).",
+        description="Paper describes this entity (top 2 by relationship count; central to paper).",
         subject_types=[PaperEntity],
         object_types=None,
         specificity=1,
     ),
-    "COAUTHORED_WITH": PredicateSpec(
-        description="Authors co-authored at least one paper.",
-        subject_types=[AuthorEntity],
-        object_types=[AuthorEntity],
-        specificity=2,
-        symmetric=True,
-    ),
     "IS_COLLEAGUE": PredicateSpec(
-        description="Authors are colleagues (e.g. same institution) from a source other than co-authorship. Do not create when COAUTHORED_WITH exists.",
+        description="Authors are colleagues (e.g. same institution) from a source other than co-authorship.",
         subject_types=[AuthorEntity],
         object_types=[AuthorEntity],
         specificity=2,

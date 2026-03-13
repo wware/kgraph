@@ -39,7 +39,7 @@ PROVENANCE_DENYLIST = frozenset(
 )
 
 # Predicates from provenance_expansion (no evidence_ids; paper metadata is the source)
-PROVENANCE_DERIVED_PREDICATES = frozenset({"AUTHORED", "AFFILIATED_WITH", "DESCRIBED", "COAUTHORED_WITH"})
+PROVENANCE_DERIVED_PREDICATES = frozenset({"AUTHORED", "AFFILIATED_WITH", "DESCRIBED"})
 
 
 def load_merged_output(merged_dir: Path) -> tuple[list[dict], list[dict], dict, dict]:

@@ -416,7 +416,7 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
             _, obj_class = _entity_name_class(bundle, rel.object_id)
             if _should_swap_relationship(rel.predicate, sub_class, obj_class, predicate_constraints, entity_class_to_lookup):
                 sub_c, obj_c = obj_c, sub_c
-            # Canonical ordering for symmetric predicates so COAUTHORED_WITH(A,B) and COAUTHORED_WITH(B,A) merge
+            # Canonical ordering for symmetric predicates (e.g. ASSOCIATED_WITH, IS_COLLEAGUE)
             pred_spec = _ds.PREDICATES.get(rel.predicate.upper()) or _ds.PREDICATES.get(rel.predicate)
             if pred_spec and getattr(pred_spec, "symmetric", False):
                 sub_c, obj_c = canonicalize_symmetric(sub_c, obj_c)

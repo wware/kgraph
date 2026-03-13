@@ -431,7 +431,7 @@ async def run_pass1(  # pylint: disable=too-many-statements
             relationships=relationships,
             notes=raw_bundle.get("notes", []),
         )
-        # Provenance expansion: Author, Institution, Paper + AUTHORED, AFFILIATED_WITH, DESCRIBED, COAUTHORED_WITH
+        # Provenance expansion: Author, Institution, Paper + AUTHORED, AFFILIATED_WITH, DESCRIBED (top 2)
         from examples.medlit.pipeline.provenance_expansion import expand_provenance
 
         exp_entities, exp_rels = expand_provenance(bundle)
