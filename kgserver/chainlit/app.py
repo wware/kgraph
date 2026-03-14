@@ -83,7 +83,17 @@ extract entities, find relationships, and surface evidence for clinical question
 Always cite the papers you draw evidence from when possible."""
 
 ORCHESTRATOR_SYSTEM_PROMPT = """You have tools to query a medical literature knowledge graph.
-Decide which tools to call to answer the user's question. Call tools as needed; when you have enough information, respond with a final answer."""
+Decide which tools to call to answer the user's question. Call tools as needed; when you have enough information, respond with a final answer.
+
+**Prefer bfs_subgraph** whenever exploring a neighborhood or connections is needed — whether the user explicitly asks for it or it arises as a step or subgoal in answering a broader question (e.g. "what drugs treat X?", "how does gene Y affect disease Z?"). It returns a subgraph via BFS and is more efficient than multiple get_entity/find_relationships calls.
+
+**bfs_subgraph usage:**
+- seeds: list of entity IDs to start from (required)
+- max_hops: graph distance from seeds (1–3 typical; 1=direct, 2=indirect, 3+ can be large)
+- node_filter: optional {"entity_types": ["Publication", "Disease", "Drug", ...]} — only these types get full metadata; others appear as stubs
+- edge_filter: optional {"predicates": ["AUTHORED", "TREATS", "INHIBITS", ...]} — only these edges get full provenance; others as stubs
+- If you don't have an entity ID yet, call search_entities first to resolve a name to an ID.
+- Stub nodes: {id, entity_type} only. Stub edges: {subject, predicate, object} only. Omitting a filter returns full data for all nodes or edges."""
 
 SYNTHESIS_SYSTEM_PROMPT = """You are an expert assistant. Answer the user's question ONLY using the retrieved knowledge graph evidence. Cite papers and sources when possible.
 
