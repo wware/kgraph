@@ -103,6 +103,51 @@ def _sanitize_source_documents(docs: list[str]) -> list[str]:
     return [d for d in docs if d and d not in _SOURCE_DOC_PLACEHOLDERS]
 
 
+def _entity_to_full_node(entity) -> dict[str, Any]:
+    """Convert storage Entity to full node dict for BFS subgraph response."""
+    return {
+        "id": entity.entity_id,
+        "entity_type": entity.entity_type,
+        "name": entity.name,
+        "status": entity.status,
+        "confidence": entity.confidence,
+        "usage_count": entity.usage_count,
+        "source": entity.source,
+        "canonical_url": entity.canonical_url,
+        "synonyms": entity.synonyms or [],
+        "properties": entity.properties or {},
+    }
+
+
+def _entity_to_stub_node(entity) -> dict[str, Any]:
+    """Convert storage Entity to stub node dict (identity only)."""
+    return {
+        "id": entity.entity_id,
+        "entity_type": entity.entity_type,
+    }
+
+
+def _relationship_to_full_edge(rel) -> dict[str, Any]:
+    """Convert storage Relationship to full edge dict for BFS subgraph response."""
+    return {
+        "subject": rel.subject_id,
+        "predicate": rel.predicate,
+        "object": rel.object_id,
+        "confidence": rel.confidence,
+        "source_documents": _sanitize_source_documents(rel.source_documents or []),
+        "properties": rel.properties or {},
+    }
+
+
+def _relationship_to_stub_edge(rel) -> dict[str, Any]:
+    """Convert storage Relationship to stub edge dict (topology only)."""
+    return {
+        "subject": rel.subject_id,
+        "predicate": rel.predicate,
+        "object": rel.object_id,
+    }
+
+
 def _relationship_to_edge(rel) -> GraphEdge:
     """Convert a storage Relationship to a GraphEdge."""
     # Create human-readable label from predicate
@@ -328,6 +373,60 @@ def _extract_subgraph_multi_seed(
     relationships = [rel for rel in collected_edges if rel.subject_id in visited_ids and rel.object_id in visited_ids]
 
     return entities, relationships, truncated
+
+
+def extract_subgraph_bfs(
+    storage: StorageInterface,
+    seed_ids: list[str],
+    hops: int = 2,
+    max_nodes: int = DEFAULT_MAX_NODES,
+    min_confidence: Optional[float] = None,
+    node_filter: Optional[dict[str, Any]] = None,
+    edge_filter: Optional[dict[str, Any]] = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], bool]:
+    """
+    Multi-seed BFS returning serialized nodes and edges with optional full/stub presentation.
+
+    Topology: BFS with min_confidence filter only (no predicate-based topology filtering).
+    Presentation: node_filter.entity_types and edge_filter.predicates control full vs stub.
+
+    Returns (nodes, edges, truncated).
+    """
+    hops = min(hops, MAX_HOPS)
+    max_nodes = min(max_nodes, MAX_NODES_LIMIT)
+
+    entities, relationships, truncated = _extract_subgraph_multi_seed(
+        storage,
+        seed_ids=seed_ids,
+        hops=hops,
+        max_nodes=max_nodes,
+        min_confidence=min_confidence,
+        predicate_set=None,
+    )
+
+    node_types_full: set[str] | None = None
+    if node_filter and node_filter.get("entity_types"):
+        node_types_full = {t.upper() for t in node_filter["entity_types"]}
+
+    edge_predicates_full: set[str] | None = None
+    if edge_filter and edge_filter.get("predicates"):
+        edge_predicates_full = {p.upper() for p in edge_filter["predicates"]}
+
+    nodes: list[dict[str, Any]] = []
+    for entity in entities:
+        if node_types_full is None or entity.entity_type.upper() in node_types_full:
+            nodes.append(_entity_to_full_node(entity))
+        else:
+            nodes.append(_entity_to_stub_node(entity))
+
+    edges: list[dict[str, Any]] = []
+    for rel in relationships:
+        if edge_predicates_full is None or rel.predicate.upper() in edge_predicates_full:
+            edges.append(_relationship_to_full_edge(rel))
+        else:
+            edges.append(_relationship_to_stub_edge(rel))
+
+    return nodes, edges, truncated
 
 
 def extract_full_graph(

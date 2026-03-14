@@ -368,6 +368,70 @@ def find_entities_within_hops(
 
 
 @mcp_server.tool()
+def bfs_subgraph(
+    seeds: list[str],
+    max_hops: int = 2,
+    topology_filter: Optional[dict] = None,
+    node_filter: Optional[dict] = None,
+    edge_filter: Optional[dict] = None,
+) -> dict:
+    """
+    Extract a subgraph via BFS from one or more seed entities.
+
+    Returns nodes and edges. Use node_filter.entity_types to request full metadata
+    for specific node types (others appear as stubs). Use edge_filter.predicates
+    to request full provenance for specific edge types (others appear as stubs).
+    Omitting a filter returns full data for all nodes or edges respectively.
+
+    If you do not yet have a canonical entity ID, call search_entities first.
+
+    Args:
+        seeds: Entity IDs to start BFS from (e.g. ['C0006142', 'C0085084'])
+        max_hops: Max graph distance from seeds (default 2, 1-3 typical)
+        node_filter: Optional dict with entity_types list for full node data
+        edge_filter: Optional dict with predicates list for full edge provenance
+
+    Returns:
+        Dict with seeds, max_hops, node_count, edge_count, truncated, nodes, edges.
+    """
+    from query.graph_traversal import extract_subgraph_bfs
+
+    if not seeds:
+        raise ValueError("seeds must not be empty")
+
+    with _get_storage() as storage:
+        unknown: list[str] = []
+        for eid in seeds:
+            if storage.get_entity(eid) is None:
+                unknown.append(eid)
+        if unknown:
+            raise ValueError(f"Unknown seed ID(s): {unknown}")
+
+        min_confidence = None
+        if topology_filter and "min_confidence" in topology_filter:
+            min_confidence = topology_filter["min_confidence"]
+
+        nodes, edges, truncated = extract_subgraph_bfs(
+            storage,
+            seed_ids=seeds,
+            hops=max_hops,
+            min_confidence=min_confidence,
+            node_filter=node_filter,
+            edge_filter=edge_filter,
+        )
+
+        return {
+            "seeds": seeds,
+            "max_hops": max_hops,
+            "node_count": len(nodes),
+            "edge_count": len(edges),
+            "truncated": truncated,
+            "nodes": nodes,
+            "edges": edges,
+        }
+
+
+@mcp_server.tool()
 async def ingest_paper(url: str) -> dict:
     """
     Ingest a medical paper from a URL into the knowledge graph.

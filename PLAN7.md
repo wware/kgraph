@@ -1,6 +1,6 @@
 # PLAN7: Unified BFS Subgraph with JSON API and MCP Tool
 
-**Status:** Not started.
+**Status:** Implemented.
 
 **Goal:** Unify the BFS subgraph implementation with orthogonal topology and presentation filters, add an LLM-friendly JSON POST endpoint, and expose a `bfs_subgraph` MCP tool. Support both "pruned" (topology-filtered) and "stubbed" (presentation-filtered) behavior in a single code path.
 

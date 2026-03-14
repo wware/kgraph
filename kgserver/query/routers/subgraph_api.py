@@ -17,7 +17,36 @@ from storage.models.relationship import Relationship
 
 from ..storage_factory import get_storage
 from ..subgraph import resolve_seeds, extract_subgraph_rest
-from ..graph_traversal import MAX_HOPS, MAX_NODES_LIMIT, DEFAULT_MAX_NODES, _sanitize_source_documents
+from ..graph_traversal import (
+    MAX_HOPS,
+    MAX_NODES_LIMIT,
+    DEFAULT_MAX_NODES,
+    _sanitize_source_documents,
+    extract_subgraph_bfs,
+)
+
+
+class BfsSubgraphRequest(BaseModel):
+    """JSON body for BFS subgraph POST."""
+
+    seeds: list[str]
+    max_hops: int = Field(ge=1, le=5)
+    max_nodes: int = Field(default=500, ge=1, le=MAX_NODES_LIMIT)
+    topology_filter: Optional[dict] = None
+    node_filter: Optional[dict] = None
+    edge_filter: Optional[dict] = None
+
+
+class BfsSubgraphResponse(BaseModel):
+    """BFS subgraph response with nodes and edges (full or stub)."""
+
+    seeds: list[str]
+    max_hops: int
+    node_count: int
+    edge_count: int
+    truncated: bool
+    nodes: list[dict]
+    edges: list[dict]
 
 
 class SubgraphQueryEcho(BaseModel):
@@ -41,6 +70,59 @@ class SubgraphResponse(BaseModel):
 
 
 router = APIRouter(prefix="/api/v1/subgraph", tags=["Subgraph"])
+
+
+@router.post(
+    "",
+    response_model=BfsSubgraphResponse,
+    summary="BFS subgraph with JSON body",
+    description="""
+Return a subgraph via BFS from seed entities. Accepts JSON body with seeds, max_hops,
+and optional node_filter/edge_filter for full vs stub serialization.
+If any seed ID does not exist, returns 400.
+""",
+)
+async def post_bfs_subgraph(
+    body: BfsSubgraphRequest,
+    storage: StorageInterface = Depends(get_storage),
+) -> BfsSubgraphResponse:
+    """POST BFS subgraph with JSON body."""
+    if not body.seeds:
+        raise HTTPException(status_code=400, detail="seeds must not be empty")
+
+    unknown: list[str] = []
+    for eid in body.seeds:
+        if storage.get_entity(eid) is None:
+            unknown.append(eid)
+    if unknown:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unknown seed ID(s): {unknown}",
+        )
+
+    min_confidence = None
+    if body.topology_filter and "min_confidence" in body.topology_filter:
+        min_confidence = body.topology_filter["min_confidence"]
+
+    nodes, edges, truncated = extract_subgraph_bfs(
+        storage,
+        seed_ids=body.seeds,
+        hops=body.max_hops,
+        max_nodes=body.max_nodes,
+        min_confidence=min_confidence,
+        node_filter=body.node_filter,
+        edge_filter=body.edge_filter,
+    )
+
+    return BfsSubgraphResponse(
+        seeds=body.seeds,
+        max_hops=body.max_hops,
+        node_count=len(nodes),
+        edge_count=len(edges),
+        truncated=truncated,
+        nodes=nodes,
+        edges=edges,
+    )
 
 
 @router.get(
