@@ -229,7 +229,7 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
             async with httpx.AsyncClient(timeout=60.0) as client:
                 resp = await client.get(efetch_url)
                 resp.raise_for_status()
-                input_path = input_dir / "paper.xml"
+                input_path = input_dir / f"{pmcid}.xml"
                 input_path.write_bytes(resp.content)
             logger.info(
                 "Ingest job %s: fetched PMC XML in %.1fs, %s bytes",
@@ -242,7 +242,8 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
                 resp = await client.get(url)
                 resp.raise_for_status()
                 suffix = ".xml" if "xml" in (resp.headers.get("content-type") or "").lower() else ".json"
-                input_path = input_dir / f"paper{suffix}"
+                url_stem = re.sub(r"[^\w-]", "_", url.rstrip("/").split("/")[-1]) or "paper"
+                input_path = input_dir / f"{url_stem}{suffix}"
                 input_path.write_bytes(resp.content)
             logger.info(
                 "Ingest job %s: fetched URL in %.1fs, %s bytes -> %s",
