@@ -182,6 +182,15 @@ class SimpleDomainSchema(DomainSchema):
         """
         return await super().validate_relationship(relationship, entity_storage=entity_storage)
 
+    def preferred_entity(self, candidates: list[BaseEntity]) -> BaseEntity:
+        from kgschema.entity import EntityStatus
+
+        def sort_key(e: BaseEntity) -> tuple:
+            is_canonical = e.status == EntityStatus.CANONICAL
+            return (is_canonical, e.usage_count, -e.created_at.timestamp())
+
+        return max(candidates, key=sort_key)
+
     def get_promotion_policy(self, lookup=None) -> PromotionPolicy:
         return SimplePromotionPolicy(config=self.promotion_config)
 

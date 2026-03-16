@@ -58,6 +58,15 @@ class EntityStatus(str, Enum):
     collection. Once usage thresholds are met, they can be promoted.
     """
 
+    MERGED = "merged"
+    """Entity has been absorbed into another entity via a merge operation.
+
+    Merged entities are retained (not deleted) so that stale external
+    references can be resolved via a single redirect lookup using the
+    `merged_into` field. They are excluded from normal queries but
+    remain resolvable for provenance and backwards compatibility.
+    """
+
 
 class PromotionConfig(BaseModel, frozen=True):
     """Configuration for promoting provisional entities to canonical status.
@@ -155,6 +164,10 @@ class BaseEntity(ABC, BaseModel):
     )
     created_at: datetime = Field(description="Timestamp when the entity was first created.")
     source: str = Field(description="Origin indicator (e.g., document ID, extraction pipeline).")
+    merged_into: str | None = Field(
+        default=None,
+        description="If status is MERGED, the entity_id of the survivor. None otherwise.",
+    )
     metadata: dict = Field(
         default_factory=dict,
         description="Domain-specific metadata.",

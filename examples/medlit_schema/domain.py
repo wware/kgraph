@@ -200,5 +200,15 @@ class MedlitDomain(DomainSchema):
         except ValueError:
             return False
 
+    def preferred_entity(self, candidates: list[BaseEntity]) -> BaseEntity:
+        from kgschema.entity import EntityStatus
+
+        def sort_key(e: BaseEntity) -> tuple:
+            is_canonical = e.status == EntityStatus.CANONICAL
+            has_authority = bool(e.canonical_ids)
+            return (is_canonical, has_authority, e.usage_count, -e.created_at.timestamp())
+
+        return max(candidates, key=sort_key)
+
     def get_promotion_policy(self, lookup=None) -> PromotionPolicy:
         return MedlitPromotionPolicy(self.promotion_config)

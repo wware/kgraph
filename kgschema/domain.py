@@ -475,6 +475,36 @@ class DomainSchema(ABC):
                    external lookups can use this to pass the service to the policy.
         """
 
+    @abstractmethod
+    def preferred_entity(self, candidates: list[BaseEntity]) -> BaseEntity:
+        """Return the preferred survivor when merging a set of synonym candidates.
+
+        Called by the identity server's ``on_entity_added`` hook after
+        ``find_synonyms`` returns candidates. The domain implements its own
+        preference rules, for example:
+
+        - Prefer canonical over provisional (a canonical entity already has a
+          stable external ID and should not be displaced by a provisional one)
+        - Among entities of equal status, prefer the one with the highest
+          ``usage_count`` (more evidence)
+        - Prefer the entity with an authoritative ``canonical_ids`` entry
+          (e.g. a UMLS CUI or MeSH term) over one without
+
+        The returned entity must be a member of ``candidates``. The caller
+        passes its ``entity_id`` as ``survivor_id`` to ``IdentityServer.merge``.
+
+        Parameters
+        ----------
+        candidates:
+            Non-empty list of entities identified as synonyms. Guaranteed to
+            contain at least two elements when called from ``on_entity_added``.
+
+        Returns
+        -------
+        BaseEntity
+            The entity that should survive the merge.
+        """
+
     @property
     def evidence_model(self) -> type[Evidence]:
         """Return the domain's version of Evidence

@@ -19,6 +19,7 @@ from kgschema.document import BaseDocument
 from kgschema.spec import EntitySpec, EvidenceSpec, MentionsSpec, PredicateSpec
 from kgschema.domain import DomainSchema
 from kgschema.entity import BaseEntity, EntityMention, EntityStatus, PromotionConfig
+from kgschema.identity import IdentityServer
 from kgschema.promotion import PromotionPolicy
 from kgschema.relationship import BaseRelationship
 from kgschema.storage import (
@@ -41,6 +42,7 @@ __all__ = [
     "EntityMention",
     "EntityStatus",
     "EntityStorageInterface",
+    "IdentityServer",
     "PromotionConfig",
     "PromotionPolicy",
     "RelationshipStorageInterface",

@@ -156,6 +156,22 @@ class SherlockDomainSchema(DomainSchema):
             require_embedding=False,
         )
 
+    def preferred_entity(self, candidates: list[BaseEntity]) -> BaseEntity:
+        """Select the merge survivor from a set of synonym candidates.
+
+        Preference order (highest wins):
+        1. Canonical status over provisional
+        2. Higher ``usage_count`` (more evidence)
+        3. Earlier ``created_at`` (stable, long-lived entity)
+        """
+        from kgschema.entity import EntityStatus
+
+        def sort_key(e: BaseEntity) -> tuple:
+            is_canonical = e.status == EntityStatus.CANONICAL
+            return (is_canonical, e.usage_count, -e.created_at.timestamp())
+
+        return max(candidates, key=sort_key)
+
     def get_promotion_policy(self, lookup=None) -> PromotionPolicy:
         return SherlockPromotionPolicy(self.promotion_config)
 

@@ -72,6 +72,10 @@ class TestDomainSchema(DomainSchema):
             )]
         return []
 
+    def preferred_entity(self, candidates: list[BaseEntity]) -> BaseEntity:
+        """Not needed for these tests; return first candidate."""
+        return candidates[0]
+
     def get_promotion_policy(self, lookup=None):
         """Not needed for these tests."""
         return None
