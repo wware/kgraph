@@ -25,8 +25,6 @@ design rationale, locking strategy, and merge × promotion status rules.
 import logging
 from abc import ABC, abstractmethod
 
-from kgschema.entity import BaseEntity
-
 logger = logging.getLogger(__name__)
 
 

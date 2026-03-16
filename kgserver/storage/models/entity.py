@@ -21,3 +21,12 @@ class Entity(SQLModel, table=True):
     canonical_url: Optional[str] = Field(default=None, description="URL to the authoritative source for this entity")
     synonyms: List[str] = Field(default=[], sa_column=Column(JSON))
     properties: dict[str, Any] = Field(default={}, sa_column=Column(JSON))
+    merged_into: Optional[str] = Field(
+        default=None,
+        description="If status='merged', the entity_id of the survivor. NULL otherwise.",
+    )
+    embedding: Optional[List[float]] = Field(
+        default=None,
+        sa_column=Column(JSON),
+        description="Semantic embedding vector for pgvector similarity search.",
+    )
