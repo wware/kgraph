@@ -162,3 +162,200 @@ redis:
 Add `REDIS_URL: redis://redis:6379` to the `mcpserver` environment. Use
 `redis.asyncio` (included in the `redis` Python package) for async lock
 acquisition in the worker.
+
+---
+
+## Identity Server Specification
+
+### Purpose
+
+The identity server is the authoritative component for entity identity across
+the knowledge graph. Its responsibilities are:
+
+1. **Canonical ID assignment** — resolving a mention to a canonical entity,
+   creating a provisional entity if no canonical match is found.
+2. **Promotion** — elevating a provisional entity to canonical status when
+   domain-defined thresholds are met.
+3. **Synonym recognition** — detecting when two entities refer to the same
+   real-world concept.
+4. **Merging** — collapsing two canonical entities into one, redirecting all
+   references from the absorbed entity to the survivor.
+
+The identity server must be correct under concurrent access from multiple
+worker processes and multiple server replicas. It must be available at both
+ingestion time (during MCP tool calls) and query time (during chat sessions,
+where ingestion may also be occurring simultaneously).
+
+---
+
+### Abstract Interface
+
+```python
+from abc import ABC, abstractmethod
+from typing import Optional
+
+class IdentityServer(ABC):
+
+    @abstractmethod
+    async def resolve(self, mention: str, context: dict) -> str:
+        """
+        Resolve a mention string to an entity ID.
+
+        Performs authority lookup (domain-defined) and returns a canonical ID
+        if one is found, otherwise creates and returns a new provisional ID.
+        This operation must be idempotent: resolving the same mention twice
+        returns the same ID.
+
+        Parameters
+        ----------
+        mention:
+            The surface form of the entity mention.
+        context:
+            Domain-defined context (e.g. document ID, domain name, metadata)
+            used by authority lookup and synonym detection.
+
+        Returns
+        -------
+        str
+            A canonical or provisional entity ID.
+        """
+
+    @abstractmethod
+    async def promote(self, provisional_id: str) -> str:
+        """
+        Attempt to promote a provisional entity to canonical status.
+
+        The domain-defined promotion policy determines whether promotion is
+        warranted. If the entity is already canonical, this is a no-op and
+        returns the existing canonical ID. This operation must be idempotent.
+
+        Returns
+        -------
+        str
+            The canonical ID (new or pre-existing).
+        """
+
+    @abstractmethod
+    async def find_synonyms(self, entity_id: str) -> list[str]:
+        """
+        Return the IDs of entities considered synonymous with the given entity.
+
+        Synonym criteria are domain-defined (e.g. semantic vector similarity,
+        shared external identifier, string normalization). This method does not
+        perform any merges; it only reports candidates.
+        """
+
+    @abstractmethod
+    async def merge(self, entity_ids: list[str], survivor_id: str) -> str:
+        """
+        Merge a set of entities into a single survivor.
+
+        All references (relationships, mentions, bundle edges) that point to
+        any absorbed entity must be redirected to the survivor. Absorbed
+        entities are marked as merged (not deleted) so that incoming external
+        references remain resolvable via redirect.
+
+        The choice of survivor is determined by the caller (typically the
+        domain's merge policy). This operation must be idempotent: merging
+        already-merged entities is a no-op.
+
+        Parameters
+        ----------
+        entity_ids:
+            The full set of IDs to unify, including the survivor.
+        survivor_id:
+            The ID that will remain canonical after the merge. Must be a
+            member of entity_ids.
+
+        Returns
+        -------
+        str
+            The survivor ID.
+        """
+
+    @abstractmethod
+    async def on_entity_added(self, entity_id: str, context: dict) -> None:
+        """
+        Event hook called whenever an entity is added or updated.
+
+        Implementations use this to trigger synonym detection and, if
+        candidates are found, to call find_synonyms and (if the domain
+        policy approves) merge. This event-driven model subsumes batch
+        synonym sweeps: a batch sweep is equivalent to replaying
+        on_entity_added for every entity in the store.
+        """
+```
+
+---
+
+### Domain-Defined Pluggable Behavior
+
+The identity server ABC deliberately leaves the following decisions to the
+domain:
+
+| Concern | Where it lives | Notes |
+|---|---|---|
+| Authority lookup | Domain implementation | e.g. UMLS API, DBPedia SPARQL, no-op |
+| Synonym criteria | Domain implementation | e.g. cosine similarity threshold, shared CUI |
+| Merge survivor selection | Caller / domain policy | The ABC accepts an explicit `survivor_id` |
+| Promotion thresholds | Domain promotion policy | Reuses existing `PromotionPolicy` ABC |
+
+---
+
+### Recommended Implementation: Postgres-Backed
+
+The reference implementation should use Postgres as the backing store. Postgres
+is preferred because:
+
+- It is already in the stack.
+- Row-level locking (`SELECT FOR UPDATE`) and advisory locks provide
+  cross-replica atomicity without an additional service.
+- Transactions give free idempotency for insert/update operations via
+  `INSERT ... ON CONFLICT DO NOTHING` and `UPDATE ... WHERE status != 'merged'`.
+
+#### Locking strategy
+
+- **`resolve`**: use `INSERT ... ON CONFLICT DO NOTHING` on the entity table's
+  unique mention/domain key. No explicit lock needed; Postgres serializes
+  conflicting inserts.
+- **`promote`**: use `SELECT FOR UPDATE` on the provisional entity row, then
+  check-and-update within the same transaction.
+- **`merge`**: acquire a Postgres advisory lock keyed on the sorted pair of
+  entity IDs before beginning the merge transaction. This prevents two workers
+  from merging the same pair in opposite orders.
+- **`on_entity_added`**: runs synonym detection outside a transaction (read-only
+  queries), then calls `merge` for each confirmed pair (which acquires its own
+  lock).
+
+#### Schema notes (deferred to implementer)
+
+The distinction between canonical and provisional entities may be represented
+as a status column on a single `entities` table (preferred: simpler joins,
+single index) or as two separate tables. That decision is left to the
+implementer, but the single-table approach is recommended.
+
+Merged entities should be retained with `status = 'merged'` and a
+`merged_into` foreign key, so that stale external references can be resolved
+via a single lookup.
+
+#### Idempotency contract
+
+Every mutating operation must be safe to call more than once with the same
+arguments, as workers may retry after transient failures. The Postgres
+implementation satisfies this via:
+
+- `ON CONFLICT DO NOTHING` for creation.
+- Conditional updates (`WHERE status = 'provisional'`) for promotion.
+- Advisory lock + existence check before merge transactions.
+
+---
+
+### Relationship to Existing Concurrency Issues
+
+The identity server subsumes the root causes of Issues 1 and 2 in this
+document. Once canonical ID assignment and provisional entity tracking move
+into Postgres under this interface, the `vocab.json` file and its associated
+race (Issue 1) can be eliminated. Issue 2 (same-pmcid collision) becomes a
+special case of `resolve` idempotency. Issue 3 (partial bundle write) remains
+a file-layer concern and is addressed independently by the atomic
+write-then-rename fix.
