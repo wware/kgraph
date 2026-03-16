@@ -3,14 +3,17 @@
 ## Contents
 
 - [CLAUDE.md](#user-content-claudemd)
+- [CONCURRENCY.md](#user-content-concurrencymd)
 - [PLAN.md](#user-content-planmd)
 - [PLAN2.md](#user-content-plan2md)
 - [PLAN3.md](#user-content-plan3md)
 - [PLAN4.md](#user-content-plan4md)
 - [PLAN5.md](#user-content-plan5md)
 - [PLAN6.md](#user-content-plan6md)
+- [PLAN7.md](#user-content-plan7md)
 - [README.md](#user-content-readmemd)
 - [TODO.md](#user-content-todomd)
+- [bfsql.md](#user-content-bfsqlmd)
 - [docs/adapting-to-your-domain.md](#user-content-docsadapting-to-your-domainmd)
 - [docs/architecture.md](#user-content-docsarchitecturemd)
 - [docs/canonical-ids-and-entity-resolution.md](#user-content-docscanonical-ids-and-entity-resolutionmd)
@@ -119,6 +122,7 @@
 - [kgschema/document.py](#user-content-kgschemadocumentpy)
 - [kgschema/domain.py](#user-content-kgschemadomainpy)
 - [kgschema/entity.py](#user-content-kgschemaentitypy)
+- [kgschema/identity.py](#user-content-kgschemaidentitypy)
 - [kgschema/promotion.py](#user-content-kgschemapromotionpy)
 - [kgschema/relationship.py](#user-content-kgschemarelationshippy)
 - [kgschema/spec.py](#user-content-kgschemaspecpy)
@@ -143,6 +147,7 @@
 - [kgserver/query/subgraph.py](#user-content-kgserverquerysubgraphpy)
 - [kgserver/storage/__init__.py](#user-content-kgserverstorageinitpy)
 - [kgserver/storage/backends/__init__.py](#user-content-kgserverstoragebackendsinitpy)
+- [kgserver/storage/backends/identity.py](#user-content-kgserverstoragebackendsidentitypy)
 - [kgserver/storage/backends/postgres.py](#user-content-kgserverstoragebackendspostgrespy)
 - [kgserver/storage/backends/sqlite.py](#user-content-kgserverstoragebackendssqlitepy)
 - [kgserver/storage/interfaces.py](#user-content-kgserverstorageinterfacespy)
@@ -154,6 +159,8 @@
 - [kgserver/storage/models/mention.py](#user-content-kgserverstoragemodelsmentionpy)
 - [kgserver/storage/models/relationship.py](#user-content-kgserverstoragemodelsrelationshippy)
 - [kgserver/tests/conftest.py](#user-content-kgservertestsconftestpy)
+- [kgserver/tests/test_bfs_subgraph.py](#user-content-kgserverteststestbfssubgraphpy)
+- [kgserver/tests/test_bfs_subgraph_mcp.py](#user-content-kgserverteststestbfssubgraphmcppy)
 - [kgserver/tests/test_bundle_loader.py](#user-content-kgserverteststestbundleloaderpy)
 - [kgserver/tests/test_find_entities_within_hops.py](#user-content-kgserverteststestfindentitieswithinhopspy)
 - [kgserver/tests/test_graph_api.py](#user-content-kgserverteststestgraphapipy)
@@ -165,7 +172,10 @@
 - [kgserver/tests/test_storage_backends.py](#user-content-kgserverteststeststoragebackendspy)
 - [kgserver/tests/test_storage_factory.py](#user-content-kgserverteststeststoragefactorypy)
 - [kgserver/tests/test_storage_provenance.py](#user-content-kgserverteststeststorageprovenancepy)
+- [kgserver/tests/test_subgraph_api.py](#user-content-kgserverteststestsubgraphapipy)
 - [medlit_bundle/docs/README.md](#user-content-medlitbundledocsreadmemd)
+- [sherlock_design.md](#user-content-sherlockdesignmd)
+- [summarize_codebase.py](#user-content-summarizecodebasepy)
 - [summary.md](#user-content-summarymd)
 - [tests/__init__.py](#user-content-testsinitpy)
 - [tests/conftest.py](#user-content-testsconftestpy)
@@ -182,6 +192,7 @@
 - [tests/test_medlit_entities.py](#user-content-teststestmedlitentitiespy)
 - [tests/test_medlit_relationships.py](#user-content-teststestmedlitrelationshipspy)
 - [tests/test_paper_model.py](#user-content-teststestpapermodelpy)
+- [tests/test_pass1_llm.py](#user-content-teststestpass1llmpy)
 - [tests/test_pipeline_integration.py](#user-content-teststestpipelineintegrationpy)
 - [tests/test_pmc_chunker.py](#user-content-teststestpmcchunkerpy)
 - [tests/test_pmc_streaming.py](#user-content-teststestpmcstreamingpy)
@@ -209,6 +220,23 @@ Knowledge graph system for extracting entities and relationships from documents 
 
 1. **Pass 1 (Entity Extraction)**: Extract entities from documents, assign canonical IDs where appropriate (UMLS for medical, DBPedia URIs cross-domain, etc.)
 2. **Pass 2 (Relationship Extraction)**: Identify edges/relationships between entities, produce per-document JSON with edges and provisional entities
+
+    ...
+
+<span id="user-content-concurrencymd"></span>
+
+# CONCURRENCY.md
+
+# Concurrency Issues in `ingest_paper` at Scale
+
+This document identifies concurrency hazards in the `ingest_paper` MCP tool and
+proposes mitigations for each. The context is a future production system with
+thousands of simultaneous users, each potentially triggering paper ingestion at
+the same time.
+
+## Background
+
+The `ingest_paper` MCP tool (implemented in `kgserver/mcp_server/ingest_worker.py`)
 
     ...
 
@@ -309,6 +337,22 @@ Consolidate all domain-specific configuration into a single Python module, `doma
 
     ...
 
+<span id="user-content-plan7md"></span>
+
+# PLAN7.md
+
+# PLAN7: Unified BFS Subgraph with JSON API and MCP Tool
+
+**Status:** Implemented.
+
+**Goal:** Unify the BFS subgraph implementation with orthogonal topology and presentation filters, add an LLM-friendly JSON POST endpoint, and expose a `bfs_subgraph` MCP tool. Support both "pruned" (topology-filtered) and "stubbed" (presentation-filtered) behavior in a single code path.
+
+---
+
+## Terminology
+
+    ...
+
 <span id="user-content-readmemd"></span>
 
 # README.md
@@ -339,6 +383,22 @@ Items left from PLAN2.md after the initial implementation. See PLAN2.md and inge
 ## Phase D (remaining)
 
 ### D2: Study design trust signal (per-paper) ✅ **DONE**
+
+    ...
+
+<span id="user-content-bfsqlmd"></span>
+
+# bfsql.md
+
+# KGServer BFS Query Language
+
+## Overview
+
+The BFS query ([breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search)) provides a single, general-purpose mechanism for retrieving subgraphs from the
+knowledge graph. It is designed to be constructed easily by an LLM while minimizing unnecessary
+context window consumption in the response.
+
+The design separates two orthogonal concerns:
 
     ...
 
@@ -613,6 +673,7 @@ Author with optional affiliations.
 ```python
 name: str
 affiliations: list[str]
+affiliation_rors: list[str]
 ```
 
 ## `class PaperInfo(BaseModel)`
@@ -839,6 +900,16 @@ Return predicates valid between two entity types.
 
 Uses the vocabulary validation function to enforce domain-specific
 constraints on which relationships are semantically valid.
+
+### `def MedLitDomainSchema.preferred_entity(self, candidates: list[BaseEntity]) -> BaseEntity`
+
+Select the merge survivor from a set of synonym candidates.
+
+Preference order (highest wins):
+1. Canonical status over provisional
+2. Presence of an authoritative ``canonical_ids`` entry (UMLS, HGNC, etc.)
+3. Higher ``usage_count`` (more evidence)
+4. Earlier ``created_at`` (stable, long-lived entity)
 
 ### `def MedLitDomainSchema.get_promotion_policy(self, lookup: CanonicalIdLookup | None = None) -> PromotionPolicy`
 
@@ -1372,6 +1443,23 @@ Returns:
 
 Look up UniProt ID for a protein.
 
+### `async def CanonicalIdLookup._lookup_ror(self, term: str) -> Optional[str]`
+
+Look up ROR ID for a research institution using the affiliation endpoint.
+
+Uses the ROR affiliation-matching endpoint which is designed for messy
+affiliation strings (e.g. department names, abbreviations, addresses).
+Returns a ROR ID (format "ROR:{id}") for confident matches only.
+No authentication required.
+
+### `async def CanonicalIdLookup._lookup_orcid(self, term: str) -> Optional[str]`
+
+Look up ORCID iD for a researcher by name using the ORCID public API.
+
+Uses the ORCID public search API (no authentication required for search).
+Returns an ORCID iD (format "ORCID:0000-0001-2345-6789") when a single
+unambiguous result is found for the name.
+
 ### `def CanonicalIdLookup._dbpedia_label_matches(self, term: str, label: str) -> bool`
 
 Check if a DBPedia label is a good match for the search term.
@@ -1553,6 +1641,10 @@ Semantics:
 - total_mentions: sum of evidence_ids across all relationships where the entity appears (subject or object).
 Large gaps (e.g. usage_count=7, total_mentions=65) are expected when an entity appears many times within a few papers.
 
+### `def _credit_entity(merge_key: str | None, evidence_id: str | None) -> None`
+
+Credit merge_key with one mention from paper_id.
+
 ### `def _merged_entity_to_entity_row(ent: dict, usage: dict[str, Any], created_at: str) -> EntityRow`
 
 Convert merged entity dict to EntityRow.
@@ -1704,11 +1796,19 @@ Map bundle entity_class to CanonicalIdLookup entity_type (lowercase).
 
 Derive bundle_class -> lookup_type from domain_spec.NORMALIZED_TO_BUNDLE.
 
-### `def _should_swap_relationship(predicate: str, subject_class: str, object_class: str, predicate_constraints: dict[str, Any], entity_class_to_lookup: dict[str, str]) -> bool`
+### `def _build_entity_class_to_predicate_type() -> dict[str, str]`
+
+Bundle_class -> entity type for predicate constraint checks (no authority overrides).
+
+Authority overrides (e.g. Hormone->drug) are for UMLS/RxNorm lookup, not for
+predicate semantics. CAUSES(hormone, symptom) requires Hormone->hormone.
+
+### `def _should_swap_relationship(predicate: str, subject_class: str, object_class: str, predicate_constraints: dict[str, Any], entity_class_to_lookup: dict[str, str], entity_class_to_predicate_type: dict[str, str]) -> bool`
 
 Return True if subject and object should be swapped to satisfy predicate constraints.
 
 Fixes backwards relationships from Pass 1 LLM (e.g. disease treats drug -> drug treats disease).
+Uses entity_class_to_predicate_type (no authority overrides) for semantic type checks.
 
 ### `def _canonical_id_slug() -> str`
 
@@ -1727,13 +1827,22 @@ Args:
     similarity_threshold: Min cosine similarity for same-class provisional merge (default 0.88).
     cross_type_threshold: Min similarity for cross-type candidate flagging (default 0.90).
 
-### `def _run_pass2_impl(bundle_dir: Path, output_dir: Path, synonym_cache_path: Path, cache: dict, lookup: Any, embedding_generator: Any = None, similarity_threshold: float = 0.88, cross_type_threshold: float = 0.9, entity_class_to_lookup: Optional[dict[str, str]] = None) -> dict[str, Any]`
+### `def _run_pass2_impl(bundle_dir: Path, output_dir: Path, synonym_cache_path: Path, cache: dict, lookup: Any, embedding_generator: Any = None, similarity_threshold: float = 0.88, cross_type_threshold: float = 0.9, entity_class_to_lookup: Optional[dict[str, str]] = None, entity_class_to_predicate_type: Optional[dict[str, str]] = None) -> dict[str, Any]`
 
 Inner Pass 2 implementation (lookup created and saved by caller).
 
 ### `def _populate_name_index(cid: str, n: str, ec: str) -> None`
 
 Add (normalized_name, entity_class) -> cid for name, synonyms, and spelling-normalized forms.
+
+### `def _resolve_by_name(name: str) -> Optional[str]`
+
+Fuzzy fallback: resolve a free-form name string to a canonical ID.
+
+When the LLM writes a relationship subject/object as a plain name (e.g.
+"FOLFIRINOX") rather than the entity ID it assigned ("mfolfirinox"),
+local_to_canonical misses. This searches name_type_to_canonical across
+all entity classes using exact, normalized, and synonym matches.
 
 
 <span id="user-content-examplesmedlitpipelinementionspy"></span>
@@ -2145,7 +2254,10 @@ Return Institution:{normalized} where normalized = first 50 chars, lowercased, n
 
 ### `def expand_provenance(bundle: PerPaperBundle) -> tuple[list[ExtractedEntityRow], list[RelationshipRow]]`
 
-Derive Author, Institution, Paper entities and AUTHORED, AFFILIATED_WITH, DESCRIBED, COAUTHORED_WITH from metadata.
+Derive Author, Institution, Paper entities and AUTHORED, AFFILIATED_WITH, DESCRIBED from metadata.
+
+DESCRIBED is limited to the top 2 domain entities by relationship count (central to the paper).
+COAUTHORED_WITH is omitted; derive via AUTHORED hops (Author -> Paper <- Author).
 
 
 <span id="user-content-examplesmedlitpipelinerelationshipspy"></span>
@@ -2410,8 +2522,8 @@ Shared utilities for medlit pipeline.
 
 Return (min, max) of subject and object for deterministic symmetric edge storage.
 
-Used by provenance_expansion and dedup so COAUTHORED_WITH(A,B) and
-COAUTHORED_WITH(B,A) produce identical (subject, object_id).
+Used by dedup so symmetric predicates (e.g. ASSOCIATED_WITH) produce
+identical (subject, object_id) regardless of order.
 
 
 <span id="user-content-examplesmedlitpromotionpy"></span>
@@ -2598,7 +2710,15 @@ Usage:
 
 ### `def _fix_evidence_paper_id(evidence_id: str, paper_id: str) -> str`
 
-Replace placeholder paper_id in evidence ID (format paper_id:section:idx:method) with actual.
+Replace placeholder or hallucinated paper_id in evidence ID with actual.
+
+When processing paper X, the only valid paper_id in evidence is X. Replace:
+- Placeholders (PMC_UNKNOWN, paper_id, PMC11000000, etc.)
+- PMC IDs that are not the current paper (hallucinated citations)
+
+### `def _replace_current_paper_in_bundle(obj: Any, paper_id: str) -> None`
+
+Recursively replace ==CURRENT_PAPER== with paper_id in dict/list/str (mutates in place).
 
 ### `def _git_info() -> dict`
 
@@ -3172,6 +3292,34 @@ Real paper IDs are left as-is.
 
 Evidence IDs without colon are returned unchanged.
 
+### `def TestFixEvidencePaperId.test_pmc11000000_replaced(self)`
+
+PMC11000000 placeholder is replaced.
+
+### `def TestFixEvidencePaperId.test_current_paper_replaced(self)`
+
+==CURRENT_PAPER== placeholder is replaced.
+
+### `def TestFixEvidencePaperId.test_hallucinated_pmc_replaced(self)`
+
+PMC ID from citation/hallucination (not current paper) is replaced.
+
+### `def TestFixEvidencePaperId.test_current_paper_unchanged(self)`
+
+Evidence with correct current paper_id is left as-is.
+
+## `class TestReplaceCurrentPaperInBundle`
+
+Global replace of ==CURRENT_PAPER== in raw bundle before parsing.
+
+### `def TestReplaceCurrentPaperInBundle.test_replaces_in_evidence_ids(self)`
+
+==CURRENT_PAPER== in evidence_entities and relationships is replaced.
+
+### `def TestReplaceCurrentPaperInBundle.test_leaves_other_strings_unchanged(self)`
+
+Strings without ==CURRENT_PAPER== are unchanged.
+
 
 <span id="user-content-examplesmedlitteststestpass3bundlebuilderpy"></span>
 
@@ -3234,6 +3382,10 @@ Entities with only PMC_UNKNOWN in supporting_documents get usage_count 0.
 ### `def test_zero_mention_orphan_dropped(tmp_path)`
 
 Entity in relationship but with no evidence_ids gets usage_count 0 and is dropped.
+
+### `def test_provenance_derived_entities_retained(tmp_path)`
+
+Paper, Author, Institution from provenance_expansion (no evidence_ids) get usage_count and are retained.
 
 ### `def test_run_pass3_copies_sources_when_pmc_xmls_dir_provided(tmp_path)`
 
@@ -3298,9 +3450,13 @@ canonicalize_symmetric returns (min, max) for deterministic storage.
 
 expand_provenance produces Author, Institution, Paper entities and derived relationships.
 
+### `def test_expand_provenance_described_top_two_by_relationship_count() -> None`
+
+DESCRIBED is limited to top 2 domain entities by relationship count.
+
 ### `def test_expand_provenance_skips_author_institution_evidence() -> None`
 
-DESCRIBED is not created for Author, Institution, Evidence entities.
+DESCRIBED excludes Author, Institution, Evidence; only domain entities considered.
 
 
 <span id="user-content-examplesmedlitteststesttwopassingestionpy"></span>
@@ -5039,6 +5195,15 @@ A Sherlock Holmes story document.
 ### `def SherlockDomainSchema.predicate_constraints(self) -> dict[str, PredicateConstraint]`
 
 Define predicate constraints for the Sherlock domain.
+
+### `def SherlockDomainSchema.preferred_entity(self, candidates: list[BaseEntity]) -> BaseEntity`
+
+Select the merge survivor from a set of synonym candidates.
+
+Preference order (highest wins):
+1. Canonical status over provisional
+2. Higher ``usage_count`` (more evidence)
+3. Earlier ``created_at`` (stable, long-lived entity)
 
 
 <span id="user-content-examplessherlockpipelineembeddingspy"></span>
@@ -7470,6 +7635,9 @@ Return a single JSON object (e.g. per-paper bundle).
 
 Extract and parse a JSON object from response text.
 
+Brace counting skips { and } inside JSON string literals so that text spans
+containing braces (e.g. "The {gene} increases risk") do not break parsing.
+
 ## `class AnthropicPass1LLM(Pass1LLMInterface)`
 
 Pass 1 LLM using Anthropic (Claude) API.
@@ -9383,6 +9551,35 @@ Args:
     lookup: Optional canonical ID lookup service. Domains that support
            external lookups can use this to pass the service to the policy.
 
+### `def DomainSchema.preferred_entity(self, candidates: list[BaseEntity]) -> BaseEntity`
+
+Return the preferred survivor when merging a set of synonym candidates.
+
+Called by the identity server's ``on_entity_added`` hook after
+``find_synonyms`` returns candidates. The domain implements its own
+preference rules, for example:
+
+- Prefer canonical over provisional (a canonical entity already has a
+  stable external ID and should not be displaced by a provisional one)
+- Among entities of equal status, prefer the one with the highest
+  ``usage_count`` (more evidence)
+- Prefer the entity with an authoritative ``canonical_ids`` entry
+  (e.g. a UMLS CUI or MeSH term) over one without
+
+The returned entity must be a member of ``candidates``. The caller
+passes its ``entity_id`` as ``survivor_id`` to ``IdentityServer.merge``.
+
+Parameters
+----------
+candidates:
+    Non-empty list of entities identified as synonyms. Guaranteed to
+    contain at least two elements when called from ``on_entity_added``.
+
+Returns
+-------
+BaseEntity
+    The entity that should survive the merge.
+
 ### `def DomainSchema.evidence_model(self) -> type[Evidence]`
 
 Return the domain's version of Evidence
@@ -9537,6 +9734,7 @@ confidence: float
 usage_count: int
 created_at: datetime
 source: str
+merged_into: str | None
 metadata: dict
 ```
 
@@ -9592,6 +9790,217 @@ confidence: float
 context: str | None
 metadata: dict
 ```
+
+
+<span id="user-content-kgschemaidentitypy"></span>
+
+# kgschema/identity.py
+
+Identity server interface for the knowledge graph framework.
+
+The identity server is the authoritative component for entity identity across
+the knowledge graph. It handles the full entity identity lifecycle:
+
+- **resolve**: Map a mention string to a canonical or provisional entity ID,
+  creating a new provisional entity if no match is found.
+- **promote**: Elevate a provisional entity to canonical status when
+  domain-defined thresholds are met.
+- **find_synonyms**: Detect entities that refer to the same real-world concept
+  (read-only; does not perform merges).
+- **merge**: Collapse duplicate entities into a single survivor, redirecting
+  all references from absorbed entities to the survivor.
+- **on_entity_added**: Event hook called after each entity insert, triggering
+  synonym detection and merge for newly added entities.
+
+Implementations must be correct under concurrent access from multiple worker
+processes and multiple server replicas. All mutating operations must be
+idempotent so that workers can safely retry after transient failures.
+
+See CONCURRENCY.md (Identity Server Specification section) for the full
+design rationale, locking strategy, and merge × promotion status rules.
+
+> Identity server interface for the knowledge graph framework.
+
+The identity server is the authoritative component for entity identity across
+the knowledge graph. It handles the full entity identity lifecycle:
+
+- **resolve**: Map a mention string to a canonical or provisional entity ID,
+  creating a new provisional entity if no match is found.
+- **promote**: Elevate a provisional entity to canonical status when
+  domain-defined thresholds are met.
+- **find_synonyms**: Detect entities that refer to the same real-world concept
+  (read-only; does not perform merges).
+- **merge**: Collapse duplicate entities into a single survivor, redirecting
+  all references from absorbed entities to the survivor.
+- **on_entity_added**: Event hook called after each entity insert, triggering
+  synonym detection and merge for newly added entities.
+
+Implementations must be correct under concurrent access from multiple worker
+processes and multiple server replicas. All mutating operations must be
+idempotent so that workers can safely retry after transient failures.
+
+See CONCURRENCY.md (Identity Server Specification section) for the full
+design rationale, locking strategy, and merge × promotion status rules.
+
+
+## `class IdentityServer(ABC)`
+
+Abstract interface for entity identity management.
+
+Implementations are responsible for resolving mentions to entity IDs,
+promoting provisional entities, detecting synonyms, and merging
+duplicates — all with correct behaviour under concurrent access.
+
+The recommended implementation is Postgres-backed, using:
+- ``INSERT ... ON CONFLICT DO NOTHING`` for idempotent creation
+- ``SELECT FOR UPDATE`` for atomic promotion
+- Postgres advisory locks (keyed on sorted entity ID pairs) for merge
+- pgvector cosine similarity for synonym detection
+- Redis for authority-lookup caching (shared across replicas)
+
+Domain-pluggable behaviour (authority lookup, synonym thresholds,
+survivor selection, promotion thresholds) is supplied by the domain
+schema and its ``PromotionPolicy``.
+
+### `async def IdentityServer.resolve(self, mention: str, context: dict) -> str`
+
+Resolve a mention string to an entity ID.
+
+Performs domain authority lookup (e.g. UMLS, DBPedia) and returns a
+canonical ID if one is found. Otherwise creates and returns a new
+provisional ID. The lookup result is cached (keyed on normalised
+mention + authority source version) so that transient API failures
+do not produce inconsistent IDs on retry.
+
+This operation must be idempotent: resolving the same mention twice
+returns the same ID.
+
+Parameters
+----------
+mention:
+    The surface form of the entity mention.
+context:
+    Domain-defined context (e.g. document ID, domain name, entity
+    type hint, extraction metadata) used by authority lookup and
+    synonym detection.
+
+Returns
+-------
+str
+    A canonical or provisional entity ID.
+
+### `async def IdentityServer.promote(self, provisional_id: str) -> str`
+
+Attempt to promote a provisional entity to canonical status.
+
+The domain ``PromotionPolicy`` determines whether promotion is
+warranted. Behaviour by current entity status:
+
+- **provisional**: checks policy; upgrades if thresholds are met.
+- **canonical**: no-op; returns the existing canonical ID.
+  Promotion is a one-time transition.
+- **merged**: the entity has been absorbed. Logs a warning with the
+  stale ID and returns the survivor's ID; does not raise an error.
+
+This operation must be idempotent.
+
+Parameters
+----------
+provisional_id:
+    The ID of the entity to promote. May be provisional, canonical,
+    or merged.
+
+Returns
+-------
+str
+    The canonical ID (new or pre-existing), or the survivor ID if
+    the entity was merged.
+
+### `async def IdentityServer.find_synonyms(self, entity_id: str) -> list[str]`
+
+Return the IDs of entities considered synonymous with the given entity.
+
+Synonym criteria are domain-defined and may include:
+- Cosine similarity above a threshold (via pgvector)
+- Shared external identifier (same UMLS CUI, same MeSH term)
+- String normalisation match
+
+This method is read-only; it reports candidates without merging.
+Call ``merge`` to act on the results.
+
+Parameters
+----------
+entity_id:
+    The entity to find synonyms for.
+
+Returns
+-------
+list[str]
+    IDs of synonym candidates, not including ``entity_id`` itself.
+    Returns an empty list if no synonyms are found.
+
+### `async def IdentityServer.merge(self, entity_ids: list[str], survivor_id: str) -> str`
+
+Merge a set of entities into a single survivor.
+
+All references (relationships, mentions, bundle edges) pointing to
+any absorbed entity are redirected to the survivor. Absorbed entities
+are marked ``status=MERGED`` with ``merged_into=survivor_id`` so
+that stale external references remain resolvable via a single lookup.
+
+Status rules for the survivor:
+- provisional + provisional → survivor remains **provisional**
+  (promotable via normal policy)
+- canonical + anything → survivor remains **canonical**
+
+Locking: implementations should acquire an advisory lock keyed on
+the sorted set of entity IDs before the transaction to prevent
+two workers from merging the same pair in opposite orders.
+
+This operation must be idempotent: merging already-merged entities
+is a no-op that returns the survivor ID.
+
+Parameters
+----------
+entity_ids:
+    The full set of IDs to unify, including the survivor.
+survivor_id:
+    The ID that will remain after the merge. Must be a member of
+    ``entity_ids``. Determined by the caller via
+    ``DomainSchema.preferred_entity``.
+
+Returns
+-------
+str
+    The survivor ID.
+
+### `async def IdentityServer.on_entity_added(self, entity_id: str, context: dict) -> None`
+
+Event hook called after an entity is inserted or updated.
+
+Must be called inside the same transaction as the entity insert so
+that synonym detection fires only after the row is durably committed
+and visible. This prevents the race where two concurrent workers
+each see the other as a merge candidate before either insert
+completes.
+
+Typical implementation:
+1. Embed the entity (if not already embedded).
+2. Call ``find_synonyms`` to identify candidates.
+3. If candidates are found, call ``DomainSchema.preferred_entity``
+   to select the survivor.
+4. Call ``merge`` for each confirmed synonym pair.
+
+This event-driven model subsumes batch synonym sweeps: a batch sweep
+is equivalent to replaying ``on_entity_added`` for every entity in
+the store.
+
+Parameters
+----------
+entity_id:
+    The ID of the entity that was just added or updated.
+context:
+    Domain-defined context forwarded from the triggering operation.
 
 
 <span id="user-content-kgschemapromotionpy"></span>
@@ -10712,6 +11121,26 @@ Returns:
     and results_by_hop (hop distance -> list of entity dicts with entity_id,
     entity_type, name, status, hop_distance).
 
+### `def bfs_subgraph(seeds: list[str], max_hops: int = 2, topology_filter: Optional[dict] = None, node_filter: Optional[dict] = None, edge_filter: Optional[dict] = None) -> dict`
+
+Extract a subgraph via BFS from one or more seed entities.
+
+Returns nodes and edges. Use node_filter.entity_types to request full metadata
+for specific node types (others appear as stubs). Use edge_filter.predicates
+to request full provenance for specific edge types (others appear as stubs).
+Omitting a filter returns full data for all nodes or edges respectively.
+
+If you do not yet have a canonical entity ID, call search_entities first.
+
+Args:
+    seeds: Entity IDs to start BFS from (e.g. ['C0006142', 'C0085084'])
+    max_hops: Max graph distance from seeds (default 2, 1-3 typical)
+    node_filter: Optional dict with entity_types list for full node data
+    edge_filter: Optional dict with predicates list for full edge provenance
+
+Returns:
+    Dict with seeds, max_hops, node_count, edge_count, truncated, nodes, edges.
+
 ### `async def ingest_paper(url: str) -> dict`
 
 Ingest a medical paper from a URL into the knowledge graph.
@@ -10960,6 +11389,22 @@ Convert a storage Entity to a GraphNode.
 
 Filter out placeholder values from source_documents.
 
+### `def _entity_to_full_node(entity) -> dict[str, Any]`
+
+Convert storage Entity to full node dict for BFS subgraph response.
+
+### `def _entity_to_stub_node(entity) -> dict[str, Any]`
+
+Convert storage Entity to stub node dict (identity only).
+
+### `def _relationship_to_full_edge(rel) -> dict[str, Any]`
+
+Convert storage Relationship to full edge dict for BFS subgraph response.
+
+### `def _relationship_to_stub_edge(rel) -> dict[str, Any]`
+
+Convert storage Relationship to stub edge dict (topology only).
+
 ### `def _relationship_to_edge(rel) -> GraphEdge`
 
 Convert a storage Relationship to a GraphEdge.
@@ -10983,6 +11428,15 @@ Multi-seed BFS returning raw Entity and Relationship objects.
 
 Returns (entities, relationships, truncated).
 Used by REST subgraph API.
+
+### `def extract_subgraph_bfs(storage: StorageInterface, seed_ids: list[str], hops: int = 2, max_nodes: int = DEFAULT_MAX_NODES, min_confidence: Optional[float] = None, node_filter: Optional[dict[str, Any]] = None, edge_filter: Optional[dict[str, Any]] = None) -> tuple[list[dict[str, Any]], list[dict[str, Any]], bool]`
+
+Multi-seed BFS returning serialized nodes and edges with optional full/stub presentation.
+
+Topology: BFS with min_confidence filter only (no predicate-based topology filtering).
+Presentation: node_filter.entity_types and edge_filter.predicates control full vs stub.
+
+Returns (nodes, edges, truncated).
 
 ### `def extract_full_graph(storage: StorageInterface, max_nodes: int = DEFAULT_MAX_NODES) -> SubgraphResponse`
 
@@ -11288,6 +11742,35 @@ selection (ID, name glob) and filters (hops, min_confidence, predicates).
 LLM-friendly alternative to GraphQL.
 
 
+## `class BfsSubgraphRequest(BaseModel)`
+
+JSON body for BFS subgraph POST.
+**Fields:**
+
+```python
+seeds: list[str]
+max_hops: int
+max_nodes: int
+topology_filter: Optional[dict]
+node_filter: Optional[dict]
+edge_filter: Optional[dict]
+```
+
+## `class BfsSubgraphResponse(BaseModel)`
+
+BFS subgraph response with nodes and edges (full or stub).
+**Fields:**
+
+```python
+seeds: list[str]
+max_hops: int
+node_count: int
+edge_count: int
+truncated: bool
+nodes: list[dict]
+edges: list[dict]
+```
+
 ## `class SubgraphQueryEcho(BaseModel)`
 
 Echo of query params for LLM consumer.
@@ -11310,6 +11793,10 @@ entities: list[Entity]
 relationships: list[Relationship]
 query: SubgraphQueryEcho
 ```
+
+### `async def post_bfs_subgraph(body: BfsSubgraphRequest, storage: StorageInterface = Depends(get_storage)) -> BfsSubgraphResponse`
+
+POST BFS subgraph with JSON body.
 
 ### `async def get_subgraph(entity: Optional[str] = Query(default=None, description='Entity ID(s) or glob pattern (comma-separated)'), name: Optional[str] = Query(default=None, description='Glob pattern on entity name (e.g. cushing*)'), hops: int = Query(default=2, ge=1, le=MAX_HOPS, description=f'Hops from seeds (1-{MAX_HOPS})'), min_confidence: Optional[float] = Query(default=None, ge=0.0, le=1.0, description='Filter relationships by confidence'), predicates: Optional[str] = Query(default=None, description='Comma-separated predicate filter (e.g. TREATS,CAUSES)'), max_nodes: int = Query(default=DEFAULT_MAX_NODES, ge=1, le=MAX_NODES_LIMIT, description=f'Max nodes (1-{MAX_NODES_LIMIT})'), storage: StorageInterface = Depends(get_storage)) -> SubgraphResponse`
 
@@ -11503,6 +11990,240 @@ Example:
 
 For detailed backend comparison and usage, see backends/README.md.
 
+
+
+<span id="user-content-kgserverstoragebackendsidentitypy"></span>
+
+# kgserver/storage/backends/identity.py
+
+Postgres-backed implementation of the IdentityServer ABC.
+
+This module provides ``PostgresIdentityServer``, the reference implementation
+of ``kgschema.IdentityServer``.  It uses the existing SQLModel ``Session`` and
+``Entity``/``Relationship`` models already in the kgserver stack.
+
+Locking strategy (mirrors CONCURRENCY.md):
+  - resolve:  ``INSERT ... ON CONFLICT DO NOTHING`` — Postgres serialises
+              concurrent inserts on the same entity_id naturally.
+  - promote:  ``SELECT ... WITH (UPDLOCK)`` equivalent via raw SQL
+              ``SELECT ... FOR UPDATE`` on the entity row, then conditional
+              update inside the same transaction.
+  - merge:    Postgres advisory lock keyed on the sorted frozenset of entity
+              IDs prevents two workers merging the same pair in opposite orders.
+  - on_entity_added: called synchronously inside the same session as the
+              triggering entity write; synonym detection is read-only and fires
+              only after the row is durable.
+
+Synonym detection uses the ``embedding`` JSON column on the ``Entity`` table
+via in-process cosine similarity for now.  Once pgvector is activated on the
+column (``ALTER TABLE entity ADD COLUMN embedding vector(N)``), the
+``find_synonyms`` implementation can be swapped to a native vector query with
+no interface change.
+
+Authority-lookup caching uses Redis when a client is provided.  If Redis is
+unavailable the server degrades gracefully to uncached lookups.  See
+``AuthorityCache`` below.
+
+> Postgres-backed implementation of the IdentityServer ABC.
+
+This module provides ``PostgresIdentityServer``, the reference implementation
+of ``kgschema.IdentityServer``.  It uses the existing SQLModel ``Session`` and
+``Entity``/``Relationship`` models already in the kgserver stack.
+
+Locking strategy (mirrors CONCURRENCY.md):
+  - resolve:  ``INSERT ... ON CONFLICT DO NOTHING`` — Postgres serialises
+              concurrent inserts on the same entity_id naturally.
+  - promote:  ``SELECT ... WITH (UPDLOCK)`` equivalent via raw SQL
+              ``SELECT ... FOR UPDATE`` on the entity row, then conditional
+              update inside the same transaction.
+  - merge:    Postgres advisory lock keyed on the sorted frozenset of entity
+              IDs prevents two workers merging the same pair in opposite orders.
+  - on_entity_added: called synchronously inside the same session as the
+              triggering entity write; synonym detection is read-only and fires
+              only after the row is durable.
+
+Synonym detection uses the ``embedding`` JSON column on the ``Entity`` table
+via in-process cosine similarity for now.  Once pgvector is activated on the
+column (``ALTER TABLE entity ADD COLUMN embedding vector(N)``), the
+``find_synonyms`` implementation can be swapped to a native vector query with
+no interface change.
+
+Authority-lookup caching uses Redis when a client is provided.  If Redis is
+unavailable the server degrades gracefully to uncached lookups.  See
+``AuthorityCache`` below.
+
+
+## `class AuthorityCache`
+
+Redis cache for authority-lookup results in ``resolve``.
+
+Keys have the form ``resolve:{authority_version}:{entity_type}:{mention}``
+so that a UMLS/DBPedia release can be invalidated by bumping
+``authority_version`` without touching unrelated entries.
+
+Values are JSON-serialised ``CanonicalId`` dicts (positive hit) or
+``_NEGATIVE_SENTINEL`` (confirmed miss).
+
+Designed for graceful degradation: every public method catches Redis
+errors and logs at DEBUG level so a Redis outage never breaks ingestion.
+
+Parameters
+----------
+redis_client:
+    A ``redis.Redis`` (sync) client.  Pass ``None`` to disable caching.
+authority_version:
+    Opaque version string for the authority source, e.g. ``"umls-2026AA"``.
+    Bump this to invalidate all cached lookups for that source.
+positive_ttl:
+    Seconds before a positive cache entry expires.
+negative_ttl:
+    Seconds before a negative cache entry expires.
+
+### `def AuthorityCache.get(self, entity_type: str, mention: str) -> Optional[Any]`
+
+Return cached ``CanonicalId``-like dict, ``None`` (miss), or
+``_NEGATIVE_SENTINEL`` (confirmed negative).
+
+Returns ``None`` on any Redis error so the caller falls through to the
+live authority lookup.
+
+### `def AuthorityCache.put_positive(self, entity_type: str, mention: str, canonical_id: object) -> None`
+
+Cache a positive authority result.  ``canonical_id`` must be
+JSON-serialisable (plain dict or object with ``__dict__``).
+
+### `def AuthorityCache.put_negative(self, entity_type: str, mention: str) -> None`
+
+Cache a confirmed negative (no canonical ID found).
+
+### `def AuthorityCache.from_env(cls, authority_version: str = 'v1') -> 'AuthorityCache'`
+
+Build an ``AuthorityCache`` from the ``REDIS_URL`` environment variable.
+
+Returns a no-op cache (``redis_client=None``) if ``REDIS_URL`` is unset
+or if the ``redis`` package is not installed, so the server starts
+cleanly in environments without Redis.
+
+### `def _cosine_similarity(a: list[float], b: list[float]) -> float`
+
+Compute cosine similarity between two equal-length vectors.
+
+### `def _advisory_lock_key(entity_ids: list[str]) -> int`
+
+Derive a stable 64-bit advisory lock key from a sorted set of entity IDs.
+
+Sorting ensures two workers locking the same pair always produce the same
+key regardless of argument order, preventing deadlocks.
+
+## `class PostgresIdentityServer(IdentityServer)`
+
+Postgres-backed identity server using the existing kgserver SQLModel session.
+
+Parameters
+----------
+session:
+    An open SQLModel ``Session`` bound to the Postgres engine.  The caller
+    is responsible for the session lifecycle (commit / rollback / close).
+domain:
+    The active ``DomainSchema`` instance.  Used for ``preferred_entity``
+    (survivor selection) and ``get_promotion_policy`` (canonical ID
+    assignment during promotion).
+similarity_threshold:
+    Minimum cosine similarity for two entities to be considered synonyms.
+    Default 0.90 — intentionally conservative.
+embedding_dim:
+    Expected embedding dimension.  Used for validation only.
+authority_cache:
+    Optional ``AuthorityCache`` instance backed by Redis.  If omitted,
+    authority lookups are performed on every ``resolve`` call with no
+    caching.  Construct one via ``AuthorityCache.from_env()`` or pass a
+    pre-built instance.
+
+### `async def PostgresIdentityServer.resolve(self, mention: str, context: dict) -> str`
+
+Resolve a mention to an entity ID, creating a provisional one if needed.
+
+Uses ``INSERT ... ON CONFLICT DO NOTHING`` so concurrent workers
+resolving the same mention produce the same entity without races.
+
+Authority lookup (UMLS etc.) is attempted first via the domain's
+promotion policy.  If the authority returns a canonical ID, the entity
+is inserted as canonical.  Otherwise a provisional UUID is created.
+
+The ``context`` dict may contain:
+  - ``entity_type`` (str): domain entity type hint
+  - ``document_id`` (str): source document for provenance
+  - ``embedding`` (list[float]): pre-computed embedding vector
+
+### `async def PostgresIdentityServer.promote(self, provisional_id: str) -> str`
+
+Attempt to promote a provisional entity to canonical status.
+
+Uses ``SELECT FOR UPDATE`` to lock the row, then checks and updates
+inside the same implicit transaction.  Behaviour by status:
+  - provisional: attempts canonical ID assignment; upgrades if found.
+  - canonical: no-op; returns existing ID.
+  - merged: logs warning; returns survivor ID.
+
+### `async def PostgresIdentityServer.find_synonyms(self, entity_id: str) -> list[str]`
+
+Return IDs of entities with cosine similarity above the threshold.
+
+Currently uses in-process comparison of the ``embedding`` JSON column.
+This is correct but O(n) — a pgvector index query can be substituted
+here with no interface change once the column type is migrated.
+
+### `async def PostgresIdentityServer.merge(self, entity_ids: list[str], survivor_id: str) -> str`
+
+Merge entities into survivor, redirecting all relationship references.
+
+Acquires a Postgres advisory lock keyed on the sorted set of IDs to
+prevent concurrent merges of the same pair in opposite directions.
+
+Status rules:
+  - all provisional → survivor stays provisional
+  - any canonical → survivor becomes canonical
+
+### `async def PostgresIdentityServer.on_entity_added(self, entity_id: str, context: dict) -> None`
+
+Trigger synonym detection and merge for a newly added entity.
+
+Must be called inside the same session/transaction as the entity insert
+so that the row is visible.  Synonym detection is read-only; ``merge``
+acquires its own advisory lock.
+
+### `def PostgresIdentityServer._update_relationship_refs(self, old_id: str, new_id: str) -> None`
+
+Redirect all relationship subject/object references from old_id to new_id.
+
+### `def PostgresIdentityServer._store_embedding(self, entity_id: str, embedding: list[float]) -> None`
+
+Persist an embedding vector to the entity row (JSON column).
+
+## `class _StubEntity(BaseEntity)`
+
+Minimal BaseEntity subclass used to call domain policies from kgserver.
+
+Domain ``preferred_entity`` and ``PromotionPolicy`` methods require a
+``BaseEntity`` instance.  We don't know the domain-specific subclass here,
+so we use a generic concrete subclass and bypass pydantic validation with
+``model_construct`` to avoid requiring all optional fields.
+
+### `def _entity_row_to_stub(row: Entity) -> _StubEntity`
+
+Convert a kgserver ``Entity`` ORM row to a ``_StubEntity`` for domain calls.
+
+### `def _make_stub_entity(mention: str, entity_type: str, document_id: str, embedding: Optional[list[float]]) -> _StubEntity`
+
+Build a minimal stub for authority lookup (no DB row exists yet).
+
+## `class _CachedCanonicalId`
+
+Minimal CanonicalId-like object reconstructed from a Redis-cached dict.
+
+### `def _dict_to_canonical_id(data: dict) -> _CachedCanonicalId`
+
+Reconstruct a minimal CanonicalId-like object from a cached dict.
 
 
 <span id="user-content-kgserverstoragebackendspostgrespy"></span>
@@ -11981,6 +12702,80 @@ Create a bundle directory with entities, relationships, mentions, and evidence (
 ### `def storage_with_provenance_bundle(tmp_path, bundle_dir_with_provenance)`
 
 SQLite storage with a bundle loaded that includes mentions and evidence.
+
+
+<span id="user-content-kgserverteststestbfssubgraphpy"></span>
+
+# kgserver/tests/test_bfs_subgraph.py
+
+Unit tests for extract_subgraph_bfs in graph_traversal.py.
+
+Uses populated_storage fixture (entities 1,2,3 and relationships 1->2, 1->3, 2->3).
+
+> 
+Unit tests for extract_subgraph_bfs in graph_traversal.py.
+
+Uses populated_storage fixture (entities 1,2,3 and relationships 1->2, 1->3, 2->3).
+
+
+### `def test_extract_subgraph_bfs_no_filters(populated_storage)`
+
+With no filters, all nodes and edges are full.
+
+### `def test_extract_subgraph_bfs_node_filter(populated_storage)`
+
+node_filter.entity_types: matching nodes full, others stub.
+
+### `def test_extract_subgraph_bfs_edge_filter(populated_storage)`
+
+edge_filter.predicates: matching edges full, others stub.
+
+### `def test_extract_subgraph_bfs_topology_min_confidence(populated_storage)`
+
+topology_filter.min_confidence: edges below threshold skipped.
+
+### `def test_extract_subgraph_bfs_multi_seed(populated_storage)`
+
+Multi-seed returns union of neighborhoods.
+
+### `def test_extract_subgraph_bfs_truncation(populated_storage)`
+
+When max_nodes hit, truncated is True.
+
+
+<span id="user-content-kgserverteststestbfssubgraphmcppy"></span>
+
+# kgserver/tests/test_bfs_subgraph_mcp.py
+
+Tests for the MCP bfs_subgraph tool.
+
+Uses populated_storage fixture. Verifies response structure and stub vs full.
+
+> 
+Tests for the MCP bfs_subgraph tool.
+
+Uses populated_storage fixture. Verifies response structure and stub vs full.
+
+
+### `def mock_storage(populated_storage)`
+
+Provide populated storage to the MCP tool via _get_storage.
+
+### `def _call_tool(seeds, max_hops = 2, node_filter = None, edge_filter = None)`
+
+Call the underlying MCP tool function.
+
+### `def test_bfs_subgraph_structure(mock_storage, populated_storage)`
+
+Result has seeds, max_hops, node_count, edge_count, truncated, nodes, edges.
+
+### `def test_bfs_subgraph_unknown_seed_raises(mock_storage, populated_storage)`
+
+Unknown seed ID raises ValueError.
+
+### `def test_bfs_subgraph_node_filter_stub(mock_storage, populated_storage)`
+
+node_filter: non-matching nodes are stubs.
 
 
 <span id="user-content-kgserverteststestbundleloaderpy"></span>
@@ -12948,6 +13743,53 @@ Bundles without mentions/evidence files load successfully.
 Manifest has mentions but file is missing; load_bundle does not raise.
 
 
+<span id="user-content-kgserverteststestsubgraphapipy"></span>
+
+# kgserver/tests/test_subgraph_api.py
+
+Tests for query/routers/subgraph_api.py REST API endpoints.
+
+Covers GET (legacy) and POST (BFS JSON body) subgraph endpoints.
+
+> 
+Tests for query/routers/subgraph_api.py REST API endpoints.
+
+Covers GET (legacy) and POST (BFS JSON body) subgraph endpoints.
+
+
+### `def app()`
+
+Create FastAPI app with subgraph router.
+
+### `def file_storage(tmp_path, sample_entities, sample_relationships)`
+
+Create SQLite storage for testing.
+
+### `def client(app, file_storage)`
+
+Create test client with storage dependency override.
+
+## `class TestPostBfsSubgraph`
+
+Test POST /api/v1/subgraph (BFS JSON body).
+
+### `def TestPostBfsSubgraph.test_post_valid_returns_200(self, client)`
+
+POST with valid JSON body returns 200 and BfsSubgraphResponse shape.
+
+### `def TestPostBfsSubgraph.test_post_unknown_seed_returns_400(self, client)`
+
+POST with unknown seed ID returns 400 with error identifying unknown ID(s).
+
+## `class TestGetSubgraph`
+
+Test GET /api/v1/subgraph (legacy query params).
+
+### `def TestGetSubgraph.test_get_returns_legacy_format(self, client)`
+
+GET without JSON returns legacy format (entities, relationships, query).
+
+
 <span id="user-content-medlitbundledocsreadmemd"></span>
 
 # medlit_bundle/docs/README.md
@@ -12955,6 +13797,54 @@ Manifest has mentions but file is missing; load_bundle does not raise.
 Medlit bundle built from Pass 1 + Pass 2 output.
 
     ...
+
+<span id="user-content-sherlockdesignmd"></span>
+
+# sherlock_design.md
+
+# Sherlock Holmes Example: Design Notes
+
+## Goal
+
+Upgrade the Sherlock example from a thin demo (3 entity types, 5 generic predicates,
+no LLM extraction) to a richly specified domain that:
+
+1. Follows the `domain_spec.py` single-source-of-truth pattern from medlit
+2. Captures the epistemic complexity of fiction, especially the unreliable narrator
+3. Supports a compelling "solve the crime" demo using BFS graph traversal + LLM inference
+
+    ...
+
+<span id="user-content-summarizecodebasepy"></span>
+
+# summarize_codebase.py
+
+Extract documentation from Python source files into Markdown.
+
+Walks the AST to find docstrings, standalone strings, and creates
+formatted signatures for classes, methods, and functions.
+
+Includes a portion of each *.md, *.yml, Dockerfile, and shell script
+to add more context.
+
+$ git ls-files | uv run python summarize_codebase.py > summary.md
+
+> 
+Extract documentation from Python source files into Markdown.
+
+Walks the AST to find docstrings, standalone strings, and creates
+formatted signatures for classes, methods, and functions.
+
+Includes a portion of each *.md, *.yml, Dockerfile, and shell script
+to add more context.
+
+$ git ls-files | uv run python summarize_codebase.py > summary.md
+
+
+### `def DocExtractor.visit_Module(self, node: ast.Module) -> None`
+
+Extract module-level docstring and top-level standalone strings.
+
 
 <span id="user-content-summarymd"></span>
 
@@ -14332,6 +15222,41 @@ Test that PaperMetadata with a study_type validates.
 Test that ExtractionProvenance serializes correctly.
 
 
+<span id="user-content-teststestpass1llmpy"></span>
+
+# tests/test_pass1_llm.py
+
+Tests for Pass 1 LLM JSON parsing.
+
+## `class TestParseJsonFromText`
+
+Test _parse_json_from_text handles braces inside strings.
+
+### `def TestParseJsonFromText.test_simple_object(self)`
+
+Basic JSON object parses.
+
+### `def TestParseJsonFromText.test_braces_in_string_value(self)`
+
+Braces inside string values are ignored by depth counter.
+
+### `def TestParseJsonFromText.test_closing_brace_in_string(self)`
+
+Closing brace inside string does not end the object.
+
+### `def TestParseJsonFromText.test_escaped_quote_in_string(self)`
+
+Escaped quotes inside string do not toggle string state.
+
+### `def TestParseJsonFromText.test_strips_markdown_code_block(self)`
+
+Markdown code block wrapper is stripped.
+
+### `def TestParseJsonFromText.test_nested_object_with_string_braces(self)`
+
+Nested objects with braces in inner strings parse correctly.
+
+
 <span id="user-content-teststestpipelineintegrationpy"></span>
 
 # tests/test_pipeline_integration.py
@@ -14787,6 +15712,10 @@ Test domain schema with predicate constraints.
 ### `def TestDomainSchema.validate_entity(self, entity: BaseEntity) -> list[ValidationIssue]`
 
 Validate entity is of a registered type.
+
+### `def TestDomainSchema.preferred_entity(self, candidates: list[BaseEntity]) -> BaseEntity`
+
+Not needed for these tests; return first candidate.
 
 ### `def TestDomainSchema.get_promotion_policy(self, lookup = None)`
 
