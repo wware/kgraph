@@ -125,20 +125,44 @@ class JournalArticleParser(DocumentParserInterface):
         if body_elem is not None:
             full_text = "".join(body_elem.itertext()).strip()
 
-        # Affiliations: aff id -> text
+        # Affiliations: aff id -> text and optional ROR URL
         aff_id_to_text: dict[str, str] = {}
+        aff_id_to_ror: dict[str, str] = {}
         for aff in root.findall(".//aff"):
             aff_id = aff.get("id", "")
-            inst_elem = aff.find("institution[@content-type='orgname']") or aff.find("institution")
-            if inst_elem is not None and inst_elem.text:
-                text = inst_elem.text.strip()
+
+            # Extract ROR ID from <institution-id institution-id-type="ROR"> if present
+            ror_url: str = ""
+            inst_wrap = aff.find("institution-wrap")
+            search_root = inst_wrap if inst_wrap is not None else aff
+            ror_elem = search_root.find("institution-id[@institution-id-type='ROR']")
+            if ror_elem is not None and ror_elem.text:
+                ror_url = ror_elem.text.strip()
+
+            # Build clean institution name:
+            # 1. Prefer <institution content-type="orgname"> for a single clean name
+            # 2. Otherwise join all <institution> children (skipping institution-id noise)
+            # 3. Fall back to itertext() only if no <institution> elements found
+            inst_elems = search_root.findall("institution")
+            if inst_elems:
+                text = " ".join(i.text.strip().rstrip(",") for i in inst_elems if i.text and i.text.strip())
             else:
-                text = "".join(aff.itertext()).strip()
+                orgname = aff.find("institution[@content-type='orgname']")
+                if orgname is not None and orgname.text:
+                    text = orgname.text.strip()
+                else:
+                    # Last resort: itertext excluding institution-id noise
+                    text = "".join(aff.itertext()).strip()
+
             # Strip leading affiliation index digits (e.g. "1Department..." → "Department...")
             text = re.sub(r"^\d+\s*", "", text).strip()
+
             if aff_id:
                 aff_id_to_text[aff_id] = text
                 aff_id_to_text[aff_id.lstrip("#")] = text
+                if ror_url:
+                    aff_id_to_ror[aff_id] = ror_url
+                    aff_id_to_ror[aff_id.lstrip("#")] = ror_url
 
         # Authors with affiliations
         authors: list[str] = []
@@ -155,12 +179,15 @@ class JournalArticleParser(DocumentParserInterface):
                     authors.append(author)
                     # Affiliations for this author
                     affs: list[str] = []
+                    aff_rors: list[str] = []
                     for xref in contrib.findall("xref[@ref-type='aff']"):
                         rid = (xref.get("rid") or "").lstrip("#")
                         aff_text = aff_id_to_text.get(rid) or aff_id_to_text.get(xref.get("rid", ""))
                         if aff_text:
                             affs.append(aff_text)
-                    author_details.append({"name": author, "affiliations": affs})
+                            ror = aff_id_to_ror.get(rid) or aff_id_to_ror.get(xref.get("rid", ""), "")
+                            aff_rors.append(ror)
+                    author_details.append({"name": author, "affiliations": affs, "affiliation_rors": aff_rors})
 
         # Keywords
         keywords: list[str] = []

@@ -55,10 +55,18 @@ def expand_provenance(bundle: PerPaperBundle) -> tuple[list[ExtractedEntityRow],
             seen_entity_ids.add(aid)
         author_ids.append(aid)
 
-        for aff in author.affiliations:
+        for idx, aff in enumerate(author.affiliations):
             iid = normalize_institution_id(aff)
+            ror_url = author.affiliation_rors[idx] if idx < len(author.affiliation_rors) else ""
             if iid not in seen_entity_ids:
-                new_entities.append(ExtractedEntityRow(id=iid, entity_class="Institution", name=aff))
+                new_entities.append(
+                    ExtractedEntityRow(
+                        id=iid,
+                        entity_class="Institution",
+                        name=aff,
+                        canonical_id=ror_url or None,
+                    )
+                )
                 seen_entity_ids.add(iid)
             new_relationships.append(
                 RelationshipRow(

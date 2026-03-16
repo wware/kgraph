@@ -40,6 +40,10 @@ class AuthorInfo(BaseModel):
 
     name: str
     affiliations: list[str] = Field(default_factory=list)
+    affiliation_rors: list[str] = Field(
+        default_factory=list,
+        description="ROR URLs parallel to affiliations (empty string where not available)",
+    )
 
 
 class PaperInfo(BaseModel):
