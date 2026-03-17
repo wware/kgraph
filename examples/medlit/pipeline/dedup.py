@@ -113,15 +113,17 @@ def _preferred_authoritative_id(
     return None
 
 
-# Authority lookup type overrides: bundle_class -> lookup_type when authority APIs
-# use a different type (e.g. Hormone->drug, Enzyme->protein). Base mapping from config.
+# NOTE: _AUTHORITY_LOOKUP_OVERRIDES and _FALLBACK_ENTITY_CLASS_TO_LOOKUP have been
+# moved to MedLitPromotionPolicy._AUTHORITY_TYPE_OVERRIDES in promotion.py.
+# The functions below remain only until Piece 3 of the pipeline migration removes
+# the resolution loop that calls them.
+
 _AUTHORITY_LOOKUP_OVERRIDES: dict[str, str] = {
     "Hormone": "drug",
     "Enzyme": "protein",
     "Biomarker": "disease",
 }
 
-# Fallback when config is missing. Must match entity_types.yaml bundle_class -> lookup.
 _FALLBACK_ENTITY_CLASS_TO_LOOKUP: dict[str, str] = {
     "Disease": "disease",
     "Gene": "gene",
@@ -134,7 +136,11 @@ _FALLBACK_ENTITY_CLASS_TO_LOOKUP: dict[str, str] = {
 
 
 def _entity_class_to_lookup_type(entity_class: str, entity_class_to_lookup: dict[str, str]) -> Optional[str]:
-    """Map bundle entity_class to CanonicalIdLookup entity_type (lowercase)."""
+    """Map bundle entity_class to CanonicalIdLookup entity_type (lowercase).
+
+    Deprecated: will be removed when the resolution loop in run_pass2 is
+    replaced by PostgresIdentityServer.resolve() in Piece 3.
+    """
     m = entity_class_to_lookup if entity_class_to_lookup else _FALLBACK_ENTITY_CLASS_TO_LOOKUP
     if entity_class in _AUTHORITY_LOOKUP_OVERRIDES:
         return _AUTHORITY_LOOKUP_OVERRIDES[entity_class]

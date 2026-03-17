@@ -252,6 +252,7 @@ class PostgresIdentityServer(IdentityServer):
           - ``document_id`` (str): source document for provenance
           - ``embedding`` (list[float]): pre-computed embedding vector
         """
+        mention = self._domain.normalize_mention(mention)
         entity_type = context.get("entity_type", "unknown")
         document_id = context.get("document_id", "unknown")
         embedding = context.get("embedding")

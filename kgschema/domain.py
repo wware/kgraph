@@ -463,6 +463,28 @@ class DomainSchema(ABC):
         """
         return list(self.relationship_types.keys())
 
+    def normalize_mention(self, mention: str) -> str:
+        """Normalize a mention string before identity resolution.
+
+        Called by the identity server before ``resolve()`` to apply
+        domain-specific string normalization (e.g. spelling variants,
+        case folding, abbreviation expansion).
+
+        The default implementation returns the mention unchanged.
+        Override in domain subclasses to apply domain-specific rules.
+
+        Parameters
+        ----------
+        mention:
+            Raw surface form of the entity mention.
+
+        Returns
+        -------
+        str
+            Normalized mention string.
+        """
+        return mention
+
     @abstractmethod
     def get_promotion_policy(self, lookup=None) -> PromotionPolicy:
         """Return the promotion policy for this domain.

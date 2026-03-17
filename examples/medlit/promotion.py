@@ -33,7 +33,20 @@ class MedLitPromotionPolicy(PromotionPolicy):
     1. If entity already has canonical_id in canonical_ids dict, use that
     2. If entity_id is already a canonical ID format, use it directly
     3. Otherwise, look up canonical ID from authority APIs (UMLS, HGNC, RxNorm, UniProt)
+
+    Some entity types do not have their own authority but map naturally to one
+    that does.  ``_AUTHORITY_TYPE_OVERRIDES`` redirects those types so the
+    lookup uses the right ontology.
     """
+
+    # Entity types that should be looked up under a different authority type.
+    # E.g. hormones are drugs for the purposes of RxNorm lookup; enzymes are
+    # proteins for the purposes of UniProt lookup.
+    _AUTHORITY_TYPE_OVERRIDES: dict[str, str] = {
+        "hormone": "drug",
+        "enzyme": "protein",
+        "biomarker": "disease",
+    }
 
     def __init__(self, config, lookup: Optional[CanonicalIdLookupInterface] = None):
         """Initialize promotion policy.
@@ -176,8 +189,10 @@ class MedLitPromotionPolicy(PromotionPolicy):
             )
             return canonical_id
 
-        # Strategy 3: Look up from authority APIs
-        lookup_result = await self.lookup.lookup(term=entity.name, entity_type=entity_type)
+        # Strategy 3: Look up from authority APIs.
+        # Some entity types don't have their own authority; remap them first.
+        lookup_type = self._AUTHORITY_TYPE_OVERRIDES.get(entity_type, entity_type)
+        lookup_result = await self.lookup.lookup(term=entity.name, entity_type=lookup_type)
 
         if lookup_result:
             logger.debug(

@@ -108,6 +108,20 @@ class MedLitDomainSchema(DomainSchema):
             require_embedding=False,  # Don't require embeddings (we have them but don't block)
         )
 
+    # British → American spelling normalizations for entity mention resolution.
+    _SPELLING_NORMALIZATIONS: dict[str, str] = {
+        "hyperglycaemia": "hyperglycemia",
+        "haemoglobin": "hemoglobin",
+        "tumour": "tumor",
+        "oesophagus": "esophagus",
+        "leukaemia": "leukemia",
+    }
+
+    def normalize_mention(self, mention: str) -> str:
+        """Lowercase, strip, and apply British→American spelling normalization."""
+        n = mention.lower().strip()
+        return self._SPELLING_NORMALIZATIONS.get(n, n)
+
     def validate_entity(self, entity: BaseEntity) -> list[ValidationIssue]:
         """Validate an entity against medical domain rules.
 
