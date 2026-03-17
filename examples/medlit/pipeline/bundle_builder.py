@@ -1,8 +1,8 @@
 """
-Pass 3: Build kgbundle from medlit_merged and pass1_bundles.
+build_bundle: Build kgbundle from merged and extracted.
 
 Reads merged output (entities.json, relationships.json, id_map.json, synonym_cache.json)
-and Pass 1 paper_*.json bundles; writes a kgbundle directory loadable by kgserver.
+and extracted paper_*.json bundles; writes a kgbundle directory loadable by kgserver.
 """
 
 from __future__ import annotations
@@ -43,7 +43,7 @@ PROVENANCE_DERIVED_PREDICATES = frozenset({"AUTHORED", "AFFILIATED_WITH", "DESCR
 
 
 def load_merged_output(merged_dir: Path) -> tuple[list[dict], list[dict], dict, dict]:
-    """Load merged Pass 2 output and id_map.
+    """Load merged ingest output and id_map.
 
     Returns (entities, relationships, id_map, synonym_cache).
     Raises FileNotFoundError if id_map.json is missing.
@@ -54,7 +54,7 @@ def load_merged_output(merged_dir: Path) -> tuple[list[dict], list[dict], dict, 
     synonym_cache_path = merged_dir / "synonym_cache.json"
 
     if not id_map_path.exists():
-        raise FileNotFoundError(f"id_map.json not found in {merged_dir}. Run Pass 2 so that merged_dir contains id_map.json.")
+        raise FileNotFoundError(f"id_map.json not found in {merged_dir}. Run ingest so that merged_dir contains id_map.json.")
 
     entities: list[dict] = []
     if entities_path.exists():
@@ -77,7 +77,7 @@ def load_merged_output(merged_dir: Path) -> tuple[list[dict], list[dict], dict, 
     return (entities, relationships, id_map, synonym_cache)
 
 
-def load_pass1_bundles(bundles_dir: Path) -> list[tuple[str, PerPaperBundle]]:
+def load_extracted_bundles(bundles_dir: Path) -> list[tuple[str, PerPaperBundle]]:
     """Load all paper_*.json bundles from bundles_dir. Returns list of (paper_id, bundle)."""
     result: list[tuple[str, PerPaperBundle]] = []
     for path in sorted(bundles_dir.glob("paper_*.json")):
@@ -366,13 +366,13 @@ def _build_mention_rows(
     return rows
 
 
-def run_pass3(
+def run_build_bundle(
     merged_dir: Path,
     bundles_dir: Path,
     output_dir: Path,
     pmc_xmls_dir: Path | None = None,
 ) -> dict[str, Any]:
-    """Build kgbundle from merged Pass 2 output and Pass 1 bundles. Writes all bundle files.
+    """Build kgbundle from merged ingest output and extracted bundles. Writes all bundle files.
 
     If pmc_xmls_dir is provided, copies JATS-XML source files for each paper into
     output_dir/sources/ (for get_paper_source diagnostic tool).
@@ -383,7 +383,7 @@ def run_pass3(
     referenced_ids = {r["subject"] for r in relationships_list} | {r["object"] for r in relationships_list}
     entities_list = [e for e in entities_list if e["entity_id"] in referenced_ids]
 
-    bundles = load_pass1_bundles(bundles_dir)
+    bundles = load_extracted_bundles(bundles_dir)
 
     created_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 

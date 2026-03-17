@@ -21,7 +21,7 @@ If you use an LLM for extraction:
 - Ask for provenance (source span, confidence) in the same pass.
 - Iterate on the prompt; test on a small corpus before scaling.
 
-The medlit pipeline uses structured prompts in `pass1_extract` and relationship extraction; see [The medlit Example](examples/medlit.md).
+The medlit pipeline uses structured prompts in `extract` and relationship extraction; see [The medlit Example](examples/medlit.md).
 
 ## 3. Configure your pipeline
 
@@ -33,7 +33,7 @@ The medlit pipeline uses structured prompts in `pass1_extract` and relationship 
 - **Relationship extractor** — Input: document + resolved entities; output: `BaseRelationship` list with subject_id, object_id, predicate, provenance.
 - **Bundle builder** — Write entities and relationships to the kgbundle format (manifest + JSONL); run export from your storage.
 
-Wire these in a script or orchestrator (e.g. medlit’s pass1 → pass2 → pass3). See [The Pipeline](pipeline.md) and [Storage and Export](storage-and-export.md).
+Wire these in a script or orchestrator (e.g. medlit’s fetch_vocab → extract → ingest → build_bundle). See [The Pipeline](pipeline.md) and [Storage and Export](storage-and-export.md).
 
 ## 4. Validate output
 

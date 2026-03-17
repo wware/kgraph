@@ -1,6 +1,6 @@
-"""Integration test for Pass 2 (dedup) using pre-baked fixture bundles.
+"""Integration test for ingest (dedup) using pre-baked fixture bundles.
 
-Uses fixture JSONs only; no live LLM calls. Pass 1 is tested separately
+Uses fixture JSONs only; no live LLM calls. extract is tested separately
 (manual run or --dry-run / mocked LLM).
 """
 
@@ -9,7 +9,7 @@ import pytest
 from pathlib import Path
 
 from examples.medlit.bundle_models import PerPaperBundle
-from examples.medlit.pipeline.dedup import _is_authoritative_id, run_pass2
+from examples.medlit.pipeline.dedup import _is_authoritative_id, run_ingest
 from kgraph.pipeline.synonym_cache import load_synonym_cache
 
 FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures" / "bundles"
@@ -17,7 +17,7 @@ FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures" / "bundles"
 
 @pytest.fixture
 def fixture_bundle_dir(tmp_path):
-    """Copy fixture bundles to a temp dir so Pass 2 can read them."""
+    """Copy fixture bundles to a temp dir so ingest can read them."""
     import shutil
 
     dest = tmp_path / "bundles"
@@ -30,7 +30,7 @@ def fixture_bundle_dir(tmp_path):
 def test_pass2_merges_same_name_class(fixture_bundle_dir, tmp_path):
     """Entities with same (name, class) across papers get the same canonical_id."""
     output_dir = tmp_path / "merged"
-    result = run_pass2(
+    result = run_ingest(
         bundle_dir=fixture_bundle_dir,
         output_dir=output_dir,
         synonym_cache_path=output_dir / "synonym_cache.json",
@@ -51,7 +51,7 @@ def test_pass2_merges_same_name_class(fixture_bundle_dir, tmp_path):
 def test_pass2_writes_synonym_cache(fixture_bundle_dir, tmp_path):
     """Pass 2 writes synonym_cache.json."""
     output_dir = tmp_path / "merged"
-    run_pass2(
+    run_ingest(
         bundle_dir=fixture_bundle_dir,
         output_dir=output_dir,
         synonym_cache_path=output_dir / "synonym_cache.json",
@@ -69,7 +69,7 @@ def test_pass2_does_not_modify_input_bundles(fixture_bundle_dir, tmp_path):
     output_dir = tmp_path / "merged"
     path1 = fixture_bundle_dir / "paper_PMC12756687.json"
     mtime_before = os.path.getmtime(path1)
-    run_pass2(
+    run_ingest(
         bundle_dir=fixture_bundle_dir,
         output_dir=output_dir,
         synonym_cache_path=output_dir / "synonym_cache.json",
@@ -81,7 +81,7 @@ def test_pass2_does_not_modify_input_bundles(fixture_bundle_dir, tmp_path):
 def test_pass2_writes_id_map(fixture_bundle_dir, tmp_path):
     """Pass 2 writes id_map.json so Pass 3 can resolve (paper_id, local_id) -> merge_key."""
     output_dir = tmp_path / "merged"
-    run_pass2(
+    run_ingest(
         bundle_dir=fixture_bundle_dir,
         output_dir=output_dir,
         synonym_cache_path=output_dir / "synonym_cache.json",
@@ -101,7 +101,7 @@ def test_pass2_writes_id_map(fixture_bundle_dir, tmp_path):
 def test_pass2_accumulates_relationship_sources(fixture_bundle_dir, tmp_path):
     """Merged relationships aggregate source_papers and evidence_ids."""
     output_dir = tmp_path / "merged"
-    run_pass2(
+    run_ingest(
         bundle_dir=fixture_bundle_dir,
         output_dir=output_dir,
         synonym_cache_path=output_dir / "synonym_cache.json",
@@ -117,7 +117,7 @@ def test_pass2_accumulates_relationship_sources(fixture_bundle_dir, tmp_path):
 def test_pass2_accumulates_provenance_from_evidence(fixture_bundle_dir, tmp_path):
     """Merged relationships have provenance built from evidence_entities (section, sentence)."""
     output_dir = tmp_path / "merged"
-    run_pass2(
+    run_ingest(
         bundle_dir=fixture_bundle_dir,
         output_dir=output_dir,
         synonym_cache_path=output_dir / "synonym_cache.json",
@@ -162,7 +162,7 @@ def test_is_authoritative_id():
 def test_pass2_output_has_entity_id_and_canonical_id_null_when_synthetic(fixture_bundle_dir, tmp_path):
     """Pass 2 output entities have entity_id (merge key) and canonical_id null when synthetic."""
     output_dir = tmp_path / "merged"
-    run_pass2(
+    run_ingest(
         bundle_dir=fixture_bundle_dir,
         output_dir=output_dir,
         synonym_cache_path=output_dir / "synonym_cache.json",
@@ -203,7 +203,7 @@ def test_pass2_swaps_backwards_treats_relationship(tmp_path):
     with open(bundle_dir / "paper_PMCtest.json", "w", encoding="utf-8") as f:
         json.dump(bundle_data, f, indent=2)
     output_dir = tmp_path / "merged"
-    run_pass2(
+    run_ingest(
         bundle_dir=bundle_dir,
         output_dir=output_dir,
         synonym_cache_path=output_dir / "synonym_cache.json",
@@ -233,7 +233,7 @@ def test_pass2_authoritative_id_from_bundle_preserved(tmp_path):
     with open(bundle_dir / "paper_PMCtest.json", "w", encoding="utf-8") as f:
         json.dump(bundle_data, f, indent=2)
     output_dir = tmp_path / "merged"
-    run_pass2(
+    run_ingest(
         bundle_dir=bundle_dir,
         output_dir=output_dir,
         synonym_cache_path=output_dir / "synonym_cache.json",

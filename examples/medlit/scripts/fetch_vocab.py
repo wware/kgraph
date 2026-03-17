@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Pass 1a: Fast vocabulary extraction across papers → vocab.json + seeded synonym cache.
+"""fetch_vocab: Fast vocabulary extraction across papers → vocab.json + seeded synonym cache.
 
 Runs a cheap LLM prompt per paper (entities only, no relationships), merges results
 into a shared vocabulary, runs UMLS type validation on entities with umls_id, and
-writes vocab.json plus a Pass 2–compatible seeded_synonym_cache.json. Pass 1b and
-Pass 2 consume these for consistent names/types and dedup seeding.
+writes vocab.json plus an ingest-compatible seeded_synonym_cache.json. extract and
+ingest consume these for consistent names/types and dedup seeding.
 
 Usage:
-  python -m examples.medlit.scripts.pass1a_vocab --input-dir pmc_xmls/ --output-dir pass1_vocab --llm-backend anthropic
-  python -m examples.medlit.scripts.pass1a_vocab --input-dir pmc_xmls/ --output-dir pass1_vocab --llm-backend ollama --papers "PMC115*.xml"
+  python -m examples.medlit.scripts.fetch_vocab --input-dir pmc_xmls/ --output-dir vocab --llm-backend anthropic
+  python -m examples.medlit.scripts.fetch_vocab --input-dir pmc_xmls/ --output-dir vocab --llm-backend ollama --papers "PMC115*.xml"
 """
 
 import argparse
@@ -35,7 +35,7 @@ import examples.medlit.domain_spec as _ds  # noqa: E402  # pylint: disable=wrong
 
 
 def _pass1a_system_prompt() -> str:
-    """Build Pass 1a system prompt from domain_spec."""
+    """Build fetch_vocab system prompt from domain_spec."""
     type_enum = sorted(_ds.NORMALIZED_TO_BUNDLE.keys())
     return (
         """Extract all named biomedical entities from this paper.
@@ -62,7 +62,7 @@ def _vocab_key(entry: dict[str, Any]) -> tuple[str, str]:
 
 async def _paper_content(path: Path, input_dir: Path) -> tuple[str, str]:
     """Return (content_text, paper_id) for a paper file."""
-    from examples.medlit.scripts.pass1_extract import _paper_content_fallback, _paper_content_from_parser
+    from examples.medlit.scripts.extract import _paper_content_fallback, _paper_content_from_parser
 
     content_type = "application/xml" if path.suffix.lower() == ".xml" else "application/json"
     with open(path, "rb") as f:
@@ -147,7 +147,7 @@ def _vocab_to_seeded_cache(
     vocab_entries: list[dict[str, Any]],
     normalized_to_bundle: dict[str, str],
 ) -> dict[str, list[dict[str, Any]]]:
-    """Build Pass 2 synonym cache format from vocab list so lookup_entity returns canonical_id."""
+    """Build ingest synonym cache format from vocab list so lookup_entity returns canonical_id."""
     from kgraph.pipeline.synonym_cache import _normalize
 
     cache: dict[str, list[dict[str, Any]]] = {}
@@ -169,7 +169,7 @@ def _vocab_to_seeded_cache(
             "entity_b": entity_snapshot,
             "resolution": "merged",
             "confidence": 1.0,
-            "asserted_by": "pass1a",
+            "asserted_by": "fetch_vocab",
             "source_papers": source_papers,
         }
         key = _normalize(name)
@@ -195,14 +195,14 @@ def _atomic_write_json(path: Path, data: Any) -> None:
         raise
 
 
-async def run_pass1a(
+async def run_fetch_vocab(
     input_dir: Path,
     output_dir: Path,
     llm_backend: str,
     papers: Optional[list[str]] = None,
     limit: Optional[int] = None,
 ) -> None:
-    """Run Pass 1a: extract vocabulary from papers, merge, validate UMLS types, write vocab + seeded cache."""
+    """Run fetch_vocab: extract vocabulary from papers, merge, validate UMLS types, write vocab + seeded cache."""
     from kgraph.pipeline.pass1_llm import get_pass1_llm
 
     normalized_to_bundle = _ds.NORMALIZED_TO_BUNDLE
@@ -241,7 +241,7 @@ async def run_pass1a(
         except Exception as e:
             print(f"Warning: could not load existing vocab: {e}", file=sys.stderr)
 
-    print(f"Pass 1a: {len(files)} paper(s), backend={llm_backend}, output={output_dir}", file=sys.stderr)
+    print(f"fetch_vocab: {len(files)} paper(s), backend={llm_backend}, output={output_dir}", file=sys.stderr)
     for path in files:
         content, paper_id = await _paper_content(path, input_dir)
         try:
@@ -273,10 +273,10 @@ async def run_pass1a(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Pass 1a: Fast vocabulary extraction → vocab.json + seeded_synonym_cache.json",
+        description="fetch_vocab: Fast vocabulary extraction → vocab.json + seeded_synonym_cache.json",
     )
     parser.add_argument("--input-dir", type=Path, required=True, help="Directory containing paper XML/JSON files")
-    parser.add_argument("--output-dir", type=Path, default=Path("pass1_vocab"), help="Output directory for vocab.json and seeded_synonym_cache.json")
+    parser.add_argument("--output-dir", type=Path, default=Path("vocab"), help="Output directory for vocab.json and seeded_synonym_cache.json")
     parser.add_argument("--llm-backend", type=str, choices=("anthropic", "openai", "ollama"), default=os.environ.get("LLM_BACKEND", "anthropic"))
     parser.add_argument("--papers", type=str, default=None, metavar="GLOB[,GLOB,...]", help="Comma-separated glob patterns for input files")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of papers to process")
@@ -285,7 +285,7 @@ def main() -> None:
     if args.papers is not None:
         papers_list = [p.strip() for p in args.papers.split(",") if p.strip()]
     asyncio.run(
-        run_pass1a(
+        run_fetch_vocab(
             args.input_dir,
             args.output_dir,
             args.llm_backend,

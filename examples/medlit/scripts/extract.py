@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""Pass 1: Extract entities and relationships from papers via LLM → per-paper bundle JSON.
+"""extract: Extract entities and relationships from papers via LLM → per-paper bundle JSON.
 
 Reads papers from --input-dir (JATS XML or JSON), calls the configured LLM once per paper,
 and writes one JSON file per paper to --output-dir. These bundles are immutable;
-Pass 2 (dedup) reads them and writes overlays or a merged graph elsewhere.
+ingest reads them and writes overlays or a merged graph elsewhere.
 
 Requires an LLM backend: --llm-backend anthropic | openai | ollama.
 Set ANTHROPIC_API_KEY, OPENAI_API_KEY, or run Ollama locally. See LLM_SETUP.md.
 
 Usage:
-  python -m examples.medlit.scripts.pass1_extract --input-dir pmc_xmls/ --output-dir bundles/ --llm-backend anthropic
-  python -m examples.medlit.scripts.pass1_extract --input-dir pmc_xmls/ --output-dir bundles/ --llm-backend ollama --limit 1
-  python -m examples.medlit.scripts.pass1_extract --input-dir pmc_xmls/ --output-dir bundles/ --papers "PMC127*.xml,PMC128*.json"
+  python -m examples.medlit.scripts.extract --input-dir pmc_xmls/ --output-dir bundles/ --llm-backend anthropic
+  python -m examples.medlit.scripts.extract --input-dir pmc_xmls/ --output-dir bundles/ --llm-backend ollama --limit 1
+  python -m examples.medlit.scripts.extract --input-dir pmc_xmls/ --output-dir bundles/ --papers "PMC127*.xml,PMC128*.json"
 """
 
 import argparse
@@ -169,13 +169,13 @@ def build_provenance(
     duration_seconds: Optional[float] = None,
     schema_version: Optional[str] = None,
 ) -> ExtractionProvenance:
-    """Build extraction_provenance for Pass 1 output."""
+    """Build extraction_provenance for extract output."""
     git = _git_info()
     now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     return ExtractionProvenance(
         models={"llm": ModelInfo(name=llm_name, version=llm_version)},
         extraction_pipeline=ExtractionPipelineInfo(
-            name="medlit_pass1_extract",
+            name="medlit_extract",
             version="0.1.0",
             git_commit=git["git_commit"] or "unknown",
             git_commit_short=git["git_commit_short"] or "unknown",
@@ -284,7 +284,7 @@ def _paper_content_fallback(raw_content: bytes, source_uri: str) -> tuple[str, P
     return text or "(no content)", PaperInfo(pmcid=stem if stem.startswith("PMC") else None, title=stem, authors=[])
 
 
-async def run_pass1(  # pylint: disable=too-many-statements
+async def run_extract(  # pylint: disable=too-many-statements
     input_dir: Path,
     output_dir: Path,
     llm_backend: str,
@@ -293,7 +293,7 @@ async def run_pass1(  # pylint: disable=too-many-statements
     system_prompt: Optional[str] = None,
     vocab_file: Optional[Path] = None,
 ) -> None:
-    """Run Pass 1: for each paper in input_dir, call LLM and write bundle JSON to output_dir."""
+    """Run extract: for each paper in input_dir, call LLM and write bundle JSON to output_dir."""
     from kgraph.pipeline.pass1_llm import get_pass1_llm
 
     import examples.medlit.domain_spec as _ds
@@ -337,7 +337,7 @@ async def run_pass1(  # pylint: disable=too-many-statements
         return
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    print(f"Pass 1: {len(files)} paper(s), backend={llm_backend}, output={output_dir}", file=sys.stderr)
+    print(f"extract: {len(files)} paper(s), backend={llm_backend}, output={output_dir}", file=sys.stderr)
 
     for _, path in enumerate(files):
         content_type = "application/xml" if path.suffix.lower() in (".xml",) else "application/json"
@@ -446,12 +446,12 @@ async def run_pass1(  # pylint: disable=too-many-statements
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Pass 1: Extract per-paper bundle JSON via LLM (immutable output).",
+        description="extract: Extract per-paper bundle JSON via LLM (immutable output).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
     parser.add_argument("--input-dir", type=Path, required=True, help="Directory containing paper XML/JSON files")
-    parser.add_argument("--output-dir", type=Path, default=Path("pass1_bundles"), help="Output directory for bundle JSONs")
+    parser.add_argument("--output-dir", type=Path, default=Path("extracted"), help="Output directory for bundle JSONs")
     parser.add_argument(
         "--llm-backend",
         type=str,
@@ -471,7 +471,7 @@ def main() -> None:
         "--vocab-file",
         type=Path,
         default=None,
-        help="Path to vocab.json (Pass 1a output). If present, entity list is included in the extraction prompt and types are normalized.",
+        help="Path to vocab.json (fetch_vocab output). If present, entity list is included in the extraction prompt and types are normalized.",
     )
     args = parser.parse_args()
     import asyncio
@@ -481,7 +481,7 @@ def main() -> None:
         papers_list = [p.strip() for p in args.papers.split(",") if p.strip()]
 
     asyncio.run(
-        run_pass1(
+        run_extract(
             args.input_dir,
             args.output_dir,
             args.llm_backend,

@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Pass 2: Deduplication and promotion over per-paper bundles.
+"""ingest: Deduplication and promotion over per-paper bundles.
 
-Reads all paper_*.json bundles from --bundle-dir (output of Pass 1), builds
+Reads all paper_*.json bundles from --bundle-dir (output of extract), builds
 name/type index and synonym cache, resolves SAME_AS, assigns canonical IDs,
 and writes merged entities and relationships to --output-dir. Original
 bundle files are never modified.
 
 Usage (legacy file-based pipeline):
-  python -m examples.medlit.scripts.pass2_dedup --bundle-dir pass1_bundles/ --output-dir merged/
+  python -m examples.medlit.scripts.ingest --bundle-dir extracted/ --output-dir merged/
 
 Usage (identity server):
-  python -m examples.medlit.scripts.pass2_dedup --bundle-dir pass1_bundles/ --output-dir merged/ \\
+  python -m examples.medlit.scripts.ingest --bundle-dir extracted/ --output-dir merged/ \\
       --use-identity-server
   Requires DATABASE_URL env var pointing to a running Postgres instance with
   the kgserver schema already created.
@@ -27,23 +27,23 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from examples.medlit.pipeline.dedup import run_pass2, run_pass2_with_identity_server  # noqa: E402  # pylint: disable=wrong-import-position
+from examples.medlit.pipeline.dedup import run_ingest, run_ingest_with_identity_server  # noqa: E402  # pylint: disable=wrong-import-position
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Pass 2: Deduplicate and promote entities/relationships from per-paper bundles.",
+        description="ingest: Deduplicate and promote entities/relationships from per-paper bundles.",
     )
     parser.add_argument(
         "--bundle-dir",
         type=Path,
         required=True,
-        help="Directory containing paper_*.json bundle files (Pass 1 output)",
+        help="Directory containing paper_*.json bundle files (extract output)",
     )
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("pass2_merged"),
+        default=Path("merged"),
         help="Output directory for merged entities.json, relationships.json",
     )
     parser.add_argument(
@@ -66,7 +66,7 @@ def main() -> None:
         "--canonical-id-cache",
         type=Path,
         default=None,
-        help="(Legacy) Path to canonical ID lookup cache. If set, Pass 2 resolves entities via authority APIs.",
+        help="(Legacy) Path to canonical ID lookup cache. If set, ingest resolves entities via authority APIs.",
     )
     parser.add_argument(
         "--no-canonical-id-lookup",
@@ -108,7 +108,7 @@ def main() -> None:
                 authority_cache=authority_cache,
             )
             result = asyncio.run(
-                run_pass2_with_identity_server(
+                run_ingest_with_identity_server(
                     bundle_dir=args.bundle_dir,
                     output_dir=args.output_dir,
                     identity_server=identity_server,
@@ -120,7 +120,7 @@ def main() -> None:
         if args.canonical_id_cache is not None and not args.no_canonical_id_lookup:
             canonical_id_cache_path = args.canonical_id_cache
 
-        result = run_pass2(
+        result = run_ingest(
             bundle_dir=args.bundle_dir,
             output_dir=args.output_dir,
             synonym_cache_path=args.synonym_cache,
@@ -132,7 +132,7 @@ def main() -> None:
         print(result["error"], file=sys.stderr)
         sys.exit(1)
     print(
-        f"Pass 2 done: {result['entities_count']} entities, {result['relationships_count']} relationships",
+        f"ingest done: {result['entities_count']} entities, {result['relationships_count']} relationships",
         file=sys.stderr,
     )
     print(f"  entities: {result['entities_path']}", file=sys.stderr)

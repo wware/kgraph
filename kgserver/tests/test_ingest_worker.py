@@ -31,13 +31,13 @@ class TestWorkspaceHelpers:
         assert root == want.resolve()
 
     def test_ensure_workspace_dirs(self, tmp_path):
-        """_ensure_workspace_dirs creates pass1_bundles, medlit_merged, medlit_bundle, pass1_vocab."""
+        """_ensure_workspace_dirs creates extracted, merged, bundle, vocab."""
         root = tmp_path / "ws"
         bundles_dir, merged_dir, output_dir, vocab_dir = _ensure_workspace_dirs(root)
-        assert bundles_dir == root / "pass1_bundles"
-        assert merged_dir == root / "medlit_merged"
-        assert output_dir == root / "medlit_bundle"
-        assert vocab_dir == root / "pass1_vocab"
+        assert bundles_dir == root / "extracted"
+        assert merged_dir == root / "merged"
+        assert output_dir == root / "bundle"
+        assert vocab_dir == root / "vocab"
         assert bundles_dir.is_dir()
         assert merged_dir.is_dir()
         assert output_dir.is_dir()
@@ -107,7 +107,7 @@ class TestPersistentWorkspaceIntegration:
         Requires examples.medlit (PYTHONPATH including repo root when run from kgserver).
         """
         try:
-            from examples.medlit.pipeline.dedup import run_pass2  # noqa: F401
+            from examples.medlit.pipeline.dedup import run_ingest  # noqa: F401
         except ModuleNotFoundError:
             pytest.skip("examples.medlit not importable (need PYTHONPATH including repo root)")
 

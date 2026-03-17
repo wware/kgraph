@@ -1,4 +1,4 @@
-"""Pass 2: Deduplication and promotion over per-paper bundles.
+"""ingest: Deduplication and promotion over per-paper bundles.
 
 Reads all PerPaperBundle JSONs from a directory, builds name/type index (with
 synonym cache), resolves high-confidence SAME_AS, assigns canonical IDs,
@@ -138,7 +138,7 @@ _FALLBACK_ENTITY_CLASS_TO_LOOKUP: dict[str, str] = {
 def _entity_class_to_lookup_type(entity_class: str, entity_class_to_lookup: dict[str, str]) -> Optional[str]:
     """Map bundle entity_class to CanonicalIdLookup entity_type (lowercase).
 
-    Deprecated: will be removed when the resolution loop in run_pass2 is
+    Deprecated: will be removed when the resolution loop in run_ingest is
     replaced by PostgresIdentityServer.resolve() in Piece 3.
     """
     m = entity_class_to_lookup if entity_class_to_lookup else _FALLBACK_ENTITY_CLASS_TO_LOOKUP
@@ -203,7 +203,7 @@ def _canonical_id_slug() -> str:
     return "prov-" + uuid.uuid4().hex[:12]
 
 
-def run_pass2(  # pylint: disable=too-many-statements
+def run_ingest(  # pylint: disable=too-many-statements
     bundle_dir: Path,
     output_dir: Path,
     synonym_cache_path: Optional[Path] = None,
@@ -212,7 +212,7 @@ def run_pass2(  # pylint: disable=too-many-statements
     similarity_threshold: float = 0.88,
     cross_type_threshold: float = 0.90,
 ) -> dict[str, Any]:
-    """Run Pass 2: dedup and promotion. Reads bundles from bundle_dir, writes to output_dir.
+    """Run ingest: dedup and promotion. Reads bundles from bundle_dir, writes to output_dir.
 
     Original bundle files in bundle_dir are never modified.
     Returns summary dict (entities_count, relationships_count, etc.).
@@ -237,7 +237,7 @@ def run_pass2(  # pylint: disable=too-many-statements
     entity_class_to_predicate_type = _build_entity_class_to_predicate_type()
 
     try:
-        return _run_pass2_impl(
+        return _run_ingest_impl(
             bundle_dir=bundle_dir,
             output_dir=output_dir,
             synonym_cache_path=synonym_cache_path,
@@ -254,7 +254,7 @@ def run_pass2(  # pylint: disable=too-many-statements
             lookup._save_cache(force=True)  # Save lookup cache so results persist across runs.  # pylint: disable=protected-access
 
 
-def _run_pass2_impl(  # pylint: disable=too-many-statements
+def _run_ingest_impl(  # pylint: disable=too-many-statements
     bundle_dir: Path,
     output_dir: Path,
     synonym_cache_path: Path,
@@ -266,7 +266,7 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
     entity_class_to_lookup: Optional[dict[str, str]] = None,
     entity_class_to_predicate_type: Optional[dict[str, str]] = None,
 ) -> dict[str, Any]:
-    """Inner Pass 2 implementation (lookup created and saved by caller)."""
+    """Inner ingest implementation (lookup created and saved by caller)."""
     if entity_class_to_lookup is None:
         entity_class_to_lookup = {}
     if entity_class_to_predicate_type is None:
@@ -784,12 +784,12 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
     }
 
 
-async def run_pass2_with_identity_server(
+async def run_ingest_with_identity_server(
     bundle_dir: Path,
     output_dir: Path,
     identity_server: Any,
 ) -> dict[str, Any]:
-    """Run Pass 2 using PostgresIdentityServer for entity resolution.
+    """Run ingest using PostgresIdentityServer for entity resolution.
 
     Replaces the hand-built name/type index, synonym cache, authority lookup
     chain, SAME_AS resolution, and embedding-based dedup with calls to the
@@ -872,7 +872,7 @@ async def run_pass2_with_identity_server(
             if paper_id not in canonical_entities[entity_id]["source_papers"]:
                 canonical_entities[entity_id]["source_papers"].append(paper_id)
 
-    # 3) Accumulate relationships: same logic as the original pass2, but using
+    # 3) Accumulate relationships: same logic as the original ingest, but using
     #    identity-server-resolved IDs in local_to_canonical.
     domain = MedLitDomainSchema()
     predicate_constraints = domain.predicate_constraints
@@ -934,7 +934,7 @@ async def run_pass2_with_identity_server(
                 if getattr(rel, "linguistic_trust", None):
                     r["linguistic_trust"] = rel.linguistic_trust
 
-    # 4) Write output files (same structure as run_pass2).
+    # 4) Write output files (same structure as run_ingest).
     output_dir.mkdir(parents=True, exist_ok=True)
 
     by_paper: dict[str, dict[str, str]] = {}

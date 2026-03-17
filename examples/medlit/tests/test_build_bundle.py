@@ -1,4 +1,4 @@
-"""Tests for Pass 3 bundle builder (medlit_merged + pass1_bundles -> kgbundle)."""
+"""Tests for build_bundle (merged + extracted -> kgbundle)."""
 
 import json
 
@@ -7,8 +7,8 @@ import pytest
 from examples.medlit.bundle_models import PerPaperBundle
 from examples.medlit.pipeline.bundle_builder import (
     load_merged_output,
-    load_pass1_bundles,
-    run_pass3,
+    load_extracted_bundles,
+    run_build_bundle,
     _entity_usage_from_bundles,
 )
 from kgbundle import BundleManifestV1
@@ -102,10 +102,10 @@ def minimal_bundles_dir(tmp_path):
     return bundles_dir
 
 
-def test_run_pass3_produces_bundle_files(minimal_merged_dir, minimal_bundles_dir, tmp_path):
-    """run_pass3 writes entities.jsonl, relationships.jsonl, evidence.jsonl, mentions.jsonl, manifest.json."""
+def test_run_build_bundle_produces_bundle_files(minimal_merged_dir, minimal_bundles_dir, tmp_path):
+    """run_build_bundle writes entities.jsonl, relationships.jsonl, evidence.jsonl, mentions.jsonl, manifest.json."""
     output_dir = tmp_path / "out"
-    run_pass3(minimal_merged_dir, minimal_bundles_dir, output_dir)
+    run_build_bundle(minimal_merged_dir, minimal_bundles_dir, output_dir)
 
     assert (output_dir / "entities.jsonl").exists()
     assert (output_dir / "relationships.jsonl").exists()
@@ -132,7 +132,7 @@ def test_run_pass3_produces_bundle_files(minimal_merged_dir, minimal_bundles_dir
 def test_entity_row_has_usage_and_status(minimal_merged_dir, minimal_bundles_dir, tmp_path):
     """EntityRow in entities.jsonl has entity_id, status, usage_count/total_mentions from bundle scan."""
     output_dir = tmp_path / "out"
-    run_pass3(minimal_merged_dir, minimal_bundles_dir, output_dir)
+    run_build_bundle(minimal_merged_dir, minimal_bundles_dir, output_dir)
 
     with open(output_dir / "entities.jsonl", encoding="utf-8") as f:
         lines = [line for line in f if line.strip()]
@@ -147,7 +147,7 @@ def test_entity_row_has_usage_and_status(minimal_merged_dir, minimal_bundles_dir
 def test_first_seen_section_populated_from_evidence_id(minimal_merged_dir, minimal_bundles_dir, tmp_path):
     """first_seen_section is parsed from evidence_id (format paper_id:section:paragraph_idx:method)."""
     output_dir = tmp_path / "out"
-    run_pass3(minimal_merged_dir, minimal_bundles_dir, output_dir)
+    run_build_bundle(minimal_merged_dir, minimal_bundles_dir, output_dir)
 
     with open(output_dir / "entities.jsonl", encoding="utf-8") as f:
         entities = [json.loads(line) for line in f if line.strip()]
@@ -160,7 +160,7 @@ def test_first_seen_section_populated_from_evidence_id(minimal_merged_dir, minim
 def test_relationship_row_includes_provenance_in_properties(minimal_merged_dir, minimal_bundles_dir, tmp_path):
     """When merged relationships have provenance, Pass 3 emits it in properties."""
     output_dir = tmp_path / "out"
-    run_pass3(minimal_merged_dir, minimal_bundles_dir, output_dir)
+    run_build_bundle(minimal_merged_dir, minimal_bundles_dir, output_dir)
 
     with open(output_dir / "relationships.jsonl", encoding="utf-8") as f:
         rel_lines = [json.loads(line) for line in f if line.strip()]
@@ -177,7 +177,7 @@ def test_relationship_row_includes_provenance_in_properties(minimal_merged_dir, 
 def test_evidence_row_relationship_key_uses_merge_keys(minimal_merged_dir, minimal_bundles_dir, tmp_path):
     """EvidenceRow relationship_key uses merge keys (from id_map), not local ids."""
     output_dir = tmp_path / "out"
-    run_pass3(minimal_merged_dir, minimal_bundles_dir, output_dir)
+    run_build_bundle(minimal_merged_dir, minimal_bundles_dir, output_dir)
 
     with open(output_dir / "evidence.jsonl", encoding="utf-8") as f:
         lines = [line for line in f if line.strip()]
@@ -192,8 +192,8 @@ def test_evidence_row_relationship_key_uses_merge_keys(minimal_merged_dir, minim
     assert "HGNC:1100" in rk or "C0006142" in rk
 
 
-def test_run_pass3_raises_when_id_map_missing(tmp_path, minimal_bundles_dir):
-    """If id_map.json is missing in merged_dir, run_pass3 raises FileNotFoundError."""
+def test_run_build_bundle_raises_when_id_map_missing(tmp_path, minimal_bundles_dir):
+    """If id_map.json is missing in merged_dir, run_build_bundle raises FileNotFoundError."""
     merged_dir = tmp_path / "merged"
     merged_dir.mkdir()
     (merged_dir / "entities.json").write_text("[]", encoding="utf-8")
@@ -202,7 +202,7 @@ def test_run_pass3_raises_when_id_map_missing(tmp_path, minimal_bundles_dir):
 
     output_dir = tmp_path / "out"
     with pytest.raises(FileNotFoundError) as exc_info:
-        run_pass3(merged_dir, minimal_bundles_dir, output_dir)
+        run_build_bundle(merged_dir, minimal_bundles_dir, output_dir)
     assert "id_map.json" in str(exc_info.value)
 
 
@@ -218,9 +218,9 @@ def test_load_merged_output_requires_id_map(tmp_path):
     assert "id_map.json" in str(exc_info.value)
 
 
-def test_load_pass1_bundles(minimal_bundles_dir):
-    """load_pass1_bundles returns list of (paper_id, PerPaperBundle)."""
-    bundles = load_pass1_bundles(minimal_bundles_dir)
+def test_load_extracted_bundles(minimal_bundles_dir):
+    """load_extracted_bundles returns list of (paper_id, PerPaperBundle)."""
+    bundles = load_extracted_bundles(minimal_bundles_dir)
     assert len(bundles) == 1
     paper_id, bundle = bundles[0]
     assert paper_id == "PMC12756687"
@@ -243,7 +243,7 @@ def test_provenance_denylist_excludes_pmc_placeholder(tmp_path):
     bundles_dir = tmp_path / "bundles"
     bundles_dir.mkdir()
     (bundles_dir / "paper_PMC_PLACEHOLDER.json").write_text(json.dumps(bundle_data, indent=2), encoding="utf-8")
-    bundles = load_pass1_bundles(bundles_dir)
+    bundles = load_extracted_bundles(bundles_dir)
     usage = _entity_usage_from_bundles(bundles, id_map)
     rec = usage.get("prov-abc123", {})
     assert rec.get("usage_count", 0) == 0
@@ -264,7 +264,7 @@ def test_provenance_denylist_excludes_pmc_id_not_provided(tmp_path):
     bundles_dir = tmp_path / "bundles"
     bundles_dir.mkdir()
     (bundles_dir / "paper_PMC_ID_NOT_PROVIDED.json").write_text(json.dumps(bundle_data, indent=2), encoding="utf-8")
-    bundles = load_pass1_bundles(bundles_dir)
+    bundles = load_extracted_bundles(bundles_dir)
     usage = _entity_usage_from_bundles(bundles, id_map)
     rec = usage.get("prov-xyz789", {})
     assert rec.get("usage_count", 0) == 0
@@ -289,7 +289,7 @@ def test_provenance_denylist_excludes_pmc_unknown(tmp_path):
     bundles_dir = tmp_path / "bundles"
     bundles_dir.mkdir()
     (bundles_dir / "paper_PMC_UNKNOWN.json").write_text(json.dumps(bundle_data, indent=2), encoding="utf-8")
-    bundles = load_pass1_bundles(bundles_dir)
+    bundles = load_extracted_bundles(bundles_dir)
     usage = _entity_usage_from_bundles(bundles, id_map)
     # prov-abc123 and prov-def456 get usage from evidence
     # But paper_id PMC_UNKNOWN is denylisted, so supporting_documents stays empty
@@ -333,7 +333,7 @@ def test_zero_mention_orphan_dropped(tmp_path):
     bundles_dir.mkdir()
     (bundles_dir / "paper_PMC123.json").write_text(json.dumps(bundle_data, indent=2), encoding="utf-8")
     output_dir = tmp_path / "out"
-    run_pass3(merged_dir, bundles_dir, output_dir)
+    run_build_bundle(merged_dir, bundles_dir, output_dir)
     with open(output_dir / "entities.jsonl", encoding="utf-8") as f:
         entity_lines = [json.loads(line) for line in f if line.strip()]
     entity_ids = [e["entity_id"] for e in entity_lines]
@@ -378,7 +378,7 @@ def test_provenance_derived_entities_retained(tmp_path):
     bundles_dir.mkdir()
     (bundles_dir / "paper_PMC123.json").write_text(json.dumps(bundle_data, indent=2), encoding="utf-8")
     output_dir = tmp_path / "out"
-    run_pass3(merged_dir, bundles_dir, output_dir)
+    run_build_bundle(merged_dir, bundles_dir, output_dir)
     with open(output_dir / "entities.jsonl", encoding="utf-8") as f:
         entity_lines = [json.loads(line) for line in f if line.strip()]
     entity_ids = [e["entity_id"] for e in entity_lines]
@@ -388,9 +388,9 @@ def test_provenance_derived_entities_retained(tmp_path):
     assert len(paper_entities) >= 1, "At least one Paper entity should appear in entities.jsonl"
 
 
-def test_run_pass3_copies_sources_when_pmc_xmls_dir_provided(tmp_path):
+def test_run_build_bundle_copies_sources_when_pmc_xmls_dir_provided(tmp_path):
     """When --pmc-xmls-dir is provided, copy XML files into output_dir/sources/."""
-    from examples.medlit.pipeline.bundle_builder import run_pass3
+    from examples.medlit.pipeline.bundle_builder import run_build_bundle  # noqa: F401 (already imported)
 
     merged_dir = tmp_path / "merged"
     merged_dir.mkdir()
@@ -414,7 +414,7 @@ def test_run_pass3_copies_sources_when_pmc_xmls_dir_provided(tmp_path):
     (pmc_xmls_dir / "PMC123.xml").write_text("<article><title>Test Paper</title></article>", encoding="utf-8")
 
     output_dir = tmp_path / "out"
-    run_pass3(merged_dir, bundles_dir, output_dir, pmc_xmls_dir=pmc_xmls_dir)
+    run_build_bundle(merged_dir, bundles_dir, output_dir, pmc_xmls_dir=pmc_xmls_dir)
 
     sources_dir = output_dir / "sources"
     assert sources_dir.is_dir()

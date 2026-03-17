@@ -1,4 +1,4 @@
-"""Tests for Pass 2 dedup: synonym indexing, namespace normalization, reconciliation."""
+"""Tests for ingest dedup: synonym indexing, namespace normalization, reconciliation."""
 
 import json
 
@@ -8,7 +8,7 @@ from examples.medlit.pipeline.dedup import (
     _canonical_id_slug,
     _is_authoritative_id,
     _preferred_authoritative_id,
-    run_pass2,
+    run_ingest,
 )
 
 
@@ -60,7 +60,7 @@ def test_synonym_indexing_merges_name_to_synonym(tmp_path):
             encoding="utf-8",
         )
     output_dir = tmp_path / "merged"
-    result = run_pass2(bundle_dir=bundle_dir, output_dir=output_dir)
+    result = run_ingest(bundle_dir=bundle_dir, output_dir=output_dir)
     assert "error" not in result
     with open(output_dir / "entities.json", encoding="utf-8") as f:
         entities = json.load(f)
@@ -117,7 +117,7 @@ def test_synonym_indexing_does_not_merge_different_classes(tmp_path):
             encoding="utf-8",
         )
     output_dir = tmp_path / "merged"
-    result = run_pass2(bundle_dir=bundle_dir, output_dir=output_dir)
+    result = run_ingest(bundle_dir=bundle_dir, output_dir=output_dir)
     assert "error" not in result
     with open(output_dir / "entities.json", encoding="utf-8") as f:
         entities = json.load(f)
@@ -173,7 +173,7 @@ def test_spelling_normalization_merges_hyperglycaemia_hyperglycemia(tmp_path):
             encoding="utf-8",
         )
     output_dir = tmp_path / "merged"
-    result = run_pass2(bundle_dir=bundle_dir, output_dir=output_dir)
+    result = run_ingest(bundle_dir=bundle_dir, output_dir=output_dir)
     assert "error" not in result
     with open(output_dir / "entities.json", encoding="utf-8") as f:
         entities = json.load(f)

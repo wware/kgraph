@@ -1,8 +1,8 @@
 #!/bin/bash -e
-# Three-pass medlit ingestion: Pass 1 (LLM extract) → Pass 2 (dedup) → Pass 3 (build kgbundle).
-# To ADD more papers to an existing bundle: keep pass1_bundles/ and medlit_merged/ from the first run.
-# Then run Pass 1 with --output-dir pass1_bundles and --papers "NEW_PAPER1.xml,NEW_PAPER2.xml" (skips existing),
-# then re-run Pass 2 (same --output-dir medlit_merged, same --synonym-cache), then re-run Pass 3.
+# Three-pass medlit ingestion: extract → ingest → build_bundle.
+# To ADD more papers to an existing bundle: keep extracted/ and merged/ from the first run.
+# Then run extract with --output-dir extracted and --papers "NEW_PAPER1.xml,NEW_PAPER2.xml" (skips existing),
+# then re-run ingest (same --output-dir merged, same --synonym-cache), then re-run build_bundle.
 # See examples/medlit/INGESTION.md § "Adding more papers to an existing bundle".
 #
 # Usage:
@@ -30,7 +30,7 @@ _get_list() {
 }
 
 _show_help() {
-    echo "run-ingest.sh — Three-pass medlit ingestion (Pass 1 → Pass 2 → Pass 3)"
+    echo "run-ingest.sh — Three-pass medlit ingestion (fetch_vocab → extract → ingest → build_bundle)"
     echo ""
     echo "Usage:"
     echo "  ./run-ingest.sh --list              Show available paper lists"
@@ -112,38 +112,38 @@ DEBUG="--debug"
 TIMEOUT=1000
 
 # Clean up first
-git rm -rf medlit_bundle/* medlit_merged/* pass1_bundles/* pass1_vocab/* || true
-rm -rf medlit_bundle/* medlit_merged/* pass1_bundles/* pass1_vocab/* || true
+git rm -rf bundle/* merged/* extracted/* vocab/* || true
+rm -rf bundle/* merged/* extracted/* vocab/* || true
 git commit -m 'start fresh' || true
 
-# Legacy ingest.py removed (PLAN10). Use four-pass pipeline: 1a (vocab) → 1b (extract) → 2 (dedup) → 3 (bundle).
+# Legacy ingest.py removed (PLAN10). Use four-pass pipeline: fetch_vocab → extract → ingest → build_bundle.
 
-# Pass 1a: fast vocabulary extraction across all papers
-uv run python -m examples.medlit.scripts.pass1a_vocab \
+# fetch_vocab: fast vocabulary extraction across all papers
+uv run python -m examples.medlit.scripts.fetch_vocab \
   --input-dir examples/medlit/pmc_xmls \
-  --output-dir pass1_vocab \
+  --output-dir vocab \
   --llm-backend anthropic \
   --papers $PAPER
 
-# Pass 1b: full extraction with vocabulary context
-uv run python -m examples.medlit.scripts.pass1_extract \
+# extract: full extraction with vocabulary context
+uv run python -m examples.medlit.scripts.extract \
   --input-dir examples/medlit/pmc_xmls \
-  --output-dir pass1_bundles \
+  --output-dir extracted \
   --llm-backend anthropic \
-  --vocab-file pass1_vocab/vocab.json \
+  --vocab-file vocab/vocab.json \
   --papers $PAPER
 
-# Pass 2: dedup, seeded with pass1a synonym cache
-uv run python -m examples.medlit.scripts.pass2_dedup \
-  --bundle-dir pass1_bundles \
-  --output-dir medlit_merged \
-  --synonym-cache pass1_vocab/seeded_synonym_cache.json
+# ingest: dedup, seeded with fetch_vocab synonym cache
+uv run python -m examples.medlit.scripts.ingest \
+  --bundle-dir extracted \
+  --output-dir merged \
+  --synonym-cache vocab/seeded_synonym_cache.json
 
-uv run python -m examples.medlit.scripts.pass3_build_bundle \
-  --merged-dir medlit_merged \
-  --bundles-dir pass1_bundles \
-  --output-dir medlit_bundle \
+uv run python -m examples.medlit.scripts.build_bundle \
+  --merged-dir merged \
+  --bundles-dir extracted \
+  --output-dir bundle \
   --pmc-xmls-dir examples/medlit/pmc_xmls
 
-git add medlit_bundle/* medlit_merged/* pass1_bundles/* pass1_vocab/*
+git add bundle/* merged/* extracted/* vocab/*
 git commit -m "Ingestion results: $PAPER"

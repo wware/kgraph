@@ -7,7 +7,7 @@ When an unrelated paper appears in query results, use these MCP tools to debug. 
 - **`get_paper_source(paper_id, max_chars=None)`** — Raw JATS-XML of a paper from `bundle/sources/`.
 - **`get_mentions(paper_id=None)`** — Entity mentions from `mentions.jsonl`, optionally filtered by `document_id`.
 
-Both require `BUNDLE_PATH` and read from the bundle directory or ZIP. The bundle must include `sources/` (populated by Pass 3 with `--pmc-xmls-dir`).
+Both require `BUNDLE_PATH` and read from the bundle directory or ZIP. The bundle must include `sources/` (populated by build_bundle with `--pmc-xmls-dir`).
 
 ## LLM Verification Workflow
 
@@ -23,6 +23,6 @@ Both require `BUNDLE_PATH` and read from the bundle directory or ZIP. The bundle
 
 ## If Mentions Look Clean: Merge-Bug Hypothesis
 
-If the bogus paper link appeared *after* Pass 2 deduplication, the bug may be a false-positive entity merge. Inspect `medlit_merged/entities.json` and `medlit_merged/id_map.json`.
+If the bogus paper link appeared *after* ingest deduplication, the bug may be a false-positive entity merge. Inspect `merged/entities.json` and `merged/id_map.json`.
 
 **Merge-bug signature in `id_map.json`:** Multiple source IDs mapping to the same canonical ID indicates a merge. Look for entries where several `paper_id` keys resolve to one canonical entity.

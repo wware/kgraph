@@ -1,7 +1,7 @@
 """
 Background worker for paper ingestion jobs.
 
-Processes jobs from a queue: fetch URL, run Pass 1/2/3 pipeline, load bundle incrementally.
+Processes jobs from a queue: fetch URL, run fetch_vocab/extract/ingest/build_bundle pipeline, load bundle incrementally.
 """
 
 import asyncio
@@ -58,13 +58,13 @@ def _workspace_root() -> Path:
 def _ensure_workspace_dirs(root: Path) -> tuple[Path, Path, Path, Path]:
     """Create and return (bundles_dir, merged_dir, output_dir, vocab_dir). These persist across jobs.
 
-    Note: output_dir (medlit_bundle/) is always fully rebuilt by Pass 3.
+    Note: output_dir (bundle/) is always fully rebuilt by build_bundle.
     The true incremental state is bundles_dir + merged_dir + vocab_dir (especially synonym_cache.json).
     """
-    bundles_dir = root / "pass1_bundles"
-    merged_dir = root / "medlit_merged"
-    output_dir = root / "medlit_bundle"
-    vocab_dir = root / "pass1_vocab"
+    bundles_dir = root / "extracted"
+    merged_dir = root / "merged"
+    output_dir = root / "bundle"
+    vocab_dir = root / "vocab"
     for d in (bundles_dir, merged_dir, output_dir, vocab_dir):
         d.mkdir(parents=True, exist_ok=True)
     return bundles_dir, merged_dir, output_dir, vocab_dir
@@ -72,7 +72,7 @@ def _ensure_workspace_dirs(root: Path) -> tuple[Path, Path, Path, Path]:
 
 @contextmanager
 def _workspace_lock(workspace_root: Path):
-    """File lock serializing Pass 2 → Pass 3 → load_bundle_incremental across workers."""
+    """File lock serializing ingest → build_bundle → load_bundle_incremental across workers."""
     lock_path = workspace_root / ".ingest.lock"
     lock_path.parent.mkdir(parents=True, exist_ok=True)
     with open(lock_path, "w", encoding="utf-8") as fh:
@@ -89,26 +89,26 @@ def _run_pass2_pass3_load(
     merged_dir: Path,
     output_dir: Path,
 ) -> None:
-    """Run Pass 2, Pass 3, and load_bundle_incremental under workspace lock. Raises on failure."""
+    """Run ingest, build_bundle, and load_bundle_incremental under workspace lock. Raises on failure."""
     from kgbundle import BundleManifestV1
 
-    from examples.medlit.pipeline.bundle_builder import run_pass3  # pylint: disable=import-error
-    from examples.medlit.pipeline.dedup import run_pass2  # pylint: disable=import-error
+    from examples.medlit.pipeline.bundle_builder import run_build_bundle  # pylint: disable=import-error
+    from examples.medlit.pipeline.dedup import run_ingest  # pylint: disable=import-error
 
-    seeded_cache = workspace_root / "pass1_vocab" / "seeded_synonym_cache.json"
+    seeded_cache = workspace_root / "vocab" / "seeded_synonym_cache.json"
     synonym_cache_path = seeded_cache if seeded_cache.exists() else merged_dir / "synonym_cache.json"
 
     with _workspace_lock(workspace_root):
-        run_pass2(
+        run_ingest(
             bundle_dir=bundles_dir,
             output_dir=merged_dir,
             synonym_cache_path=synonym_cache_path,
             canonical_id_cache_path=None,
         )
-        run_pass3(merged_dir, bundles_dir, output_dir)
+        run_build_bundle(merged_dir, bundles_dir, output_dir)
         manifest_path = output_dir / "manifest.json"
         if not manifest_path.exists():
-            raise FileNotFoundError(f"Pass 3 did not produce {manifest_path}")
+            raise FileNotFoundError(f"build_bundle did not produce {manifest_path}")
         manifest_data = manifest_path.read_text()
         manifest = BundleManifestV1.model_validate_json(manifest_data)
         load_storage, load_close = _storage_for_worker()
@@ -201,8 +201,8 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
 
     from kgbundle import BundleManifestV1
 
-    from examples.medlit.scripts.pass1_extract import run_pass1  # pylint: disable=import-error
-    from examples.medlit.scripts.pass1a_vocab import run_pass1a  # pylint: disable=import-error
+    from examples.medlit.scripts.extract import run_extract  # pylint: disable=import-error
+    from examples.medlit.scripts.fetch_vocab import run_fetch_vocab  # pylint: disable=import-error
 
     url = job.url
     logger.info("Ingest job %s starting: url=%s", job_id, url)
@@ -268,14 +268,14 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
             logger.info("Ingest job %s: skipped (paper %s already in workspace)", job_id, pmcid)
             return
 
-        # Pass 1a: merge this paper's vocab into workspace vocab (outside lock)
+        # fetch_vocab: merge this paper's vocab into workspace vocab (outside lock)
         llm_backend = os.environ.get("PASS1_LLM_BACKEND", "anthropic")
-        logger.info("Ingest job %s: starting Pass 1a (backend=%s)", job_id, llm_backend)
-        await run_pass1a(input_dir, vocab_dir, llm_backend, papers=None, limit=1)
-        # Pass 1b: full extraction with vocabulary context
-        logger.info("Ingest job %s: starting Pass 1 (backend=%s)", job_id, llm_backend)
+        logger.info("Ingest job %s: starting fetch_vocab (backend=%s)", job_id, llm_backend)
+        await run_fetch_vocab(input_dir, vocab_dir, llm_backend, papers=None, limit=1)
+        # extract: full extraction with vocabulary context
+        logger.info("Ingest job %s: starting extract (backend=%s)", job_id, llm_backend)
         t0 = time.perf_counter()
-        await run_pass1(
+        await run_extract(
             input_dir,
             bundles_dir,
             llm_backend,
@@ -286,18 +286,18 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
 
         bundle_files = sorted(bundles_dir.glob("paper_*.json"))
         logger.info(
-            "Ingest job %s: Pass 1 done in %.1fs, bundle_files=%s",
+            "Ingest job %s: extract done in %.1fs, bundle_files=%s",
             job_id,
             pass1_sec,
             [p.name for p in bundle_files],
         )
         if not bundle_files:
-            logger.warning("Ingest job %s: Pass 1 produced no bundle files", job_id)
+            logger.warning("Ingest job %s: extract produced no bundle files", job_id)
             storage.update_ingest_job(
                 job_id,
                 status="failed",
                 completed_at=datetime.now(timezone.utc),
-                error="Pass 1 produced no bundle files (LLM may have failed, timed out, or returned invalid JSON).",
+                error="extract produced no bundle files (LLM may have failed, timed out, or returned invalid JSON).",
             )
             return
 
@@ -316,8 +316,8 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
             except Exception:
                 pass
 
-        # Pass 2 + Pass 3 + load (under lock, in thread)
-        logger.info("Ingest job %s: starting Pass 2 + Pass 3 + load", job_id)
+        # ingest + build_bundle + load (under lock, in thread)
+        logger.info("Ingest job %s: starting ingest + build_bundle + load", job_id)
         t_pass23_start = time.perf_counter()
         try:
             await asyncio.to_thread(
@@ -328,16 +328,16 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
                 output_dir,
             )
         except Exception as e:
-            logger.exception("Ingest job %s: Pass 2/3/load failed: %s", job_id, e)
+            logger.exception("Ingest job %s: ingest/build_bundle/load failed: %s", job_id, e)
             storage.update_ingest_job(
                 job_id,
                 status="failed",
                 completed_at=datetime.now(timezone.utc),
-                error=f"Pass 2/3/load failed: {e}",
+                error=f"ingest/build_bundle/load failed: {e}",
             )
             return
         pass23_sec = time.perf_counter() - t_pass23_start
-        logger.info("Ingest job %s: Pass 2+3+load done in %.1fs", job_id, pass23_sec)
+        logger.info("Ingest job %s: ingest+build_bundle+load done in %.1fs", job_id, pass23_sec)
 
         manifest_path = output_dir / "manifest.json"
         if not manifest_path.exists():
@@ -345,7 +345,7 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
                 job_id,
                 status="failed",
                 completed_at=datetime.now(timezone.utc),
-                error="Pass 3 did not produce manifest.json",
+                error="build_bundle did not produce manifest.json",
             )
             return
 
@@ -371,7 +371,7 @@ async def _run_ingest_job_impl(job_id: str, storage: StorageInterface, job) -> N
             error=None,
         )
         logger.info(
-            "Ingest job %s complete: %s entities, %s relationships (Pass1=%.1fs Pass2+3+load=%.1fs)",
+            "Ingest job %s complete: %s entities, %s relationships (extract=%.1fs ingest+build_bundle+load=%.1fs)",
             job_id,
             entities_added,
             relationships_added,

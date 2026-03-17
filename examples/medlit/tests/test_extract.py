@@ -1,7 +1,7 @@
-"""Unit tests for Pass 1 extract helpers: vocab-in-prompt and type normalization."""
+"""Unit tests for extract helpers: vocab-in-prompt and type normalization."""
 
 import examples.medlit.domain_spec as _ds
-from examples.medlit.scripts.pass1_extract import (
+from examples.medlit.scripts.extract import (
     _default_system_prompt,
     _fix_evidence_paper_id,
     _replace_current_paper_in_bundle,

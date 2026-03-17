@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pass 3: Build kgbundle from medlit_merged and pass1_bundles.
+"""build_bundle: Build kgbundle from merged and extracted.
 
 Reads merged_dir (entities.json, relationships.json, id_map.json, synonym_cache.json)
 and bundles_dir (paper_*.json), writes output_dir in kgbundle format for kgserver.
@@ -20,22 +20,22 @@ try:
 except ImportError:
     pass
 
-from examples.medlit.pipeline.bundle_builder import run_pass3  # noqa: E402  # pylint: disable=wrong-import-position
+from examples.medlit.pipeline.bundle_builder import run_build_bundle  # noqa: E402  # pylint: disable=wrong-import-position
 
 
 def main() -> int:
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="Pass 3: Build kgbundle from medlit_merged and pass1_bundles.",
+        description="build_bundle: Build kgbundle from merged and extracted.",
     )
-    parser.add_argument("--merged-dir", type=Path, required=True, help="Pass 2 merged output directory")
-    parser.add_argument("--bundles-dir", type=Path, required=True, help="Pass 1 paper_*.json bundles directory")
+    parser.add_argument("--merged-dir", type=Path, required=True, help="ingest merged output directory")
+    parser.add_argument("--bundles-dir", type=Path, required=True, help="extract paper_*.json bundles directory")
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("medlit_bundle"),
-        help="Output kgbundle directory (default: medlit_bundle)",
+        default=Path("bundle"),
+        help="Output kgbundle directory (default: bundle)",
     )
     parser.add_argument(
         "--pmc-xmls-dir",
@@ -55,7 +55,7 @@ def main() -> int:
         return 1
     if not (merged_dir / "id_map.json").exists():
         print(
-            f"Error: id_map.json not found in {merged_dir}. Run Pass 2 so that merged_dir contains id_map.json.",
+            f"Error: id_map.json not found in {merged_dir}. Run ingest so that merged_dir contains id_map.json.",
             file=sys.stderr,
         )
         return 1
@@ -64,13 +64,13 @@ def main() -> int:
         return 1
 
     try:
-        summary = run_pass3(merged_dir, bundles_dir, output_dir, pmc_xmls_dir=pmc_xmls_dir)
+        summary = run_build_bundle(merged_dir, bundles_dir, output_dir, pmc_xmls_dir=pmc_xmls_dir)
     except FileNotFoundError as e:
         print(f"Error: {e}", file=sys.stderr)
         return 1
 
     print(
-        f"Pass 3 complete: {summary['entity_count']} entities, {summary['relationship_count']} relationships, " f"{summary['evidence_count']} evidence, {summary['mention_count']} mentions",
+        f"build_bundle complete: {summary['entity_count']} entities, {summary['relationship_count']} relationships, " f"{summary['evidence_count']} evidence, {summary['mention_count']} mentions",
         file=sys.stderr,
     )
     print(f"Manifest: {summary['manifest_path']}", file=sys.stderr)

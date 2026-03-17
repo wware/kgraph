@@ -1,10 +1,10 @@
 #!/bin/bash -e
-# Three-pass medlit ingestion using the PostgresIdentityServer for Pass 2.
+# Three-pass medlit ingestion using the PostgresIdentityServer for ingest.
 # Requires Postgres to be running (docker-compose --profile storage up -d postgres).
 #
 # This is the new pipeline counterpart to run-ingest.sh.  The only difference
-# is that Pass 2 uses --use-identity-server instead of the legacy file-based
-# synonym cache and authority lookup chain.  Pass 1 and Pass 3 are unchanged.
+# is that ingest uses --use-identity-server instead of the legacy file-based
+# synonym cache and authority lookup chain.  fetch_vocab, extract, and build_bundle are unchanged.
 #
 # Prerequisite:
 #   export DATABASE_URL=postgresql://postgres:postgres@localhost:5432/kgserver
@@ -16,8 +16,8 @@
 #
 # To compare against the legacy pipeline, run both scripts on the same list and diff
 # the outputs:
-#   diff <(jq -r '.[].entity_id' medlit_merged/entities.json | sort) \
-#        <(jq -r '.[].entity_id' medlit_merged_new/entities.json | sort)
+#   diff <(jq -r '.[].entity_id' merged/entities.json | sort) \
+#        <(jq -r '.[].entity_id' merged_new/entities.json | sort)
 
 # -----------------------------------------------------------------------------
 # Paper lists: name -> "description|PMC1.xml,PMC2.xml,..."
@@ -41,7 +41,7 @@ _get_list() {
 }
 
 _show_help() {
-    echo "run-ingest-new.sh — Three-pass medlit ingestion using PostgresIdentityServer"
+    echo "run-ingest-new.sh — Three-pass medlit ingestion using PostgresIdentityServer (fetch_vocab → extract → ingest → build_bundle)"
     echo ""
     echo "Usage:"
     echo "  ./run-ingest-new.sh --list              Show available paper lists"
@@ -140,46 +140,46 @@ echo "DATABASE_URL: $DATABASE_URL"
 # -----------------------------------------------------------------------------
 # Clean output dirs
 # -----------------------------------------------------------------------------
-git rm -rf medlit_bundle/* medlit_merged/* pass1_bundles/* pass1_vocab/* || true
-rm -rf medlit_bundle/* medlit_merged/* pass1_bundles/* pass1_vocab/* || true
+git rm -rf bundle/* merged/* extracted/* vocab/* || true
+rm -rf bundle/* merged/* extracted/* vocab/* || true
 git commit -m 'start fresh' || true
 
 # -----------------------------------------------------------------------------
-# Pass 1a: fast vocabulary extraction across all papers
+# fetch_vocab: fast vocabulary extraction across all papers
 # -----------------------------------------------------------------------------
-uv run python -m examples.medlit.scripts.pass1a_vocab \
+uv run python -m examples.medlit.scripts.fetch_vocab \
     --input-dir examples/medlit/pmc_xmls \
-    --output-dir pass1_vocab \
+    --output-dir vocab \
     --llm-backend anthropic \
     --papers $PAPER
 
 # -----------------------------------------------------------------------------
-# Pass 1b: full entity and relationship extraction with vocabulary context
+# extract: full entity and relationship extraction with vocabulary context
 # -----------------------------------------------------------------------------
-uv run python -m examples.medlit.scripts.pass1_extract \
+uv run python -m examples.medlit.scripts.extract \
     --input-dir examples/medlit/pmc_xmls \
-    --output-dir pass1_bundles \
+    --output-dir extracted \
     --llm-backend anthropic \
-    --vocab-file pass1_vocab/vocab.json \
+    --vocab-file vocab/vocab.json \
     --papers $PAPER
 
 # -----------------------------------------------------------------------------
-# Pass 2: identity-server-based deduplication and promotion
+# ingest: identity-server-based deduplication and promotion
 # (replaces legacy synonym cache + authority lookup chain)
 # -----------------------------------------------------------------------------
-uv run python -m examples.medlit.scripts.pass2_dedup \
-    --bundle-dir pass1_bundles \
-    --output-dir medlit_merged \
+uv run python -m examples.medlit.scripts.ingest \
+    --bundle-dir extracted \
+    --output-dir merged \
     --use-identity-server
 
 # -----------------------------------------------------------------------------
-# Pass 3: build kgbundle for loading into kgserver
+# build_bundle: build kgbundle for loading into kgserver
 # -----------------------------------------------------------------------------
-uv run python -m examples.medlit.scripts.pass3_build_bundle \
-    --merged-dir medlit_merged \
-    --bundles-dir pass1_bundles \
-    --output-dir medlit_bundle \
+uv run python -m examples.medlit.scripts.build_bundle \
+    --merged-dir merged \
+    --bundles-dir extracted \
+    --output-dir bundle \
     --pmc-xmls-dir examples/medlit/pmc_xmls
 
-git add medlit_bundle/* medlit_merged/* pass1_bundles/* pass1_vocab/*
+git add bundle/* merged/* extracted/* vocab/*
 git commit -m "Ingestion results (identity server): $PAPER"
