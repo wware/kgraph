@@ -782,3 +782,180 @@ def _run_pass2_impl(  # pylint: disable=too-many-statements
         "entities_path": str(entities_path),
         "relationships_path": str(relationships_path),
     }
+
+
+async def run_pass2_with_identity_server(
+    bundle_dir: Path,
+    output_dir: Path,
+    identity_server: Any,
+) -> dict[str, Any]:
+    """Run Pass 2 using PostgresIdentityServer for entity resolution.
+
+    Replaces the hand-built name/type index, synonym cache, authority lookup
+    chain, SAME_AS resolution, and embedding-based dedup with calls to the
+    identity server's ``resolve()`` and ``on_entity_added()`` methods.
+
+    The identity server handles:
+    - Spelling normalization (via DomainSchema.normalize_mention)
+    - Authority lookup with type overrides (via MedLitPromotionPolicy)
+    - Concurrent-safe entity creation (INSERT ... ON CONFLICT)
+    - Synonym detection and auto-merge (via on_entity_added)
+    - Provisional→canonical promotion
+
+    The pipeline retains responsibility for:
+    - Relationship predicate swap correction (_should_swap_relationship)
+    - Evidence and provenance accumulation per triple
+    - Output file writing (id_map.json, entities.json, relationships.json)
+
+    Args:
+        bundle_dir: Directory containing paper_*.json bundle files (Pass 1 output).
+        output_dir: Directory to write merged output files.
+        identity_server: A PostgresIdentityServer (or any IdentityServer) instance.
+
+    Returns:
+        Summary dict with entities_count, relationships_count, etc.
+    """
+    bundle_files = sorted(bundle_dir.glob("paper_*.json"))
+    if not bundle_files:
+        return {"error": "no bundle files", "entities_count": 0, "relationships_count": 0}
+
+    bundles: list[tuple[str, PerPaperBundle]] = []
+    for path in bundle_files:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        bundle = PerPaperBundle.from_bundle_dict(data)
+        paper_id = path.stem.replace("paper_", "")
+        bundles.append((paper_id, bundle))
+
+    # (paper_id, bundle_local_id) -> resolved entity_id
+    local_to_canonical: dict[tuple[str, str], str] = {}
+
+    # 1) Resolve all entity mentions through the identity server.
+    #    resolve() handles normalization, authority lookup, provisional creation,
+    #    and (via on_entity_added) synonym detection and auto-merge.
+    for paper_id, bundle in bundles:
+        for e in bundle.entities:
+            entity_id = await identity_server.resolve(
+                e.name,
+                context={
+                    "entity_type": e.entity_class.lower(),
+                    "document_id": paper_id,
+                },
+            )
+            local_to_canonical[(paper_id, e.id)] = entity_id
+            await identity_server.on_entity_added(
+                entity_id,
+                context={
+                    "entity_type": e.entity_class.lower(),
+                    "document_id": paper_id,
+                },
+            )
+
+    # 2) Build canonical_entities from resolved IDs.
+    #    One row per unique resolved entity_id; accumulate source_papers and synonyms.
+    canonical_entities: dict[str, dict[str, Any]] = {}
+    for paper_id, bundle in bundles:
+        for e in bundle.entities:
+            entity_id = local_to_canonical.get((paper_id, e.id))
+            if entity_id is None:
+                continue
+            if entity_id not in canonical_entities:
+                canonical_entities[entity_id] = {
+                    "entity_id": entity_id,
+                    "canonical_id": entity_id if _is_authoritative_id(entity_id) else None,
+                    "class": e.entity_class,
+                    "name": e.name,
+                    "synonyms": list(e.synonyms),
+                    "source": e.source,
+                    "source_papers": [],
+                }
+            if paper_id not in canonical_entities[entity_id]["source_papers"]:
+                canonical_entities[entity_id]["source_papers"].append(paper_id)
+
+    # 3) Accumulate relationships: same logic as the original pass2, but using
+    #    identity-server-resolved IDs in local_to_canonical.
+    domain = MedLitDomainSchema()
+    predicate_constraints = domain.predicate_constraints
+    entity_class_to_lookup = _build_entity_class_to_lookup_type()
+    entity_class_to_predicate_type = _build_entity_class_to_predicate_type()
+    triple_to_rel: dict[tuple[str, str, str], dict[str, Any]] = {}
+
+    def _entity_name_class(bundle: PerPaperBundle, local_id: str) -> tuple[str, str]:
+        for e in bundle.entities:
+            if e.id == local_id:
+                return (e.name, e.entity_class)
+        return (local_id, "?")
+
+    for paper_id, bundle in bundles:
+        for rel in bundle.relationships:
+            if rel.predicate == SAME_AS_PREDICATE:
+                continue  # identity server handles these via on_entity_added
+            sub_c = local_to_canonical.get((paper_id, rel.subject))
+            obj_c = local_to_canonical.get((paper_id, rel.object_id))
+            if not sub_c or not obj_c:
+                continue
+            _, sub_class = _entity_name_class(bundle, rel.subject)
+            _, obj_class = _entity_name_class(bundle, rel.object_id)
+            if _should_swap_relationship(
+                rel.predicate, sub_class, obj_class,
+                predicate_constraints, entity_class_to_lookup, entity_class_to_predicate_type,
+            ):
+                sub_c, obj_c = obj_c, sub_c
+            pred_spec = _ds.PREDICATES.get(rel.predicate.upper()) or _ds.PREDICATES.get(rel.predicate)
+            if pred_spec and getattr(pred_spec, "symmetric", False):
+                sub_c, obj_c = canonicalize_symmetric(sub_c, obj_c)
+            key = (sub_c, rel.predicate, obj_c)
+            if key not in triple_to_rel:
+                triple_to_rel[key] = {
+                    "subject": sub_c,
+                    "predicate": rel.predicate,
+                    "object": obj_c,
+                    "evidence_ids": [],
+                    "provenance": [],
+                    "source_papers": [],
+                    "confidence": rel.confidence,
+                    "linguistic_trust": getattr(rel, "linguistic_trust", None),
+                }
+            r = triple_to_rel[key]
+            ev_by_id = {ev.id: ev for ev in bundle.evidence_entities}
+            for eid in rel.evidence_ids or []:
+                if eid not in r["evidence_ids"]:
+                    r["evidence_ids"].append(eid)
+                    ev = ev_by_id.get(eid)
+                    parts = eid.split(":")
+                    section = parts[1] if len(parts) >= 2 else None
+                    sentence = ev.text if ev else None
+                    r["provenance"].append(ProvenanceEntry(section=section, sentence=sentence, citation_markers=[]).model_dump())
+            for sp in rel.source_papers or [paper_id]:
+                if sp not in r["source_papers"]:
+                    r["source_papers"].append(sp)
+            if rel.confidence > r["confidence"]:
+                r["confidence"] = rel.confidence
+                if getattr(rel, "linguistic_trust", None):
+                    r["linguistic_trust"] = rel.linguistic_trust
+
+    # 4) Write output files (same structure as run_pass2).
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    by_paper: dict[str, dict[str, str]] = {}
+    for (paper_id, local_id), entity_id in local_to_canonical.items():
+        by_paper.setdefault(paper_id, {})[local_id] = entity_id
+
+    id_map_path = output_dir / "id_map.json"
+    with open(id_map_path, "w", encoding="utf-8") as f:
+        json.dump(by_paper, f, indent=2)
+
+    entities_path = output_dir / "entities.json"
+    relationships_path = output_dir / "relationships.json"
+    with open(entities_path, "w", encoding="utf-8") as f:
+        json.dump(list(canonical_entities.values()), f, indent=2)
+    with open(relationships_path, "w", encoding="utf-8") as f:
+        json.dump(list(triple_to_rel.values()), f, indent=2)
+
+    return {
+        "entities_count": len(canonical_entities),
+        "relationships_count": len(triple_to_rel),
+        "bundles_processed": len(bundles),
+        "entities_path": str(entities_path),
+        "relationships_path": str(relationships_path),
+    }

@@ -6,11 +6,19 @@ name/type index and synonym cache, resolves SAME_AS, assigns canonical IDs,
 and writes merged entities and relationships to --output-dir. Original
 bundle files are never modified.
 
-Usage:
+Usage (legacy file-based pipeline):
   python -m examples.medlit.scripts.pass2_dedup --bundle-dir pass1_bundles/ --output-dir merged/
+
+Usage (identity server):
+  python -m examples.medlit.scripts.pass2_dedup --bundle-dir pass1_bundles/ --output-dir merged/ \\
+      --use-identity-server
+  Requires DATABASE_URL env var pointing to a running Postgres instance with
+  the kgserver schema already created.
 """
 
 import argparse
+import asyncio
+import os
 import sys
 from pathlib import Path
 
@@ -19,7 +27,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from examples.medlit.pipeline.dedup import run_pass2  # noqa: E402  # pylint: disable=wrong-import-position
+from examples.medlit.pipeline.dedup import run_pass2, run_pass2_with_identity_server  # noqa: E402  # pylint: disable=wrong-import-position
 
 
 def main() -> None:
@@ -36,30 +44,40 @@ def main() -> None:
         "--output-dir",
         type=Path,
         default=Path("pass2_merged"),
-        help="Output directory for merged entities.json, relationships.json, synonym_cache.json",
+        help="Output directory for merged entities.json, relationships.json",
     )
+    parser.add_argument(
+        "--use-identity-server",
+        action="store_true",
+        help=(
+            "Use PostgresIdentityServer for entity resolution instead of the "
+            "legacy file-based synonym cache and authority lookup chain. "
+            "Requires DATABASE_URL env var."
+        ),
+    )
+    # Legacy options (only used when --use-identity-server is NOT set)
     parser.add_argument(
         "--synonym-cache",
         type=Path,
         default=None,
-        help="Path to synonym cache file (default: <output-dir>/synonym_cache.json)",
+        help="(Legacy) Path to synonym cache file (default: <output-dir>/synonym_cache.json)",
     )
     parser.add_argument(
         "--canonical-id-cache",
         type=Path,
         default=None,
-        help="Path to canonical ID lookup cache (e.g. canonical_id_cache.json). If set, Pass 2 resolves entities via authority APIs when possible.",
+        help="(Legacy) Path to canonical ID lookup cache. If set, Pass 2 resolves entities via authority APIs.",
     )
     parser.add_argument(
         "--no-canonical-id-lookup",
         action="store_true",
-        help="Disable authority lookup even if --canonical-id-cache is set (e.g. for quick runs without network).",
+        help="(Legacy) Disable authority lookup even if --canonical-id-cache is set.",
     )
     parser.add_argument(
         "--similarity-threshold",
         type=float,
         default=0.88,
-        help="Min cosine similarity for embedding-based provisional merge (default 0.88).",
+        help="(Legacy) Min cosine similarity for embedding-based provisional merge (default 0.88).",
     )
     args = parser.parse_args()
 
@@ -67,17 +85,48 @@ def main() -> None:
         print(f"Error: bundle dir not found: {args.bundle_dir}", file=sys.stderr)
         sys.exit(1)
 
-    canonical_id_cache_path = None
-    if args.canonical_id_cache is not None and not args.no_canonical_id_lookup:
-        canonical_id_cache_path = args.canonical_id_cache
+    if args.use_identity_server:
+        db_url = os.getenv("DATABASE_URL")
+        if not db_url:
+            print("Error: --use-identity-server requires DATABASE_URL env var", file=sys.stderr)
+            sys.exit(1)
 
-    result = run_pass2(
-        bundle_dir=args.bundle_dir,
-        output_dir=args.output_dir,
-        synonym_cache_path=args.synonym_cache,
-        canonical_id_cache_path=canonical_id_cache_path,
-        similarity_threshold=args.similarity_threshold,
-    )
+        from sqlalchemy import create_engine
+        from sqlmodel import Session, SQLModel
+        from examples.medlit.domain import MedLitDomainSchema
+        from kgserver.storage.backends.identity import AuthorityCache, PostgresIdentityServer
+
+        engine = create_engine(db_url)
+        SQLModel.metadata.create_all(engine)
+        domain = MedLitDomainSchema()
+        authority_cache = AuthorityCache.from_env()
+
+        with Session(engine) as session:
+            identity_server = PostgresIdentityServer(
+                session=session,
+                domain=domain,
+                authority_cache=authority_cache,
+            )
+            result = asyncio.run(
+                run_pass2_with_identity_server(
+                    bundle_dir=args.bundle_dir,
+                    output_dir=args.output_dir,
+                    identity_server=identity_server,
+                )
+            )
+            session.commit()
+    else:
+        canonical_id_cache_path = None
+        if args.canonical_id_cache is not None and not args.no_canonical_id_lookup:
+            canonical_id_cache_path = args.canonical_id_cache
+
+        result = run_pass2(
+            bundle_dir=args.bundle_dir,
+            output_dir=args.output_dir,
+            synonym_cache_path=args.synonym_cache,
+            canonical_id_cache_path=canonical_id_cache_path,
+            similarity_threshold=args.similarity_threshold,
+        )
 
     if "error" in result:
         print(result["error"], file=sys.stderr)
