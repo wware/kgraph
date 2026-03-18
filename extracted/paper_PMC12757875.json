@@ -1,0 +1,2711 @@
+{
+  "paper": {
+    "doi": null,
+    "pmcid": "PMC12757875",
+    "title": "The DDR-immune fitness score: a biomarker for guiding parp and immunotherapy synergy in extensive-stage small cell lung cancer",
+    "authors": [
+      "Harvey I. Pass",
+      "Glen Reid",
+      "Jenette Creaney",
+      "Bruce W. Robinson",
+      "Alessandra Bonotti"
+    ],
+    "author_details": [
+      {
+        "name": "Yinxu Zhang",
+        "affiliations": [
+          "Department of Surgery, The First Affiliated Hospital of Jinzhou Medical University"
+        ],
+        "affiliation_rors": [
+          ""
+        ]
+      },
+      {
+        "name": "Xiaoyang Chen",
+        "affiliations": [
+          "Department of Oncology, The First Affiliated Hospital of Jinzhou Medical University"
+        ],
+        "affiliation_rors": [
+          ""
+        ]
+      },
+      {
+        "name": "Dai Wang",
+        "affiliations": [
+          "Department of Oncology, The First Affiliated Hospital of Jinzhou Medical University"
+        ],
+        "affiliation_rors": [
+          ""
+        ]
+      },
+      {
+        "name": "Xuan Zhou",
+        "affiliations": [
+          "Department of Surgery, The First Affiliated Hospital of Jinzhou Medical University"
+        ],
+        "affiliation_rors": [
+          ""
+        ]
+      },
+      {
+        "name": "Yuxi Wang",
+        "affiliations": [
+          "Department of Oncology, The First Affiliated Hospital of Jinzhou Medical University"
+        ],
+        "affiliation_rors": [
+          ""
+        ]
+      },
+      {
+        "name": "Guangyu Zhang",
+        "affiliations": [
+          "Department of Anesthesiology, Medical College of Jinzhou Medical University"
+        ],
+        "affiliation_rors": [
+          ""
+        ]
+      },
+      {
+        "name": "Xiaomei Liu",
+        "affiliations": [
+          "Department of Oncology, The First Affiliated Hospital of Jinzhou Medical University"
+        ],
+        "affiliation_rors": [
+          ""
+        ]
+      }
+    ],
+    "document_id": "PMC12757875",
+    "journal": "Not specified",
+    "year": 2024,
+    "study_type": "biomarker development",
+    "eco_type": "systematic review and validation study",
+    "study_design": {
+      "study_type": "observational",
+      "sample_size": 82,
+      "multicenter": false,
+      "held_out_validation": true
+    }
+  },
+  "extraction_provenance": {
+    "extraction_pipeline": {
+      "name": "medlit_extract",
+      "version": "0.1.0",
+      "git_commit": "0a3750207b4e363cbd681a0ee05c04ac7929ba79",
+      "git_commit_short": "0a37502",
+      "git_branch": "main",
+      "git_dirty": true,
+      "repo_url": "https://github.com/org/medlit"
+    },
+    "models": {
+      "llm": {
+        "name": "claude-sonnet-4-20250514",
+        "version": ""
+      }
+    },
+    "prompt": {
+      "version": "v1",
+      "template": "medlit_extraction_v1",
+      "checksum": "sha256:2ac675203c05a3bb",
+      "schema_version": "5be669a5"
+    },
+    "execution": {
+      "timestamp": "2026-03-17T23:56:14.220923Z",
+      "hostname": "unknown",
+      "python_version": "3.13.3",
+      "duration_seconds": 129.16
+    },
+    "entity_resolution": null,
+    "model_info": null
+  },
+  "entities": [
+    {
+      "id": "ddr_if_score",
+      "class": "Biomarker",
+      "name": "DDR-Immune Fitness score",
+      "synonyms": [
+        "DDR-IF score",
+        "DDR-Immune Fitness (DDR-IF) score"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "extensive_stage_sclc",
+      "class": "Disease",
+      "name": "extensive-stage small cell lung cancer",
+      "synonyms": [
+        "ES-SCLC",
+        "extensive-stage small-cell lung cancer"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "parp_icb_combination",
+      "class": "Procedure",
+      "name": "PARP-ICB combination therapy",
+      "synonyms": [
+        "PARP-ICB",
+        "DDR-ICB therapy",
+        "PARP inhibitor-immune checkpoint blocker combination"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hrd_score",
+      "class": "Biomarker",
+      "name": "homologous recombination deficiency score",
+      "synonyms": [
+        "HRD",
+        "homologous recombination deficiency"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "sting_pathway_activation",
+      "class": "Biomarker",
+      "name": "STING pathway activation score",
+      "synonyms": [
+        "STING activation score",
+        "STING pathway activity"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cgas_sting_pathway_exhaustion",
+      "class": "BiologicalProcess",
+      "name": "cGAS-STING pathway exhaustion",
+      "synonyms": [
+        "STING pathway exhaustion",
+        "cGAS-STING exhaustion"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "elastic_net_regression",
+      "class": "Procedure",
+      "name": "elastic-net regression",
+      "synonyms": [
+        "elastic net regression"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "msk_impact_study",
+      "class": "Evidence",
+      "name": "MSK-IMPACT study",
+      "synonyms": [
+        "MSK-IMPACT cohort"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "scarHRD_algorithm",
+      "class": "Procedure",
+      "name": "scarHRD algorithm",
+      "synonyms": [
+        "scarHRD"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "immunologically_cold_tumor",
+      "class": "Symptom",
+      "name": "immunologically cold tumor",
+      "synonyms": [
+        "immune-cold phenotype",
+        "interferon-desert TME"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cd8_t_cell_infiltration_reduction",
+      "class": "Symptom",
+      "name": "reduced CD8+ T cell infiltration",
+      "synonyms": [
+        "CD8+ T cell exclusion",
+        "diminished CD8+ TIL infiltration"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "synthetic_lethality_susceptibility",
+      "class": "Symptom",
+      "name": "susceptibility to synthetic lethality",
+      "synonyms": [
+        "synthetic lethality vulnerability"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "immune_reactivation_potential",
+      "class": "Symptom",
+      "name": "potential for immune reactivation",
+      "synonyms": [
+        "immune activation potential"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ddr_if_high_subtype",
+      "class": "Disease",
+      "name": "DDR-IF-high subtype",
+      "synonyms": [
+        "DDR-IF-high tumors",
+        "DDR-IF-high status"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ddr_if_low_subtype",
+      "class": "Disease",
+      "name": "DDR-IF-low subtype",
+      "synonyms": [
+        "DDR-IF-low tumors",
+        "DDR-IF-low status"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cytosolic_dna_accumulation",
+      "class": "BiologicalProcess",
+      "name": "cytosolic DNA accumulation",
+      "synonyms": [
+        "cytosolic DNA release"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mitochondrial_dna_release",
+      "class": "BiologicalProcess",
+      "name": "mitochondrial DNA release",
+      "synonyms": [
+        "mtDNA release"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "warburg_effect_enhancement",
+      "class": "BiologicalProcess",
+      "name": "heightened Warburg effect",
+      "synonyms": [
+        "enhanced glycolytic phenotype"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "lactate_production_increase",
+      "class": "BiologicalProcess",
+      "name": "increased lactate production",
+      "synonyms": [
+        "elevated lactate",
+        "lactate accumulation"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "m2_macrophage_polarization",
+      "class": "BiologicalProcess",
+      "name": "M2 macrophage polarization",
+      "synonyms": [
+        "M2-like TAM phenotype",
+        "pro-tumor macrophage polarization"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mhc_i_expression_reduction",
+      "class": "BiologicalProcess",
+      "name": "reduced MHC-I expression",
+      "synonyms": [
+        "impaired MHC-I synthesis",
+        "diminished MHC-I"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "antigen_presentation_impairment",
+      "class": "BiologicalProcess",
+      "name": "impaired antigen presentation",
+      "synonyms": [
+        "defective antigen presentation"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cyt_0851",
+      "class": "Drug",
+      "name": "CYT-0851",
+      "synonyms": [
+        "RAD51 inhibitor CYT-0851"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "azd6738_atr_inhibitor",
+      "class": "Drug",
+      "name": "AZD6738",
+      "synonyms": [
+        "ATR inhibitor AZD6738"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "prlx93936",
+      "class": "Drug",
+      "name": "PRLX93936",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gpr81_receptor",
+      "class": "Protein",
+      "name": "GPR81",
+      "synonyms": [
+        "lactate receptor GPR81"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tao_kinase_3",
+      "class": "Enzyme",
+      "name": "TAO kinase 3",
+      "synonyms": [
+        "TAO3"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cd155_tigit_ligand",
+      "class": "Protein",
+      "name": "CD155",
+      "synonyms": [
+        "TIGIT ligand CD155"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cd112_tigit_ligand",
+      "class": "Protein",
+      "name": "CD112",
+      "synonyms": [
+        "TIGIT ligand CD112"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "vsig4_checkpoint",
+      "class": "Protein",
+      "name": "VSIG4",
+      "synonyms": [
+        "immune checkpoint VSIG4"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ccr8_chemokine_receptor",
+      "class": "Protein",
+      "name": "CCR8",
+      "synonyms": [
+        "Treg chemokine receptor CCR8"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mct4_lactate_transporter",
+      "class": "Protein",
+      "name": "MCT4",
+      "synonyms": [
+        "lactate transporter MCT4"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "e2f1_transcription_factor",
+      "class": "Protein",
+      "name": "E2F1",
+      "synonyms": [
+        "transcription factor E2F1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "parp1_overactivation",
+      "class": "BiologicalProcess",
+      "name": "PARP1 overactivation",
+      "synonyms": [
+        "dysregulated PARP1 activity",
+        "PARP1 overactivity"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "poly_adp_ribosylation",
+      "class": "BiologicalProcess",
+      "name": "poly(ADP-ribosyl)ation",
+      "synonyms": [
+        "PARylation",
+        "PARP1-mediated PARylation"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "genomic_instability_accumulation",
+      "class": "BiologicalProcess",
+      "name": "genomic instability accumulation",
+      "synonyms": [
+        "accumulated genomic instability"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "dna_damage_accumulation",
+      "class": "BiologicalProcess",
+      "name": "DNA damage accumulation",
+      "synonyms": [
+        "accumulated DNA damage"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "micronuclei_accumulation",
+      "class": "BiologicalProcess",
+      "name": "micronuclei accumulation",
+      "synonyms": [
+        "accumulated micronuclei"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "chronic_cgas_sting_activation",
+      "class": "BiologicalProcess",
+      "name": "chronic cGAS-STING activation",
+      "synonyms": [
+        "sub-threshold cGAS-STING activation"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "sting_protein_phosphorylation_diminished",
+      "class": "BiologicalProcess",
+      "name": "diminished STING protein phosphorylation",
+      "synonyms": [
+        "reduced p-STING",
+        "impaired STING phosphorylation"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "type_i_interferon_production_failure",
+      "class": "BiologicalProcess",
+      "name": "failure to produce type I interferons",
+      "synonyms": [
+        "impaired IFN production",
+        "reduced interferon production"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "chemokine_production_failure",
+      "class": "BiologicalProcess",
+      "name": "failure to produce chemokines",
+      "synonyms": [
+        "impaired chemokine production"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "damps_release",
+      "class": "BiologicalProcess",
+      "name": "release of damage-associated molecular patterns",
+      "synonyms": [
+        "DAMPs release"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "neoantigen_burden_increase",
+      "class": "BiologicalProcess",
+      "name": "increased neoantigen burden",
+      "synonyms": [
+        "elevated neoantigen load"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "immune_tolerance_breaking",
+      "class": "BiologicalProcess",
+      "name": "breaking immune tolerance",
+      "synonyms": [
+        "immune tolerance reversal"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "t_cell_recruitment_enhancement",
+      "class": "BiologicalProcess",
+      "name": "enhanced T-cell recruitment",
+      "synonyms": [
+        "increased T-cell infiltration"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cd8_treg_ratio_increase",
+      "class": "BiologicalProcess",
+      "name": "increased CD8+/Treg ratio",
+      "synonyms": [
+        "enhanced CD8+ T cell/Treg ratio"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ctls_infiltration_promotion",
+      "class": "BiologicalProcess",
+      "name": "promotion of cytotoxic T lymphocyte infiltration",
+      "synonyms": [
+        "enhanced CTL infiltration"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "treg_mediated_senescence_hindrance",
+      "class": "BiologicalProcess",
+      "name": "hindrance of Treg-mediated senescence",
+      "synonyms": [
+        "prevention of Treg-induced CD8+ T cell senescence"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cytotoxic_capacity_preservation",
+      "class": "BiologicalProcess",
+      "name": "preservation of cytotoxic capacity",
+      "synonyms": [
+        "maintained cytotoxic function"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "immunosuppressive_tme_remodeling",
+      "class": "BiologicalProcess",
+      "name": "remodeling of immunosuppressive tumor microenvironment",
+      "synonyms": [
+        "TME remodeling",
+        "immune landscape alteration"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "sting_agonists",
+      "class": "Drug",
+      "name": "STING agonists",
+      "synonyms": [
+        "pharmacological STING agonists"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tigit_vsig4_dual_blockade",
+      "class": "Procedure",
+      "name": "dual TIGIT/VSIG4 blockade",
+      "synonyms": [
+        "TIGIT/VSIG4 co-targeting"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "platinum_etoposide_atezolizumab",
+      "class": "Procedure",
+      "name": "platinum-etoposide plus atezolizumab",
+      "synonyms": [
+        "standard therapy with atezolizumab"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tmem173_polymorphisms",
+      "class": "Mutation",
+      "name": "TMEM173 polymorphisms",
+      "synonyms": [
+        "STING gene polymorphisms"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hla_loss_of_heterozygosity",
+      "class": "Mutation",
+      "name": "HLA loss of heterozygosity",
+      "synonyms": [
+        "HLA LOH"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tigit_vista_coexpression",
+      "class": "BiologicalProcess",
+      "name": "TIGIT/VISTA co-expression",
+      "synonyms": [
+        "concurrent TIGIT and VISTA expression"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "primary_resistance_mechanism",
+      "class": "BiologicalProcess",
+      "name": "primary resistance mechanism",
+      "synonyms": [
+        "intrinsic resistance"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "phospho_flow_cytometry",
+      "class": "Procedure",
+      "name": "phospho-flow cytometry",
+      "synonyms": [
+        "phospho-flow"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "p_sting_detection",
+      "class": "Procedure",
+      "name": "p-STING detection",
+      "synonyms": [
+        "phospho-STING detection"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "multi_omic_profiling",
+      "class": "Procedure",
+      "name": "multi-omic profiling",
+      "synonyms": [
+        "multi-omics analysis"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "algorithmic_integration",
+      "class": "Procedure",
+      "name": "algorithmic integration",
+      "synonyms": [
+        "computational integration"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "therapeutic_triaging",
+      "class": "Procedure",
+      "name": "therapeutic triaging",
+      "synonyms": [
+        "treatment stratification"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "biomarker_stratified_trials",
+      "class": "Procedure",
+      "name": "biomarker-stratified trials",
+      "synonyms": [
+        "biomarker-guided trials"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ethnicity_stratified_analyses",
+      "class": "Procedure",
+      "name": "ethnicity-stratified analyses",
+      "synonyms": [
+        "population-specific analyses"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "platform_specific_standardization",
+      "class": "Procedure",
+      "name": "platform-specific standardization",
+      "synonyms": [
+        "technical standardization"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "orthogonal_sting_validation",
+      "class": "Procedure",
+      "name": "orthogonal STING validation",
+      "synonyms": [
+        "independent STING validation"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:zhangy",
+      "class": "Author",
+      "name": "Yinxu Zhang",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:department_of_surgery_the_first_affiliated_hospit",
+      "class": "Institution",
+      "name": "Department of Surgery, The First Affiliated Hospital of Jinzhou Medical University",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:chenx",
+      "class": "Author",
+      "name": "Xiaoyang Chen",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:department_of_oncology_the_first_affiliated_hospi",
+      "class": "Institution",
+      "name": "Department of Oncology, The First Affiliated Hospital of Jinzhou Medical University",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:wangd",
+      "class": "Author",
+      "name": "Dai Wang",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:zhoux",
+      "class": "Author",
+      "name": "Xuan Zhou",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:wangy",
+      "class": "Author",
+      "name": "Yuxi Wang",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:zhangg",
+      "class": "Author",
+      "name": "Guangyu Zhang",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Institution:department_of_anesthesiology_medical_college_of_j",
+      "class": "Institution",
+      "name": "Department of Anesthesiology, Medical College of Jinzhou Medical University",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Author:liux",
+      "class": "Author",
+      "name": "Xiaomei Liu",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Paper:PMC12757875",
+      "class": "Paper",
+      "name": "The DDR-immune fitness score: a biomarker for guiding parp and immunotherapy synergy in extensive-stage small cell lung cancer",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": "PMC12757875",
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    }
+  ],
+  "evidence_entities": [
+    {
+      "id": "PMC12757875:background:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12757875",
+      "text_span_id": "background_paragraph_1",
+      "text": "Despite the integration of PD-L1 inhibitors with chemotherapy, extensive-stage small-cell lung cancer (ES-SCLC) continues to portend a dismal prognosis, with a 5-year survival rate below 10%.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "biomarker development",
+      "eco_type": "systematic review and validation study",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12757875:methods:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12757875",
+      "text_span_id": "methods_paragraph_1",
+      "text": "We developed a novel three-variable biomarker, the DDR-Immune Fitness (DDR-IF) score, by integrating data from a systematic review of six phase II trials (PRISMA-2020) with single-cell transcriptomic data from 82 SCLC tumors.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "biomarker development",
+      "eco_type": "systematic review and validation study",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12757875:results:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12757875",
+      "text_span_id": "results_paragraph_1",
+      "text": "DDR-IF-high tumors were characterized by a distinct biological profile, including (i) transcriptional exhaustion of the cGAS-STING innate immune pathway (p < 0.001), (ii) significantly reduced CD8+ T cell infiltration (2.3-fold fewer, p = 0.004), and (iii) a superior pooled objective response rate to PARP-ICB combinations (42% vs 18%; risk ratio 2.3, 95% CI 1.3-4.2; p = 0.003).",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "biomarker development",
+      "eco_type": "systematic review and validation study",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12757875:section2:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12757875",
+      "text_span_id": "section2_paragraph_1",
+      "text": "Recent global epidemiological data (2024) confirm that more than 70% of ES-SCLC cases carry at least one actionable DDR defect, with frequent alterations in genes such as ATM (11.2%) and BRCA1/2 (6.7%).",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "biomarker development",
+      "eco_type": "systematic review and validation study",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12757875:section4:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12757875",
+      "text_span_id": "section4_paragraph_1",
+      "text": "A meta-analysis of six trials (2020\u20132024) confirmed that DDR-IF-high tumors (e.g., ATM/BRCA1/2-altered) show a 2.3-fold higher ORR to PARP-ICB versus DDR-IF-low (42% vs. 18%, p=0.003).",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "biomarker development",
+      "eco_type": "systematic review and validation study",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12757875:section6:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12757875",
+      "text_span_id": "section6_paragraph_1",
+      "text": "In the SCLC-specific phase Ib trial NCT04564027, the RAD51 inhibitor CYT-0851 achieved a 38% disease control rate, with matched biopsies revealing a STING-dependent 6.8-fold increase in CXCL10 (p=0.02).",
+      "confidence": 0.85,
+      "extraction_method": "llm",
+      "study_type": "biomarker development",
+      "eco_type": "systematic review and validation study",
+      "source": "extracted"
+    }
+  ],
+  "relationships": [
+    {
+      "subject": "ddr_if_score",
+      "predicate": "INDICATES",
+      "object": "extensive_stage_sclc",
+      "evidence_ids": [
+        "PMC12757875:methods:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_score",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "hrd_score",
+      "evidence_ids": [
+        "PMC12757875:methods:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_score",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "tumor mutational burden",
+      "evidence_ids": [
+        "PMC12757875:methods:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_score",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "sting_pathway_activation",
+      "evidence_ids": [
+        "PMC12757875:methods:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_high_subtype",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "cgas_sting_pathway_exhaustion",
+      "evidence_ids": [
+        "PMC12757875:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_high_subtype",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "cd8_t_cell_infiltration_reduction",
+      "evidence_ids": [
+        "PMC12757875:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_high_subtype",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "parp_icb_combination",
+      "evidence_ids": [
+        "PMC12757875:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "extensive_stage_sclc",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "ATM",
+      "evidence_ids": [
+        "PMC12757875:section2:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section2",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "extensive_stage_sclc",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "BRCA1",
+      "evidence_ids": [
+        "PMC12757875:section2:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section2",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "extensive_stage_sclc",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "BRCA2",
+      "evidence_ids": [
+        "PMC12757875:section2:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section2",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_score",
+      "predicate": "DESCRIBED",
+      "object": "elastic_net_regression",
+      "evidence_ids": [
+        "PMC12757875:methods:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_score",
+      "predicate": "DESCRIBED",
+      "object": "msk_impact_study",
+      "evidence_ids": [
+        "PMC12757875:methods:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "hrd_score",
+      "predicate": "DESCRIBED",
+      "object": "scarHRD_algorithm",
+      "evidence_ids": [
+        "PMC12757875:methods:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_high_subtype",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "immunologically_cold_tumor",
+      "evidence_ids": [
+        "PMC12757875:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_high_subtype",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "synthetic_lethality_susceptibility",
+      "evidence_ids": [
+        "PMC12757875:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_high_subtype",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "immune_reactivation_potential",
+      "evidence_ids": [
+        "PMC12757875:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "DNA damage repair",
+      "predicate": "CAUSES",
+      "object": "cytosolic_dna_accumulation",
+      "evidence_ids": [
+        "PMC12757875:section2:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section2",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cytosolic_dna_accumulation",
+      "predicate": "CAUSES",
+      "object": "cgas_sting_pathway_exhaustion",
+      "evidence_ids": [
+        "PMC12757875:section2:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section2",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cgas_sting_pathway_exhaustion",
+      "predicate": "CAUSES",
+      "object": "PD-L1",
+      "evidence_ids": [
+        "PMC12757875:section2:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section2",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cgas_sting_pathway_exhaustion",
+      "predicate": "CAUSES",
+      "object": "cd8_t_cell_infiltration_reduction",
+      "evidence_ids": [
+        "PMC12757875:section2:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section2",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "DNA damage repair",
+      "predicate": "CAUSES",
+      "object": "warburg_effect_enhancement",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "warburg_effect_enhancement",
+      "predicate": "CAUSES",
+      "object": "lactate_production_increase",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "lactate_production_increase",
+      "predicate": "CAUSES",
+      "object": "m2_macrophage_polarization",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ATM",
+      "predicate": "CAUSES",
+      "object": "mhc_i_expression_reduction",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "mhc_i_expression_reduction",
+      "predicate": "CAUSES",
+      "object": "antigen_presentation_impairment",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cyt_0851",
+      "predicate": "TREATS",
+      "object": "extensive_stage_sclc",
+      "evidence_ids": [
+        "PMC12757875:section6:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section6",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cyt_0851",
+      "predicate": "INHIBITS",
+      "object": "RAD51",
+      "evidence_ids": [
+        "PMC12757875:section6:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section6",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cyt_0851",
+      "predicate": "INCREASES_RISK",
+      "object": "CXCL10",
+      "evidence_ids": [
+        "PMC12757875:section6:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section6",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "azd6738_atr_inhibitor",
+      "predicate": "INHIBITS",
+      "object": "ATR",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "tigit_vsig4_dual_blockade",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "azd6738_atr_inhibitor",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "tigit_vsig4_dual_blockade",
+      "predicate": "CAUSES",
+      "object": "cd8_treg_ratio_increase",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "lactate",
+      "predicate": "INTERACTS_WITH",
+      "object": "gpr81_receptor",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "gpr81_receptor",
+      "predicate": "REGULATES",
+      "object": "PD-1",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "gpr81_receptor",
+      "predicate": "REGULATES",
+      "object": "ccr8_chemokine_receptor",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "mct4_lactate_transporter",
+      "predicate": "REGULATES",
+      "object": "lactate_production_increase",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PARP1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "e2f1_transcription_factor",
+      "evidence_ids": [
+        "PMC12757875:section4:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section4",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e2f1_transcription_factor",
+      "predicate": "REGULATES",
+      "object": "PD-L1",
+      "evidence_ids": [
+        "PMC12757875:section4:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section4",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "tao_kinase_3",
+      "predicate": "REGULATES",
+      "object": "cd155_tigit_ligand",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "tao_kinase_3",
+      "predicate": "REGULATES",
+      "object": "cd112_tigit_ligand",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e2f1_transcription_factor",
+      "predicate": "REGULATES",
+      "object": "vsig4_checkpoint",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "e2f1_transcription_factor",
+      "predicate": "REGULATES",
+      "object": "ccr8_chemokine_receptor",
+      "evidence_ids": [
+        "PMC12757875:section5:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "section5",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_high_subtype",
+      "predicate": "TREATS",
+      "object": "parp_icb_combination",
+      "evidence_ids": [
+        "PMC12757875:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ddr_if_low_subtype",
+      "predicate": "TREATS",
+      "object": "platinum_etoposide_atezolizumab",
+      "evidence_ids": [
+        "PMC12757875:section7:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "section7",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "sting_agonists",
+      "predicate": "TREATS",
+      "object": "ddr_if_high_subtype",
+      "evidence_ids": [
+        "PMC12757875:section11:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "speculative",
+      "properties": {},
+      "section": "section11",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "sting_agonists",
+      "predicate": "TREATS",
+      "object": "cgas_sting_pathway_exhaustion",
+      "evidence_ids": [
+        "PMC12757875:section11:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "speculative",
+      "properties": {},
+      "section": "section11",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "tmem173_polymorphisms",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "sting_pathway_activation",
+      "evidence_ids": [
+        "PMC12757875:section12:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.75,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "section12",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "hla_loss_of_heterozygosity",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "primary_resistance_mechanism",
+      "evidence_ids": [
+        "PMC12757875:section8:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.75,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "section8",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "tigit_vista_coexpression",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "primary_resistance_mechanism",
+      "evidence_ids": [
+        "PMC12757875:section8:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.75,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "section8",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangy",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_surgery_the_first_affiliated_hospit",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenx",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_oncology_the_first_affiliated_hospi",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangd",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_oncology_the_first_affiliated_hospi",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhoux",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_surgery_the_first_affiliated_hospit",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangy",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_oncology_the_first_affiliated_hospi",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangg",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_anesthesiology_medical_college_of_j",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liux",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Institution:department_of_oncology_the_first_affiliated_hospi",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangy",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:chenx",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangd",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhoux",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:wangy",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:zhangg",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Author:liux",
+      "predicate": "AUTHORED",
+      "object": "Paper:PMC12757875",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "ddr_if_high_subtype",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Paper:PMC12757875",
+      "predicate": "DESCRIBED",
+      "object": "ddr_if_score",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12757875"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": null,
+      "properties": {},
+      "section": null,
+      "asserted_by": "derived",
+      "resolution": null,
+      "note": null
+    }
+  ],
+  "notes": []
+}
