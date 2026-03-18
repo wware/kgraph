@@ -833,10 +833,14 @@ async def run_ingest_with_identity_server(
     # 1) Resolve all entity mentions through the identity server.
     #    resolve() handles normalization, authority lookup, provisional creation,
     #    and (via on_entity_added) synonym detection and auto-merge.
-    for paper_id, bundle in bundles:
-        for e in bundle.entities:
-            # If the entity already has an authoritative canonical_id (e.g. a PMC ID for
-            # cited papers), use it directly — no authority lookup needed.
+    #    We parallelize with a semaphore to avoid hammering authority HTTP APIs.
+    _RESOLVE_CONCURRENCY = 20
+    semaphore = asyncio.Semaphore(_RESOLVE_CONCURRENCY)
+
+    async def _resolve_entity(
+        paper_id: str, e: ExtractedEntityRow
+    ) -> tuple[tuple[str, str], str]:
+        async with semaphore:
             if e.canonical_id and _is_authoritative_id(e.canonical_id):
                 entity_id = e.canonical_id
             else:
@@ -847,7 +851,6 @@ async def run_ingest_with_identity_server(
                         "document_id": paper_id,
                     },
                 )
-            local_to_canonical[(paper_id, e.id)] = entity_id
             await identity_server.on_entity_added(
                 entity_id,
                 context={
@@ -855,6 +858,16 @@ async def run_ingest_with_identity_server(
                     "document_id": paper_id,
                 },
             )
+            return (paper_id, e.id), entity_id
+
+    tasks = [
+        _resolve_entity(paper_id, e)
+        for paper_id, bundle in bundles
+        for e in bundle.entities
+    ]
+    results = await asyncio.gather(*tasks)
+    for key, entity_id in results:
+        local_to_canonical[key] = entity_id
 
     # 2) Build canonical_entities from resolved IDs.
     #    One row per unique resolved entity_id; accumulate source_papers and synonyms.

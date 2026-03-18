@@ -304,7 +304,7 @@ class PostgresIdentityServer(IdentityServer):
             INSERT INTO entity (entity_id, entity_type, name, status, confidence, usage_count, source, synonyms, properties)
             VALUES (:entity_id, :entity_type, :name, :status, :confidence, :usage_count, :source,
                     CAST(:synonyms AS json), CAST(:properties AS json))
-            ON CONFLICT (name, entity_type) DO NOTHING
+            ON CONFLICT DO NOTHING
         """)
         synonyms_json = "[]"
         if canonical_id_result and canonical_id_result.synonyms:
@@ -556,8 +556,10 @@ class _StubEntity(BaseEntity):
     ``model_construct`` to avoid requiring all optional fields.
     """
 
+    _entity_type: str = ""
+
     def get_entity_type(self) -> str:
-        raise NotImplementedError("_StubEntity does not have a domain entity type")
+        return self._entity_type
 
 
 def _entity_row_to_stub(row: Entity) -> _StubEntity:
@@ -584,7 +586,7 @@ def _entity_row_to_stub(row: Entity) -> _StubEntity:
 
 def _make_stub_entity(mention: str, entity_type: str, document_id: str, embedding: Optional[list[float]]) -> _StubEntity:
     """Build a minimal stub for authority lookup (no DB row exists yet)."""
-    return _StubEntity.model_construct(
+    stub = _StubEntity.model_construct(
         entity_id=f"prov:{uuid.uuid4().hex}",
         status=EntityStatus.PROVISIONAL,
         name=mention,
@@ -599,6 +601,8 @@ def _make_stub_entity(mention: str, entity_type: str, document_id: str, embeddin
         merged_into=None,
         promotable=True,
     )
+    stub._entity_type = entity_type
+    return stub
 
 
 class _CachedCanonicalId:
