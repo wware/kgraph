@@ -509,6 +509,7 @@ class MedLitRelationshipExtractor(RelationshipExtractorInterface):
             "- When a protein/marker is positive in a disease context, use indicates (marker -> disease) or associated_with, not treats.",
             "- When the text lists multiple markers (e.g. 'positivity for BerEp4, CAM5.2, Ki67'), extract (marker, indicates, disease) or (disease, associated_with, marker) for EACH marker listed; do not skip markers just because there are many.",
             "- For marker-disease relationships, the evidence quote must include the marker; the disease may be inferred from document context (e.g. 'tumor cells' in a paper about that cancer) and need not appear in the same quote.",
+            '- Use "cites" ONLY between two paper entities: (paper) -> cites -> (paper). When the text references another publication by title or author (e.g. "Smith et al. reported...", "as shown in [12]"), extract (current_paper, cites, cited_paper).',
         ]
 
         examples_section = """

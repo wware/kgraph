@@ -60,6 +60,10 @@ class PaperInfo(BaseModel):
     study_type: Optional[str] = None
     eco_type: Optional[str] = None
     study_design: Optional[StudyDesignMetadata] = None
+    cited_pmc_ids: list[str] = Field(
+        default_factory=list,
+        description="PMC IDs of papers cited in the reference list (parsed from JATS XML).",
+    )
 
     @field_validator("year", mode="before")
     @classmethod

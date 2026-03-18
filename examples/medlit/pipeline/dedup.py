@@ -835,13 +835,18 @@ async def run_ingest_with_identity_server(
     #    and (via on_entity_added) synonym detection and auto-merge.
     for paper_id, bundle in bundles:
         for e in bundle.entities:
-            entity_id = await identity_server.resolve(
-                e.name,
-                context={
-                    "entity_type": e.entity_class.lower(),
-                    "document_id": paper_id,
-                },
-            )
+            # If the entity already has an authoritative canonical_id (e.g. a PMC ID for
+            # cited papers), use it directly — no authority lookup needed.
+            if e.canonical_id and _is_authoritative_id(e.canonical_id):
+                entity_id = e.canonical_id
+            else:
+                entity_id = await identity_server.resolve(
+                    e.name,
+                    context={
+                        "entity_type": e.entity_class.lower(),
+                        "document_id": paper_id,
+                    },
+                )
             local_to_canonical[(paper_id, e.id)] = entity_id
             await identity_server.on_entity_added(
                 entity_id,

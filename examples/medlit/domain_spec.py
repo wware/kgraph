@@ -390,6 +390,12 @@ PREDICATES: dict[str, PredicateSpec] = {
         object_types=[AnatomicalStructureEntity],
         specificity=2,
     ),
+    "CITES": PredicateSpec(
+        description="Paper A cites or references paper B.",
+        subject_types=[PaperEntity],
+        object_types=[PaperEntity],
+        specificity=2,
+    ),
 }
 
 # -----------------------------------------------------------------------------

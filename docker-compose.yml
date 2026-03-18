@@ -103,7 +103,7 @@ services:
     networks:
       - kgserver-network
     restart: unless-stopped
-    profiles: ["api", "jupyter"]
+    profiles: ["jupyter"]
 
   ollama:
     image: ollama/ollama:latest
@@ -150,7 +150,7 @@ services:
     restart: unless-stopped
     networks:
       - kgserver-network
-    profiles: ["api", "storage", "jupyter"]
+    profiles: ["api", "storage"]
 
 volumes:
   pgdata:

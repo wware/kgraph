@@ -195,6 +195,18 @@ class JournalArticleParser(DocumentParserInterface):
             if kwd.text:
                 keywords.append(kwd.text.strip())
 
+        # Cited PMC IDs from <ref-list> — handle both pub-id-type="pmc" and "pmcid"
+        cited_pmc_ids: list[str] = []
+        seen_cited: set[str] = set()
+        for attr_val in ("pmc", "pmcid"):
+            for pub_id_elem in root.findall(f".//ref-list//pub-id[@pub-id-type='{attr_val}']"):
+                pmc_val = (pub_id_elem.text or "").strip()
+                if pmc_val:
+                    pmc_key = pmc_val if pmc_val.upper().startswith("PMC") else f"PMC{pmc_val}"
+                    if pmc_key not in seen_cited:
+                        cited_pmc_ids.append(pmc_key)
+                        seen_cited.add(pmc_key)
+
         # Build Paper schema structure
         paper: dict[str, Any] = {
             "paper_id": paper_id,
@@ -202,6 +214,7 @@ class JournalArticleParser(DocumentParserInterface):
             "abstract": abstract,
             "authors": authors,
             "author_details": author_details,
+            "cited_pmc_ids": cited_pmc_ids,
         }
 
         # Add full_text if it exists
@@ -304,6 +317,8 @@ class JournalArticleParser(DocumentParserInterface):
             metadata["entities"] = data["entities"]
         if "relationships" in data:
             metadata["relationships"] = data["relationships"]
+        if "cited_pmc_ids" in data:
+            metadata["cited_pmc_ids"] = data["cited_pmc_ids"]
 
         # Extract authors (handle both list and string formats)
         authors = data.get("authors", [])

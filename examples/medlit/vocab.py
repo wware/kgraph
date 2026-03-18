@@ -213,6 +213,10 @@ def get_valid_predicates(subject_type: str, object_type: str) -> list[str]:
             predicate_associated_with,
         ]
 
+    # Paper → Paper (citation)
+    if subject_type == "paper" and object_type == "paper":
+        return [predicate_cites]
+
     # Disease → Disease
     if subject_type == "disease" and object_type == "disease":
         return [predicate_associated_with, predicate_increases_risk, predicate_subtype_of]

@@ -105,6 +105,30 @@ def expand_provenance(bundle: PerPaperBundle) -> tuple[list[ExtractedEntityRow],
             )
         )
 
+    # CITES(Paper, Paper) for each PMC ID in the reference list
+    for cited_pmc_id in bundle.paper.cited_pmc_ids:
+        cited_paper_entity_id = f"Paper:{cited_pmc_id}"
+        if cited_paper_entity_id not in seen_entity_ids:
+            new_entities.append(
+                ExtractedEntityRow(
+                    id=cited_paper_entity_id,
+                    entity_class="Paper",
+                    name=cited_pmc_id,
+                    canonical_id=cited_pmc_id,
+                )
+            )
+            seen_entity_ids.add(cited_paper_entity_id)
+        new_relationships.append(
+            RelationshipRow(
+                subject=paper_entity_id,
+                predicate="CITES",
+                object_id=cited_paper_entity_id,
+                source_papers=[document_id],
+                confidence=1.0,
+                asserted_by="derived",
+            )
+        )
+
     # DESCRIBED(Paper, entity) for top 2 domain entities by relationship count (Option A)
     entity_rel_count: dict[str, int] = {}
     for rel in bundle.relationships:

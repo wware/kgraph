@@ -235,12 +235,14 @@ async def _paper_content_from_parser(raw_content: bytes, content_type: str, sour
     paper_id = doc.document_id or Path(source_uri).stem
     author_details_raw = doc.metadata.get("author_details", []) if doc.metadata else []
     author_details = [AuthorInfo(**a) if isinstance(a, dict) else a for a in author_details_raw] if author_details_raw else None
+    cited_pmc_ids = doc.metadata.get("cited_pmc_ids", []) if doc.metadata else []
     info = PaperInfo(
         pmcid=paper_id if paper_id.startswith("PMC") else None,
         title=doc.title or "",
         authors=list(getattr(doc, "authors", [])) or [],
         author_details=author_details,
         document_id=doc.document_id or "",
+        cited_pmc_ids=cited_pmc_ids,
     )
     return text or "(no content)", info
 
@@ -414,6 +416,7 @@ async def run_extract(  # pylint: disable=too-many-statements
             study_type=raw_paper.get("study_type"),
             eco_type=raw_paper.get("eco_type"),
             study_design=study_design,
+            cited_pmc_ids=paper_info.cited_pmc_ids,
         )
         llm_name = getattr(llm, "model", llm_backend)
         provenance = build_provenance(

@@ -34,6 +34,7 @@ _get_list() {
         cushing)     echo "Endocrinology/Cushing's syndrome (10 papers)|PMC11560769.xml,PMC11779774.xml,PMC11548364.xml,PMC2386281.xml,PMC12187266.xml,PMC4374115.xml,PMC11128938.xml,PMC11685751.xml,PMC12035109.xml,PMC12055610.xml" ;;
         cushing-6)   echo "Cushing's subset (6 papers)|PMC11560769.xml,PMC11779774.xml,PMC11548364.xml,PMC2386281.xml,PMC12187266.xml,PMC4374115.xml" ;;
         adrenal)     echo "Adrenal topics|PMC10667925.xml,PMC4880116.xml,PMC11795198.xml" ;;
+        ferroptosis) echo "Ferroptosis pair (cross-citation test)|PMC12784773.xml,PMC12750178.xml" ;;
         misc)        echo "Misc oncology/other|PMC6727998.xml,PMC4192497.xml,PMC4480270.xml,PMC3607291.xml,PMC4398279.xml,PMC5579818.xml" ;;
         smorgasbord) echo "39 papers across oncology and endocrinology|PMC10667925.xml,PMC11128938.xml,PMC11548364.xml,PMC11560769.xml,PMC11685751.xml,PMC11779774.xml,PMC11795198.xml,PMC12035109.xml,PMC12055610.xml,PMC12187266.xml,PMC12750049.xml,PMC12753587.xml,PMC12754092.xml,PMC12757429.xml,PMC12757875.xml,PMC12758042.xml,PMC12764803.xml,PMC12764813.xml,PMC12766194.xml,PMC12775561.xml,PMC12780067.xml,PMC12780394.xml,PMC12783088.xml,PMC12784210.xml,PMC12784249.xml,PMC12784773.xml,PMC12785246.xml,PMC12785631.xml,PMC12788344.xml,PMC2386281.xml,PMC3607291.xml,PMC4192497.xml,PMC4374115.xml,PMC4398279.xml,PMC4480270.xml,PMC4880116.xml,PMC5487382.xml,PMC5579818.xml,PMC6727998.xml" ;;
         *)           echo "" ;;
@@ -60,7 +61,7 @@ _show_help() {
 _show_lists() {
     echo "Available paper lists:"
     echo ""
-    for name in short medium five ten ten-hpylori twenty cushing cushing-6 adrenal misc smorgasbord; do
+    for name in short medium five ten ten-hpylori twenty cushing cushing-6 adrenal ferroptosis misc smorgasbord; do
         raw=$(_get_list "$name")
         [ -z "$raw" ] && continue
         desc="${raw%%|*}"
