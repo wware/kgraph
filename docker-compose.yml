@@ -6,7 +6,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/kgserver
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/kgserver
       BUNDLE_PATH: /bundle
       # Chainlit (mounted at /chat on same server)
       MCP_SSE_URL: ${MCP_SSE_URL:-http://mcpserver:8001/sse}
@@ -46,7 +46,7 @@ services:
       dockerfile: kgserver/Dockerfile
     command: ["python", "-m", "uvicorn", "mcp_main:app", "--host", "0.0.0.0", "--port", "8001"]
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/kgserver
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/kgserver
       BUNDLE_PATH: /bundle
       # Pass 1 (ingest worker) uses LLM; pass through same keys as api
       PASS1_LLM_BACKEND: ${PASS1_LLM_BACKEND:-anthropic}
@@ -95,7 +95,7 @@ services:
       - ./notebooks:/home/jovyan/notebooks
     environment:
       - JUPYTER_ENABLE_LAB=yes
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/kgserver
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/kgserver
       - OLLAMA_BASE_URL=http://ollama:11434
     depends_on:
       postgres:
@@ -136,7 +136,7 @@ services:
     image: pgvector/pgvector:pg16
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # set in .env (never commit .env)
       POSTGRES_DB: kgserver
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -156,7 +156,7 @@ services:
     image: pgvector/pgvector:pg16
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # set in .env (never commit .env)
       POSTGRES_DB: kgserver
     volumes:
       - pgdata:/var/lib/postgresql/data
