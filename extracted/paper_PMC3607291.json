@@ -99,8 +99,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -114,14 +114,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:35:26.600172Z",
+      "timestamp": "2026-03-21T15:33:06.955562Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 44.19
+      "duration_seconds": 45.12
     },
     "entity_resolution": null,
     "model_info": null
@@ -197,10 +197,10 @@
     },
     {
       "id": "entity_5",
-      "class": "BiologicalProcess",
-      "name": "cross-sensitization",
+      "class": "AnatomicalStructure",
+      "name": "spinal neurons",
       "synonyms": [
-        "cross-organ sensitization"
+        "bladder spinal neurons"
       ],
       "symbol": null,
       "brand_names": [],
@@ -214,23 +214,6 @@
     },
     {
       "id": "entity_6",
-      "class": "Drug",
-      "name": "2,4,6-trinitrobenzene sulfonic acid",
-      "synonyms": [
-        "TNBS"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_7",
       "class": "Disease",
       "name": "colonic inflammation",
       "synonyms": [
@@ -247,11 +230,29 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_8",
-      "class": "AnatomicalStructure",
-      "name": "bladder spinal neurons",
+      "id": "entity_7",
+      "class": "Drug",
+      "name": "2,4,6-trinitrobenzene sulfonic acid",
       "synonyms": [
-        "bladder neurons"
+        "TNBS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_8",
+      "class": "BiologicalProcess",
+      "name": "cross-sensitization",
+      "synonyms": [
+        "cross-organ sensitization",
+        "colon-bladder cross-sensitization"
       ],
       "symbol": null,
       "brand_names": [],
@@ -296,21 +297,6 @@
     {
       "id": "entity_11",
       "class": "AnatomicalStructure",
-      "name": "spinal cord",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_12",
-      "class": "AnatomicalStructure",
       "name": "dorsal root ganglia",
       "synonyms": [
         "DRG"
@@ -326,12 +312,10 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_13",
+      "id": "entity_12",
       "class": "AnatomicalStructure",
-      "name": "colon",
-      "synonyms": [
-        "distal colon"
-      ],
+      "name": "lumbosacral spinal cord",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -343,7 +327,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_14",
+      "id": "entity_13",
       "class": "BiologicalProcess",
       "name": "neurogenic inflammation",
       "synonyms": [],
@@ -358,11 +342,26 @@
       "uniprot_id": null
     },
     {
+      "id": "entity_14",
+      "class": "Symptom",
+      "name": "bladder pain",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "entity_15",
-      "class": "Procedure",
-      "name": "urinary bladder distension",
+      "class": "Symptom",
+      "name": "pelvic pain",
       "synonyms": [
-        "UBD"
+        "functional pelvic pain"
       ],
       "symbol": null,
       "brand_names": [],
@@ -392,7 +391,7 @@
     {
       "id": "entity_17",
       "class": "AnatomicalStructure",
-      "name": "detrusor smooth muscle",
+      "name": "detrusor muscle",
       "synonyms": [
         "DSM"
       ],
@@ -408,6 +407,21 @@
     },
     {
       "id": "entity_18",
+      "class": "AnatomicalStructure",
+      "name": "distal colon",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_19",
       "class": "Protein",
       "name": "alpha tubulin",
       "synonyms": [],
@@ -422,7 +436,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_19",
+      "id": "entity_20",
       "class": "Biomarker",
       "name": "myeloperoxidase",
       "synonyms": [
@@ -439,25 +453,12 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_20",
-      "class": "Symptom",
-      "name": "bladder pain",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "entity_21",
-      "class": "Symptom",
-      "name": "urgency",
-      "synonyms": [],
+      "class": "Procedure",
+      "name": "urinary bladder distension",
+      "synonyms": [
+        "UBD"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -470,126 +471,6 @@
     },
     {
       "id": "entity_22",
-      "class": "BiologicalProcess",
-      "name": "viscerosomatic hypersensitivity",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_23",
-      "class": "BiologicalProcess",
-      "name": "nocigenic inhibition",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_24",
-      "class": "Institution",
-      "name": "University of Pennsylvania",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_25",
-      "class": "Institution",
-      "name": "University of Oklahoma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_26",
-      "class": "Institution",
-      "name": "Charles River Laboratories",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_27",
-      "class": "Drug",
-      "name": "isoflurane",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_28",
-      "class": "Drug",
-      "name": "sodium pentobarbital",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_29",
-      "class": "Drug",
-      "name": "pancuronium bromide",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_30",
       "class": "Procedure",
       "name": "Western blotting",
       "synonyms": [],
@@ -604,7 +485,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_31",
+      "id": "entity_23",
       "class": "Procedure",
       "name": "electrophysiological recordings",
       "synonyms": [],
@@ -619,12 +500,27 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_32",
-      "class": "Biomarker",
-      "name": "disease activity index",
+      "id": "entity_24",
+      "class": "BiologicalProcess",
+      "name": "desensitization",
       "synonyms": [
-        "DAI"
+        "TRPV1 desensitization"
       ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_25",
+      "class": "BiologicalProcess",
+      "name": "hyperexcitability",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -1033,7 +929,7 @@
       "entity_id": null,
       "paper_id": "PMC3607291",
       "text_span_id": "intro_1",
-      "text": "Cross-sensitization in the pelvis may contribute to etiology of functional pelvic pain disorders such as interstitial cystitis/bladder pain syndrome (IC/BPS)",
+      "text": "Cross-sensitization in the pelvis may contribute to etiology of functional pelvic pain disorders such as interstitial cystitis/bladder pain syndrome (IC/BPS).",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1046,7 +942,7 @@
       "entity_id": null,
       "paper_id": "PMC3607291",
       "text_span_id": "intro_2",
-      "text": "Increasing evidence suggests the involvement of transient receptor potential vanilloid 1 (TRPV1) receptors in the development of neurogenic inflammation in the pelvis and pelvic organ cross-sensitization",
+      "text": "Increasing evidence suggests the involvement of transient receptor potential vanilloid 1 (TRPV1) receptors in the development of neurogenic inflammation in the pelvis and pelvic organ cross-sensitization.",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1059,7 +955,7 @@
       "entity_id": null,
       "paper_id": "PMC3607291",
       "text_span_id": "results_1",
-      "text": "The duration of excitatory responses to noxious UBD during acute colonic inflammation (3 days post-TNBS) was significantly shortened in the group with RTX pretreatment (25.37\u00b1.5 s, n=49) when compared to the control group (35.1\u00b14.2 s, n=43, p\u22640.05)",
+      "text": "The duration of excitatory responses to noxious UBD during acute colonic inflammation (3 days post-TNBS) was significantly shortened in the group with RTX pretreatment (25.37\u00b1.5 s, n=49) when compared to the control group (35.1\u00b14.2 s, n=43, p\u22640.05).",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1072,7 +968,7 @@
       "entity_id": null,
       "paper_id": "PMC3607291",
       "text_span_id": "results_2",
-      "text": "intravesical RTX reduces the effects of viscerovisceral cross-talk induced by colonic inflammation on bladder spinal neurons",
+      "text": "These results provide evidence for a significant decrease in TRPV1 expression after intravesical treatment with RTX in the urothelium and DSM without changes in the distal colon.",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1085,7 +981,7 @@
       "entity_id": null,
       "paper_id": "PMC3607291",
       "text_span_id": "results_3",
-      "text": "RTX enhances the responses of bladder neurons to somatic stimulation",
+      "text": "Acute colitis (TNBS, 3 days), however, had no effect on the expression of TRPV1 in the urinary bladder, but increased the level of the protein in the distal colon by 2-fold.",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1095,7 +991,7 @@
   ],
   "relationships": [
     {
-      "subject": "entity_5",
+      "subject": "entity_8",
       "predicate": "CAUSES",
       "object": "entity_1",
       "evidence_ids": [
@@ -1105,7 +1001,7 @@
       "source_papers": [
         "PMC3607291"
       ],
-      "confidence": 0.9,
+      "confidence": 0.8,
       "linguistic_trust": "suggested",
       "properties": {},
       "section": "introduction",
@@ -1116,7 +1012,7 @@
     {
       "subject": "entity_2",
       "predicate": "CAUSES",
-      "object": "entity_14",
+      "object": "entity_13",
       "evidence_ids": [
         "PMC3607291:introduction:2:llm"
       ],
@@ -1125,7 +1021,7 @@
         "PMC3607291"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "suggested",
+      "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
       "asserted_by": "llm",
@@ -1135,7 +1031,7 @@
     {
       "subject": "entity_2",
       "predicate": "CAUSES",
-      "object": "entity_5",
+      "object": "entity_8",
       "evidence_ids": [
         "PMC3607291:introduction:2:llm"
       ],
@@ -1144,7 +1040,7 @@
         "PMC3607291"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "suggested",
+      "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
       "asserted_by": "llm",
@@ -1153,47 +1049,8 @@
     },
     {
       "subject": "entity_3",
-      "predicate": "INHIBITS",
-      "object": "entity_8",
-      "evidence_ids": [
-        "PMC3607291:results:1:llm",
-        "PMC3607291:results:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC3607291"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_7",
       "predicate": "CAUSES",
-      "object": "entity_5",
-      "evidence_ids": [
-        "PMC3607291:results:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC3607291"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_6",
-      "predicate": "CAUSES",
-      "object": "entity_7",
+      "object": "entity_24",
       "evidence_ids": [
         "PMC3607291:results:1:llm"
       ],
@@ -1211,46 +1068,8 @@
     },
     {
       "subject": "entity_3",
-      "predicate": "INCREASES_RISK",
-      "object": "entity_22",
-      "evidence_ids": [
-        "PMC3607291:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC3607291"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_2",
-      "predicate": "LOCATED_IN",
-      "object": "entity_4",
-      "evidence_ids": [
-        "PMC3607291:introduction:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC3607291"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_8",
-      "predicate": "LOCATED_IN",
-      "object": "entity_11",
+      "predicate": "INHIBITS",
+      "object": "entity_2",
       "evidence_ids": [
         "PMC3607291:results:2:llm"
       ],
@@ -1267,11 +1086,11 @@
       "note": null
     },
     {
-      "subject": "entity_20",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_1",
+      "subject": "entity_2",
+      "predicate": "LOCATED_IN",
+      "object": "entity_16",
       "evidence_ids": [
-        "PMC3607291:introduction:1:llm"
+        "PMC3607291:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1280,7 +1099,121 @@
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_2",
+      "predicate": "LOCATED_IN",
+      "object": "entity_17",
+      "evidence_ids": [
+        "PMC3607291:results:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_6",
+      "predicate": "INCREASES_RISK",
+      "object": "entity_2",
+      "evidence_ids": [
+        "PMC3607291:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_7",
+      "predicate": "CAUSES",
+      "object": "entity_6",
+      "evidence_ids": [
+        "PMC3607291:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_6",
+      "predicate": "CAUSES",
+      "object": "entity_8",
+      "evidence_ids": [
+        "PMC3607291:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_8",
+      "predicate": "CAUSES",
+      "object": "entity_25",
+      "evidence_ids": [
+        "PMC3607291:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_25",
+      "predicate": "LOCATED_IN",
+      "object": "entity_5",
+      "evidence_ids": [
+        "PMC3607291:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC3607291"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1798,7 +1731,7 @@
     {
       "subject": "Paper:PMC3607291",
       "predicate": "DESCRIBED",
-      "object": "entity_5",
+      "object": "entity_8",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

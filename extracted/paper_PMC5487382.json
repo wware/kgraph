@@ -136,8 +136,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -151,14 +151,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:41:12.313842Z",
+      "timestamp": "2026-03-21T15:38:40.494552Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 55.41
+      "duration_seconds": 46.64
     },
     "entity_resolution": null,
     "model_info": null
@@ -236,6 +236,23 @@
     {
       "id": "entity_5",
       "class": "AnatomicalStructure",
+      "name": "tree shrews",
+      "synonyms": [
+        "Tupaia belangeri"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_6",
+      "class": "AnatomicalStructure",
       "name": "bone marrow mesenchymal stem cells",
       "synonyms": [
         "BMSCs"
@@ -251,26 +268,9 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_6",
-      "class": "Disease",
-      "name": "spinal cord injury",
-      "synonyms": [
-        "SCI"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "entity_7",
-      "class": "Symptom",
-      "name": "spastic paralysis",
+      "class": "AnatomicalStructure",
+      "name": "spinal cord",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -285,7 +285,7 @@
     {
       "id": "entity_8",
       "class": "Symptom",
-      "name": "flaccid paralysis",
+      "name": "spastic paralysis",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -299,8 +299,8 @@
     },
     {
       "id": "entity_9",
-      "class": "AnatomicalStructure",
-      "name": "spinal cord",
+      "class": "Symptom",
+      "name": "flaccid paralysis",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -347,6 +347,23 @@
     {
       "id": "entity_12",
       "class": "Protein",
+      "name": "neurotrophic factors",
+      "synonyms": [
+        "NTFs"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_13",
+      "class": "Protein",
       "name": "interleukin 1 beta",
       "synonyms": [
         "IL-1\u03b2"
@@ -362,28 +379,11 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_13",
+      "id": "entity_14",
       "class": "BiologicalProcess",
       "name": "cell apoptosis",
       "synonyms": [
         "apoptosis"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_14",
-      "class": "Procedure",
-      "name": "Basso, Beattie, and Bresnahan locomotion scale",
-      "synonyms": [
-        "BBB locomotion scale"
       ],
       "symbol": null,
       "brand_names": [],
@@ -427,10 +427,10 @@
     },
     {
       "id": "entity_17",
-      "class": "Protein",
-      "name": "brain-derived neurotrophic factor",
+      "class": "Procedure",
+      "name": "Basso, Beattie, and Bresnahan locomotion scale",
       "synonyms": [
-        "BDNF"
+        "BBB locomotion scale"
       ],
       "symbol": null,
       "brand_names": [],
@@ -444,10 +444,10 @@
     },
     {
       "id": "entity_18",
-      "class": "Protein",
-      "name": "transforming growth factor beta 1",
+      "class": "Disease",
+      "name": "spinal cord injury",
       "synonyms": [
-        "TGF-\u03b21"
+        "SCI"
       ],
       "symbol": null,
       "brand_names": [],
@@ -478,9 +478,11 @@
     },
     {
       "id": "entity_20",
-      "class": "Institution",
-      "name": "Kunming Medical University",
-      "synonyms": [],
+      "class": "Protein",
+      "name": "brain-derived neurotrophic factor",
+      "synonyms": [
+        "BDNF"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -493,9 +495,11 @@
     },
     {
       "id": "entity_21",
-      "class": "Location",
-      "name": "Kunming",
-      "synonyms": [],
+      "class": "Protein",
+      "name": "transforming growth factor beta 1",
+      "synonyms": [
+        "TGF-\u03b21"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -508,66 +512,6 @@
     },
     {
       "id": "entity_22",
-      "class": "Location",
-      "name": "China",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_23",
-      "class": "Drug",
-      "name": "pentobarbital sodium",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_24",
-      "class": "Drug",
-      "name": "cefotaxime sodium salt",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_25",
-      "class": "Drug",
-      "name": "cyclosporin-A",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_26",
       "class": "Protein",
       "name": "glial fibrillary acidic protein",
       "synonyms": [
@@ -584,24 +528,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_27",
-      "class": "Protein",
-      "name": "Neuronal Nuclei",
-      "synonyms": [
-        "NeuN"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_28",
+      "id": "entity_23",
       "class": "Protein",
       "name": "CD44",
       "synonyms": [],
@@ -616,7 +543,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_29",
+      "id": "entity_24",
       "class": "Protein",
       "name": "CD29",
       "synonyms": [],
@@ -631,7 +558,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_30",
+      "id": "entity_25",
       "class": "Protein",
       "name": "CD45",
       "synonyms": [],
@@ -646,12 +573,10 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_31",
-      "class": "Protein",
-      "name": "Neuronal Class III \u03b2-Tubulin",
-      "synonyms": [
-        "Tuj1"
-      ],
+      "id": "entity_26",
+      "class": "Drug",
+      "name": "cyclosporin-A",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -663,7 +588,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_32",
+      "id": "entity_27",
       "class": "Protein",
       "name": "mitogen-activated protein kinase kinase",
       "synonyms": [
@@ -680,7 +605,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_33",
+      "id": "entity_28",
       "class": "Protein",
       "name": "phosphatidylinositol 3-kinase",
       "synonyms": [
@@ -697,26 +622,9 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_34",
-      "class": "BiologicalProcess",
-      "name": "locomotor function",
-      "synonyms": [
-        "motor function"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_35",
-      "class": "BiologicalProcess",
-      "name": "functional improvement",
+      "id": "entity_29",
+      "class": "Institution",
+      "name": "Kunming Medical University",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -729,7 +637,52 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_36",
+      "id": "entity_30",
+      "class": "Location",
+      "name": "Kunming",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_31",
+      "class": "Location",
+      "name": "China",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_32",
+      "class": "BiologicalProcess",
+      "name": "locomotor function",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_33",
       "class": "BiologicalProcess",
       "name": "axonal regeneration",
       "synonyms": [],
@@ -744,7 +697,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_37",
+      "id": "entity_34",
       "class": "BiologicalProcess",
       "name": "cell proliferation",
       "synonyms": [],
@@ -759,9 +712,9 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_38",
+      "id": "entity_35",
       "class": "BiologicalProcess",
-      "name": "inflammatory response",
+      "name": "cell differentiation",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -1241,38 +1194,12 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC5487382:abstract:1:llm",
+      "id": "PMC5487382:introduction:1:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC5487382",
-      "text_span_id": "abstract_1",
-      "text": "Following BMSC transplantation, motoneurons extent of shrinkage were reduced and the animals' Basso, Beattie, and Bresnahan (BBB) locomotion scale scores were significantly higher at 21 and 28 days after injury when compared with the injured group.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "experimental",
-      "eco_type": "animal_model",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC5487382:abstract:2:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC5487382",
-      "text_span_id": "abstract_2",
-      "text": "the hSCI-induced elevations in scar formation, IL-1\u03b2, and cell apoptosis were reduced by BMSC transplantation to levels that were close to those of the sham group",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "experimental",
-      "eco_type": "animal_model",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC5487382:abstract:3:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC5487382",
-      "text_span_id": "abstract_3",
-      "text": "Corresponding elevations in the expression of STAT3 and CNTF mRNA were observed in the hSCI + BMSCs group",
+      "text_span_id": "intro_1",
+      "text": "Hemi-sectioned spinal cord injury (hSCI) can lead to spastic paralysis on the injured side, as well as flaccid paralysis on the contralateral side",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1285,7 +1212,7 @@
       "entity_id": null,
       "paper_id": "PMC5487382",
       "text_span_id": "results_1",
-      "text": "BMSC transplantation significantly protected the motorneurons and augmented the shrews' BBB scores at day 21 and day 28 after injury",
+      "text": "Following BMSC transplantation, motoneurons extent of shrinkage were reduced and the animals' Basso, Beattie, and Bresnahan (BBB) locomotion scale scores were significantly higher at 21 and 28 days after injury",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1298,7 +1225,7 @@
       "entity_id": null,
       "paper_id": "PMC5487382",
       "text_span_id": "results_2",
-      "text": "BMSC transplantation significantly reduced glial scar formation, the inflammatory response and cell apoptosis in the tree shrew model of hSCI",
+      "text": "the hSCI-induced elevations in scar formation, IL-1\u03b2, and cell apoptosis were reduced by BMSC transplantation",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1311,7 +1238,7 @@
       "entity_id": null,
       "paper_id": "PMC5487382",
       "text_span_id": "results_3",
-      "text": "CNTF and STAT3 expression was significantly upregulated in the hSCI + BMSCs group",
+      "text": "Corresponding elevations in the expression of STAT3 and CNTF mRNA were observed in the hSCI + BMSCs group",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1321,129 +1248,11 @@
   ],
   "relationships": [
     {
-      "subject": "entity_1",
-      "predicate": "TREATS",
-      "object": "entity_2",
-      "evidence_ids": [
-        "PMC5487382:abstract:1:llm",
-        "PMC5487382:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC5487382"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_1",
-      "predicate": "CAUSES",
-      "object": "entity_35",
-      "evidence_ids": [
-        "PMC5487382:abstract:1:llm",
-        "PMC5487382:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC5487382"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_3",
-      "evidence_ids": [
-        "PMC5487382:abstract:3:llm",
-        "PMC5487382:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC5487382"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_4",
-      "evidence_ids": [
-        "PMC5487382:abstract:3:llm",
-        "PMC5487382:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC5487382"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_2",
-      "predicate": "CAUSES",
-      "object": "entity_7",
-      "evidence_ids": [
-        "PMC5487382:abstract:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC5487382"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
       "subject": "entity_2",
       "predicate": "CAUSES",
       "object": "entity_8",
       "evidence_ids": [
-        "PMC5487382:abstract:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC5487382"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_2",
-      "predicate": "LOCATED_IN",
-      "object": "entity_10",
-      "evidence_ids": [
-        "PMC5487382:abstract:1:llm"
+        "PMC5487382:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1452,7 +1261,7 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1460,10 +1269,9 @@
     {
       "subject": "entity_2",
       "predicate": "CAUSES",
-      "object": "entity_15",
+      "object": "entity_9",
       "evidence_ids": [
-        "PMC5487382:abstract:2:llm",
-        "PMC5487382:results:2:llm"
+        "PMC5487382:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1472,18 +1280,17 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_2",
-      "predicate": "CAUSES",
-      "object": "entity_13",
+      "subject": "entity_1",
+      "predicate": "TREATS",
+      "object": "entity_2",
       "evidence_ids": [
-        "PMC5487382:abstract:2:llm",
-        "PMC5487382:results:2:llm"
+        "PMC5487382:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1492,7 +1299,26 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_1",
+      "predicate": "INCREASES_RISK",
+      "object": "entity_32",
+      "evidence_ids": [
+        "PMC5487382:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC5487382"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1502,7 +1328,6 @@
       "predicate": "PREVENTS",
       "object": "entity_15",
       "evidence_ids": [
-        "PMC5487382:abstract:2:llm",
         "PMC5487382:results:2:llm"
       ],
       "provenance": [],
@@ -1512,7 +1337,7 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1520,9 +1345,27 @@
     {
       "subject": "entity_1",
       "predicate": "PREVENTS",
+      "object": "entity_14",
+      "evidence_ids": [
+        "PMC5487382:results:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC5487382"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_1",
+      "predicate": "REGULATES",
       "object": "entity_13",
       "evidence_ids": [
-        "PMC5487382:abstract:2:llm",
         "PMC5487382:results:2:llm"
       ],
       "provenance": [],
@@ -1532,17 +1375,36 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "entity_1",
-      "predicate": "PREVENTS",
-      "object": "entity_38",
+      "predicate": "REGULATES",
+      "object": "entity_4",
       "evidence_ids": [
-        "PMC5487382:results:2:llm"
+        "PMC5487382:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC5487382"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_1",
+      "predicate": "REGULATES",
+      "object": "entity_3",
+      "evidence_ids": [
+        "PMC5487382:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1561,35 +1423,91 @@
       "predicate": "REGULATES",
       "object": "entity_4",
       "evidence_ids": [
-        "PMC5487382:abstract:3:llm"
+        "PMC5487382:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC5487382"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_5",
-      "predicate": "SAME_AS",
-      "object": "entity_5",
-      "evidence_ids": [],
+      "subject": "entity_6",
+      "predicate": "LOCATED_IN",
+      "object": "entity_7",
+      "evidence_ids": [
+        "PMC5487382:results:1:llm"
+      ],
       "provenance": [],
       "source_papers": [
         "PMC5487382"
       ],
-      "confidence": 1.0,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {
-        "resolution": null,
-        "note": "bone marrow mesenchymal stem cells is the same entity referenced in the paper"
-      },
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_16",
+      "predicate": "LOCATED_IN",
+      "object": "entity_7",
+      "evidence_ids": [
+        "PMC5487382:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC5487382"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_29",
+      "predicate": "LOCATED_IN",
+      "object": "entity_30",
+      "evidence_ids": [
+        "PMC5487382:methods:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC5487382"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_30",
+      "predicate": "LOCATED_IN",
+      "object": "entity_31",
+      "evidence_ids": [
+        "PMC5487382:methods:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC5487382"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
       "section": "methods",
       "asserted_by": "llm",
       "resolution": null,

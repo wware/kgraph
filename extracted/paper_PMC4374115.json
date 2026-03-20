@@ -53,8 +53,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -68,14 +68,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:37:33.679256Z",
+      "timestamp": "2026-03-21T15:35:14.259513Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 100.2
+      "duration_seconds": 100.12
     },
     "entity_resolution": null,
     "model_info": null
@@ -86,7 +86,8 @@
       "class": "Disease",
       "name": "Cushing's disease",
       "synonyms": [
-        "CD"
+        "CD",
+        "Cushing disease"
       ],
       "symbol": null,
       "brand_names": [],
@@ -103,7 +104,8 @@
       "class": "Hormone",
       "name": "adrenocorticotrophin hormone",
       "synonyms": [
-        "ACTH"
+        "ACTH",
+        "adrenocorticotropic hormone"
       ],
       "symbol": null,
       "brand_names": [],
@@ -243,21 +245,6 @@
       "id": "pituitary_radiotherapy",
       "class": "Procedure",
       "name": "pituitary radiotherapy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cardiovascular_disease",
-      "class": "Disease",
-      "name": "cardiovascular disease",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -497,117 +484,10 @@
       "uniprot_id": null
     },
     {
-      "id": "visceral_adiposity",
-      "class": "Symptom",
-      "name": "visceral adiposity",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "glucose_intolerance",
+      "id": "cardiovascular_disease",
       "class": "Disease",
-      "name": "glucose intolerance",
+      "name": "cardiovascular disease",
       "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "atherosclerosis",
-      "class": "Disease",
-      "name": "atherosclerosis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "procoagulant_phenotype",
-      "class": "Symptom",
-      "name": "procoagulant phenotype",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "central_nervous_system",
-      "class": "AnatomicalStructure",
-      "name": "central nervous system",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "mood_alterations",
-      "class": "Symptom",
-      "name": "mood alterations",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "vertebral_fractures",
-      "class": "Disease",
-      "name": "vertebral fractures",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "standardized_mortality_ratio",
-      "class": "Biomarker",
-      "name": "standardized mortality ratio",
-      "synonyms": [
-        "SMR"
-      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -634,71 +514,9 @@
       "uniprot_id": null
     },
     {
-      "id": "waist_to_hip_ratio",
-      "class": "Biomarker",
-      "name": "waist-to-hip ratio",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "diastolic_blood_pressure",
-      "class": "Biomarker",
-      "name": "diastolic blood pressure",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "oral_glucose_tolerance_test",
-      "class": "Procedure",
-      "name": "oral glucose tolerance test",
-      "synonyms": [
-        "OGTT"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "fibrinogen",
-      "class": "Biomarker",
-      "name": "fibrinogen",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "atherosclerotic_plaques",
-      "class": "Disease",
-      "name": "atherosclerotic plaques",
+      "id": "visceral_adiposity",
+      "class": "Symptom",
+      "name": "visceral adiposity",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -741,21 +559,6 @@
       "uniprot_id": null
     },
     {
-      "id": "diastolic_dysfunction",
-      "class": "Disease",
-      "name": "diastolic dysfunction",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "insulin_resistance",
       "class": "Disease",
       "name": "insulin resistance",
@@ -774,6 +577,21 @@
       "id": "gluconeogenesis",
       "class": "BiologicalProcess",
       "name": "gluconeogenesis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "insulin_receptor",
+      "class": "Protein",
+      "name": "insulin receptor",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -816,8 +634,25 @@
       "uniprot_id": null
     },
     {
-      "id": "homeostatic_model_assessment",
+      "id": "ogtt",
       "class": "Procedure",
+      "name": "oral glucose tolerance test",
+      "synonyms": [
+        "OGTT"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "homa",
+      "class": "Biomarker",
       "name": "homeostatic model assessment",
       "synonyms": [
         "HOMA"
@@ -863,7 +698,7 @@
       "uniprot_id": null
     },
     {
-      "id": "cytochrome_p450_3a4",
+      "id": "cyp3a4",
       "class": "Enzyme",
       "name": "cytochrome P450 3A4",
       "synonyms": [
@@ -925,12 +760,27 @@
       "uniprot_id": null
     },
     {
-      "id": "dual_energy_xray_absorptiometry",
+      "id": "dxa",
       "class": "Procedure",
       "name": "dual energy X-ray absorptiometry",
       "synonyms": [
         "DXA"
       ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "vertebral_fractures",
+      "class": "Disease",
+      "name": "vertebral fractures",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -1048,7 +898,7 @@
     },
     {
       "id": "hypercalciuria",
-      "class": "Symptom",
+      "class": "Disease",
       "name": "hypercalciuria",
       "synonyms": [],
       "symbol": null,
@@ -1063,7 +913,7 @@
     },
     {
       "id": "hypocitraturia",
-      "class": "Symptom",
+      "class": "Disease",
       "name": "hypocitraturia",
       "synonyms": [],
       "symbol": null,
@@ -1078,7 +928,7 @@
     },
     {
       "id": "hyperuricosuria",
-      "class": "Symptom",
+      "class": "Disease",
       "name": "hyperuricosuria",
       "synonyms": [],
       "symbol": null,
@@ -1093,8 +943,23 @@
     },
     {
       "id": "hyperoxalaturia",
-      "class": "Symptom",
+      "class": "Disease",
       "name": "hyperoxalaturia",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "depression",
+      "class": "Disease",
+      "name": "depression",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -1167,9 +1032,9 @@
       "uniprot_id": null
     },
     {
-      "id": "acute_psychosis",
+      "id": "psychosis",
       "class": "Disease",
-      "name": "acute psychosis",
+      "name": "psychosis",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -1332,21 +1197,6 @@
       "uniprot_id": null
     },
     {
-      "id": "fractional_anisotropy",
-      "class": "Biomarker",
-      "name": "fractional anisotropy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "uncinate_fasciculus",
       "class": "AnatomicalStructure",
       "name": "uncinate fasciculus",
@@ -1392,9 +1242,9 @@
       "uniprot_id": null
     },
     {
-      "id": "health_related_quality_of_life",
+      "id": "hrqol",
       "class": "Biomarker",
-      "name": "health related quality of life",
+      "name": "health-related quality of life",
       "synonyms": [
         "HRQoL"
       ],
@@ -1484,6 +1334,21 @@
       "uniprot_id": null
     },
     {
+      "id": "cognitive_problems",
+      "class": "Symptom",
+      "name": "cognitive problems",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "sleeping_difficulties",
       "class": "Symptom",
       "name": "sleeping difficulties",
@@ -1499,7 +1364,7 @@
       "uniprot_id": null
     },
     {
-      "id": "short_form_36",
+      "id": "sf36",
       "class": "Procedure",
       "name": "short-form 36",
       "synonyms": [
@@ -1516,12 +1381,42 @@
       "uniprot_id": null
     },
     {
-      "id": "non_functioning_pituitary_adenomas",
+      "id": "nfpa",
       "class": "Disease",
-      "name": "non-functioning pituitary adenomas",
+      "name": "non-functioning pituitary macroadenomas",
       "synonyms": [
         "NFPA"
       ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hypopituitarism",
+      "class": "Disease",
+      "name": "hypopituitarism",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "central_nervous_system",
+      "class": "AnatomicalStructure",
+      "name": "central nervous system",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -1655,39 +1550,13 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC4374115:introduction:0:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC4374115",
-      "text_span_id": "intro_0",
-      "text": "Cushing's disease is a rare disorder characterized by overproduction of ACTH from a pituitary adenoma leading to hypercortisolemia that in turn leads to increased morbidity and mortality.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "review",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
       "id": "PMC4374115:introduction:1:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC4374115",
       "text_span_id": "intro_1",
-      "text": "Recent evidence suggests that correction of hypercortisolemia may not lead to complete resolution of comorbidities associated with this condition.",
-      "confidence": 0.9,
-      "extraction_method": "llm",
-      "study_type": "review",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC4374115:results:0:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC4374115",
-      "text_span_id": "results_0",
-      "text": "increased cardiovascular risk may persist despite long-term remission of hypercortisolemia. This may be related to persistence of visceral adiposity, adverse adipokine profile, glucose intolerance, hypertension, dyslipidemia, atherosclerosis and a procoagulant phenotype.",
-      "confidence": 0.9,
+      "text": "Cushing's disease is a rare disorder characterized by overproduction of ACTH from a pituitary adenoma leading to hypercortisolemia that in turn leads to increased morbidity and mortality.",
+      "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "review",
       "eco_type": null,
@@ -1699,6 +1568,45 @@
       "entity_id": null,
       "paper_id": "PMC4374115",
       "text_span_id": "results_1",
+      "text": "Recent evidence suggests that correction of hypercortisolemia may not lead to complete resolution of comorbidities associated with this condition.",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC4374115:results:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC4374115",
+      "text_span_id": "results_2",
+      "text": "In particular, increased cardiovascular risk may persist despite long-term remission of hypercortisolemia.",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC4374115:cardiovascular:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC4374115",
+      "text_span_id": "cardio_1",
+      "text": "Cardiovascular risk is increased in CD patients even 5 years after remission.",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC4374115:psychiatric:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC4374115",
+      "text_span_id": "psych_1",
       "text": "Prior prolonged exposure to glucocorticoids also may have irreversible effects on the central nervous system, leading to persistent cognitive and mood alterations.",
       "confidence": 0.85,
       "extraction_method": "llm",
@@ -1707,39 +1615,13 @@
       "source": "extracted"
     },
     {
-      "id": "PMC4374115:mortality:0:llm",
+      "id": "PMC4374115:bone:1:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC4374115",
-      "text_span_id": "mortality_0",
-      "text": "Multiple studies show that the standardized mortality ratio (SMR) is increased in CD (1.7\u20134.8), especially in patients with persistent hypercortisolism (3.7\u20134.2) compared to those in remission (1.8\u20133.17).",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "review",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC4374115:cardiovascular:0:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC4374115",
-      "text_span_id": "cardiovascular_0",
-      "text": "Cardiovascular risk is increased in CD patients even 5 years after remission. Compared with controls, CD patients had significantly higher waist-to-hip ratio, diastolic blood pressure, oral glucose tolerance test\u2014stimulated glucose and insulin levels, total/HDL cholesterol ratio and fibrinogen levels.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "review",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC4374115:cognitive:0:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC4374115",
-      "text_span_id": "cognitive_0",
-      "text": "Chronic hypercortisolism is associated with cognitive dysfunction including impairment of memory, visual and spatial information, reasoning, verbal learning and language performance. The hippocampus, amygdala and the cerebral cortex, structures important for cognitive and emotional functioning, are rich in glucocorticoid receptors and presumably particularly vulnerable to hypercortisolemia.",
-      "confidence": 0.95,
+      "text_span_id": "bone_1",
+      "text": "Osteoporosis and fractures, especially vertebral fractures, can further add to morbidity and a poor quality of life.",
+      "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "review",
       "eco_type": null,
@@ -1750,28 +1632,9 @@
     {
       "subject": "pituitary_adenoma",
       "predicate": "CAUSES",
-      "object": "cushing_disease",
-      "evidence_ids": [
-        "PMC4374115:introduction:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "pituitary_adenoma",
-      "predicate": "CAUSES",
       "object": "acth",
       "evidence_ids": [
-        "PMC4374115:introduction:0:llm"
+        "PMC4374115:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1790,51 +1653,13 @@
       "predicate": "CAUSES",
       "object": "hypercortisolemia",
       "evidence_ids": [
-        "PMC4374115:introduction:0:llm"
+        "PMC4374115:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC4374115"
       ],
       "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "acth",
-      "predicate": "REGULATES",
-      "object": "cortisol",
-      "evidence_ids": [
-        "PMC4374115:introduction:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "adrenal_glands",
-      "predicate": "REGULATES",
-      "object": "cortisol",
-      "evidence_ids": [
-        "PMC4374115:introduction:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1847,27 +1672,8 @@
       "predicate": "INCREASES_RISK",
       "object": "cardiovascular_disease",
       "evidence_ids": [
-        "PMC4374115:results:0:llm",
-        "PMC4374115:cardiovascular:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "hypercortisolemia",
-      "predicate": "CAUSES",
-      "object": "visceral_adiposity",
-      "evidence_ids": [
-        "PMC4374115:results:0:llm"
+        "PMC4374115:results:2:llm",
+        "PMC4374115:cardiovascular:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1882,11 +1688,11 @@
       "note": null
     },
     {
-      "subject": "hypercortisolemia",
-      "predicate": "CAUSES",
-      "object": "glucose_intolerance",
+      "subject": "cushing_disease",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "obesity",
       "evidence_ids": [
-        "PMC4374115:results:0:llm"
+        "PMC4374115:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1895,17 +1701,55 @@
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "hypercortisolemia",
-      "predicate": "CAUSES",
+      "subject": "cushing_disease",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "impaired_glucose_tolerance",
+      "evidence_ids": [
+        "PMC4374115:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cushing_disease",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "diabetes_mellitus",
+      "evidence_ids": [
+        "PMC4374115:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cushing_disease",
+      "predicate": "ASSOCIATED_WITH",
       "object": "hypertension",
       "evidence_ids": [
-        "PMC4374115:results:0:llm"
+        "PMC4374115:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1914,17 +1758,36 @@
       "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "hypercortisolemia",
-      "predicate": "CAUSES",
+      "subject": "cushing_disease",
+      "predicate": "ASSOCIATED_WITH",
       "object": "dyslipidemia",
       "evidence_ids": [
-        "PMC4374115:results:0:llm"
+        "PMC4374115:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cushing_disease",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "osteoporosis",
+      "evidence_ids": [
+        "PMC4374115:bone:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1939,11 +1802,11 @@
       "note": null
     },
     {
-      "subject": "hypercortisolemia",
-      "predicate": "CAUSES",
-      "object": "atherosclerosis",
+      "subject": "cushing_disease",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "fractures",
       "evidence_ids": [
-        "PMC4374115:results:0:llm"
+        "PMC4374115:bone:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1958,11 +1821,11 @@
       "note": null
     },
     {
-      "subject": "hypercortisolemia",
-      "predicate": "CAUSES",
-      "object": "procoagulant_phenotype",
+      "subject": "cushing_disease",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "vertebral_fractures",
       "evidence_ids": [
-        "PMC4374115:results:0:llm"
+        "PMC4374115:bone:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1977,31 +1840,11 @@
       "note": null
     },
     {
-      "subject": "hypercortisolemia",
-      "predicate": "CAUSES",
-      "object": "cognitive_impairment",
+      "subject": "cushing_disease",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "psychiatric_dysfunction",
       "evidence_ids": [
-        "PMC4374115:results:1:llm",
-        "PMC4374115:cognitive:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "hypercortisolemia",
-      "predicate": "CAUSES",
-      "object": "mood_alterations",
-      "evidence_ids": [
-        "PMC4374115:results:1:llm"
+        "PMC4374115:psychiatric:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2017,209 +1860,38 @@
     },
     {
       "subject": "cushing_disease",
-      "predicate": "INCREASES_RISK",
-      "object": "standardized_mortality_ratio",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "cognitive_impairment",
       "evidence_ids": [
-        "PMC4374115:mortality:0:llm"
+        "PMC4374115:psychiatric:1:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC4374115"
       ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
       "properties": {},
-      "section": "mortality",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "cushing_disease",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "obesity",
+      "subject": "hypercortisolemia",
+      "predicate": "CAUSES",
+      "object": "central_nervous_system",
       "evidence_ids": [
-        "PMC4374115:cardiovascular:0:llm"
+        "PMC4374115:psychiatric:1:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC4374115"
       ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
       "properties": {},
-      "section": "cardiovascular",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cushing_disease",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "impaired_glucose_tolerance",
-      "evidence_ids": [
-        "PMC4374115:cardiovascular:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "cardiovascular",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cushing_disease",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "diabetes_mellitus",
-      "evidence_ids": [
-        "PMC4374115:cardiovascular:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "cardiovascular",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cushing_disease",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "osteoporosis",
-      "evidence_ids": [
-        "PMC4374115:cardiovascular:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "cardiovascular",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cushing_disease",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "fractures",
-      "evidence_ids": [
-        "PMC4374115:cardiovascular:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "cardiovascular",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cushing_disease",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "nephrolithiasis",
-      "evidence_ids": [
-        "PMC4374115:cardiovascular:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "cardiovascular",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cushing_disease",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "psychiatric_dysfunction",
-      "evidence_ids": [
-        "PMC4374115:cardiovascular:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "cardiovascular",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "hippocampus",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "glucocorticoid_receptors",
-      "evidence_ids": [
-        "PMC4374115:cognitive:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "cognitive",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "amygdala",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "glucocorticoid_receptors",
-      "evidence_ids": [
-        "PMC4374115:cognitive:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "cognitive",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cerebral_cortex",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "glucocorticoid_receptors",
-      "evidence_ids": [
-        "PMC4374115:cognitive:0:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4374115"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "cognitive",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -2229,7 +1901,7 @@
       "predicate": "TREATS",
       "object": "cushing_disease",
       "evidence_ids": [
-        "PMC4374115:introduction:0:llm"
+        "PMC4374115:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2248,7 +1920,7 @@
       "predicate": "TREATS",
       "object": "cushing_disease",
       "evidence_ids": [
-        "PMC4374115:introduction:0:llm"
+        "PMC4374115:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2267,7 +1939,7 @@
       "predicate": "TREATS",
       "object": "cushing_disease",
       "evidence_ids": [
-        "PMC4374115:introduction:0:llm"
+        "PMC4374115:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2286,7 +1958,7 @@
       "predicate": "TREATS",
       "object": "cushing_disease",
       "evidence_ids": [
-        "PMC4374115:introduction:0:llm"
+        "PMC4374115:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2296,6 +1968,348 @@
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "CAUSES",
+      "object": "insulin_resistance",
+      "evidence_ids": [
+        "PMC4374115:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "REGULATES",
+      "object": "gluconeogenesis",
+      "evidence_ids": [
+        "PMC4374115:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "INHIBITS",
+      "object": "insulin_receptor",
+      "evidence_ids": [
+        "PMC4374115:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "CAUSES",
+      "object": "lipolysis",
+      "evidence_ids": [
+        "PMC4374115:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "CAUSES",
+      "object": "proteolysis",
+      "evidence_ids": [
+        "PMC4374115:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ketoconazole",
+      "predicate": "INHIBITS",
+      "object": "cyp3a4",
+      "evidence_ids": [
+        "PMC4374115:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cyp3a4",
+      "predicate": "REGULATES",
+      "object": "simvastatin",
+      "evidence_ids": [
+        "PMC4374115:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cyp3a4",
+      "predicate": "REGULATES",
+      "object": "atorvastatin",
+      "evidence_ids": [
+        "PMC4374115:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "INHIBITS",
+      "object": "osteoblastic_activity",
+      "evidence_ids": [
+        "PMC4374115:bone:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "INCREASES_RISK",
+      "object": "osteoclastic_activity",
+      "evidence_ids": [
+        "PMC4374115:bone:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "INHIBITS",
+      "object": "calcium_absorption",
+      "evidence_ids": [
+        "PMC4374115:bone:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cortisol",
+      "predicate": "INCREASES_RISK",
+      "object": "calcium_excretion",
+      "evidence_ids": [
+        "PMC4374115:bone:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "hypercortisolemia",
+      "predicate": "LOCATED_IN",
+      "object": "hippocampus",
+      "evidence_ids": [
+        "PMC4374115:psychiatric:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "hypercortisolemia",
+      "predicate": "LOCATED_IN",
+      "object": "amygdala",
+      "evidence_ids": [
+        "PMC4374115:psychiatric:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "hypercortisolemia",
+      "predicate": "LOCATED_IN",
+      "object": "cerebral_cortex",
+      "evidence_ids": [
+        "PMC4374115:psychiatric:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "hypercortisolemia",
+      "predicate": "CAUSES",
+      "object": "hippocampal_atrophy",
+      "evidence_ids": [
+        "PMC4374115:psychiatric:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "hypercortisolemia",
+      "predicate": "CAUSES",
+      "object": "brain_volume_loss",
+      "evidence_ids": [
+        "PMC4374115:psychiatric:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "hypercortisolemia",
+      "predicate": "CAUSES",
+      "object": "cerebral_atrophy",
+      "evidence_ids": [
+        "PMC4374115:psychiatric:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC4374115"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null

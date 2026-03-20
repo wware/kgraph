@@ -50,8 +50,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -65,14 +65,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:41:43.019620Z",
+      "timestamp": "2026-03-21T15:39:14.289380Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 28.85
+      "duration_seconds": 29.96
     },
     "entity_resolution": null,
     "model_info": null
@@ -264,7 +264,7 @@
     },
     {
       "id": "escaped_beat",
-      "class": "Symptom",
+      "class": "Biomarker",
       "name": "escaped beat",
       "synonyms": [],
       "symbol": null,
@@ -478,6 +478,25 @@
   ],
   "relationships": [
     {
+      "subject": "junctional_rhythm",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "general_anesthesia",
+      "evidence_ids": [
+        "PMC5579818:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC5579818"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
       "subject": "bilateral_sagittal_split_ramus_osteotomy",
       "predicate": "TREATS",
       "object": "jaw_deformity",
@@ -516,8 +535,8 @@
       "note": null
     },
     {
-      "subject": "electrocardiography",
-      "predicate": "INDICATES",
+      "subject": "junctional_rhythm",
+      "predicate": "ASSOCIATED_WITH",
       "object": "slow_heart_rate",
       "evidence_ids": [
         "PMC5579818:abstract:3:llm"
@@ -555,7 +574,7 @@
     },
     {
       "subject": "adrenaline",
-      "predicate": "INCREASES_RISK",
+      "predicate": "CAUSES",
       "object": "sympathetic_activity",
       "evidence_ids": [
         "PMC5579818:abstract:6:llm"
@@ -592,25 +611,6 @@
       "note": null
     },
     {
-      "subject": "primary_pacemaker",
-      "predicate": "CAUSES",
-      "object": "escaped_beat",
-      "evidence_ids": [
-        "PMC5579818:abstract:7:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC5579818"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
       "subject": "escaped_beat",
       "predicate": "ASSOCIATED_WITH",
       "object": "junctional_rhythm",
@@ -630,6 +630,25 @@
       "note": null
     },
     {
+      "subject": "primary_pacemaker",
+      "predicate": "CAUSES",
+      "object": "escaped_beat",
+      "evidence_ids": [
+        "PMC5579818:abstract:7:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC5579818"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
       "subject": "Author:kishimoton",
       "predicate": "AFFILIATED_WITH",
       "object": "Institution:department_of_anesthesiology_osaka_dental_univers",
@@ -751,7 +770,7 @@
     {
       "subject": "Paper:PMC5579818",
       "predicate": "DESCRIBED",
-      "object": "electrocardiography",
+      "object": "sympathetic_activity",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

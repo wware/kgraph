@@ -154,8 +154,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -169,14 +169,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:24:47.039491Z",
+      "timestamp": "2026-03-21T15:22:51.555039Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 48.99
+      "duration_seconds": 69.75
     },
     "entity_resolution": null,
     "model_info": null
@@ -203,7 +203,9 @@
       "id": "p53",
       "class": "Gene",
       "name": "p53",
-      "synonyms": [],
+      "synonyms": [
+        "tumor protein p53"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -235,7 +237,9 @@
       "id": "genomic_instability",
       "class": "BiologicalProcess",
       "name": "genomic instability",
-      "synonyms": [],
+      "synonyms": [
+        "chromosomal instability"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -267,7 +271,9 @@
       "id": "mitochondrial_depolarization",
       "class": "BiologicalProcess",
       "name": "mitochondrial depolarization",
-      "synonyms": [],
+      "synonyms": [
+        "mitochondrial membrane depolarization"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -297,9 +303,11 @@
     },
     {
       "id": "mda_mb_231",
-      "class": "Protein",
+      "class": "AnatomicalStructure",
       "name": "MDA-MB-231",
-      "synonyms": [],
+      "synonyms": [
+        "MDA-MB-231 cells"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -314,7 +322,9 @@
       "id": "estrogen_receptor",
       "class": "Protein",
       "name": "estrogen receptor",
-      "synonyms": [],
+      "synonyms": [
+        "ER"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -329,7 +339,9 @@
       "id": "progesterone_receptor",
       "class": "Protein",
       "name": "progesterone receptor",
-      "synonyms": [],
+      "synonyms": [
+        "PR"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -358,10 +370,29 @@
       "uniprot_id": null
     },
     {
-      "id": "chemotherapy",
-      "class": "Procedure",
-      "name": "chemotherapy",
-      "synonyms": [],
+      "id": "bcl2",
+      "class": "Gene",
+      "name": "Bcl-2",
+      "synonyms": [
+        "BCL2"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:990",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "nd3",
+      "class": "Gene",
+      "name": "ND3",
+      "synonyms": [
+        "NADH dehydrogenase subunit 3"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -376,7 +407,9 @@
       "id": "mtt_assay",
       "class": "Procedure",
       "name": "MTT assay",
-      "synonyms": [],
+      "synonyms": [
+        "3-(4,5-dimethylthiazol-2-yl)-2,5-diphenyl tetrazolium bromide assay"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -391,23 +424,8 @@
       "id": "alkaline_comet_assay",
       "class": "Procedure",
       "name": "alkaline comet assay",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "2_7_dichlorodihydrofluorescein_diacetate",
-      "class": "Drug",
-      "name": "2',7'-dichlorodihydrofluorescein diacetate",
       "synonyms": [
-        "2',7'-DCFH-DA"
+        "single-cell gel electrophoresis"
       ],
       "symbol": null,
       "brand_names": [],
@@ -423,7 +441,9 @@
       "id": "rhodamine_123",
       "class": "Drug",
       "name": "Rhodamine-123",
-      "synonyms": [],
+      "synonyms": [
+        "Rh123"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -437,9 +457,9 @@
     {
       "id": "dapi",
       "class": "Drug",
-      "name": "4',6-diamidino-2-phenylindole",
+      "name": "DAPI",
       "synonyms": [
-        "DAPI"
+        "4',6-diamidino-2-phenylindole"
       ],
       "symbol": null,
       "brand_names": [],
@@ -484,40 +504,12 @@
       "uniprot_id": null
     },
     {
-      "id": "bcl2",
-      "class": "Gene",
-      "name": "Bcl-2",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:990",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "nd3",
-      "class": "Gene",
-      "name": "ND3",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "mitochondria",
       "class": "AnatomicalStructure",
       "name": "mitochondria",
-      "synonyms": [],
+      "synonyms": [
+        "mitochondrion"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -532,7 +524,9 @@
       "id": "dna_damage",
       "class": "BiologicalProcess",
       "name": "DNA damage",
-      "synonyms": [],
+      "synonyms": [
+        "genomic DNA damage"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -547,7 +541,9 @@
       "id": "cytotoxicity",
       "class": "BiologicalProcess",
       "name": "cytotoxicity",
-      "synonyms": [],
+      "synonyms": [
+        "cell death"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -589,9 +585,9 @@
       "uniprot_id": null
     },
     {
-      "id": "cell_viability",
-      "class": "BiologicalProcess",
-      "name": "cell viability",
+      "id": "chemotherapy",
+      "class": "Procedure",
+      "name": "chemotherapy",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -604,9 +600,9 @@
       "uniprot_id": null
     },
     {
-      "id": "chromatin_condensation",
-      "class": "BiologicalProcess",
-      "name": "chromatin condensation",
+      "id": "anthracyclines",
+      "class": "Drug",
+      "name": "anthracyclines",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -619,9 +615,146 @@
       "uniprot_id": null
     },
     {
-      "id": "nuclear_fragmentation",
+      "id": "taxanes",
+      "class": "Drug",
+      "name": "taxanes",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "platinum_based_drugs",
+      "class": "Drug",
+      "name": "platinum-based drugs",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cardiotoxicity",
+      "class": "Symptom",
+      "name": "cardiotoxicity",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "myelosuppression",
+      "class": "Symptom",
+      "name": "myelosuppression",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "neurotoxicity",
+      "class": "Symptom",
+      "name": "neurotoxicity",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "chemoresistance",
       "class": "BiologicalProcess",
-      "name": "nuclear fragmentation",
+      "name": "chemoresistance",
+      "synonyms": [
+        "drug resistance"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tumor_recurrence",
+      "class": "Disease",
+      "name": "tumor recurrence",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "metastasis",
+      "class": "BiologicalProcess",
+      "name": "metastasis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "brca1",
+      "class": "Gene",
+      "name": "BRCA1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1100",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "african_american",
+      "class": "Ethnicity",
+      "name": "African-American",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -681,11 +814,105 @@
       "uniprot_id": null
     },
     {
-      "id": "intrinsic_apoptotic_pathway",
-      "class": "Pathway",
-      "name": "intrinsic apoptotic pathway",
+      "id": "atp",
+      "class": "Biomarker",
+      "name": "ATP",
       "synonyms": [
-        "mitochondrial apoptotic pathway"
+        "adenosine triphosphate"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "nanotech_company",
+      "class": "Institution",
+      "name": "Nanotech Company",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cairo",
+      "class": "Location",
+      "name": "Cairo",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "egypt",
+      "class": "Location",
+      "name": "Egypt",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "al_azhar_university",
+      "class": "Institution",
+      "name": "Al-Azhar University",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "dmso",
+      "class": "Drug",
+      "name": "dimethyl sulfoxide",
+      "synonyms": [
+        "DMSO"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "dcfh_da",
+      "class": "Drug",
+      "name": "2',7'-dichlorodihydrofluorescein diacetate",
+      "synonyms": [
+        "2',7'-DCFH-DA"
       ],
       "symbol": null,
       "brand_names": [],
@@ -1705,12 +1932,51 @@
   ],
   "evidence_entities": [
     {
+      "id": "PMC12780067:abstract:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12780067",
+      "text_span_id": "abstract_1",
+      "text": "BGNps exerted potent, concentration-dependent cytotoxicity in MDA-MB-231 cells, with an IC50 value of 184.3 \u00b5g/ml",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "in vitro",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12780067:abstract:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12780067",
+      "text_span_id": "abstract_2",
+      "text": "Treatment with BGNps at the IC50 concentration induced excessive reactive oxygen species (ROS) generation, severe mitochondrial membrane depolarization, extensive genomic DNA damage, and pronounced apoptotic cell death",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "in vitro",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12780067:abstract:3:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12780067",
+      "text_span_id": "abstract_3",
+      "text": "These effects were associated with marked upregulation of p53 and concurrent downregulation of anti-apoptotic Bcl-2 and mitochondrial ND3 genes",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "in vitro",
+      "source": "extracted"
+    },
+    {
       "id": "PMC12780067:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12780067",
       "text_span_id": "results_1",
-      "text": "BGNps exerted potent, concentration-dependent cytotoxicity in MDA-MB-231 cells, with an IC50 value of 184.3 \u00b5g/ml",
+      "text": "BGNps exhibited potent, concentration-dependent cytotoxicity against triple negative MDA-MB-231 breast cancer cells, with an IC50 value of 184.3 \u00b5g/ml after 72 h of exposure",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1723,7 +1989,7 @@
       "entity_id": null,
       "paper_id": "PMC12780067",
       "text_span_id": "results_2",
-      "text": "Treatment with BGNps at the IC50 concentration induced excessive reactive oxygen species (ROS) generation, severe mitochondrial membrane depolarization, extensive genomic DNA damage, and pronounced apoptotic cell death in MDA-MB-231 cancer cells",
+      "text": "BGNps triggered significant genomic DNA damage, as confirmed by the statistically significant increases in key alkaline Comet assay parameters",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1736,7 +2002,7 @@
       "entity_id": null,
       "paper_id": "PMC12780067",
       "text_span_id": "results_3",
-      "text": "These effects were associated with marked upregulation of p53 and concurrent downregulation of anti-apoptotic Bcl-2 and mitochondrial ND3 genes",
+      "text": "exposure of triple-negative MDA-MB-231 breast cancer cells to BGNps resulted in a significant elevation of intracellular ROS level",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1749,7 +2015,7 @@
       "entity_id": null,
       "paper_id": "PMC12780067",
       "text_span_id": "results_4",
-      "text": "BGNps trigger oxidative stress in triple-negative MDA-MB-231 cancer cells",
+      "text": "BGNps demonstrated a dramatic loss of mitochondrial membrane potential integrity in MDA-MB-231 breast cancer cells",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1762,7 +2028,20 @@
       "entity_id": null,
       "paper_id": "PMC12780067",
       "text_span_id": "results_5",
-      "text": "BGNps severely disrupt mitochondrial membrane potential in MDA-MB-231 breast cancer cells",
+      "text": "The pro-apoptotic gene p53 was markedly upregulated in BGNps-treated cells compared with untreated control MDA-MB-231 breast cancer",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "in vitro",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12780067:results:6:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12780067",
+      "text_span_id": "results_6",
+      "text": "both the mitochondrial gene ND3 and the anti-apoptotic gene Bcl2 were significantly downregulated",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1776,6 +2055,7 @@
       "predicate": "CAUSES",
       "object": "cytotoxicity",
       "evidence_ids": [
+        "PMC12780067:abstract:1:llm",
         "PMC12780067:results:1:llm"
       ],
       "provenance": [],
@@ -1784,7 +2064,10 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "concentration_dependent": true,
+        "IC50": "184.3 \u00b5g/ml"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1795,8 +2078,8 @@
       "predicate": "CAUSES",
       "object": "reactive_oxygen_species",
       "evidence_ids": [
-        "PMC12780067:results:2:llm",
-        "PMC12780067:results:4:llm"
+        "PMC12780067:abstract:2:llm",
+        "PMC12780067:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1804,7 +2087,9 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "effect": "excessive generation"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1815,8 +2100,8 @@
       "predicate": "CAUSES",
       "object": "mitochondrial_depolarization",
       "evidence_ids": [
-        "PMC12780067:results:2:llm",
-        "PMC12780067:results:5:llm"
+        "PMC12780067:abstract:2:llm",
+        "PMC12780067:results:4:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1824,7 +2109,9 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "severity": "severe"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1835,6 +2122,7 @@
       "predicate": "CAUSES",
       "object": "dna_damage",
       "evidence_ids": [
+        "PMC12780067:abstract:2:llm",
         "PMC12780067:results:2:llm"
       ],
       "provenance": [],
@@ -1843,7 +2131,9 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "extent": "extensive genomic"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1854,7 +2144,7 @@
       "predicate": "CAUSES",
       "object": "apoptosis",
       "evidence_ids": [
-        "PMC12780067:results:2:llm"
+        "PMC12780067:abstract:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1862,7 +2152,9 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "type": "pronounced apoptotic cell death"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1873,7 +2165,8 @@
       "predicate": "REGULATES",
       "object": "p53",
       "evidence_ids": [
-        "PMC12780067:results:3:llm"
+        "PMC12780067:abstract:3:llm",
+        "PMC12780067:results:5:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1882,7 +2175,8 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "regulation_type": "upregulation"
+        "direction": "upregulation",
+        "magnitude": "marked"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -1894,7 +2188,8 @@
       "predicate": "REGULATES",
       "object": "bcl2",
       "evidence_ids": [
-        "PMC12780067:results:3:llm"
+        "PMC12780067:abstract:3:llm",
+        "PMC12780067:results:6:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1903,7 +2198,7 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "regulation_type": "downregulation"
+        "direction": "downregulation"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -1915,7 +2210,8 @@
       "predicate": "REGULATES",
       "object": "nd3",
       "evidence_ids": [
-        "PMC12780067:results:3:llm"
+        "PMC12780067:abstract:3:llm",
+        "PMC12780067:results:6:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1924,7 +2220,7 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "regulation_type": "downregulation"
+        "direction": "downregulation"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -1936,7 +2232,7 @@
       "predicate": "CAUSES",
       "object": "dna_damage",
       "evidence_ids": [
-        "PMC12780067:results:2:llm"
+        "PMC12780067:abstract:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1945,7 +2241,7 @@
       "confidence": 0.9,
       "linguistic_trust": "suggested",
       "properties": {},
-      "section": "results",
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1955,7 +2251,7 @@
       "predicate": "CAUSES",
       "object": "mitochondrial_dysfunction",
       "evidence_ids": [
-        "PMC12780067:results:2:llm"
+        "PMC12780067:results:4:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1964,7 +2260,7 @@
       "confidence": 0.9,
       "linguistic_trust": "suggested",
       "properties": {},
-      "section": "results",
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1974,7 +2270,7 @@
       "predicate": "CAUSES",
       "object": "apoptosis",
       "evidence_ids": [
-        "PMC12780067:results:2:llm"
+        "PMC12780067:results:4:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1982,8 +2278,10 @@
       ],
       "confidence": 0.9,
       "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "pathway": "intrinsic"
+      },
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1993,7 +2291,7 @@
       "predicate": "REGULATES",
       "object": "apoptosis",
       "evidence_ids": [
-        "PMC12780067:results:3:llm"
+        "PMC12780067:results:5:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2001,8 +2299,10 @@
       ],
       "confidence": 0.9,
       "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "type": "pro-apoptotic"
+      },
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -2012,7 +2312,7 @@
       "predicate": "INHIBITS",
       "object": "apoptosis",
       "evidence_ids": [
-        "PMC12780067:results:3:llm"
+        "PMC12780067:results:6:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2020,27 +2320,31 @@
       ],
       "confidence": 0.9,
       "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "type": "anti-apoptotic"
+      },
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "nd3",
-      "predicate": "LOCATED_IN",
-      "object": "mitochondria",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "electron_transport_chain",
       "evidence_ids": [
-        "PMC12780067:results:3:llm"
+        "PMC12780067:results:6:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC12780067"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
+      "properties": {
+        "role": "component"
+      },
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -2050,7 +2354,7 @@
       "predicate": "SUBTYPE_OF",
       "object": "breast_cancer",
       "evidence_ids": [
-        "PMC12780067:results:1:llm"
+        "PMC12780067:abstract:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2060,6 +2364,49 @@
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "mda_mb_231",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "triple_negative_breast_cancer",
+      "evidence_ids": [
+        "PMC12780067:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12780067"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "relationship": "cell line model"
+      },
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "bioactive_glass_nanoparticles",
+      "predicate": "TREATS",
+      "object": "triple_negative_breast_cancer",
+      "evidence_ids": [
+        "PMC12780067:abstract:1:llm",
+        "PMC12780067:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12780067"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {
+        "mechanism": "cytotoxicity"
+      },
+      "section": "conclusion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null

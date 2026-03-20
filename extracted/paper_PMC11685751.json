@@ -113,8 +113,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -128,14 +128,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:08:50.601503Z",
+      "timestamp": "2026-03-21T15:02:48.444373Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 104.54
+      "duration_seconds": 94.99
     },
     "entity_resolution": null,
     "model_info": null
@@ -145,9 +145,7 @@
       "id": "pheochromocytoma",
       "class": "Disease",
       "name": "pheochromocytoma",
-      "synonyms": [
-        "pheochromocytomas"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -243,9 +241,7 @@
       "id": "alcoholism",
       "class": "Disease",
       "name": "alcoholism",
-      "synonyms": [
-        "chronic alcoholism"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -260,9 +256,7 @@
       "id": "diabetes_mellitus",
       "class": "Disease",
       "name": "diabetes mellitus",
-      "synonyms": [
-        "diabetes"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -307,9 +301,7 @@
       "id": "weakness",
       "class": "Symptom",
       "name": "weakness",
-      "synonyms": [
-        "pronounced weakness"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -369,8 +361,23 @@
       "id": "hypertension",
       "class": "Disease",
       "name": "hypertension",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "acth",
+      "class": "Hormone",
+      "name": "ACTH",
       "synonyms": [
-        "poorly controlled hypertension"
+        "adrenocorticotropic hormone"
       ],
       "symbol": null,
       "brand_names": [],
@@ -383,12 +390,10 @@
       "uniprot_id": null
     },
     {
-      "id": "acth_dependent_hypercortisolemia",
+      "id": "hypercortisolemia",
       "class": "Disease",
-      "name": "ACTH-dependent hypercortisolemia",
-      "synonyms": [
-        "ACTH-dependent hypercortisolaemia"
-      ],
+      "name": "hypercortisolemia",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -403,9 +408,7 @@
       "id": "hypokalemia",
       "class": "Symptom",
       "name": "hypokalemia",
-      "synonyms": [
-        "severe hypokalemia"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -465,9 +468,7 @@
       "id": "adrenal_lesion",
       "class": "Disease",
       "name": "adrenal lesion",
-      "synonyms": [
-        "heterogeneous adrenal lesion"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -556,24 +557,6 @@
       "uniprot_id": null
     },
     {
-      "id": "acth",
-      "class": "Hormone",
-      "name": "ACTH",
-      "synonyms": [
-        "adrenocorticotropic hormone",
-        "corticotropic hormone"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "crh",
       "class": "Hormone",
       "name": "CRH",
@@ -591,27 +574,10 @@
       "uniprot_id": null
     },
     {
-      "id": "cortisol",
-      "class": "Hormone",
-      "name": "cortisol",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "5_alpha_reductase",
       "class": "Enzyme",
       "name": "5-alpha-reductase",
-      "synonyms": [
-        "5-\u03b1-reductase"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -625,9 +591,9 @@
     {
       "id": "11_beta_hydroxysteroid_dehydrogenase_type_2",
       "class": "Enzyme",
-      "name": "11\u03b2-hydroxysteroid dehydrogenase type 2",
+      "name": "11-beta-hydroxysteroid dehydrogenase type 2",
       "synonyms": [
-        "11-beta-hydroxysteroid dehydrogenase type 2"
+        "11\u03b2-hydroxysteroid dehydrogenase type 2"
       ],
       "symbol": null,
       "brand_names": [],
@@ -655,12 +621,26 @@
       "uniprot_id": null
     },
     {
+      "id": "cortisol",
+      "class": "Hormone",
+      "name": "cortisol",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "cushing_syndrome",
       "class": "Disease",
       "name": "Cushing syndrome",
       "synonyms": [
-        "CS",
-        "Cushing's syndrome"
+        "CS"
       ],
       "symbol": null,
       "brand_names": [],
@@ -673,13 +653,10 @@
       "uniprot_id": null
     },
     {
-      "id": "small_cell_lung_cancer",
+      "id": "small_cell_carcinomas",
       "class": "Disease",
-      "name": "small-cell lung cancer",
-      "synonyms": [
-        "SCLC",
-        "small-cell carcinomas"
-      ],
+      "name": "small-cell carcinomas",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -709,6 +686,21 @@
       "id": "neuroendocrine_tumors",
       "class": "Disease",
       "name": "neuroendocrine tumors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pancreas",
+      "class": "AnatomicalStructure",
+      "name": "pancreas",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -751,10 +743,12 @@
       "uniprot_id": null
     },
     {
-      "id": "hyperpigmentation",
-      "class": "Symptom",
-      "name": "hyperpigmentation",
-      "synonyms": [],
+      "id": "small_cell_lung_cancer",
+      "class": "Disease",
+      "name": "small-cell lung cancer",
+      "synonyms": [
+        "SCLC"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -781,12 +775,25 @@
       "uniprot_id": null
     },
     {
+      "id": "hyperpigmentation",
+      "class": "Symptom",
+      "name": "hyperpigmentation",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "cushing_disease",
       "class": "Disease",
       "name": "Cushing disease",
-      "synonyms": [
-        "Cushing's disease"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -845,6 +852,23 @@
       "uniprot_id": null
     },
     {
+      "id": "dotatate_pet_ct",
+      "class": "Procedure",
+      "name": "DOTATATE PET-CT",
+      "synonyms": [
+        "[68Ga] DOTATATE PET-CT"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "body_mass_index",
       "class": "Biomarker",
       "name": "body mass index",
@@ -865,21 +889,6 @@
       "id": "tachycardia",
       "class": "Symptom",
       "name": "tachycardia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "plethora",
-      "class": "Symptom",
-      "name": "plethora",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -1014,23 +1023,6 @@
       "uniprot_id": null
     },
     {
-      "id": "pet_ct",
-      "class": "Procedure",
-      "name": "PET-CT",
-      "synonyms": [
-        "[68Ga] DOTATE PET-CT"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "somatostatin_receptor",
       "class": "Protein",
       "name": "somatostatin receptor",
@@ -1124,7 +1116,7 @@
     },
     {
       "id": "sdhb",
-      "class": "Gene",
+      "class": "Protein",
       "name": "SDHB",
       "synonyms": [],
       "symbol": null,
@@ -1138,23 +1130,8 @@
       "uniprot_id": null
     },
     {
-      "id": "hyperplasia",
-      "class": "Symptom",
-      "name": "hyperplasia",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "catecholamines",
-      "class": "Biomarker",
+      "class": "Hormone",
       "name": "catecholamines",
       "synonyms": [],
       "symbol": null,
@@ -1171,9 +1148,7 @@
       "id": "hypermetabolism",
       "class": "BiologicalProcess",
       "name": "hypermetabolism",
-      "synonyms": [
-        "hypermetabolic state"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -1352,114 +1327,9 @@
       "uniprot_id": null
     },
     {
-      "id": "post_traumatic_stress_disorder",
-      "class": "Disease",
-      "name": "post-traumatic stress disorder",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "chronic_stress",
-      "class": "Disease",
-      "name": "chronic stress",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "burnout",
-      "class": "Disease",
-      "name": "burnout",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "chronic_fatigue_syndrome",
-      "class": "Disease",
-      "name": "chronic fatigue syndrome",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "anorexia_nervosa",
-      "class": "Disease",
-      "name": "anorexia nervosa",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "anxiety",
-      "class": "Disease",
-      "name": "anxiety",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "steroidogenesis_inhibitors",
       "class": "Drug",
       "name": "steroidogenesis inhibitors",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "immunosuppression",
-      "class": "BiologicalProcess",
-      "name": "immunosuppression",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -1778,8 +1648,21 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11685751",
-      "text_span_id": "intro_pcs_definition",
+      "text_span_id": "intro_1",
       "text": "Non-neoplastic hypercortisolaemia, also known as pseudo-Cushing's syndrome (PCS), is a physiological overactivation of the hypothalamic\u2013pituitary\u2013adrenal axis that can be triggered by conditions such as depression, eating disorders, extreme exercise, obesity, alcoholism, poorly controlled diabetes, chronic kidney disease, and cachexia.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "case_report",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11685751:case_report:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11685751",
+      "text_span_id": "case_1",
+      "text": "A 66-year-old woman was referred to the hospital due to pronounced weakness, loss of appetite, apathy, weight loss, newly diagnosed diabetes mellitus, and poorly controlled hypertension.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "case_report",
@@ -1791,8 +1674,8 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11685751",
-      "text_span_id": "case_presentation",
-      "text": "A 66-year-old woman was referred to the hospital due to pronounced weakness, loss of appetite, apathy, weight loss, newly diagnosed diabetes mellitus, and poorly controlled hypertension.",
+      "text_span_id": "case_2",
+      "text": "The biochemical evaluation suggested ACTH-dependent hypercortisolemia with severe hypokalemia, metabolic alkalosis, and hyperglycemia.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "case_report",
@@ -1804,8 +1687,8 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11685751",
-      "text_span_id": "biochemical_findings",
-      "text": "The biochemical evaluation suggested ACTH-dependent hypercortisolemia with severe hypokalemia, metabolic alkalosis, and hyperglycemia.",
+      "text_span_id": "case_3",
+      "text": "Markedly elevated levels of metanephrines, along with imaging showing a heterogeneous adrenal lesion, provided evidence for pheochromocytoma.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "case_report",
@@ -1817,8 +1700,8 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11685751",
-      "text_span_id": "imaging_findings",
-      "text": "Markedly elevated levels of metanephrines, along with imaging showing a heterogeneous adrenal lesion, provided evidence for pheochromocytoma.",
+      "text_span_id": "case_4",
+      "text": "The patient underwent adrenalectomy following pre-treatment with doxazosin and metyrapone, enteral feeding, protein supplementation, and insulin administration.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "case_report",
@@ -1830,20 +1713,7 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11685751",
-      "text_span_id": "treatment_outcome",
-      "text": "The patient underwent adrenalectomy following pre-treatment with doxazosin and metyrapone, enteral feeding, protein supplementation, and insulin administration.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "case_report",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC11685751:case_report:6:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC11685751",
-      "text_span_id": "histopathology",
+      "text_span_id": "case_5",
       "text": "Histopathological examination confirmed a pheochromocytoma; however, both anti-ACTH and anti-CRH stainings were negative, leading to a diagnosis of PCS.",
       "confidence": 0.95,
       "extraction_method": "llm",
@@ -1852,11 +1722,11 @@
       "source": "extracted"
     },
     {
-      "id": "PMC11685751:discussion:7:llm",
+      "id": "PMC11685751:discussion:1:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11685751",
-      "text_span_id": "mechanism_hypothesis",
+      "text_span_id": "discussion_1",
       "text": "In this case, we hypothesize that abundant and chronic secretion of catecholamines from the tumor led to a hypermetabolic and pro-inflammatory state that, in turn, overactivated the HPA axis.",
       "confidence": 0.85,
       "extraction_method": "llm",
@@ -1865,13 +1735,13 @@
       "source": "extracted"
     },
     {
-      "id": "PMC11685751:discussion:8:llm",
+      "id": "PMC11685751:discussion:2:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11685751",
-      "text_span_id": "metyrapone_effect",
-      "text": "A rapid decrease in the level of cortisol, ACTH, and metanephrines upon initiation of metyrapone treatment suggests the existence of a glucocorticoid-dependent positive feedback loop.",
-      "confidence": 0.9,
+      "text_span_id": "discussion_2",
+      "text": "Cortisol may potentiate the secretion of catecholamines by increasing the expression of thyrosine hydroxylase (TH), a rate-limiting enzyme in the catecholamine synthesis pathway; and phenylethanolamine N-methyltransferase, a key enzyme in noradrenaline-to-adrenaline conversion.",
+      "confidence": 0.85,
       "extraction_method": "llm",
       "study_type": "case_report",
       "eco_type": null,
@@ -1884,7 +1754,7 @@
       "predicate": "CAUSES",
       "object": "pseudo_cushings_syndrome",
       "evidence_ids": [
-        "PMC11685751:case_report:6:llm"
+        "PMC11685751:case_report:5:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1928,7 +1798,7 @@
       "source_papers": [
         "PMC11685751"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1947,7 +1817,7 @@
       "source_papers": [
         "PMC11685751"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1966,7 +1836,7 @@
       "source_papers": [
         "PMC11685751"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -1985,7 +1855,7 @@
       "source_papers": [
         "PMC11685751"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -2004,7 +1874,7 @@
       "source_papers": [
         "PMC11685751"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -2023,7 +1893,7 @@
       "source_papers": [
         "PMC11685751"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -2042,7 +1912,7 @@
       "source_papers": [
         "PMC11685751"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -2052,10 +1922,10 @@
     },
     {
       "subject": "pheochromocytoma",
-      "predicate": "ASSOCIATED_WITH",
+      "predicate": "CAUSES",
       "object": "weakness",
       "evidence_ids": [
-        "PMC11685751:case_report:2:llm"
+        "PMC11685751:case_report:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2071,10 +1941,10 @@
     },
     {
       "subject": "pheochromocytoma",
-      "predicate": "ASSOCIATED_WITH",
+      "predicate": "CAUSES",
       "object": "loss_of_appetite",
       "evidence_ids": [
-        "PMC11685751:case_report:2:llm"
+        "PMC11685751:case_report:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2090,10 +1960,10 @@
     },
     {
       "subject": "pheochromocytoma",
-      "predicate": "ASSOCIATED_WITH",
+      "predicate": "CAUSES",
       "object": "apathy",
       "evidence_ids": [
-        "PMC11685751:case_report:2:llm"
+        "PMC11685751:case_report:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2109,10 +1979,10 @@
     },
     {
       "subject": "pheochromocytoma",
-      "predicate": "ASSOCIATED_WITH",
+      "predicate": "CAUSES",
       "object": "weight_loss",
       "evidence_ids": [
-        "PMC11685751:case_report:2:llm"
+        "PMC11685751:case_report:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2128,9 +1998,66 @@
     },
     {
       "subject": "pheochromocytoma",
-      "predicate": "ASSOCIATED_WITH",
+      "predicate": "CAUSES",
       "object": "diabetes_mellitus",
       "evidence_ids": [
+        "PMC11685751:case_report:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11685751"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "case_report",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pheochromocytoma",
+      "predicate": "CAUSES",
+      "object": "hypertension",
+      "evidence_ids": [
+        "PMC11685751:case_report:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11685751"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "case_report",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pheochromocytoma",
+      "predicate": "CAUSES",
+      "object": "hypercortisolemia",
+      "evidence_ids": [
+        "PMC11685751:case_report:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11685751"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "case_report",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pheochromocytoma",
+      "predicate": "CAUSES",
+      "object": "hypokalemia",
+      "evidence_ids": [
         "PMC11685751:case_report:2:llm"
       ],
       "provenance": [],
@@ -2147,8 +2074,8 @@
     },
     {
       "subject": "pheochromocytoma",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "hypertension",
+      "predicate": "CAUSES",
+      "object": "metabolic_alkalosis",
       "evidence_ids": [
         "PMC11685751:case_report:2:llm"
       ],
@@ -2165,48 +2092,29 @@
       "note": null
     },
     {
-      "subject": "acth_dependent_hypercortisolemia",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "hypokalemia",
-      "evidence_ids": [
-        "PMC11685751:case_report:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11685751"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "case_report",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "acth_dependent_hypercortisolemia",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "metabolic_alkalosis",
-      "evidence_ids": [
-        "PMC11685751:case_report:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11685751"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "case_report",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "acth_dependent_hypercortisolemia",
-      "predicate": "ASSOCIATED_WITH",
+      "subject": "pheochromocytoma",
+      "predicate": "CAUSES",
       "object": "hyperglycemia",
       "evidence_ids": [
+        "PMC11685751:case_report:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11685751"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "case_report",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pheochromocytoma",
+      "predicate": "INCREASES_RISK",
+      "object": "metanephrines",
+      "evidence_ids": [
         "PMC11685751:case_report:3:llm"
       ],
       "provenance": [],
@@ -2222,30 +2130,11 @@
       "note": null
     },
     {
-      "subject": "metanephrines",
-      "predicate": "INDICATES",
-      "object": "pheochromocytoma",
+      "subject": "pheochromocytoma",
+      "predicate": "LOCATED_IN",
+      "object": "adrenal_gland",
       "evidence_ids": [
-        "PMC11685751:case_report:4:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11685751"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "case_report",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "adrenal_lesion",
-      "predicate": "INDICATES",
-      "object": "pheochromocytoma",
-      "evidence_ids": [
-        "PMC11685751:case_report:4:llm"
+        "PMC11685751:case_report:3:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2264,7 +2153,7 @@
       "predicate": "TREATS",
       "object": "pheochromocytoma",
       "evidence_ids": [
-        "PMC11685751:case_report:5:llm"
+        "PMC11685751:case_report:4:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2283,14 +2172,14 @@
       "predicate": "TREATS",
       "object": "pheochromocytoma",
       "evidence_ids": [
-        "PMC11685751:case_report:5:llm"
+        "PMC11685751:case_report:4:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11685751"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "suggested",
+      "linguistic_trust": "asserted",
       "properties": {},
       "section": "case_report",
       "asserted_by": "llm",
@@ -2300,35 +2189,16 @@
     {
       "subject": "metyrapone",
       "predicate": "TREATS",
-      "object": "pseudo_cushings_syndrome",
+      "object": "pheochromocytoma",
       "evidence_ids": [
-        "PMC11685751:case_report:5:llm"
+        "PMC11685751:case_report:4:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11685751"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "case_report",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "insulin",
-      "predicate": "TREATS",
-      "object": "diabetes_mellitus",
-      "evidence_ids": [
-        "PMC11685751:case_report:5:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11685751"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "suggested",
+      "linguistic_trust": "asserted",
       "properties": {},
       "section": "case_report",
       "asserted_by": "llm",
@@ -2340,7 +2210,7 @@
       "predicate": "CAUSES",
       "object": "hypermetabolism",
       "evidence_ids": [
-        "PMC11685751:discussion:7:llm"
+        "PMC11685751:discussion:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2359,7 +2229,7 @@
       "predicate": "CAUSES",
       "object": "inflammation",
       "evidence_ids": [
-        "PMC11685751:discussion:7:llm"
+        "PMC11685751:discussion:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2378,7 +2248,7 @@
       "predicate": "REGULATES",
       "object": "hypothalamic_pituitary_adrenal_axis",
       "evidence_ids": [
-        "PMC11685751:discussion:7:llm"
+        "PMC11685751:discussion:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2393,37 +2263,18 @@
       "note": null
     },
     {
-      "subject": "metyrapone",
-      "predicate": "INHIBITS",
-      "object": "cortisol",
-      "evidence_ids": [
-        "PMC11685751:discussion:8:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11685751"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "discussion",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "metyrapone",
+      "subject": "cortisol",
       "predicate": "REGULATES",
-      "object": "acth",
+      "object": "tyrosine_hydroxylase",
       "evidence_ids": [
-        "PMC11685751:discussion:8:llm"
+        "PMC11685751:discussion:2:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11685751"
       ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
       "properties": {},
       "section": "discussion",
       "asserted_by": "llm",
@@ -2431,11 +2282,30 @@
       "note": null
     },
     {
-      "subject": "metyrapone",
+      "subject": "cortisol",
       "predicate": "REGULATES",
-      "object": "metanephrines",
+      "object": "phenylethanolamine_n_methyltransferase",
       "evidence_ids": [
-        "PMC11685751:discussion:8:llm"
+        "PMC11685751:discussion:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11685751"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "suggested",
+      "properties": {},
+      "section": "discussion",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "tyrosine_hydroxylase",
+      "predicate": "REGULATES",
+      "object": "catecholamines",
+      "evidence_ids": [
+        "PMC11685751:discussion:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2450,39 +2320,20 @@
       "note": null
     },
     {
-      "subject": "adrenal_lesion",
-      "predicate": "LOCATED_IN",
-      "object": "adrenal_gland",
+      "subject": "phenylethanolamine_n_methyltransferase",
+      "predicate": "REGULATES",
+      "object": "adrenaline",
       "evidence_ids": [
-        "PMC11685751:case_report:4:llm"
+        "PMC11685751:discussion:2:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11685751"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "case_report",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "pheochromocytoma",
-      "predicate": "LOCATED_IN",
-      "object": "adrenal_gland",
-      "evidence_ids": [
-        "PMC11685751:case_report:4:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11685751"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "case_report",
+      "section": "discussion",
       "asserted_by": "llm",
       "resolution": null,
       "note": null

@@ -24,8 +24,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -39,14 +39,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:13:06.090583Z",
+      "timestamp": "2026-03-21T15:07:31.785091Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 48.9
+      "duration_seconds": 51.27
     },
     "entity_resolution": null,
     "model_info": null
@@ -87,9 +87,9 @@
       "uniprot_id": null
     },
     {
-      "id": "cushing_disease",
-      "class": "Disease",
-      "name": "Cushing disease",
+      "id": "11_beta_hydroxylase",
+      "class": "Enzyme",
+      "name": "11-beta-hydroxylase",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -117,44 +117,10 @@
       "uniprot_id": null
     },
     {
-      "id": "11_beta_hydroxylase",
-      "class": "Enzyme",
-      "name": "11-beta-hydroxylase",
+      "id": "cortisol_biosynthesis",
+      "class": "BiologicalProcess",
+      "name": "cortisol biosynthesis",
       "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "adrenocorticotrophic_hormone",
-      "class": "Hormone",
-      "name": "adrenocorticotrophic hormone",
-      "synonyms": [
-        "ACTH"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pituitary_tumor",
-      "class": "Disease",
-      "name": "pituitary tumour",
-      "synonyms": [
-        "pituitary tumor"
-      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -181,9 +147,41 @@
       "uniprot_id": null
     },
     {
-      "id": "cortisol_biosynthesis",
-      "class": "BiologicalProcess",
-      "name": "cortisol biosynthesis",
+      "id": "cushing_disease",
+      "class": "Disease",
+      "name": "Cushing disease",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "acth",
+      "class": "Hormone",
+      "name": "adrenocorticotrophic hormone",
+      "synonyms": [
+        "ACTH"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pituitary_tumor",
+      "class": "Disease",
+      "name": "pituitary tumour",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -199,21 +197,6 @@
       "id": "24_hour_urinary_free_cortisol",
       "class": "Biomarker",
       "name": "24-hour urinary free cortisol",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "hypocortisolism",
-      "class": "Disease",
-      "name": "hypocortisolism",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -288,6 +271,21 @@
       "uniprot_id": null
     },
     {
+      "id": "testosterone",
+      "class": "Hormone",
+      "name": "testosterone",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "hirsutism",
       "class": "Symptom",
       "name": "hirsutism",
@@ -318,23 +316,8 @@
       "uniprot_id": null
     },
     {
-      "id": "testosterone",
-      "class": "Hormone",
-      "name": "testosterone",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "hypokalaemia",
-      "class": "Disease",
+      "class": "Symptom",
       "name": "hypokalaemia",
       "synonyms": [],
       "symbol": null,
@@ -354,6 +337,68 @@
       "synonyms": [
         "QT prolongation"
       ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cyp2d6",
+      "class": "Enzyme",
+      "name": "CYP2D6",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cyp3a4",
+      "class": "Enzyme",
+      "name": "CYP3A4",
+      "synonyms": [
+        "CYP3A4/5"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cyp2c19",
+      "class": "Enzyme",
+      "name": "CYP2C19",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cyp1a2",
+      "class": "Enzyme",
+      "name": "CYP1A2",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -410,6 +455,21 @@
       "uniprot_id": null
     },
     {
+      "id": "loss_of_appetite",
+      "class": "Symptom",
+      "name": "loss of appetite",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "dizziness",
       "class": "Symptom",
       "name": "dizziness",
@@ -425,118 +485,11 @@
       "uniprot_id": null
     },
     {
-      "id": "cytochrome_p450",
-      "class": "Enzyme",
-      "name": "cytochrome P450",
+      "id": "electrocardiography",
+      "class": "Procedure",
+      "name": "electrocardiography",
       "synonyms": [
-        "CYP"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cyp2d6",
-      "class": "Enzyme",
-      "name": "CYP2D6",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cyp3a4",
-      "class": "Enzyme",
-      "name": "CYP3A4",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cyp2c19",
-      "class": "Enzyme",
-      "name": "CYP2C19",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cyp1a2",
-      "class": "Enzyme",
-      "name": "CYP1A2",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pasireotide",
-      "class": "Drug",
-      "name": "pasireotide",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ketoconazole",
-      "class": "Drug",
-      "name": "ketoconazole",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "glucocorticoids",
-      "class": "Drug",
-      "name": "glucocorticoid",
-      "synonyms": [
-        "glucocorticoids"
+        "electrocardiogram"
       ],
       "symbol": null,
       "brand_names": [],
@@ -582,6 +535,36 @@
       "id": "unstable_angina",
       "class": "Disease",
       "name": "unstable angina",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pasireotide",
+      "class": "Drug",
+      "name": "pasireotide",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ketoconazole",
+      "class": "Drug",
+      "name": "ketoconazole",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -656,37 +639,11 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC12055610:background:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC12055610",
-      "text_span_id": null,
-      "text": "Endogenous Cushing syndrome denotes a group of rare diseases resulting from the body's over-excretion of cortisol.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "drug_review",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC12055610:background:2:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC12055610",
-      "text_span_id": null,
-      "text": "The most common form of ACTH-dependent Cushing syndrome is Cushing disease, where there is a pituitary tumour that secretes ACTH, leading to an overproduction of cortisol.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "drug_review",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
       "id": "PMC12055610:mechanism:1:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12055610",
-      "text_span_id": null,
+      "text_span_id": "mechanism_1",
       "text": "Osilodrostat is a potent inhibitor of 11-beta-hydroxylase, an enzyme that catalyses cortisol biosynthesis in the adrenal gland.",
       "confidence": 0.95,
       "extraction_method": "llm",
@@ -699,8 +656,60 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12055610",
-      "text_span_id": null,
-      "text": "Osilodrostat is a new drug approved for the treatment of adults with endogenous Cushing syndrome.",
+      "text_span_id": "indication_1",
+      "text": "Approved indication: treatment of endogenous Cushing syndrome in adults",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "drug_review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12055610:adverse_effects:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12055610",
+      "text_span_id": "adverse_effects_1",
+      "text": "The most common adverse effects reported in the osilodrostat continuation group during the randomised withdrawal period of the trial were nausea (11%), arthralgia (8%) and headache (8%).",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "drug_review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12055610:adverse_effects:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12055610",
+      "text_span_id": "adverse_effects_2",
+      "text": "in female participants, hirsutism and acne were reported in 11% and 12%, respectively.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "drug_review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12055610:enzyme_catalysis:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12055610",
+      "text_span_id": "enzyme_catalysis_1",
+      "text": "an enzyme that catalyses cortisol biosynthesis in the adrenal gland",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "drug_review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12055610:location:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12055610",
+      "text_span_id": "location_1",
+      "text": "cortisol biosynthesis in the adrenal gland",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "drug_review",
@@ -752,7 +761,7 @@
       "predicate": "REGULATES",
       "object": "cortisol_biosynthesis",
       "evidence_ids": [
-        "PMC12055610:mechanism:1:llm"
+        "PMC12055610:enzyme_catalysis:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -771,7 +780,7 @@
       "predicate": "LOCATED_IN",
       "object": "adrenal_gland",
       "evidence_ids": [
-        "PMC12055610:mechanism:1:llm"
+        "PMC12055610:location:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -786,89 +795,17 @@
       "note": null
     },
     {
-      "subject": "cushing_disease",
-      "predicate": "SUBTYPE_OF",
-      "object": "cushing_syndrome",
-      "evidence_ids": [
-        "PMC12055610:background:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12055610"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "pituitary_tumor",
-      "predicate": "CAUSES",
-      "object": "cushing_disease",
-      "evidence_ids": [
-        "PMC12055610:background:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12055610"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "adrenocorticotrophic_hormone",
-      "predicate": "CAUSES",
-      "object": "cortisol",
-      "evidence_ids": [
-        "PMC12055610:background:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12055610"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "osilodrostat",
-      "predicate": "CAUSES",
-      "object": "hypocortisolism",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12055610"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "adverse_effects",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
       "subject": "osilodrostat",
       "predicate": "CAUSES",
       "object": "nausea",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "PMC12055610:adverse_effects:1:llm"
+      ],
       "provenance": [],
       "source_papers": [
         "PMC12055610"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "adverse_effects",
@@ -880,12 +817,14 @@
       "subject": "osilodrostat",
       "predicate": "CAUSES",
       "object": "arthralgia",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "PMC12055610:adverse_effects:1:llm"
+      ],
       "provenance": [],
       "source_papers": [
         "PMC12055610"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "adverse_effects",
@@ -897,12 +836,14 @@
       "subject": "osilodrostat",
       "predicate": "CAUSES",
       "object": "headache",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "PMC12055610:adverse_effects:1:llm"
+      ],
       "provenance": [],
       "source_papers": [
         "PMC12055610"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "adverse_effects",
@@ -914,12 +855,14 @@
       "subject": "osilodrostat",
       "predicate": "CAUSES",
       "object": "hirsutism",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "PMC12055610:adverse_effects:2:llm"
+      ],
       "provenance": [],
       "source_papers": [
         "PMC12055610"
       ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "adverse_effects",
@@ -931,29 +874,14 @@
       "subject": "osilodrostat",
       "predicate": "CAUSES",
       "object": "acne",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "PMC12055610:adverse_effects:2:llm"
+      ],
       "provenance": [],
       "source_papers": [
         "PMC12055610"
       ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "adverse_effects",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "osilodrostat",
-      "predicate": "CAUSES",
-      "object": "qt_prolongation",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12055610"
-      ],
-      "confidence": 0.9,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "adverse_effects",
@@ -1025,6 +953,57 @@
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "precautions",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "cushing_disease",
+      "predicate": "SUBTYPE_OF",
+      "object": "cushing_syndrome",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12055610"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "acth",
+      "predicate": "CAUSES",
+      "object": "cortisol",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12055610"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pituitary_tumor",
+      "predicate": "CAUSES",
+      "object": "cushing_disease",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12055610"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "background",
       "asserted_by": "llm",
       "resolution": null,
       "note": null

@@ -84,8 +84,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -99,14 +99,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:11:13.452186Z",
+      "timestamp": "2026-03-21T15:05:25.424347Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 62.41
+      "duration_seconds": 81.3
     },
     "entity_resolution": null,
     "model_info": null
@@ -173,7 +173,7 @@
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:2600",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -257,21 +257,6 @@
     },
     {
       "id": "entity_10",
-      "class": "BiologicalProcess",
-      "name": "cortisol biosynthesis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_11",
       "class": "Enzyme",
       "name": "11\u03b2-hydroxylase",
       "synonyms": [
@@ -288,7 +273,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_12",
+      "id": "entity_11",
       "class": "Enzyme",
       "name": "17\u03b1-hydroxylase",
       "synonyms": [
@@ -306,7 +291,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_13",
+      "id": "entity_12",
       "class": "Enzyme",
       "name": "3\u03b2-hydroxysteroid dehydrogenase type 2",
       "synonyms": [
@@ -323,7 +308,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_14",
+      "id": "entity_13",
       "class": "Protein",
       "name": "steroidogenic acute regulatory protein",
       "synonyms": [
@@ -340,7 +325,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_15",
+      "id": "entity_14",
       "class": "Enzyme",
       "name": "P450 cholesterol side-chain cleavage enzyme",
       "synonyms": [
@@ -357,12 +342,27 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_16",
+      "id": "entity_15",
       "class": "Enzyme",
       "name": "P450 oxidoreductase",
       "synonyms": [
         "POR"
       ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_16",
+      "class": "BiologicalProcess",
+      "name": "cortisol biosynthesis",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -408,7 +408,7 @@
     {
       "id": "entity_19",
       "class": "Hormone",
-      "name": "deoxycorticosterone",
+      "name": "progesterone",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -422,6 +422,21 @@
     },
     {
       "id": "entity_20",
+      "class": "Hormone",
+      "name": "deoxycorticosterone",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_21",
       "class": "Disease",
       "name": "salt-wasting",
       "synonyms": [
@@ -438,7 +453,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_21",
+      "id": "entity_22",
       "class": "Disease",
       "name": "simple virilizing",
       "synonyms": [
@@ -455,7 +470,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_22",
+      "id": "entity_23",
       "class": "Disease",
       "name": "nonclassic",
       "synonyms": [
@@ -472,7 +487,37 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_23",
+      "id": "entity_24",
+      "class": "AnatomicalStructure",
+      "name": "zona fasciculata",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_25",
+      "class": "AnatomicalStructure",
+      "name": "zona glomerulosa",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_26",
       "class": "Symptom",
       "name": "adrenal crisis",
       "synonyms": [],
@@ -487,7 +532,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_24",
+      "id": "entity_27",
       "class": "Procedure",
       "name": "newborn screening",
       "synonyms": [
@@ -504,7 +549,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_25",
+      "id": "entity_28",
       "class": "Drug",
       "name": "glucocorticoids",
       "synonyms": [],
@@ -519,7 +564,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_26",
+      "id": "entity_29",
       "class": "Drug",
       "name": "mineralocorticoids",
       "synonyms": [],
@@ -534,7 +579,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_27",
+      "id": "entity_30",
       "class": "Drug",
       "name": "fludrocortisone",
       "synonyms": [],
@@ -549,7 +594,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_28",
+      "id": "entity_31",
       "class": "Disease",
       "name": "testicular adrenal rest tumors",
       "synonyms": [],
@@ -564,11 +609,11 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_29",
-      "class": "Mutation",
-      "name": "copy number variation",
+      "id": "entity_32",
+      "class": "Gene",
+      "name": "STK19",
       "synonyms": [
-        "CNV"
+        "RP1"
       ],
       "symbol": null,
       "brand_names": [],
@@ -581,24 +626,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_30",
-      "class": "Gene",
-      "name": "STK19",
-      "synonyms": [
-        "RP1"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:11395",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_31",
+      "id": "entity_33",
       "class": "Gene",
       "name": "complement 4",
       "synonyms": [
@@ -615,7 +643,22 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_32",
+      "id": "entity_34",
+      "class": "Gene",
+      "name": "CYP21",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_35",
       "class": "Gene",
       "name": "tenascin-X",
       "synonyms": [
@@ -632,7 +675,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_33",
+      "id": "entity_36",
       "class": "Gene",
       "name": "CYP21A1P",
       "synonyms": [],
@@ -647,7 +690,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_34",
+      "id": "entity_37",
       "class": "Gene",
       "name": "TNXB",
       "synonyms": [],
@@ -656,13 +699,45 @@
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:11976",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "entity_35",
+      "id": "entity_38",
+      "class": "Gene",
+      "name": "TNXA",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_39",
+      "class": "Mutation",
+      "name": "copy number variations",
+      "synonyms": [
+        "CNV"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_40",
       "class": "Disease",
       "name": "CAH-X syndrome",
       "synonyms": [],
@@ -677,7 +752,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_36",
+      "id": "entity_41",
       "class": "Disease",
       "name": "Ehlers-Danlos syndrome",
       "synonyms": [
@@ -694,7 +769,22 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_37",
+      "id": "entity_42",
+      "class": "Protein",
+      "name": "tenascin-X",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_43",
       "class": "Procedure",
       "name": "polymerase chain reaction",
       "synonyms": [
@@ -711,7 +801,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_38",
+      "id": "entity_44",
       "class": "Procedure",
       "name": "multiplex ligation-dependent probe amplification",
       "synonyms": [
@@ -728,7 +818,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_39",
+      "id": "entity_45",
       "class": "Procedure",
       "name": "next-generation sequencing",
       "synonyms": [
@@ -745,7 +835,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_40",
+      "id": "entity_46",
       "class": "Drug",
       "name": "dexamethasone",
       "synonyms": [],
@@ -760,7 +850,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_41",
+      "id": "entity_47",
       "class": "Procedure",
       "name": "chorionic villus sampling",
       "synonyms": [
@@ -777,7 +867,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_42",
+      "id": "entity_48",
       "class": "Procedure",
       "name": "amniocentesis",
       "synonyms": [],
@@ -792,7 +882,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_43",
+      "id": "entity_49",
       "class": "Biomarker",
       "name": "cell-free DNA",
       "synonyms": [
@@ -809,10 +899,12 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_44",
-      "class": "Ethnicity",
-      "name": "Caucasian",
-      "synonyms": [],
+      "id": "entity_50",
+      "class": "Procedure",
+      "name": "massively parallel sequencing",
+      "synonyms": [
+        "MPS"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -1634,12 +1726,25 @@
       "source": "extracted"
     },
     {
+      "id": "PMC11795198:introduction:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11795198",
+      "text_span_id": "introduction_1",
+      "text": "Through a negative feedback system, the lack of cortisol synthesis causes an increase in adrenocorticotropic hormone (ACTH) that determines hyperplasia of the adrenal cortex due to the continuous overstimulation and hypersecretion of precursors upstream of the enzyme defect.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
       "id": "PMC11795198:introduction:2:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11795198",
       "text_span_id": "introduction_2",
-      "text": "Through a negative feedback system, the lack of cortisol synthesis causes an increase in adrenocorticotropic hormone (ACTH) that determines hyperplasia of the adrenal cortex due to the continuous overstimulation",
+      "text": "The 21OH enzyme converts 17\u03b1-hydroxyprogesterone to 11-deoxycortisol and progesterone to deoxycorticosterone.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "review",
@@ -1652,7 +1757,7 @@
       "entity_id": null,
       "paper_id": "PMC11795198",
       "text_span_id": "introduction_3",
-      "text": "The predominant enzyme deficiency that accounts for 95% to 99% of all CAH cases is 21-hydroxylase deficiency (21OHD)",
+      "text": "Several studies on adrenal cortex function have established that the zona glomerulosa is responsible for the production of aldosterone, while the zona fasciculata is responsible for the production of cortisol.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "review",
@@ -1660,12 +1765,12 @@
       "source": "extracted"
     },
     {
-      "id": "PMC11795198:introduction:4:llm",
+      "id": "PMC11795198:genetics:1:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11795198",
-      "text_span_id": "introduction_4",
-      "text": "The 21OH enzyme converts 17\u03b1-hydroxyprogesterone to 11-deoxycortisol and progesterone to deoxycorticosterone",
+      "text_span_id": "genetics_1",
+      "text": "CYP21A2 (OMIM*613815), encoding the steroid 21OH enzyme, and CYP21A1P pseudogene involve 10 exons spanning 3.4 kb. These genes share 98% sequence homology in exons and around 96% sequence homology in introns.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "review",
@@ -1673,12 +1778,12 @@
       "source": "extracted"
     },
     {
-      "id": "PMC11795198:genetics:5:llm",
+      "id": "PMC11795198:genetics:2:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11795198",
-      "text_span_id": "genetics_5",
-      "text": "CYP21A2 (OMIM*613815), encoding the steroid 21OH enzyme, and CYP21A1P pseudogene involve 10 exons spanning 3.4 kb",
+      "text_span_id": "genetics_2",
+      "text": "Over 95% of deleterious variants leading to 21OHD are attributable to intergenic recombination events where microconversions, consisting in the transfer to CYP21A2 of deleterious variants usually present in the CYP21A1P pseudogene, represent 70% to 75%.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "review",
@@ -1686,12 +1791,38 @@
       "source": "extracted"
     },
     {
-      "id": "==CURRENT_PAPER__:cah-x:6:llm",
+      "id": "PMC11795198:genotype_phenotype:1:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11795198",
-      "text_span_id": "cah-x_6",
-      "text": "The genetic cause of CAH-X syndrome is a recombination event between TNXB and its pseudogene TNXA. The resulting 30 kb deletion includes the entire CYP21A2 gene sequence and part of the TNXB gene",
+      "text_span_id": "genotype_phenotype_1",
+      "text": "The milder of the 2 affected alleles will typically determine the phenotype. Consequently, classical 21OHD phenotype derives from the presence of 2 severely affected alleles, while NC 21OHD derives from the presence of either 2 mild alleles or 1 severe and 1 mild allele (compound heterozygous).",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11795198:cah_x:1:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11795198",
+      "text_span_id": "cah_x_1",
+      "text": "The genetic cause of CAH-X syndrome is a recombination event between TNXB and its pseudogene TNXA. The resulting 30 kb deletion includes the entire CYP21A2 gene sequence and part of the TNXB gene and produces a chimeric TNXA/TNXB gene (CAH-X chimera).",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11795198:cah_x:2:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11795198",
+      "text_span_id": "cah_x_2",
+      "text": "The functional consequence of this rearrangement is the complete absence of the 21OH enzyme and the deficiency of tenascin-X, while the resulting phenotype is a hypermobility form of Ehlers-Danlos syndrome (EDS).",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "review",
@@ -1702,10 +1833,10 @@
   "relationships": [
     {
       "subject": "entity_2",
-      "predicate": "CAUSES",
+      "predicate": "SUBTYPE_OF",
       "object": "entity_1",
       "evidence_ids": [
-        "PMC11795198:introduction:3:llm"
+        "PMC11795198:abstract:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1714,7 +1845,7 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "abstract",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1741,7 +1872,7 @@
     {
       "subject": "entity_3",
       "predicate": "REGULATES",
-      "object": "entity_10",
+      "object": "entity_16",
       "evidence_ids": [
         "PMC11795198:abstract:1:llm"
       ],
@@ -1758,11 +1889,49 @@
       "note": null
     },
     {
+      "subject": "entity_3",
+      "predicate": "REGULATES",
+      "object": "entity_6",
+      "evidence_ids": [
+        "PMC11795198:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_5",
+      "predicate": "CAUSES",
+      "object": "entity_7",
+      "evidence_ids": [
+        "PMC11795198:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
       "subject": "entity_7",
       "predicate": "CAUSES",
       "object": "entity_9",
       "evidence_ids": [
-        "PMC11795198:introduction:2:llm"
+        "PMC11795198:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1781,7 +1950,7 @@
       "predicate": "LOCATED_IN",
       "object": "entity_8",
       "evidence_ids": [
-        "PMC11795198:introduction:2:llm"
+        "PMC11795198:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1800,7 +1969,7 @@
       "predicate": "REGULATES",
       "object": "entity_17",
       "evidence_ids": [
-        "PMC11795198:introduction:4:llm"
+        "PMC11795198:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1819,7 +1988,7 @@
       "predicate": "REGULATES",
       "object": "entity_18",
       "evidence_ids": [
-        "PMC11795198:introduction:4:llm"
+        "PMC11795198:introduction:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1834,9 +2003,47 @@
       "note": null
     },
     {
-      "subject": "entity_2",
-      "predicate": "SUBTYPE_OF",
-      "object": "entity_1",
+      "subject": "entity_3",
+      "predicate": "REGULATES",
+      "object": "entity_19",
+      "evidence_ids": [
+        "PMC11795198:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_3",
+      "predicate": "REGULATES",
+      "object": "entity_20",
+      "evidence_ids": [
+        "PMC11795198:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_25",
+      "predicate": "REGULATES",
+      "object": "entity_6",
       "evidence_ids": [
         "PMC11795198:introduction:3:llm"
       ],
@@ -1853,11 +2060,11 @@
       "note": null
     },
     {
-      "subject": "entity_20",
-      "predicate": "SUBTYPE_OF",
-      "object": "entity_2",
+      "subject": "entity_24",
+      "predicate": "REGULATES",
+      "object": "entity_5",
       "evidence_ids": [
-        "PMC11795198:introduction:4:llm"
+        "PMC11795198:introduction:3:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1867,6 +2074,85 @@
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_4",
+      "predicate": "SAME_AS",
+      "object": "entity_36",
+      "evidence_ids": [
+        "PMC11795198:genetics:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "resolution": null,
+        "note": "CYP21A2 is the active gene while CYP21A1P is the pseudogene with 98% sequence homology"
+      },
+      "section": "genetics",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_39",
+      "predicate": "CAUSES",
+      "object": "entity_2",
+      "evidence_ids": [
+        "PMC11795198:genetics:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "genetics",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_40",
+      "predicate": "CAUSES",
+      "object": "entity_41",
+      "evidence_ids": [
+        "PMC11795198:cah_x:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "cah_x",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_40",
+      "predicate": "CAUSES",
+      "object": "entity_42",
+      "evidence_ids": [
+        "PMC11795198:cah_x:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "cah_x",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1876,7 +2162,7 @@
       "predicate": "SUBTYPE_OF",
       "object": "entity_2",
       "evidence_ids": [
-        "PMC11795198:introduction:4:llm"
+        "PMC11795198:genotype_phenotype:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1885,7 +2171,7 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "genotype_phenotype",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1895,7 +2181,7 @@
       "predicate": "SUBTYPE_OF",
       "object": "entity_2",
       "evidence_ids": [
-        "PMC11795198:introduction:4:llm"
+        "PMC11795198:genotype_phenotype:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1904,74 +2190,17 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "genotype_phenotype",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_25",
-      "predicate": "TREATS",
-      "object": "entity_1",
-      "evidence_ids": [
-        "PMC11795198:introduction:4:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11795198"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_26",
-      "predicate": "TREATS",
-      "object": "entity_20",
-      "evidence_ids": [
-        "PMC11795198:introduction:4:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11795198"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_35",
-      "predicate": "CAUSES",
-      "object": "entity_36",
-      "evidence_ids": [
-        "==CURRENT_PAPER__:cah-x:6:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11795198"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "cah-x",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_40",
-      "predicate": "TREATS",
+      "subject": "entity_23",
+      "predicate": "SUBTYPE_OF",
       "object": "entity_2",
       "evidence_ids": [
-        "==CURRENT_PAPER__:cah-x:6:llm"
+        "PMC11795198:genotype_phenotype:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1980,7 +2209,194 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "prenatal",
+      "section": "genotype_phenotype",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_28",
+      "predicate": "TREATS",
+      "object": "entity_2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_29",
+      "predicate": "TREATS",
+      "object": "entity_21",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_30",
+      "predicate": "SUBTYPE_OF",
+      "object": "entity_29",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_17",
+      "predicate": "INDICATES",
+      "object": "entity_2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_27",
+      "predicate": "INDICATES",
+      "object": "entity_2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_43",
+      "predicate": "INDICATES",
+      "object": "entity_4",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "molecular_diagnosis",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_44",
+      "predicate": "INDICATES",
+      "object": "entity_4",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "molecular_diagnosis",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_46",
+      "predicate": "TREATS",
+      "object": "entity_2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "prenatal_diagnosis",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_47",
+      "predicate": "INDICATES",
+      "object": "entity_2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "prenatal_diagnosis",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_48",
+      "predicate": "INDICATES",
+      "object": "entity_2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "prenatal_diagnosis",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_49",
+      "predicate": "INDICATES",
+      "object": "entity_2",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC11795198"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "prenatal_diagnosis",
       "asserted_by": "llm",
       "resolution": null,
       "note": null

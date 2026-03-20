@@ -52,8 +52,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -67,14 +67,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:35:51.774054Z",
+      "timestamp": "2026-03-21T15:33:32.063319Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 24.05
+      "duration_seconds": 23.84
     },
     "entity_resolution": null,
     "model_info": null
@@ -165,7 +165,7 @@
     },
     {
       "id": "antibodies_against_prpc_region_91_153",
-      "class": "Drug",
+      "class": "Protein",
       "name": "antibodies against PrPC region 91-153",
       "synonyms": [],
       "symbol": null,
@@ -224,7 +224,7 @@
       "uniprot_id": null
     },
     {
-      "id": "prpc_mglur5_interaction",
+      "id": "prpc_mgluR5_interaction",
       "class": "BiologicalProcess",
       "name": "PrPC-mGluR5 interaction",
       "synonyms": [],
@@ -444,7 +444,7 @@
     {
       "subject": "antibodies_against_prpc_region_91_153",
       "predicate": "REGULATES",
-      "object": "prpc_mglur5_interaction",
+      "object": "prpc_mgluR5_interaction",
       "evidence_ids": [
         "PMC4192497:conclusion:1:llm"
       ],
@@ -463,7 +463,7 @@
     {
       "subject": "agonist",
       "predicate": "REGULATES",
-      "object": "prpc_mglur5_interaction",
+      "object": "prpc_mgluR5_interaction",
       "evidence_ids": [
         "PMC4192497:conclusion:1:llm"
       ],
@@ -482,7 +482,7 @@
     {
       "subject": "antagonist",
       "predicate": "REGULATES",
-      "object": "prpc_mglur5_interaction",
+      "object": "prpc_mgluR5_interaction",
       "evidence_ids": [
         "PMC4192497:conclusion:1:llm"
       ],
@@ -675,7 +675,7 @@
     {
       "subject": "Paper:PMC4192497",
       "predicate": "DESCRIBED",
-      "object": "prpc_mglur5_interaction",
+      "object": "prpc_mgluR5_interaction",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

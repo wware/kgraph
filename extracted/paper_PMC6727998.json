@@ -48,8 +48,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -63,14 +63,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:42:29.942945Z",
+      "timestamp": "2026-03-21T15:39:53.265870Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 45.06
+      "duration_seconds": 36.52
     },
     "entity_resolution": null,
     "model_info": null
@@ -113,7 +113,7 @@
     },
     {
       "id": "myofascial_trigger_points",
-      "class": "Symptom",
+      "class": "AnatomicalStructure",
       "name": "myofascial trigger points",
       "synonyms": [
         "MTrP",
@@ -195,10 +195,12 @@
       "uniprot_id": null
     },
     {
-      "id": "allodynia",
-      "class": "Symptom",
-      "name": "allodynia",
-      "synonyms": [],
+      "id": "numerical_rating_scale",
+      "class": "Biomarker",
+      "name": "numerical rating scale",
+      "synonyms": [
+        "NRS"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -213,6 +215,53 @@
       "id": "neuropathic_pain",
       "class": "Disease",
       "name": "neuropathic pain",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "primary_somatosensory_cortex",
+      "class": "AnatomicalStructure",
+      "name": "primary somatosensory cortex",
+      "synonyms": [
+        "somatosensory cortex"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "trapezius_muscle",
+      "class": "AnatomicalStructure",
+      "name": "trapezius muscle",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "external_oblique_muscles",
+      "class": "AnatomicalStructure",
+      "name": "external oblique muscles",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -257,115 +306,6 @@
       "uniprot_id": null
     },
     {
-      "id": "trapezius_muscle",
-      "class": "AnatomicalStructure",
-      "name": "trapezius muscle",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "external_oblique_muscles",
-      "class": "AnatomicalStructure",
-      "name": "external oblique muscles",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "primary_somatosensory_cortex",
-      "class": "AnatomicalStructure",
-      "name": "primary somatosensory cortex",
-      "synonyms": [
-        "somatosensory cortex"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "numerical_rating_scale",
-      "class": "Biomarker",
-      "name": "numerical rating scale",
-      "synonyms": [
-        "NRS"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pain_intensity",
-      "class": "Biomarker",
-      "name": "pain intensity",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "tactile_stimulation",
-      "class": "Procedure",
-      "name": "tactile stimulation",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cotton_swabs",
-      "class": "Drug",
-      "name": "cotton swabs",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "myalgia",
       "class": "Disease",
       "name": "myalgia",
@@ -398,9 +338,9 @@
       "uniprot_id": null
     },
     {
-      "id": "head_pain",
-      "class": "Symptom",
-      "name": "head pain",
+      "id": "cotton_swabs",
+      "class": "Procedure",
+      "name": "cotton swabs",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -413,9 +353,9 @@
       "uniprot_id": null
     },
     {
-      "id": "neck_pain",
-      "class": "Symptom",
-      "name": "neck pain",
+      "id": "tactile_stimulation",
+      "class": "Procedure",
+      "name": "tactile stimulation",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -428,12 +368,10 @@
       "uniprot_id": null
     },
     {
-      "id": "chest_pain",
-      "class": "Symptom",
-      "name": "chest pain",
-      "synonyms": [
-        "lateral chest pain"
-      ],
+      "id": "brain_imaging",
+      "class": "Procedure",
+      "name": "brain imaging",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -477,42 +415,12 @@
       "uniprot_id": null
     },
     {
-      "id": "brain_imaging",
+      "id": "chi_squared_test",
       "class": "Procedure",
-      "name": "brain imaging",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "nerve_lesions",
-      "class": "Disease",
-      "name": "nerve lesions",
+      "name": "chi-squared test",
       "synonyms": [
-        "somatosensory nerve lesions"
+        "\u03c72 test"
       ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "referred_pain",
-      "class": "Symptom",
-      "name": "referred pain",
-      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -661,20 +569,20 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC6727998:abstract:1:llm",
+      "id": "PMC6727998:abstract:0:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC6727998",
       "text_span_id": null,
       "text": "Tactile hypoesthesia observed in patients with myofascial pain syndrome (MPS) is sometimes reversible when pain is relieved by trigger point injections (TPIs).",
-      "confidence": 0.95,
+      "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "pilot study",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "PMC6727998:results:1:llm",
+      "id": "PMC6727998:results:0:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC6727998",
@@ -687,7 +595,7 @@
       "source": "extracted"
     },
     {
-      "id": "PMC6727998:results:2:llm",
+      "id": "PMC6727998:results:1:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC6727998",
@@ -700,38 +608,12 @@
       "source": "extracted"
     },
     {
-      "id": "PMC6727998:results:3:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC6727998",
-      "text_span_id": null,
-      "text": "Complete disappearance of tactile hypoesthesia after TPI therapy was observed in 6 of the 27 patients.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "pilot study",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC6727998:results:4:llm",
+      "id": "PMC6727998:results:2:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC6727998",
       "text_span_id": null,
       "text": "Myofascial trigger points were located in the muscles in the vicinity of ipsilateral cutaneous dermatomes to which the hypoesthetic areas belonged.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "pilot study",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC6727998:discussion:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC6727998",
-      "text_span_id": null,
-      "text": "Several brain imaging studies have shown that the activity of the primary somatosensory cortex decreases along with a decline in touch sensation.",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "pilot study",
@@ -739,12 +621,25 @@
       "source": "extracted"
     },
     {
-      "id": "PMC6727998:discussion:2:llm",
+      "id": "PMC6727998:methods:0:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC6727998",
       "text_span_id": null,
-      "text": "Such inhibition of neuronal activity in the somatosensory cortex induced by ongoing afferent nociceptive input from MTrP may underlie the reversible tactile hypoesthesia in patients with MPS.",
+      "text": "Three to five milliliter of 1% lidocaine supplemented with or without 20 to 30 mg of triamcinolone was injected to MTrP using 26- or 25-G injection needles.",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "pilot study",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC6727998:discussion:0:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC6727998",
+      "text_span_id": null,
+      "text": "Several brain imaging studies have shown that the activity of the primary somatosensory cortex decreases along with a decline in touch sensation.",
       "confidence": 0.85,
       "extraction_method": "llm",
       "study_type": "pilot study",
@@ -754,11 +649,49 @@
   ],
   "relationships": [
     {
+      "subject": "tactile_hypoesthesia",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "myofascial_pain_syndrome",
+      "evidence_ids": [
+        "PMC6727998:abstract:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC6727998"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
       "subject": "trigger_point_injections",
       "predicate": "TREATS",
       "object": "tactile_hypoesthesia",
       "evidence_ids": [
-        "PMC6727998:abstract:1:llm",
+        "PMC6727998:abstract:0:llm",
+        "PMC6727998:results:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC6727998"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "trigger_point_injections",
+      "predicate": "TREATS",
+      "object": "myofascial_pain_syndrome",
+      "evidence_ids": [
         "PMC6727998:results:1:llm"
       ],
       "provenance": [],
@@ -768,64 +701,45 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "tactile_hypoesthesia",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "myofascial_pain_syndrome",
-      "evidence_ids": [
-        "PMC6727998:abstract:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC6727998"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "trigger_point_injections",
-      "predicate": "TREATS",
-      "object": "myofascial_trigger_points",
-      "evidence_ids": [
-        "PMC6727998:abstract:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC6727998"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "myofascial_trigger_points",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "myofascial_pain_syndrome",
+      "predicate": "LOCATED_IN",
+      "object": "trapezius_muscle",
       "evidence_ids": [
-        "PMC6727998:abstract:1:llm"
+        "PMC6727998:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC6727998"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "myofascial_trigger_points",
+      "predicate": "LOCATED_IN",
+      "object": "external_oblique_muscles",
+      "evidence_ids": [
+        "PMC6727998:results:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC6727998"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -835,7 +749,7 @@
       "predicate": "TREATS",
       "object": "myofascial_trigger_points",
       "evidence_ids": [
-        "PMC6727998:methods:1:llm"
+        "PMC6727998:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -854,7 +768,7 @@
       "predicate": "TREATS",
       "object": "myofascial_trigger_points",
       "evidence_ids": [
-        "PMC6727998:methods:1:llm"
+        "PMC6727998:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -869,56 +783,18 @@
       "note": null
     },
     {
-      "subject": "myofascial_trigger_points",
-      "predicate": "LOCATED_IN",
-      "object": "trapezius_muscle",
-      "evidence_ids": [
-        "PMC6727998:results:4:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC6727998"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "myofascial_trigger_points",
-      "predicate": "LOCATED_IN",
-      "object": "external_oblique_muscles",
-      "evidence_ids": [
-        "PMC6727998:results:4:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC6727998"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "myofascial_trigger_points",
-      "predicate": "CAUSES",
+      "subject": "tactile_hypoesthesia",
+      "predicate": "ASSOCIATED_WITH",
       "object": "primary_somatosensory_cortex",
       "evidence_ids": [
-        "PMC6727998:discussion:2:llm"
+        "PMC6727998:discussion:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC6727998"
       ],
       "confidence": 0.85,
-      "linguistic_trust": "speculative",
+      "linguistic_trust": "suggested",
       "properties": {},
       "section": "discussion",
       "asserted_by": "llm",
@@ -930,14 +806,14 @@
       "predicate": "ASSOCIATED_WITH",
       "object": "neuropathic_pain",
       "evidence_ids": [
-        "PMC6727998:discussion:1:llm"
+        "PMC6727998:discussion:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC6727998"
       ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
+      "confidence": 0.8,
+      "linguistic_trust": "suggested",
       "properties": {},
       "section": "discussion",
       "asserted_by": "llm",
@@ -945,96 +821,39 @@
       "note": null
     },
     {
-      "subject": "tactile_hypoesthesia",
+      "subject": "tactile_stimulation",
       "predicate": "ASSOCIATED_WITH",
-      "object": "postmastectomy_pain",
+      "object": "cotton_swabs",
       "evidence_ids": [
-        "PMC6727998:introduction:1:llm"
+        "PMC6727998:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC6727998"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "introduction",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "tactile_hypoesthesia",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "chronic_pain",
-      "evidence_ids": [
-        "PMC6727998:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC6727998"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "tactile_hypoesthesia",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "myalgia",
-      "evidence_ids": [
-        "PMC6727998:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC6727998"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "nerve_lesions",
-      "predicate": "CAUSES",
+      "subject": "numerical_rating_scale",
+      "predicate": "INDICATES",
       "object": "tactile_hypoesthesia",
       "evidence_ids": [
-        "PMC6727998:discussion:1:llm"
+        "PMC6727998:results:1:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC6727998"
       ],
-      "confidence": 0.85,
-      "linguistic_trust": "suggested",
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
       "properties": {},
-      "section": "discussion",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "nerve_lesions",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "neuropathic_pain",
-      "evidence_ids": [
-        "PMC6727998:discussion:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC6727998"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "discussion",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null

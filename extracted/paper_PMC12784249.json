@@ -7,7 +7,6 @@
       "Barrena",
       "Rodriguez-Flores",
       "Olaverri-Mendizabal",
-      "Valc\u00e1rcel",
       "Planes"
     ],
     "author_details": [
@@ -95,8 +94,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -110,14 +109,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:28:27.801805Z",
+      "timestamp": "2026-03-21T15:26:41.537996Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 54.32
+      "duration_seconds": 55.67
     },
     "entity_resolution": null,
     "model_info": null
@@ -252,25 +251,12 @@
       "uniprot_id": null
     },
     {
-      "id": "cancer",
-      "class": "Disease",
-      "name": "cancer",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cellular_proliferation",
-      "class": "BiologicalProcess",
-      "name": "cellular proliferation",
-      "synonyms": [],
+      "id": "CRISPR_Cas9",
+      "class": "Procedure",
+      "name": "CRISPR-Cas9",
+      "synonyms": [
+        "CRISPR/Cas9"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -336,7 +322,7 @@
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:3071",
+      "hgnc_id": "HGNC:3070",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -390,7 +376,26 @@
       "id": "hematological_malignancies",
       "class": "Disease",
       "name": "hematological malignancies",
-      "synonyms": [],
+      "synonyms": [
+        "hematological tumors"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cellular_proliferation",
+      "class": "BiologicalProcess",
+      "name": "cellular proliferation",
+      "synonyms": [
+        "cell proliferation"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -436,23 +441,6 @@
       "uniprot_id": null
     },
     {
-      "id": "CRISPR_Cas9",
-      "class": "Procedure",
-      "name": "CRISPR-Cas9",
-      "synonyms": [
-        "CRISPR/Cas9"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "tumor_suppressor_genes",
       "class": "Gene",
       "name": "tumor suppressor genes",
@@ -471,6 +459,36 @@
       "id": "essential_genes",
       "class": "Gene",
       "name": "essential genes",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cancer",
+      "class": "Disease",
+      "name": "cancer",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "biomass_reaction",
+      "class": "BiologicalProcess",
+      "name": "biomass reaction",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -504,54 +522,9 @@
       "id": "regulatory_networks",
       "class": "Pathway",
       "name": "regulatory networks",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "biomass_reaction",
-      "class": "BiologicalProcess",
-      "name": "biomass reaction",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cell_death",
-      "class": "BiologicalProcess",
-      "name": "cell death",
       "synonyms": [
-        "cellular death"
+        "gene regulatory networks"
       ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "precision_oncology",
-      "class": "Procedure",
-      "name": "precision oncology",
-      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -565,10 +538,130 @@
     {
       "id": "DepMap",
       "class": "Evidence",
-      "name": "The Cancer Dependency Map",
+      "name": "DepMap",
       "synonyms": [
-        "DepMap"
+        "The Cancer Dependency Map"
       ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Human1",
+      "class": "Evidence",
+      "name": "Human1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "DoRothEA",
+      "class": "Evidence",
+      "name": "DoRothEA",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Omnipath",
+      "class": "Evidence",
+      "name": "Omnipath",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "TRRUST",
+      "class": "Evidence",
+      "name": "TRRUST",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Signor3_0",
+      "class": "Evidence",
+      "name": "Signor3.0",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "TSGene2_0",
+      "class": "Evidence",
+      "name": "TSGene2.0",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "SLKB",
+      "class": "Evidence",
+      "name": "SLKB",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "CCLE",
+      "class": "Evidence",
+      "name": "CCLE",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -1209,7 +1302,7 @@
       "entity_id": null,
       "paper_id": "PMC12784249",
       "text_span_id": "results_5",
-      "text": "the lethality of EZH2 inhibition is mediated by the following gMIS: {EZH2\u2212, JUN\u2212, RELA+}, hypothesizing a higher impact in cellular proliferation when the expression of JUN is down-regulated and RELA is up-regulated",
+      "text": "Here, the lethality of EZH2 inhibition is mediated by the following gMIS: {EZH2\u2212, JUN\u2212, RELA+}",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "computational",
@@ -1222,7 +1315,7 @@
       "entity_id": null,
       "paper_id": "PMC12784249",
       "text_span_id": "results_6",
-      "text": "consider the SDL interaction formed by the following two genes: {DUSP4+; GADD45B\u2212}, where the high expression of DUSP4 and the low expression of GADD45B inhibit cellular proliferation",
+      "text": "For illustration, consider the SDL interaction formed by the following two genes: {DUSP4+; GADD45B\u2212}, where the high expression of DUSP4 and the low expression of GADD45B inhibit cellular proliferation",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "computational",
@@ -1235,7 +1328,7 @@
       "entity_id": null,
       "paper_id": "PMC12784249",
       "text_span_id": "results_7",
-      "text": "tumor suppressor gene complex comprising two genes: {CDK5RAP3+; SHC1+}, where the high expression of both genes is required to block cellular proliferation",
+      "text": "We also examined the following tumor suppressor gene complex comprising two genes: {CDK5RAP3+; SHC1+}, where the high expression of both genes is required to block cellular proliferation",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "computational",
@@ -1247,7 +1340,7 @@
     {
       "subject": "synthetic_lethality",
       "predicate": "CAUSES",
-      "object": "cell_death",
+      "object": "cellular_death",
       "evidence_ids": [
         "PMC12784249:abstract:1:llm"
       ],
@@ -1323,7 +1416,7 @@
     {
       "subject": "synthetic_dosage_lethality",
       "predicate": "CAUSES",
-      "object": "cell_death",
+      "object": "cellular_death",
       "evidence_ids": [
         "PMC12784249:introduction:3:llm"
       ],
@@ -1360,8 +1453,8 @@
     },
     {
       "subject": "EZH2",
-      "predicate": "REGULATES",
-      "object": "cellular_proliferation",
+      "predicate": "INTERACTS_WITH",
+      "object": "JUN",
       "evidence_ids": [
         "PMC12784249:results:5:llm"
       ],
@@ -1378,28 +1471,9 @@
       "note": null
     },
     {
-      "subject": "JUN",
-      "predicate": "REGULATES",
-      "object": "cellular_proliferation",
-      "evidence_ids": [
-        "PMC12784249:results:5:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12784249"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "RELA",
-      "predicate": "REGULATES",
-      "object": "cellular_proliferation",
+      "subject": "EZH2",
+      "predicate": "INTERACTS_WITH",
+      "object": "RELA",
       "evidence_ids": [
         "PMC12784249:results:5:llm"
       ],
@@ -1436,8 +1510,8 @@
     },
     {
       "subject": "GADD45B",
-      "predicate": "REGULATES",
-      "object": "cellular_proliferation",
+      "predicate": "INTERACTS_WITH",
+      "object": "DUSP4",
       "evidence_ids": [
         "PMC12784249:results:6:llm"
       ],
@@ -1474,8 +1548,8 @@
     },
     {
       "subject": "SHC1",
-      "predicate": "INHIBITS",
-      "object": "cellular_proliferation",
+      "predicate": "INTERACTS_WITH",
+      "object": "CDK5RAP3",
       "evidence_ids": [
         "PMC12784249:results:7:llm"
       ],
@@ -1502,7 +1576,7 @@
       "source_papers": [
         "PMC12784249"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "abstract",
@@ -2142,7 +2216,7 @@
     {
       "subject": "Paper:PMC12784249",
       "predicate": "DESCRIBED",
-      "object": "cellular_proliferation",
+      "object": "breast_cancer",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
@@ -2159,7 +2233,7 @@
     {
       "subject": "Paper:PMC12784249",
       "predicate": "DESCRIBED",
-      "object": "breast_cancer",
+      "object": "EZH2",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

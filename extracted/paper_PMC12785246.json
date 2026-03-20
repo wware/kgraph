@@ -154,8 +154,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -169,14 +169,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:31:40.722945Z",
+      "timestamp": "2026-03-21T15:29:32.962080Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 58.34
+      "duration_seconds": 67.72
     },
     "entity_resolution": null,
     "model_info": null
@@ -184,7 +184,7 @@
   "entities": [
     {
       "id": "SOX11",
-      "class": "Gene",
+      "class": "Protein",
       "name": "SOX11",
       "synonyms": [
         "Sox11"
@@ -234,34 +234,18 @@
       "uniprot_id": null
     },
     {
-      "id": "epithelial_mesenchymal_transition",
-      "class": "BiologicalProcess",
-      "name": "epithelial\u2013mesenchymal transition",
-      "synonyms": [
-        "EMT"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "head_neck_squamous_cell_carcinoma",
+      "id": "HNSCC",
       "class": "Disease",
       "name": "head and neck squamous cell carcinoma",
       "synonyms": [
-        "HNSCC"
+        "HNSCC",
+        "head and neck squamous cell carcinomas"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": null,
+      "umls_id": "C1168401",
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -285,8 +269,26 @@
       "uniprot_id": null
     },
     {
+      "id": "EMT",
+      "class": "BiologicalProcess",
+      "name": "epithelial-mesenchymal transition",
+      "synonyms": [
+        "epithelial\u2013mesenchymal transition",
+        "EMT"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "TWIST1",
-      "class": "Gene",
+      "class": "Protein",
       "name": "TWIST1",
       "synonyms": [
         "Twist1"
@@ -297,6 +299,36 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": "HGNC:12428",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E-cadherin",
+      "class": "Protein",
+      "name": "E-cadherin",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1748",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "N-cadherin",
+      "class": "Protein",
+      "name": "N-cadherin",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1759",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -332,38 +364,85 @@
       "uniprot_id": null
     },
     {
-      "id": "N_cadherin",
-      "class": "Protein",
-      "name": "N-cadherin",
-      "synonyms": [],
+      "id": "TCGA",
+      "class": "Evidence",
+      "name": "The Cancer Genome Atlas",
+      "synonyms": [
+        "TCGA"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:1748",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "E_cadherin",
+      "id": "UM1",
       "class": "Protein",
-      "name": "E-cadherin",
+      "name": "UM1",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:1748",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "UM2",
+      "class": "Protein",
+      "name": "UM2",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "UMSCC5",
+      "class": "Protein",
+      "name": "UMSCC5",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "UMSCC6",
+      "class": "Protein",
+      "name": "UMSCC6",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
       "id": "TWIST2",
-      "class": "Gene",
+      "class": "Protein",
       "name": "TWIST2",
       "synonyms": [
         "Twist2"
@@ -380,7 +459,7 @@
     },
     {
       "id": "SNAIL",
-      "class": "Gene",
+      "class": "Protein",
       "name": "SNAIL",
       "synonyms": [
         "Snail",
@@ -398,7 +477,7 @@
     },
     {
       "id": "SLUG",
-      "class": "Gene",
+      "class": "Protein",
       "name": "SLUG",
       "synonyms": [
         "Slug",
@@ -416,7 +495,7 @@
     },
     {
       "id": "ZEB1",
-      "class": "Gene",
+      "class": "Protein",
       "name": "ZEB1",
       "synonyms": [
         "Zeb1"
@@ -433,7 +512,7 @@
     },
     {
       "id": "ZEB2",
-      "class": "Gene",
+      "class": "Protein",
       "name": "ZEB2",
       "synonyms": [
         "Zeb2"
@@ -449,9 +528,73 @@
       "uniprot_id": null
     },
     {
-      "id": "tumor_progression",
+      "id": "EMEQA",
+      "class": "Drug",
+      "name": "N-(3-ethynylphenyl)-6,7-bis(2-methoxyethoxy)-4-quinazolinamine",
+      "synonyms": [
+        "EMEQA"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pSTAT3",
+      "class": "Protein",
+      "name": "phosphorylated STAT3",
+      "synonyms": [
+        "pSTAT3"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "PCNA",
+      "class": "Protein",
+      "name": "PCNA",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:8729",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Ki67",
+      "class": "Protein",
+      "name": "Ki67",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:7107",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tumor_growth",
       "class": "BiologicalProcess",
-      "name": "tumor progression",
+      "name": "tumor growth",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -479,9 +622,9 @@
       "uniprot_id": null
     },
     {
-      "id": "apoptosis",
+      "id": "tumor_progression",
       "class": "BiologicalProcess",
-      "name": "apoptosis",
+      "name": "tumor progression",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -494,12 +637,10 @@
       "uniprot_id": null
     },
     {
-      "id": "EMEQA",
-      "class": "Drug",
-      "name": "N-(3-ethynylphenyl)-6,7-bis(2-methoxyethoxy)-4-quinazolinamine",
-      "synonyms": [
-        "EMEQA"
-      ],
+      "id": "oral_cavity",
+      "class": "AnatomicalStructure",
+      "name": "oral cavity",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -511,39 +652,39 @@
       "uniprot_id": null
     },
     {
-      "id": "Ki67",
-      "class": "Protein",
-      "name": "Ki67",
+      "id": "pharynx",
+      "class": "AnatomicalStructure",
+      "name": "pharynx",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:7107",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "PCNA",
-      "class": "Protein",
-      "name": "PCNA",
+      "id": "larynx",
+      "class": "AnatomicalStructure",
+      "name": "larynx",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:8729",
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "tumor_growth",
+      "id": "metastasis",
       "class": "BiologicalProcess",
-      "name": "tumor growth",
+      "name": "metastasis",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -1328,7 +1469,7 @@
       "entity_id": null,
       "paper_id": "PMC12785246",
       "text_span_id": "results_2",
-      "text": "STAT3 bound to the Sox11 gene promoter and transcriptionally upregulated the expression of Sox11 in HNSCC cells",
+      "text": "EGFR inhibitor suppresses the expression of SOX11 in HNSCC cells",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1341,7 +1482,7 @@
       "entity_id": null,
       "paper_id": "PMC12785246",
       "text_span_id": "results_3",
-      "text": "Knockdown of SOX11 significantly downregulated the expression of EMT-related genes, including EMT-TFs, vimentin, fibronectin, and N-cadherin, but significantly upregulated E-cadherin",
+      "text": "STAT3 bound to the Sox11 gene promoter and transcriptionally upregulated the expression of Sox11 in HNSCC cells",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1354,11 +1495,11 @@
       "entity_id": null,
       "paper_id": "PMC12785246",
       "text_span_id": "results_4",
-      "text": "SOX11 was regulated by EGF-EGFR-STAT3 signals, promoting EMT in HNSCC",
+      "text": "Knockdown of SOX11 significantly downregulated the expression of EMT-related genes, including EMT-TFs, vimentin, fibronectin, and N-cadherin, but significantly upregulated E-cadherin",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "in_vitro_in_vivo",
+      "eco_type": "in_vitro",
       "source": "extracted"
     },
     {
@@ -1367,7 +1508,33 @@
       "entity_id": null,
       "paper_id": "PMC12785246",
       "text_span_id": "results_5",
-      "text": "SOX11 promotes tumor growth in vivo and increases expression of PCNA, Ki67, and TWIST1",
+      "text": "SOX11 overexpression promoted the gene expression of N-cadherin, vimentin, fibronectin, and EMT-TFs and inhibited the gene expression of E-cadherin",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "in_vitro",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12785246:results:6:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12785246",
+      "text_span_id": "results_6",
+      "text": "SOX11 bound to the promoter region of the Twist1 gene in HNSCC cells",
+      "confidence": 0.95,
+      "extraction_method": "llm",
+      "study_type": "experimental",
+      "eco_type": "in_vitro",
+      "source": "extracted"
+    },
+    {
+      "id": "PMC12785246:results:7:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC12785246",
+      "text_span_id": "results_7",
+      "text": "SOX11 promotes tumor growth and the expression of TWIST1 in vivo",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1389,7 +1556,9 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "direction": "upregulates"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1397,25 +1566,6 @@
     },
     {
       "subject": "EGFR",
-      "predicate": "REGULATES",
-      "object": "SOX11",
-      "evidence_ids": [
-        "PMC12785246:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785246"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "STAT3",
       "predicate": "REGULATES",
       "object": "SOX11",
       "evidence_ids": [
@@ -1427,19 +1577,20 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "direction": "inhibitor suppresses"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "SOX11",
+      "subject": "STAT3",
       "predicate": "REGULATES",
-      "object": "epithelial_mesenchymal_transition",
+      "object": "SOX11",
       "evidence_ids": [
-        "PMC12785246:results:3:llm",
-        "PMC12785246:results:4:llm"
+        "PMC12785246:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1447,7 +1598,10 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "direction": "upregulates",
+        "mechanism": "transcriptional"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1458,7 +1612,8 @@
       "predicate": "REGULATES",
       "object": "TWIST1",
       "evidence_ids": [
-        "PMC12785246:results:3:llm"
+        "PMC12785246:results:6:llm",
+        "PMC12785246:results:7:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1466,83 +1621,9 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "SOX11",
-      "predicate": "REGULATES",
-      "object": "vimentin",
-      "evidence_ids": [
-        "PMC12785246:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785246"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "SOX11",
-      "predicate": "REGULATES",
-      "object": "fibronectin",
-      "evidence_ids": [
-        "PMC12785246:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785246"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "SOX11",
-      "predicate": "REGULATES",
-      "object": "N_cadherin",
-      "evidence_ids": [
-        "PMC12785246:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785246"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "SOX11",
-      "predicate": "INHIBITS",
-      "object": "E_cadherin",
-      "evidence_ids": [
-        "PMC12785246:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785246"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "direction": "upregulates"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1553,7 +1634,8 @@
       "predicate": "REGULATES",
       "object": "TWIST2",
       "evidence_ids": [
-        "PMC12785246:results:3:llm"
+        "PMC12785246:results:4:llm",
+        "PMC12785246:results:5:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1561,7 +1643,9 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "direction": "upregulates"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1572,7 +1656,8 @@
       "predicate": "REGULATES",
       "object": "SNAIL",
       "evidence_ids": [
-        "PMC12785246:results:3:llm"
+        "PMC12785246:results:4:llm",
+        "PMC12785246:results:5:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1580,7 +1665,9 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "direction": "upregulates"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1591,7 +1678,8 @@
       "predicate": "REGULATES",
       "object": "SLUG",
       "evidence_ids": [
-        "PMC12785246:results:3:llm"
+        "PMC12785246:results:4:llm",
+        "PMC12785246:results:5:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1599,7 +1687,9 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "direction": "upregulates"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1610,7 +1700,8 @@
       "predicate": "REGULATES",
       "object": "ZEB1",
       "evidence_ids": [
-        "PMC12785246:results:3:llm"
+        "PMC12785246:results:4:llm",
+        "PMC12785246:results:5:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1618,7 +1709,9 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {},
+      "properties": {
+        "direction": "upregulates"
+      },
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
@@ -1629,7 +1722,118 @@
       "predicate": "REGULATES",
       "object": "ZEB2",
       "evidence_ids": [
-        "PMC12785246:results:3:llm"
+        "PMC12785246:results:4:llm",
+        "PMC12785246:results:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785246"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "direction": "upregulates"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "SOX11",
+      "predicate": "REGULATES",
+      "object": "vimentin",
+      "evidence_ids": [
+        "PMC12785246:results:4:llm",
+        "PMC12785246:results:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785246"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "direction": "upregulates"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "SOX11",
+      "predicate": "REGULATES",
+      "object": "fibronectin",
+      "evidence_ids": [
+        "PMC12785246:results:4:llm",
+        "PMC12785246:results:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785246"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "direction": "upregulates"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "SOX11",
+      "predicate": "REGULATES",
+      "object": "N-cadherin",
+      "evidence_ids": [
+        "PMC12785246:results:4:llm",
+        "PMC12785246:results:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785246"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "direction": "upregulates"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "SOX11",
+      "predicate": "REGULATES",
+      "object": "E-cadherin",
+      "evidence_ids": [
+        "PMC12785246:results:4:llm",
+        "PMC12785246:results:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785246"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "direction": "downregulates"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "SOX11",
+      "predicate": "CAUSES",
+      "object": "EMT",
+      "evidence_ids": [
+        "PMC12785246:results:4:llm",
+        "PMC12785246:results:5:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1648,7 +1852,7 @@
       "predicate": "CAUSES",
       "object": "tumor_growth",
       "evidence_ids": [
-        "PMC12785246:results:5:llm"
+        "PMC12785246:results:7:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1663,11 +1867,11 @@
       "note": null
     },
     {
-      "subject": "SOX11",
-      "predicate": "REGULATES",
-      "object": "Ki67",
+      "subject": "HNSCC",
+      "predicate": "LOCATED_IN",
+      "object": "oral_cavity",
       "evidence_ids": [
-        "PMC12785246:results:5:llm"
+        "PMC12785246:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1676,17 +1880,17 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "SOX11",
-      "predicate": "REGULATES",
-      "object": "PCNA",
+      "subject": "HNSCC",
+      "predicate": "LOCATED_IN",
+      "object": "pharynx",
       "evidence_ids": [
-        "PMC12785246:results:5:llm"
+        "PMC12785246:introduction:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1695,7 +1899,83 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "HNSCC",
+      "predicate": "LOCATED_IN",
+      "object": "larynx",
+      "evidence_ids": [
+        "PMC12785246:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785246"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Yong_Kim",
+      "predicate": "AFFILIATED_WITH",
+      "object": "University_of_California_Los_Angeles",
+      "evidence_ids": [
+        "PMC12785246:methods:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785246"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Angie_Rizzino",
+      "predicate": "AUTHORED",
+      "object": "PMC12785246",
+      "evidence_ids": [
+        "PMC12785246:methods:8:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785246"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Kathryn_Albers",
+      "predicate": "AUTHORED",
+      "object": "PMC12785246",
+      "evidence_ids": [
+        "PMC12785246:methods:8:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785246"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1705,7 +1985,7 @@
       "predicate": "INHIBITS",
       "object": "EGFR",
       "evidence_ids": [
-        "PMC12785246:results:1:llm"
+        "PMC12785246:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1715,61 +1995,6 @@
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "epithelial_mesenchymal_transition",
-      "predicate": "CAUSES",
-      "object": "tumor_progression",
-      "evidence_ids": [
-        "PMC12785246:results:4:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785246"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "SOX11",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "head_neck_squamous_cell_carcinoma",
-      "evidence_ids": [
-        "PMC12785246:results:4:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785246"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "Yong_Kim",
-      "predicate": "AFFILIATED_WITH",
-      "object": "University_of_California_Los_Angeles",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785246"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -2695,7 +2920,7 @@
     {
       "subject": "Paper:PMC12785246",
       "predicate": "DESCRIBED",
-      "object": "EGFR",
+      "object": "HNSCC",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

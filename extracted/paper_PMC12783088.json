@@ -4,7 +4,7 @@
     "pmcid": "PMC12783088",
     "title": "Divergent evolution of hepatocellular carcinoma genomes in chimpanzees and humans",
     "authors": [
-      "Bruce W. Robinson"
+      "Not specified"
     ],
     "author_details": [
       {
@@ -44,9 +44,9 @@
       }
     ],
     "document_id": "PMC12783088",
-    "journal": "Clinical Cancer Research",
-    "year": 2024,
-    "study_type": "comparative genomic analysis",
+    "journal": "Not specified",
+    "year": null,
+    "study_type": "comparative genomics",
     "eco_type": "whole genome sequencing",
     "study_design": {
       "study_type": "observational",
@@ -114,8 +114,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "cd7157219e034e983a33bab228e496e4ed7c78f1",
-      "git_commit_short": "cd71572",
+      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
+      "git_commit_short": "ddc6f2c",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -129,26 +129,27 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:a7a682899cbdca82",
+      "checksum": "sha256:1f1f305f4d40fe6e",
       "schema_version": "ee629fa5"
     },
     "execution": {
-      "timestamp": "2026-03-19T02:26:37.821106Z",
+      "timestamp": "2026-03-21T15:24:48.587352Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 46.75
+      "duration_seconds": 58.88
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "entity_1",
+      "id": "hepatocellular_carcinoma",
       "class": "Disease",
       "name": "hepatocellular carcinoma",
       "synonyms": [
         "HCC",
-        "liver cancer"
+        "liver cancer",
+        "primary liver cancer"
       ],
       "symbol": null,
       "brand_names": [],
@@ -161,7 +162,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_2",
+      "id": "chimpanzees_entity",
       "class": "AnatomicalStructure",
       "name": "chimpanzees",
       "synonyms": [
@@ -178,11 +179,26 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_3",
+      "id": "humans_entity",
+      "class": "AnatomicalStructure",
+      "name": "humans",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "TSC2",
       "class": "Gene",
       "name": "TSC2",
       "synonyms": [
-        "Tuberous Sclerosis Complex 2",
+        "Tuberous sclerosis complex 2",
         "tuberin"
       ],
       "symbol": null,
@@ -196,7 +212,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_4",
+      "id": "ARID1A",
       "class": "Gene",
       "name": "ARID1A",
       "synonyms": [
@@ -214,12 +230,11 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_5",
+      "id": "beta_catenin",
       "class": "Protein",
       "name": "beta-catenin",
       "synonyms": [
-        "\u03b2-catenin",
-        "CTNNB1"
+        "\u03b2-catenin"
       ],
       "symbol": null,
       "brand_names": [],
@@ -232,182 +247,11 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_6",
-      "class": "Gene",
-      "name": "TP53",
-      "synonyms": [
-        "tumor protein p53",
-        "p53"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:11998",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_7",
-      "class": "Gene",
-      "name": "FAT4",
-      "synonyms": [
-        "FAT Atypical Cadherin 4"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:23109",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_8",
-      "class": "Gene",
-      "name": "TTN",
-      "synonyms": [
-        "titin"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:12403",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_9",
-      "class": "Pathway",
-      "name": "mTOR signaling pathway",
-      "synonyms": [
-        "mammalian target of rapamycin pathway"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_10",
-      "class": "Pathway",
-      "name": "Wnt/\u03b2-catenin signaling",
-      "synonyms": [
-        "Wnt signaling pathway"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_11",
-      "class": "Procedure",
-      "name": "whole genome sequencing",
-      "synonyms": [
-        "WGS"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_12",
-      "class": "Procedure",
-      "name": "whole exome sequencing",
-      "synonyms": [
-        "WES"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_13",
-      "class": "Procedure",
-      "name": "immunohistochemistry",
-      "synonyms": [
-        "IHC"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_14",
-      "class": "Mutation",
-      "name": "somatic mutations",
-      "synonyms": [
-        "somatic variants"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_15",
-      "class": "Disease",
-      "name": "scirrhous HCC subtype",
-      "synonyms": [
-        "scirrhous hepatocellular carcinoma"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_16",
+      "id": "FAP",
       "class": "Protein",
-      "name": "fibroblast activation protein",
+      "name": "FAP",
       "synonyms": [
-        "FAP"
+        "fibroblast activation protein"
       ],
       "symbol": null,
       "brand_names": [],
@@ -420,7 +264,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_17",
+      "id": "vimentin",
       "class": "Protein",
       "name": "vimentin",
       "synonyms": [
@@ -437,7 +281,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_18",
+      "id": "TGF_beta",
       "class": "Protein",
       "name": "TGF-\u03b2",
       "synonyms": [
@@ -454,11 +298,11 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_19",
-      "class": "Disease",
-      "name": "hepatitis B virus infection",
+      "id": "whole_genome_sequencing",
+      "class": "Procedure",
+      "name": "whole-genome sequencing",
       "synonyms": [
-        "HBV infection"
+        "WGS"
       ],
       "symbol": null,
       "brand_names": [],
@@ -471,11 +315,11 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_20",
-      "class": "Disease",
-      "name": "hepatitis C virus infection",
+      "id": "whole_exome_sequencing",
+      "class": "Procedure",
+      "name": "whole-exome sequencing",
       "synonyms": [
-        "HCV infection"
+        "WES"
       ],
       "symbol": null,
       "brand_names": [],
@@ -488,26 +332,9 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_21",
-      "class": "Institution",
-      "name": "Southwest National Primate Research Center",
-      "synonyms": [
-        "Texas Biomedical Research Institute"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_22",
-      "class": "Author",
-      "name": "Bruce W. Robinson",
+      "id": "immunohistochemistry",
+      "class": "Procedure",
+      "name": "immunohistochemistry",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -520,12 +347,292 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_23",
+      "id": "somatic_mutations",
+      "class": "Mutation",
+      "name": "somatic mutations",
+      "synonyms": [
+        "somatic variants"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "TP53",
+      "class": "Gene",
+      "name": "TP53",
+      "synonyms": [
+        "tumor protein p53",
+        "guardian of the genome"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11998",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "CTNNB1",
+      "class": "Gene",
+      "name": "CTNNB1",
+      "synonyms": [
+        "catenin beta 1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:2514",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "FAT4",
+      "class": "Gene",
+      "name": "FAT4",
+      "synonyms": [
+        "FAT atypical cadherin 4"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:23109",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "TTN",
+      "class": "Gene",
+      "name": "TTN",
+      "synonyms": [
+        "titin"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:12403",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mTOR_pathway",
+      "class": "Pathway",
+      "name": "mTOR pathway",
+      "synonyms": [
+        "mammalian target of rapamycin pathway"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Wnt_beta_catenin_signaling",
+      "class": "Pathway",
+      "name": "Wnt/\u03b2-catenin signaling",
+      "synonyms": [
+        "Wnt signaling pathway"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "scirrhous_HCC",
+      "class": "Disease",
+      "name": "scirrhous HCC",
+      "synonyms": [
+        "scirrhous hepatocellular carcinoma",
+        "scirrhous subtype"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "liver",
+      "class": "AnatomicalStructure",
+      "name": "liver",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "lymph_nodes",
+      "class": "AnatomicalStructure",
+      "name": "lymph nodes",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "lungs",
+      "class": "AnatomicalStructure",
+      "name": "lungs",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "kidneys",
+      "class": "AnatomicalStructure",
+      "name": "kidneys",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hepatitis_B_virus",
+      "class": "Protein",
+      "name": "hepatitis B virus",
+      "synonyms": [
+        "HBV"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "hepatitis_C_virus",
+      "class": "Protein",
+      "name": "hepatitis C virus",
+      "synonyms": [
+        "HCV"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "HIV",
+      "class": "Protein",
+      "name": "HIV",
+      "synonyms": [
+        "human immunodeficiency virus"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "metastasis",
+      "class": "BiologicalProcess",
+      "name": "metastasis",
+      "synonyms": [
+        "metastases"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tumor_suppressor",
+      "class": "BiologicalProcess",
+      "name": "tumor suppressor",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "oncogenesis",
       "class": "BiologicalProcess",
       "name": "oncogenesis",
       "synonyms": [
-        "tumorigenesis",
-        "cancer development"
+        "tumorigenesis"
       ],
       "symbol": null,
       "brand_names": [],
@@ -538,84 +645,110 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_24",
+      "id": "genomic_instability",
       "class": "BiologicalProcess",
-      "name": "cell proliferation",
-      "synonyms": [
-        "cellular proliferation"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_25",
-      "class": "BiologicalProcess",
-      "name": "DNA damage repair",
-      "synonyms": [
-        "DNA repair"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_26",
-      "class": "Mutation",
-      "name": "microsatellite instability",
-      "synonyms": [
-        "MSI"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_27",
-      "class": "Gene",
-      "name": "FGA",
-      "synonyms": [
-        "fibrinogen alpha chain"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:3661",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_28",
-      "class": "Gene",
-      "name": "BRD7",
+      "name": "genomic instability",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:1105",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "DNA_repair",
+      "class": "BiologicalProcess",
+      "name": "DNA repair",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "microsatellite_instability",
+      "class": "BiologicalProcess",
+      "name": "microsatellite instability",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "TCGA",
+      "class": "Evidence",
+      "name": "TCGA",
+      "synonyms": [
+        "The Cancer Genome Atlas"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ICGC",
+      "class": "Evidence",
+      "name": "ICGC",
+      "synonyms": [
+        "International Cancer Genome Consortium"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Southwest_National_Primate_Research_Center",
+      "class": "Institution",
+      "name": "Southwest National Primate Research Center",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Texas_Biomedical_Research_Institute",
+      "class": "Institution",
+      "name": "Texas Biomedical Research Institute",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -1538,28 +1671,28 @@
   ],
   "evidence_entities": [
     {
-      "id": "PMC12783088:results:1:llm",
+      "id": "PMC12783088:abstract:1:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12783088",
-      "text_span_id": "results_paragraph_1",
-      "text": "TSC2 alterations are present in only 7% of human HCC patients, whereas 80% of chimpanzees with HCC in our study possessed TSC2 mutations",
+      "text_span_id": "abstract_1",
+      "text": "Chimpanzee HCCs exhibited histological and immunohistochemical features similar to human tumors but displayed sharply divergent genomic landscapes.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "comparative genomic analysis",
+      "study_type": "comparative genomics",
       "eco_type": "whole genome sequencing",
       "source": "extracted"
     },
     {
-      "id": "PMC12783088:results:2:llm",
+      "id": "PMC12783088:abstract:2:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12783088",
-      "text_span_id": "results_paragraph_2",
-      "text": "Chimpanzee tumors carried significantly higher coding mutation loads (mean 5632 per sample vs. 96\u2013275 in humans)",
+      "text_span_id": "abstract_2",
+      "text": "Non-synonymous TSC2 mutations occurred in 80% of chimpanzees, versus ~7% in human HCC, suggesting a species-specific oncogenic pathway linked to the scirrhous subtype.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "comparative genomic analysis",
+      "study_type": "comparative genomics",
       "eco_type": "whole genome sequencing",
       "source": "extracted"
     },
@@ -1568,12 +1701,12 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12783088",
-      "text_span_id": "results_paragraph_3",
-      "text": "FAT4 is mutated in all HCC cases in our chimpanzee study",
-      "confidence": 0.95,
+      "text_span_id": "results_3",
+      "text": "TSC2 expression in the chimpanzee samples was mainly cytosolic with high immunostaining in four of the samples, including the metastatic lymph node tissue.",
+      "confidence": 0.9,
       "extraction_method": "llm",
-      "study_type": "comparative genomic analysis",
-      "eco_type": "whole genome sequencing",
+      "study_type": "comparative genomics",
+      "eco_type": "immunohistochemistry",
       "source": "extracted"
     },
     {
@@ -1581,12 +1714,12 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12783088",
-      "text_span_id": "results_paragraph_4",
-      "text": "TSC2 functions as a tumor suppressor and is a critical negative regulator of the pro-oncogenic mTOR signaling pathway",
+      "text_span_id": "results_4",
+      "text": "All chimpanzee HCC tissues (100%) exhibited strong positive staining for VIM, with high signal intensity.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "comparative genomic analysis",
-      "eco_type": "whole genome sequencing",
+      "study_type": "comparative genomics",
+      "eco_type": "immunohistochemistry",
       "source": "extracted"
     },
     {
@@ -1594,22 +1727,22 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12783088",
-      "text_span_id": "results_paragraph_5",
-      "text": "All chimpanzee HCC tissues (100%) exhibited strong positive staining for VIM, with high signal intensity",
+      "text_span_id": "results_5",
+      "text": "On average per sample, 5632 mutations were found in chimpanzee samples, while 275 mutations were found in TCGA+ samples and 96 mutations were found in ICGC samples.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "comparative genomic analysis",
-      "eco_type": "immunohistochemistry",
+      "study_type": "comparative genomics",
+      "eco_type": "whole genome sequencing",
       "source": "extracted"
     }
   ],
   "relationships": [
     {
-      "subject": "entity_3",
+      "subject": "TSC2",
       "predicate": "ASSOCIATED_WITH",
-      "object": "entity_1",
+      "object": "scirrhous_HCC",
       "evidence_ids": [
-        "PMC12783088:results:1:llm"
+        "PMC12783088:abstract:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1618,15 +1751,72 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "TSC2",
+      "predicate": "REGULATES",
+      "object": "mTOR_pathway",
+      "evidence_ids": [
+        "PMC12783088:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12783088"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_3",
-      "predicate": "REGULATES",
-      "object": "entity_9",
+      "subject": "chimpanzees_entity",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "hepatocellular_carcinoma",
+      "evidence_ids": [
+        "PMC12783088:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12783088"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "humans_entity",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "hepatocellular_carcinoma",
+      "evidence_ids": [
+        "PMC12783088:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12783088"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "vimentin",
+      "predicate": "LOCATED_IN",
+      "object": "hepatocellular_carcinoma",
       "evidence_ids": [
         "PMC12783088:results:4:llm"
       ],
@@ -1643,47 +1833,9 @@
       "note": null
     },
     {
-      "subject": "entity_7",
+      "subject": "somatic_mutations",
       "predicate": "ASSOCIATED_WITH",
-      "object": "entity_1",
-      "evidence_ids": [
-        "PMC12783088:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12783088"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_7",
-      "predicate": "REGULATES",
-      "object": "entity_10",
-      "evidence_ids": [
-        "PMC12783088:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12783088"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_17",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_1",
+      "object": "hepatocellular_carcinoma",
       "evidence_ids": [
         "PMC12783088:results:5:llm"
       ],
@@ -1700,119 +1852,9 @@
       "note": null
     },
     {
-      "subject": "entity_3",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_15",
-      "evidence_ids": [
-        "PMC12783088:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12783088"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_14",
-      "predicate": "CAUSES",
-      "object": "entity_1",
-      "evidence_ids": [
-        "PMC12783088:results:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12783088"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_19",
-      "predicate": "CAUSES",
-      "object": "entity_1",
-      "evidence_ids": [
-        "PMC12783088:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12783088"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_20",
-      "predicate": "CAUSES",
-      "object": "entity_1",
-      "evidence_ids": [
-        "PMC12783088:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12783088"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_22",
-      "predicate": "AUTHORED",
-      "object": "PMC12783088",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12783088"
-      ],
-      "confidence": 1.0,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "metadata",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_22",
-      "predicate": "AFFILIATED_WITH",
-      "object": "entity_21",
-      "evidence_ids": [],
-      "provenance": [],
-      "source_papers": [
-        "PMC12783088"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "methods",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_6",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_1",
+      "subject": "metastasis",
+      "predicate": "LOCATED_IN",
+      "object": "lymph_nodes",
       "evidence_ids": [
         "PMC12783088:results:3:llm"
       ],
@@ -1829,9 +1871,9 @@
       "note": null
     },
     {
-      "subject": "entity_27",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_1",
+      "subject": "metastasis",
+      "predicate": "LOCATED_IN",
+      "object": "lungs",
       "evidence_ids": [
         "PMC12783088:results:3:llm"
       ],
@@ -1848,9 +1890,9 @@
       "note": null
     },
     {
-      "subject": "entity_28",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_1",
+      "subject": "metastasis",
+      "predicate": "LOCATED_IN",
+      "object": "kidneys",
       "evidence_ids": [
         "PMC12783088:results:3:llm"
       ],
@@ -1867,9 +1909,161 @@
       "note": null
     },
     {
-      "subject": "entity_4",
+      "subject": "hepatocellular_carcinoma",
+      "predicate": "LOCATED_IN",
+      "object": "liver",
+      "evidence_ids": [
+        "PMC12783088:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12783088"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "TP53",
       "predicate": "ASSOCIATED_WITH",
-      "object": "entity_1",
+      "object": "hepatocellular_carcinoma",
+      "evidence_ids": [
+        "PMC12783088:results:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12783088"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "CTNNB1",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "hepatocellular_carcinoma",
+      "evidence_ids": [
+        "PMC12783088:results:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12783088"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "FAT4",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "hepatocellular_carcinoma",
+      "evidence_ids": [
+        "PMC12783088:results:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12783088"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "TTN",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "hepatocellular_carcinoma",
+      "evidence_ids": [
+        "PMC12783088:results:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12783088"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ARID1A",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "hepatocellular_carcinoma",
+      "evidence_ids": [
+        "PMC12783088:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12783088"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "FAT4",
+      "predicate": "REGULATES",
+      "object": "Wnt_beta_catenin_signaling",
+      "evidence_ids": [
+        "PMC12783088:results:5:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12783088"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "hepatitis_B_virus",
+      "predicate": "CAUSES",
+      "object": "hepatocellular_carcinoma",
+      "evidence_ids": [
+        "PMC12783088:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12783088"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "hepatitis_C_virus",
+      "predicate": "CAUSES",
+      "object": "hepatocellular_carcinoma",
       "evidence_ids": [
         "PMC12783088:results:3:llm"
       ],
@@ -2908,7 +3102,7 @@
     {
       "subject": "Paper:PMC12783088",
       "predicate": "DESCRIBED",
-      "object": "entity_1",
+      "object": "hepatocellular_carcinoma",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
@@ -2925,7 +3119,7 @@
     {
       "subject": "Paper:PMC12783088",
       "predicate": "DESCRIBED",
-      "object": "entity_3",
+      "object": "metastasis",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
