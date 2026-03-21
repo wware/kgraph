@@ -178,7 +178,7 @@ class AuthorEntity(BaseEntity):
 class InstitutionEntity(BaseEntity):
     spec: ClassVar[EntitySpec] = EntitySpec(
         description="Institutions, organizations.",
-        color="#78909c",
+        color="#00897b",
         label="Institution",
         metadata_only=True,
     )

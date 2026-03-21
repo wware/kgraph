@@ -322,25 +322,30 @@ async function loadGraph() {
     
     // Show loading state
     showLoading();
-    
+    loadButton.disabled = true;
+    loadButton.textContent = 'Loading…';
+
     try {
         const response = await fetch(url);
         if (!response.ok) {
             const error = await response.json();
             throw new Error(error.detail || 'Failed to load graph');
         }
-        
+
         const data = await response.json();
         currentData = data;
-        
+
         // Update stats
         updateStats(data);
-        
+
         // Render graph
         renderGraph(data);
-        
+
     } catch (error) {
         showError(error.message);
+    } finally {
+        loadButton.disabled = false;
+        loadButton.textContent = 'Load Graph';
     }
 }
 

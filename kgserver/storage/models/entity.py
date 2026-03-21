@@ -3,7 +3,6 @@ Generic Entity model for the Knowledge Graph Server.
 """
 
 from typing import Optional, List, Any
-from sqlalchemy import UniqueConstraint
 from sqlmodel import Field, SQLModel, JSON, Column
 
 
@@ -11,8 +10,6 @@ class Entity(SQLModel, table=True):
     """
     A generic entity in the knowledge graph.
     """
-
-    __table_args__ = (UniqueConstraint("name", "entity_type", name="uq_entity_name_type"),)
 
     entity_id: str = Field(primary_key=True)
     entity_type: str = Field(index=True)

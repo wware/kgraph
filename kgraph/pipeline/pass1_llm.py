@@ -45,6 +45,7 @@ def _parse_json_from_text(response_text: str) -> dict[str, Any]:
 
     Brace counting skips { and } inside JSON string literals so that text spans
     containing braces (e.g. "The {gene} increases risk") do not break parsing.
+    Falls back to json-repair if the strict parse fails.
     """
     text = response_text.strip()
     if text.startswith("```"):
@@ -81,6 +82,14 @@ def _parse_json_from_text(response_text: str) -> dict[str, Any]:
             if depth == 0:
                 return json.loads(text[start : i + 1])
         i += 1
+    # Strict parse failed — attempt repair
+    try:
+        from json_repair import repair_json  # type: ignore[import]
+        repaired = repair_json(text[start:], return_objects=True)
+        if isinstance(repaired, dict):
+            return repaired
+    except Exception:
+        pass
     raise ValueError("Unbalanced braces in JSON")
 
 
