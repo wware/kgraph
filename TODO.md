@@ -41,6 +41,10 @@ Items left from PLAN2.md after the initial implementation. See PLAN2.md and inge
 
 ---
 
+## Schema Gaps
+
+- **Missing `organism`/`species` entity type**: Non-human organisms (e.g. chimpanzees, *H. pylori*) appearing in comparative genomics or evolutionary medicine papers get misclassified into the nearest available biomedical category (typically `anatomicalstructure`). Add an `organism` or `species` type to `domain_spec.py` and the extraction prompts. The DBPedia canonical URL resolver also goes rogue on these (e.g. "Chimpanzees" → `DBPedia:Chimpanzees'_tea_party`), so the authority lookup blocklist or DBPedia matching may also need tuning for organism names.
+
 ## Known Limitations
 
 - **LLM JSON reliability**: `json-repair` fallback is in place. If problems persist: add closing reminders to prompts, use response prefilling, flatten nested schemas, or split large calls.
