@@ -45,7 +45,12 @@ Items left from PLAN2.md after the initial implementation. See PLAN2.md and inge
 
 ### Robustness
 
-- **fetch_vocab JSON retry**: LLM occasionally returns malformed JSON (unbalanced braces). Add retry/repair logic so a single bad response doesn't silently skip a paper's vocabulary contribution.
+- **fetch_vocab JSON retry**: LLM occasionally returns malformed JSON (unbalanced braces). Mitigations to consider (in rough order of effort):
+  - Use a JSON repair library (e.g. `json-repair`) as a fallback before giving up on a response
+  - Add explicit closing reminder to prompts ("ensure all arrays and objects are properly closed")
+  - Use response prefilling (`[` or `{`) to anchor the model and reduce preamble drift
+  - Flatten deeply nested output schemas — nesting gives the model more opportunities to mis-close near the token limit
+  - Split large extraction calls into two smaller calls to reduce per-response size
 - **Entity name uniqueness constraint**: `Entity` table has `UniqueConstraint("name", "entity_type")` which can silently drop entities during bundle load if two distinct entities share the same name and type (e.g. two authors with the same name). Audit or relax this constraint.
 - **Deterministic truncation in full-graph mode**: `extract_full_graph` has no ordering on `get_entities` — truncated views are non-deterministic. Sort by `usage_count DESC` so the most-used entities are always included.
 
@@ -64,3 +69,7 @@ Items left from PLAN2.md after the initial implementation. See PLAN2.md and inge
 
 - **Document BUNDLE_FORCE_RELOAD workflow**: `BUNDLE_FORCE_RELOAD` is not set in `docker-compose.yml`. If the bundle ID is unchanged across re-ingestions, a container restart won't reload data. Add a note to the ops docs.
 - **patch_paper_titles.py**: Audit whether this script is still needed or has been superseded by the pipeline.
+- **Full redeploy on the droplet** (move this to a proper ops doc when one exists):
+  ```
+  docker compose --profile api down -v && docker image prune -a && git pull && docker compose --profile api build && docker compose --profile api up -d && docker compose --profile api logs -f
+  ```
