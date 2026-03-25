@@ -302,7 +302,7 @@ wheels = [
 [[package]]
 name = "bfs-ql"
 version = "0.1.0"
-source = { editable = "../../bfs-ql" }
+source = { registry = "https://test.pypi.org/simple/" }
 dependencies = [
     { name = "aiohttp" },
     { name = "asyncpg" },
@@ -311,21 +311,10 @@ dependencies = [
     { name = "pydantic" },
     { name = "python-dotenv" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "aiohttp", specifier = ">=3.9" },
-    { name = "aioresponses", marker = "extra == 'dev'", specifier = ">=0.7" },
-    { name = "anyio", marker = "extra == 'dev'", specifier = ">=4.0" },
-    { name = "asyncpg", specifier = ">=0.29" },
-    { name = "fastmcp", specifier = ">=2.0,<3.0" },
-    { name = "pgvector", specifier = ">=0.3" },
-    { name = "pydantic", specifier = ">=2.0" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
-    { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.23" },
-    { name = "python-dotenv", specifier = ">=1.0" },
+sdist = { url = "https://test-files.pythonhosted.org/packages/09/e5/96fd639d9d36296fd1c2be30c60b3c4d3a8c2c0b8e8b85afff1ef6f946ed/bfs_ql-0.1.0.tar.gz", hash = "sha256:07dee618940f1b3b676d107b68140d5ce38db3a45d9ab8931f2ef044e77a95c8", size = 155492, upload_time = "2026-03-25T17:29:25.829Z" }
+wheels = [
+    { url = "https://test-files.pythonhosted.org/packages/76/46/6a161f6ba33a9b58768e82df5f012ad93b5b4ec9cd533dbbbd77fb545fcb/bfs_ql-0.1.0-py3-none-any.whl", hash = "sha256:9e4b96075d038e4401c47e228363f3c718688667da182d30a06cd1ab79b58a2c", size = 26685, upload_time = "2026-03-25T17:29:24.648Z" },
 ]
-provides-extras = ["dev"]
 
 [[package]]
 name = "bidict"
@@ -1431,13 +1420,14 @@ wheels = [
 [[package]]
 name = "kgschema"
 version = "0.1.0"
-source = { editable = "../kgschema" }
+source = { registry = "https://test.pypi.org/simple/" }
 dependencies = [
     { name = "pydantic" },
 ]
-
-[package.metadata]
-requires-dist = [{ name = "pydantic", specifier = ">=2.0" }]
+sdist = { url = "https://test-files.pythonhosted.org/packages/8e/f4/524dfb8ea06cfa04e9629ecd35759808fcce353a2a234d3c4b3899fc0f10/kgschema-0.1.0.tar.gz", hash = "sha256:78875fcb17e2dc412d8eaa1309b7d4d415bc7a686fd0d3eb0cdf5077aca2452c", size = 37928, upload_time = "2026-03-25T17:35:31.377Z" }
+wheels = [
+    { url = "https://test-files.pythonhosted.org/packages/a1/1e/8a43556b857c94a04c5774637e2c5a2bd1046581cde6e181845d0d7c1cb7/kgschema-0.1.0-py3-none-any.whl", hash = "sha256:37514740b764babe4bea6d369ec030f0ef05ffffc2cab3b8d7ed5971abc9df39", size = 25453, upload_time = "2026-03-25T17:35:29.852Z" },
+]
 
 [[package]]
 name = "kgserver"
@@ -1486,14 +1476,14 @@ e2e = [
 [package.metadata]
 requires-dist = [
     { name = "asyncpg", specifier = ">=0.31.0" },
-    { name = "bfs-ql", editable = "../../bfs-ql" },
+    { name = "bfs-ql", index = "https://test.pypi.org/simple/" },
     { name = "black", extras = ["jupyter"], specifier = ">=26.1.0" },
     { name = "chainlit", specifier = ">=2.0.0" },
     { name = "fastapi", specifier = ">=0.128.0" },
     { name = "fastmcp", specifier = ">=2.14.4" },
     { name = "flake8", specifier = ">=7.3.0" },
     { name = "httpx", specifier = ">=0.27.0" },
-    { name = "kgschema", editable = "../kgschema" },
+    { name = "kgschema", index = "https://test.pypi.org/simple/" },
     { name = "litellm", specifier = "==1.81.15" },
     { name = "mcp", specifier = ">=1.25.0" },
     { name = "mypy", specifier = ">=1.19.1" },

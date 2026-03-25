@@ -76,8 +76,13 @@ markers = [
 packages = ["storage", "query", "mcp_server"]
 
 [tool.uv.sources]
-kgschema = { path = "../kgschema", editable = true }
-bfs-ql = { path = "../../bfs-ql", editable = true }
+kgschema = { index = "testpypi" }
+bfs-ql = { index = "testpypi" }
+
+[[tool.uv.index]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+explicit = true
 
 #[tool.uv.sources]
 #kgbundle = { path = "../kgbundle", editable = true }

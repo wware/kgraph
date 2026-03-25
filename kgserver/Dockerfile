@@ -6,7 +6,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 WORKDIR /app
 
-# Copy kgbundle first (local dependency)
+# Copy local dependencies first
 COPY kgbundle ./kgbundle
 
 # Copy dependency files from kgserver
