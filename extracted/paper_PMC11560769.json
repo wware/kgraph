@@ -30,8 +30,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
-      "git_commit_short": "ddc6f2c",
+      "git_commit": "604cf5b84ca251f31e64a89f07f27da4c6c71f4d",
+      "git_commit_short": "604cf5b",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -45,21 +45,21 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:1f1f305f4d40fe6e",
-      "schema_version": "ee629fa5"
+      "checksum": "sha256:24f3d35980d5c87b",
+      "schema_version": "7a015e0d"
     },
     "execution": {
-      "timestamp": "2026-03-21T15:01:11.488285Z",
+      "timestamp": "2026-03-27T17:44:31.787173Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 30.88
+      "duration_seconds": 40.64
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "entity_1",
+      "id": "cushing_syndrome",
       "class": "Disease",
       "name": "Cushing's syndrome",
       "synonyms": [
@@ -76,7 +76,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_2",
+      "id": "cushing_disease",
       "class": "Disease",
       "name": "Cushing's disease",
       "synonyms": [
@@ -93,114 +93,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_3",
-      "class": "Gene",
-      "name": "USP",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_4",
-      "class": "Gene",
-      "name": "TP53",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_5",
-      "class": "Disease",
-      "name": "pituitary tumors",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_6",
-      "class": "Disease",
-      "name": "corticotroph tumors",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_7",
-      "class": "Drug",
-      "name": "desmopressin",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_8",
-      "class": "Hormone",
-      "name": "CRH",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_9",
-      "class": "Procedure",
-      "name": "desmopressin test",
-      "synonyms": [
-        "10mcg desmopressin test"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_10",
+      "id": "acth_dependent_cushing",
       "class": "Disease",
       "name": "ACTH-dependent Cushing's syndrome",
       "synonyms": [],
@@ -215,7 +108,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_11",
+      "id": "non_neoplastic_hypercortisolism",
       "class": "Disease",
       "name": "non-neoplastic hypercortisolism",
       "synonyms": [],
@@ -230,7 +123,202 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_12",
+      "id": "hypercortisolism",
+      "class": "Disease",
+      "name": "hypercortisolism",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "glucocorticoid_withdrawal_syndrome",
+      "class": "Disease",
+      "name": "glucocorticoid withdrawal syndrome",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pituitary_tumors",
+      "class": "Disease",
+      "name": "pituitary tumors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "corticotroph_tumors",
+      "class": "Disease",
+      "name": "corticotroph tumors",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "usp_mutations",
+      "class": "Mutation",
+      "name": "USP mutations",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tp53_mutations",
+      "class": "Mutation",
+      "name": "TP53 mutations",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "desmopressin",
+      "class": "Drug",
+      "name": "desmopressin",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "crh",
+      "class": "Hormone",
+      "name": "CRH",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "acth",
+      "class": "Hormone",
+      "name": "ACTH",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cortisol",
+      "class": "Hormone",
+      "name": "cortisol",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cortisone",
+      "class": "Hormone",
+      "name": "cortisone",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pasireotide",
+      "class": "Drug",
+      "name": "pasireotide",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cabergoline",
+      "class": "Drug",
+      "name": "cabergoline",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "bipss",
       "class": "Procedure",
       "name": "Bilateral Inferior Petrosal Sinus Sampling",
       "synonyms": [
@@ -247,26 +335,9 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_13",
+      "id": "desmopressin_test",
       "class": "Procedure",
-      "name": "functional imaging",
-      "synonyms": [
-        "advanced functional imaging"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_14",
-      "class": "Biomarker",
-      "name": "hair cortisol",
+      "name": "10mcg desmopressin test",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -279,9 +350,9 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_15",
-      "class": "Biomarker",
-      "name": "hair cortisone",
+      "id": "hair_cortisol_measurement",
+      "class": "Procedure",
+      "name": "measurement of hair cortisol",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -294,9 +365,9 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_16",
-      "class": "Disease",
-      "name": "hypercortisolism",
+      "id": "hair_cortisone_measurement",
+      "class": "Procedure",
+      "name": "measurement of hair cortisone",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -309,8 +380,23 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_17",
-      "class": "AnatomicalStructure",
+      "id": "advanced_functional_imaging",
+      "class": "Procedure",
+      "name": "advanced functional imaging",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "gut_microbiota",
+      "class": "BiologicalProcess",
       "name": "gut microbiota",
       "synonyms": [],
       "symbol": null,
@@ -324,54 +410,9 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_18",
-      "class": "Drug",
-      "name": "pasireotide",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_19",
-      "class": "Drug",
-      "name": "cabergoline",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_20",
-      "class": "Hormone",
-      "name": "cortisol",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_21",
+      "id": "cardiometabolic_consequences",
       "class": "Symptom",
-      "name": "glucocorticoid withdrawal syndrome",
+      "name": "cardiometabolic consequences",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -384,9 +425,9 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_22",
-      "class": "Mutation",
-      "name": "USP mutations",
+      "id": "hemodynamic_profile",
+      "class": "Biomarker",
+      "name": "hemodynamic profile",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -399,9 +440,144 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_23",
-      "class": "Mutation",
-      "name": "TP53 mutations",
+      "id": "central_to_peripheral_ratio",
+      "class": "Biomarker",
+      "name": "central-to-peripheral ratio",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pekul",
+      "class": "Author",
+      "name": "Pekul",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "giampetro",
+      "class": "Author",
+      "name": "Giampetro",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "skrebsky_de_almeida",
+      "class": "Author",
+      "name": "Skrebsky De Almeida",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "wright",
+      "class": "Author",
+      "name": "Wright",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "valassi",
+      "class": "Author",
+      "name": "Valassi",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "jurek",
+      "class": "Author",
+      "name": "Jurek",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "feelders",
+      "class": "Author",
+      "name": "Feelders",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "zhang",
+      "class": "Author",
+      "name": "Zhang",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ioachimescu",
+      "class": "Author",
+      "name": "Ioachimescu",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -465,9 +641,9 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11560769",
-      "text_span_id": "intro_1",
+      "text_span_id": "introduction_1",
       "text": "Endogenous Cushing's syndrome results in significant multisystemic morbidity and elevated mortality if left untreated",
-      "confidence": 0.9,
+      "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "Editorial",
       "eco_type": null,
@@ -505,7 +681,20 @@
       "entity_id": null,
       "paper_id": "PMC11560769",
       "text_span_id": "overview_3",
-      "text": "The study demonstrated that this combination of pituitary-targeted therapies can yield sustained long-term efficacy in selected patients",
+      "text": "The impact of hypercortisolism on the gut microbiota was explored in a case-control study by Valassi et al.",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "Editorial",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
+      "id": "PMC11560769:overview:4:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11560769",
+      "text_span_id": "overview_4",
+      "text": "Feelders et al. shared the results of the extension of a multicenter Phase II study in which patients were initially treated with pasireotide which was subsequently combined with cabergoline if cortisol levels remained elevated",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "Editorial",
@@ -515,9 +704,9 @@
   ],
   "relationships": [
     {
-      "subject": "entity_1",
+      "subject": "cushing_syndrome",
       "predicate": "CAUSES",
-      "object": "entity_16",
+      "object": "cardiometabolic_consequences",
       "evidence_ids": [
         "PMC11560769:introduction:1:llm"
       ],
@@ -534,9 +723,9 @@
       "note": null
     },
     {
-      "subject": "entity_22",
+      "subject": "usp_mutations",
       "predicate": "ASSOCIATED_WITH",
-      "object": "entity_5",
+      "object": "pituitary_tumors",
       "evidence_ids": [
         "PMC11560769:overview:1:llm"
       ],
@@ -553,9 +742,9 @@
       "note": null
     },
     {
-      "subject": "entity_23",
+      "subject": "tp53_mutations",
       "predicate": "ASSOCIATED_WITH",
-      "object": "entity_5",
+      "object": "pituitary_tumors",
       "evidence_ids": [
         "PMC11560769:overview:1:llm"
       ],
@@ -572,9 +761,9 @@
       "note": null
     },
     {
-      "subject": "entity_6",
+      "subject": "corticotroph_tumors",
       "predicate": "CAUSES",
-      "object": "entity_2",
+      "object": "cushing_disease",
       "evidence_ids": [
         "PMC11560769:overview:1:llm"
       ],
@@ -582,7 +771,7 @@
       "source_papers": [
         "PMC11560769"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "overview",
@@ -591,28 +780,9 @@
       "note": null
     },
     {
-      "subject": "entity_7",
-      "predicate": "TREATS",
-      "object": "entity_1",
-      "evidence_ids": [
-        "PMC11560769:overview:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11560769"
-      ],
-      "confidence": 0.8,
-      "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "overview",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_9",
+      "subject": "desmopressin",
       "predicate": "INDICATES",
-      "object": "entity_10",
+      "object": "acth_dependent_cushing",
       "evidence_ids": [
         "PMC11560769:overview:2:llm"
       ],
@@ -621,7 +791,7 @@
         "PMC11560769"
       ],
       "confidence": 0.8,
-      "linguistic_trust": "suggested",
+      "linguistic_trust": "asserted",
       "properties": {},
       "section": "overview",
       "asserted_by": "llm",
@@ -629,11 +799,30 @@
       "note": null
     },
     {
-      "subject": "entity_18",
-      "predicate": "TREATS",
-      "object": "entity_1",
+      "subject": "hypercortisolism",
+      "predicate": "CAUSES",
+      "object": "gut_microbiota",
       "evidence_ids": [
         "PMC11560769:overview:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11560769"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "overview",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pasireotide",
+      "predicate": "TREATS",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "PMC11560769:overview:4:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -648,11 +837,11 @@
       "note": null
     },
     {
-      "subject": "entity_19",
+      "subject": "cabergoline",
       "predicate": "TREATS",
-      "object": "entity_1",
+      "object": "cushing_syndrome",
       "evidence_ids": [
-        "PMC11560769:overview:3:llm"
+        "PMC11560769:overview:4:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -667,9 +856,47 @@
       "note": null
     },
     {
-      "subject": "entity_16",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_17",
+      "subject": "pekul",
+      "predicate": "AUTHORED",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "PMC11560769:overview:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11560769"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "overview",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "giampetro",
+      "predicate": "AUTHORED",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "PMC11560769:overview:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11560769"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "overview",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "valassi",
+      "predicate": "AUTHORED",
+      "object": "cushing_syndrome",
       "evidence_ids": [
         "PMC11560769:overview:3:llm"
       ],
@@ -677,8 +904,27 @@
       "source_papers": [
         "PMC11560769"
       ],
-      "confidence": 0.8,
-      "linguistic_trust": "suggested",
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "overview",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "feelders",
+      "predicate": "AUTHORED",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "PMC11560769:overview:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11560769"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
       "properties": {},
       "section": "overview",
       "asserted_by": "llm",
@@ -722,7 +968,7 @@
     {
       "subject": "Paper:PMC11560769",
       "predicate": "DESCRIBED",
-      "object": "entity_1",
+      "object": "cushing_syndrome",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
@@ -739,7 +985,7 @@
     {
       "subject": "Paper:PMC11560769",
       "predicate": "DESCRIBED",
-      "object": "entity_5",
+      "object": "pituitary_tumors",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

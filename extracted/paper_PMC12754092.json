@@ -52,7 +52,7 @@
     "journal": "Not specified",
     "year": null,
     "study_type": "experimental",
-    "eco_type": "in_vitro_in_vivo",
+    "eco_type": "in vitro and in vivo studies",
     "study_design": {
       "study_type": "observational",
       "sample_size": 100,
@@ -103,8 +103,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
-      "git_commit_short": "ddc6f2c",
+      "git_commit": "90a99848d39656b5967584e433057785927b9f66",
+      "git_commit_short": "90a9984",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -118,14 +118,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:1f1f305f4d40fe6e",
-      "schema_version": "ee629fa5"
+      "checksum": "sha256:24f3d35980d5c87b",
+      "schema_version": "7a015e0d"
     },
     "execution": {
-      "timestamp": "2026-03-21T15:11:30.413495Z",
+      "timestamp": "2026-03-27T18:49:22.937484Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 54.02
+      "duration_seconds": 42.85
     },
     "entity_resolution": null,
     "model_info": null
@@ -154,7 +154,7 @@
       "name": "JAK-STAT3 pathway",
       "synonyms": [
         "JAK2/STAT3 pathway",
-        "JAK2/STAT3 signaling"
+        "JAK2/STAT3 signaling pathway"
       ],
       "symbol": null,
       "brand_names": [],
@@ -185,7 +185,7 @@
     },
     {
       "id": "ent_4",
-      "class": "Protein",
+      "class": "Biomarker",
       "name": "Helicobacter pylori",
       "synonyms": [
         "H. pylori"
@@ -221,9 +221,9 @@
     {
       "id": "ent_6",
       "class": "Protein",
-      "name": "JAK2",
+      "name": "Janus kinase 2",
       "synonyms": [
-        "Janus kinase 2"
+        "JAK2"
       ],
       "symbol": null,
       "brand_names": [],
@@ -238,9 +238,9 @@
     {
       "id": "ent_7",
       "class": "Protein",
-      "name": "STAT3",
+      "name": "signal transducer and activator of transcription 3",
       "synonyms": [
-        "signal transducer and activator of transcription 3"
+        "STAT3"
       ],
       "symbol": null,
       "brand_names": [],
@@ -271,8 +271,8 @@
     },
     {
       "id": "ent_9",
-      "class": "Protein",
-      "name": "CagA",
+      "class": "BiologicalProcess",
+      "name": "Correa cascade",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -346,53 +346,6 @@
     },
     {
       "id": "ent_14",
-      "class": "BiologicalProcess",
-      "name": "cell proliferation",
-      "synonyms": [
-        "cellular proliferation"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ent_15",
-      "class": "BiologicalProcess",
-      "name": "cell migration",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ent_16",
-      "class": "BiologicalProcess",
-      "name": "cell invasion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ent_17",
       "class": "Drug",
       "name": "AG490",
       "synonyms": [],
@@ -407,7 +360,7 @@
       "uniprot_id": null
     },
     {
-      "id": "ent_18",
+      "id": "ent_15",
       "class": "Drug",
       "name": "coumermycin A1",
       "synonyms": [],
@@ -422,7 +375,22 @@
       "uniprot_id": null
     },
     {
-      "id": "ent_19",
+      "id": "ent_16",
+      "class": "AnatomicalStructure",
+      "name": "gastric mucosa",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ent_17",
       "class": "Disease",
       "name": "atrophic gastritis",
       "synonyms": [],
@@ -437,7 +405,7 @@
       "uniprot_id": null
     },
     {
-      "id": "ent_20",
+      "id": "ent_18",
       "class": "Disease",
       "name": "intestinal metaplasia",
       "synonyms": [],
@@ -452,24 +420,54 @@
       "uniprot_id": null
     },
     {
-      "id": "ent_21",
-      "class": "Protein",
-      "name": "Ki-67",
+      "id": "ent_19",
+      "class": "BiologicalProcess",
+      "name": "cell proliferation",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:7107",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ent_20",
+      "class": "BiologicalProcess",
+      "name": "cell migration",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ent_21",
+      "class": "BiologicalProcess",
+      "name": "cell invasion",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
       "id": "ent_22",
-      "class": "Biomarker",
-      "name": "overall survival",
+      "class": "Protein",
+      "name": "CagA",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -483,6 +481,38 @@
     },
     {
       "id": "ent_23",
+      "class": "Protein",
+      "name": "trefoil factor 1",
+      "synonyms": [
+        "TFF1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11755",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ent_24",
+      "class": "Biomarker",
+      "name": "Ki-67",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ent_25",
       "class": "BiologicalProcess",
       "name": "phosphorylation",
       "synonyms": [],
@@ -497,12 +527,10 @@
       "uniprot_id": null
     },
     {
-      "id": "ent_24",
-      "class": "Procedure",
-      "name": "chromatin immunoprecipitation",
-      "synonyms": [
-        "ChIP"
-      ],
+      "id": "ent_26",
+      "class": "BiologicalProcess",
+      "name": "transcriptional regulation",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -514,18 +542,31 @@
       "uniprot_id": null
     },
     {
-      "id": "ent_25",
-      "class": "Gene",
-      "name": "TFF1",
-      "synonyms": [
-        "trefoil factor 1"
-      ],
+      "id": "ent_27",
+      "class": "BiologicalProcess",
+      "name": "tumor progression",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": "HGNC:11755",
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ent_28",
+      "class": "BiologicalProcess",
+      "name": "metastasis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -1232,7 +1273,7 @@
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "in_vitro_in_vivo",
+      "eco_type": "clinical analysis",
       "source": "extracted"
     },
     {
@@ -1245,7 +1286,7 @@
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "in_vitro_in_vivo",
+      "eco_type": "in vitro and in vivo studies",
       "source": "extracted"
     },
     {
@@ -1258,7 +1299,7 @@
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "in_vitro",
+      "eco_type": "chromatin immunoprecipitation",
       "source": "extracted"
     },
     {
@@ -1271,59 +1312,7 @@
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
-      "eco_type": "in_vitro_in_vivo",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC12754092:results:5:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC12754092",
-      "text_span_id": "results_5",
-      "text": "Western blotting demonstrated time-dependent upregulation of YY1, along with the EMT mesenchymal markers N-cadherin, Snail, and vimentin, in both cell lines.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "experimental",
-      "eco_type": "in_vitro",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC12754092:results:6:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC12754092",
-      "text_span_id": "results_6",
-      "text": "Colony formation and 5-ethynyl-2'-deoxyuridine incorporation assays demonstrated that YY1 overexpression markedly enhanced cell proliferation, whereas YY1 knockdown significantly suppressed it.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "experimental",
-      "eco_type": "in_vitro",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC12754092:results:7:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC12754092",
-      "text_span_id": "results_7",
-      "text": "Transwell and wound-healing assays further revealed that YY1 promoted cell migration and invasion, while its depletion attenuated these malignant phenotypes.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "experimental",
-      "eco_type": "in_vitro",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC12754092:results:8:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC12754092",
-      "text_span_id": "results_8",
-      "text": "JASPAR further predicted putative YY1 binding sites within the JAK2 promoter region, which was validated by ChIP assays confirming direct YY1 binding.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "experimental",
-      "eco_type": "in_vitro",
+      "eco_type": "functional assays",
       "source": "extracted"
     }
   ],
@@ -1333,7 +1322,8 @@
       "predicate": "REGULATES",
       "object": "ent_2",
       "evidence_ids": [
-        "PMC12754092:results:2:llm"
+        "PMC12754092:results:2:llm",
+        "PMC12754092:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1349,7 +1339,7 @@
     },
     {
       "subject": "ent_1",
-      "predicate": "REGULATES",
+      "predicate": "CAUSES",
       "object": "ent_3",
       "evidence_ids": [
         "PMC12754092:results:2:llm",
@@ -1391,8 +1381,7 @@
       "predicate": "REGULATES",
       "object": "ent_1",
       "evidence_ids": [
-        "PMC12754092:results:2:llm",
-        "PMC12754092:results:5:llm"
+        "PMC12754092:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1411,8 +1400,7 @@
       "predicate": "INTERACTS_WITH",
       "object": "ent_6",
       "evidence_ids": [
-        "PMC12754092:results:3:llm",
-        "PMC12754092:results:8:llm"
+        "PMC12754092:results:3:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1427,28 +1415,9 @@
       "note": null
     },
     {
-      "subject": "ent_1",
+      "subject": "ent_2",
       "predicate": "REGULATES",
-      "object": "ent_6",
-      "evidence_ids": [
-        "PMC12754092:results:8:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12754092"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ent_6",
-      "predicate": "REGULATES",
-      "object": "ent_7",
+      "object": "ent_3",
       "evidence_ids": [
         "PMC12754092:results:2:llm"
       ],
@@ -1467,7 +1436,7 @@
     {
       "subject": "ent_1",
       "predicate": "ASSOCIATED_WITH",
-      "object": "ent_22",
+      "object": "ent_5",
       "evidence_ids": [
         "PMC12754092:results:1:llm"
       ],
@@ -1485,11 +1454,10 @@
     },
     {
       "subject": "ent_1",
-      "predicate": "REGULATES",
-      "object": "ent_14",
+      "predicate": "CAUSES",
+      "object": "ent_19",
       "evidence_ids": [
-        "PMC12754092:results:4:llm",
-        "PMC12754092:results:6:llm"
+        "PMC12754092:results:4:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1505,10 +1473,10 @@
     },
     {
       "subject": "ent_1",
-      "predicate": "REGULATES",
-      "object": "ent_15",
+      "predicate": "CAUSES",
+      "object": "ent_28",
       "evidence_ids": [
-        "PMC12754092:results:7:llm"
+        "PMC12754092:results:4:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1523,83 +1491,7 @@
       "note": null
     },
     {
-      "subject": "ent_1",
-      "predicate": "REGULATES",
-      "object": "ent_16",
-      "evidence_ids": [
-        "PMC12754092:results:7:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12754092"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ent_4",
-      "predicate": "REGULATES",
-      "object": "ent_11",
-      "evidence_ids": [
-        "PMC12754092:results:5:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12754092"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ent_4",
-      "predicate": "REGULATES",
-      "object": "ent_12",
-      "evidence_ids": [
-        "PMC12754092:results:5:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12754092"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ent_4",
-      "predicate": "REGULATES",
-      "object": "ent_13",
-      "evidence_ids": [
-        "PMC12754092:results:5:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12754092"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ent_17",
+      "subject": "ent_14",
       "predicate": "INHIBITS",
       "object": "ent_6",
       "evidence_ids": [
@@ -1618,11 +1510,11 @@
       "note": null
     },
     {
-      "subject": "ent_18",
+      "subject": "ent_15",
       "predicate": "REGULATES",
       "object": "ent_6",
       "evidence_ids": [
-        "PMC12754092:results:4:llm"
+        "PMC12754092:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2421,7 +2313,7 @@
     {
       "subject": "Paper:PMC12754092",
       "predicate": "DESCRIBED",
-      "object": "ent_4",
+      "object": "ent_6",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

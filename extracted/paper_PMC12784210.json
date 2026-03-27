@@ -236,8 +236,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
-      "git_commit_short": "ddc6f2c",
+      "git_commit": "90a99848d39656b5967584e433057785927b9f66",
+      "git_commit_short": "90a9984",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -251,25 +251,25 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:1f1f305f4d40fe6e",
-      "schema_version": "ee629fa5"
+      "checksum": "sha256:24f3d35980d5c87b",
+      "schema_version": "7a015e0d"
     },
     "execution": {
-      "timestamp": "2026-03-21T15:25:43.776587Z",
+      "timestamp": "2026-03-27T20:07:00.934471Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 52.81
+      "duration_seconds": 55.04
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "entity_1",
+      "id": "BRD7",
       "class": "Gene",
       "name": "BRD7",
       "synonyms": [
-        "BRD7 gene"
+        "bromodomain containing 7"
       ],
       "symbol": null,
       "brand_names": [],
@@ -282,7 +282,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_2",
+      "id": "nasopharyngeal_carcinoma",
       "class": "Disease",
       "name": "nasopharyngeal carcinoma",
       "synonyms": [
@@ -299,11 +299,12 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_3",
+      "id": "CRISPR_dCas9",
       "class": "Procedure",
-      "name": "CRISPR/dCas9",
+      "name": "CRISPR/dCas9 system",
       "synonyms": [
-        "CRISPR/dCas9 system"
+        "CRISPR/dCas9",
+        "dCas9"
       ],
       "symbol": null,
       "brand_names": [],
@@ -316,24 +317,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_4",
-      "class": "BiologicalProcess",
-      "name": "demethylation",
-      "synonyms": [
-        "DNA demethylation"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_5",
+      "id": "hypermethylation",
       "class": "BiologicalProcess",
       "name": "hypermethylation",
       "synonyms": [
@@ -350,12 +334,12 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_6",
+      "id": "promoter_region",
       "class": "AnatomicalStructure",
-      "name": "promoter",
+      "name": "promoter region",
       "synonyms": [
-        "gene promoter",
-        "BRD7 promoter"
+        "promoter",
+        "gene promoter"
       ],
       "symbol": null,
       "brand_names": [],
@@ -368,45 +352,10 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_7",
-      "class": "Biomarker",
-      "name": "CpG island",
-      "synonyms": [
-        "CpG islands"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_8",
-      "class": "Procedure",
-      "name": "methylation-specific PCR",
-      "synonyms": [
-        "MSP"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_9",
+      "id": "TET1CD",
       "class": "Enzyme",
-      "name": "TET1",
+      "name": "TET1 catalytic domain",
       "synonyms": [
-        "TET1 catalytic domain",
         "TET1CD"
       ],
       "symbol": null,
@@ -420,7 +369,126 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_10",
+      "id": "demethylation",
+      "class": "BiologicalProcess",
+      "name": "demethylation",
+      "synonyms": [
+        "DNA demethylation"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cell_proliferation",
+      "class": "BiologicalProcess",
+      "name": "cell proliferation",
+      "synonyms": [
+        "proliferation"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cell_migration",
+      "class": "BiologicalProcess",
+      "name": "cell migration",
+      "synonyms": [
+        "migration"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cell_invasion",
+      "class": "BiologicalProcess",
+      "name": "cell invasion",
+      "synonyms": [
+        "invasion"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tumor_growth",
+      "class": "BiologicalProcess",
+      "name": "tumor growth",
+      "synonyms": [
+        "tumour growth"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "CpG_island",
+      "class": "AnatomicalStructure",
+      "name": "CpG island",
+      "synonyms": [
+        "cytosine-guanine island"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "5_methylcytosine",
+      "class": "Biomarker",
+      "name": "5-methylcytosine",
+      "synonyms": [
+        "5mC"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "decitabine",
       "class": "Drug",
       "name": "decitabine",
       "synonyms": [
@@ -438,11 +506,11 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_11",
+      "id": "transcriptional_activation",
       "class": "BiologicalProcess",
-      "name": "cell proliferation",
+      "name": "transcriptional activation",
       "synonyms": [
-        "cellular proliferation"
+        "gene activation"
       ],
       "symbol": null,
       "brand_names": [],
@@ -455,11 +523,11 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_12",
-      "class": "BiologicalProcess",
-      "name": "cell migration",
+      "id": "sgRNA2",
+      "class": "Gene",
+      "name": "sgRNA2",
       "synonyms": [
-        "cellular migration"
+        "single guide RNA 2"
       ],
       "symbol": null,
       "brand_names": [],
@@ -472,11 +540,11 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_13",
-      "class": "BiologicalProcess",
-      "name": "cell invasion",
+      "id": "sgRNA5",
+      "class": "Gene",
+      "name": "sgRNA5",
       "synonyms": [
-        "cellular invasion"
+        "single guide RNA 5"
       ],
       "symbol": null,
       "brand_names": [],
@@ -489,8 +557,8 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_14",
-      "class": "Procedure",
+      "id": "lentivirus",
+      "class": "BiologicalProcess",
       "name": "lentivirus",
       "synonyms": [
         "lentiviral vector"
@@ -506,11 +574,11 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_15",
-      "class": "Procedure",
-      "name": "xenograft",
+      "id": "CNE2_cells",
+      "class": "AnatomicalStructure",
+      "name": "CNE2 cells",
       "synonyms": [
-        "xenograft model"
+        "CNE2"
       ],
       "symbol": null,
       "brand_names": [],
@@ -523,11 +591,96 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_16",
+      "id": "5_8F_cells",
+      "class": "AnatomicalStructure",
+      "name": "5-8F cells",
+      "synonyms": [
+        "5-8F"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "NP69_cells",
+      "class": "AnatomicalStructure",
+      "name": "NP69 cells",
+      "synonyms": [
+        "NP69"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "RNA_polymerase_II",
+      "class": "Enzyme",
+      "name": "RNA polymerase II",
+      "synonyms": [
+        "RNA Pol II"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "apoptosis",
+      "class": "BiologicalProcess",
+      "name": "apoptosis",
+      "synonyms": [
+        "programmed cell death"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "epithelial_mesenchymal_transition",
+      "class": "BiologicalProcess",
+      "name": "epithelial-mesenchymal transition",
+      "synonyms": [
+        "EMT"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "P21",
       "class": "Protein",
-      "name": "dCas9",
+      "name": "P21",
       "synonyms": [
-        "nuclease-deficient Cas9"
+        "CDKN1A"
       ],
       "symbol": null,
       "brand_names": [],
@@ -540,12 +693,11 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_17",
-      "class": "Procedure",
-      "name": "sgRNA",
+      "id": "CDK4",
+      "class": "Protein",
+      "name": "CDK4",
       "synonyms": [
-        "guide RNA",
-        "single guide RNA"
+        "cyclin-dependent kinase 4"
       ],
       "symbol": null,
       "brand_names": [],
@@ -558,7 +710,160 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_18",
+      "id": "cleaved_PARP",
+      "class": "Protein",
+      "name": "cleaved PARP",
+      "synonyms": [
+        "Cleaved-PARP"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "ZO_1",
+      "class": "Protein",
+      "name": "ZO-1",
+      "synonyms": [
+        "tight junction protein 1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "E_cadherin",
+      "class": "Protein",
+      "name": "E-cadherin",
+      "synonyms": [
+        "CDH1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "vimentin",
+      "class": "Protein",
+      "name": "vimentin",
+      "synonyms": [
+        "VIM"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "N_cadherin",
+      "class": "Protein",
+      "name": "N-cadherin",
+      "synonyms": [
+        "CDH2"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Snail",
+      "class": "Protein",
+      "name": "Snail",
+      "synonyms": [
+        "SNAI1"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Ki67",
+      "class": "Biomarker",
+      "name": "Ki67",
+      "synonyms": [
+        "MKI67"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "BIRC2",
+      "class": "Protein",
+      "name": "BIRC2",
+      "synonyms": [
+        "baculoviral IAP repeat containing 2"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "PTEN",
+      "class": "Gene",
+      "name": "PTEN",
+      "synonyms": [
+        "phosphatase and tensin homolog"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:9588",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "Central_South_University",
       "class": "Institution",
       "name": "Central South University",
       "synonyms": [],
@@ -573,7 +878,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_19",
+      "id": "Second_Xiangya_Hospital",
       "class": "Institution",
       "name": "Second Xiangya Hospital",
       "synonyms": [],
@@ -588,77 +893,9 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_20",
-      "class": "Location",
-      "name": "China",
-      "synonyms": [
-        "southern China"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_21",
-      "class": "Pathway",
-      "name": "ERK pathway",
-      "synonyms": [
-        "ERK signaling"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_22",
-      "class": "Pathway",
-      "name": "PI3K/AKT pathway",
-      "synonyms": [
-        "PI3K/AKT signaling"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_23",
-      "class": "Pathway",
-      "name": "Rb/E2F pathway",
-      "synonyms": [
-        "Rb/E2F signaling"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_24",
-      "class": "Protein",
-      "name": "c-Myc",
+      "id": "Ming_Zhou",
+      "class": "Author",
+      "name": "Ming Zhou",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -671,172 +908,10 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_25",
-      "class": "Biomarker",
-      "name": "5-methylcytosine",
-      "synonyms": [
-        "5mC"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_26",
-      "class": "Gene",
-      "name": "p16",
+      "id": "Jianxia_Wei",
+      "class": "Author",
+      "name": "Jianxia Wei",
       "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_27",
-      "class": "Gene",
-      "name": "Rb",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_28",
-      "class": "Gene",
-      "name": "PTEN",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_29",
-      "class": "Gene",
-      "name": "ZNF154",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_30",
-      "class": "Gene",
-      "name": "BRCA1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_31",
-      "class": "Enzyme",
-      "name": "DNA methyltransferase",
-      "synonyms": [
-        "DNMT"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_32",
-      "class": "Drug",
-      "name": "azacitidine",
-      "synonyms": [
-        "AZA"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "18631",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_33",
-      "class": "Disease",
-      "name": "myelodysplastic syndromes",
-      "synonyms": [
-        "MDS"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_34",
-      "class": "Disease",
-      "name": "leukemia",
-      "synonyms": [
-        "leukaemia"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_35",
-      "class": "Procedure",
-      "name": "CRISPR/Cas9",
-      "synonyms": [
-        "CRISPR/Cas9 system"
-      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -1538,25 +1613,12 @@
       "source": "extracted"
     },
     {
-      "id": "PMC12784210:results:1:llm",
+      "id": "PMC12784210:abstract:2:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12784210",
-      "text_span_id": "results_1",
+      "text_span_id": "abstract_2",
       "text": "There was hypermethylation modification in BRD7 promoter, which was negatively correlated with BRD7 expression",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "experimental",
-      "eco_type": "in_vitro_and_in_vivo",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC12784210:results:2:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC12784210",
-      "text_span_id": "results_2",
-      "text": "all five sgRNA-guided CRISPR/dCas9 systems could activate BRD7 and inhibit cell proliferation to varying degrees",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1569,7 +1631,7 @@
       "entity_id": null,
       "paper_id": "PMC12784210",
       "text_span_id": "results_3",
-      "text": "both sgRNA2&sgRNA5 could promote the transcriptional activation by reducing its methylation, and inhibit the cell proliferation, migration, invasion and tumour growth in vivo of NPC",
+      "text": "all five sgRNA-guided CRISPR/dCas9 systems could activate BRD7 and inhibit cell proliferation to varying degrees, among which sgRNA2&sgRNA5 were the most significant",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1577,12 +1639,12 @@
       "source": "extracted"
     },
     {
-      "id": "PMC12784210:introduction:1:llm",
+      "id": "PMC12784210:results:4:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12784210",
-      "text_span_id": "introduction_1",
-      "text": "BRD7 was confirmed to be down-expressed in NPC and acts as a tumour suppressor in NPC by negatively regulating signalling pathways like ERK, Rb/E2F and PI3K/AKT",
+      "text_span_id": "results_4",
+      "text": "both sgRNA2&sgRNA5 could promote the transcriptional activation by reducing its methylation, and inhibit the cell proliferation, migration, invasion and tumour growth in vivo of NPC",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "experimental",
@@ -1592,9 +1654,9 @@
   ],
   "relationships": [
     {
-      "subject": "entity_1",
+      "subject": "BRD7",
       "predicate": "ASSOCIATED_WITH",
-      "object": "entity_2",
+      "object": "nasopharyngeal_carcinoma",
       "evidence_ids": [
         "PMC12784210:abstract:1:llm"
       ],
@@ -1613,32 +1675,11 @@
       "note": null
     },
     {
-      "subject": "entity_5",
-      "predicate": "CAUSES",
-      "object": "entity_1",
-      "evidence_ids": [
-        "PMC12784210:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12784210"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "relationship_type": "epigenetic_regulation"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_5",
+      "subject": "hypermethylation",
       "predicate": "LOCATED_IN",
-      "object": "entity_6",
+      "object": "promoter_region",
       "evidence_ids": [
-        "PMC12784210:results:1:llm"
+        "PMC12784210:abstract:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1647,19 +1688,19 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "relationship_type": "genomic_location"
+        "target_gene": "BRD7"
       },
-      "section": "results",
+      "section": "abstract",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_3",
+      "subject": "hypermethylation",
       "predicate": "REGULATES",
-      "object": "entity_1",
+      "object": "BRD7",
       "evidence_ids": [
-        "PMC12784210:results:2:llm"
+        "PMC12784210:abstract:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1668,38 +1709,17 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "relationship_type": "transcriptional_activation"
+        "regulation_type": "negative"
       },
-      "section": "results",
+      "section": "abstract",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_3",
-      "predicate": "INHIBITS",
-      "object": "entity_11",
-      "evidence_ids": [
-        "PMC12784210:results:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12784210"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "relationship_type": "therapeutic_effect"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_4",
+      "subject": "CRISPR_dCas9",
       "predicate": "CAUSES",
-      "object": "entity_1",
+      "object": "transcriptional_activation",
       "evidence_ids": [
         "PMC12784210:results:3:llm"
       ],
@@ -1710,7 +1730,7 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {
-        "relationship_type": "transcriptional_activation"
+        "target": "BRD7"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -1718,9 +1738,9 @@
       "note": null
     },
     {
-      "subject": "entity_4",
+      "subject": "CRISPR_dCas9",
       "predicate": "INHIBITS",
-      "object": "entity_11",
+      "object": "cell_proliferation",
       "evidence_ids": [
         "PMC12784210:results:3:llm"
       ],
@@ -1730,8 +1750,27 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "sgRNA2",
+      "predicate": "CAUSES",
+      "object": "demethylation",
+      "evidence_ids": [
+        "PMC12784210:results:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784210"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
       "properties": {
-        "relationship_type": "therapeutic_effect"
+        "target": "BRD7_promoter"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -1739,11 +1778,32 @@
       "note": null
     },
     {
-      "subject": "entity_4",
+      "subject": "sgRNA5",
+      "predicate": "CAUSES",
+      "object": "demethylation",
+      "evidence_ids": [
+        "PMC12784210:results:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784210"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {
+        "target": "BRD7_promoter"
+      },
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "demethylation",
       "predicate": "INHIBITS",
-      "object": "entity_12",
+      "object": "cell_migration",
       "evidence_ids": [
-        "PMC12784210:results:3:llm"
+        "PMC12784210:results:4:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1751,18 +1811,54 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {
-        "relationship_type": "therapeutic_effect"
-      },
+      "properties": {},
       "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_4",
+      "subject": "demethylation",
       "predicate": "INHIBITS",
-      "object": "entity_13",
+      "object": "cell_invasion",
+      "evidence_ids": [
+        "PMC12784210:results:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784210"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "demethylation",
+      "predicate": "INHIBITS",
+      "object": "tumor_growth",
+      "evidence_ids": [
+        "PMC12784210:results:4:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784210"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "TET1CD",
+      "predicate": "CAUSES",
+      "object": "demethylation",
       "evidence_ids": [
         "PMC12784210:results:3:llm"
       ],
@@ -1770,10 +1866,10 @@
       "source_papers": [
         "PMC12784210"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {
-        "relationship_type": "therapeutic_effect"
+        "mechanism": "catalytic_domain"
       },
       "section": "results",
       "asserted_by": "llm",
@@ -1781,72 +1877,9 @@
       "note": null
     },
     {
-      "subject": "entity_1",
-      "predicate": "REGULATES",
-      "object": "entity_21",
-      "evidence_ids": [
-        "PMC12784210:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12784210"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "relationship_type": "pathway_regulation"
-      },
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_1",
-      "predicate": "REGULATES",
-      "object": "entity_22",
-      "evidence_ids": [
-        "PMC12784210:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12784210"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "relationship_type": "pathway_regulation"
-      },
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_1",
-      "predicate": "REGULATES",
-      "object": "entity_23",
-      "evidence_ids": [
-        "PMC12784210:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12784210"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "relationship_type": "pathway_regulation"
-      },
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_18",
+      "subject": "Ming_Zhou",
       "predicate": "AFFILIATED_WITH",
-      "object": "entity_19",
+      "object": "Central_South_University",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
@@ -1854,10 +1887,59 @@
       ],
       "confidence": 0.95,
       "linguistic_trust": "asserted",
-      "properties": {
-        "relationship_type": "institutional_affiliation"
-      },
+      "properties": {},
       "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Jianxia_Wei",
+      "predicate": "AFFILIATED_WITH",
+      "object": "Central_South_University",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784210"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Ming_Zhou",
+      "predicate": "AUTHORED",
+      "object": "PMC12784210",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784210"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "authorship",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "Jianxia_Wei",
+      "predicate": "AUTHORED",
+      "object": "PMC12784210",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12784210"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "authorship",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -3157,7 +3239,7 @@
     {
       "subject": "Paper:PMC12784210",
       "predicate": "DESCRIBED",
-      "object": "entity_1",
+      "object": "demethylation",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
@@ -3174,7 +3256,7 @@
     {
       "subject": "Paper:PMC12784210",
       "predicate": "DESCRIBED",
-      "object": "entity_4",
+      "object": "BRD7",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

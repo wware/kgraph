@@ -159,8 +159,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
-      "git_commit_short": "ddc6f2c",
+      "git_commit": "90a99848d39656b5967584e433057785927b9f66",
+      "git_commit_short": "90a9984",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -174,14 +174,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:1f1f305f4d40fe6e",
-      "schema_version": "ee629fa5"
+      "checksum": "sha256:24f3d35980d5c87b",
+      "schema_version": "7a015e0d"
     },
     "execution": {
-      "timestamp": "2026-03-21T15:31:49.184913Z",
+      "timestamp": "2026-03-27T20:22:37.891886Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 59.31
+      "duration_seconds": 46.54
     },
     "entity_resolution": null,
     "model_info": null
@@ -191,9 +191,7 @@
       "id": "entity_1",
       "class": "Disease",
       "name": "breast cancer",
-      "synonyms": [
-        "breast carcinoma"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -224,10 +222,8 @@
     {
       "id": "entity_3",
       "class": "Mutation",
-      "name": "mosaic TP53 likely pathogenic variant",
+      "name": "TP53 c.716A>G",
       "synonyms": [
-        "TP53 LPV",
-        "c.716A>G",
         "p.N239S"
       ],
       "symbol": null,
@@ -278,9 +274,7 @@
       "id": "entity_6",
       "class": "Disease",
       "name": "malignant phyllodes tumor",
-      "synonyms": [
-        "phyllodes tumor"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -330,8 +324,7 @@
       "class": "Biomarker",
       "name": "human epidermal growth factor receptor 2",
       "synonyms": [
-        "HER2",
-        "HER-2"
+        "HER2"
       ],
       "symbol": null,
       "brand_names": [],
@@ -362,9 +355,7 @@
       "id": "entity_11",
       "class": "Procedure",
       "name": "bilateral mastectomy",
-      "synonyms": [
-        "bilateral skin and nipple-sparing mastectomy"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -395,9 +386,9 @@
     {
       "id": "entity_13",
       "class": "Procedure",
-      "name": "genetic testing",
+      "name": "magnetic resonance imaging",
       "synonyms": [
-        "germline genetic testing"
+        "MRI"
       ],
       "symbol": null,
       "brand_names": [],
@@ -411,11 +402,9 @@
     },
     {
       "id": "entity_14",
-      "class": "BiologicalProcess",
-      "name": "mosaicism",
-      "synonyms": [
-        "constitutional mosaicism"
-      ],
+      "class": "Procedure",
+      "name": "mammography",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -428,6 +417,21 @@
     },
     {
       "id": "entity_15",
+      "class": "BiologicalProcess",
+      "name": "mosaicism",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_16",
       "class": "BiologicalProcess",
       "name": "clonal hematopoiesis of indeterminate potential",
       "synonyms": [
@@ -444,26 +448,9 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_16",
-      "class": "Procedure",
-      "name": "magnetic resonance imaging",
-      "synonyms": [
-        "MRI"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "entity_17",
-      "class": "Procedure",
-      "name": "mammography",
+      "class": "AnatomicalStructure",
+      "name": "breast",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -478,7 +465,7 @@
     {
       "id": "entity_18",
       "class": "Procedure",
-      "name": "skin biopsy",
+      "name": "genetic testing",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -493,24 +480,7 @@
     {
       "id": "entity_19",
       "class": "Procedure",
-      "name": "in vitro fertilization",
-      "synonyms": [
-        "IVF"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_20",
-      "class": "Procedure",
-      "name": "preimplantation genetic diagnosis",
+      "name": "radiation therapy",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -523,7 +493,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_21",
+      "id": "entity_20",
       "class": "Biomarker",
       "name": "variant allele frequency",
       "synonyms": [
@@ -540,7 +510,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_22",
+      "id": "entity_21",
       "class": "Disease",
       "name": "eosinophilic esophagitis",
       "synonyms": [],
@@ -555,7 +525,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_23",
+      "id": "entity_22",
       "class": "Disease",
       "name": "asthma",
       "synonyms": [],
@@ -570,24 +540,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_24",
-      "class": "AnatomicalStructure",
-      "name": "breast",
-      "synonyms": [
-        "breasts"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_25",
+      "id": "entity_23",
       "class": "Disease",
       "name": "uterine cancer",
       "synonyms": [],
@@ -602,7 +555,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_26",
+      "id": "entity_24",
       "class": "Disease",
       "name": "renal cancer",
       "synonyms": [],
@@ -617,9 +570,39 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_27",
+      "id": "entity_25",
       "class": "Disease",
       "name": "brain cancer",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_26",
+      "class": "Procedure",
+      "name": "in vitro fertilization",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_27",
+      "class": "Procedure",
+      "name": "preimplantation genetic diagnosis",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -638,113 +621,6 @@
       "synonyms": [
         "NCCN"
       ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_29",
-      "class": "Institution",
-      "name": "Breast Health Center",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_30",
-      "class": "Procedure",
-      "name": "radiation therapy",
-      "synonyms": [
-        "radiotherapy"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_31",
-      "class": "Disease",
-      "name": "sarcoma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_32",
-      "class": "Disease",
-      "name": "central nervous system tumors",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_33",
-      "class": "Disease",
-      "name": "adrenocortical carcinoma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_34",
-      "class": "Procedure",
-      "name": "whole-body MRI",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_35",
-      "class": "Drug",
-      "name": "tamoxifen",
-      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -1599,32 +1475,6 @@
       "study_type": "case_report",
       "eco_type": null,
       "source": "extracted"
-    },
-    {
-      "id": "PMC12788344:surgery:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC12788344",
-      "text_span_id": "surgery_1",
-      "text": "The breast cancer risk for women with LFS/germline TP53 LPVs/PVs is 80%\u201390%, with most breast cancers occurring at a younger age.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "case_report",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC12788344:radiation_oncology:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC12788344",
-      "text_span_id": "radiation_oncology_1",
-      "text": "It has been demonstrated that patients with LFS who receive radiation therapy have an increased risk of radiation\u2010related malignancies within irradiated areas.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "case_report",
-      "eco_type": null,
-      "source": "extracted"
     }
   ],
   "relationships": [
@@ -1649,86 +1499,10 @@
     },
     {
       "subject": "entity_2",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_4",
+      "predicate": "ENCODES",
+      "object": "entity_3",
       "evidence_ids": [
-        "PMC12788344:case_overview:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12788344"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "case_overview",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_4",
-      "predicate": "INCREASES_RISK",
-      "object": "entity_1",
-      "evidence_ids": [
-        "PMC12788344:surgery:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12788344"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "surgery",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_4",
-      "predicate": "INCREASES_RISK",
-      "object": "entity_31",
-      "evidence_ids": [
-        "PMC12788344:case_overview:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12788344"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "case_overview",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_4",
-      "predicate": "INCREASES_RISK",
-      "object": "entity_32",
-      "evidence_ids": [
-        "PMC12788344:case_overview:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12788344"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "case_overview",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_4",
-      "predicate": "INCREASES_RISK",
-      "object": "entity_33",
-      "evidence_ids": [
-        "PMC12788344:case_overview:3:llm"
+        "PMC12788344:case_overview:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1764,7 +1538,7 @@
     {
       "subject": "entity_3",
       "predicate": "ASSOCIATED_WITH",
-      "object": "entity_14",
+      "object": "entity_15",
       "evidence_ids": [
         "PMC12788344:genetics:2:llm"
       ],
@@ -1781,11 +1555,49 @@
       "note": null
     },
     {
-      "subject": "entity_30",
-      "predicate": "INCREASES_RISK",
+      "subject": "entity_15",
+      "predicate": "CAUSES",
+      "object": "entity_4",
+      "evidence_ids": [
+        "PMC12788344:genetics:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "genetics",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_1",
+      "predicate": "LOCATED_IN",
+      "object": "entity_17",
+      "evidence_ids": [
+        "PMC12788344:case_overview:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12788344"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "case_overview",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_5",
+      "predicate": "SUBTYPE_OF",
       "object": "entity_1",
       "evidence_ids": [
-        "PMC12788344:radiation_oncology:1:llm"
+        "PMC12788344:pathology:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1794,17 +1606,17 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "radiation_oncology",
+      "section": "pathology",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_11",
-      "predicate": "TREATS",
-      "object": "entity_5",
+      "subject": "entity_6",
+      "predicate": "SUBTYPE_OF",
+      "object": "entity_1",
       "evidence_ids": [
-        "PMC12788344:case_overview:2:llm"
+        "PMC12788344:case_overview:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1821,9 +1633,9 @@
     {
       "subject": "entity_11",
       "predicate": "TREATS",
-      "object": "entity_6",
+      "object": "entity_1",
       "evidence_ids": [
-        "PMC12788344:case_overview:2:llm"
+        "PMC12788344:case_overview:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1838,7 +1650,7 @@
       "note": null
     },
     {
-      "subject": "entity_13",
+      "subject": "entity_18",
       "predicate": "INDICATES",
       "object": "entity_3",
       "evidence_ids": [
@@ -2896,7 +2708,7 @@
     {
       "subject": "Paper:PMC12788344",
       "predicate": "DESCRIBED",
-      "object": "entity_4",
+      "object": "entity_1",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

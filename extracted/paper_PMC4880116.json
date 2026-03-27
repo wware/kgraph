@@ -78,8 +78,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
-      "git_commit_short": "ddc6f2c",
+      "git_commit": "90a99848d39656b5967584e433057785927b9f66",
+      "git_commit_short": "90a9984",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -93,14 +93,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:1f1f305f4d40fe6e",
-      "schema_version": "ee629fa5"
+      "checksum": "sha256:24f3d35980d5c87b",
+      "schema_version": "7a015e0d"
     },
     "execution": {
-      "timestamp": "2026-03-21T15:37:50.524643Z",
+      "timestamp": "2026-03-27T20:44:17.121534Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 38.77
+      "duration_seconds": 30.48
     },
     "entity_resolution": null,
     "model_info": null
@@ -125,21 +125,6 @@
       "id": "endocrine_society",
       "class": "Institution",
       "name": "Endocrine Society",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "clinical_guidelines_subcommittee",
-      "class": "Institution",
-      "name": "Clinical Guidelines Subcommittee",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -182,26 +167,11 @@
       "uniprot_id": null
     },
     {
-      "id": "clinical_affairs_core_committee",
-      "class": "Institution",
-      "name": "Clinical Affairs Core Committee",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "grade_system",
       "class": "Procedure",
-      "name": "Grading of Recommendations, Assessment, Development, and Evaluation",
+      "name": "Grading of Recommendations, Assessment, Development, and Evaluation system",
       "synonyms": [
-        "GRADE"
+        "GRADE system"
       ],
       "symbol": null,
       "brand_names": [],
@@ -244,9 +214,9 @@
       "uniprot_id": null
     },
     {
-      "id": "morning_cortisol_levels",
+      "id": "cortisol_levels",
       "class": "Biomarker",
-      "name": "morning cortisol levels",
+      "name": "cortisol levels",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -259,24 +229,9 @@
       "uniprot_id": null
     },
     {
-      "id": "autoantibodies_21_hydroxylase",
+      "id": "21_hydroxylase_autoantibodies",
       "class": "Biomarker",
       "name": "autoantibodies against 21-hydroxylase",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "21_hydroxylase",
-      "class": "Enzyme",
-      "name": "21-hydroxylase",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -394,56 +349,9 @@
       "uniprot_id": null
     },
     {
-      "id": "autoimmune_diseases",
-      "class": "Disease",
-      "name": "autoimmune diseases",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "adrenocorticotropic_hormone",
-      "class": "Hormone",
-      "name": "adrenocorticotropic hormone",
-      "synonyms": [
-        "ACTH"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cortisol",
-      "class": "Hormone",
-      "name": "cortisol",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "glucocorticoid",
+      "id": "glucocorticoid_preparation",
       "class": "Drug",
-      "name": "glucocorticoid",
+      "name": "glucocorticoid preparation",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -456,9 +364,39 @@
       "uniprot_id": null
     },
     {
-      "id": "corticosteroids",
-      "class": "Drug",
-      "name": "corticosteroids",
+      "id": "steroid_card",
+      "class": "Procedure",
+      "name": "steroid card",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "stress_dosing",
+      "class": "Procedure",
+      "name": "stress dosing",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "parenteral_emergency_administration",
+      "class": "Procedure",
+      "name": "parenteral emergency administration",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -716,19 +654,6 @@
       "study_type": "clinical practice guideline",
       "eco_type": null,
       "source": "extracted"
-    },
-    {
-      "id": "PMC4880116:abstract:6:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC4880116",
-      "text_span_id": "abstract_6",
-      "text": "Follow-up should aim at monitoring appropriate dosing of corticosteroids and associated autoimmune diseases, particularly autoimmune thyroid disease.",
-      "confidence": 0.9,
-      "extraction_method": "llm",
-      "study_type": "clinical practice guideline",
-      "eco_type": null,
-      "source": "extracted"
     }
   ],
   "relationships": [
@@ -752,7 +677,7 @@
       "note": null
     },
     {
-      "subject": "autoantibodies_21_hydroxylase",
+      "subject": "21_hydroxylase_autoantibodies",
       "predicate": "INDICATES",
       "object": "primary_adrenal_insufficiency",
       "evidence_ids": [
@@ -829,7 +754,7 @@
     },
     {
       "subject": "nausea",
-      "predicate": "INDICATES",
+      "predicate": "ASSOCIATED_WITH",
       "object": "primary_adrenal_insufficiency",
       "evidence_ids": [
         "PMC4880116:abstract:5:llm"
@@ -839,7 +764,7 @@
         "PMC4880116"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "asserted",
+      "linguistic_trust": "suggested",
       "properties": {},
       "section": "abstract",
       "asserted_by": "llm",
@@ -848,7 +773,7 @@
     },
     {
       "subject": "fatigue",
-      "predicate": "INDICATES",
+      "predicate": "ASSOCIATED_WITH",
       "object": "primary_adrenal_insufficiency",
       "evidence_ids": [
         "PMC4880116:abstract:5:llm"
@@ -858,7 +783,7 @@
         "PMC4880116"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "asserted",
+      "linguistic_trust": "suggested",
       "properties": {},
       "section": "abstract",
       "asserted_by": "llm",
@@ -867,7 +792,7 @@
     },
     {
       "subject": "hypotension",
-      "predicate": "INDICATES",
+      "predicate": "ASSOCIATED_WITH",
       "object": "primary_adrenal_insufficiency",
       "evidence_ids": [
         "PMC4880116:abstract:5:llm"
@@ -877,45 +802,7 @@
         "PMC4880116"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "primary_adrenal_insufficiency",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "autoimmune_thyroid_disease",
-      "evidence_ids": [
-        "PMC4880116:abstract:6:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4880116"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "primary_adrenal_insufficiency",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "autoimmune_diseases",
-      "evidence_ids": [
-        "PMC4880116:abstract:6:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4880116"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
+      "linguistic_trust": "suggested",
       "properties": {},
       "section": "abstract",
       "asserted_by": "llm",
@@ -924,45 +811,7 @@
     },
     {
       "subject": "autoimmune_thyroid_disease",
-      "predicate": "SUBTYPE_OF",
-      "object": "autoimmune_diseases",
-      "evidence_ids": [
-        "PMC4880116:abstract:6:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4880116"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "morning_plasma_acth",
-      "predicate": "INDICATES",
-      "object": "primary_adrenal_insufficiency",
-      "evidence_ids": [
-        "PMC4880116:abstract:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4880116"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "morning_cortisol_levels",
-      "predicate": "INDICATES",
+      "predicate": "ASSOCIATED_WITH",
       "object": "primary_adrenal_insufficiency",
       "evidence_ids": [
         "PMC4880116:abstract:1:llm"
@@ -1186,7 +1035,7 @@
     {
       "subject": "Paper:PMC4880116",
       "predicate": "DESCRIBED",
-      "object": "autoimmune_thyroid_disease",
+      "object": "short_corticotropin_test",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

@@ -58,8 +58,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
-      "git_commit_short": "ddc6f2c",
+      "git_commit": "90a99848d39656b5967584e433057785927b9f66",
+      "git_commit_short": "90a9984",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -73,21 +73,21 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:1f1f305f4d40fe6e",
-      "schema_version": "ee629fa5"
+      "checksum": "sha256:24f3d35980d5c87b",
+      "schema_version": "7a015e0d"
     },
     "execution": {
-      "timestamp": "2026-03-21T15:32:18.946524Z",
+      "timestamp": "2026-03-27T20:27:03.000008Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 28.18
+      "duration_seconds": 32.94
     },
     "entity_resolution": null,
     "model_info": null
   },
   "entities": [
     {
-      "id": "entity_1",
+      "id": "cushing_syndrome",
       "class": "Disease",
       "name": "Cushing's syndrome",
       "synonyms": [
@@ -104,7 +104,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_2",
+      "id": "endocrine_society",
       "class": "Institution",
       "name": "The Endocrine Society",
       "synonyms": [
@@ -121,7 +121,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_3",
+      "id": "clinical_guidelines_subcommittee",
       "class": "Institution",
       "name": "Clinical Guidelines Subcommittee",
       "synonyms": [
@@ -138,7 +138,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_4",
+      "id": "clinical_affairs_core_committee",
       "class": "Institution",
       "name": "Clinical Affairs Core Committee",
       "synonyms": [],
@@ -153,7 +153,22 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_5",
+      "id": "endocrine_society_council",
+      "class": "Institution",
+      "name": "The Endocrine Society Council",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "exogenous_glucocorticoid",
       "class": "Drug",
       "name": "exogenous glucocorticoid",
       "synonyms": [
@@ -165,12 +180,12 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": "5492",
+      "rxnorm_id": "4917",
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "entity_6",
+      "id": "adrenal_incidentaloma",
       "class": "Disease",
       "name": "adrenal incidentaloma",
       "synonyms": [],
@@ -185,10 +200,12 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_7",
+      "id": "urine_cortisol",
       "class": "Biomarker",
       "name": "urine cortisol",
-      "synonyms": [],
+      "synonyms": [
+        "urinary cortisol"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -200,10 +217,12 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_8",
+      "id": "late_night_salivary_cortisol",
       "class": "Biomarker",
       "name": "late night salivary cortisol",
-      "synonyms": [],
+      "synonyms": [
+        "salivary cortisol"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -215,10 +234,12 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_9",
+      "id": "dexamethasone_suppression_test_1mg",
       "class": "Procedure",
       "name": "1 mg overnight dexamethasone suppression test",
-      "synonyms": [],
+      "synonyms": [
+        "1 mg dexamethasone suppression test"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -230,10 +251,12 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_10",
+      "id": "dexamethasone_suppression_test_2mg",
       "class": "Procedure",
       "name": "2 mg 48-h dexamethasone suppression test",
-      "synonyms": [],
+      "synonyms": [
+        "2 mg dexamethasone suppression test"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -245,10 +268,12 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_11",
+      "id": "serum_midnight_cortisol",
       "class": "Biomarker",
       "name": "serum midnight cortisol",
-      "synonyms": [],
+      "synonyms": [
+        "midnight cortisol"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -260,10 +285,12 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_12",
+      "id": "dexamethasone_crh_test",
       "class": "Procedure",
       "name": "dexamethasone-CRH test",
-      "synonyms": [],
+      "synonyms": [
+        "dexamethasone-corticotropin-releasing hormone test"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -275,7 +302,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_13",
+      "id": "cyclic_hypercortisolism",
       "class": "Disease",
       "name": "cyclic hypercortisolism",
       "synonyms": [],
@@ -290,7 +317,24 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_14",
+      "id": "endocrinologist",
+      "class": "Procedure",
+      "name": "endocrinologist consultation",
+      "synonyms": [
+        "endocrinologist"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cortisol",
       "class": "Hormone",
       "name": "cortisol",
       "synonyms": [],
@@ -305,7 +349,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_15",
+      "id": "dexamethasone",
       "class": "Drug",
       "name": "dexamethasone",
       "synonyms": [],
@@ -316,6 +360,23 @@
       "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": "3264",
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "crh",
+      "class": "Hormone",
+      "name": "corticotropin-releasing hormone",
+      "synonyms": [
+        "CRH"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": "C0010132",
+      "hgnc_id": null,
+      "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
@@ -483,28 +544,9 @@
   ],
   "relationships": [
     {
-      "subject": "entity_5",
-      "predicate": "CAUSES",
-      "object": "entity_1",
-      "evidence_ids": [
-        "PMC2386281:abstract:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC2386281"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_6",
+      "subject": "exogenous_glucocorticoid",
       "predicate": "ASSOCIATED_WITH",
-      "object": "entity_1",
+      "object": "cushing_syndrome",
       "evidence_ids": [
         "PMC2386281:abstract:1:llm"
       ],
@@ -512,7 +554,7 @@
       "source_papers": [
         "PMC2386281"
       ],
-      "confidence": 0.85,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "abstract",
@@ -521,11 +563,11 @@
       "note": null
     },
     {
-      "subject": "entity_7",
-      "predicate": "INDICATES",
-      "object": "entity_1",
+      "subject": "adrenal_incidentaloma",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "cushing_syndrome",
       "evidence_ids": [
-        "PMC2386281:abstract:2:llm"
+        "PMC2386281:abstract:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -540,9 +582,9 @@
       "note": null
     },
     {
-      "subject": "entity_8",
+      "subject": "urine_cortisol",
       "predicate": "INDICATES",
-      "object": "entity_1",
+      "object": "cushing_syndrome",
       "evidence_ids": [
         "PMC2386281:abstract:2:llm"
       ],
@@ -550,7 +592,7 @@
       "source_papers": [
         "PMC2386281"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "abstract",
@@ -559,9 +601,9 @@
       "note": null
     },
     {
-      "subject": "entity_9",
+      "subject": "late_night_salivary_cortisol",
       "predicate": "INDICATES",
-      "object": "entity_1",
+      "object": "cushing_syndrome",
       "evidence_ids": [
         "PMC2386281:abstract:2:llm"
       ],
@@ -569,7 +611,7 @@
       "source_papers": [
         "PMC2386281"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "abstract",
@@ -578,9 +620,9 @@
       "note": null
     },
     {
-      "subject": "entity_10",
+      "subject": "dexamethasone_suppression_test_1mg",
       "predicate": "INDICATES",
-      "object": "entity_1",
+      "object": "cushing_syndrome",
       "evidence_ids": [
         "PMC2386281:abstract:2:llm"
       ],
@@ -588,7 +630,7 @@
       "source_papers": [
         "PMC2386281"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "abstract",
@@ -597,9 +639,28 @@
       "note": null
     },
     {
-      "subject": "entity_11",
+      "subject": "dexamethasone_suppression_test_2mg",
       "predicate": "INDICATES",
-      "object": "entity_1",
+      "object": "cushing_syndrome",
+      "evidence_ids": [
+        "PMC2386281:abstract:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC2386281"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "serum_midnight_cortisol",
+      "predicate": "INDICATES",
+      "object": "cushing_syndrome",
       "evidence_ids": [
         "PMC2386281:abstract:3:llm"
       ],
@@ -616,9 +677,9 @@
       "note": null
     },
     {
-      "subject": "entity_12",
+      "subject": "dexamethasone_crh_test",
       "predicate": "INDICATES",
-      "object": "entity_1",
+      "object": "cushing_syndrome",
       "evidence_ids": [
         "PMC2386281:abstract:3:llm"
       ],
@@ -635,12 +696,10 @@
       "note": null
     },
     {
-      "subject": "entity_3",
+      "subject": "clinical_guidelines_subcommittee",
       "predicate": "AFFILIATED_WITH",
-      "object": "entity_2",
-      "evidence_ids": [
-        "PMC2386281:abstract:1:llm"
-      ],
+      "object": "endocrine_society",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
         "PMC2386281"
@@ -648,18 +707,16 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_4",
+      "subject": "clinical_affairs_core_committee",
       "predicate": "AFFILIATED_WITH",
-      "object": "entity_2",
-      "evidence_ids": [
-        "PMC2386281:abstract:1:llm"
-      ],
+      "object": "endocrine_society",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
         "PMC2386281"
@@ -667,7 +724,24 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "endocrine_society_council",
+      "predicate": "AFFILIATED_WITH",
+      "object": "endocrine_society",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC2386281"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -794,7 +868,7 @@
     {
       "subject": "Paper:PMC2386281",
       "predicate": "DESCRIBED",
-      "object": "entity_1",
+      "object": "cushing_syndrome",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
@@ -811,7 +885,7 @@
     {
       "subject": "Paper:PMC2386281",
       "predicate": "DESCRIBED",
-      "object": "entity_5",
+      "object": "exogenous_glucocorticoid",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

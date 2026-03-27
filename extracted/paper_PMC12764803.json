@@ -4,7 +4,10 @@
     "pmcid": "PMC12764803",
     "title": "Integrating homologous recombination deficiency subtyping with TCGA molecular classification for enhanced prognostic stratification and personalised therapy in endometrial cancer",
     "authors": [
-      "Not specified"
+      "Agaoglu",
+      "Alessandra Bonotti",
+      "Abboah-Offei",
+      "Ates"
     ],
     "author_details": [
       {
@@ -99,8 +102,8 @@
       }
     ],
     "document_id": "PMC12764803",
-    "journal": "Not specified",
-    "year": null,
+    "journal": "Unknown",
+    "year": 2024,
     "study_type": "retrospective cohort study",
     "eco_type": "clinical study",
     "study_design": {
@@ -147,8 +150,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
-      "git_commit_short": "ddc6f2c",
+      "git_commit": "90a99848d39656b5967584e433057785927b9f66",
+      "git_commit_short": "90a9984",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -162,14 +165,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:1f1f305f4d40fe6e",
-      "schema_version": "ee629fa5"
+      "checksum": "sha256:24f3d35980d5c87b",
+      "schema_version": "7a015e0d"
     },
     "execution": {
-      "timestamp": "2026-03-21T15:18:07.281186Z",
+      "timestamp": "2026-03-27T19:10:25.108093Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 79.52
+      "duration_seconds": 61.3
     },
     "entity_resolution": null,
     "model_info": null
@@ -294,7 +297,7 @@
     },
     {
       "id": "cd8_pd1_t_cells",
-      "class": "Protein",
+      "class": "Biomarker",
       "name": "CD8+PD-1+ T cells",
       "synonyms": [],
       "symbol": null,
@@ -309,7 +312,7 @@
     },
     {
       "id": "chromosomal_instability",
-      "class": "BiologicalProcess",
+      "class": "Symptom",
       "name": "chromosomal instability",
       "synonyms": [],
       "symbol": null,
@@ -328,23 +331,6 @@
       "name": "disease-free survival",
       "synonyms": [
         "DFS"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "support_vector_machine",
-      "class": "Procedure",
-      "name": "support vector machine",
-      "synonyms": [
-        "SVM"
       ],
       "symbol": null,
       "brand_names": [],
@@ -387,8 +373,23 @@
       "uniprot_id": null
     },
     {
-      "id": "genomic_instability",
+      "id": "dna_damage_response",
       "class": "BiologicalProcess",
+      "name": "DNA damage response",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "genomic_instability",
+      "class": "Symptom",
       "name": "genomic instability",
       "synonyms": [],
       "symbol": null,
@@ -414,96 +415,6 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "dna_double_strand_breaks",
-      "class": "BiologicalProcess",
-      "name": "DNA double-strand breaks",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "platinum_based_chemotherapy",
-      "class": "Drug",
-      "name": "platinum-based chemotherapy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "tumor_mutational_burden",
-      "class": "Biomarker",
-      "name": "tumour mutational burden",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "brca1",
-      "class": "Gene",
-      "name": "BRCA1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1100",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "brca2",
-      "class": "Gene",
-      "name": "BRCA2",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1101",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "arid1a",
-      "class": "Gene",
-      "name": "ARID1A",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:11110",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -541,26 +452,54 @@
       "uniprot_id": null
     },
     {
-      "id": "next_generation_sequencing",
-      "class": "Procedure",
-      "name": "next-generation sequencing",
-      "synonyms": [
-        "NGS"
-      ],
+      "id": "arid1a",
+      "class": "Gene",
+      "name": "ARID1A",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
       "umls_id": null,
-      "hgnc_id": null,
+      "hgnc_id": "HGNC:11110",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
     },
     {
-      "id": "unsupervised_clustering",
-      "class": "Procedure",
-      "name": "unsupervised clustering",
+      "id": "brca1",
+      "class": "Gene",
+      "name": "BRCA1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1100",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "brca2",
+      "class": "Gene",
+      "name": "BRCA2",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1101",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "platinum_based_chemotherapy",
+      "class": "Drug",
+      "name": "platinum-based chemotherapy",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -573,11 +512,11 @@
       "uniprot_id": null
     },
     {
-      "id": "maximally_selected_rank_statistics",
-      "class": "Procedure",
-      "name": "maximally selected rank statistics",
+      "id": "tumor_mutational_burden",
+      "class": "Biomarker",
+      "name": "tumour mutational burden",
       "synonyms": [
-        "maxstat"
+        "tumor mutational burden"
       ],
       "symbol": null,
       "brand_names": [],
@@ -590,9 +529,9 @@
       "uniprot_id": null
     },
     {
-      "id": "multiplex_immunohistochemistry",
-      "class": "Procedure",
-      "name": "multiplex immunohistochemistry",
+      "id": "immune_microenvironment",
+      "class": "BiologicalProcess",
+      "name": "immune microenvironment",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -652,24 +591,9 @@
       "uniprot_id": null
     },
     {
-      "id": "peking_university_cancer_hospital",
-      "class": "Institution",
-      "name": "Peking University Cancer Hospital",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "total_hysterectomy",
+      "id": "adjuvant_therapy",
       "class": "Procedure",
-      "name": "total hysterectomy",
+      "name": "adjuvant therapy",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -682,57 +606,121 @@
       "uniprot_id": null
     },
     {
-      "id": "bilateral_salpingo_oophorectomy",
+      "id": "next_generation_sequencing",
       "class": "Procedure",
-      "name": "bilateral salpingo-oophorectomy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "oncoscreen_plus",
-      "class": "Procedure",
-      "name": "OncoScreen Plus",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "burning_rock_biotech",
-      "class": "Institution",
-      "name": "Burning Rock Biotech",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "copy_number_variations",
-      "class": "Mutation",
-      "name": "copy-number variations",
+      "name": "next-generation sequencing",
       "synonyms": [
-        "CNVs"
+        "NGS"
       ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "multiplex_immunohistochemistry",
+      "class": "Procedure",
+      "name": "multiplex immunohistochemistry",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "support_vector_machine",
+      "class": "Procedure",
+      "name": "support vector machine",
+      "synonyms": [
+        "SVM"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "overall_survival",
+      "class": "Biomarker",
+      "name": "overall survival",
+      "synonyms": [
+        "OS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cd3_t_cells",
+      "class": "Biomarker",
+      "name": "CD3+ T cells",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cd8_t_cells",
+      "class": "Biomarker",
+      "name": "CD8+ T cells",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pd1",
+      "class": "Protein",
+      "name": "PD-1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "pdl1",
+      "class": "Protein",
+      "name": "PD-L1",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -781,224 +769,6 @@
       "name": "whole-genome doubling",
       "synonyms": [
         "WGD"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "rna_sequencing",
-      "class": "Procedure",
-      "name": "RNA sequencing",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "gene_expression_profiling",
-      "class": "Procedure",
-      "name": "gene expression profiling",
-      "synonyms": [
-        "GEP"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cd3",
-      "class": "Protein",
-      "name": "CD3",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cd8",
-      "class": "Protein",
-      "name": "CD8",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pd_1",
-      "class": "Protein",
-      "name": "PD-1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pd_l1",
-      "class": "Protein",
-      "name": "PD-L1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cd68",
-      "class": "Protein",
-      "name": "CD68",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cd163",
-      "class": "Protein",
-      "name": "CD163",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cd56",
-      "class": "Protein",
-      "name": "CD56",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pan_ck",
-      "class": "Protein",
-      "name": "Pan-CK",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "kaplan_meier_curves",
-      "class": "Procedure",
-      "name": "Kaplan-Meier curves",
-      "synonyms": [
-        "KM curves"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "cox_proportional_hazards_regression",
-      "class": "Procedure",
-      "name": "Cox proportional hazards regression",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "concordance_index",
-      "class": "Biomarker",
-      "name": "concordance index",
-      "synonyms": [
-        "C-index"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "area_under_roc_curve",
-      "class": "Biomarker",
-      "name": "area under the ROC curve",
-      "synonyms": [
-        "AUC"
       ],
       "symbol": null,
       "brand_names": [],
@@ -1101,26 +871,9 @@
       "uniprot_id": null
     },
     {
-      "id": "overall_survival",
-      "class": "Biomarker",
-      "name": "overall survival",
-      "synonyms": [
-        "OS"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "t_cells",
-      "class": "AnatomicalStructure",
-      "name": "T cells",
+      "id": "peking_university_cancer_hospital",
+      "class": "Institution",
+      "name": "Peking University Cancer Hospital",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -1133,148 +886,9 @@
       "uniprot_id": null
     },
     {
-      "id": "macrophages",
-      "class": "AnatomicalStructure",
-      "name": "macrophages",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "natural_killer_cells",
-      "class": "AnatomicalStructure",
-      "name": "natural killer cells",
-      "synonyms": [
-        "NK cells"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "tumor_parenchyma",
-      "class": "AnatomicalStructure",
-      "name": "tumour parenchyma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "tumor_stroma",
-      "class": "AnatomicalStructure",
-      "name": "tumour stroma",
-      "synonyms": [
-        "stroma"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "chemoradiotherapy",
-      "class": "Procedure",
-      "name": "chemoradiotherapy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "chemotherapy",
-      "class": "Procedure",
-      "name": "chemotherapy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "radiotherapy",
-      "class": "Procedure",
-      "name": "radiotherapy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "adjuvant_therapy",
-      "class": "Procedure",
-      "name": "adjuvant therapy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "immunotherapy",
-      "class": "Procedure",
-      "name": "immunotherapy",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "precision_oncology",
-      "class": "Procedure",
-      "name": "precision oncology",
+      "id": "burning_rock_biotech",
+      "class": "Institution",
+      "name": "Burning Rock Biotech",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -1924,7 +1538,7 @@
       "entity_id": null,
       "paper_id": "PMC12764803",
       "text_span_id": "background_1",
-      "text": "HRD subtyping identified distinct genomic, pathological, and immunological features. HRD-High tumours were associated with advanced FIGO stages, TP53 mutations, higher chromosomal instability, and elevated CD8\u207aPD-1\u207a T-cell infiltration.",
+      "text": "HRD-High tumours were associated with advanced FIGO stages, TP53 mutations, higher chromosomal instability, and elevated CD8\u207aPD-1\u207a T-cell infiltration.",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "retrospective cohort study",
@@ -1976,7 +1590,7 @@
       "entity_id": null,
       "paper_id": "PMC12764803",
       "text_span_id": "results_2",
-      "text": "HRD-High patients exhibited significantly elevated numbers of CD3+PD-1+ T cells and CD8+PD-1+ T cells in their tumour-immune microenvironment compared to HRD-Middle and HRD-Low groups.",
+      "text": "The HRD score was strongly positively correlated with genomic instability markers, such as SCIN (R = 0.93, p < 0.01) and aneuploidy score (R = 0.83, p < 0.001).",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "retrospective cohort study",
@@ -1988,7 +1602,7 @@
     {
       "subject": "homologous_recombination_deficiency",
       "predicate": "ASSOCIATED_WITH",
-      "object": "genomic_instability",
+      "object": "figo_stage",
       "evidence_ids": [
         "PMC12764803:background:1:llm"
       ],
@@ -2025,7 +1639,7 @@
     },
     {
       "subject": "homologous_recombination_deficiency",
-      "predicate": "ASSOCIATED_WITH",
+      "predicate": "CAUSES",
       "object": "chromosomal_instability",
       "evidence_ids": [
         "PMC12764803:background:1:llm"
@@ -2083,7 +1697,7 @@
     {
       "subject": "homologous_recombination_repair",
       "predicate": "CAUSES",
-      "object": "dna_double_strand_breaks",
+      "object": "dna_damage_response",
       "evidence_ids": [
         "PMC12764803:introduction:1:llm"
       ],
@@ -2101,25 +1715,6 @@
     },
     {
       "subject": "homologous_recombination_repair",
-      "predicate": "CAUSES",
-      "object": "chromosomal_instability",
-      "evidence_ids": [
-        "PMC12764803:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12764803"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "dna_double_strand_breaks",
       "predicate": "ASSOCIATED_WITH",
       "object": "platinum_based_chemotherapy",
       "evidence_ids": [
@@ -2129,7 +1724,7 @@
       "source_papers": [
         "PMC12764803"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -2138,7 +1733,7 @@
       "note": null
     },
     {
-      "subject": "dna_double_strand_breaks",
+      "subject": "homologous_recombination_repair",
       "predicate": "ASSOCIATED_WITH",
       "object": "parp_inhibitors",
       "evidence_ids": [
@@ -2148,7 +1743,7 @@
       "source_papers": [
         "PMC12764803"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "introduction",
@@ -2157,9 +1752,9 @@
       "note": null
     },
     {
-      "subject": "tp53",
+      "subject": "homologous_recombination_deficiency",
       "predicate": "ASSOCIATED_WITH",
-      "object": "homologous_recombination_deficiency",
+      "object": "tp53",
       "evidence_ids": [
         "PMC12764803:results:1:llm"
       ],
@@ -2176,9 +1771,9 @@
       "note": null
     },
     {
-      "subject": "rad51",
+      "subject": "homologous_recombination_deficiency",
       "predicate": "ASSOCIATED_WITH",
-      "object": "homologous_recombination_deficiency",
+      "object": "rad51",
       "evidence_ids": [
         "PMC12764803:results:1:llm"
       ],
@@ -2195,9 +1790,9 @@
       "note": null
     },
     {
-      "subject": "spop",
+      "subject": "homologous_recombination_deficiency",
       "predicate": "ASSOCIATED_WITH",
-      "object": "homologous_recombination_deficiency",
+      "object": "spop",
       "evidence_ids": [
         "PMC12764803:results:1:llm"
       ],
@@ -2214,28 +1809,9 @@
       "note": null
     },
     {
-      "subject": "cd8_pd1_t_cells",
-      "predicate": "LOCATED_IN",
-      "object": "tumor_parenchyma",
-      "evidence_ids": [
-        "PMC12764803:results:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12764803"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "cd8_pd1_t_cells",
-      "predicate": "LOCATED_IN",
-      "object": "tumor_stroma",
+      "subject": "homologous_recombination_deficiency",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "structural_complexity_score",
       "evidence_ids": [
         "PMC12764803:results:2:llm"
       ],
@@ -2254,9 +1830,9 @@
     {
       "subject": "homologous_recombination_deficiency",
       "predicate": "ASSOCIATED_WITH",
-      "object": "endometrial_cancer",
+      "object": "aneuploidy_score",
       "evidence_ids": [
-        "PMC12764803:background:1:llm"
+        "PMC12764803:results:2:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -2265,37 +1841,16 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "tcga_molecular_classification",
-      "predicate": "INDICATES",
-      "object": "disease_free_survival",
-      "evidence_ids": [
-        "PMC12764803:background:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12764803"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "background",
+      "section": "results",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "loss_of_heterozygosity",
-      "predicate": "ASSOCIATED_WITH",
+      "predicate": "SUBTYPE_OF",
       "object": "homologous_recombination_deficiency",
-      "evidence_ids": [
-        "PMC12764803:background:1:llm"
-      ],
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
         "PMC12764803"
@@ -2303,18 +1858,16 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "background",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "telomeric_allelic_imbalance",
-      "predicate": "ASSOCIATED_WITH",
+      "predicate": "SUBTYPE_OF",
       "object": "homologous_recombination_deficiency",
-      "evidence_ids": [
-        "PMC12764803:background:1:llm"
-      ],
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
         "PMC12764803"
@@ -2322,18 +1875,16 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "background",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "large_scale_state_transitions",
-      "predicate": "ASSOCIATED_WITH",
+      "predicate": "SUBTYPE_OF",
       "object": "homologous_recombination_deficiency",
-      "evidence_ids": [
-        "PMC12764803:background:1:llm"
-      ],
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
         "PMC12764803"
@@ -2341,26 +1892,7 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "homologous_recombination_deficiency",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "immune_checkpoint_inhibitors",
-      "evidence_ids": [
-        "PMC12764803:results:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12764803"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "suggested",
-      "properties": {},
-      "section": "results",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -3252,7 +2784,7 @@
     {
       "subject": "Paper:PMC12764803",
       "predicate": "DESCRIBED",
-      "object": "cd8_pd1_t_cells",
+      "object": "homologous_recombination_repair",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

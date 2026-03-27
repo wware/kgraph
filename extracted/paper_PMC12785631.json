@@ -4,7 +4,7 @@
     "pmcid": "PMC12785631",
     "title": "The Role of Aurora Kinase A in HBV-Associated Hepatocellular Carcinomas: A Molecular and Immunohistochemical Study",
     "authors": [
-      "Not specified"
+      "Agaoglu"
     ],
     "author_details": [
       {
@@ -63,8 +63,8 @@
       }
     ],
     "document_id": "PMC12785631",
-    "journal": "Not specified",
-    "year": null,
+    "journal": "Unknown",
+    "year": 2024,
     "study_type": "molecular and immunohistochemical study",
     "eco_type": "experimental",
     "study_design": {
@@ -112,8 +112,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
-      "git_commit_short": "ddc6f2c",
+      "git_commit": "90a99848d39656b5967584e433057785927b9f66",
+      "git_commit_short": "90a9984",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -127,14 +127,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:1f1f305f4d40fe6e",
-      "schema_version": "ee629fa5"
+      "checksum": "sha256:24f3d35980d5c87b",
+      "schema_version": "7a015e0d"
     },
     "execution": {
-      "timestamp": "2026-03-21T15:30:46.265827Z",
+      "timestamp": "2026-03-27T20:18:43.190308Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 71.61
+      "duration_seconds": 53.9
     },
     "entity_resolution": null,
     "model_info": null
@@ -209,7 +209,7 @@
       "uniprot_id": null
     },
     {
-      "id": "HBV-HCC",
+      "id": "HBV_HCC",
       "class": "Disease",
       "name": "hepatitis B virus-associated hepatocellular carcinoma",
       "synonyms": [
@@ -226,7 +226,7 @@
       "uniprot_id": null
     },
     {
-      "id": "Cr-HCC",
+      "id": "Cr_HCC",
       "class": "Disease",
       "name": "cryptogenic hepatocellular carcinoma",
       "synonyms": [
@@ -260,25 +260,8 @@
       "uniprot_id": null
     },
     {
-      "id": "CNV",
-      "class": "Mutation",
-      "name": "copy number variation",
-      "synonyms": [
-        "CNV"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C3178846",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "P53Ser315",
-      "class": "Protein",
+      "class": "Biomarker",
       "name": "phospho-P53Ser315",
       "synonyms": [
         "Phospho-p53Ser315"
@@ -295,10 +278,27 @@
     },
     {
       "id": "PLK1Thr210",
-      "class": "Protein",
+      "class": "Biomarker",
       "name": "phospho-PLK1Thr210",
       "synonyms": [
         "Phospho-PLK1Thr210"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "CNV",
+      "class": "Mutation",
+      "name": "copy number variation",
+      "synonyms": [
+        "CNV"
       ],
       "symbol": null,
       "brand_names": [],
@@ -346,23 +346,6 @@
       "uniprot_id": null
     },
     {
-      "id": "cell_cycle",
-      "class": "BiologicalProcess",
-      "name": "cell cycle progression",
-      "synonyms": [
-        "cell division cycle"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0007586",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "centrosome",
       "class": "AnatomicalStructure",
       "name": "centrosome",
@@ -378,17 +361,32 @@
       "uniprot_id": null
     },
     {
-      "id": "mitosis",
+      "id": "cell_cycle",
       "class": "BiologicalProcess",
-      "name": "mitosis",
+      "name": "cell cycle progression",
       "synonyms": [
-        "mitotic"
+        "cell division cycle"
       ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0026255",
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "mitosis",
+      "class": "BiologicalProcess",
+      "name": "mitosis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -405,7 +403,7 @@
       "brand_names": [],
       "source": "extracted",
       "canonical_id": null,
-      "umls_id": "C0919532",
+      "umls_id": null,
       "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
@@ -439,38 +437,6 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": "HGNC:6973",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "G2_M_checkpoint",
-      "class": "BiologicalProcess",
-      "name": "G2/M checkpoint",
-      "synonyms": [
-        "G2/M cell cycle arrest"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C1155872",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "DNA_damage",
-      "class": "BiologicalProcess",
-      "name": "DNA damage",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0012860",
-      "hgnc_id": null,
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -555,6 +521,83 @@
       "uniprot_id": null
     },
     {
+      "id": "G2_M_checkpoint",
+      "class": "BiologicalProcess",
+      "name": "G2/M checkpoint",
+      "synonyms": [
+        "G2/M phase"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "DNA_damage_checkpoint",
+      "class": "BiologicalProcess",
+      "name": "DNA damage checkpoint",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "centrosome_amplification",
+      "class": "Symptom",
+      "name": "centrosome amplification",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "oncogenic_transformation",
+      "class": "BiologicalProcess",
+      "name": "oncogenic transformation",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "phosphorylation",
+      "class": "BiologicalProcess",
+      "name": "phosphorylation",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "TMA",
       "class": "Procedure",
       "name": "tissue microarray",
@@ -589,226 +632,12 @@
       "uniprot_id": null
     },
     {
-      "id": "36B4",
-      "class": "Gene",
-      "name": "36B4",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
       "id": "FFPE",
       "class": "Procedure",
       "name": "formalin-fixed paraffin-embedded",
       "synonyms": [
         "FFPE"
       ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "RNA_fragmentation",
-      "class": "BiologicalProcess",
-      "name": "RNA fragmentation",
-      "synonyms": [
-        "RNA degradation"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "LI-RADS",
-      "class": "Procedure",
-      "name": "Liver Imaging Reporting and Data System",
-      "synonyms": [
-        "LI-RADS"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "CT_MRI",
-      "class": "Procedure",
-      "name": "dynamic contrast-enhanced CT/MRI",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "Cyclin_D1",
-      "class": "Protein",
-      "name": "Cyclin D1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1582",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "CDKN1A",
-      "class": "Gene",
-      "name": "CDKN1A",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1784",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "KRAS",
-      "class": "Gene",
-      "name": "KRAS",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:6407",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "CDC2",
-      "class": "Protein",
-      "name": "CDC2",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1722",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "ubiquitination",
-      "class": "BiologicalProcess",
-      "name": "ubiquitination",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C1519751",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "proteolysis",
-      "class": "BiologicalProcess",
-      "name": "proteolysis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C0597304",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "oncogenic_transformation",
-      "class": "BiologicalProcess",
-      "name": "oncogenic transformation",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": "C1519614",
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "centrosome_amplification",
-      "class": "BiologicalProcess",
-      "name": "centrosome amplification",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "spindle_formation",
-      "class": "BiologicalProcess",
-      "name": "bipolar spindle formation",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "chromosome_segregation",
-      "class": "BiologicalProcess",
-      "name": "chromosome segregation",
-      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -1472,7 +1301,7 @@
       "entity_id": null,
       "paper_id": "PMC12785631",
       "text_span_id": "results_1",
-      "text": "AURKA level was significantly increased in both test groups (p < 0.001). At the protein level, AURKA was significantly higher in both cancer groups compared to the control group (p < 0.001).",
+      "text": "AURKA level was significantly increased in both test groups (p < 0.001)",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "molecular and immunohistochemical study",
@@ -1485,7 +1314,7 @@
       "entity_id": null,
       "paper_id": "PMC12785631",
       "text_span_id": "results_2",
-      "text": "Phospho-P53Ser315 levels were significantly higher in both HBV-HCC and Cr-HCC groups compared to the control group (p = 0.002 and p < 0.001, respectively). Cr-HCC cases also showed significantly higher levels compared to HBV-HCC (p = 0.025).",
+      "text": "Phospho-P53Ser315 levels were significantly higher in both HBV-HCC and Cr-HCC groups compared to the control group",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "molecular and immunohistochemical study",
@@ -1498,7 +1327,7 @@
       "entity_id": null,
       "paper_id": "PMC12785631",
       "text_span_id": "results_3",
-      "text": "For phospho-PLK1Thr210, Cr-HCC cases showed statistically higher expression compared to both the control group and HBV-HCC cases (p = 0.001).",
+      "text": "For phospho-PLK1Thr210, Cr-HCC cases showed statistically higher expression compared to both the control group and HBV-HCC cases",
       "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "molecular and immunohistochemical study",
@@ -1510,8 +1339,8 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12785631",
-      "text_span_id": "introduction_1",
-      "text": "AURKA, which phosphorylates multiple kinases and phosphatases, influences diverse cellular processes including cell cycle progression, centrosome regulation, bipolar spindle formation, and chromosome segregation.",
+      "text_span_id": "intro_1",
+      "text": "AURKA directly phosphorylates the Thr210 residue within the PLK1 kinase domain, initiating mitotic progression",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "molecular and immunohistochemical study",
@@ -1523,8 +1352,8 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12785631",
-      "text_span_id": "introduction_2",
-      "text": "AURKA directly phosphorylates the Thr210 residue within the PLK1 kinase domain, initiating mitotic progression.",
+      "text_span_id": "intro_2",
+      "text": "Overexpression of AURKA has been shown to destabilize p53 through Ser315 phosphorylation",
       "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "molecular and immunohistochemical study",
@@ -1536,35 +1365,9 @@
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12785631",
-      "text_span_id": "introduction_3",
-      "text": "Overexpression of AURKA has been shown to destabilize p53 through Ser315 phosphorylation, leading to loss of function, centrosome amplification, chromosomal instability, and oncogenic transformation.",
+      "text_span_id": "intro_3",
+      "text": "HBx interacts with and binds to p53, thereby suppressing key tumor-suppressive mechanisms",
       "confidence": 0.9,
-      "extraction_method": "llm",
-      "study_type": "molecular and immunohistochemical study",
-      "eco_type": "experimental",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC12785631:introduction:4:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC12785631",
-      "text_span_id": "introduction_4",
-      "text": "In HBV-related HCC, the hepatitis B viral protein HBx interacts with and binds to p53, thereby suppressing key tumor-suppressive mechanisms.",
-      "confidence": 0.9,
-      "extraction_method": "llm",
-      "study_type": "molecular and immunohistochemical study",
-      "eco_type": "experimental",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC12785631:results:4:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC12785631",
-      "text_span_id": "results_4",
-      "text": "There was no increase in AURKA gene copy number among the groups (2\u2212\u2206\u2206Ct < 2).",
-      "confidence": 0.95,
       "extraction_method": "llm",
       "study_type": "molecular and immunohistochemical study",
       "eco_type": "experimental",
@@ -1574,8 +1377,46 @@
   "relationships": [
     {
       "subject": "AURKA",
+      "predicate": "CAUSES",
+      "object": "HBV_HCC",
+      "evidence_ids": [
+        "PMC12785631:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "AURKA",
+      "predicate": "CAUSES",
+      "object": "Cr_HCC",
+      "evidence_ids": [
+        "PMC12785631:results:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "AURKA",
       "predicate": "REGULATES",
-      "object": "cell_cycle",
+      "object": "PLK1",
       "evidence_ids": [
         "PMC12785631:introduction:1:llm"
       ],
@@ -1594,6 +1435,197 @@
     {
       "subject": "AURKA",
       "predicate": "REGULATES",
+      "object": "P53",
+      "evidence_ids": [
+        "PMC12785631:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "AURKA",
+      "predicate": "REGULATES",
+      "object": "BRCA1",
+      "evidence_ids": [
+        "PMC12785631:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "AURKA",
+      "predicate": "CAUSES",
+      "object": "phosphorylation",
+      "evidence_ids": [
+        "PMC12785631:introduction:1:llm",
+        "PMC12785631:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "phosphorylation",
+      "predicate": "CAUSES",
+      "object": "mitosis",
+      "evidence_ids": [
+        "PMC12785631:introduction:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "AURKA",
+      "predicate": "CAUSES",
+      "object": "centrosome_amplification",
+      "evidence_ids": [
+        "PMC12785631:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "AURKA",
+      "predicate": "CAUSES",
+      "object": "genomic_instability",
+      "evidence_ids": [
+        "PMC12785631:introduction:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "HBx",
+      "predicate": "INTERACTS_WITH",
+      "object": "P53",
+      "evidence_ids": [
+        "PMC12785631:introduction:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "introduction",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "P53Ser315",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "HBV_HCC",
+      "evidence_ids": [
+        "PMC12785631:results:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "P53Ser315",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "Cr_HCC",
+      "evidence_ids": [
+        "PMC12785631:results:2:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "PLK1Thr210",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "Cr_HCC",
+      "evidence_ids": [
+        "PMC12785631:results:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12785631"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "results",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "AURKA",
+      "predicate": "LOCATED_IN",
       "object": "centrosome",
       "evidence_ids": [
         "PMC12785631:introduction:1:llm"
@@ -1611,295 +1643,17 @@
       "note": null
     },
     {
-      "subject": "AURKA",
-      "predicate": "REGULATES",
-      "object": "spindle_formation",
-      "evidence_ids": [
-        "PMC12785631:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "AURKA",
-      "predicate": "REGULATES",
-      "object": "chromosome_segregation",
-      "evidence_ids": [
-        "PMC12785631:introduction:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "AURKA",
-      "predicate": "CAUSES",
-      "object": "P53Ser315",
-      "evidence_ids": [
-        "PMC12785631:introduction:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "mechanism": "phosphorylation"
-      },
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "AURKA",
-      "predicate": "CAUSES",
-      "object": "PLK1Thr210",
-      "evidence_ids": [
-        "PMC12785631:introduction:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "mechanism": "phosphorylation"
-      },
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "P53Ser315",
-      "predicate": "CAUSES",
-      "object": "centrosome_amplification",
-      "evidence_ids": [
-        "PMC12785631:introduction:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "P53Ser315",
-      "predicate": "CAUSES",
-      "object": "genomic_instability",
-      "evidence_ids": [
-        "PMC12785631:introduction:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "P53Ser315",
-      "predicate": "CAUSES",
-      "object": "oncogenic_transformation",
-      "evidence_ids": [
-        "PMC12785631:introduction:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "HBx",
-      "predicate": "INTERACTS_WITH",
-      "object": "P53",
-      "evidence_ids": [
-        "PMC12785631:introduction:4:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "PLK1Thr210",
-      "predicate": "REGULATES",
-      "object": "mitosis",
-      "evidence_ids": [
-        "PMC12785631:introduction:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "introduction",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "AURKA",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "HBV-HCC",
-      "evidence_ids": [
-        "PMC12785631:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "expression_level": "increased"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "AURKA",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "Cr-HCC",
-      "evidence_ids": [
-        "PMC12785631:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "expression_level": "increased"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "P53Ser315",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "HBV-HCC",
-      "evidence_ids": [
-        "PMC12785631:results:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "expression_level": "increased"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "P53Ser315",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "Cr-HCC",
-      "evidence_ids": [
-        "PMC12785631:results:2:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "expression_level": "increased"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "PLK1Thr210",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "Cr-HCC",
-      "evidence_ids": [
-        "PMC12785631:results:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12785631"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {
-        "expression_level": "increased"
-      },
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
       "subject": "MLN8237",
       "predicate": "INHIBITS",
       "object": "AURKA",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "PMC12785631:results:1:llm"
+      ],
       "provenance": [],
       "source_papers": [
         "PMC12785631"
       ],
-      "confidence": 0.8,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "discussion",
@@ -1911,7 +1665,9 @@
       "subject": "atezolizumab",
       "predicate": "TREATS",
       "object": "HCC",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "PMC12785631:introduction:1:llm"
+      ],
       "provenance": [],
       "source_papers": [
         "PMC12785631"
@@ -1928,7 +1684,9 @@
       "subject": "bevacizumab",
       "predicate": "TREATS",
       "object": "HCC",
-      "evidence_ids": [],
+      "evidence_ids": [
+        "PMC12785631:introduction:1:llm"
+      ],
       "provenance": [],
       "source_papers": [
         "PMC12785631"
@@ -2709,7 +2467,7 @@
     {
       "subject": "Paper:PMC12785631",
       "predicate": "DESCRIBED",
-      "object": "P53Ser315",
+      "object": "Cr_HCC",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

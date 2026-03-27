@@ -122,8 +122,8 @@
     "document_id": "PMC12775561",
     "journal": "Unknown",
     "year": 2024,
-    "study_type": "comparative analysis",
-    "eco_type": "real-world data",
+    "study_type": "comparative study",
+    "eco_type": "real-world data analysis",
     "study_design": {
       "study_type": "observational",
       "sample_size": 1046,
@@ -163,8 +163,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
-      "git_commit_short": "ddc6f2c",
+      "git_commit": "90a99848d39656b5967584e433057785927b9f66",
+      "git_commit_short": "90a9984",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -178,14 +178,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:1f1f305f4d40fe6e",
-      "schema_version": "ee629fa5"
+      "checksum": "sha256:24f3d35980d5c87b",
+      "schema_version": "7a015e0d"
     },
     "execution": {
-      "timestamp": "2026-03-21T15:21:38.640683Z",
+      "timestamp": "2026-03-27T19:45:19.307727Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 92.22
+      "duration_seconds": 60.09
     },
     "entity_resolution": null,
     "model_info": null
@@ -246,126 +246,6 @@
     },
     {
       "id": "entity_4",
-      "class": "Mutation",
-      "name": "fusion genes",
-      "synonyms": [
-        "gene fusions"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_5",
-      "class": "Mutation",
-      "name": "kinase fusions",
-      "synonyms": [
-        "therapeutically targetable kinase fusions"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_6",
-      "class": "Disease",
-      "name": "translocation-related sarcomas",
-      "synonyms": [
-        "TRS"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_7",
-      "class": "Mutation",
-      "name": "germline pathogenic variants",
-      "synonyms": [
-        "GPVs",
-        "pathogenic germline variants"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_8",
-      "class": "Institution",
-      "name": "Center for Cancer Genomics and Advanced Therapeutics",
-      "synonyms": [
-        "C-CAT"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_9",
-      "class": "Procedure",
-      "name": "next-generation sequencing",
-      "synonyms": [
-        "NGS"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_10",
-      "class": "Procedure",
-      "name": "cancer genomic profiling",
-      "synonyms": [
-        "CGP"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_11",
       "class": "Gene",
       "name": "EWSR1",
       "synonyms": [],
@@ -380,7 +260,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_12",
+      "id": "entity_5",
       "class": "Gene",
       "name": "FLI1",
       "synonyms": [],
@@ -395,9 +275,24 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_13",
-      "class": "Mutation",
-      "name": "EWSR1::FLI1 fusion",
+      "id": "entity_6",
+      "class": "Gene",
+      "name": "SYT",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11541",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_7",
+      "class": "Gene",
+      "name": "SSX",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -410,7 +305,22 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_14",
+      "id": "entity_8",
+      "class": "Gene",
+      "name": "MDM2",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:6973",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_9",
       "class": "Disease",
       "name": "Ewing sarcoma",
       "synonyms": [
@@ -427,52 +337,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_15",
-      "class": "Gene",
-      "name": "SYT",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:11541",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_16",
-      "class": "Gene",
-      "name": "SSX",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_17",
-      "class": "Mutation",
-      "name": "SYT::SSX fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_18",
+      "id": "entity_10",
       "class": "Disease",
       "name": "synovial sarcoma",
       "synonyms": [
@@ -489,37 +354,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_19",
-      "class": "Gene",
-      "name": "MDM2",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:6973",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_20",
-      "class": "Mutation",
-      "name": "MDM2 amplification",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_21",
+      "id": "entity_11",
       "class": "Disease",
       "name": "dedifferentiated liposarcoma",
       "synonyms": [
@@ -536,7 +371,84 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_22",
+      "id": "entity_12",
+      "class": "Mutation",
+      "name": "EWSR1::FLI1 fusion",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_13",
+      "class": "Mutation",
+      "name": "SYT::SSX fusion",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_14",
+      "class": "Mutation",
+      "name": "MDM2 amplification",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_15",
+      "class": "Institution",
+      "name": "Center for Cancer Genomics and Advanced Therapeutics",
+      "synonyms": [
+        "C-CAT"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_16",
+      "class": "Location",
+      "name": "Japan",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_17",
       "class": "Gene",
       "name": "TP53",
       "synonyms": [],
@@ -551,22 +463,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_23",
-      "class": "Gene",
-      "name": "KIT",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:6342",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_24",
+      "id": "entity_18",
       "class": "Gene",
       "name": "RB1",
       "synonyms": [],
@@ -581,22 +478,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_25",
-      "class": "Gene",
-      "name": "TERT",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:11730",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_26",
+      "id": "entity_19",
       "class": "Gene",
       "name": "NF1",
       "synonyms": [],
@@ -606,6 +488,115 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": "HGNC:7765",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_20",
+      "class": "Gene",
+      "name": "BRCA1",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1100",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_21",
+      "class": "Biomarker",
+      "name": "germline pathogenic variants",
+      "synonyms": [
+        "GPVs"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_22",
+      "class": "Disease",
+      "name": "translocation-related sarcomas",
+      "synonyms": [
+        "TRS"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_23",
+      "class": "Procedure",
+      "name": "molecular targeted therapy",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_24",
+      "class": "Procedure",
+      "name": "genotype-matched therapy",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_25",
+      "class": "Gene",
+      "name": "KIT",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:6342",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_26",
+      "class": "Gene",
+      "name": "TERT",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:11730",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -628,42 +619,8 @@
     {
       "id": "entity_28",
       "class": "Gene",
-      "name": "CDKN2A",
-      "synonyms": [
-        "cyclin-dependent kinase inhibitor 2A"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1787",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_29",
-      "class": "Gene",
-      "name": "CDKN2B",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1788",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_30",
-      "class": "Gene",
       "name": "CDK4",
-      "synonyms": [
-        "cyclin-dependent kinase 4"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -675,7 +632,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_31",
+      "id": "entity_29",
       "class": "Gene",
       "name": "CCND3",
       "synonyms": [],
@@ -685,6 +642,36 @@
       "canonical_id": null,
       "umls_id": null,
       "hgnc_id": "HGNC:1585",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_30",
+      "class": "Gene",
+      "name": "CDKN2A",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1787",
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_31",
+      "class": "Gene",
+      "name": "CDKN2B",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": "HGNC:1788",
       "rxnorm_id": null,
       "loinc_code": null,
       "uniprot_id": null
@@ -755,757 +742,6 @@
     },
     {
       "id": "entity_36",
-      "class": "Disease",
-      "name": "fibrosarcoma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_37",
-      "class": "Disease",
-      "name": "dermatofibrosarcoma protuberans",
-      "synonyms": [
-        "DFSP"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_38",
-      "class": "Gene",
-      "name": "COL1A1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:2197",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_39",
-      "class": "Gene",
-      "name": "PDGFB",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:8800",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_40",
-      "class": "Mutation",
-      "name": "COL1A1-PDGFB fusion",
-      "synonyms": [
-        "COL1A1::PDGFB"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_41",
-      "class": "Gene",
-      "name": "CIC",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:14214",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_42",
-      "class": "Gene",
-      "name": "DUX4",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:50800",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_43",
-      "class": "Mutation",
-      "name": "CIC::DUX4 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_44",
-      "class": "Disease",
-      "name": "CIC-rearranged sarcoma",
-      "synonyms": [
-        "CIC"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_45",
-      "class": "Gene",
-      "name": "NR4A3",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:7982",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_46",
-      "class": "Mutation",
-      "name": "NR4A3::EWSR1 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_47",
-      "class": "Disease",
-      "name": "extraskeletal myxoid chondrosarcoma",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_48",
-      "class": "Gene",
-      "name": "EML4",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:19834",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_49",
-      "class": "Gene",
-      "name": "NTRK3",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:8033",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_50",
-      "class": "Mutation",
-      "name": "EML4::NTRK3 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_51",
-      "class": "Disease",
-      "name": "NTRK-rearranged spindle cell neoplasm",
-      "synonyms": [
-        "NTRK"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_52",
-      "class": "Gene",
-      "name": "BCOR",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:20893",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_53",
-      "class": "Gene",
-      "name": "CCNB3",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1580",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_54",
-      "class": "Mutation",
-      "name": "BCOR::CCNB3 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_55",
-      "class": "Disease",
-      "name": "sarcoma with BCOR genetic alterations",
-      "synonyms": [
-        "BCOR"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_56",
-      "class": "Gene",
-      "name": "SSX1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:11335",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_57",
-      "class": "Mutation",
-      "name": "EWSR1::SSX1 fusion",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_58",
-      "class": "Gene",
-      "name": "NTRK",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_59",
-      "class": "Gene",
-      "name": "FGFR",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_60",
-      "class": "Gene",
-      "name": "BRAF",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1097",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_61",
-      "class": "Gene",
-      "name": "RAF1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:9829",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_62",
-      "class": "Gene",
-      "name": "ALK",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:427",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_63",
-      "class": "Gene",
-      "name": "RET",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:9967",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_64",
-      "class": "Gene",
-      "name": "ROS1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:10261",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_65",
-      "class": "Gene",
-      "name": "EGFR",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:3236",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_66",
-      "class": "Biomarker",
-      "name": "tumor mutation burden",
-      "synonyms": [
-        "TMB"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_67",
-      "class": "Biomarker",
-      "name": "microsatellite instability",
-      "synonyms": [
-        "MSI"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_68",
-      "class": "Drug",
-      "name": "imatinib",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "282388",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_69",
-      "class": "Drug",
-      "name": "doxorubicin",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "3639",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_70",
-      "class": "Drug",
-      "name": "pazopanib",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "1094499",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_71",
-      "class": "Drug",
-      "name": "larotrectinib",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "2058257",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_72",
-      "class": "Drug",
-      "name": "pembrolizumab",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "1547545",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_73",
-      "class": "Drug",
-      "name": "crizotinib",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "1148092",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_74",
-      "class": "Drug",
-      "name": "alectinib",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "1723476",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_75",
-      "class": "Drug",
-      "name": "entrectinib",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": "2284718",
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_76",
-      "class": "Gene",
-      "name": "BRCA1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1100",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_77",
-      "class": "Gene",
-      "name": "BRCA2",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:1101",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_78",
-      "class": "Gene",
-      "name": "PMS2",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": "HGNC:9122",
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_79",
-      "class": "Disease",
-      "name": "neurofibromatosis type 1",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_80",
-      "class": "Disease",
-      "name": "Li-Fraumeni syndrome",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_81",
-      "class": "Drug",
-      "name": "PARP inhibitors",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_82",
-      "class": "Location",
-      "name": "Japan",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_83",
-      "class": "Institution",
-      "name": "National Cancer Center",
-      "synonyms": [
-        "NCC"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_84",
-      "class": "Institution",
-      "name": "Okayama University Hospital",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "entity_85",
       "class": "Author",
       "name": "Eiji Nakata",
       "synonyms": [],
@@ -1520,7 +756,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_86",
+      "id": "entity_37",
       "class": "Author",
       "name": "Kiichiro Ninomiya",
       "synonyms": [],
@@ -1535,7 +771,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_87",
+      "id": "entity_38",
       "class": "Author",
       "name": "Tatsunori Osone",
       "synonyms": [],
@@ -1550,7 +786,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_88",
+      "id": "entity_39",
       "class": "Author",
       "name": "Daisuke Ennishi",
       "synonyms": [],
@@ -1565,7 +801,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_89",
+      "id": "entity_40",
       "class": "Author",
       "name": "Shuta Tomida",
       "synonyms": [],
@@ -1580,7 +816,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_90",
+      "id": "entity_41",
       "class": "Author",
       "name": "Tomohiro Fujiwara",
       "synonyms": [],
@@ -1595,7 +831,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_91",
+      "id": "entity_42",
       "class": "Author",
       "name": "Toshiyuki Kunisada",
       "synonyms": [],
@@ -1610,7 +846,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_92",
+      "id": "entity_43",
       "class": "Author",
       "name": "Mashu Futagawa",
       "synonyms": [],
@@ -1625,7 +861,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_93",
+      "id": "entity_44",
       "class": "Author",
       "name": "Akira Hirasawa",
       "synonyms": [],
@@ -1640,7 +876,7 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_94",
+      "id": "entity_45",
       "class": "Author",
       "name": "Shinichi Toyooka",
       "synonyms": [],
@@ -1655,9 +891,24 @@
       "uniprot_id": null
     },
     {
-      "id": "entity_95",
+      "id": "entity_46",
       "class": "Author",
       "name": "Toshifumi Ozaki",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "entity_47",
+      "class": "Institution",
+      "name": "Okayama University Hospital",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -2265,8 +1516,8 @@
       "text": "The dual DNA\u2013RNA test identified significantly more fusion genes (20.3% vs. 7.4%, p < 0.001) and therapeutically targetable kinase fusions (3.5% vs. 1.2%, p = 0.019) than the DNA\u2010only test.",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "comparative analysis",
-      "eco_type": "real-world data",
+      "study_type": "comparative study",
+      "eco_type": "real-world data analysis",
       "source": "extracted"
     },
     {
@@ -2278,77 +1529,230 @@
       "text": "Among patients with translocation\u2010related sarcomas, histology\u2010specific fusion genes were identified in 77.5% using the dual panel, compared to 40.0% with the DNA\u2010only panel (p < 0.001).",
       "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "comparative analysis",
-      "eco_type": "real-world data",
+      "study_type": "comparative study",
+      "eco_type": "real-world data analysis",
       "source": "extracted"
     },
     {
-      "id": "PMC12775561:results:1:llm",
+      "id": "PMC12775561:abstract:3:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12775561",
-      "text_span_id": "results_1",
-      "text": "Two patients initially diagnosed with fibrosarcoma were reclassified as dermatofibrosarcoma protuberans (DFSP) based on the presence of the COL1A1\u2010PDGFB fusion.",
-      "confidence": 0.9,
+      "text_span_id": "abstract_3",
+      "text": "In non\u2010gastrointestinal stromal tumor sarcomas, the dual test showed a trend toward higher rates of genotype\u2010matched therapy (4.3% vs. 2.6%, p = 0.25) and a significantly higher rate of molecular targeted therapy (4.3% vs. 1.5%, p = 0.03).",
+      "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "comparative analysis",
-      "eco_type": "real-world data",
+      "study_type": "comparative study",
+      "eco_type": "real-world data analysis",
       "source": "extracted"
     },
     {
-      "id": "PMC12775561:results:2:llm",
+      "id": "PMC12775561:abstract:4:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC12775561",
-      "text_span_id": "results_2",
-      "text": "GPVs were detected in 21 patients (5.7%) using the tumor\u2013normal matched GenMineTOP panel.",
-      "confidence": 0.9,
+      "text_span_id": "abstract_4",
+      "text": "Additionally, 5.7% of patients had pathogenic germline variants identified through tumor\u2013normal matched analysis.",
+      "confidence": 0.95,
       "extraction_method": "llm",
-      "study_type": "comparative analysis",
-      "eco_type": "real-world data",
-      "source": "extracted"
-    },
-    {
-      "id": "PMC12775561:discussion:1:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC12775561",
-      "text_span_id": "discussion_1",
-      "text": "FS\u2010DFSP is classified as an intermediate tumor under the WHO classification and is typically treated with imatinib as first\u2010line therapy per NCCN guidelines, whereas fibrosarcoma is considered malignant and generally treated with doxorubicin.",
-      "confidence": 0.85,
-      "extraction_method": "llm",
-      "study_type": "comparative analysis",
-      "eco_type": "real-world data",
+      "study_type": "comparative study",
+      "eco_type": "real-world data analysis",
       "source": "extracted"
     }
   ],
   "relationships": [
     {
-      "subject": "entity_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_4",
-      "evidence_ids": [
-        "PMC12775561:abstract:1:llm"
-      ],
+      "subject": "entity_36",
+      "predicate": "AUTHORED",
+      "object": "PMC12775561",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
         "PMC12775561"
       ],
-      "confidence": 0.95,
+      "confidence": 1.0,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "title",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_5",
-      "evidence_ids": [
-        "PMC12775561:abstract:1:llm"
+      "subject": "entity_37",
+      "predicate": "AUTHORED",
+      "object": "PMC12775561",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12775561"
       ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "title",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_38",
+      "predicate": "AUTHORED",
+      "object": "PMC12775561",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12775561"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "title",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_39",
+      "predicate": "AUTHORED",
+      "object": "PMC12775561",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12775561"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "title",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_40",
+      "predicate": "AUTHORED",
+      "object": "PMC12775561",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12775561"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "title",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_41",
+      "predicate": "AUTHORED",
+      "object": "PMC12775561",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12775561"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "title",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_42",
+      "predicate": "AUTHORED",
+      "object": "PMC12775561",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12775561"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "title",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_43",
+      "predicate": "AUTHORED",
+      "object": "PMC12775561",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12775561"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "title",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_44",
+      "predicate": "AUTHORED",
+      "object": "PMC12775561",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12775561"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "title",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_45",
+      "predicate": "AUTHORED",
+      "object": "PMC12775561",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12775561"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "title",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_46",
+      "predicate": "AUTHORED",
+      "object": "PMC12775561",
+      "evidence_ids": [],
+      "provenance": [],
+      "source_papers": [
+        "PMC12775561"
+      ],
+      "confidence": 1.0,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "title",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_12",
+      "predicate": "ASSOCIATED_WITH",
+      "object": "entity_9",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
         "PMC12775561"
@@ -2356,7 +1760,7 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -2364,202 +1768,128 @@
     {
       "subject": "entity_13",
       "predicate": "ASSOCIATED_WITH",
-      "object": "entity_14",
-      "evidence_ids": [
-        "PMC12775561:abstract:1:llm"
-      ],
+      "object": "entity_10",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
         "PMC12775561"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_17",
+      "subject": "entity_14",
       "predicate": "ASSOCIATED_WITH",
-      "object": "entity_18",
-      "evidence_ids": [
-        "PMC12775561:abstract:1:llm"
-      ],
+      "object": "entity_11",
+      "evidence_ids": [],
       "provenance": [],
       "source_papers": [
         "PMC12775561"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_20",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_21",
-      "evidence_ids": [
-        "PMC12775561:abstract:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12775561"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_40",
-      "predicate": "CAUSES",
-      "object": "entity_36",
-      "evidence_ids": [
-        "PMC12775561:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12775561"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_40",
-      "predicate": "CAUSES",
-      "object": "entity_37",
-      "evidence_ids": [
-        "PMC12775561:results:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12775561"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "results",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_68",
-      "predicate": "TREATS",
-      "object": "entity_37",
-      "evidence_ids": [
-        "PMC12775561:discussion:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12775561"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "discussion",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "entity_69",
-      "predicate": "TREATS",
-      "object": "entity_36",
-      "evidence_ids": [
-        "PMC12775561:discussion:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC12775561"
-      ],
-      "confidence": 0.85,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "discussion",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
       "subject": "entity_1",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "entity_7",
+      "predicate": "INDICATES",
+      "object": "entity_21",
       "evidence_ids": [
-        "PMC12775561:results:2:llm"
+        "PMC12775561:abstract:4:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC12775561"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "results",
+      "section": "abstract",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_85",
-      "predicate": "AFFILIATED_WITH",
-      "object": "entity_84",
-      "evidence_ids": [],
+      "subject": "entity_1",
+      "predicate": "TREATS",
+      "object": "entity_3",
+      "evidence_ids": [
+        "PMC12775561:abstract:1:llm",
+        "PMC12775561:abstract:2:llm",
+        "PMC12775561:abstract:3:llm"
+      ],
       "provenance": [],
       "source_papers": [
         "PMC12775561"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "metadata",
+      "section": "abstract",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_8",
+      "subject": "entity_2",
+      "predicate": "TREATS",
+      "object": "entity_3",
+      "evidence_ids": [
+        "PMC12775561:abstract:1:llm",
+        "PMC12775561:abstract:2:llm",
+        "PMC12775561:abstract:3:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC12775561"
+      ],
+      "confidence": 0.95,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "abstract",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "entity_15",
       "predicate": "LOCATED_IN",
-      "object": "entity_82",
+      "object": "entity_16",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
         "PMC12775561"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "methods",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "entity_83",
+      "subject": "entity_47",
       "predicate": "LOCATED_IN",
-      "object": "entity_82",
+      "object": "entity_16",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
         "PMC12775561"
       ],
-      "confidence": 0.9,
+      "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "methods",
+      "section": "ethics",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -3417,7 +2747,7 @@
     {
       "subject": "Paper:PMC12775561",
       "predicate": "DESCRIBED",
-      "object": "entity_36",
+      "object": "entity_3",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

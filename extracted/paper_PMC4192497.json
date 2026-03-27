@@ -52,8 +52,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
-      "git_commit_short": "ddc6f2c",
+      "git_commit": "90a99848d39656b5967584e433057785927b9f66",
+      "git_commit_short": "90a9984",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -67,14 +67,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:1f1f305f4d40fe6e",
-      "schema_version": "ee629fa5"
+      "checksum": "sha256:24f3d35980d5c87b",
+      "schema_version": "7a015e0d"
     },
     "execution": {
-      "timestamp": "2026-03-21T15:33:32.063319Z",
+      "timestamp": "2026-03-27T20:39:36.969013Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 23.84
+      "duration_seconds": 24.46
     },
     "entity_resolution": null,
     "model_info": null
@@ -85,7 +85,8 @@
       "class": "Protein",
       "name": "cellular prion protein",
       "synonyms": [
-        "PrPC"
+        "PrPC",
+        "brain cellular prion protein"
       ],
       "symbol": null,
       "brand_names": [],
@@ -119,7 +120,7 @@
       "class": "Protein",
       "name": "amyloid-\u03b2 oligomers",
       "synonyms": [
-        "amyloid-beta oligomers"
+        "Amyloid-\u03b2 oligomers"
       ],
       "symbol": null,
       "brand_names": [],
@@ -152,6 +153,23 @@
       "id": "prpc_region_91_153",
       "class": "Protein",
       "name": "PrPC region 91-153",
+      "synonyms": [
+        "PrPC region 91\u2013153"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "prpc_mglur5_interaction",
+      "class": "BiologicalProcess",
+      "name": "PrPC-mGluR5 interaction",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -164,7 +182,37 @@
       "uniprot_id": null
     },
     {
-      "id": "antibodies_against_prpc_region_91_153",
+      "id": "alzheimer_disease_pathophysiology",
+      "class": "BiologicalProcess",
+      "name": "Alzheimer disease pathophysiology",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "activated_conformation_mglur5",
+      "class": "BiologicalProcess",
+      "name": "activated conformation of mGluR5",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "antibodies_prpc_91_153",
       "class": "Protein",
       "name": "antibodies against PrPC region 91-153",
       "synonyms": [],
@@ -179,55 +227,27 @@
       "uniprot_id": null
     },
     {
-      "id": "agonist",
-      "class": "Drug",
-      "name": "agonist",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "antagonist",
-      "class": "Drug",
-      "name": "antagonist",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "brain",
-      "class": "AnatomicalStructure",
-      "name": "brain",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "prpc_mgluR5_interaction",
+      "id": "agonist_antagonist_mglur5_conformations",
       "class": "BiologicalProcess",
-      "name": "PrPC-mGluR5 interaction",
+      "name": "agonist/antagonist-driven mGluR5 conformations",
       "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "therapeutic_compounds",
+      "class": "Drug",
+      "name": "therapeutic compounds",
+      "synonyms": [
+        "compounds"
+      ],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -387,7 +407,7 @@
     {
       "subject": "amyloid_beta_oligomers",
       "predicate": "CAUSES",
-      "object": "alzheimer_disease",
+      "object": "alzheimer_disease_pathophysiology",
       "evidence_ids": [
         "PMC4192497:background:1:llm"
       ],
@@ -425,7 +445,7 @@
     {
       "subject": "prpc_region_91_153",
       "predicate": "INTERACTS_WITH",
-      "object": "metabotropic_glutamate_receptor_5",
+      "object": "activated_conformation_mglur5",
       "evidence_ids": [
         "PMC4192497:results:1:llm"
       ],
@@ -442,9 +462,9 @@
       "note": null
     },
     {
-      "subject": "antibodies_against_prpc_region_91_153",
+      "subject": "antibodies_prpc_91_153",
       "predicate": "REGULATES",
-      "object": "prpc_mgluR5_interaction",
+      "object": "prpc_mglur5_interaction",
       "evidence_ids": [
         "PMC4192497:conclusion:1:llm"
       ],
@@ -461,9 +481,9 @@
       "note": null
     },
     {
-      "subject": "agonist",
+      "subject": "agonist_antagonist_mglur5_conformations",
       "predicate": "REGULATES",
-      "object": "prpc_mgluR5_interaction",
+      "object": "prpc_mglur5_interaction",
       "evidence_ids": [
         "PMC4192497:conclusion:1:llm"
       ],
@@ -480,11 +500,11 @@
       "note": null
     },
     {
-      "subject": "antagonist",
+      "subject": "therapeutic_compounds",
       "predicate": "REGULATES",
-      "object": "prpc_mgluR5_interaction",
+      "object": "prpc_mglur5_interaction",
       "evidence_ids": [
-        "PMC4192497:conclusion:1:llm"
+        "PMC4192497:significance:1:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -493,45 +513,26 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "conclusion",
+      "section": "significance",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "cellular_prion_protein",
-      "predicate": "LOCATED_IN",
-      "object": "brain",
+      "subject": "therapeutic_compounds",
+      "predicate": "TREATS",
+      "object": "alzheimer_disease",
       "evidence_ids": [
-        "PMC4192497:background:1:llm"
+        "PMC4192497:significance:1:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC4192497"
       ],
       "confidence": 0.9,
-      "linguistic_trust": "asserted",
+      "linguistic_trust": "suggested",
       "properties": {},
-      "section": "background",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "metabotropic_glutamate_receptor_5",
-      "predicate": "LOCATED_IN",
-      "object": "brain",
-      "evidence_ids": [
-        "PMC4192497:background:1:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC4192497"
-      ],
-      "confidence": 0.9,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "background",
+      "section": "significance",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -658,7 +659,7 @@
     {
       "subject": "Paper:PMC4192497",
       "predicate": "DESCRIBED",
-      "object": "metabotropic_glutamate_receptor_5",
+      "object": "prpc_mglur5_interaction",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [
@@ -675,7 +676,7 @@
     {
       "subject": "Paper:PMC4192497",
       "predicate": "DESCRIBED",
-      "object": "prpc_mgluR5_interaction",
+      "object": "therapeutic_compounds",
       "evidence_ids": [],
       "provenance": [],
       "source_papers": [

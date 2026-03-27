@@ -72,8 +72,8 @@
     "extraction_pipeline": {
       "name": "medlit_extract",
       "version": "0.1.0",
-      "git_commit": "ddc6f2c80111d0c5e4a4dab128127089d00f7ee2",
-      "git_commit_short": "ddc6f2c",
+      "git_commit": "604cf5b84ca251f31e64a89f07f27da4c6c71f4d",
+      "git_commit_short": "604cf5b",
       "git_branch": "main",
       "git_dirty": true,
       "repo_url": "https://github.com/org/medlit"
@@ -87,14 +87,14 @@
     "prompt": {
       "version": "v1",
       "template": "medlit_extraction_v1",
-      "checksum": "sha256:1f1f305f4d40fe6e",
-      "schema_version": "ee629fa5"
+      "checksum": "sha256:24f3d35980d5c87b",
+      "schema_version": "7a015e0d"
     },
     "execution": {
-      "timestamp": "2026-03-21T15:00:39.419305Z",
+      "timestamp": "2026-03-27T17:43:49.371190Z",
       "hostname": "unknown",
       "python_version": "3.13.3",
-      "duration_seconds": 73.31
+      "duration_seconds": 72.56
     },
     "entity_resolution": null,
     "model_info": null
@@ -105,7 +105,6 @@
       "class": "Disease",
       "name": "Cushing's disease",
       "synonyms": [
-        "Cushing disease",
         "CD"
       ],
       "symbol": null,
@@ -241,7 +240,7 @@
       "uniprot_id": null
     },
     {
-      "id": "transsphenoidal_surgery",
+      "id": "transsphenoidal_pituitary_surgery",
       "class": "Procedure",
       "name": "transsphenoidal pituitary surgery",
       "synonyms": [
@@ -312,9 +311,7 @@
       "id": "hyperglycemia",
       "class": "Symptom",
       "name": "hyperglycaemia",
-      "synonyms": [
-        "hyperglycemia"
-      ],
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -491,7 +488,7 @@
       "uniprot_id": null
     },
     {
-      "id": "pomc",
+      "id": "proopiomelanocortin",
       "class": "Protein",
       "name": "proopiomelanocortin",
       "synonyms": [
@@ -508,11 +505,11 @@
       "uniprot_id": null
     },
     {
-      "id": "usp8",
-      "class": "Gene",
-      "name": "USP8",
+      "id": "retinoic_acid_receptor",
+      "class": "Protein",
+      "name": "retinoic acid receptor",
       "synonyms": [
-        "ubiquitin specific peptidase 8"
+        "RAR"
       ],
       "symbol": null,
       "brand_names": [],
@@ -525,12 +522,44 @@
       "uniprot_id": null
     },
     {
-      "id": "egfr",
+      "id": "retinoid_x_receptor",
+      "class": "Protein",
+      "name": "retinoid X receptor",
+      "synonyms": [
+        "RXR"
+      ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "epidermal_growth_factor_receptor",
       "class": "Protein",
       "name": "epidermal growth factor receptor",
       "synonyms": [
         "EGFR"
       ],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "usp8",
+      "class": "Gene",
+      "name": "USP8",
+      "synonyms": [],
       "symbol": null,
       "brand_names": [],
       "source": "extracted",
@@ -574,9 +603,9 @@
     {
       "id": "braf",
       "class": "Gene",
-      "name": "B-raf proto-oncogene, serine/threonine kinase",
+      "name": "BRAF",
       "synonyms": [
-        "BRAF"
+        "B-raf proto-oncogene, serine/threonine kinase"
       ],
       "symbol": null,
       "brand_names": [],
@@ -592,6 +621,36 @@
       "id": "vemurafenib",
       "class": "Drug",
       "name": "vemurafenib",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cyclin_e",
+      "class": "Protein",
+      "name": "cyclin E",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "cyclin_dependent_kinase_2",
+      "class": "Enzyme",
+      "name": "cyclin-dependent kinase 2",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -621,22 +680,7 @@
       "uniprot_id": null
     },
     {
-      "id": "cyclin_e",
-      "class": "Protein",
-      "name": "cyclin E",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "hsp90",
+      "id": "heat_shock_protein_90",
       "class": "Protein",
       "name": "heat shock protein 90",
       "synonyms": [
@@ -668,11 +712,11 @@
       "uniprot_id": null
     },
     {
-      "id": "hdac_inhibitors",
-      "class": "Drug",
-      "name": "histone deacetylase inhibitors",
+      "id": "histone_deacetylase",
+      "class": "Enzyme",
+      "name": "histone deacetylase",
       "synonyms": [
-        "HDAC inhibitors"
+        "HDAC"
       ],
       "symbol": null,
       "brand_names": [],
@@ -685,7 +729,52 @@
       "uniprot_id": null
     },
     {
-      "id": "mcr2",
+      "id": "trichostatin_a",
+      "class": "Drug",
+      "name": "trichostatin A",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "vorinostat",
+      "class": "Drug",
+      "name": "vorinostat",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "romidepsin",
+      "class": "Drug",
+      "name": "romidepsin",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "melanocortin_2_receptor",
       "class": "Protein",
       "name": "melanocortin 2 receptor",
       "synonyms": [
@@ -822,6 +911,36 @@
       "uniprot_id": null
     },
     {
+      "id": "tretinoin",
+      "class": "Drug",
+      "name": "tretinoin",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "isotretinoin",
+      "class": "Drug",
+      "name": "isotretinoin",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "corticotroph_adenoma",
       "class": "Disease",
       "name": "corticotroph adenoma",
@@ -837,9 +956,54 @@
       "uniprot_id": null
     },
     {
+      "id": "pituitary",
+      "class": "AnatomicalStructure",
+      "name": "pituitary",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "adrenal_glands",
+      "class": "AnatomicalStructure",
+      "name": "adrenal glands",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
       "id": "steroidogenesis",
       "class": "BiologicalProcess",
       "name": "steroidogenesis",
+      "synonyms": [],
+      "symbol": null,
+      "brand_names": [],
+      "source": "extracted",
+      "canonical_id": null,
+      "umls_id": null,
+      "hgnc_id": null,
+      "rxnorm_id": null,
+      "loinc_code": null,
+      "uniprot_id": null
+    },
+    {
+      "id": "tumor_shrinkage",
+      "class": "BiologicalProcess",
+      "name": "tumour shrinkage",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -870,38 +1034,6 @@
       "id": "apoptosis",
       "class": "BiologicalProcess",
       "name": "apoptosis",
-      "synonyms": [],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "pituitary_gland",
-      "class": "AnatomicalStructure",
-      "name": "pituitary",
-      "synonyms": [
-        "pituitary gland"
-      ],
-      "symbol": null,
-      "brand_names": [],
-      "source": "extracted",
-      "canonical_id": null,
-      "umls_id": null,
-      "hgnc_id": null,
-      "rxnorm_id": null,
-      "loinc_code": null,
-      "uniprot_id": null
-    },
-    {
-      "id": "adrenal_glands",
-      "class": "AnatomicalStructure",
-      "name": "adrenal glands",
       "synonyms": [],
       "symbol": null,
       "brand_names": [],
@@ -1531,37 +1663,37 @@
   ],
   "evidence_entities": [
     {
+      "id": "PMC11548364:abstract:0:llm",
+      "class": "Evidence",
+      "entity_id": null,
+      "paper_id": "PMC11548364",
+      "text_span_id": null,
+      "text": "Rates of recurrence and/or persistence of Cushing's disease after surgical treatment are high.",
+      "confidence": 0.9,
+      "extraction_method": "llm",
+      "study_type": "review",
+      "eco_type": null,
+      "source": "extracted"
+    },
+    {
       "id": "PMC11548364:abstract:1:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11548364",
-      "text_span_id": "abstract_1",
-      "text": "Rates of recurrence and/or persistence of Cushing's disease after surgical treatment are high.",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "review",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC11548364:abstract:2:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC11548364",
-      "text_span_id": "abstract_2",
+      "text_span_id": null,
       "text": "pasireotide is an approved somatostatin receptor ligand",
-      "confidence": 0.95,
+      "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "review",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "PMC11548364:main:3:llm",
+      "id": "PMC11548364:introduction:0:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11548364",
-      "text_span_id": "main_3",
+      "text_span_id": null,
       "text": "Cushing's disease (CD) is caused by an adrenocorticotropic hormone (ACTH)-secreting pituitary adenoma",
       "confidence": 0.95,
       "extraction_method": "llm",
@@ -1570,91 +1702,26 @@
       "source": "extracted"
     },
     {
-      "id": "PMC11548364:main:4:llm",
+      "id": "PMC11548364:methods:0:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11548364",
-      "text_span_id": "main_4",
-      "text": "transsphenoidal pituitary surgery (TSS) is the mainstay of treatment for this disease",
-      "confidence": 0.95,
+      "text_span_id": null,
+      "text": "Levoketoconazole and osilodrostat are novel steroid inhibitors",
+      "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "review",
       "eco_type": null,
       "source": "extracted"
     },
     {
-      "id": "PMC11548364:main:5:llm",
+      "id": "PMC11548364:results:0:llm",
       "class": "Evidence",
       "entity_id": null,
       "paper_id": "PMC11548364",
-      "text_span_id": "main_5",
-      "text": "hepatotoxicity is a major issue in treatment with ketoconazole",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "review",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC11548364:main:6:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC11548364",
-      "text_span_id": "main_6",
-      "text": "hirsutism and hypertension are associated with metyrapone",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "review",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC11548364:main:7:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC11548364",
-      "text_span_id": "main_7",
-      "text": "Pasireotide is a novel somatostatin analogue targeting four out of five SSTR subtypes, with the highest affinity for SSTR5",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "review",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC11548364:main:8:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC11548364",
-      "text_span_id": "main_8",
-      "text": "about two-thirds of the patients developed hyperglycaemia-related adverse events with pasireotide",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "review",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC11548364:main:9:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC11548364",
-      "text_span_id": "main_9",
-      "text": "36\u201362% of corticotroph adenomas show gain-of-function mutations in the gene encoding for USP8",
-      "confidence": 0.95,
-      "extraction_method": "llm",
-      "study_type": "review",
-      "eco_type": null,
-      "source": "extracted"
-    },
-    {
-      "id": "PMC11548364:main:10:llm",
-      "class": "Evidence",
-      "entity_id": null,
-      "paper_id": "PMC11548364",
-      "text_span_id": "main_10",
-      "text": "Osilodrostat is a potent inhibitor of 11\u03b2-hydroxylase and aldosterone synthase",
-      "confidence": 0.95,
+      "text_span_id": null,
+      "text": "osilodrostat resulted in a complete response in 66% and a partial response in 9% of the enrolled patients",
+      "confidence": 0.9,
       "extraction_method": "llm",
       "study_type": "review",
       "eco_type": null,
@@ -1663,11 +1730,11 @@
   ],
   "relationships": [
     {
-      "subject": "pituitary_adenoma",
+      "subject": "adrenocorticotropic_hormone",
       "predicate": "CAUSES",
       "object": "cushing_disease",
       "evidence_ids": [
-        "PMC11548364:main:3:llm"
+        "PMC11548364:introduction:0:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1676,7 +1743,7 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "main",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1684,28 +1751,9 @@
     {
       "subject": "pituitary_adenoma",
       "predicate": "CAUSES",
-      "object": "adrenocorticotropic_hormone",
-      "evidence_ids": [
-        "PMC11548364:main:3:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11548364"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "main",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "transsphenoidal_surgery",
-      "predicate": "TREATS",
       "object": "cushing_disease",
       "evidence_ids": [
-        "PMC11548364:main:4:llm"
+        "PMC11548364:introduction:0:llm"
       ],
       "provenance": [],
       "source_papers": [
@@ -1714,7 +1762,7 @@
       "confidence": 0.95,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "main",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1724,168 +1772,16 @@
       "predicate": "TREATS",
       "object": "cushing_disease",
       "evidence_ids": [
-        "PMC11548364:abstract:2:llm"
+        "PMC11548364:abstract:1:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "abstract",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "pasireotide",
-      "predicate": "INTERACTS_WITH",
-      "object": "somatostatin_receptor_5",
-      "evidence_ids": [
-        "PMC11548364:main:7:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11548364"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "main",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "ketoconazole",
-      "predicate": "CAUSES",
-      "object": "hepatotoxicity",
-      "evidence_ids": [
-        "PMC11548364:main:5:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11548364"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "main",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "metyrapone",
-      "predicate": "CAUSES",
-      "object": "hirsutism",
-      "evidence_ids": [
-        "PMC11548364:main:6:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11548364"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "main",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "metyrapone",
-      "predicate": "CAUSES",
-      "object": "hypertension",
-      "evidence_ids": [
-        "PMC11548364:main:6:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11548364"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "main",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "pasireotide",
-      "predicate": "CAUSES",
-      "object": "hyperglycemia",
-      "evidence_ids": [
-        "PMC11548364:main:8:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11548364"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "main",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "corticotroph_adenoma",
-      "predicate": "ASSOCIATED_WITH",
-      "object": "usp8",
-      "evidence_ids": [
-        "PMC11548364:main:9:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11548364"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "main",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "osilodrostat",
-      "predicate": "INHIBITS",
-      "object": "11beta_hydroxylase",
-      "evidence_ids": [
-        "PMC11548364:main:10:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11548364"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "main",
-      "asserted_by": "llm",
-      "resolution": null,
-      "note": null
-    },
-    {
-      "subject": "osilodrostat",
-      "predicate": "INHIBITS",
-      "object": "aldosterone_synthase",
-      "evidence_ids": [
-        "PMC11548364:main:10:llm"
-      ],
-      "provenance": [],
-      "source_papers": [
-        "PMC11548364"
-      ],
-      "confidence": 0.95,
-      "linguistic_trust": "asserted",
-      "properties": {},
-      "section": "main",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1895,16 +1791,16 @@
       "predicate": "TREATS",
       "object": "cushing_disease",
       "evidence_ids": [
-        "PMC11548364:abstract:2:llm"
+        "PMC11548364:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1914,16 +1810,17 @@
       "predicate": "TREATS",
       "object": "cushing_disease",
       "evidence_ids": [
-        "PMC11548364:abstract:2:llm"
+        "PMC11548364:methods:0:llm",
+        "PMC11548364:results:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "abstract",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1933,13 +1830,32 @@
       "predicate": "TREATS",
       "object": "cushing_disease",
       "evidence_ids": [
-        "PMC11548364:abstract:2:llm"
+        "PMC11548364:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pasireotide",
+      "predicate": "INTERACTS_WITH",
+      "object": "somatostatin_receptor_5",
+      "evidence_ids": [
+        "PMC11548364:abstract:1:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
       "properties": {},
       "section": "abstract",
@@ -1948,20 +1864,210 @@
       "note": null
     },
     {
-      "subject": "gefitinib",
+      "subject": "osilodrostat",
       "predicate": "INHIBITS",
-      "object": "egfr",
+      "object": "11beta_hydroxylase",
       "evidence_ids": [
-        "PMC11548364:main:9:llm"
+        "PMC11548364:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "main",
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "osilodrostat",
+      "predicate": "INHIBITS",
+      "object": "aldosterone_synthase",
+      "evidence_ids": [
+        "PMC11548364:methods:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "relacorilant",
+      "predicate": "INTERACTS_WITH",
+      "object": "glucocorticoid_receptor",
+      "evidence_ids": [
+        "PMC11548364:methods:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "ketoconazole",
+      "predicate": "CAUSES",
+      "object": "hepatotoxicity",
+      "evidence_ids": [
+        "PMC11548364:methods:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "metyrapone",
+      "predicate": "CAUSES",
+      "object": "hirsutism",
+      "evidence_ids": [
+        "PMC11548364:methods:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "metyrapone",
+      "predicate": "CAUSES",
+      "object": "hypertension",
+      "evidence_ids": [
+        "PMC11548364:methods:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "pasireotide",
+      "predicate": "CAUSES",
+      "object": "hyperglycemia",
+      "evidence_ids": [
+        "PMC11548364:methods:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "retinoic_acid",
+      "predicate": "REGULATES",
+      "object": "proopiomelanocortin",
+      "evidence_ids": [
+        "PMC11548364:methods:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.8,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "retinoic_acid",
+      "predicate": "INTERACTS_WITH",
+      "object": "retinoic_acid_receptor",
+      "evidence_ids": [
+        "PMC11548364:methods:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "retinoic_acid",
+      "predicate": "INTERACTS_WITH",
+      "object": "retinoid_x_receptor",
+      "evidence_ids": [
+        "PMC11548364:methods:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "gefitinib",
+      "predicate": "INHIBITS",
+      "object": "epidermal_growth_factor_receptor",
+      "evidence_ids": [
+        "PMC11548364:methods:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.9,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -1969,37 +2075,37 @@
     {
       "subject": "lapatinib",
       "predicate": "INHIBITS",
-      "object": "egfr",
+      "object": "epidermal_growth_factor_receptor",
       "evidence_ids": [
-        "PMC11548364:main:9:llm"
+        "PMC11548364:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "main",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
     },
     {
-      "subject": "vemurafenib",
+      "subject": "roscovitine",
       "predicate": "INHIBITS",
-      "object": "braf",
+      "object": "cyclin_dependent_kinase_2",
       "evidence_ids": [
-        "PMC11548364:main:9:llm"
+        "PMC11548364:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "main",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -2009,16 +2115,16 @@
       "predicate": "INHIBITS",
       "object": "cyclin_e",
       "evidence_ids": [
-        "PMC11548364:main:9:llm"
+        "PMC11548364:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "main",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -2026,18 +2132,18 @@
     {
       "subject": "silibinin",
       "predicate": "INHIBITS",
-      "object": "hsp90",
+      "object": "heat_shock_protein_90",
       "evidence_ids": [
-        "PMC11548364:main:9:llm"
+        "PMC11548364:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "main",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -2045,18 +2151,18 @@
     {
       "subject": "ald1613",
       "predicate": "INHIBITS",
-      "object": "mcr2",
+      "object": "melanocortin_2_receptor",
       "evidence_ids": [
-        "PMC11548364:main:9:llm"
+        "PMC11548364:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "main",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -2064,18 +2170,18 @@
     {
       "subject": "crn04894",
       "predicate": "INHIBITS",
-      "object": "mcr2",
+      "object": "melanocortin_2_receptor",
       "evidence_ids": [
-        "PMC11548364:main:9:llm"
+        "PMC11548364:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "main",
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -2083,18 +2189,18 @@
     {
       "subject": "adrenocorticotropic_hormone",
       "predicate": "LOCATED_IN",
-      "object": "pituitary_gland",
+      "object": "pituitary",
       "evidence_ids": [
-        "PMC11548364:main:3:llm"
+        "PMC11548364:introduction:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.9,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "main",
+      "section": "introduction",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
@@ -2104,16 +2210,54 @@
       "predicate": "LOCATED_IN",
       "object": "adrenal_glands",
       "evidence_ids": [
-        "PMC11548364:main:10:llm"
+        "PMC11548364:methods:0:llm"
       ],
       "provenance": [],
       "source_papers": [
         "PMC11548364"
       ],
-      "confidence": 0.95,
+      "confidence": 0.85,
       "linguistic_trust": "asserted",
       "properties": {},
-      "section": "main",
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "11beta_hydroxylase",
+      "predicate": "REGULATES",
+      "object": "steroidogenesis",
+      "evidence_ids": [
+        "PMC11548364:methods:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
+      "asserted_by": "llm",
+      "resolution": null,
+      "note": null
+    },
+    {
+      "subject": "aldosterone_synthase",
+      "predicate": "REGULATES",
+      "object": "steroidogenesis",
+      "evidence_ids": [
+        "PMC11548364:methods:0:llm"
+      ],
+      "provenance": [],
+      "source_papers": [
+        "PMC11548364"
+      ],
+      "confidence": 0.85,
+      "linguistic_trust": "asserted",
+      "properties": {},
+      "section": "methods",
       "asserted_by": "llm",
       "resolution": null,
       "note": null
