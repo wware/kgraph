@@ -15,16 +15,18 @@ from sqlmodel import SQLModel
 from mcp_server import mcp_server
 from mcp_server import ingest_worker
 from query.storage_factory import get_engine
-from storage.models import IngestJob
+import storage.models  # noqa: F401 — ensure all SQLModel tables are registered
 
 sse_app = mcp_server.http_app(path="/sse", transport="sse")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Create ingest_jobs table and start/stop the background ingest worker."""
+    """Create all kgserver tables (entity, relationship, bundle, ingest_jobs, etc.)
+    before the bfsql lifespan runs, so the entity table always exists at startup.
+    """
     engine, _ = get_engine()
-    SQLModel.metadata.create_all(engine, tables=[IngestJob.__table__])
+    SQLModel.metadata.create_all(engine)
     max_workers = int(os.environ.get("INGEST_MAX_WORKERS", "1"))
     await ingest_worker.start_worker(max_workers=max_workers)
     async with sse_app.lifespan(sse_app):
