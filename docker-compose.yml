@@ -71,6 +71,32 @@ services:
       start_period: 60s
     profiles: ["api"]
 
+  gwchat:
+    build:
+      context: ./gwchat
+      args:
+        NEXT_PUBLIC_BASE_PATH: /chat
+    environment:
+      MCP_SSE_URL: http://mcpserver:8001/sse
+      LLM_PROVIDER: ${LLM_PROVIDER:-anthropic}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ORCHESTRATOR_MODEL: ${ORCHESTRATOR_MODEL:-claude-haiku-4-5-20251001}
+      SYNTHESIS_MODEL: ${SYNTHESIS_MODEL:-claude-sonnet-4-6}
+      GWCHAT_CONFIG: /app/config/medlit.yaml
+      MCP_CONNECT_TIMEOUT: "25"
+      LLM_MIN_REQUEST_INTERVAL_SECONDS: "3.0"
+    volumes:
+      - ./gwchat/config:/app/config:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      mcpserver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - kgserver-network
+    profiles: ["api"]
+
   ollama:
     image: ollama/ollama:latest
     ports:
