@@ -8,13 +8,6 @@ A **read-only server** for a loaded knowledge graph. It does not ingest raw docu
 - [OpenAPI spec](/docs/)
 - [Graph visualization](/graph-viz/) — currently focused on medical literature
 - [GraphQL GUI](/graphiql/)
-- **Jupyter notebook:** Use an SSH tunnel, then open the lab in your browser:
-
-  ```bash
-  ssh -L 8888:127.0.0.1:8888 root@SERVER_IP
-  ```
-
-  Then go to [http://localhost:8888/jupyter/lab](http://localhost:8888/jupyter/lab).
 
 ## What it exposes
 
